@@ -6,7 +6,7 @@
 - Setup any ruby version management environment.
 - Setup Guard (if you use it).
 - Run `bundle install`.
-- Setup your local environment. Put into project root directory `.env` file containing:
+- Setup foreman (if you are going to use it). Put into project root directory `.env` file containing:
 
 ```bash
 RACK_ENV=development
@@ -35,6 +35,8 @@ heroku keys:add ~/.ssh/id_rsa.pub
 Use Guard FTW!
 
 `bundle exec guard start`
+
+Or using Foreman: `foreman run -e .env_test bundle exec guard start`
 
 ### Deployment instructions
 
