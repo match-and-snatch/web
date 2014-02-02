@@ -19,5 +19,6 @@
 /config/database.yml
 .ruby-version
 .env
+.env_test
 .idea
 

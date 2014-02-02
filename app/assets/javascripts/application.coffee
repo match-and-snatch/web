@@ -16,4 +16,4 @@
 #= require_tree .
 
 $(document).ready ->
-  alert('Application works')
+  # alert('Application works')

@@ -40,10 +40,15 @@ gem 'foreman', group: :development
 
 # Application Specific
 gem 'slim-rails'
+gem 'bcrypt-ruby', require: 'bcrypt'
 
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
+end
+
+group :test do
+  gem 'database_cleaner', github: 'bmabey/database_cleaner'
 end
 
 # Use ActiveModel has_secure_password

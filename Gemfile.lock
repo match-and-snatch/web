@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/bmabey/database_cleaner.git
+  revision: b254ce57bdeea927e514a486aedc2ac97199324b
+  specs:
+    database_cleaner (1.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -27,6 +33,7 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.1)
     atomic (1.1.14)
+    bcrypt-ruby (3.1.2)
     builder (3.1.4)
     celluloid (0.15.2)
       timers (~> 1.1.0)
@@ -178,7 +185,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt-ruby
   coffee-rails (~> 4.0.0)
+  database_cleaner!
   foreman
   guard-rspec
   jbuilder (~> 1.2)
