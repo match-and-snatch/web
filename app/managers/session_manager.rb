@@ -1,5 +1,4 @@
 class SessionManager < BaseManager
-  attr_reader :session
 
   # @param session [Hash]
   def initialize(session)
