@@ -1,0 +1,9 @@
+table
+  th Login
+  th Email
+  th
+  - subscriptions.each do |subscription|
+    tr
+      td= subscription.source_user.slug
+      td= subscription.source_user.email
+      td unsubscribe (not available)

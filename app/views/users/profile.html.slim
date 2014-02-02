@@ -1,0 +1,9 @@
+h1= @profile.slug
+h1= "Your email: #{@profile.email}"
+
+- if @profile.subscriptions.empty?
+  b You do not have any subscriptions. So sorry.
+- else
+  h2 My subscriptions
+  = render 'subscriptions', subscriptions: @profile.subscriptions
+
