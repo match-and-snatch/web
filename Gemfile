@@ -43,6 +43,7 @@ gem 'slim-rails'
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'guard-rspec', require: false
 end
 
 # Use ActiveModel has_secure_password
