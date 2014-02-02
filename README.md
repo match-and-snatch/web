@@ -63,6 +63,17 @@ In order to build mockup:
 - Create file `app/views/mockups/whatever_you_want.html.slim`
 - Navigate to `http://localhost:3000/whatever_you_want` and see your mockup
 
+### Philosophy
+
+- No tons of gems.
+- No cancans.
+- Less callbacks.
+- No observers.
+- Linear structure.
+- ActiveRecord should be ActiveRecord. We do consider model as a structure, not a business logic performer.
+- No factories in tests.
+- No direct creation of records in tests.
+
 ### Learn more
 
 - [https://devcenter.heroku.com/](https://devcenter.heroku.com/)
