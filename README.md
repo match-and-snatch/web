@@ -40,3 +40,7 @@ Use Guard FTW!
 - `git remote add heroku git@heroku.com:streamrush.git`
 - `git push heroku master`
 - `git push heroku your_feature_branch:master -f`
+
+### Staging server access
+
+Goto [http://streamrush.herokuapp.com/](http://streamrush.herokuapp.com/)
