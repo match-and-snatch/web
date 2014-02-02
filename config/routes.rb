@@ -10,6 +10,7 @@ StreamrushPlatform::Application.routes.draw do
 
   get '/profile' => 'users#profile', as: :profile
   get '/logout' => 'sessions#logout', as: :logout
+  get '/login' => 'sessions#new', as: :login
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

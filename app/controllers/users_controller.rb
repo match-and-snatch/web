@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   # Registers new user
   def create
-    user = AuthenticationManager.new(params[:email], params[:password]).register
+    user = AuthenticationManager.new(params[:email], params[:password]).register(params[:login])
     session_manager.login(user.email, params[:password])
 
     redirect_to profile_path
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def profile
-    render current_user.inspect
+    render text: current_user.object.attributes.inspect
   end
 
   def show

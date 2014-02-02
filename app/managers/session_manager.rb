@@ -21,7 +21,8 @@ class SessionManager < BaseManager
   def current_user
     if needs_authorization?
       @user_id = @session[:user_id]
-      @current_user = CurrentUserDecorator.new(@user_id and User.where(id: @user_id).first)
+      user = User.where(id: @user_id).first if @user_id
+      @current_user = CurrentUserDecorator.new(user)
     else
       @current_user
     end

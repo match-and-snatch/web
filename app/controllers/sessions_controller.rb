@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
 
   # Shows user login form
   def new
+    session_manager.logout
   end
 
   # Logins user

@@ -16,10 +16,17 @@ class AuthenticationManager < BaseManager
     end
   end
 
+  # @param login [String]
   # @return [User]
-  def register
+  def register(login)
+    slug = login.to_s.parameterize
+
+    fail_with! :login if slug.empty?
+    fail_with! :email if email.blank?
+    fail_with! :password if password.blank?
     fail_with! "#@email is already taken" if email_taken?
 
+    user.slug = slug
     user.email = email
     user.password_salt = BCrypt::Engine.generate_salt
     user.password_hash = password_hash

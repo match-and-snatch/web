@@ -3,6 +3,12 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # @param action [Symbol]
+  # @param callbacks [Array<Symbol>]
+  def self.before(action, *callbacks)
+    self.before_filter(*callbacks, only: action)
+  end
+
   protected
 
   # @param code [Integer]

@@ -10,4 +10,13 @@ class CurrentUserDecorator < BaseDecorator
   def authorized?
     !object.new_record?
   end
+
+  # @return [String]
+  def authorization_status_message
+    if authorized?
+      "Authorized as #{email}"
+    else
+      'Unauthorized'
+    end
+  end
 end

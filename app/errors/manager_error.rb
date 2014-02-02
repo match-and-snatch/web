@@ -8,6 +8,12 @@ class ManagerError < StandardError
 
   # @return [String]
   def message
-    messages.map(&:to_sentence).to_sentence
+    if messages.many?
+      messages.map(&:to_sentence).to_sentence
+    elsif messages[:message]
+      messages.values.first
+    elsif messages.any?
+      "#{messages.keys.first} #{messages.values.first}"
+    end
   end
 end
