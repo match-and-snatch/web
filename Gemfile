@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
@@ -30,6 +31,19 @@ gem 'jbuilder', '~> 1.2'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
+end
+
+# Required by Heroku
+gem 'rails_12factor', group: :production
+gem 'unicorn'
+gem 'foreman', group: :development
+
+# Application Specific
+gem 'slim-rails'
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'guard-rspec', require: false
 end
 
 # Use ActiveModel has_secure_password

@@ -15,6 +15,9 @@
 /log/*.log
 /tmp
 
-.ruby-version
-
+# Heroku
 /config/database.yml
+.ruby-version
+.env
+.idea
+
