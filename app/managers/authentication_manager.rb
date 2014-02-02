@@ -25,6 +25,7 @@ class AuthenticationManager < BaseManager
     fail_with! :email if email.blank?
     fail_with! :password if password.blank?
     fail_with! "#@email is already taken" if email_taken?
+    fail_with! "#{login} is already taken" if slug_taken?(slug)
 
     user.slug = slug
     user.email = email
@@ -38,6 +39,10 @@ class AuthenticationManager < BaseManager
 
   def email_taken?
     !user.new_record?
+  end
+
+  def slug_taken?(slug)
+    User.where(slug: slug).any?
   end
 
   def user
