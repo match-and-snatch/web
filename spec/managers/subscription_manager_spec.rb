@@ -15,13 +15,13 @@ describe SubscriptionManager do
       it { should_not be_new_record }
 
       specify do
-        expect { manager.subscribe_to(another_user).to change { Subscription.count }.by(1) }
+        expect { manager.subscribe_to(another_user) }.to change { Subscription.count }.by(1)
       end
     end
 
     context 'any unsubscribable thing' do
       specify do
-        expect { manager.subscribe_to(Subscription).to raise_error(ArgumentError, /Cannot subscribe/) }
+        expect { manager.subscribe_to(Subscription) }.to raise_error(ArgumentError, /Cannot subscribe/)
       end
     end
   end

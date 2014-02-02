@@ -12,7 +12,7 @@ describe AuthenticationManager do
 
     it { should be_a User }
     it { should be_valid }
-    its(:new_record?) { should be_false }
+    it { should_not be_a_new_record }
     its(:email) { should == email }
     its(:password_hash) { should_not be_blank }
     its(:password_salt) { should_not be_blank }
@@ -41,7 +41,7 @@ describe AuthenticationManager do
       before { manager.register(login) }
 
       it { should be_a User }
-      its(:new_record?) { should be_false }
+      it { should_not be_new_record }
       its(:email) { should == email }
     end
 
