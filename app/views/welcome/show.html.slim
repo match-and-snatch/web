@@ -3,20 +3,12 @@ h1 It works
 .content
   p This example shows you how a basic Slim file looks.
 
-h2 Register
+- if current_user.authorized?
+  = render 'registration_form'
+- else
+  b See who you can subscribe to
+  - if @welcome.recommended_subscriptions.empty?
+    | No subscriptions available for you.
+  - else
+    = render 'subscriptions', subscriptions: @welcome.recommended_subscriptions
 
-form action=users_path method='post'
-  label login
-  input type='text' name='login'
-  br
-
-  label email
-  input type='text' name='email'
-  br
-
-  label password
-  input type='password' name='password'
-  br
-
-  input type='hidden' name='authenticity_token' value=form_authenticity_token
-  input type='submit' value='Register'

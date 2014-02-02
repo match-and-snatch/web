@@ -8,6 +8,9 @@ html
   body
     #heap
       #user_status= current_user.authorization_status_message
-      = link_to 'Logout', logout_path if current_user.authorized?
+      - if current_user.authorized?
+        = link_to 'Logout', logout_path
+        br
+        = link_to 'My profile', profile_path
     #content= yield
 

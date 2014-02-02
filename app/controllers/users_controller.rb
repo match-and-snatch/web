@@ -16,6 +16,7 @@ class UsersController < ApplicationController
   end
 
   def profile
+    @profile = ProfilePresenter.new(current_user.object)
   end
 
   def show
