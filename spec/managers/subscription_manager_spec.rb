@@ -21,7 +21,7 @@ describe SubscriptionManager do
 
     context 'any unsubscribable thing' do
       specify do
-        expect { manager.subscribe_to(Subscription).to raise_error(ManagerError, /Cannot subscribe/) }
+        expect { manager.subscribe_to(Subscription).to raise_error(ArgumentError, /Cannot subscribe/) }
       end
     end
   end

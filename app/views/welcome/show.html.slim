@@ -3,7 +3,7 @@ h1 It works
 .content
   p This example shows you how a basic Slim file looks.
 
-- if current_user.authorized?
+- unless current_user.authorized?
   = render 'registration_form'
 - else
   b See who you can subscribe to

@@ -12,6 +12,10 @@ StreamrushPlatform::Application.routes.draw do
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
 
+  if Rails.env.development?
+    get '*mockup' => 'mockups#show'
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

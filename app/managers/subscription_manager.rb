@@ -8,7 +8,7 @@ class SubscriptionManager < BaseManager
   # @param target [Concerns::Subscribable]
   # @return [Subscription]
   def subscribe_to(target)
-    fail_with! "Cannot subscribe to #{target.class.name}" unless target.is_a?(Concerns::Subscribable)
+    target.is_a?(Concerns::Subscribable) or raise ArgumentError, "Cannot subscribe to #{target.class.name}"
 
     Subscription.new do |subscription|
       subscription.user = @subscriber

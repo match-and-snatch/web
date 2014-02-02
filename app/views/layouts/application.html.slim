@@ -12,5 +12,7 @@ html
         = link_to 'Logout', logout_path
         br
         = link_to 'My profile', profile_path
+      - else
+        = link_to 'Login', login_path
     #content= yield
 
