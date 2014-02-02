@@ -5,14 +5,19 @@ html
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
+    link href="http://fonts.googleapis.com/css?family=Tenor+Sans|Cuprum:400,700,700italic&subset=latin,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css"
   body
-    #heap
-      #user_status= current_user.authorization_status_message
-      - if current_user.authorized?
-        = link_to 'Logout', logout_path
-        br
-        = link_to 'My profile', profile_path
-      - else
-        = link_to 'Login', login_path
-    #content= yield
+    #wrapper
+      #heap
+        a#logo href=root_path
+        #login_area
+          .status_message
+            = current_user.authorization_status_message
+
+          - if current_user.authorized?
+            = link_to 'My profile', profile_path
+            = link_to 'Logout', logout_path
+          - else
+            = link_to 'Login', login_path
+      #content= yield
 

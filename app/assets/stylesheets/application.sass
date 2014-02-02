@@ -1,12 +1,42 @@
 @import "mixins/**/*"
 @import "pages/**/*"
 
-#heap
-  background: lightcyan
-  height: 60px
-  border-bottom: 1px solid crimson
-  margin-bottom: 10px
+body
+  background: #eef2f1
+  font-family: 'Cuprum', sans-serif
+  color: #1b1b1b
 
-#user_status
-  float: right
-  color: red
+#wrapper
+  background: white
+  width: 700px
+  margin: 0 auto
+  border-radius: 0 0 10px 10px
+
+#heap
+  padding: 10px
+  background: #faffc9
+  height: 60px
+  border-bottom: 2px solid crimson
+  font-size: 10pt
+
+  #logo
+    float: left
+    background: url(https://0.gravatar.com/avatar/29dc86e657027c9b0cca3d4f545e9815?d=https%3A%2F%2Fidenticons.github.com%2F1ef91956232b94358cb707822354bef2.png&r=x&s=60)
+    height: 60px
+    width: 60px
+
+  #login_area
+    width: 200px
+    float: right
+    text-align: right
+
+    a
+      display: block
+      clear: both
+
+#content
+  padding: 10px
+  min-height: 400px
+
+.email
+  color: gray

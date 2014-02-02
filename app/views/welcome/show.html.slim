@@ -1,12 +1,9 @@
 h1 It works
 
-.content
-  p This example shows you how a basic Slim file looks.
-
 - unless current_user.authorized?
   = render 'registration_form'
 - else
-  b See who you can subscribe to
+  h2 See who you can subscribe to
   - if @welcome.recommended_subscriptions.empty?
     | No subscriptions available for you.
   - else

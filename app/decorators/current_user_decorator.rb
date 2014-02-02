@@ -14,7 +14,7 @@ class CurrentUserDecorator < BaseDecorator
   # @return [String]
   def authorization_status_message
     if authorized?
-      "Authorized as #{email}"
+      "Hi, <b>#{object.slug.humanize}</b>!".html_safe
     else
       'Unauthorized'
     end
