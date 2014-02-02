@@ -1,4 +1,4 @@
-class CurrentUserDecorator
+class CurrentUserDecorator < BaseDecorator
   attr_reader :object
   delegate :slug, :email, to: :object
 

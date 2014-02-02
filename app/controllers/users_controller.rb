@@ -7,7 +7,9 @@ class UsersController < ApplicationController
 
   # Registers new user
   def create
-    login AuthenticationManager.new(params[:email], params[:password]).register
+    user = AuthenticationManager.new(params[:email], params[:password]).register
+    session_manager.login(user.email, params[:password])
+
     redirect_to profile_path
   rescue ManagerError => e
     render text: e.message
@@ -24,6 +26,6 @@ class UsersController < ApplicationController
   private
 
   def load_user!
-    # ...
+    @user = UserDecorator.decorate(User.where(slug: params[:id]).first) or error(404)
   end
 end

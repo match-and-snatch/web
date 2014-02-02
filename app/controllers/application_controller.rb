@@ -5,18 +5,15 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  # @param [User]
-  def login(user)
-    session_manager.login(user)
-  end
-
-  def leave
-    session_manager.logout
+  # @param code [Integer]
+  def error(code)
+    render status: code, text: code.inspect
   end
 
   def current_user
     session_manager.current_user
   end
+  helper_method :current_user
 
   def session_manager
     @session_manager ||= SessionManager.new(session)

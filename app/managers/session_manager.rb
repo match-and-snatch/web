@@ -1,12 +1,15 @@
 class SessionManager < BaseManager
+  attr_reader :session
 
   # @param session [Hash]
   def initialize(session)
     @session = session
   end
 
-  # @param user [User]
-  def login(user)
+  # @param email [String]
+  # @param password [String]
+  def login(email, password)
+    user = AuthenticationManager.new(email, password).authenticate
     @session[:user_id] = user.id
   end
 
