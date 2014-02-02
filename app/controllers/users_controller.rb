@@ -16,7 +16,6 @@ class UsersController < ApplicationController
   end
 
   def profile
-    render text: current_user.object.attributes.inspect
   end
 
   def show
