@@ -5,6 +5,12 @@ StreamrushPlatform::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#show'
 
+  resources :users
+  resource :session
+
+  get '/profile' => 'users#profile', as: :profile
+  get '/logout' => 'sessions#logout', as: :logout
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
