@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe SubscriptionManager do
-  let(:subscriber) { AuthenticationManager.new('szinin@gmail.com', 'password').register('login') }
-  let(:another_user) { AuthenticationManager.new('another@user.com', 'password').register('another') }
+  let(:subscriber)   { AuthenticationManager.new(login: 'login',   email: 'szinin@gmail.com', password: 'password').register }
+  let(:another_user) { AuthenticationManager.new(login: 'another', email: 'another@user.com', password: 'password').register }
 
   subject(:manager) { described_class.new(subscriber) }
 

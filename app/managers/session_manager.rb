@@ -8,7 +8,7 @@ class SessionManager < BaseManager
   # @param email [String]
   # @param password [String]
   def login(email, password)
-    user = AuthenticationManager.new(email, password).authenticate
+    user = AuthenticationManager.new(email: email, password: password).authenticate
     @session[:user_id] = user.id
   end
 
@@ -19,12 +19,10 @@ class SessionManager < BaseManager
   # @return [CurrentUserDecorator]
   def current_user
     if needs_authorization?
-      @user_id = @session[:user_id]
-      user = User.where(id: @user_id).first if @user_id
+      user = User.where(id: @user_id).first if @user_id = @session[:user_id]
       @current_user = CurrentUserDecorator.new(user)
-    else
-      @current_user
     end
+    @current_user
   end
 
   private

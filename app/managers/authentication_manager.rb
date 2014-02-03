@@ -1,36 +1,38 @@
 class AuthenticationManager < BaseManager
-  attr_reader :email, :password
+  attr_reader :email, :password, :slug, :login
 
   # @param email [String]
   # @param password [String]
-  def initialize(email, password)
-    @email = email
+  # @param login [String]
+  def initialize(email: nil, password: nil, login: nil)
+    @email    = email
     @password = password
+    @login    = login
+    @slug     = @login.to_s.parameterize if @login
   end
 
   # @return [User]
   def authenticate
-    fail_with! 'Email is incorrect' unless email_taken?
-    user.tap do
-      fail_with! 'Password is incorrect' unless user.password_hash == password_hash
-    end
+    fail_with! :email    unless email_taken?
+    fail_with! :password unless user.password_hash == password_hash
+    user
   end
 
-  # @param login [String]
   # @return [User]
-  def register(login)
-    slug = login.to_s.parameterize
-
-    fail_with! :login if slug.empty?
-    fail_with! :email if email.blank?
+  def register
+    fail_with! :login    if slug.empty?
+    fail_with! :email    if email.blank?
     fail_with! :password if password.blank?
-    fail_with! "#@email is already taken" if email_taken?
-    fail_with! "#{login} is already taken" if slug_taken?(slug)
 
-    user.slug = slug
+    fail_with! email: 'already taken' if email_taken?
+    fail_with! login: 'already taken' if slug_taken?(slug)
+
+    user.slug  = slug
     user.email = email
+
     user.password_salt = BCrypt::Engine.generate_salt
     user.password_hash = password_hash
+
     user.save or fail_with! user.errors
     user
   end

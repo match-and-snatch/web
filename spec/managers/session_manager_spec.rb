@@ -11,7 +11,7 @@ describe SessionManager do
 
   describe '#login' do
     context 'authorized user' do
-      let!(:user) { AuthenticationManager.new(email, password).register(login) }
+      let!(:user) { AuthenticationManager.new(login: login, email: email, password: password).register }
 
       specify do
         expect { manager.login(email, password) }.to change { session[:user_id] }.from(nil).to(user.id)
@@ -26,7 +26,7 @@ describe SessionManager do
   end
 
   describe '#logout' do
-    let!(:user) { AuthenticationManager.new(email, password).register(login) }
+    let!(:user) { AuthenticationManager.new(login: login, email: email, password: password).register }
 
     before do
       manager.login(email, password)
@@ -42,7 +42,7 @@ describe SessionManager do
     its(:current_user) { should_not be_authorized }
 
     context 'authorized user' do
-      let!(:user) { AuthenticationManager.new(email, password).register(login) }
+      let!(:user) { AuthenticationManager.new(login: login, email: email, password: password).register }
 
       before do
         manager.login(email, password)
