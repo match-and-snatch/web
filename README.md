@@ -42,13 +42,13 @@ Or using Foreman: `foreman run -e .env_test bundle exec guard start`
 
 ### Deployment instructions
 
-- `git remote add heroku git@heroku.com:streamrush.git`
+- `git remote add heroku git@heroku.com:subscribebuddy.git`
 - `git push heroku master`
 - `git push heroku your_feature_branch:master -f`
 
 ### Staging server access
 
-Goto [http://streamrush.herokuapp.com/](http://streamrush.herokuapp.com/)
+Goto [http://subscribebuddy.herokuapp.com/](http://subscribebuddy.herokuapp.com/)
 
 ### Frontend framework
 
