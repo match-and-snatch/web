@@ -1,17 +1,18 @@
 ## Setup application
 
-- `git clone git@github.com:streamrush/platform.git`
+- `git clone git@github.com:subscribebuddy/platform.git`
 - Install Ruby 2.0.
 - Setup Postgres.
 - Setup any ruby version management environment.
 - Setup Guard (if you use it).
 - Run `bundle install`.
+- Create `config/database.yml` using `config/database.yml.example` file.
 - Setup foreman (if you are going to use it). Put into project root directory `.env` file containing:
 
 ```bash
 RACK_ENV=development
 PORT=3000
-DATABASE_URL=postgres://postgres:password@localhost/streamrush_platform_development
+DATABASE_URL=postgres://postgres:password@localhost/buddy_platform_development
 ```
 
 - Install [Toolbelt](https://devcenter.heroku.com/)
