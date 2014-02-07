@@ -1,6 +1,7 @@
 ## Setup application
 
-- `git clone git@github.com:subscribebuddy/platform.git`
+- `git clone git@github.com:subscribebuddy/platform.git`.
+- Checkout development branch `git checkout development`.
 - Install Ruby 2.0.
 - Setup Postgres.
 - Setup any ruby version management environment.
