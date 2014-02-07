@@ -1,0 +1,14 @@
+defaults: &defaults
+  http_access:
+    name: buddy
+    password: staging
+
+development:
+  <<: *defaults
+  http_access: false
+
+production:
+  <<: *defaults
+
+staging:
+  <<: *defaults

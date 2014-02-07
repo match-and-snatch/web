@@ -49,6 +49,8 @@ Or using Foreman: `foreman run -e .env_test bundle exec guard start`
 ### Staging server access
 
 Goto [http://subscribebuddy.herokuapp.com/](http://subscribebuddy.herokuapp.com/)
+Login: `buddy`
+Password: `staging`
 
 ### Frontend framework
 
