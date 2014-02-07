@@ -2,13 +2,23 @@ defaults: &defaults
   http_access:
     name: buddy
     password: staging
+  javascript:
+    log_level: 0
+  use_cdn: true
 
 development:
   <<: *defaults
   http_access: false
+  use_cdn: false
+  javascript:
+    log_level: 3
 
 production:
   <<: *defaults
 
 staging:
   <<: *defaults
+
+test:
+  <<: *defaults
+  use_cdn: false

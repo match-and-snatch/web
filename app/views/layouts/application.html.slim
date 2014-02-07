@@ -1,11 +1,22 @@
-doctype
+doctype html
 html
   head
     title Streamrush Platform
-    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
-    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+
+    - if Rails.application.config.assets.use_cdn
+      script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'
+      script type='text/javascript' src='//code.jquery.com/jquery-1.11.0.min.js'
+    - else
+      = javascript_include_tag 'underscore-min', 'data-turbolinks-track' => true
+      = javascript_include_tag 'jquery', 'data-turbolinks-track' => true
+
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-    link href="http://fonts.googleapis.com/css?family=Tenor+Sans|Cuprum:400,700,700italic&subset=latin,cyrillic,cyrillic-ext" rel="stylesheet" type="text/css"
+
+    javascript:
+      window.bud.config = #{APP_CONFIG['javascript'].to_json.html_safe};
+
   body
     #wrapper
       #heap

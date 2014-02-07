@@ -10,10 +10,10 @@
 # Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 # about supported directives.
 
-#= require jquery
+#= require core
 #= require jquery_ujs
 #= require turbolinks
 #= require_tree .
 
 $(document).ready ->
-  # alert('Application works')
+  bud.Core.initialize()
