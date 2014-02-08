@@ -1,6 +1,8 @@
 class AuthenticationManager < BaseManager
   attr_reader :email, :password, :slug, :login
 
+  EMAIL_REGEXP = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
+
   # @param email [String]
   # @param password [String]
   # @param login [String]
@@ -8,7 +10,7 @@ class AuthenticationManager < BaseManager
     @email    = email
     @password = password
     @login    = login
-    @slug     = @login.to_s.parameterize if @login
+    @slug     = @login.to_s.parameterize
   end
 
   # @return [User]
@@ -20,12 +22,17 @@ class AuthenticationManager < BaseManager
 
   # @return [User]
   def register
-    fail_with! :login    if slug.empty?
-    fail_with! :email    if email.blank?
-    fail_with! :password if password.blank?
+    validate! do
+      fail_with login: 'cannot be empty'                         if login.blank?
+      fail_with login: 'can contain only characters and numbers' if login != slug
+      fail_with login: 'already taken'                           if slug_taken?
 
-    fail_with! email: 'already taken' if email_taken?
-    fail_with! login: 'already taken' if slug_taken?(slug)
+      fail_with email: 'cannot be empty' if email.blank?
+      fail_with :email unless email.match(EMAIL_REGEXP)
+      fail_with email: 'already taken'   if email_taken?
+
+      fail_with password: 'please enter at least 5 characters' if password.to_s.length < 5
+    end
 
     user.slug  = slug
     user.email = email
@@ -43,7 +50,7 @@ class AuthenticationManager < BaseManager
     !user.new_record?
   end
 
-  def slug_taken?(slug)
+  def slug_taken?
     User.where(slug: slug).any?
   end
 

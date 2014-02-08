@@ -10,9 +10,9 @@ class UsersController < ApplicationController
     user = AuthenticationManager.new(email: params[:email], password: params[:password], login: params[:login]).register
     session_manager.login(user.email, params[:password])
 
-    redirect_to profile_path
+    render json: {status: 'redirect', url: profile_path}
   rescue ManagerError => e
-    render text: e.message
+    render json: {status: 'failed', errors: e.messages}
   end
 
   def profile

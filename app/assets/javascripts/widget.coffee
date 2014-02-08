@@ -5,8 +5,9 @@ class bud.Widget
   @SELECTOR: null
 
   @init: (parent_container = $('body')) ->
-    widget_class = @
+    return unless @SELECTOR
 
+    widget_class = @
     parent_container.find(widget_class.SELECTOR).not('.js-widget').each (index, container) ->
       new widget_class($(container))
 
@@ -18,11 +19,11 @@ class bud.Widget
       bud.Logger.error("Widget: #{@class_name()} already initialized")
       return
 
-    @container = container
+    @$container = container
 
     @initialize()
 
-    @container.addClass('js-widget')
+    @$container.addClass('js-widget')
     bud.Logger.message("Widget: #{@class_name()} initialized")
 
     bud.Widget.instances.push(@)

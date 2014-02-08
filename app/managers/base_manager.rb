@@ -1,17 +1,35 @@
 class BaseManager
 
+  private
+
   # @param message [String, Hash]
-  def fail_with!(message)
+  def error_message(message)
     case message
     when String
-      raise ManagerError, {message: message}
+      {message: message}
     when Hash
-      raise ManagerError, message
+      message
     when Symbol
-      raise ManagerError, {message => 'is not valid'}
+      {message => 'is not valid'}
     else
       raise ArgumentError, 'Unspecified failure'
     end
+  end
+
+  # @param message [String, Hash]
+  def fail_with!(message)
+    raise ManagerError, error_message(message)
+  end
+
+  # @param message [String, Hash]
+  def fail_with(message)
+    @errors.reverse_merge!(error_message(message))
+  end
+
+  def validate!
+    @errors ||= {}
+    yield if block_given?
+    @errors.empty? or raise ManagerError, @errors
   end
 end
 
