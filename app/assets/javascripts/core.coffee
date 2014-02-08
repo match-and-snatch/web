@@ -11,13 +11,13 @@ class (window.bud or= {}).Core
 
     @instance().__initialize()
 
-  __initialize: ->
-    @__init_widgets()
-    @initialized = true
-
-  __init_widgets: ->
+  @init_widgets: (parent_container) ->
     _.each window.bud.widgets, (widget_class) ->
       try
-        widget_class.init()
+        widget_class.init(parent_container)
       catch error
         bud.Logger.error(error)
+
+  __initialize: ->
+    bud.Core.init_widgets()
+    @initialized = true

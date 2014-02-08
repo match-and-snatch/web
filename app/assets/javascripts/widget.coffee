@@ -4,18 +4,30 @@ class bud.Widget
   @instances: []
   @SELECTOR: null
 
-  @init: ->
+  @init: (parent_container = $('body')) ->
     widget_class = @
-    $(widget_class.SELECTOR).each (index, container) ->
+
+    parent_container.find(widget_class.SELECTOR).not('.js-widget').each (index, container) ->
       new widget_class($(container))
 
+  @highlight_all:   -> $('.js-widget').addClass('js-highlight')
+  @dehighlight_all: -> $('.js-widget').removeClass('js-highlight')
+
   constructor: (container) ->
+    if container.hasClass('js-widget')
+      bud.Logger.error("Widget: #{@class_name()} already initialized")
+      return
+
     @container = container
-    @data = @container.data()
-    bud.Widget.instances.push(@)
-    @.__proto__.constructor.instances.push(@)
+
     @initialize()
-    bud.Logger.message("Widget: #{@.__proto__.constructor.name} initialized")
+
+    @container.addClass('js-widget')
+    bud.Logger.message("Widget: #{@class_name()} initialized")
+
+    bud.Widget.instances.push(@)
+
+  class_name: -> @.__proto__.constructor.name
 
   initialize: ->
     # To be redeclared in inherited classes

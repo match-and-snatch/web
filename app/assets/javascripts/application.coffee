@@ -11,8 +11,10 @@
 # about supported directives.
 
 #= require core
+#= require helpers
 #= require jquery_ujs
 #= require_tree .
 
 $(document).ready ->
   bud.Core.initialize()
+  bud.append_html($('#wrapper'), '<div class="MWidget">wtf</div>')
