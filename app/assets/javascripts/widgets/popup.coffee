@@ -3,10 +3,10 @@ class bud.widgets.Popup extends bud.Widget
 
   initialize: ->
     # Binds on other popups
-    $.subscribe("popup.show", @autoclose)
+    bud.sub("popup.show", @autoclose)
 
     # Binds on button click
-    $.subscribe("popup.toggle.#{@class_name()}", @toggle)
+    bud.sub("popup.toggle.#{@class_name()}", @toggle)
 
     # Move into proper HTML position
     @$container.appendTo($('body'))
@@ -19,7 +19,7 @@ class bud.widgets.Popup extends bud.Widget
 
   show: =>
     # Close other popups
-    $.publish("popup.show", [@]);
+    bud.pub("popup.show", [@]);
 
     # Show this popup
     @$container.show()
@@ -27,11 +27,11 @@ class bud.widgets.Popup extends bud.Widget
     @$container.css('margin-top', "-#{@height()/2}px")
 
     # Show overlay
-    $.publish("popup.show.overlay");
+    bud.pub("popup.show.overlay");
 
   hide: =>
     @$container.hide()
-    $.publish("popup.hide");
+    bud.pub("popup.hide");
 
   width: -> @$container.outerWidth()
   height: -> @$container.outerHeight()

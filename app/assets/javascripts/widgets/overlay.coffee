@@ -7,8 +7,8 @@ class bud.widgets.Overlay extends bud.Widget
   initialize: ->
     unless bud.widgets.Overlay.__instance
       bud.widgets.Overlay.__instance = @
-      $.subscribe('popup.show.overlay', @show)
-      $.subscribe('popup.hide.overlay', @hide)
+      bud.sub('popup.show.overlay', @show)
+      bud.sub('popup.hide.overlay', @hide)
 
   show: => @$container.show()
   hide: => @$container.hide()

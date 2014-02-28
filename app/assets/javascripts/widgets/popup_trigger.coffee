@@ -6,5 +6,5 @@ class bud.widgets.PopupTrigger extends bud.Widget
     @$container.click @on_click
 
   on_click: =>
-    $.publish("popup.toggle.#{@target_id}")
+    bud.pub("popup.toggle.#{@target_id}")
     false

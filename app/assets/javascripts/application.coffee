@@ -10,7 +10,6 @@
 # Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 # about supported directives.
 
-#= require pubsub
 #= require core
 #= require helpers
 #= require jquery_ujs
