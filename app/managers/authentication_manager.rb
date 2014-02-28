@@ -9,7 +9,7 @@ class AuthenticationManager < BaseManager
   # @param first_name [String]
   # @param last_name [String]
   def initialize(email: nil, password: nil, password_confirmation: nil, first_name: nil, last_name: nil)
-    @email = email
+    @email = email.to_s
     @password = password
     @password_confirmation = password_confirmation
     @first_name = first_name.try(:humanize)
