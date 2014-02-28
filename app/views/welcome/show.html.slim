@@ -10,3 +10,21 @@ h1 It works
     = render 'subscriptions', subscriptions: @welcome.recommended_subscriptions
 
 .MWidget
+
+a.PopupTrigger href='#' data-target='RegistrationPopup'
+  | show popup
+
+.RegistrationPopup.popup style='font-size: 100px;'
+  span.PopupTrigger.close_button data-target='RegistrationPopup'
+    | close
+  .content
+    | Fuck you
+  .below
+    a.PopupTrigger style='font-size: 20px' href='#' data-target='HintPopup'
+      | show another popup
+
+.HintPopup.popup style='font-size: 50px;'
+  span.PopupTrigger.close_button data-target='HintPopup'
+    | close
+  .content
+    | Another popup...
