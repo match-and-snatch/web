@@ -21,4 +21,5 @@ staging:
 
 test:
   <<: *defaults
+  http_access: false
   use_cdn: false
