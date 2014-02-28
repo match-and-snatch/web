@@ -5,7 +5,9 @@ class AuthenticationManager < BaseManager
 
   # @param email [String]
   # @param password [String]
-  # @param login [String]
+  # @param password_confirmation [String]
+  # @param first_name [String]
+  # @param last_name [String]
   def initialize(email: nil, password: nil, password_confirmation: nil, first_name: nil, last_name: nil)
     @email = email
     @password = password
@@ -31,8 +33,11 @@ class AuthenticationManager < BaseManager
       fail_with :email unless email.match(EMAIL_REGEXP)
       fail_with email: 'already taken' if email_taken?
 
-      fail_with password: 'please enter at least 5 characters' if password.to_s.length < 5
-      fail_with password_confirmation: 'does not match password' if password_confirmation != password
+      if password.to_s.length < 5
+        fail_with password: 'please enter at least 5 characters'
+      else
+        fail_with password_confirmation: 'does not match password' if password_confirmation != password
+      end
     end
 
     user.email = email

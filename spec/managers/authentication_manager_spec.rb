@@ -28,23 +28,29 @@ describe AuthenticationManager do
 
     context 'already registered user' do
       before { manager.register }
-      specify { expect { manager.register }.to raise_error(ManagerError, /already taken/) }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: 'already taken') } }
+    end
+
+    context 'invalid email' do
+      let(:email) { 'whatever' }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: 'is not valid') } }
     end
 
     context 'empty email' do
       let(:email) { '' }
-      specify { expect { manager.register }.to raise_error(ManagerError, /empty/) }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: 'cannot be empty') } }
     end
 
     context 'password confirmation does not match' do
       let(:password_confirmation) { 'qwertyui' }
-      specify { expect { manager.register }.to raise_error(ManagerError, /match/) }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to have_key(:password_confirmation) } }
     end
 
     context 'short password' do
       let(:password) { 'qwer' }
       let(:password_confirmation) { 'qwer' }
-      specify { expect { manager.register }.to raise_error(ManagerError, /at least 5/) }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to have_key(:password) } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).not_to have_key(:password_confirmation) } }
     end
   end
 

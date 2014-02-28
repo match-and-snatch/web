@@ -7,7 +7,11 @@ class UsersController < ApplicationController
 
   # Registers new user
   def create
-    user = AuthenticationManager.new(email: params[:email], password: params[:password], login: params[:login]).register
+    user = AuthenticationManager.new(email:                 params[:email],
+                                     first_name:            params[:first_name],
+                                     last_name:             params[:last_name],
+                                     password:              params[:password],
+                                     password_confirmation: params[:password_confirmation]).register
     session_manager.login(user.email, params[:password])
 
     render json: {status: 'redirect', url: profile_path}
