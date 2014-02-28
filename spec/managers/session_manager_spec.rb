@@ -7,11 +7,10 @@ describe SessionManager do
 
   let(:email) { 'szinin@gmail.com' }
   let(:password) { 'qwerty' }
-  let(:login) { 'sergei' }
 
   describe '#login' do
     context 'authorized user' do
-      let!(:user) { AuthenticationManager.new(login: login, email: email, password: password).register }
+      let!(:user) { create_user(email: email, password: password, password_confirmation: password) }
 
       specify do
         expect { manager.login(email, password) }.to change { session[:user_id] }.from(nil).to(user.id)
@@ -26,7 +25,7 @@ describe SessionManager do
   end
 
   describe '#logout' do
-    let!(:user) { AuthenticationManager.new(login: login, email: email, password: password).register }
+    let!(:user) { create_user(email: email, password: password, password_confirmation: password) }
 
     before do
       manager.login(email, password)
@@ -42,7 +41,7 @@ describe SessionManager do
     its(:current_user) { should_not be_authorized }
 
     context 'authorized user' do
-      let!(:user) { AuthenticationManager.new(login: login, email: email, password: password).register }
+      let!(:user) { create_user(email: email, password: password, password_confirmation: password) }
 
       before do
         manager.login(email, password)

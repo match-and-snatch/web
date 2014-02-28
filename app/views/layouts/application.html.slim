@@ -26,10 +26,11 @@ html
             = current_user.authorization_status_message
 
           - if current_user.authorized?
-            = link_to 'My profile', profile_path
-            = link_to 'Logout', logout_path
+            a href=profile_path My Profile
+            a href=logout_path Log Out
           - else
-            = link_to 'Login', login_path
+            a.PopupTrigger href='#' data-target='RegistrationPopup' Sign Up
+            a.PopupTrigger href='#' data-target='LoginPopup' Login
       #content= yield
     #overlay.Overlay
 

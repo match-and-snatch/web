@@ -1,7 +1,7 @@
 # Global events
 # See more: https://github.com/cowboy/jquery-tiny-pubsub
 (->
-  o = $(window.bud);
+  o = $(window.bud)
 
   window.bud.sub   = -> o.on.apply      o, arguments
   window.bud.unsub = -> o.off.apply     o, arguments

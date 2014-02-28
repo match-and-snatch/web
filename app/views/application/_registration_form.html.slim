@@ -1,19 +1,27 @@
-h2 Register
+h2 Create Your Profile
+
+small In order for you to create your profile we need some basic information
+
 form action=users_path method='post' class='RegistrationForm'
-  label login
-  input type='text' name='login'
-  .error data={field: 'login'}
+  input type='text' name='first_name' placeholder='First Name'
+  .error data-field='first_name'
   br
 
-  label email
-  input type='text' name='email'
-  .error data={field: 'email'}
+  input type='text' name='last_name' placeholder='Last Name'
+  .error data-field='last_name'
   br
 
-  label password
-  input type='password' name='password'
-  .error data={field: 'password'}
+  input type='text' name='email' placeholder='Email Address'
+  .error data-field='email'
+  br
+
+  input type='password' name='password' placeholder='Password'
+  .error data-field='password'
+  br
+
+  input type='password' name='password_confirmation' placeholder='Retype Password'
+  .error data-field='password_confirmation'
   br
 
   input type='hidden' name='authenticity_token' value=form_authenticity_token
-  input type='submit' value='Register'
+  input type='submit' value='Continue to Profile'

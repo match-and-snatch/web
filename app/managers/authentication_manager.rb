@@ -1,16 +1,17 @@
 class AuthenticationManager < BaseManager
-  attr_reader :email, :password, :slug, :login
+  attr_reader :email, :password, :password_confirmation, :first_name, :last_name
 
   EMAIL_REGEXP = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
 
   # @param email [String]
   # @param password [String]
   # @param login [String]
-  def initialize(email: nil, password: nil, login: nil)
-    @email    = email
+  def initialize(email: nil, password: nil, password_confirmation: nil, first_name: nil, last_name: nil)
+    @email = email
     @password = password
-    @login    = login
-    @slug     = @login.to_s.parameterize
+    @password_confirmation = password_confirmation
+    @first_name = first_name.try(:humanize)
+    @last_name = last_name.try(:humanize)
   end
 
   # @return [User]
@@ -23,19 +24,19 @@ class AuthenticationManager < BaseManager
   # @return [User]
   def register
     validate! do
-      fail_with login: 'cannot be empty'                         if login.blank?
-      fail_with login: 'can contain only characters and numbers' if login != slug
-      fail_with login: 'already taken'                           if slug_taken?
+      fail_with first_name: 'cannot be empty' if first_name.blank?
+      fail_with last_name: 'cannot be empty' if last_name.blank?
 
       fail_with email: 'cannot be empty' if email.blank?
       fail_with :email unless email.match(EMAIL_REGEXP)
-      fail_with email: 'already taken'   if email_taken?
+      fail_with email: 'already taken' if email_taken?
 
       fail_with password: 'please enter at least 5 characters' if password.to_s.length < 5
+      fail_with password_confirmation: 'does not match password' if password_confirmation != password
     end
 
-    user.slug  = slug
     user.email = email
+    user.full_name = "#@first_name #@last_name"
 
     user.password_salt = BCrypt::Engine.generate_salt
     user.password_hash = password_hash
@@ -48,10 +49,6 @@ class AuthenticationManager < BaseManager
 
   def email_taken?
     !user.new_record?
-  end
-
-  def slug_taken?
-    User.where(slug: slug).any?
   end
 
   def user

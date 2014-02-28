@@ -15,8 +15,6 @@ class CurrentUserDecorator < BaseDecorator
   def authorization_status_message
     if authorized?
       "Hi, <b>#{object.slug.humanize}</b>!".html_safe
-    else
-      'Unauthorized'
     end
   end
 end

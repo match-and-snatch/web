@@ -1,0 +1,14 @@
+h1 Login
+
+form action=session_path method='post' class='LoginForm' data={remote: true, type: 'json'}
+  label email
+  input type='text' name='email'
+  br
+
+  label password
+  input type='password' name='password'
+  br
+
+  .Error
+  input type='hidden' name='authenticity_token' value=form_authenticity_token
+  input type='submit' value='Login'

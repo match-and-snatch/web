@@ -1,30 +1,15 @@
-h1 It works
+h1 Welcome
 
-- unless current_user.authorized?
-  = render 'registration_form'
-- else
-  h2 See who you can subscribe to
-  - if @welcome.recommended_subscriptions.empty?
-    | No subscriptions available for you.
-  - else
-    = render 'subscriptions', subscriptions: @welcome.recommended_subscriptions
-
-.MWidget
-
-a.PopupTrigger href='#' data-target='RegistrationPopup'
-  | show popup
-
-.RegistrationPopup.popup style='font-size: 100px;'
-  span.PopupTrigger.close_button data-target='RegistrationPopup'
-    | close
-  .content
-    | Fuck you
+.RegistrationPopup.popup
+  span.PopupTrigger.close_button data-target='RegistrationPopup' close
+  .content= render 'registration_form'
   .below
-    a.PopupTrigger style='font-size: 20px' href='#' data-target='HintPopup'
-      | show another popup
+    | Already have an account?
+    a.PopupTrigger style='font-size: 20px' href='#' data-target='LoginPopup' Login
 
-.HintPopup.popup style='font-size: 50px;'
-  span.PopupTrigger.close_button data-target='HintPopup'
-    | close
-  .content
-    | Another popup...
+.LoginPopup.popup
+  span.PopupTrigger.close_button data-target='LoginPopup' close
+  .content= render 'login_form'
+  .below
+    | Has not registered yet?
+    a.PopupTrigger style='font-size: 20px' href='#' data-target='RegistrationPopup' Register!
