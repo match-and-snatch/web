@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
     http_basic_authenticate_with ___access_config.symbolize_keys
   end
 
+  rescue_from ManagerError do |error|
+    json_render_errors error.messages
+  end
+
   # @param action [Symbol]
   # @param callbacks [Array<Symbol>]
   def self.before(action, *callbacks)

@@ -14,8 +14,6 @@ class UsersController < ApplicationController
     session_manager.login(user.email, params[:password])
 
     json_redirect finish_profile_path
-  rescue ManagerError => e
-    json_render_errors e.messages
   end
 
   def edit
@@ -28,8 +26,6 @@ class UsersController < ApplicationController
   def update
     UserProfileManager.new(@user).update(subscription_cost: params[:subscription_cost], slug: params[:slug])
     json_replace 'edit_payment_information'
-  rescue ManagerError => e
-    json_render_errors e.messages
   end
 
   def update_payment_information
@@ -37,8 +33,6 @@ class UsersController < ApplicationController
                                                              routing_number: params[:routing_number],
                                                              account_number: params[:account_number]
     json_redirect account_info_path
-  rescue ManagerError => e
-    json_render_errors e.messages
   end
 
   def account_info

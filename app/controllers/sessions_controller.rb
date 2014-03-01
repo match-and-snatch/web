@@ -1,5 +1,9 @@
 class SessionsController < ApplicationController
 
+  rescue_from ManagerError do
+    json_fail message: t('errors.invalid_login')
+  end
+
   # Shows user login form
   def new
     session_manager.logout
@@ -9,8 +13,6 @@ class SessionsController < ApplicationController
   def create
     session_manager.login(params[:email], params[:password])
     json_redirect account_info_path
-  rescue ManagerError
-    json_fail message: t(:invalid_login, scope: :errors)
   end
 
   # Logs user out
