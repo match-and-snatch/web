@@ -13,7 +13,7 @@ BuddyPlatform::Application.routes.draw do
   end
   resource :session
 
-  get '/profile' => 'users#profile', as: :profile
+  get '/account_info' => 'users#account_info', as: :account_info
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
   get '/finish_profile' => 'users#edit', as: :finish_profile

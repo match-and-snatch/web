@@ -2,16 +2,16 @@ h2 Edit focken PAYMENT information here
 form action=update_payment_information_user_path(@user) method='post' class='EditPaymentInformationForm'
   h2 Direct deposit is available for US ONLY
   label pay to the order of
-  input type='text' name='holder_name' placeholder='Full Name of Account Holder'
+  input type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
   .error data-field='holder_name'
   br
 
   label Routing Number
-  input type='text' name='routing_number' placeholder='123456789'
+  input type='text' name='routing_number' placeholder='123456789' value=@user.routing_number
   .error data-field='routing_number'
   br
   label Account Number
-  input type='text' name='account_number' placeholder='000123456789'
+  input type='text' name='account_number' placeholder='000123456789' value=@user.account_number
   .error data-field='account_number'
   br
 

@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
     slug
   end
 
+  def complete_profile?
+    [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
+  end
+
   private
 
   def generate_slug

@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :load_user!, only: %i(edit sample_profile update profile update_payment_information)
   layout 'finish_profile'
+
+  before_filter :load_user!, except: :create
+  #before_filter :redirect_complete, only: :edit
 
   # Registers new user
   def create
@@ -40,16 +42,20 @@ class UsersController < ApplicationController
     UserProfileManager.new(@user).update_payment_information holder_name:    params[:holder_name],
                                                              routing_number: params[:routing_number],
                                                              account_number: params[:account_number]
-    render json: {status: 'redirect', url: profile_path}
+    render json: {status: 'redirect', url: account_info_path}
   rescue ManagerError => e
     render json: {status: 'failed', errors: e.messages}
   end
 
-  def profile
+  def account_info
     render json: @user.inspect
   end
 
   private
+
+  def redirect_complete
+    redirect_to account_info_path if @user.complete_profile?
+  end
 
   def load_user!
     @user = current_user.object

@@ -2,6 +2,12 @@ class BaseManager
 
   private
 
+  # @param message [String, Symbol]
+  # @return [String]
+  def t(message)
+    I18n.t message
+  end
+
   # @param message [String, Hash]
   def error_message(message)
     case message
