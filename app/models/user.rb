@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
 
   # @return [String]
   def first_name
-    full_name.split(' ').first
+    full_name.split(' ').first if full_name
   end
 
   # Checks if user has passed three steps of registration
