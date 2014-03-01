@@ -20,17 +20,17 @@ describe UserProfileManager do
 
     context 'empty subscription_cost' do
       specify do
-        expect { manager.update(subscription_cost: '', slug: '') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(subscription_cost: 'must be set') }
+        expect { manager.update(subscription_cost: '', slug: '') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(subscription_cost: t_error(:empty)) }
       end
 
       specify do
-        expect { manager.update(subscription_cost: 0, slug: '') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(subscription_cost: 'cannot be zero') }
+        expect { manager.update(subscription_cost: 0, slug: '') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(subscription_cost: t_error(:zero)) }
       end
     end
 
     context 'empty slug' do
       specify do
-        expect { manager.update(subscription_cost: 1, slug: '') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: 'cannot be empty') }
+        expect { manager.update(subscription_cost: 1, slug: '') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: t_error(:empty)) }
       end
     end
 
@@ -66,22 +66,22 @@ describe UserProfileManager do
 
     context 'invalid slug' do
       specify do
-        expect { manager.update(subscription_cost: 1, slug: '?obama') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: 'must contain only a-z characters and dashes') }
+        expect { manager.update(subscription_cost: 1, slug: '?obama') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: t_error(:not_a_slug)) }
       end
       specify do
-        expect { manager.update(subscription_cost: 1, slug: 'obama?') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: 'must contain only a-z characters and dashes') }
+        expect { manager.update(subscription_cost: 1, slug: 'obama?') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: t_error(:not_a_slug)) }
       end
       specify do
-        expect { manager.update(subscription_cost: 1, slug: '------') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: 'must contain only a-z characters and dashes') }
+        expect { manager.update(subscription_cost: 1, slug: '------') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: t_error(:not_a_slug)) }
       end
       specify do
-        expect { manager.update(subscription_cost: 1, slug: '______') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: 'must contain only a-z characters and dashes') }
+        expect { manager.update(subscription_cost: 1, slug: '______') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: t_error(:not_a_slug)) }
       end
       specify do
-        expect { manager.update(subscription_cost: 1, slug: 'obama-') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: 'must contain only a-z characters and dashes') }
+        expect { manager.update(subscription_cost: 1, slug: 'obama-') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: t_error(:not_a_slug)) }
       end
       specify do
-        expect { manager.update(subscription_cost: 1, slug: '-obama') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: 'must contain only a-z characters and dashes') }
+        expect { manager.update(subscription_cost: 1, slug: '-obama') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: t_error(:not_a_slug)) }
       end
     end
 
@@ -89,7 +89,7 @@ describe UserProfileManager do
       let!(:another_user) { create_user(email: 'obama@prezident.us', first_name: 'Obama', last_name: 'Prezident') }
 
       specify do
-        expect { manager.update(subscription_cost: 1, slug: 'obama-prezident') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: 'is already taken') }
+        expect { manager.update(subscription_cost: 1, slug: 'obama-prezident') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(slug: t_error(:taken)) }
       end
     end
   end
@@ -113,21 +113,21 @@ describe UserProfileManager do
 
     context 'invalid routing number' do
       specify do
-        expect { manager.update_payment_information(routing_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(routing_number: 'must contain only digits') }
+        expect { manager.update_payment_information(routing_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(routing_number: t_error(:not_an_integer)) }
       end
 
       specify do
-        expect { manager.update_payment_information(routing_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(routing_number: 'must contain 9 digits') }
+        expect { manager.update_payment_information(routing_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(routing_number: t_error(:not_a_routing_number)) }
       end
     end
 
     context 'invalid account number' do
       specify do
-        expect { manager.update_payment_information(account_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(account_number: 'must contain only digits') }
+        expect { manager.update_payment_information(account_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(account_number: t_error(:not_an_integer)) }
       end
 
       specify do
-        expect { manager.update_payment_information(account_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(account_number: 'must contain 12 digits') }
+        expect { manager.update_payment_information(account_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages).to include(account_number: t_error(:not_an_account_number)) }
       end
     end
   end

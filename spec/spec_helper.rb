@@ -53,3 +53,10 @@ RSpec.configure do |config|
     end
   end
 end
+
+# @param message [String, Symbol]
+# @param opts [Hash]
+# @return [String]
+def t_error(message, opts = {})
+  I18n.t message, opts.reverse_merge(scope: :errors, default: [:default, message])
+end

@@ -28,17 +28,17 @@ describe AuthenticationManager do
 
     context 'already registered user' do
       before { manager.register }
-      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: 'already taken') } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: t_error(:taken)) } }
     end
 
     context 'invalid email' do
       let(:email) { 'whatever' }
-      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: 'is not valid') } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: t_error(:default)) } }
     end
 
     context 'empty email' do
       let(:email) { '' }
-      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: 'cannot be empty') } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: t_error(:empty)) } }
     end
 
     context 'password confirmation does not match' do
