@@ -10,4 +10,4 @@ en:
     not_a_routing_number: must contain 9 digits
     not_an_integer: must contain only digits
     not_an_account_number: must contain 12 digits
-
+    invalid_login: email or password is invalid

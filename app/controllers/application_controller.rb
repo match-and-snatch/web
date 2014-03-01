@@ -31,4 +31,29 @@ class ApplicationController < ActionController::Base
   def session_manager
     @session_manager ||= SessionManager.new(session)
   end
+
+  # @param url [String] to redirect to
+  def json_redirect(url)
+    render json: { status: 'redirect', url: url }
+  end
+
+  # @param response_params [Hash]
+  def json_fail(response_params = {})
+    render json: { status: 'failed' }.merge(response_params)
+  end
+
+  # @param errors [Hash]
+  def json_render_errors(errors)
+    json_fail errors: errors
+  end
+
+  # @param _action [String]
+  def json_render(_action = action_name)
+    render json: {status: 'success', html: render_to_string(action: _action, layout: false, formats: [:html])}
+  end
+
+  # @param _action [String]
+  def json_replace(_action = action_name)
+    render json: {status: 'replace', html: render_to_string(action: _action, layout: false, formats: [:html])}
+  end
 end
