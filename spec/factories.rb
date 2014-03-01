@@ -1,6 +1,6 @@
 # @param _params [Hash]
 # @return [User]
-def create_user(_params)
+def create_user(_params = {})
   params = _params.clone
   params.reverse_merge! email:                 'szinin@gmail.com',
                         password:              'password',

@@ -5,12 +5,18 @@ BuddyPlatform::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#show'
 
-  resources :users
+  resources :users, only: [:create, :edit, :update] do
+    member do
+      get :sample_profile
+      put :update_payment_information
+    end
+  end
   resource :session
 
   get '/profile' => 'users#profile', as: :profile
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
+  get '/finish_profile' => 'users#edit', as: :finish_profile
 
   if Rails.env.development?
     get '*mockup' => 'mockups#show'

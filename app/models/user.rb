@@ -13,6 +13,12 @@ class User < ActiveRecord::Base
     self
   end
 
+  # Used for URL generation
+  # @return [String]
+  def to_param
+    slug
+  end
+
   private
 
   def generate_slug

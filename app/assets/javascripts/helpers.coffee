@@ -9,6 +9,12 @@
 )()
 
 # HTML helpers
+window.bud.replace_container = (container, replacement) ->
+  $container = $(container)
+  $parent = $container.parent()
+  $container.replaceWith(replacement)
+  bud.Core.init_widgets($parent)
+
 window.bud.replace_html = (container, replacement) ->
   $(container).html(replacement)
   bud.Core.init_widgets(container)

@@ -4,12 +4,17 @@ class bud.widgets.Form extends bud.Widget
     @$error = @$container.find('.Error')
 
   on_submit: =>
+    params = @params()
     bud.Ajax.post @$container.attr('action'), @params(), {
-      before: @on_before,
-      after:  @on_after,
-      failed: @on_fail
+      replace: @on_replace,
+      before:  @on_before,
+      after:   @on_after,
+      failed:  @on_fail
     }
     return false
+
+  on_replace: (response) =>
+    bud.replace_container(@$container, response['html'])
 
   on_before: =>
     _.each @params(), (value, field) =>

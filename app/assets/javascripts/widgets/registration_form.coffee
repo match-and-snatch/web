@@ -1,3 +1,5 @@
+#= require ./form
+
 class bud.widgets.RegistrationForm extends bud.widgets.Form
   @SELECTOR: '.RegistrationForm'
 

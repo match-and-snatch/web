@@ -1,0 +1,15 @@
+title SubscribeBuddy
+= stylesheet_link_tag 'application', media: 'all'
+
+- if Rails.application.config.assets.use_cdn
+  script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'
+  script type='text/javascript' src='//code.jquery.com/jquery-1.11.0.min.js'
+- else
+  = javascript_include_tag 'underscore-min'
+  = javascript_include_tag 'jquery'
+
+= javascript_include_tag 'application'
+= csrf_meta_tags
+
+javascript:
+  window.bud.config = #{APP_CONFIG['javascript'].to_json.html_safe};
