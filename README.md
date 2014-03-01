@@ -26,6 +26,12 @@ heroku keys:add ~/.ssh/id_rsa.pub
 
 ## Running
 
+Default:
+- `bundle install`
+- `rake db:create`
+- `rails s`
+
+Foreman:
 - `bundle install`
 - `foreman run rake db:create`
 - `foreman start`
