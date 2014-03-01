@@ -14,8 +14,8 @@ html
             a href=account_info_path My Profile
             a href=logout_path Log Out
           - else
-            a.PopupTrigger href='#' data-target='RegistrationPopup' Sign Up
-            a.PopupTrigger href='#' data-target='LoginPopup' Login
+            a.PopupTrigger href='#' data-target='.RegistrationPopup' Sign Up
+            a.PopupTrigger href='#' data-target='.LoginPopup' Login
       #content= yield
     #overlay.Overlay
 

@@ -1,8 +1,12 @@
 # Global events
 # See more: https://github.com/cowboy/jquery-tiny-pubsub
-window.bud.sub   = -> $(window.bud).on.apply      $(window.bud), arguments
-window.bud.unsub = -> $(window.bud).off.apply     $(window.bud), arguments
-window.bud.pub   = -> $(window.bud).trigger.apply $(window.bud), arguments
+(->
+  o = $(window.bud)
+
+  window.bud.sub   = -> o.on.apply      o, arguments
+  window.bud.unsub = -> o.off.apply     o, arguments
+  window.bud.pub   = -> o.trigger.apply o, arguments
+)()
 
 # HTML helpers
 window.bud.replace_container = (container, replacement) ->
