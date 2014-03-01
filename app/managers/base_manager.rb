@@ -3,20 +3,36 @@ class BaseManager
   private
 
   # @param message [String, Symbol]
+  # @param opts [Hash]
   # @return [String]
-  def t(message)
-    I18n.t message
+  def t(message, opts = {})
+    I18n.t message, opts.reverse_merge(scope: :errors, default: [:default, message])
   end
 
   # @param message [String, Hash]
+  # @return [Hash]
   def error_message(message)
     case message
     when String
-      {message: message}
+      {message: t(message)}
     when Hash
-      message
+      {}.tap do |result|
+        message.each do |k, v|
+          case v
+          when String, Symbol
+            result[k] = t(v)
+          when Hash
+            [].tap do |messages|
+              v.each do |translation_key, locals|
+                messages << t(translation_key, locals)
+              end
+              result[k] = messages.to_sentence
+            end
+          end
+        end
+      end
     when Symbol
-      {message => 'is not valid'}
+      {message => t(:invalid)}
     else
       raise ArgumentError, 'Unspecified failure'
     end

@@ -26,17 +26,17 @@ class AuthenticationManager < BaseManager
   # @return [User]
   def register
     validate! do
-      fail_with first_name: 'cannot be empty' if first_name.blank?
-      fail_with last_name: 'cannot be empty' if last_name.blank?
+      fail_with first_name: :empty if first_name.blank?
+      fail_with last_name: :empty if last_name.blank?
 
-      fail_with email: 'cannot be empty' if email.blank?
+      fail_with email: :empty if email.blank?
       fail_with :email unless email.match(EMAIL_REGEXP)
-      fail_with email: 'already taken' if email_taken?
+      fail_with email: :taken if email_taken?
 
       if password.to_s.length < 5
-        fail_with password: 'please enter at least 5 characters'
+        fail_with password: {too_short: {minimum: 5}}
       else
-        fail_with password_confirmation: 'does not match password' if password_confirmation != password
+        fail_with password_confirmation: :does_not_match_password if password_confirmation != password
       end
     end
 

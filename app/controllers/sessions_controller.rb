@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   # Logins user
   def create
     session_manager.login(params[:email], params[:password])
-    render json: { status: 'redirect', url: profile_path }
+    render json: { status: 'redirect', url: account_info_path }
   rescue ManagerError
     render json: { status: 'failed', message: 'email or password is invalid' }
   end

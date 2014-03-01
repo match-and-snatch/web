@@ -27,10 +27,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def sample_profile
-    render json: {status: 'success', html: render_to_string(action: 'sample_profile', layout: false, formats: [:html])}
-  end
-
   def update
     UserProfileManager.new(@user).update(subscription_cost: params[:subscription_cost], slug: params[:slug])
     render json: {status: 'replace', html: render_to_string(action: 'edit_payment_information', layout: false, formats: [:html])}

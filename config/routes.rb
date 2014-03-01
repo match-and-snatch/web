@@ -7,7 +7,6 @@ BuddyPlatform::Application.routes.draw do
 
   resources :users, only: [:create, :edit, :update] do
     member do
-      get :sample_profile
       put :update_payment_information
     end
   end

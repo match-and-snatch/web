@@ -11,7 +11,7 @@ html
             = current_user.authorization_status_message
 
           - if current_user.authorized?
-            a href=profile_path My Profile
+            a href=account_info_path My Profile
             a href=logout_path Log Out
           - else
             a.PopupTrigger href='#' data-target='RegistrationPopup' Sign Up

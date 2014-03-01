@@ -12,7 +12,7 @@
         = @user.slug
 
     label Subscription Cost
-    input type='number' name='subscription_cost' value=(@user.subscription_cost || 5)
+    input type='text' name='subscription_cost' value=(@user.subscription_cost || 5)
     | $
     .error data-field='subscription_cost'
     br

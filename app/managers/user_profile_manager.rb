@@ -18,14 +18,14 @@ class UserProfileManager < BaseManager
 
     validate! do
       if subscription_cost.blank?
-        fail_with subscription_cost: 'must be set'
+        fail_with subscription_cost: :empty
       else
-        fail_with subscription_cost: 'cannot be zero' if subscription_cost.to_f.zero?
+        fail_with subscription_cost: :zero if subscription_cost.to_f.zero?
       end
 
-      fail_with slug: 'cannot be empty' if slug.blank?
-      fail_with slug: 'must contain only a-z characters and dashes' unless slug.match SLUG_REGEXP
-      fail_with slug: 'is already taken' if slug_taken?(slug)
+      fail_with slug: :empty if slug.blank?
+      fail_with slug: :not_a_slug unless slug.match SLUG_REGEXP
+      fail_with slug: :taken if slug_taken?(slug)
     end
 
     user.subscription_cost = subscription_cost
@@ -44,18 +44,18 @@ class UserProfileManager < BaseManager
     account_number = account_number.to_s.strip
 
     validate! do
-      fail_with holder_name: 'cannot be empty' if holder_name.blank?
+      fail_with holder_name: :empty if holder_name.blank?
 
       if routing_number.match ONLY_DIGITS
-        fail_with routing_number: 'must contain 9 digits' if routing_number.try(:length) != 9
+        fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
       else
-        fail_with routing_number: 'must contain only digits'
+        fail_with routing_number: :not_an_integer
       end
 
       if account_number.match ONLY_DIGITS
-        fail_with account_number: 'must contain 12 digits' if account_number.try(:length) != 12
+        fail_with account_number: :not_an_account_number if account_number.try(:length) != 12
       else
-        fail_with account_number: 'must contain only digits'
+        fail_with account_number: :not_an_integer
       end
     end
 
@@ -70,6 +70,7 @@ class UserProfileManager < BaseManager
   private
 
   # @param slug [String]
+  # @return [true, false]
   def slug_taken?(slug)
     User.where.not(id: user.id).where(slug: slug).any?
   end
