@@ -1,0 +1,39 @@
+form.GeneralInformationForm action=update_general_information_user_path(@user)
+  label Full Name
+  input type='text' name='full_name' value=@user.full_name
+  .error data-field='full_name'
+  br
+
+  label Nickname
+  input type='text' name='slug' value=@user.slug
+  .error data-field='slug'
+  br
+
+  label Email Address
+  input type='email' name='email' value=@user.email
+  .error data-field='email'
+  br
+
+  input type='submit' value='Update General Info'
+
+br
+hr
+br
+
+form.ChangePasswordForm action=change_password_user_path(@user)
+  label Current Password
+  input type='password' name='current_password' value=''
+  .error data-field='current_password'
+  br
+
+  label New Password
+  input type='password' name='new_password' value=''
+  .error data-field='new_password'
+  br
+
+  label Re-type Password
+  input type='password' name='new_password_confirmation' value=''
+  .error data-field='new_password_confirmation'
+  br
+
+  input type='submit' value='Change Your Password'

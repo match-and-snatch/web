@@ -8,6 +8,10 @@ BuddyPlatform::Application.routes.draw do
   resources :users, only: [:create, :edit, :update] do
     member do
       put :update_payment_information
+      get :account_settings
+      put :update_general_information
+      put :change_password
+      get :billing_information
     end
   end
   resource :session

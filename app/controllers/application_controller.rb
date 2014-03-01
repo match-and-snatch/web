@@ -51,9 +51,14 @@ class ApplicationController < ActionController::Base
     json_fail errors: errors
   end
 
+  # @param response_params [Hash]
+  def json_success(response_params = {})
+    render json: {status: 'success'}.merge(response_params)
+  end
+
   # @param _action [String]
   def json_render(_action = action_name)
-    render json: {status: 'success', html: render_to_string(action: _action, layout: false, formats: [:html])}
+    json_success html: render_to_string(action: _action, layout: false, formats: [:html])
   end
 
   # @param _action [String]

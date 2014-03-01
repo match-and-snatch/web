@@ -19,8 +19,10 @@ class AuthenticationManager < BaseManager
   # @return [User]
   def authenticate
     fail_with! :email    unless email_taken?
-    fail_with! :password unless user.password_hash == password_hash
+    fail_with! :password unless user.password_hash == user.generate_password_hash(password)
     user
+  rescue ManagerError => e
+    raise AuthenticationError.new(e.messages)
   end
 
   # @return [User]
@@ -42,9 +44,7 @@ class AuthenticationManager < BaseManager
 
     user.email = email
     user.full_name = "#@first_name #@last_name"
-
-    user.password_salt = BCrypt::Engine.generate_salt
-    user.password_hash = password_hash
+    user.set_new_password(password)
 
     user.save or fail_with! user.errors
     user
@@ -58,10 +58,5 @@ class AuthenticationManager < BaseManager
 
   def user
     @user ||= User.where(email: email).first || User.new(email: email)
-  end
-
-  # @return [String]
-  def password_hash
-    BCrypt::Engine.hash_secret(password, user.password_salt)
   end
 end
