@@ -1,5 +1,7 @@
 h2 Edit focken PAYMENT information here
-form action=update_payment_information_user_path(@user) method='post' class='EditPaymentInformationForm'
+form.Form action=update_payment_information_user_path(@user) method='post'
+  input type='hidden' name='_method' value='put'
+
   h2 Direct deposit is available for US ONLY
   label pay to the order of
   input type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name

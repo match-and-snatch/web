@@ -4,11 +4,6 @@ class SessionsController < ApplicationController
     json_fail message: t('errors.invalid_login')
   end
 
-  # Shows user login form
-  def new
-    session_manager.logout
-  end
-
   # Logins user
   def create
     session_manager.login(params[:email], params[:password])

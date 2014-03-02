@@ -1,10 +1,11 @@
 class bud.widgets.Form extends bud.Widget
+  @SELECTOR = '.Form'
+
   initialize: ->
     @$container.submit @on_submit
     @$error = @$container.find('.Error')
 
   on_submit: =>
-    params = @params()
     bud.Ajax.post @$container.attr('action'), @params(), {
       replace: @on_replace,
       before:  @on_before,
@@ -32,3 +33,12 @@ class bud.widgets.Form extends bud.Widget
     if errors = response['errors']
       _.each errors, (message, field) =>
         @$container.find("[data-field=#{field}]").html(message)
+
+  # Override this method for custom forms
+  params: ->
+    result = {}
+    _.each @$container.find('input, select'), (input) ->
+      $input = $(input)
+      result[$input.attr('name')] = $input.val()
+
+    result

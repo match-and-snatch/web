@@ -1,4 +1,6 @@
-form.GeneralInformationForm action=update_general_information_user_path(@user)
+form.Form action=update_general_information_user_path(@user)
+  input type='hidden' name='_method' value='put'
+
   label Full Name
   input type='text' name='full_name' value=@user.full_name
   .error data-field='full_name'
@@ -20,7 +22,9 @@ br
 hr
 br
 
-form.ChangePasswordForm action=change_password_user_path(@user)
+form.Form action=change_password_user_path(@user)
+  input type='hidden' name='_method' value='put'
+
   label Current Password
   input type='password' name='current_password' value=''
   .error data-field='current_password'
