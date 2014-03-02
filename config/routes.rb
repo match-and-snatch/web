@@ -13,6 +13,8 @@ BuddyPlatform::Application.routes.draw do
       put :change_password
       get :billing_information
     end
+
+    resources :posts, only: [:create]
   end
   resource :session
 
@@ -24,6 +26,8 @@ BuddyPlatform::Application.routes.draw do
   if Rails.env.development?
     get 'mockups/*mockup' => 'mockups#show'
   end
+
+  get '/:id' => 'users#show', as: :profile
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

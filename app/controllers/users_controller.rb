@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate!, :load_user, except: :create
+  before_filter :authenticate!, :load_user, except: [:create, :show]
   before_filter :redirect_complete, only: :edit
 
   # Registers new user
@@ -59,6 +59,17 @@ class UsersController < ApplicationController
 
   def billing_information
     json_render
+  end
+
+  # Profile public page
+  def show
+    @user = User.where(slug: params[:id]).first or error(404)
+
+    if @user == current_user.object
+      render action: 'show'
+    else
+      render text: 'not ready yet'
+    end
   end
 
   private

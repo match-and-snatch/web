@@ -7,6 +7,7 @@ class bud.widgets.Form extends bud.Widget
 
   on_submit: =>
     bud.Ajax.post @$container.attr('action'), @params(), {
+      success: @on_success,
       replace: @on_replace,
       before:  @on_before,
       after:   @on_after,
@@ -14,12 +15,15 @@ class bud.widgets.Form extends bud.Widget
     }
     return false
 
+  on_success: ->
+    # Override in children
+
   on_replace: (response) =>
     bud.replace_container(@$container, response['html'])
 
   on_before: =>
     _.each @params(), (value, field) =>
-      @$container.find("[data-field=#{field}]").html('')
+      @$container.find("[data-field=#{field}]").html('').hide()
     @$container.addClass('pending')
 
   on_after: =>
@@ -32,12 +36,12 @@ class bud.widgets.Form extends bud.Widget
 
     if errors = response['errors']
       _.each errors, (message, field) =>
-        @$container.find("[data-field=#{field}]").html(message)
+        @$container.find("[data-field=#{field}]").html(message).show()
 
   # Override this method for custom forms
   params: ->
     result = {}
-    _.each @$container.find('input, select'), (input) ->
+    _.each @$container.find('input, select, textarea'), (input) ->
       $input = $(input)
       result[$input.attr('name')] = $input.val()
 

@@ -13,7 +13,8 @@ html
           - if current_user.authorized?
             - if current_user.complete_profile?
               .account_info_link
-                = link_to_if !current_page?(account_info_path), 'My Profile', account_info_path
+                = link_to_if !current_page?(account_info_path), 'Account Info', account_info_path
+                = link_to_if !current_page?(current_profile_path), 'My Public Profile', current_profile_path
               a href=logout_path Log Out
           - else
             a.PopupTrigger href='#' data-identifier='registration' Sign Up

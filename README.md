@@ -76,7 +76,7 @@ class bud.widgets.MWidget extends bud.Widget
 
   initialize: ->
     # Do you widget initialization here
-    @$container.html('I am here!!!')
+    @$container.html('I am here!')
 
     # Bind public events
     bud.sub('popup.show', @callback)
@@ -85,7 +85,7 @@ class bud.widgets.MWidget extends bud.Widget
     bud.pub('mwidget.initialized', [@])
 
     # Initialize widgets on new dom elements at runtime
-    bud.replace_html($('.SomeContainer'), "<div class='MWidget'></div>"
+    bud.replace_html $('.SomeContainer'), "<div class='MWidget'></div>"
 ```
 
 In order to build mockup:
