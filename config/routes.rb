@@ -22,7 +22,7 @@ BuddyPlatform::Application.routes.draw do
   get '/finish_profile' => 'users#edit', as: :finish_profile
 
   if Rails.env.development?
-    get '*mockup' => 'mockups#show'
+    get 'mockups/*mockup' => 'mockups#show'
   end
 
   # Example of regular route:

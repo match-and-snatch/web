@@ -68,10 +68,30 @@ Only *SASS* for CSS. Only *coffee* for JS. Only *Slim* for HTML.
 All CSS we do include in 1 file. Every single file created under `app/assets/stylesheets/pages` and `app/assets/stylesheets/mixins` will be included in application css file.
 Same rule for Javascript.
 
+Javascript examples:
+
+```coffeescript
+class bud.widgets.MWidget extends bud.Widget
+  @SELECTOR: '.MWidget' # Selector is used to initialize widget on each element matching this selector
+
+  initialize: ->
+    # Do you widget initialization here
+    @$container.html('I am here!!!')
+
+    # Bind public events
+    bud.sub('popup.show', @callback)
+
+    # Notify other widgets
+    bud.pub('mwidget.initialized', [@])
+
+    # Initialize widgets on new dom elements at runtime
+    bud.replace_html($('.SomeContainer'), "<div class='MWidget'></div>"
+```
+
 In order to build mockup:
 
 - Create file `app/views/mockups/whatever_you_want.html.slim`
-- Navigate to `http://localhost:3000/whatever_you_want` and see your mockup
+- Navigate to `http://localhost:3000/mockups/whatever_you_want` and see your mockup
 
 ### Philosophy
 
