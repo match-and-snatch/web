@@ -2,11 +2,13 @@ class bud.widgets.Popup extends bud.Widget
   @SELECTOR: '.Popup'
 
   initialize: ->
+    @identifier = @$container.data('identifier')
+
     # Binds on other popups
     bud.sub("popup.show", @autoclose)
 
     # Binds on button click
-    bud.sub("popup.toggle.#{@constructor.SELECTOR}", @toggle)
+    bud.sub("popup.toggle.#{@identifier}", @toggle)
 
     # Move into proper HTML position
     @$container.appendTo($('body'))

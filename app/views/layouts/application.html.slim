@@ -16,8 +16,8 @@ html
                 = link_to_if !current_page?(account_info_path), 'My Profile', account_info_path
               a href=logout_path Log Out
           - else
-            a.PopupTrigger href='#' data-target='.RegistrationPopup' Sign Up
-            a.PopupTrigger href='#' data-target='.LoginPopup' Login
+            a.PopupTrigger href='#' data-identifier='registration' Sign Up
+            a.PopupTrigger href='#' data-identifier='login' Login
       #content= yield
     #overlay.Overlay
 

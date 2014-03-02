@@ -1,15 +1,15 @@
 h1 Welcome
 
-.RegistrationPopup.popup
-  span.PopupTrigger.close_button data-target='RegistrationPopup' close
+.Popup.popup data-identifier='registration'
+  span.PopupTrigger.close_button data-identifier='registration' close
   .content= render 'registration_form'
   .below
     | Already have an account?
-    a.PopupTrigger style='font-size: 20px' href='#' data-target='LoginPopup' Login
+    a.PopupTrigger style='font-size: 20px' href='#' data-identifier='login' Login
 
-.LoginPopup.popup
-  span.PopupTrigger.close_button data-target='LoginPopup' close
+.Popup.popup data-identifier='login'
+  span.PopupTrigger.close_button data-identifier='login' close
   .content= render 'login_form'
   .below
     | Has not registered yet?
-    a.PopupTrigger style='font-size: 20px' href='#' data-target='RegistrationPopup' Register!
+    a.PopupTrigger style='font-size: 20px' href='#' data-identifier='registration' Register!
