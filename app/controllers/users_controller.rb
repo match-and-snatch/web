@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :load_user!, except: :create
+  before_filter :authenticate!, :load_user, except: :create
   before_filter :redirect_complete, only: :edit
 
   # Registers new user
@@ -10,7 +10,6 @@ class UsersController < ApplicationController
                                      password:              params[:password],
                                      password_confirmation: params[:password_confirmation]).register
     session_manager.login(user.email, params[:password])
-
     json_redirect finish_profile_path
   end
 
@@ -69,7 +68,7 @@ class UsersController < ApplicationController
     redirect_to account_info_path if @user.complete_profile?
   end
 
-  def load_user!
+  def load_user
     @user = current_user.object
   end
 end

@@ -12,10 +12,10 @@ class bud.widgets.AjaxContainer extends bud.Widget
     return false
 
   render_path: (request_path) ->
-    @$container.css('opacity', 0.5)
+    @$container.addClass('pending')
     bud.Ajax.get(request_path, {}, {success: @render_page})
 
   render_page: (response) =>
     bud.replace_html(@$container, response['html'])
-    @$container.css('opacity', 1.0)
+    @$container.removeClass('pending')
     # delete @ :)

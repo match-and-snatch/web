@@ -20,6 +20,11 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  # Restricts public access
+  def authenticate!
+    session_manager.current_user.authorized? or error(401)
+  end
+
   # @param code [Integer]
   def error(code)
     render status: code, text: code.inspect

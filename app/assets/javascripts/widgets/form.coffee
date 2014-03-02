@@ -20,10 +20,10 @@ class bud.widgets.Form extends bud.Widget
   on_before: =>
     _.each @params(), (value, field) =>
       @$container.find("[data-field=#{field}]").html('')
-    @$container.css('opacity', '0.3')
+    @$container.addClass('pending')
 
   on_after: =>
-    @$container.css('opacity', '1.0')
+    @$container.removeClass('pending')
 
   on_fail: (response) =>
     if message = response['message']

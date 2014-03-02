@@ -1,6 +1,6 @@
-ul style='float: left; width: 200px; border-right: 2px solid gray; margin: 10px; padding: 5px; background: yellow'
+ul.dashboard_menu style='float: left; width: 200px; border-right: 2px solid gray; margin: 10px; padding: 5px; background: yellow'
   li
-    a.AjaxLink data-target='.AccountInfo' href=account_settings_user_path(@user) Account Settings
+    a.AjaxLink.active data-target='.AccountInfo' href=account_settings_user_path(@user) Account Settings
   li
     a.AjaxLink data-target='.AccountInfo' href=billing_information_user_path(@user) Billing Information
 

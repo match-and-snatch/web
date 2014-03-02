@@ -6,14 +6,17 @@ class bud.widgets.AjaxLink extends bud.Widget
     @$container.click @link_clicked
 
   link_clicked: (e) =>
-    link = $(e.currentTarget)
-    @render_path(link.attr('href'))
+    $(@constructor.SELECTOR).removeClass('active pending')
+    @render_path(@$container.attr('href'))
+    @$container.addClass('pending')
     return false
 
   render_path: (request_path) ->
-    @$target.css('opacity', 0.5)
+    @$target.addClass('pending')
     bud.Ajax.get(request_path, {}, {success: @render_page})
 
   render_page: (response) =>
+    @$container.removeClass('pending')
+    @$container.addClass('active')
     bud.replace_html(@$target, response['html'])
-    @$target.css('opacity', 1.0)
+    @$target.removeClass('pending')
