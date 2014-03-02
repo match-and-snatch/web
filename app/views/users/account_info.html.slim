@@ -1,9 +1,11 @@
-ul.dashboard_menu style='float: left; width: 200px; border-right: 2px solid gray; margin: 10px; padding: 5px; background: yellow'
-  li
-    a.AjaxLink.active data-target='.AccountInfo' href=account_settings_user_path(@user) Account Settings
-  li
-    a.AjaxLink data-target='.AccountInfo' href=billing_information_user_path(@user) Billing Information
+.left_column
+  ul.dashboard_menu
+    li
+      a.AjaxLink.active data-target='.AccountInfo' href=account_settings_user_path(@user) Account Settings
+    li
+      a.AjaxLink data-target='.AccountInfo' href=billing_information_user_path(@user) Billing Information
 
-.AccountInfo.AjaxContainer data-url=account_settings_user_path(@user) style='float: left'
+.right_column
+  .AccountInfo.AjaxContainer data-url=account_settings_user_path(@user)
 
 div style='clear: both'

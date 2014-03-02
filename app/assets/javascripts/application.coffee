@@ -17,4 +17,3 @@
 
 $(document).ready ->
   bud.Core.initialize()
-  bud.append_html($('#wrapper'), '<div class="MWidget">wtf</div>')

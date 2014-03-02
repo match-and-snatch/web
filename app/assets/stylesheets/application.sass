@@ -81,15 +81,50 @@ body
   color: red
   font-size: 10px
 
+label
+  display: inline-block
+  width: 100px
+  font-size: 12px
+  color: gray
+
+.left_column
+  width: 200px
+  float: left
+  padding-right: 10px
+
+.right_column
+  float: left
+  padding: 5px
+
+.up
+  height: 10px
+  width: 100%
+  clear: both
+
+.below
+  font-size: 12px
+  padding-top: 10px
+
 ul.dashboard_menu
+  border-radius: 5px
+  background: #faffc9
+  width: 200px
+
   li
-    height: 20px
     clear: both
     padding: 5px
 
     a
+      color: black
+      text-align: center
+      padding-top: 10px
+      border-radius: 5px
+      height: 40px
+      width: 100%
+      display: block
       &.active
-        background: cadetblue
+        color: white
+        background: crimson
 
 .pending
   opacity: 0.3
