@@ -2,7 +2,7 @@ class ManagerError < StandardError
   attr_reader :messages
 
   # @param messages [Hash]
-  def initialize(messages)
+  def initialize(messages = {})
     @messages = messages
   end
 

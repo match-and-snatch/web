@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
-  rescue_from ManagerError do
-    json_fail message: t('errors.invalid_login')
+  rescue_from AuthenticationError do |e|
+    json_fail message: e.message
   end
 
   # Logins user

@@ -73,7 +73,7 @@ describe AuthenticationManager do
       before { manager.register }
 
       specify do
-        expect { described_class.new(email: email, password: 'wrong_password').authenticate }.to raise_error(ManagerError)
+        expect { described_class.new(email: email, password: 'wrong_password').authenticate }.to raise_error(AuthenticationError)
       end
     end
   end

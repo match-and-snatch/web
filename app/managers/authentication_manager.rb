@@ -21,8 +21,8 @@ class AuthenticationManager < BaseManager
     fail_with! :email    unless email_taken?
     fail_with! :password unless user.password_hash == user.generate_password_hash(password)
     user
-  rescue ManagerError => e
-    raise AuthenticationError.new(e.messages)
+  rescue ManagerError
+    raise AuthenticationError.new(message: t(:invalid_login))
   end
 
   # @return [User]
