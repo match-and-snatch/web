@@ -19,7 +19,9 @@ class BaseManager
       {}.tap do |result|
         message.each do |k, v|
           case v
-          when String, Symbol
+          when String
+            result[k] = v
+          when Symbol
             result[k] = t(v)
           when Hash
             [].tap do |messages|

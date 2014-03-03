@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140302143540) do
+ActiveRecord::Schema.define(version: 20140303135718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,11 +39,15 @@ ActiveRecord::Schema.define(version: 20140302143540) do
     t.string   "password_hash"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "full_name",         limit: 512
+    t.string   "full_name",            limit: 512
     t.float    "subscription_cost"
     t.string   "holder_name"
     t.string   "routing_number"
     t.string   "account_number"
+    t.string   "stripe_user_id"
+    t.string   "stripe_card_id"
+    t.string   "last_four_cc_numbers"
+    t.string   "card_type"
   end
 
 end

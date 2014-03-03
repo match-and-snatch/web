@@ -1,3 +1,36 @@
-.billing_information Billing Information here...
+h2 Incoming payments
 br
-= render 'payment_information_form'
+form.Form action=update_bank_account_data_user_path(@user) method='post'
+  input type='hidden' name='_method' value='put'
+
+  h2 Direct deposit is available for US ONLY
+  br
+
+  label pay to the order of
+  input type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
+  .error data-field='holder_name'
+  br
+
+  label Routing Number
+  input type='text' name='routing_number' placeholder='123456789' value=@user.routing_number
+  .error data-field='routing_number'
+  br
+  label Account Number
+  input type='text' name='account_number' placeholder='000123456789' value=@user.account_number
+  .error data-field='account_number'
+  br
+
+  input type='submit' value='Update Bank Account Data'
+br
+br
+h2 Outgoing payments
+
+- if @user.has_cc_payment_account?
+  .AjaxContainer
+    | You have registered &nbsp;
+    strong= @user.card_type
+    | &nbsp; card with number <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
+    br
+    a href=edit_cc_data_user_path(@user) click here to edit
+- else
+  .AjaxContainer data-url=edit_cc_data_user_path(@user)

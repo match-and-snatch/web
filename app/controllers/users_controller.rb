@@ -61,6 +61,25 @@ class UsersController < ApplicationController
     json_render
   end
 
+  def update_bank_account_data
+    UserProfileManager.new(@user).update_payment_information holder_name:    params[:holder_name],
+                                                             routing_number: params[:routing_number],
+                                                             account_number: params[:account_number]
+    json_success
+  end
+
+  def edit_cc_data
+    json_render
+  end
+
+  def update_cc_data
+    UserProfileManager.new(@user).update_cc_data number:       params[:number],
+                                                 cvc:          params[:cvc],
+                                                 expiry_month: params[:expiry_month],
+                                                 expiry_year:  params[:expiry_year]
+    json_success
+  end
+
   # Profile public page
   def show
     @user = User.where(slug: params[:id]).first or error(404)

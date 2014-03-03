@@ -68,6 +68,67 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @param number [String]
+  # @param expiry_month [String]
+  # @param expiry_year [String]
+  # @param cvc [String]
+  # @return [User]
+  def update_cc_data(number: nil, cvc: nil, expiry_month: nil, expiry_year: nil)
+    number       = number      .to_s.gsub /\D/, ''
+    cvc          = cvc         .to_s.gsub /\D/, ''
+    expiry_month = expiry_month.to_s.gsub /\D/, ''
+    expiry_year  = expiry_year .to_s.gsub /\D/, ''
+
+    validate! do
+      fail_with :number      if number.blank?          || number.length < 16
+      fail_with :cvc         if cvc   .blank?          || cvc   .length < 3
+      fail_with :expiry_date if expiry_month.blank? || expiry_year.blank? || expiry_month.to_i > 12 || expiry_month.to_i < 1 || expiry_year.to_i < 14
+    end
+
+    if user.stripe_user_id
+      customer = Stripe::Customer.retrieve(user.stripe_user_id)
+      customer.card = {number: number, cvc: cvc, exp_month: expiry_month, exp_year: expiry_year}
+      customer.metadata = {user_id: user.id}
+      customer = customer.save
+    else
+      customer = Stripe::Customer.create metadata: {user_id: user.id}, card: {
+        number:    number,
+        cvc:       cvc,
+        exp_month: expiry_month,
+        exp_year:  expiry_year
+      }.as_json
+    end
+
+    user.stripe_user_id       = customer['id']
+    user.stripe_card_id       = customer['cards']['data'][0]['id']
+    user.last_four_cc_numbers = customer['cards']['data'][0]['last4']
+    user.card_type            = customer['cards']['data'][0]['type']
+
+    user.save or fail_with! user.errors
+    user
+  rescue Stripe::CardError => e
+    err = e.json_body[:error]
+
+    case err[:code]
+    when 'incorrect_number', 'invalid_number', 'card_declined', 'missing', 'processing_error'
+      fail_with! number: err[:message]
+    when 'invalid_expiry_month', 'invalid_expiry_year', 'expired_card'
+      fail_with! expiry_date: err[:message]
+    when 'invalid_cvc', 'incorrect_cvc'
+      fail_with! cvc: err[:message]
+    else
+      fail_with! number: err[:code]
+    end
+  rescue Stripe::InvalidRequestError
+    fail_with! number: 'Invalid stripe request'
+  rescue Stripe::AuthenticationError
+    fail_with! number: 'Stripe auth error'
+  rescue Stripe::APIConnectionError
+    fail_with! number: 'Stripe API connection error'
+  rescue Stripe::StripeError
+    fail_with! number: 'Generic Stripe error'
+  end
+
   # @param full_name [String]
   # @param slug [String]
   # @param email [String]

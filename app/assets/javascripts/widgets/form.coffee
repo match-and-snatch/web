@@ -23,7 +23,7 @@ class bud.widgets.Form extends bud.Widget
 
   on_before: =>
     _.each @params(), (value, field) =>
-      @$container.find("[data-field=#{field}]").html('').hide()
+      @$container.find("[data-field]").html('').hide()
     @$container.addClass('pending')
 
   on_after: =>

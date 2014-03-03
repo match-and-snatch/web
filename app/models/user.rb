@@ -30,6 +30,11 @@ class User < ActiveRecord::Base
     [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
   end
 
+  # Returns true if user has passed Stripe registration
+  def has_cc_payment_account?
+    [last_four_cc_numbers, stripe_card_id, stripe_user_id].all?(&:present?)
+  end
+
   # @see Concerns::Subscribable#subscription_source_user
   # @return [User]
   def subscription_source_user

@@ -12,6 +12,9 @@ BuddyPlatform::Application.routes.draw do
       put :update_general_information
       put :change_password
       get :billing_information
+      put :update_bank_account_data
+      get :edit_cc_data
+      put :update_cc_data
     end
 
     resources :posts, only: [:create]

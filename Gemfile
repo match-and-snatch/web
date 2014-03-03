@@ -39,6 +39,9 @@ gem 'foreman', group: :development
 gem 'slim-rails'
 gem 'bcrypt-ruby', require: 'bcrypt'
 
+# Credit cards, billing, charges, payments
+gem 'stripe'
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
