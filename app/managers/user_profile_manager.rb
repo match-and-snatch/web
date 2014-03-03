@@ -80,18 +80,28 @@ class UserProfileManager < BaseManager
     expiry_year  = expiry_year .to_s.gsub /\D/, ''
 
     validate! do
-      fail_with :number      if number.blank?          || number.length < 16
-      fail_with :cvc         if cvc   .blank?          || cvc   .length < 3
+      fail_with :number      if number.blank? || number.length < 16
+      fail_with :cvc         if cvc   .blank? || cvc   .length < 3
       fail_with :expiry_date if expiry_month.blank? || expiry_year.blank? || expiry_month.to_i > 12 || expiry_month.to_i < 1 || expiry_year.to_i < 14
     end
 
     if user.stripe_user_id
-      customer = Stripe::Customer.retrieve(user.stripe_user_id)
-      customer.card = {number: number, cvc: cvc, exp_month: expiry_month, exp_year: expiry_year}
-      customer.metadata = {user_id: user.id}
-      customer = customer.save
+      begin
+        customer = Stripe::Customer.retrieve(user.stripe_user_id)
+        customer.card = {number: number, cvc: cvc, exp_month: expiry_month, exp_year: expiry_year}
+        customer.metadata = {user_id: user.id, full_name: user.full_name}
+        customer.email = user.email
+        customer = customer.save
+      rescue Stripe::InvalidRequestError
+        customer = Stripe::Customer.create metadata: {user_id: user.id, full_name: user.full_name}, email: user.email, card: {
+          number:    number,
+          cvc:       cvc,
+          exp_month: expiry_month,
+          exp_year:  expiry_year
+        }.as_json
+      end
     else
-      customer = Stripe::Customer.create metadata: {user_id: user.id}, card: {
+      customer = Stripe::Customer.create metadata: {user_id: user.id, full_name: user.full_name}, email: user.email, card: {
         number:    number,
         cvc:       cvc,
         exp_month: expiry_month,
