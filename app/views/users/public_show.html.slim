@@ -1,0 +1,12 @@
+div= @user.full_name
+div
+  | This is public user profile page
+
+form.Poster action=user_posts_path(@user) data-target='.Posts' method='post'
+  textarea name='message' placeholder='Keep your subscribers in the know...'
+  .error data-field='message'
+  br
+  input type='Submit' value='Post'
+
+.Posts
+  = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')

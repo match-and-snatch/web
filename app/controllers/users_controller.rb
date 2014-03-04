@@ -87,7 +87,7 @@ class UsersController < ApplicationController
     if @user == current_user.object
       render action: 'show'
     else
-      render text: 'not ready yet'
+      render action: 'public_show'
     end
   end
 

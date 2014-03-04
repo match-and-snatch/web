@@ -69,9 +69,9 @@ class UserProfileManager < BaseManager
   end
 
   # @param number [String]
+  # @param cvc [String]
   # @param expiry_month [String]
   # @param expiry_year [String]
-  # @param cvc [String]
   # @return [User]
   def update_cc_data(number: nil, cvc: nil, expiry_month: nil, expiry_year: nil)
     number       = number      .to_s.gsub /\D/, ''
@@ -88,9 +88,9 @@ class UserProfileManager < BaseManager
     if user.stripe_user_id
       begin
         customer = Stripe::Customer.retrieve(user.stripe_user_id)
-        customer.card = {number: number, cvc: cvc, exp_month: expiry_month, exp_year: expiry_year}
+        customer.card     = {number: number, cvc: cvc, exp_month: expiry_month, exp_year: expiry_year}
         customer.metadata = {user_id: user.id, full_name: user.full_name}
-        customer.email = user.email
+        customer.email    = user.email
         customer = customer.save
       rescue Stripe::InvalidRequestError
         customer = Stripe::Customer.create metadata: {user_id: user.id, full_name: user.full_name}, email: user.email, card: {
