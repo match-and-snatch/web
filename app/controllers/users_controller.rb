@@ -80,15 +80,12 @@ class UsersController < ApplicationController
     json_success
   end
 
-  # Profile public page
+  # Profile page
   def show
     @user = User.where(slug: params[:id]).first or error(404)
 
-    if @user == current_user.object
-      render action: 'show'
-    else
-      render action: 'public_show'
-    end
+    template = can?(:see_profile, @user) ? 'show' : 'public_show'
+    render action: template
   end
 
   private

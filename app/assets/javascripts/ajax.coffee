@@ -32,3 +32,5 @@ class bud.Ajax
           window.location = response['url'] || window.location
         when 'failed'
           alert(response['message'] || "Invalid request on #{@path}")
+        when 'reload'
+          window.location.reload()

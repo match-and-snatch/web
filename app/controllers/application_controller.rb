@@ -30,6 +30,15 @@ class ApplicationController < ActionController::Base
     render status: code, text: code.inspect
   end
 
+  # @param action [Symbol]
+  # @param subject
+  # @raise [ArgumentError] if action or subject are not registered
+  # @return [true, false]
+  def can?(action, subject)
+    current_user.can?(action, subject)
+  end
+  helper_method :can?
+
   # @return [CurrentUserDecorator]
   def current_user
     session_manager.current_user
@@ -69,5 +78,9 @@ class ApplicationController < ActionController::Base
   # @param _action [String]
   def json_replace(_action = action_name)
     render json: {status: 'replace', html: render_to_string(action: _action, layout: false, formats: [:html])}
+  end
+
+  def json_reload
+    render json: {status: 'reload'}
   end
 end

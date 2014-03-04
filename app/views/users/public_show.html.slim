@@ -2,11 +2,12 @@ div= @user.full_name
 div
   | This is public user profile page
 
-form.Poster action=user_posts_path(@user) data-target='.Posts' method='post'
-  textarea name='message' placeholder='Keep your subscribers in the know...'
-  .error data-field='message'
-  br
-  input type='Submit' value='Post'
+br
+br
 
-.Posts
-  = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')
+- if can?(:see_subscribe_button, @user)
+  div
+    | you can only
+    form.Form action=subscriptions_path method='POST'
+      input type='hidden' name='user_id' value=@user.slug
+      input type='submit' value='SUBSCRIBE mazafaker!!!'

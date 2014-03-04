@@ -1,6 +1,6 @@
 class CurrentUserDecorator < BaseDecorator
   attr_reader :object
-  delegate :slug, :email, :complete_profile?, to: :object
+  delegate :slug, :email, :complete_profile?, :subscribed_to?, to: :object
 
   # @param user [User, nil]
   def initialize(user = nil)
@@ -9,6 +9,25 @@ class CurrentUserDecorator < BaseDecorator
 
   def authorized?
     !object.new_record?
+  end
+
+  # @param action [Symbol]
+  # @param subject
+  # @raise [ArgumentError] if action or subject are not registered
+  # @return [true, false]
+  def can?(action, subject)
+    case subject
+    when User
+      case action
+      when :subscribe_to         then subject.id != object.id && authorized? && !subscribed_to?(subject)
+      when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject)
+      when :see_profile          then subject.id == object.id ||                 subscribed_to?(subject)
+      else
+        raise ArgumentError, "No such action #{action}"
+      end
+    else
+      raise ArgumentError, "No such subject #{subject.inspect}"
+    end
   end
 
   # @return [String]

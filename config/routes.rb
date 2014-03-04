@@ -20,6 +20,8 @@ BuddyPlatform::Application.routes.draw do
     resources :posts, only: [:create]
   end
 
+  resources :subscriptions, only: [:create]
+
   resources :posts, only: [] do
     resources :comments, only: [:create, :index]
   end

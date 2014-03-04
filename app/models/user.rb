@@ -36,6 +36,10 @@ class User < ActiveRecord::Base
     [last_four_cc_numbers, stripe_card_id, stripe_user_id].all?(&:present?)
   end
 
+  def subscribed_to?(target)
+    subscriptions.by_target(target).any?
+  end
+
   # @see Concerns::Subscribable#subscription_source_user
   # @return [User]
   def subscription_source_user
