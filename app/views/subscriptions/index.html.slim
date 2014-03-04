@@ -1,0 +1,20 @@
+h2 My subscriptions
+br
+ul
+  - @subscriptions.each do |subscription|
+    li.subscription style='font-weight: bold; clear: both'
+      a href=profile_path(subscription.target_user)
+        = subscription.target_user.full_name
+      br
+
+br
+hr
+br
+h2 Subscribed on me
+br
+ul
+  - @subscribed_on_me.each do |subscription|
+    li.subscription style='font-weight: bold; clear: both'
+      a href=profile_path(subscription.target_user)
+        = subscription.user.full_name
+      br

@@ -1,6 +1,8 @@
 .left_column
   ul.dashboard_menu
     li
+      a.AjaxLink data-target='.AccountInfo' href=user_subscriptions_path(@user) My Feed
+    li
       a.AjaxLink.active data-target='.AccountInfo' href=account_settings_user_path(@user) Account Settings
     li
       a.AjaxLink data-target='.AccountInfo' href=billing_information_user_path(@user) Billing Information
