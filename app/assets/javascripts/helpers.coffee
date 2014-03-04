@@ -26,3 +26,6 @@ window.bud.append_html = (container, replacement) ->
 window.bud.prepend_html = (container, replacement) ->
   $(container).prepend(replacement)
   bud.Core.init_widgets(container)
+
+window.bud.clear_html = (container) ->
+  $(container).html('')

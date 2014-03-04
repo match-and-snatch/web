@@ -35,6 +35,12 @@ class BaseManager
       end
     when Symbol
       {message => t(:invalid)}
+    when ActiveModel::Errors
+      message.to_hash.tap do |result|
+        result.each do |key, value|
+          result[key] = value.to_sentence
+        end
+      end
     else
       raise ArgumentError, 'Unspecified failure'
     end

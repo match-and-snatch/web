@@ -19,6 +19,10 @@ BuddyPlatform::Application.routes.draw do
 
     resources :posts, only: [:create]
   end
+
+  resources :posts, only: [] do
+    resources :comments, only: [:create, :index]
+  end
   resource :session
 
   get '/account_info' => 'users#account_info', as: :account_info

@@ -20,3 +20,4 @@ class bud.widgets.AjaxLink extends bud.Widget
     @$container.addClass('active')
     bud.replace_html(@$target, response['html'])
     @$target.removeClass('pending')
+    @$target.show()

@@ -1,0 +1,12 @@
+.CommentsContainer data-post_id=@post.id
+  .Comments data-post_id=@post.id
+    h2 Comments
+    = render partial: 'comments/comment', collection: @post.comments.order('created_at')
+
+  form.Commenter action=post_comments_path(@post) method='POST' data-target='.Comments[data-post_id=#{@post.id}]'
+    textarea name='message'
+    .error data-field='message'
+    br
+    input type='submit' value='Post Reply'
+
+  .Cleaner data-target='.CommentsContainer[data-post_id=#{@post.id}]' Hide discussion

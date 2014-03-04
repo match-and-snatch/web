@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   include Concerns::Subscribable
 
   has_many :posts
+  has_many :comments
   has_many :subscriptions
   has_many :source_subscriptions, class_name: 'Subscription', foreign_key: 'target_user_id'
 

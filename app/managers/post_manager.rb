@@ -1,7 +1,7 @@
 class PostManager < BaseManager
 
   # @param user [User]
-  def initialize(user)
+  def initialize(user: user)
     raise ArgumentError unless user.is_a?(User)
     @user = user
   end
