@@ -13,5 +13,5 @@ html
             = link_to_if !current_page?(current_profile_path), 'My Public Profile', current_profile_path
           .cf
         .cf
-    .wrapper= yield
-    #overlay.Overlay
+    #content= yield
+    = render 'authentication_popups'

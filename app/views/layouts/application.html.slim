@@ -3,22 +3,21 @@ html
   head= render 'head'
 
   body
-    #wrapper
-      #heap
-        a#logo href=root_path
-        #login_area
-          .status_message
-            = current_user.authorization_status_message
-
+    nav
+      .wrapper
+        a.logo href=root_path
+          img src=cloud_image_path('logo.png')
+        .buttons
           - if current_user.authorized?
-            - if current_user.complete_profile?
-              .account_info_link
-                = link_to_if !current_page?(account_info_path), 'Account Info', account_info_path
-                = link_to_if !current_page?(current_profile_path), 'My Public Profile', current_profile_path
-              a href=logout_path Log Out
+            = link_to_if !current_page?(account_info_path), 'Account Info', account_info_path
+            = link_to_if !current_page?(current_profile_path), 'My Public Profile', current_profile_path
           - else
-            a.PopupTrigger href='#' data-identifier='registration' Sign Up
-            a.PopupTrigger href='#' data-identifier='login' Login
-      #content= yield
+            a.btn.black.login.PopupTrigger href='#' data-identifier='login' Login
+            a.btn.pink.signup.PopupTrigger href='#' data-identifier='registration' Sign Up
+          .cf
+        .cf
+
+    #content= yield
+    = render 'authentication_popups'
     #overlay.Overlay
 

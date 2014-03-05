@@ -1,12 +1,3 @@
-nav
-  .wrapper
-    a.logo href=root_path
-      img src=cloud_image_path('logo.png')
-    .buttons
-      a.btn.black.login href=root_path Login
-      a.btn.pink.signup href=root_path Sign Up
-      .cf
-    .cf
 #header_container
   .cover_photo
   .profile_photo
@@ -15,6 +6,18 @@ nav
     .subscribe_container
       .subscribe_cost
         .sign $
-        .amount 5/month
+        .amount #{@user.subscription_cost}/month
         .cf
       a.subscribe href=root_path Subscribe
+  .cf
+.cf
+-# POSTS ....
+.posts
+  form.Poster action=user_posts_path(@user) data-target='.Posts' method='post'
+    textarea name='message' placeholder='Keep your subscribers in the know...'
+    .error data-field='message'
+    br
+    input type='Submit' value='Post'
+
+  .Posts
+    = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')

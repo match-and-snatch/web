@@ -1,17 +1,2 @@
 h1 Welcome
 
-.Popup.popup data-identifier='registration'
-  .up
-  span.PopupTrigger.close_button data-identifier='registration' close
-  .content= render 'registration_form'
-  .below
-    | Already have an account?
-    a.PopupTrigger href='#' data-identifier='login' Login
-
-.Popup.popup data-identifier='login'
-  .up
-  span.PopupTrigger.close_button data-identifier='login' close
-  .content= render 'login_form'
-  .below
-    | Has not registered yet?&nbsp;
-    a.PopupTrigger href='#' data-identifier='registration' Register!
