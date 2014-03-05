@@ -19,10 +19,10 @@ html
           - else
             a.btn.black.login.PopupTrigger href='#' data-identifier='login' Login
             a.btn.pink.signup.PopupTrigger href='#' data-identifier='registration' Sign Up
+            = render 'authentication_popups'
           .cf
         .cf
 
     #content= yield
-    = render 'authentication_popups'
     #overlay.Overlay
 

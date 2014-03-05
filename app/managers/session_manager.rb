@@ -7,9 +7,11 @@ class SessionManager < BaseManager
 
   # @param email [String]
   # @param password [String]
+  # @return [User, nil]
   def login(email, password)
     user = AuthenticationManager.new(email: email, password: password).authenticate
     @session[:user_id] = user.id
+    user
   end
 
   def logout

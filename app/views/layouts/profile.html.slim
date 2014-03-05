@@ -8,18 +8,22 @@ html
         a.logo href=root_path
           img src=image_path('logo.png')
         .buttons
-          - if current_user.complete_profile?
+          - if current_user.authorized?
             a.btn.black.logout href=logout_path Logout
 
-            - if current_page?(current_profile_path)
-              span.btn.pink My Profile
-            - else
-              a.btn.black.my_profile href=current_profile_path My Public Profile
+            - if current_user.complete_profile?
+              - if current_page?(current_profile_path)
+                span.btn.pink My Profile
+              - else
+                a.btn.black.my_profile href=current_profile_path My Profile
 
-            - if current_page?(account_info_path)
-              span.btn.pink Account Info
-            - else
               a.btn.black.account_info href=account_info_path Account Info
+            - else current_user.authorized?
+              a.btn.black.finish_profile href=finish_profile_path Finish Registration
+          - else
+            a.btn.black.login.PopupTrigger href='#' data-identifier='login' Login
+            a.btn.pink.signup.PopupTrigger href='#' data-identifier='registration' Sign Up
+            = render 'authentication_popups'
           .cf
         .cf
     #content= yield

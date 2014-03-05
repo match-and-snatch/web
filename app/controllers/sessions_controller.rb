@@ -6,8 +6,8 @@ class SessionsController < ApplicationController
 
   # Logins user
   def create
-    session_manager.login(params[:email], params[:password])
-    json_redirect account_info_path
+    user = session_manager.login(params[:email], params[:password])
+    user.complete_profile? ? json_reload : json_redirect(finish_profile_path)
   end
 
   # Logs user out
