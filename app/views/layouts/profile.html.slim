@@ -9,9 +9,17 @@ html
           img src=cloud_image_path('logo.png')
         .buttons
           - if current_user.complete_profile?
-            = link_to_if !current_page?(account_info_path), 'Account Info', account_info_path
-            = link_to_if !current_page?(current_profile_path), 'My Public Profile', current_profile_path
-          a.btn.black.logout href=logout_path Logout
+            a.btn.black.logout href=logout_path Logout
+
+            - if current_page?(current_profile_path)
+              span.btn.pink My Profile
+            - else
+              a.btn.black.my_profile href=current_profile_path My Public Profile
+
+            - if current_page?(account_info_path)
+              span.btn.pink Account Info
+            - else
+              a.btn.black.account_info href=account_info_path Account Info
           .cf
         .cf
     .wrapper= yield
