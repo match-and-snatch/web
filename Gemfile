@@ -38,6 +38,7 @@ gem 'foreman', group: :development
 # Application Specific
 gem 'slim-rails'
 gem 'bcrypt-ruby', require: 'bcrypt'
+gem 'bootstrap-sass'
 
 # Credit cards, billing, charges, payments
 gem 'stripe'
