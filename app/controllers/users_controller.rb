@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  layout :account_info
+  layout 'account_info'
 
   before_filter :authenticate!, :load_user, except: [:create, :show]
   before_filter :redirect_complete, only: :edit

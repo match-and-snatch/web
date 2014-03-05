@@ -1,7 +1,32 @@
 .Popup.popup data-identifier='registration'
   .up
   span.PopupTrigger.close_button data-identifier='registration' close
-  .content= render 'registration_form'
+  .content
+    h2 Create Your Profile
+
+    form.Form action=users_path method='post'
+      input type='text' name='first_name' placeholder='First Name'
+      .error data-field='first_name'
+      br
+
+      input type='text' name='last_name' placeholder='Last Name'
+      .error data-field='last_name'
+      br
+
+      input type='text' name='email' placeholder='Email Address'
+      .error data-field='email'
+      br
+
+      input type='password' name='password' placeholder='Password'
+      .error data-field='password'
+      br
+
+      input type='password' name='password_confirmation' placeholder='Retype Password'
+      .error data-field='password_confirmation'
+      br
+
+      input type='hidden' name='authenticity_token' value=form_authenticity_token
+      input type='submit' value='Continue to Profile'
   .below
     | Already have an account?
     a.PopupTrigger href='#' data-identifier='login' Login
@@ -9,7 +34,21 @@
 .Popup.popup data-identifier='login'
   .up
   span.PopupTrigger.close_button data-identifier='login' close
-  .content= render 'login_form'
+  .content
+    h1 Login
+
+    form.Form action=session_path method='post'
+      label email
+      input type='text' name='email'
+      br
+
+      label password
+      input type='password' name='password'
+      br
+
+      .Error
+      input type='hidden' name='authenticity_token' value=form_authenticity_token
+      input type='submit' value='Login'
   .below
     | Has not registered yet?&nbsp;
     a.PopupTrigger href='#' data-identifier='registration' Register!
