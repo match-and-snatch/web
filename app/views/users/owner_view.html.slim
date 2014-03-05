@@ -8,7 +8,7 @@
         .sign $
         .amount #{@user.subscription_cost}/month
         .cf
-      a.subscribe href=root_path Subscribe
+      a.subscribe.AjaxFormLink href=subscriptions_path data-user_id=@user.slug Subscribe
   .cf
 .cf
 -# POSTS ....

@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
 
   # @param errors [Hash]
   def json_render_errors(errors)
-    json_fail errors: errors
+    json_fail({errors: errors}.merge(message: errors[:message]))
   end
 
   # @param response_params [Hash]

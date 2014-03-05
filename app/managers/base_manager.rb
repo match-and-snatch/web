@@ -14,7 +14,7 @@ class BaseManager
   def error_message(message)
     case message
     when String
-      {message: t(message)}
+      {message: message}
     when Hash
       {}.tap do |result|
         message.each do |k, v|
