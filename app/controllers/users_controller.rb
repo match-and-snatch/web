@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   before_filter :authenticate!, :load_user, except: [:create, :show]
   before_filter :redirect_complete, only: :edit
+  before_filter :redirect_incomplete, only: :account_info
 
   # Registers new user
   def create
@@ -103,6 +104,11 @@ class UsersController < ApplicationController
   # Redirects profiles on dashboard if all three registration steps are passed
   def redirect_complete
     redirect_to account_info_path if @user.complete_profile?
+  end
+
+  # Redirects profiles on dashboard if all three registration steps are passed
+  def redirect_incomplete
+    redirect_to finish_profile_path unless @user.complete_profile?
   end
 
   def load_user
