@@ -1,0 +1,23 @@
+doctype html
+html
+  head= render 'head'
+
+  body
+    #wrapper
+      #heap
+        a#logo href=root_path
+        #login_area
+          .status_message
+            = current_user.authorization_status_message
+
+          - if current_user.authorized?
+            - if current_user.complete_profile?
+              .account_info_link
+                = link_to_if !current_page?(account_info_path), 'Account Info', account_info_path
+                = link_to_if !current_page?(current_profile_path), 'My Public Profile', current_profile_path
+              a href=logout_path Log Out
+          - else
+            a.PopupTrigger href='#' data-identifier='registration' Sign Up
+            a.PopupTrigger href='#' data-identifier='login' Login
+      #content= yield
+    #overlay.Overlay

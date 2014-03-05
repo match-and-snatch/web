@@ -84,8 +84,16 @@ class UsersController < ApplicationController
   def show
     @user = User.where(slug: params[:id]).first or error(404)
 
-    template = can?(:see_profile, @user) ? 'show' : 'public_show'
-    render action: template
+    template = nil
+    if @user == current_user.object
+      template = 'owner_view'
+    elsif can?(:see_profile, @user)
+      template = 'show'
+    else
+      template = 'public_show'
+    end
+
+    render action: template, layout: 'profile'
   end
 
   private
