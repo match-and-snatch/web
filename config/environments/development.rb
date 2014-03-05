@@ -1,5 +1,6 @@
 BuddyPlatform::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.action_controller.asset_host = "//s3-us-west-1.amazonaws.com/buddy-assets"
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development

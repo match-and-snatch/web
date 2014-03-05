@@ -6,7 +6,7 @@ html
     nav
       .wrapper
         a.logo href=root_path
-          img src=cloud_image_path('logo.png')
+          img src=image_path('logo.png')
         .buttons
           - if current_user.complete_profile?
             a.btn.black.logout href=logout_path Logout
@@ -22,5 +22,6 @@ html
               a.btn.black.account_info href=account_info_path Account Info
           .cf
         .cf
-    .wrapper= yield
+    #content= yield
+    = render 'authentication_popups'
     #overlay.Overlay

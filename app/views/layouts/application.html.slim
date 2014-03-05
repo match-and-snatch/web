@@ -6,10 +6,11 @@ html
     nav
       .wrapper
         a.logo href=root_path
-          img src=cloud_image_path('logo.png')
+          img src=image_path('logo.png')
         .buttons
           - if current_user.authorized?
             a.btn.black.logout href=logout_path Logout
+
             - if current_user.complete_profile?
               a.btn.black.my_profile href=current_profile_path My Profile
               a.btn.black.account_info href=account_info_path Account Info

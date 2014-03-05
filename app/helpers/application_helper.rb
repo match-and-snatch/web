@@ -1,13 +1,16 @@
 module ApplicationHelper
 
-  # @param filename [String]
-  # @return [String]
-  def cloud_image_path(filename)
-    if Rails.env.development? && Rails.application.assets.find_asset(filename)
-      image_path(filename)
-    else
-      "//s3-us-west-1.amazonaws.com/buddy-assets/images/#{filename}"
+  # @overload
+  # @param source [String] relative path to asset
+  # @param options [Hash]
+  # @return [String, nil]
+  def compute_asset_host(source, options = {})
+    if Rails.env.development?
+      fname = source.split('/').last
+      return if Rails.application.assets.find_asset(fname)
     end
+
+    super(source, options)
   end
 
   # @return [String]

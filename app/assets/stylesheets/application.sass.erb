@@ -1,8 +1,13 @@
+$deepest_depth: 1000 // Z-Index start for elements displaying on top of others
+$center_width: 970px
+$border_radius: 10px
+$fill_color: #f7f7f7
+
 @import "mixins/**/*"
 @import "pages/**/*"
 
 body 
-  background: #f7f7f7
+  background: $fill_color
   color: #464646
   font-family: 'Open Sans', sans-serif
   font-size: 13px
@@ -18,30 +23,17 @@ a
   *zoom: 1  
 
 .btn
+  @include border-radius($border_radius)
   color: #FFFFFF
   text-align: center
-  -webkit-border-radius: 10px
-  -moz-border-radius: 10px
-  -ms-border-radius: 10px
-  -o-border-radius: 10px
-  border-radius: 10px
   &.pink
-    @include linear-gradient(#ea4e65, #ea2f49)
-    border: 1px solid #cd233b
-    box-shadow: inset 0 1px 0 0 #ef7b8c
-    -webkit-box-shadow: inset 0 1px 0 0 #ef7b8c
-    text-shadow: -1px -1px 0 #c3384c
+    @include pink-area
   &.blue
-    @include linear-gradient(#7dd3f3, #359acd)
-    border: 1px solid #277aa3
-    box-shadow: inset 0 1px 0 0 #c5ecff
-    -webkit-box-shadow: inset 0 1px 0 0 #c5ecff
-    text-shadow: -1px -1px 0 #53a1c8
+    @include blue-area
   &.black
+    @include box-shadow(inset 0 1px 0 0 #6f6f6f)
     @include linear-gradient(#3e3e3e, #2d2d2d)
     border: 1px solid #464646
-    box-shadow: inset 0 1px 0 0 #6f6f6f
-    -webkit-box-shadow: inset 0 1px 0 0 #6f6f6f
     text-shadow: -1px -1px 0 #1c1c1c
   &:hover
     &.pink
@@ -60,8 +52,9 @@ nav
   position: fixed
   top: 0
   width: 100%
-  .wrapper 
-    width: 950px
+  z-index: $deepest_depth
+  .wrapper
+    width: $center_width - 2*$border_radius
     margin: 0 auto
     .logo
       display: block
@@ -87,24 +80,22 @@ nav
           margin-left: 10px
           width: 70px
 
-#header_container 
+#header_container
+  @include border-radius($border_radius)
   background: #ffffff 
   border: 1px solid #d7d7d7
   display: block
   margin: 0 auto
-  margin-top: 75px
   overflow: hidden
   padding-bottom: 15px
   position: relative
-  width: 970px
-  border-radius: 10px
-  -webkit-border-radius: 10px
-  .cover_photo 
-    background: url(cover-default.png) no-repeat
+  width: $center_width
+  .cover_photo
+    background: image-url('cover-default.png') no-repeat
     display: block
     height: 280px
   .profile_photo
-    background-color: #f7f7f7
+    background-color: $fill_color
     border: 1px solid #d7d7d7
     position: absolute
     top: 80px
@@ -131,23 +122,16 @@ nav
         height: 70px
         width: 265px 
         .sign
+          @include pink-area
+          @include border-radius($border_radius 0 0 10px)
           color: #FFFFFF
           float: left
           height: 55px
           padding-top: 15px
           width: 65px
-          -webkit-border-radius: 10px 0 0 10px
-          -moz-border-radius: 10px 0 0 10px
-          -ms-border-radius: 10px 0 0 10px
-          -o-border-radius: 10px 0 0 10px
-          border-radius: 10px 0 0 10px
-          @include linear-gradient(#ea4e65, #ea2f49)
-          border: 1px solid #cd233b
-          box-shadow: inset 0 1px 0 0 #ef7b8c
-          -webkit-box-shadow: inset 0 1px 0 0 #ef7b8c
-          text-shadow: -1px -1px 0 #c3384c
-        .amount 
-          background-color: #f7f7f7
+        .amount
+          @include border-radius(0 $border_radius $border_radius 0)
+          background-color: $fill_color
           border-top: 1px solid #d7d7d7
           border-right: 1px solid #d7d7d7
           border-bottom: 1px solid #d7d7d7
@@ -156,29 +140,16 @@ nav
           height: 55px
           padding-top: 15px
           width: 197px
-          -webkit-border-radius: 0 10px 10px 0
-          -moz-border-radius: 0 10px 10px 0
-          -ms-border-radius: 0 10px 10px 0
-          -o-border-radius: 0 10px 10px 0
-          border-radius: 0 10px 10px 0
       .subscribe
+        @include border-radius($border_radius)
         display: none
         color: #FFFFFF
-        -webkit-border-radius: 10px
-        -moz-border-radius: 10px
-        -ms-border-radius: 10px
-        -o-border-radius: 10px
-        border-radius: 10px
         height: 70px
         width: 263px 
         height: 55px
         padding-top: 15px
-        @include linear-gradient(#7dd3f3, #359acd)
-        border: 1px solid #277aa3
-        box-shadow: inset 0 1px 0 0 #c5ecff
-        -webkit-box-shadow: inset 0 1px 0 0 #c5ecff
-        text-shadow: -1px -1px 0 #53a1c8
-      &:hover 
+        @include blue-area
+      &:hover
         .subscribe_cost 
           display: none
         .subscribe
@@ -188,7 +159,7 @@ nav
   display: visible
 
 #overlay
-  z-index: 10000
+  z-index: $deepest_depth + 10000
   display: none
   top: 0
   right: 0
@@ -198,8 +169,14 @@ nav
   position: fixed
   opacity: 0.6
 
+#content
+  width: $center_width
+  margin: 0 auto
+  margin-top: 75px
+
 .popup
-  z-index: 10001
+  @include border-radius($border_radius)
+  z-index: $deepest_depth + 10001
   display: none
   position: fixed
   background: white
@@ -207,7 +184,6 @@ nav
   min-height: 50px
   top: 50%
   left: 50%
-  border-radius: 10px
   border: 5px solid black
   padding: 5px
 
@@ -271,7 +247,7 @@ label
 
 
 ul.dashboard_menu
-  border-radius: 5px
+  border-radius: $border_radius
   background: #faffc9
   width: 200px
 
@@ -283,7 +259,7 @@ ul.dashboard_menu
       color: black
       text-align: center
       padding-top: 10px
-      border-radius: 5px
+      border-radius: $border_radius
       height: 40px
       width: 100%
       display: block
