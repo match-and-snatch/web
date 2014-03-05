@@ -12,6 +12,7 @@ html
             = link_to_if !current_page?(account_info_path), 'Account Info', account_info_path
             - if current_user.complete_profile?
               = link_to_if !current_page?(current_profile_path), 'My Public Profile', current_profile_path
+            a.btn.black.logout href=logout_path Logout
           - else
             a.btn.black.login.PopupTrigger href='#' data-identifier='login' Login
             a.btn.pink.signup.PopupTrigger href='#' data-identifier='registration' Sign Up
