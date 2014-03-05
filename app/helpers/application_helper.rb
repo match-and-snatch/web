@@ -5,10 +5,10 @@ module ApplicationHelper
   # @param options [Hash]
   # @return [String, nil]
   def compute_asset_host(source, options = {})
-    if Rails.env.development?
+    #if Rails.env.development?
       fname = source.split('/').last
       return if Rails.application.assets.find_asset(fname)
-    end
+    #end
 
     super(source, options)
   end
