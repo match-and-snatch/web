@@ -46,6 +46,7 @@ gem 'stripe'
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
+  gem 'awesome_print'
 end
 
 group :test do

@@ -14,7 +14,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    SubscriptionManager.new(current_user.object).subscribe_to(@user)
+    SubscriptionManager.new(current_user.object).subscribe_and_pay_for(@user)
     json_reload
   end
 
