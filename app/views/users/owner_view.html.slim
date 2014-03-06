@@ -4,15 +4,14 @@
   .profile_photo
   	span.btn.blue Change Profile Photo 
   .details_container
-    .profile_name= @user.full_name
+    .profile_name
+    	a.glyphicons.wrench href=current_profile_path = @user.full_name
     .subscriber_benefits
-    	.label Subscriber Benefits
+    	.label href=current_profile_path Subscriber Benefits
     	.benefit_list
     		ul
     			li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
     			li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
-
-
     .subscribe_container
       .subscribe_cost
         .sign $

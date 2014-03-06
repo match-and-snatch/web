@@ -5,6 +5,8 @@ $fill_color: #f7f7f7
 $blue_color: #3b9fd1
 $green_color: #8dc63f
 $text_color: #464646
+$gear_color: #d7d7d7
+$gear_hover: #464646
 
 @import "mixins/**/*"
 @import "pages/**/*"
@@ -143,6 +145,14 @@ nav
       margin: 90px 0 0 15px
       font-weight: 600
       font-size: 36px
+      .glyphicons.wrench
+        padding: 0 0 0 38px
+        &:before
+          padding-top: 7px
+          color: $gear_color
+        &:hover
+          &:before
+            color: $gear_hover  
     .subscriber_benefits
       display: block
       margin-top: 15px
@@ -157,7 +167,7 @@ nav
         padding: 10px 15px
         position: absolute
         top: 0
-        left: -1px
+        left: -1px  
       .benefit_list
         display: block
         ul
@@ -174,7 +184,7 @@ nav
             &.glyphicons
               padding: 4px 0 0 30px
               &:before
-                color: $green_color
+                color: $green_color 
     .subscribe_container
       position: absolute
       right: 15px
