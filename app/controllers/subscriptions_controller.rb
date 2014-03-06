@@ -14,6 +14,12 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
+    if params['cc_data']
+      UserProfileManager.new(current_user.object).update_cc_data number:       params['cc_data']['number'],
+                                                                 cvc:          params['cc_data']['cvc'],
+                                                                 expiry_month: params['cc_data']['expiry_month'],
+                                                                 expiry_year:  params['cc_data']['expiry_year']
+    end
     SubscriptionManager.new(current_user.object).subscribe_and_pay_for(@user)
     json_reload
   end

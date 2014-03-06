@@ -8,6 +8,10 @@ class SubscriptionManager < BaseManager
   # @param target [Concerns::Subscribable]
   # @return [Subscription]
   def subscribe_and_pay_for(target)
+    unless @subscriber.has_cc_payment_account?
+      raise ArgumentError, 'Subscriber does not have CC accout'
+    end
+
     subscribe_to(target).tap do |subscription|
       PaymentManager.new.pay_for(subscription, 'Payment for subscription')
     end

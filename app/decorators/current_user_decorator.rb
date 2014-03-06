@@ -1,6 +1,6 @@
 class CurrentUserDecorator < BaseDecorator
   attr_reader :object
-  delegate :slug, :email, :complete_profile?, :subscribed_to?, to: :object
+  delegate :slug, :email, :complete_profile?, :has_cc_payment_account?, :subscribed_to?, to: :object
 
   # @param user [User, nil]
   def initialize(user = nil)
