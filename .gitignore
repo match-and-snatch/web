@@ -22,3 +22,5 @@
 .env_test
 .idea
 
+# Unrelated
+*.DS_Store
