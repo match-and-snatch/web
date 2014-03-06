@@ -9,6 +9,7 @@ class BaseManager
     I18n.t message, opts.reverse_merge(scope: :errors, default: [:default, message])
   end
 
+  # TODO: refactor
   # @param message [String, Hash]
   # @return [Hash]
   def error_message(message)
@@ -16,7 +17,7 @@ class BaseManager
     when String
       {message: message}
     when Hash
-      {}.tap do |result|
+      errors = {}.tap do |result|
         message.each do |k, v|
           case v
           when String
@@ -33,14 +34,16 @@ class BaseManager
           end
         end
       end
+      {errors: errors}
     when Symbol
-      {message => t(:invalid)}
+      {errors: {message => t(:invalid)}}
     when ActiveModel::Errors
-      message.to_hash.tap do |result|
+      errors = message.to_hash.tap do |result|
         result.each do |key, value|
           result[key] = value.to_sentence
         end
       end
+      {errors: errors}
     else
       raise ArgumentError, 'Unspecified failure'
     end
@@ -53,13 +56,13 @@ class BaseManager
 
   # @param message [String, Hash]
   def fail_with(message)
-    @errors.reverse_merge!(error_message(message))
+    @errors[:errors].reverse_merge!(error_message(message)[:errors])
   end
 
   def validate!
-    @errors ||= {}
+    @errors ||= {errors: {}}
     yield if block_given?
-    @errors.empty? or raise ManagerError, @errors
+    @errors[:errors].empty? or raise ManagerError, @errors
   end
 end
 
