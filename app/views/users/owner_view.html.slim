@@ -1,8 +1,18 @@
-#header_container
+#header.container
   .cover_photo
+  	span.btn.blue Change Photo Photo 
   .profile_photo
+  	span.btn.blue Change Profile Photo 
   .details_container
     .profile_name= @user.full_name
+    .subscriber_benefits
+    	.label Subscriber Benefits
+    	.benefit_list
+    		ul
+    			li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
+    			li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
+
+
     .subscribe_container
       .subscribe_cost
         .sign $
@@ -11,13 +21,33 @@
       a.subscribe.AjaxFormLink href=subscriptions_path data-user_id=@user.slug Subscribe
   .cf
 .cf
--# POSTS ....
-.posts
-  form.Poster action=user_posts_path(@user) data-target='.Posts' method='post'
-    textarea name='message' placeholder='Keep your subscribers in the know...'
-    .error data-field='message'
-    br
-    input type='Submit' value='Post'
 
-  .Posts
-    = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')
+-# POSTS ....
+#create_post.container
+	ul.buttons
+		li.status
+			a.glyphicons.edit.active href=current_profile_path Post Status
+		li.av 
+			a.glyphicons.music href=current_profile_path Upload Audio/Video 
+		li.photos
+			a.glyphicons.picture href=current_profile_path Upload Photos 
+		li.document
+			a.glyphicons.file href=current_profile_path Upload Document 
+	#post
+	  form.Poster action=user_posts_path(@user) data-target='.Posts' method='post'
+	    textarea name='message' placeholder='Keep your subscribers in the know...'
+	    .error data-field='message'
+	    input type='Submit' value='Post'
+
+
+#subscriber_display
+	.sidebar 
+		.share_box 
+			a.copy Copy URL
+			a.share Share URL
+		.search search
+		.contact contact
+
+	.recent_posts
+		.Posts
+	    = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')

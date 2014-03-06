@@ -3,15 +3,18 @@ $center_width: 970px
 $border_radius: 10px
 $fill_color: #f7f7f7
 $blue_color: #3b9fd1
+$green_color: #8dc63f
 $text_color: #464646
 
 @import "mixins/**/*"
 @import "pages/**/*"
 
+/* General */
+
 body 
   background: $fill_color
   color: #464646
-  font-family: 'Open Sans', sans-serif
+  font-family: 'Open Sans', Arial, sans-serif
   font-size: 13px
 a 
   border: none
@@ -20,9 +23,6 @@ a
   width: $center_width
   margin: 0 auto
   margin-top: 62px
-
-path
-  fill: blue
 
 .cf
   &:before, &:after
@@ -45,6 +45,15 @@ path
   position: relative
   width: $center_width
 
+.box_cont 
+  @include border-radius($border_radius)
+  background: #ffffff 
+  border: 1px solid #d7d7d7
+  display: block
+  overflow: hidden
+  padding: 15px
+  position: relative
+
 .btn
   @include border-radius($border_radius)
   color: #FFFFFF
@@ -62,6 +71,8 @@ path
       @include linear-gradient(#359acd, #7dd3f3)
     &.black
       @include linear-gradient(#2d2d2d, #3e3e3e)
+
+/* Navigation */
 
 nav 
   @include linear-gradient(#7dd3f3, #359acd)
@@ -95,6 +106,8 @@ nav
         margin: 5px 0 0 10px
         padding: 8px 10px 0
 
+/* Profile Header */
+
 #header
   padding-bottom: 10px
   .cover_photo
@@ -102,6 +115,7 @@ nav
     border-bottom: 1px solid #d7d7d7
     display: block
     height: 280px
+    position: relative
   .profile_photo
     background-color: $fill_color
     border: 1px solid #d7d7d7
@@ -110,12 +124,25 @@ nav
     left: 15px
     height: 250px
     width: 250px
+  .cover_photo, .profile_photo
+    span
+      display: none
+      cursor: pointer
+      font-size: 18px
+      position: absolute
+      bottom: 15px
+      right: 15px
+      padding: 15px
+    &:hover 
+      span
+        display: block  
+
   .details_container 
     position: relative
     .profile_name 
       margin: 90px 0 0 15px
       font-weight: 600
-      font-size: 2.67em
+      font-size: 36px
     .subscriber_benefits
       display: block
       margin-top: 15px
@@ -125,6 +152,8 @@ nav
         @include black-area
         @include border-radius(0 5px 5px 0)
         color: #FFFFFF
+        font-size: 16px
+        font-weight: 400
         padding: 10px 15px
         position: absolute
         top: 0
@@ -132,18 +161,27 @@ nav
       .benefit_list
         display: block
         ul
+          font-size: 14px
+          font-weight: 400
+          line-height: 20px
+          min-height: 25px
           columns: 2
           -webkit-columns: 2
           -moz-columns: 2
           li
+            color: $text_color
             padding-bottom: 5px
+            &.glyphicons
+              padding: 4px 0 0 30px
+              &:before
+                color: $green_color
     .subscribe_container
       position: absolute
       right: 15px
       top: -75px
       text-align: center
-      font-size: 3em
-      font-weight: 700
+      font-size: 36px
+      font-weight: 600
       a 
         text-decoration: none
       .subscribe_cost
@@ -184,30 +222,83 @@ nav
         .subscribe
           display: block
 
+/* Profile Create Post */
+
 #create_post
   margin-top: 15px
   .buttons
     @include linear-gradient(#FFFFFF, #F7F7F7)
     border-bottom: 1px solid #d7d7d7
     padding: 0 15px    
-    text-shadow: -1px -1px 0 #FFFFFF
     li
       display: inline-block
-      font-size: 1.67em
+      font-size: 22px
+      font-weight: 400
       padding: 20px 30px 20px 0
       list-style-type: none
       a
         color: #464646
         text-decoration: none
+        text-shadow: -1px -1px 0 #FFFFFF
         &:hover
-          color: $blue_color
-          text-decoration: underline
+          &.glyphicons
+            &:before
+              color: $blue_color  
         &.glyphicons
           padding-left: 30px
           &:before
-            color: $blue_color
+            color: $text_color
+        &.active 
+          &:before
+            color: $blue_color  
+  #post 
+    padding: 15px
+    position: relative
+    textarea
+      color: #898989 
+      border: none
+      font-size: 18px
+      line-height: 24px
+      min-height: 48px
+      resize: none
+      width: 835px
+      &:focus 
+        outline: none
+    input[type="submit"]
+      @include border-radius($border_radius)
+      @include blue-area
+      color: #FFFFFF
+      font-size: 18px
+      padding: 15px 20px
+      position: absolute
+      right: 15px
+      top: 15px
+      &:hover 
+        @include linear-gradient(#359acd, #7dd3f3)
+
+/* Subscriber View */
+
+#subscriber_display
+  margin-top: 15px
+  .sidebar
+    float: left
+    width: 300px
+    .share_box
+      @include blue-area
+      @include border-radius($border_radius)
+      color: #FFFFFF
+      font-size: 24px
+      font-weight: 600
+      padding: 15px
+      text-align: center
+  .recent_posts
+    float: right
+    width: 630px
+    .post
+      margin-bottom: 15px
 
 
+/* Old Styles */
 
 .js-highlight
   border: 2px solid red
