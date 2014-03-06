@@ -1,18 +1,31 @@
-#header_container
+#header.container
   .cover_photo
   .profile_photo
   .details_container
-    .profile_name= @user.full_name
+    .profile_name
+      a.glyphicons.wrench href=profile_path(@user) = @user.full_name
+    .subscriber_benefits
+      .label Subscriber Benefits
+      .benefit_list
+        ul
+          li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
+          li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
     .subscribe_container
       .subscribe_cost
         .sign $
         .amount #{@user.subscription_cost}/month
         .cf
-      a.subscribe.AjaxFormLink href=subscriptions_path data-user_id=@user.slug Subscribe
+      a.subscribe href='#' Subscribe
   .cf
 .cf
 
-.Posts
-  = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')
+#subscriber_display
+  .sidebar
+    .share_box
+      a.copy Copy URL
+      a.share Share URL
+    .search search
+    .contact contact
 
-
+  .recent_posts.Posts
+    = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')

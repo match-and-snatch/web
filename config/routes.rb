@@ -10,7 +10,6 @@ BuddyPlatform::Application.routes.draw do
   end
 
   resource :session
-  resources :subscriptions, only: [:create]
 
   resources :users, only: [:create, :edit, :update] do
     member do
@@ -25,7 +24,7 @@ BuddyPlatform::Application.routes.draw do
     end
 
     resources :posts, only: [:create]
-    resources :subscriptions, only: [:index]
+    resources :subscriptions, only: [:new, :create, :index]
   end
 
   get '/account_info' => 'users#account_info', as: :account_info

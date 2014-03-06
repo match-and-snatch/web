@@ -1,6 +1,11 @@
 class SubscriptionsController < ApplicationController
-  before_filter :authenticate!
+  before_filter :authenticate!, except: :new
   before_filter :load_user!
+
+  def new
+    template = current_user.authorized? ? 'new' : 'new_unauthorized'
+    json_render template
+  end
 
   def index
     @subscriptions = @user.subscriptions

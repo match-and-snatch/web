@@ -1,14 +1,36 @@
-div= @user.full_name
-div
-  | Th!is is public user profile page
+#header.container
+  .cover_photo
+  .profile_photo
+  .details_container
+    .profile_name= @user.full_name
+    .subscriber_benefits
+      .label Subscriber Benefits
+      .benefit_list
+        ul
+          li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
+          li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
+    .subscribe_container
+      .subscribe_cost
+        .sign $
+        .amount #{@user.subscription_cost}/month
+        .cf
+      a.subscribe href='#' Subscribe
+  .cf
+.cf
 
-br
-br
+.container style='width: 100%; height: 300px; margin: 20px 0 20px 0'
+  .content style='margin: 20px'
+    a.subscribe.PopupTrigger data-identifier='subscription' href='#' Subscribe
 
-- if can?(:see_subscribe_button, @user)
-  div
-    | you can only
-    form.Form action=subscriptions_path method='POST'
-      input type='hidden' name='user_id' value=@user.slug
-      input type='submit' value='SUBSCRIBE mazafaker!!!'
+    br
+    br
 
+    div
+      - unless current_user.authorized?
+        | Already a member?
+        br
+        a.btn.black.login.PopupTrigger href='#' data-identifier='login' Login
+        a.btn.pink.signup.PopupTrigger href='#' data-identifier='registration' Sign Up
+
+.popup.AjaxPopup data-url=new_user_subscription_path(@user) data-identifier='subscription'
+  | I AM HERE
