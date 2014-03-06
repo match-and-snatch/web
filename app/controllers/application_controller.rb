@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     json_render_errors error.messages
   end
 
+  rescue_from HttpCodeError do |error|
+    render status: error.code, text: error.code.inspect
+  end
+
   # @param action [Symbol]
   # @param callbacks [Array<Symbol>]
   def self.before(action, *callbacks)
@@ -27,7 +31,7 @@ class ApplicationController < ActionController::Base
 
   # @param code [Integer]
   def error(code)
-    render status: code, text: code.inspect
+    raise HttpCodeError, code
   end
 
   # @param action [Symbol]
