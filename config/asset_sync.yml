@@ -5,7 +5,7 @@ defaults: &defaults
   aws_secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
   # You may need to specify what region your storage bucket is in
   # fog_region: "eu-west-1"
-  existing_remote_files: delete # Existing pre-compiled assets on S3 will be kept
+  existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
   # To delete existing remote files.
   # existing_remote_files: delete
   # To ignore existing remote files and overwrite.
