@@ -5,7 +5,7 @@
   	span.btn.blue Change Profile Photo
   .details_container
     .profile_name
-    	a.glyphicons.wrench href=current_profile_path = @user.full_name
+    	a.glyphicons.cogwheel href=current_profile_path = @user.full_name
     .subscriber_benefits
     	.label Subscriber Benefits
     	.benefit_list
@@ -43,8 +43,7 @@
 		.share_box
 			a.copy Copy URL
 			a.share Share URL
-		.search search
-		.contact contact
+		.search.hidden search
+		.contact.hidden contact
 
-	.recent_posts.Posts
-    = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')
+	.recent_posts.Posts = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')

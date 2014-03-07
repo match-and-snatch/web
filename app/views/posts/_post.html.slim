@@ -1,8 +1,10 @@
 .post.box_cont
   .date= post.created_at
-  div style='clear: both'
   .message= post.message
+  a.edit_post.glyphicons.cogwheel
+  .foot
+  	a.AjaxLink.join_discussion.glyphicons.conversation href=post_comments_path(post) data-target='.CommentsSection[data-post_id=#{post.id}]' Join Discussion
+  	.cf
 
-  .comments_area
-    a.AjaxLink href=post_comments_path(post) data-target='.CommentsSection[data-post_id=#{post.id}]' Join Discussion
-    .CommentsSection data-post_id=post.id
+.CommentsSection.comment_container data-post_id=post.id
+

@@ -53,7 +53,6 @@ a
   border: 1px solid #d7d7d7
   display: block
   overflow: hidden
-  padding: 15px
   position: relative
 
 .btn
@@ -73,6 +72,41 @@ a
       @include linear-gradient(#359acd, #7dd3f3)
     &.black
       @include linear-gradient(#2d2d2d, #3e3e3e)
+
+/* Form Items */
+
+button  
+  cursor: pointer
+
+textarea
+  color: #898989 
+  border: none
+  font-size: 14px
+  line-height: 18px
+  resize: none
+  &:focus 
+    outline: none
+
+input[type="submit"]
+  @include border-radius($border_radius)
+  @include blue-area
+  color: #FFFFFF
+  cursor: pointer
+  font-size: 16px
+  padding: 8px 10px
+  &:hover 
+    @include linear-gradient(#359acd, #7dd3f3)
+
+/* Owner View Icon Specific */
+
+.glyphicons.cogwheel
+  padding: 0
+  &:before
+    padding: 0
+    color: $gear_color
+  &:hover
+    &:before
+      color: $gear_hover  
 
 /* Navigation */
 
@@ -130,29 +164,28 @@ nav
     span
       display: none
       cursor: pointer
-      font-size: 18px
       position: absolute
       bottom: 15px
-      right: 15px
-      padding: 15px
+      padding: 13px 15px
     &:hover 
       span
         display: block  
-
+  .cover_photo
+    span 
+      right: 15px
+  .profile_photo
+    span 
+      right: 46px
   .details_container 
     position: relative
     .profile_name 
       margin: 90px 0 0 15px
       font-weight: 600
       font-size: 36px
-      .glyphicons.wrench
-        padding: 0 0 0 38px
+      .glyphicons.cogwheel
+        padding-left: 38px
         &:before
           padding-top: 7px
-          color: $gear_color
-        &:hover
-          &:before
-            color: $gear_hover  
     .subscriber_benefits
       display: block
       margin-top: 15px
@@ -162,7 +195,7 @@ nav
         @include black-area
         @include border-radius(0 5px 5px 0)
         color: #FFFFFF
-        font-size: 16px
+        font-size: 14px
         font-weight: 400
         padding: 10px 15px
         position: absolute
@@ -244,8 +277,9 @@ nav
       display: inline-block
       font-size: 22px
       font-weight: 400
-      padding: 20px 30px 20px 0
+      padding: 10px 30px 15px 0
       list-style-type: none
+      line-height: 100%
       a
         color: #464646
         text-decoration: none
@@ -265,31 +299,19 @@ nav
     padding: 15px
     position: relative
     textarea
-      color: #898989 
-      border: none
-      font-size: 18px
-      line-height: 24px
-      min-height: 48px
-      resize: none
       width: 835px
-      &:focus 
-        outline: none
     input[type="submit"]
-      @include border-radius($border_radius)
-      @include blue-area
-      color: #FFFFFF
-      font-size: 18px
-      padding: 15px 20px
       position: absolute
       right: 15px
       top: 15px
-      &:hover 
-        @include linear-gradient(#359acd, #7dd3f3)
 
 /* Subscriber View */
 
 #subscriber_display
   margin-top: 15px
+
+  /* Sidebar */
+
   .sidebar
     float: left
     width: 300px
@@ -301,11 +323,125 @@ nav
       font-weight: 600
       padding: 15px
       text-align: center
+
+  /* Recent Posts */ 
+
   .recent_posts
     float: right
+    position: relative
     width: 630px
+
+    /* Post */
+
     .post
       margin-bottom: 15px
+      position: relative
+      z-index: 1
+      .date
+        color: #c2c2c2
+        font-size: 12px
+        padding: 15px 15px 0 15px
+      .message
+        font-size: 14px
+        padding: 30px 15px
+      .edit_post 
+        cursor: pointer
+        position: absolute
+        right: 30px
+        top: 5px
+        &:hover
+          &.glyphicons
+            &:before
+              color: $blue_color  
+        &.glyphicons
+          padding: 0
+          &:before
+            color: $gear_color
+      .foot
+        @include white-area
+        border-top: 1px solid #d7d7d7
+        padding: 15px
+        position: relative
+        a 
+          color: #959595
+          float: right
+          &:hover
+            &.glyphicons
+              &:before
+                color: $blue_color  
+          &.glyphicons
+            padding-left: 35px
+            &:before
+              color: #959595
+              top: -5px
+
+    /* Recent Posts */ 
+
+    .comment_container
+      background: #FFFFFF
+      border-left: 1px solid #d7d7d7
+      border-bottom: 1px solid #d7d7d7
+      border-right: 1px solid #d7d7d7
+      margin: -16px 15px 15px 15px
+      position: relative
+      z-index: 0
+      .comment 
+        border-top: 1px solid #d7d7d7
+        margin: 0 auto
+        padding: 15px 0
+        position: relative
+        width: 568px
+        &:first-child
+          border-top: none
+        .user
+          color: #464646
+          font-size: 14px
+          margin-bottom: 5px
+          font-weight: 600
+        .date
+          color: #c2c2c2
+          position: absolute
+          font-size: 12px
+          top: 15px
+          right: 15px
+        .message
+          color: #898989
+          font-size: 13px
+          line-height: 20px
+      textarea
+        background-color: #F7F7F7
+        border: none
+        border-bottom: 1px solid #d7d7d7
+        border-top: 1px solid #d7d7d7
+        color: #898989
+        display: block
+        font-size: 14px
+        line-height: 24px
+        resize: none
+        padding: 15px
+        width: 568px
+        min-height: 50px
+        &:focus 
+          outline: none
+      .foot  
+        display: block
+        padding: 15px
+        .error
+          float: left
+        .hide    
+          color: #959595
+          cursor: pointer
+          float: right
+          margin-top: 14px
+          margin-right: 15px
+          &:hover 
+            text-decoration: underline
+        input[type="submit"]
+          float: right
+
+
+
+
 
 
 /* Old Styles */
@@ -375,27 +511,6 @@ label
   font-size: 12px
   padding-top: 10px
 
-// .Posts
-//   width: 500px
-//   padding: 10px
-//   margin-top: 10px
-//   background: #f6f3fa
-
-//   .post
-//     background: #faffc9
-//     border-top: 1px solid crimson
-//     padding: 10px
-//     margin-top: 5px
-
-//     .date
-//       font-weight: bold
-//       color: gray
-//       font-size: 10px
-
-//     .message
-//       font-size: 14px
-//       padding-top: 5px
-
 
 ul.dashboard_menu
   border-radius: $border_radius
@@ -420,30 +535,3 @@ ul.dashboard_menu
 
 .pending
   opacity: 0.3
-
-.Comments
-  margin-left: 20px
-  width: 420px
-  padding: 10px
-  margin-top: 10px
-  background: #c6c5ca
-
-  .comment
-    background: #d9dfb0
-    border-top: 1px solid #8f0c27
-    padding: 10px
-    margin-top: 5px
-
-    .user
-      font-weight: bold
-      color: black
-      font-size: 14px
-
-    .date
-      font-weight: bold
-      color: gray
-      font-size: 10px
-
-    .message
-      font-size: 14px
-      padding-top: 5px
