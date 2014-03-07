@@ -6,6 +6,7 @@ class bud.widgets.Commenter extends bud.widgets.Form
   initialize: ->
     super
     @$target = $(@$container.data('target'))
+    @$container.find('textarea').focus()
 
   on_success: (response) =>
     bud.append_html(@$target, response['html'])

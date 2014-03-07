@@ -3,7 +3,7 @@
     = render partial: 'comments/comment', collection: @post.comments.order('created_at')
 
   form.Commenter action=post_comments_path(@post) method='POST' data-target='.Comments[data-post_id=#{@post.id}]'
-    textarea name='message'
+    textarea name='message' placeholder='Enter your message ...'
 
     .foot
     	.error data-field='message'
