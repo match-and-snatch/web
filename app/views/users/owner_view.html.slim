@@ -44,6 +44,15 @@
 			a.copy Copy URL
 			a.share Share URL
 		.search.hidden search
-		.contact.hidden contact
+		.contact
+			span Contact
+			.box_cont
+				ul
+					a href=current_profile_path 
+						li.glyphicons.ok_2 Message
+					a href=current_profile_path 
+						li.glyphicons.ok_2 Website
+					a href=current_profile_path 
+						li.glyphicons.ok_2 Facebook
 
 	.recent_posts.Posts = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')
