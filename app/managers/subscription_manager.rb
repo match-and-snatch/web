@@ -59,7 +59,40 @@ class SubscriptionManager < BaseManager
     else
       fail_with! auth.errors
     end
- end
+  end
+
+  # @param email [String]
+  # @param full_name [String]
+  # @param password [String]
+  # @param number [String]
+  # @param cvc [String]
+  # @param expiry_year [String]
+  # @param expiry_month [String]
+  # @return [Subscription]
+  def update_cc_subscribe_and_pay number: nil,
+                                  cvc: nil,
+                                  expiry_month: nil,
+                                  expiry_year: nil,
+                                  target: (raise ArgumentError)
+
+    unless target.is_a?(Concerns::Subscribable)
+      raise ArgumentError, "Cannot subscribe to #{target.class.name}"
+    end
+
+    card = CreditCard.new number:       number,
+                          cvc:          cvc,
+                          expiry_month: expiry_month,
+                          expiry_year:  expiry_year
+    validate! { validate_cc card }
+
+    ActiveRecord::Base.transaction do
+      UserProfileManager.new(@subscriber).update_cc_data number: number,
+                                                         cvc: cvc,
+                                                         expiry_month: expiry_month,
+                                                         expiry_year: expiry_year
+      subscribe_and_pay_for target
+    end
+  end
 
   # @param target [Concerns::Subscribable]
   # @return [Subscription]

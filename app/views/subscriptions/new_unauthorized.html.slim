@@ -6,7 +6,7 @@ div style='width: 600px; height: 400px'
   - if current_user.has_cc_payment_account?
     a.AjaxFormLink href=user_subscriptions_path(@user) Subscribe
   - else
-    form.Form action=register_user_subscriptions_path(@user) method='POST'
+    form.Form action=via_register_user_subscriptions_path(@user) method='POST'
       input type='text' name='full_name' placeholder='Full Name'
       .error data-field='full_name'
       br

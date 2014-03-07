@@ -19,7 +19,7 @@ class SubscriptionsController < ApplicationController
     json_reload
   end
 
-  def register
+  def via_register
     SubscriptionManager.new(current_user.object).tap do |manager|
       manager.register_subscribe_and_pay target:       @user,
                                          email:        params[:email],
@@ -30,6 +30,17 @@ class SubscriptionsController < ApplicationController
                                          expiry_month: params[:expiry_month],
                                          expiry_year:  params[:expiry_year]
       session_manager.login(params[:email], params[:password])
+    end
+    json_reload
+  end
+
+  def via_update_cc_data
+    SubscriptionManager.new(current_user.object).tap do |manager|
+      manager.update_cc_subscribe_and_pay target:       @user,
+                                          number:       params[:number],
+                                          cvc:          params[:cvc],
+                                          expiry_month: params[:expiry_month],
+                                          expiry_year:  params[:expiry_year]
     end
     json_reload
   end
