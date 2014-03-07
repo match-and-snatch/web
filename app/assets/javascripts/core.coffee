@@ -18,8 +18,6 @@ class (window.bud or= {}).Core
       catch error
         bud.Logger.error(error)
 
-  # PRIVATE
-
   __initialize: ->
     bud.Core.init_widgets()
     @initialized = true
