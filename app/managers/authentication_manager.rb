@@ -1,5 +1,5 @@
 class AuthenticationManager < BaseManager
-  attr_reader :email, :password, :password_confirmation, :first_name, :last_name
+  attr_reader :email, :password, :password_confirmation, :first_name, :last_name, :full_name
 
   EMAIL_REGEXP = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
 
@@ -8,12 +8,13 @@ class AuthenticationManager < BaseManager
   # @param password_confirmation [String]
   # @param first_name [String]
   # @param last_name [String]
-  def initialize(email: nil, password: nil, password_confirmation: nil, first_name: nil, last_name: nil)
+  def initialize(email: nil, password: nil, password_confirmation: nil, first_name: nil, last_name: nil, full_name: nil)
     @email = email.to_s
     @password = password
     @password_confirmation = password_confirmation
     @first_name = first_name.try(:humanize)
     @last_name = last_name.try(:humanize)
+    @full_name = full_name
   end
 
   # @return [User]
@@ -28,8 +29,14 @@ class AuthenticationManager < BaseManager
   # @return [User]
   def register
     validate! do
-      fail_with first_name: :empty if first_name.blank?
-      fail_with last_name: :empty if last_name.blank?
+      if full_name.blank?
+        fail_with first_name: :empty if first_name.blank?
+        fail_with last_name: :empty if last_name.blank?
+      end
+
+      if first_name.blank? && last_name.blank?
+        fail_with full_name: :empty if full_name.blank?
+      end
 
       fail_with email: :empty if email.blank?
       fail_with :email unless email.match(EMAIL_REGEXP)

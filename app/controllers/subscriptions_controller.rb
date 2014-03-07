@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  before_filter :authenticate!, except: :new
+  before_filter :authenticate!, except: [:new, :create]
   before_filter :load_user!
 
   def new
@@ -13,7 +13,17 @@ class SubscriptionsController < ApplicationController
     json_render
   end
 
+  # @todo fix
   def create
+    # NOTE(SZ): bug
+    unless current_user.authorized?
+      user = AuthenticationManager.new(email:                 params[:email],
+                                       full_name:             params[:full_name],
+                                       password:              params[:password],
+                                       password_confirmation: params[:password]).register
+      session_manager.login(user.email, params[:password])
+    end
+
     if params['cc_data']
       UserProfileManager.new(current_user.object).update_cc_data number:       params['cc_data']['number'],
                                                                  cvc:          params['cc_data']['cvc'],
