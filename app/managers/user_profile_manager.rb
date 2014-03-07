@@ -1,8 +1,11 @@
 class UserProfileManager < BaseManager
+  include Concerns::CreditCardValidator
+  include Concerns::EmailValidator
+  include Concerns::PasswordValidator
+
   attr_reader :user
 
   SLUG_REGEXP  = /^[a-zA-Z0-9]+(\w|_|-)+[a-zA-Z0-9]+$/i
-  EMAIL_REGEXP = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
   ONLY_DIGITS  = /^[0-9]*$/i
 
   # @param user [User]
@@ -24,9 +27,7 @@ class UserProfileManager < BaseManager
         fail_with subscription_cost: :zero if subscription_cost.to_f.zero?
       end
 
-      fail_with slug: :empty if slug.blank?
-      fail_with slug: :not_a_slug unless slug.match SLUG_REGEXP
-      fail_with slug: :taken if slug_taken?(slug)
+      validate_slug slug
     end
 
     user.subscription_cost = subscription_cost
@@ -74,39 +75,31 @@ class UserProfileManager < BaseManager
   # @param expiry_year [String]
   # @return [User]
   def update_cc_data(number: nil, cvc: nil, expiry_month: nil, expiry_year: nil)
-    number       = number      .to_s.gsub /\D/, ''
-    cvc          = cvc         .to_s.gsub /\D/, ''
-    expiry_month = expiry_month.to_s.gsub /\D/, ''
-    expiry_year  = expiry_year .to_s.gsub /\D/, ''
+    card = CreditCard.new number:       number,
+                          cvc:          cvc,
+                          expiry_month: expiry_month,
+                          expiry_year:  expiry_year
 
-    validate! do
-      fail_with :number      if number.blank? || number.length < 16
-      fail_with :cvc         if cvc   .blank? || cvc   .length < 3
-      fail_with :expiry_date if expiry_month.blank? || expiry_year.blank? || expiry_month.to_i > 12 || expiry_month.to_i < 1 || expiry_year.to_i < 14
-    end
+    validate! { validate_cc card }
+
+    metadata      = {user_id:   user.id,
+                     full_name: user.full_name}
+    customer_data = {metadata:  metadata,
+                     email:     user.email,
+                     card:      card.to_stripe}
 
     if user.stripe_user_id
       begin
         customer = Stripe::Customer.retrieve(user.stripe_user_id)
-        customer.card     = {number: number, cvc: cvc, exp_month: expiry_month, exp_year: expiry_year}
-        customer.metadata = {user_id: user.id, full_name: user.full_name}
+        customer.card     = card.to_stripe
+        customer.metadata = metadata
         customer.email    = user.email
         customer = customer.save
       rescue Stripe::InvalidRequestError
-        customer = Stripe::Customer.create metadata: {user_id: user.id, full_name: user.full_name}, email: user.email, card: {
-          number:    number,
-          cvc:       cvc,
-          exp_month: expiry_month,
-          exp_year:  expiry_year
-        }.as_json
+        customer = Stripe::Customer.create customer_data
       end
     else
-      customer = Stripe::Customer.create metadata: {user_id: user.id, full_name: user.full_name}, email: user.email, card: {
-        number:    number,
-        cvc:       cvc,
-        exp_month: expiry_month,
-        exp_year:  expiry_year
-      }.as_json
+      customer = Stripe::Customer.create customer_data
     end
 
     user.stripe_user_id       = customer['id']
@@ -146,13 +139,13 @@ class UserProfileManager < BaseManager
   def update_general_information(full_name: nil, slug: nil, email: nil)
     validate! do
       fail_with full_name: :empty unless full_name.present?
-      fail_with slug: :not_a_slug unless slug.match SLUG_REGEXP
-      fail_with :email            unless email.match EMAIL_REGEXP
+      validate_slug slug
+      validate_email(email) if email != user.email
     end
 
     user.full_name = full_name
-    user.slug = slug
-    user.email = email
+    user.slug      = slug
+    user.email     = email
 
     user.save or fail_with! user.errors
     user
@@ -163,14 +156,14 @@ class UserProfileManager < BaseManager
   # @param new_password_confirmation [String]
   # @return [User]
   def change_password(current_password: nil, new_password: nil, new_password_confirmation: nil)
-    AuthenticationManager.new(email: user.email, password: current_password, password_confirmation: current_password).authenticate
-
+    AuthenticationManager.new(email: user.email,
+                              password: current_password,
+                              password_confirmation: current_password).authenticate
     validate! do
-      if new_password.to_s.length < 5
-        fail_with new_password: {too_short: {minimum: 5}}
-      else
-        fail_with new_password_confirmation: :does_not_match_password if new_password_confirmation != new_password
-      end
+      validate_password password:              new_password,
+                        password_confirmation: new_password_confirmation,
+                        password_field_name:              :new_password,
+                        password_confirmation_field_name: :new_password_confirmation
     end
 
     user.set_new_password(new_password)
@@ -186,5 +179,11 @@ class UserProfileManager < BaseManager
   # @return [true, false]
   def slug_taken?(slug)
     User.where.not(id: user.id).where(slug: slug).any?
+  end
+
+  def validate_slug(slug)
+    fail_with slug: :empty          if slug.blank?
+    fail_with slug: :not_a_slug unless slug.match SLUG_REGEXP
+    fail_with slug: :taken          if slug_taken?(slug)
   end
 end

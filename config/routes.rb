@@ -24,7 +24,12 @@ BuddyPlatform::Application.routes.draw do
     end
 
     resources :posts, only: [:create]
-    resources :subscriptions, only: [:new, :create, :index]
+    resources :subscriptions, only: [:new, :create, :index] do
+      collection do
+        post :via_register
+        post :via_update_cc_data
+      end
+    end
   end
 
   get '/account_info' => 'users#account_info', as: :account_info

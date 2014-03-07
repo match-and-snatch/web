@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  before_filter :authenticate!, except: :new
+  before_filter :authenticate!, except: [:new, :create, :register]
   before_filter :load_user!
 
   def new
@@ -13,14 +13,35 @@ class SubscriptionsController < ApplicationController
     json_render
   end
 
+  # @todo fix
   def create
-    if params['cc_data']
-      UserProfileManager.new(current_user.object).update_cc_data number:       params['cc_data']['number'],
-                                                                 cvc:          params['cc_data']['cvc'],
-                                                                 expiry_month: params['cc_data']['expiry_month'],
-                                                                 expiry_year:  params['cc_data']['expiry_year']
-    end
     SubscriptionManager.new(current_user.object).subscribe_and_pay_for(@user)
+    json_reload
+  end
+
+  def via_register
+    SubscriptionManager.new(current_user.object).tap do |manager|
+      manager.register_subscribe_and_pay target:       @user,
+                                         email:        params[:email],
+                                         password:     params[:password],
+                                         full_name:    params[:full_name],
+                                         number:       params[:number],
+                                         cvc:          params[:cvc],
+                                         expiry_month: params[:expiry_month],
+                                         expiry_year:  params[:expiry_year]
+      session_manager.login(params[:email], params[:password])
+    end
+    json_reload
+  end
+
+  def via_update_cc_data
+    SubscriptionManager.new(current_user.object).tap do |manager|
+      manager.update_cc_subscribe_and_pay target:       @user,
+                                          number:       params[:number],
+                                          cvc:          params[:cvc],
+                                          expiry_month: params[:expiry_month],
+                                          expiry_year:  params[:expiry_year]
+    end
     json_reload
   end
 
