@@ -1,37 +1,64 @@
 class SubscriptionManager < BaseManager
+  include Concerns::CreditCardValidator
+  include Concerns::EmailValidator
+  include Concerns::PasswordValidator
+
+  attr_reader :subscriber
 
   # @param subscriber [User]
   def initialize(subscriber)
     @subscriber = subscriber
   end
 
-  def register_and_subscribe email: nil,
-                             full_name: nil,
-                             password: nil,
-                             number: nil,
-                             cvc: nil,
-                             expiry_month: nil,
-                             expiry_year: nil
-    number       = number      .to_s.gsub /\D/, ''
-    cvc          = cvc         .to_s.gsub /\D/, ''
-    expiry_month = expiry_month.to_s.gsub /\D/, ''
-    expiry_year  = expiry_year .to_s.gsub /\D/, ''
+  # @param email [String]
+  # @param full_name [String]
+  # @param password [String]
+  # @param number [String]
+  # @param cvc [String]
+  # @param expiry_year [String]
+  # @param expiry_month [String]
+  # @return [Subscription]
+  def register_subscribe_and_pay email: nil,
+                                 full_name: nil,
+                                 password: nil,
+                                 number: nil,
+                                 cvc: nil,
+                                 expiry_month: nil,
+                                 expiry_year: nil,
+                                 target: (raise ArgumentError)
 
-    validate! do
-      fail_with full_name: :empty if full_name.blank?
-
-      fail_with email: :empty if email.blank?
-      fail_with :email unless email.match(EMAIL_REGEXP)
-      fail_with email: :taken if email_taken?
-
-      fail_with password: {too_short: {minimum: 5}} if password.to_s.length < 5
-
-      fail_with :number      if number.blank? || number.length < 16
-      fail_with :cvc         if cvc   .blank? || cvc   .length < 3
-      fail_with :expiry_date if expiry_month.blank? || expiry_year.blank? || expiry_month.to_i > 12 || expiry_month.to_i < 1 || expiry_year.to_i < 14
+    unless target.is_a?(Concerns::Subscribable)
+      raise ArgumentError, "Cannot subscribe to #{target.class.name}"
     end
 
+    card = CreditCard.new number:       number,
+                          cvc:          cvc,
+                          expiry_month: expiry_month,
+                          expiry_year:  expiry_year
+    validate! do
+      fail_with full_name: :empty if full_name.blank?
+      validate_email email
+      validate_password password: password,
+                        password_confirmation: password
+      validate_cc card
+    end
 
+    auth = AuthenticationManager.new email: email,
+                                     full_name: full_name,
+                                     password: password,
+                                     password_confirmation: password
+    if auth.valid_input?
+      ActiveRecord::Base.transaction do
+        @subscriber = auth.register
+        UserProfileManager.new(@subscriber).update_cc_data number: number,
+                                                           cvc: cvc,
+                                                           expiry_month: expiry_month,
+                                                           expiry_year: expiry_year
+        subscribe_and_pay_for target
+      end
+    else
+      fail_with! auth.errors
+    end
  end
 
   # @param target [Concerns::Subscribable]

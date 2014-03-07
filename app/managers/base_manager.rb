@@ -1,5 +1,23 @@
 class BaseManager
 
+  # @return [Hash]
+  def errors
+    @errors ||= {}
+  end
+
+  # @return [String, nil]
+  def failure_message
+    @failure_message
+  end
+
+  def failed?
+    errors.any? || failure_message.present?
+  end
+
+  def valid?
+    !failed?
+  end
+
   private
 
   # @param message [String, Symbol]
@@ -9,60 +27,45 @@ class BaseManager
     I18n.t message, opts.reverse_merge(scope: :errors, default: [:default, message])
   end
 
-  # TODO: refactor
+  # @raise [ManagerError]
+  def fail!
+    raise ManagerError, {message: failure_message, errors: errors}
+  end
+
   # @param message [String, Hash]
-  # @return [Hash]
-  def error_message(message)
+  def fail_with!(message)
+    fail_with message
+    fail!
+  end
+
+  # @param message [String, Hash]
+  def fail_with(message)
     case message
-    when String
-      {message: message}
+    when String then @failure_message = message
+    when Symbol then errors[message] = t(:invalid)
     when Hash
-      errors = {}.tap do |result|
-        message.each do |k, v|
-          case v
-          when String
-            result[k] = v
-          when Symbol
-            result[k] = t(v)
-          when Hash
-            [].tap do |messages|
-              v.each do |translation_key, locals|
-                messages << t(translation_key, locals)
-              end
-              result[k] = messages.to_sentence
-            end
-          end
+      message.each do |k, v|
+        case v
+        when String then errors[k] = v
+        when Symbol then errors[k] = t(v)
+        when Hash
+          messages = v.map { |translation_key, locals| t(translation_key, locals) }
+          errors[k] = messages.to_sentence
         end
       end
-      {errors: errors}
-    when Symbol
-      {errors: {message => t(:invalid)}}
     when ActiveModel::Errors
-      errors = message.to_hash.tap do |result|
-        result.each do |key, value|
-          result[key] = value.to_sentence
-        end
+      message.to_hash.each do |key, value|
+        errors[key] = value.to_sentence
       end
-      {errors: errors}
     else
       raise ArgumentError, 'Unspecified failure'
     end
   end
 
-  # @param message [String, Hash]
-  def fail_with!(message)
-    raise ManagerError, error_message(message)
-  end
-
-  # @param message [String, Hash]
-  def fail_with(message)
-    @errors[:errors].reverse_merge!(error_message(message)[:errors])
-  end
-
+  # @raise [ManagerError] if manager action is invalid
   def validate!
-    @errors ||= {errors: {}}
     yield if block_given?
-    @errors[:errors].empty? or raise ManagerError, @errors
+    valid? or fail!
   end
 end
 

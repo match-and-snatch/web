@@ -6,7 +6,7 @@ div style='width: 600px; height: 400px'
   - if current_user.has_cc_payment_account?
     a.AjaxFormLink href=user_subscriptions_path(@user) Subscribe
   - else
-    form.Form action=user_subscriptions_path(@user) method='POST'
+    form.Form action=register_user_subscriptions_path(@user) method='POST'
       input type='text' name='full_name' placeholder='Full Name'
       .error data-field='full_name'
       br
@@ -21,19 +21,19 @@ div style='width: 600px; height: 400px'
 
       br
       label CC Number
-      input type='text' name='cc_data[number]' placeholder='1234 5678 9012 3456'
+      input type='text' name='number' placeholder='1234 5678 9012 3456'
       .error data-field='number'
       br
 
       label Expiry Date
       small month
-      input type='text' name='cc_data[expiry_month]' placeholder='01'
+      input type='text' name='expiry_month' placeholder='01'
       small year
-      input type='text' name='cc_data[expiry_year]' placeholder='15'
+      input type='text' name='expiry_year' placeholder='15'
       .error data-field='expiry_date'
       br
       label CVC Code
-      input type='text' name='cc_data[cvc]' placeholder='123'
+      input type='text' name='cvc' placeholder='123'
       .error data-field='cvc'
       br
 
