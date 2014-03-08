@@ -17,7 +17,7 @@ $box_margin: 30px
 
 /* General */
 
-body 
+body
   background-color: $color_background
   font-family: 'Open Sans', Arial, sans-serif !important
 
@@ -36,7 +36,7 @@ a
 
 .box
   @include border-radius($border_radius)
-  background: #FFFFFF 
+  background: #FFFFFF
   border: 1px solid $color_border
   display: block
   margin: 0 auto
@@ -44,13 +44,13 @@ a
   position: relative
 
 textarea
-  color: #898989 
+  color: #898989
   border: none
   font-size: 14px
   font-weight: 400
   line-height: 18px
   resize: none
-  &:focus 
+  &:focus
     outline: none
 
 /* Buttons */
@@ -75,7 +75,7 @@ textarea
 
 /* Font Awesome Styles */
 
-.fa 
+.fa
   font-family: 'Open Sans', Arial, sans-serif !important
   font-weight: 600
   &:before
@@ -91,7 +91,7 @@ nav
   height: 45px
   text-shadow: none
   .brand
-    img 
+    img
       margin-top: 6px
       height: 31px
       width: 191px
@@ -104,7 +104,7 @@ nav
         .fa
           &:before
             padding-right: 5px
-      
+
 /* Header */
 
 #header
@@ -147,13 +147,13 @@ nav
       .fa
         &:before
           padding-right: 5px
-    &:hover 
-      .btn 
-        display: block      
-        
+    &:hover
+      .btn
+        display: block
+
   /* Details Container */
 
-  .details_container 
+  .details_container
     padding: 0 15px
     position: relative
 
@@ -163,7 +163,7 @@ nav
       font-weight: 400
       font-size: 38px
       margin-bottom: 15px
-      a 
+      a
         color: $color_text_dark
         .fa
           &:before
@@ -172,7 +172,7 @@ nav
             padding-right: 5px
             position: relative
             top: -7px
-        &:hover 
+        &:hover
           .fa
             &:before
               color: $color_gear_hover
@@ -212,7 +212,7 @@ nav
           max-width: 215px
           overflow: hidden
           padding: 0 15px
-        &:hover 
+        &:hover
           .btn
             @include pink-area
 
@@ -229,7 +229,7 @@ nav
             padding-right: 10px
             position: relative
             top: -3px
-        &:hover 
+        &:hover
           .fa-gear
             &:before
               color: $color_gear_hover
@@ -270,7 +270,7 @@ nav
       padding: 10px 15px
       position: absolute
       top: 0
-      left: -1px  
+      left: -1px
     ul
       font-size: 14px
       line-height: 20px
@@ -294,14 +294,14 @@ nav
     @include linear-gradient(#FFFFFF, #F7F7F7)
     border-bottom: 1px solid #d7d7d7
     padding: 0 15px
-    line-height: 100%    
+    line-height: 100%
     li
       border-right: 1px solid $color_border
       display: inline-block
       font-size: 18px
       list-style-type: none
       padding: 15px 30px
-      &:first-child 
+      &:first-child
         padding-left: 0
       &:last-child
         border-right: none
@@ -322,7 +322,7 @@ nav
 
   /* Post Textarea */
 
-  #post 
+  #post
     padding: 15px
     position: relative
     textarea
@@ -338,7 +338,7 @@ nav
   /* Sidebar */
 
   .sidebar
-    
+
     /* Profile Action */
 
     .profile_action
@@ -372,7 +372,7 @@ nav
     /* Contact Info */
 
     .contact
-      span  
+      span
         color: #464646
         display: block
         font-size: 24px
@@ -399,7 +399,7 @@ nav
                 &:before
                   color: $color_blue
 
-  /* Recent Posts */  
+  /* Recent Posts */
 
   .recent_posts
 
@@ -425,7 +425,7 @@ nav
         padding: 15px
         position: relative
         text-align: right
-        a 
+        a
           color: $color_text_light
           font-weight: 400
           &.fa
@@ -448,7 +448,7 @@ nav
       margin: -1px 15px 30px 15px
       position: relative
       z-index: 0
-      .comment 
+      .comment
         border-top: 1px solid $color_border
         margin: 0 15px
         padding: 15px 0
@@ -484,12 +484,12 @@ nav
         padding: 15px
         width: 100%
         min-height: 50px
-        &:focus 
+        &:focus
           outline: none
-      .foot  
+      .foot
         display: block
         padding: 15px
-        .hide_discussion    
+        .hide_discussion
           color: #959595
           cursor: pointer
           font-size: 12px
@@ -527,7 +527,7 @@ nav
   top: 50%
   left: 50%
   border: 5px solid black
-  padding: 5px
+  padding: 10px
 
   .close_button
     top: 3px
