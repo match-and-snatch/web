@@ -1,10 +1,9 @@
-.post.box_cont
+.post.box
   .date= post.created_at
   .message= post.message
-  a.edit_post.glyphicons.cogwheel
   .foot
-  	a.AjaxLink.join_discussion.glyphicons.conversation href=post_comments_path(post) data-target='.CommentsSection[data-post_id=#{post.id}]' Join Discussion
-  	.cf
+    a.AjaxLink.fa.fa-comments href=post_comments_path(post) data-target='.CommentsSection[data-post_id=#{post.id}]' Join Discussion
+  .clearfix
 
 .CommentsSection.comment_container data-post_id=post.id
-
+.clearfix

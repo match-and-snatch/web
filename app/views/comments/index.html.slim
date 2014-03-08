@@ -6,8 +6,7 @@
     textarea name='message' placeholder='Enter your message ...'
 
     .foot
-    	.error data-field='message'
-    	input type='submit' value='Post Reply'
-    	.hide.Cleaner data-target='.CommentsContainer[data-post_id=#{@post.id}]' Hide discussions
-  		.cf
- 		.cf
+      input.btn.blue.pull-right type='submit' value='Post Reply'
+      .hide_discussion.pull-right.Cleaner data-target='.CommentsContainer[data-post_id=#{@post.id}]' Hide discussions
+      .error data-field='message'
+      .clearfix

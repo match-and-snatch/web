@@ -1,58 +1,129 @@
-#header.container
-  .cover_photo
-  	span.btn.blue Change Photo Photo
-  .profile_photo
-  	span.btn.blue Change Profile Photo
-  .details_container
-    .profile_name
-    	a.glyphicons.cogwheel href=current_profile_path = @user.full_name
-    .subscriber_benefits
-    	.label Subscriber Benefits
-    	.benefit_list
-    		ul
-    			li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
-    			li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
-    .subscribe_container
-      .subscribe_cost
-        .sign $
-        .amount #{@user.subscription_cost}/month
-        .cf
-      a.subscribe.AjaxFormLink href=user_subscriptions_path(@user) data-user_id=@user.slug Subscribe
-  .cf
-.cf
+/* Header */
+#header.box
+  .photo_cover
+    a.btn.blue 
+      i.fa.fa-picture-o Change Photo
+  .photo_profile
+    a.btn.blue 
+      i.fa.fa-picture-o Change Photo
 
-#create_post.container
-	ul.buttons
-		li.status
-			a.glyphicons.edit.active href=current_profile_path Post Status
-		li.av
-			a.glyphicons.music href=current_profile_path Upload Audio/Video
-		li.photos
-			a.glyphicons.picture href=current_profile_path Upload Photos
-		li.document
-			a.glyphicons.file href=current_profile_path Upload Document
-	#post
-	  form.Poster action=user_posts_path(@user) data-target='.Posts' method='post'
-	    textarea name='message' placeholder='Keep your subscribers in the know...'
-	    .error data-field='message'
-	    input type='Submit' value='Post'
+  /* Details Container */
+  .details_container.row
+    .col-lg-8.col-md-7.profile_name
+      
+      /* Profile Name */
+      a href=current_profile_path 
+        i.fa.fa-gear = @user.full_name  
 
+    .col-lg-4.col-md-5
+
+      /* Subscribe Container */
+      .subscribe_cont
+
+        /* Cost Button Owner (Show Only Owner) */
+        a.cost_owner
+          .amount #{@user.subscription_cost}/month
+          .btn.pink.fa.fa-usd.fa-2x
+          i.fa.fa-gear
+          .clearfix
+
+        /* Cost Button Visitor (Show Logged User/Visitor) */
+        / a.cost_visitor
+        /   .amount #{@user.subscription_cost}/month
+        /   .btn.pink.fa.fa-usd.fa-2x
+        /   .clearfix
+
+        /* Subscribe Button */
+        / a.subscribe.AjaxFormLink href=user_subscriptions_path(@user) data-user_id=@user.slug Subscribe
+
+  /* Subscriber Benefits */
+
+  .benefits_container.row
+    .col-lg-12.col-md-12
+
+      .label Subscriber Benefits
+      ul
+        li.fa.fa-check Your subscriber benefits will be listed out like this!
+        li.fa.fa-check Your subscriber benefits will be listed out like this!
+        li.fa.fa-check Your subscriber benefits will be listed out like this!
+        li.fa.fa-check Your subscriber benefits will be listed out like this!
+
+
+/* Create Post (Owner View Only) */
+
+#create_post.box
+  ul
+    li  
+      a.fa.fa-pencil.active href=current_profile_path Post Status
+    li  
+      a.fa.fa-music href=current_profile_path Upload Audio/Video
+    li  
+      a.fa.fa-picture-o href=current_profile_path Upload Photos
+    li  
+      a.fa.fa-file-text href=current_profile_path Upload Document
+  .clearfix
+  #post
+    form.Poster.row action=user_posts_path(@user) data-target='.Posts' method='post'
+      .col-lg-11.col-md-11
+        textarea name='message' placeholder='Keep your subscribers in the know...'
+      .col-lg-1.col-md-1
+        .error data-field='message'
+        input.btn.blue.pull-right type='Submit' value='Post'
+        .clearfix
+
+/* Posts & Sidebar (Owner/Subscribed Only) */
 
 #subscriber_display
-	.sidebar
-		.share_box
-			a.copy Copy URL
-			a.share Share URL
-		.search.hidden search
-		.contact
-			span Contact
-			.box_cont
-				ul
-					a href=current_profile_path 
-						li.glyphicons.ok_2 Message
-					a href=current_profile_path 
-						li.glyphicons.ok_2 Website
-					a href=current_profile_path 
-						li.glyphicons.ok_2 Facebook
+  .row
+    /* Recent Posts */
 
-	.recent_posts.Posts = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')
+    .recent_posts.Posts.col-lg-8.col-md-8.col-sm-12.pull-right = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')
+
+
+    .sidebar.col-lg-4.col-md-4.col-sm-12.pull-left
+
+      /* Profile Action */
+
+      .profile_action
+        .copy_url.btn.blue.pull-left 
+          i.fa.fa-copy Copy URL
+        .share_url.btn.blue.pull-right
+          i.fa.fa-share-square-o Share URL
+        .clearfix
+
+      /* Search */
+
+      .search.input-group
+        span.input-group-addon
+          i.fa.fa-search.fa-fw.fa-lg
+        input.form-control type="text" placeholder="Search profile content"  
+
+      /* Contact Info */
+
+      .contact
+        span Contact
+        ul.box
+          li 
+            a.fa.fa-envelope href='#' Message
+          li 
+            a.fa.fa-globe href='#' Website
+          li 
+            a.fa.fa-facebook-square href='#' Facebook
+          li 
+            a.fa.fa-twitter href='#' Twitter
+          li 
+            a.fa.fa-youtube href='#' YouTube
+          li 
+            a.fa.fa-instagram href='#' Instagram
+          li 
+            a.fa.fa-pinterest-square href='#' Pintrest
+          li 
+            a.fa.fa-dribbble href='#' Dribble
+          li 
+            a.fa.fa-flickr href='#' Flickr
+          li 
+            a.fa.fa-google-plus-square href='#' Google+
+          li 
+            a.fa.fa-tumblr-square href='#' Tumblr
+          li 
+            a.fa.fa-vimeo-square href='#' Vimeo
