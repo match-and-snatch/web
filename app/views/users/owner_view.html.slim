@@ -67,7 +67,7 @@
       a.fa.fa-file-text href=current_profile_path Upload Document
   .clearfix
   #post
-    form.Poster.row action=user_posts_path(@profile.object) data-target='.Posts' method='post'
+    form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
       .col-lg-11.col-md-11
         textarea name='message' placeholder='Keep your subscribers in the know...'
       .col-lg-1.col-md-1
@@ -81,7 +81,7 @@
   .row
     /* Recent Posts */
 
-    .recent_posts.Posts.col-lg-8.col-md-8.col-sm-12.pull-right
+    .recent_posts.Posts.col-lg-8.col-md-8.col-sm-12.pull-right data-identifier='posts'
       = render partial: 'posts/post', collection: @profile.recent_posts
 
 
@@ -101,7 +101,8 @@
       .search.input-group
         span.input-group-addon
           i.fa.fa-search.fa-fw.fa-lg
-        input.form-control type="text" placeholder="Search profile content"
+        form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
+          input.form-control type="text" name='q' placeholder="Search profile content"
 
       /* Contact Info */
 

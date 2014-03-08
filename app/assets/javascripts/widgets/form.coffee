@@ -4,15 +4,26 @@ class bud.widgets.Form extends bud.Widget
   initialize: ->
     @$container.submit @on_submit
     @$error = @$container.find('.Error')
+    if @$container.data('target')
+      @$target = $("[data-identifier=#{@$container.data('target')}]")
+    else
+      @$target = @$container
 
   on_submit: =>
-    bud.Ajax.post @$container.attr('action'), @params(), {
+    path = @$container.attr('action')
+    params = @params()
+    callbacks = {
       success: @on_success,
       replace: @on_replace,
       before:  @on_before,
       after:   @on_after,
       failed:  @on_fail
     }
+    method = @$container.attr('method')
+
+    request = new bud.Ajax(path, params, callbacks)
+    request.perform_request(method)
+
     return false
 
   on_success: =>
@@ -22,7 +33,10 @@ class bud.widgets.Form extends bud.Widget
       $target.html($field.val())
 
   on_replace: (response) =>
-    bud.replace_container(@$container, response['html'])
+    if @$target == @$container
+      bud.replace_container(@$target, response['html'])
+    else
+      bud.replace_html(@$target, response['html'])
 
   on_before: =>
     _.each @params(), (value, field) =>

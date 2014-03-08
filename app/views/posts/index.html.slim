@@ -1,0 +1,10 @@
+- if @posts.any?
+  div
+    |Results for "
+    b= params[:q]
+    |"
+  = render partial: 'post', collection: @posts
+- else
+  |No posts for "
+  b= params[:q]
+  |"
