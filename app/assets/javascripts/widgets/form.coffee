@@ -16,13 +16,10 @@ class bud.widgets.Form extends bud.Widget
     return false
 
   on_success: =>
-    return
-    _.each @$container.find('[data-target]'), (field) ->
+    _.each @$container.find('input[data-target]'), (field) ->
       $field = $(field)
       $target = $("[data-identifier=#{$field.data('target')}]")
       $target.html($field.val())
-      console.log($target)
-      console.log($field)
 
   on_replace: (response) =>
     bud.replace_container(@$container, response['html'])

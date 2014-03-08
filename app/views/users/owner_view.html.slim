@@ -13,7 +13,7 @@
 
       /* Profile Name */
       a href=current_profile_path
-        i.fa.fa-gear.PopupTrigger data-identifier='name-editor'
+        i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='full-name'
           = @profile.full_name
 
     .col-lg-4.col-md-5
@@ -22,8 +22,11 @@
       .subscribe_cont
 
         /* Cost Button Owner (Show Only Owner) */
-        a.cost_owner.PopupTrigger data-identifier='cost-editor'
-          .amount #{@profile.subscription_cost}/month
+        a.cost_owner.PopupTrigger data-target='cost-editor'
+          .amount
+            span data-identifier='subscription-cost'
+              = @profile.subscription_cost
+            |/month
           .btn.pink.fa.fa-usd.fa-2x
           i.fa.fa-gear
           .clearfix
@@ -42,7 +45,7 @@
   .benefits_container.row
     .col-lg-12.col-md-12
 
-      .label.PopupTrigger data-identifier='benefits-editor' Subscriber Benefits
+      .label.PopupTrigger data-target='benefits-editor' Subscriber Benefits
       ul
         li.fa.fa-check Your subscriber benefits will be listed out like this!
         li.fa.fa-check Your subscriber benefits will be listed out like this!
@@ -132,37 +135,48 @@
 
 /** Popups: place anywhere you want **/
 
-.Popup.popup data-identifier='name-editor'
+.Popup.popup.modal-content data-identifier='name-editor'
+  button.close.PopupTrigger type="button" data-target="name-editor" aria-hidden="true" ×
   ul.nav.nav-tabs
     li.active
       a href='javascript: void(0)' Name
     li
-      a.PopupTrigger data-identifier='cost-editor' href='#' Cost
+      a.PopupTrigger data-target='cost-editor' href='#' Cost
     li
-      a.PopupTrigger data-identifier='benefits-editor' href='#' Benefits
+      a.PopupTrigger data-target='benefits-editor' href='#' Benefits
+
   h2 Edit name
   form.Form action=update_name_user_path(@profile.object) method='post'
     input type='hidden' name='_method' value='put'
-    input type='text' name='full_name' value=@profile.full_name data-target='name-editor'
+    input type='text' name='full_name' value=@profile.full_name data-target='full-name'
+    .error data-field='full_name'
 
     input type='submit' value='Change Name'
 
-.Popup.popup data-identifier='cost-editor'
+.Popup.popup.modal-content data-identifier='cost-editor'
+  button.close.PopupTrigger type="button" data-target="cost-editor" aria-hidden="true" ×
   ul.nav.nav-tabs
     li
-      a.PopupTrigger data-identifier='name-editor' href='#' Name
+      a.PopupTrigger data-target='name-editor' href='#' Name
     li.active
       a href='javascript: void(0)' Cost
     li
-      a.PopupTrigger data-identifier='benefits-editor' href='#' Benefits
+      a.PopupTrigger data-target='benefits-editor' href='#' Benefits
   h2 Cost editor
+  form.Form action=update_cost_user_path(@profile.object) method='post'
+    input type='hidden' name='_method' value='put'
+    input type='text' name='subscription_cost' value=@profile.subscription_cost data-target='subscription-cost'
+    .error data-field='subscription_cost'
 
-.Popup.popup data-identifier='benefits-editor'
+    input type='submit' value='Change Cost'
+
+.Popup.popup.modal-content data-identifier='benefits-editor'
+  button.close.PopupTrigger type="button" data-target="benefits-editor" aria-hidden="true" ×
   ul.nav.nav-tabs
     li
-      a.PopupTrigger data-identifier='name-editor' href='#' Name
+      a.PopupTrigger data-target='name-editor' href='#' Name
     li
-      a.PopupTrigger data-identifier='cost-editor' href='#' Cost
+      a.PopupTrigger data-target='cost-editor' href='#' Cost
     li.active
       a href='javascript: void(0)' Benefits
   h2 Benefits

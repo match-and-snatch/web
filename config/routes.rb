@@ -22,6 +22,7 @@ BuddyPlatform::Application.routes.draw do
       get :edit_cc_data
       put :update_cc_data
       put :update_name
+      put :update_cost
     end
 
     resources :posts, only: [:create]

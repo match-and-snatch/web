@@ -1,6 +1,6 @@
 .Popup.popup data-identifier='registration'
   .up
-  span.PopupTrigger.close_button data-identifier='registration' close
+  span.PopupTrigger.close_button data-target='registration' close
   .content
     h2 Create Your Profile
 
@@ -29,11 +29,11 @@
       input type='submit' value='Continue to Profile'
   .below
     | Already have an account?
-    a.PopupTrigger href='#' data-identifier='login' Login
+    a.PopupTrigger href='#' data-target='login' Login
 
 .Popup.popup data-identifier='login'
   .up
-  span.PopupTrigger.close_button data-identifier='login' close
+  span.PopupTrigger.close_button data-target='login' close
   .content
     h1 Login
 
@@ -51,4 +51,4 @@
       input type='submit' value='Login'
   .below
     | Has not registered yet?&nbsp;
-    a.PopupTrigger href='#' data-identifier='registration' Register!
+    a.PopupTrigger href='#' data-target='registration' Register!

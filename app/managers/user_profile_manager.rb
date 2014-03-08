@@ -45,6 +45,15 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @param cost [Integer, Float, String]
+  # @return [User]
+  def update_subscription_cost(cost)
+    fail_with! subscription_cost: :zero if cost.to_f <= 0.0
+    user.subscription_cost = cost
+    user.save or fail_with! user.errors
+    user
+  end
+
   # @param holder_name [String]
   # @param routing_number [String]
   # @param account_number [String]

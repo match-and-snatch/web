@@ -17,8 +17,8 @@ html
             - else
               a.btn.black.finish_profile href=finish_profile_path Finish Registration
           - else
-            a.btn.black.login.PopupTrigger href='#' data-identifier='login' Login
-            a.btn.pink.signup.PopupTrigger href='#' data-identifier='registration' Sign Up
+            a.btn.black.login.PopupTrigger href='#' data-target='login' Login
+            a.btn.pink.signup.PopupTrigger href='#' data-target='registration' Sign Up
             = render 'authentication_popups'
           .cf
         .cf

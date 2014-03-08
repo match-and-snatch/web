@@ -85,7 +85,12 @@ class UsersController < ApplicationController
 
   def update_name
     UserProfileManager.new(@user).update_full_name params[:full_name]
-    json_reload
+    json_success
+  end
+
+  def update_cost
+    UserProfileManager.new(@user).update_subscription_cost params[:subscription_cost]
+    json_success
   end
 
   # Profile page

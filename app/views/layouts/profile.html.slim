@@ -32,10 +32,10 @@ html
                 a.btn.black.finish_profile href=finish_profile_path Finish Registration
             - else
               li
-                a.btn.pink.login.PopupTrigger href='#' data-identifier='login'
+                a.btn.pink.login.PopupTrigger href='#' data-target='login'
                   i.fa.fa-lock Login  
               li
-                a.btn.black.signup.PopupTrigger href='#' data-identifier='registration'
+                a.btn.black.signup.PopupTrigger href='#' data-target='registration'
                   i.fa.fa-sign-in Sign Up
 
     .container= yield
