@@ -1,8 +1,9 @@
 - if @posts.any?
-  div
-    |Results for "
-    b= params[:q]
-    |"
+  - if params[:q].present?
+    div
+      |Results for "
+      b= params[:q]
+      |"
   = render partial: 'post', collection: @posts
 - else
   |No posts for "

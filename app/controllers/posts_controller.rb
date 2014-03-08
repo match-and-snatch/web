@@ -3,7 +3,11 @@ class PostsController < ApplicationController
   before_filter :load_user!, only: :index
 
   def index
-    @posts = Post.where(user_id: @user.id).search_by_message(params[:q])
+    if params[:q].present?
+      @posts = Post.where(user_id: @user.id).search_by_message(params[:q])
+    else
+      @posts = ProfileDecorator.new(@user).recent_posts
+    end
     json_replace
   end
 
