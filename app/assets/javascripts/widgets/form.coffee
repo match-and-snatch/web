@@ -5,7 +5,7 @@ class bud.widgets.Form extends bud.Widget
     @$container.submit @on_submit
     @$error = @$container.find('.Error')
     if @$container.data('target')
-      @$target = $("[data-identifier=#{@$container.data('target')}]")
+      @$target = bud.get(@$container.data('target'))
     else
       @$target = @$container
 
@@ -29,7 +29,7 @@ class bud.widgets.Form extends bud.Widget
   on_success: =>
     _.each @$container.find('input[data-target]'), (field) ->
       $field = $(field)
-      $target = $("[data-identifier=#{$field.data('target')}]")
+      $target = bud.get($field.data('target'))
       $target.html($field.val())
 
   on_replace: (response) =>

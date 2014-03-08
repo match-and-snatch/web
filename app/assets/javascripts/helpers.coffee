@@ -29,3 +29,6 @@ window.bud.prepend_html = (container, replacement) ->
 
 window.bud.clear_html = (container) ->
   $(container).html('')
+
+window.bud.get = (identifier) ->
+  $("[data-identifier=#{identifier}]")

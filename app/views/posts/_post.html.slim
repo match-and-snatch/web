@@ -2,8 +2,8 @@
   .date= post.created_at
   .message= post.message
   .foot
-    a.AjaxLink.fa.fa-comments href=post_comments_path(post) data-target='.CommentsSection[data-post_id=#{post.id}]' Join Discussion
+    a.AjaxLink.fa.fa-comments href=post_comments_path(post) data-target="comments_section-#{post.id}" Join Discussion
   .clearfix
 
-.CommentsSection.comment_container data-post_id=post.id
+.comment_container data-identifier="comments_section-#{post.id}"
 .clearfix

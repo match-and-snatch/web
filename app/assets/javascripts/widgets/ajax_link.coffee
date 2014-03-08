@@ -2,7 +2,7 @@ class bud.widgets.AjaxLink extends bud.Widget
   @SELECTOR: '.AjaxLink'
 
   initialize: ->
-    @$target = $(@$container.data('target'))
+    @$target = bud.get(@$container.data('target'))
     @$container.click @link_clicked
 
   link_clicked: (e) =>

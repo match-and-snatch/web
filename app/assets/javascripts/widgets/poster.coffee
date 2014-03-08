@@ -5,7 +5,7 @@ class bud.widgets.Poster extends bud.widgets.Form
 
   initialize: ->
     super
-    @$target = $("[data-identifier=#{@$container.data('target')}]")
+    @$target = bud.get(@$container.data('target'))
 
   on_success: (response) =>
     bud.prepend_html(@$target, response['html'])

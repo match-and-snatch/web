@@ -1,12 +1,12 @@
-.CommentsContainer data-post_id=@post.id
-  .Comments data-post_id=@post.id
+.CommentsContainer data-identifier='comments_container-#{@post.id}'
+  div data-identifier='comments-#{@post.id}'
     = render partial: 'comments/comment', collection: @post.comments.order('created_at')
 
-  form.Commenter action=post_comments_path(@post) method='POST' data-target='.Comments[data-post_id=#{@post.id}]'
+  form.Commenter action=post_comments_path(@post) method='POST' data-target='comments-#{@post.id}'
     textarea name='message' placeholder='Enter your message ...'
 
     .foot
       input.btn.blue.pull-right type='submit' value='Post Reply'
-      .hide_discussion.pull-right.Cleaner data-target='.CommentsContainer[data-post_id=#{@post.id}]' Hide discussions
+      .hide_discussion.pull-right.Cleaner data-target='comments_container-#{@post.id}' Hide discussions
       .error data-field='message'
       .clearfix
