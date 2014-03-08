@@ -1,5 +1,9 @@
 class AddPgSearchDmetaphoneSupportFunctions < ActiveRecord::Migration
   def self.up
+    begin
+    execute "create extension fuzzystrmatch;"
+    rescue
+    end
     say_with_time("Adding support functions for pg_search :dmetaphone") do
       if ActiveRecord::Base.connection.send(:postgresql_version) < 80400
         execute <<-'SQL'
