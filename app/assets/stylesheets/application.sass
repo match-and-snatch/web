@@ -1,371 +1,416 @@
 $deepest_depth: 1000 // Z-Index start for elements displaying on top of others
-$center_width: 970px
 $border_radius: 10px
-$fill_color: #f7f7f7
-$blue_color: #3b9fd1
-$green_color: #8dc63f
-$text_color: #464646
-$gear_color: #d7d7d7
-$gear_hover: #464646
+$color_background: #f7f7f7
+$color_border: #d7d7d7
+$color_blue: #3b9fd1
+$color_pink: #ea2e49
+$color_green: #8dc63f
+$color_text_light: #898989
+$color_text_dark: #464646
+$color_gear: #d7d7d7
+$color_gear_hover: #464646
+$box_margin: 30px
 
 @import "mixins/**/*"
 @import "pages/**/*"
+@import "bootstrap"
 
 /* General */
 
 body 
-  background: $fill_color
-  color: #464646
-  font-family: 'Open Sans', Arial, sans-serif
-  font-size: 13px
-a 
-  border: none
+  background-color: $color_background
+  font-family: 'Open Sans', Arial, sans-serif !important
 
-#content
-  width: $center_width
-  margin: 0 auto
-  margin-top: 62px
-
-.cf
-  &:before, &:after
-    content: " "
-    display: table
-  &:after
-    clear: both
-  *zoom: 1  
+a
+  color: $color_text_light
+  &:hover
+    color: $color_text_dark
 
 .hidden
   display: none
 
-.container 
+.error
+  color: $color_pink
+  font-size: 12px
+  display: none
+
+.box
   @include border-radius($border_radius)
-  background: #ffffff 
-  border: 1px solid #d7d7d7
+  background: #FFFFFF 
+  border: 1px solid $color_border
   display: block
   margin: 0 auto
   overflow: hidden
   position: relative
-  width: $center_width
-
-.box_cont 
-  @include border-radius($border_radius)
-  background: #ffffff 
-  border: 1px solid #d7d7d7
-  display: block
-  overflow: hidden
-  position: relative
-
-.btn
-  @include border-radius($border_radius)
-  color: #FFFFFF
-  text-align: center
-  &.pink
-    @include pink-area
-  &.blue
-    @include blue-area
-  &.black
-    @include black-area
-  &:hover
-    &.pink
-      @include linear-gradient(#ea2f49, #ea4e65)
-    &.blue
-      @include linear-gradient(#359acd, #7dd3f3)
-    &.black
-      @include linear-gradient(#2d2d2d, #3e3e3e)
-
-/* Form Items */
-
-button  
-  cursor: pointer
 
 textarea
   color: #898989 
   border: none
   font-size: 14px
+  font-weight: 400
   line-height: 18px
   resize: none
   &:focus 
     outline: none
 
-input[type="submit"]
+/* Buttons */
+
+.btn
   @include border-radius($border_radius)
-  @include blue-area
   color: #FFFFFF
-  cursor: pointer
-  font-size: 16px
-  padding: 8px 10px
-  &:hover 
-    @include linear-gradient(#359acd, #7dd3f3)
-
-/* Owner View Icon Specific */
-
-.glyphicons.cogwheel
-  padding: 0
-  &:before
-    padding: 0
-    color: $gear_color
+  &.black
+    @include black-area
+  &.blue
+    @include blue-area
+  &.pink
+    @include pink-area
   &:hover
-    &:before
-      color: $gear_hover  
+    color: #FFFFFF
+    &.black
+      @include linear-gradient(#2d2d2d, #3e3e3e)
+    &.blue
+      @include linear-gradient(#359acd, #7dd3f3)
+    &.pink
+      @include linear-gradient(#ea2f49, #ea4e65)
+
+/* Font Awesome Styles */
+
+.fa 
+  font-family: 'Open Sans', Arial, sans-serif !important
+  font-weight: 600
+  &:before
+    font-family: 'FontAwesome' !important
+    font-weight: 400
 
 /* Navigation */
 
-nav 
-  @include linear-gradient(#7dd3f3, #359acd)
-  height: 45px
+nav
+  @include blue-area
   border-top: 1px solid #c5ecff
   border-bottom: 1px solid #277aa3
-  display: block
-  position: fixed
-  top: 0
-  width: 100%
-  z-index: $deepest_depth
-  .wrapper
-    width: $center_width - 2*$border_radius
-    margin: 0 auto
-    .logo
-      display: block
-      float: left
-      height: 31px
+  height: 45px
+  text-shadow: none
+  .brand
+    img 
       margin-top: 6px
+      height: 31px
       width: 191px
-      img 
-        height: 31px
-        width: 191px
-    .buttons 
-      float: right
-      a 
-        text-decoration: none
-      .btn 
-        float: right
-        height: 22px
-        margin: 5px 0 0 10px
-        padding: 8px 10px 0
-
-/* Profile Header */
+  .navbar-nav
+    li
+      margin-top: 5px
+      margin-left: 10px
+      .btn
+        padding: 5px 10px
+        .fa
+          &:before
+            padding-right: 5px
+      
+/* Header */
 
 #header
-  padding-bottom: 10px
-  .cover_photo
-    background: asset-url('cover-default.png') no-repeat
-    border-bottom: 1px solid #d7d7d7
+  margin-top: 60px
+  position: relative
+
+  /* Photo Cover */
+
+  .photo_cover
+    background-color: $color_background
+    // background: asset-url('https://buddy-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
+    border-bottom: 1px solid $color_border
     display: block
     height: 280px
+    margin-bottom: 40px
     position: relative
-  .profile_photo
-    background-color: $fill_color
-    border: 1px solid #d7d7d7
+    z-index: 1
+    .btn
+      right: 15px
+
+  /* Photo Profile */
+
+  .photo_profile
+    background-color: $color_background
+    border: 1px solid $color_border
     position: absolute
-    top: 90px
+    top: 60px
     left: 15px
     height: 250px
     width: 250px
-  .cover_photo, .profile_photo
-    span
+    z-index: 2
+    .btn
+      right: 52px
+
+  .photo_cover, .photo_profile
+    .btn
       display: none
-      cursor: pointer
       position: absolute
       bottom: 15px
-      padding: 13px 15px
-    &:hover 
-      span
-        display: block  
-  .cover_photo
-    span 
-      right: 15px
-  .profile_photo
-    span 
-      right: 46px
-  .details_container 
-    position: relative
-    .profile_name 
-      margin: 90px 0 0 15px
-      font-weight: 600
-      font-size: 36px
-      .glyphicons.cogwheel
-        padding-left: 38px
+      .fa
         &:before
-          padding-top: 7px
-    .subscriber_benefits
-      display: block
-      margin-top: 15px
-      padding: 45px 15px 0
-      position: relative
-      .label
-        @include black-area
-        @include border-radius(0 5px 5px 0)
-        color: #FFFFFF
-        font-size: 14px
-        font-weight: 400
-        padding: 10px 15px
-        position: absolute
-        top: 0
-        left: -1px  
-      .benefit_list
-        display: block
-        ul
-          font-size: 14px
-          font-weight: 400
-          line-height: 20px
-          min-height: 25px
-          columns: 2
-          -webkit-columns: 2
-          -moz-columns: 2
-          li
-            color: $text_color
-            padding-bottom: 5px
-            &.glyphicons
-              padding: 4px 0 0 30px
-              &:before
-                color: $green_color 
-    .subscribe_container
-      position: absolute
-      right: 15px
-      top: -75px
-      text-align: center
+          padding-right: 5px
+    &:hover 
+      .btn 
+        display: block      
+        
+  /* Details Container */
+
+  .details_container 
+    padding: 0 15px
+    position: relative
+
+    /* Profile Name */
+
+    .profile_name
+      font-weight: 400
+      font-size: 38px
+      margin-bottom: 15px
+      a 
+        color: $color_text_dark
+        .fa
+          &:before
+            color: $color_gear
+            font-size: 16px
+            padding-right: 5px
+            position: relative
+            top: -7px
+        &:hover 
+          .fa
+            &:before
+              color: $color_gear_hover
+
+    /* Cost Button/Subscribe Button */
+
+    .subscribe_cont
       font-size: 36px
       font-weight: 600
-      a 
-        text-decoration: none
-      .subscribe_cost
+      text-align: center
+
+      /* Cost Owner/Visitor */
+
+      .cost_owner, .cost_visitor
         display: block
-        height: 72px
-        width: 265px 
-        .sign
-          @include pink-area
+        float: right
+        margin-bottom: 15px
+        .btn
           @include border-radius($border_radius 0 0 10px)
-          color: #FFFFFF
-          float: left
-          height: 55px
-          padding-top: 15px
-          width: 65px
-        .amount
-          @include border-radius(0 $border_radius $border_radius 0)
-          background-color: $fill_color
-          border-top: 1px solid #d7d7d7
-          border-right: 1px solid #d7d7d7
-          border-bottom: 1px solid #d7d7d7
-          color: #ea2e49
+          cursor: default
           float: right
           height: 55px
-          padding-top: 15px
-          width: 197px
+          width: 65px
+        .fa
+          &:before
+            font-size: 30px
+        .amount
+          @include border-radius(0 $border_radius $border_radius 0)
+          background-color: $color_background
+          border-top: 1px solid $color_border
+          border-right: 1px solid $color_border
+          border-bottom: 1px solid $color_border
+          color: $color_pink
+          cursor: default
+          float: right
+          height: 55px
+          max-width: 215px
+          overflow: hidden
+          padding: 0 15px
+        &:hover 
+          .btn
+            @include pink-area
+
+      /* Cost Owner */
+
+      .cost_owner
+        cursor: pointer
+        .btn, .amount
+          cursor: pointer
+        .fa-gear
+          &:before
+            color: $color_gear
+            font-size: 20px
+            padding-right: 10px
+            position: relative
+            top: -3px
+        &:hover 
+          .fa-gear
+            &:before
+              color: $color_gear_hover
+
+      /* Cost Visitor */
+
       .subscribe
-        @include border-radius($border_radius)
         display: none
-        color: #FFFFFF
-        height: 70px
-        width: 263px 
-        height: 55px
-        padding-top: 15px
-        @include blue-area
+
+      /* Cost Visitor Hover */
+
       &:hover
-        .subscribe_cost 
+        .cost_visitor
           display: none
         .subscribe
+          @include border-radius($border_radius)
+          @include blue-area
           display: block
+          color: #FFFFFF
+          float: right
+          font-weight: 400
+          height: 55px
+          padding: 0 15px
+          text-decoration: none
+          width: 278px
 
-/* Profile Create Post */
+  /* Details Container */
+
+  .benefits_container
+    padding: 0 15px
+    position: relative
+    .label
+      @include black-area
+      @include border-radius(0 10px 10px 0)
+      color: #FFFFFF
+      font-size: 14px
+      font-weight: 400
+      padding: 10px 15px
+      position: absolute
+      top: 0
+      left: -1px  
+    ul
+      font-size: 14px
+      line-height: 20px
+      margin-top: 46px
+      columns: 2
+      -webkit-columns: 2
+      -moz-columns: 2
+      li
+        color: $color_text_dark
+        &.fa
+          font-weight: 400
+          &:before
+            color: $color_green
+            padding-right: 5px
+
+/* Create Post (Owner View) */
 
 #create_post
-  margin-top: 15px
-  .buttons
+  margin-top: $box_margin
+  ul
     @include linear-gradient(#FFFFFF, #F7F7F7)
     border-bottom: 1px solid #d7d7d7
-    padding: 0 15px    
+    padding: 0 15px
+    line-height: 100%    
     li
+      border-right: 1px solid $color_border
       display: inline-block
-      font-size: 22px
-      font-weight: 400
-      padding: 10px 30px 15px 0
+      font-size: 18px
       list-style-type: none
-      line-height: 100%
+      padding: 15px 30px
+      &:first-child 
+        padding-left: 0
+      &:last-child
+        border-right: none
       a
         color: #464646
         text-decoration: none
         text-shadow: -1px -1px 0 #FFFFFF
+        &.fa
+          &:before
+            color: $color_text_dark
+            padding-right: 10px
+
         &:hover
-          &.glyphicons
-            &:before
-              color: $blue_color  
-        &.glyphicons
-          padding-left: 30px
+          color: $color_blue
+          .fa
           &:before
-            color: $text_color
-        &.active 
-          &:before
-            color: $blue_color  
+            color: $color_blue
+
+  /* Post Textarea */
+
   #post 
     padding: 15px
     position: relative
     textarea
-      width: 835px
+      display: block
+      width: 100%
     input[type="submit"]
-      position: absolute
-      right: 15px
-      top: 15px
 
-/* Subscriber View */
+/* Subscriber Display */
 
 #subscriber_display
-  margin-top: 15px
+  margin-top: $box_margin
 
   /* Sidebar */
 
   .sidebar
-    float: left
-    width: 300px
-    .share_box
-      @include blue-area
-      @include border-radius($border_radius)
-      color: #FFFFFF
-      font-size: 24px
-      font-weight: 600
-      padding: 15px
-      text-align: center
+    
+    /* Profile Action */
+
+    .profile_action
+      .copy_url, .share_url
+        font-size: 18px
+        padding: 10px 0
+        width: 50%
+        .fa
+          &:before
+            padding-right: 10px
+      .copy_url
+        @include border-radius($border_radius 0 0 $border_radius)
+      .share_url
+        @include border-radius(0 $border_radius $border_radius 0)
+        border-left: none
+
+    /* Search Profile Content */
+
+    .search
+      margin-top: $box_margin
+      .input-group-addon
+        @include black-area
+        @include border-radius($border_radius 0 0 $border_radius)
+        padding: 15px
+        .fa
+          color: #FFFFFF
+      input
+        @include border-radius(0 $border_radius $border_radius 0)
+        height: 47px !important
+
+    /* Contact Info */
 
     .contact
       span  
         color: #464646
         display: block
         font-size: 24px
-        padding: 15px
-      .box_cont
+        padding: 30px 0 15px 15px
+      ul.box
         padding: 15px 15px 0 15px
-        ul
-          columns: 2
-          -webkit-columns: 2
-          -moz-columns: 2
+        columns: 2
+        -webkit-columns: 2
+        -moz-columns: 2
+        li
+          font-size: 14px
+          line-height: 100%
+          padding-bottom: 15px
           a
-            li
-              color: #898989
-              font-size: 14px
-              padding-bottom: 15px
-            .glyphicons
-              padding-left: 20px
+            color: $color_text_dark
+            font-weight: 400
+            text-decoration: none
+            &.fa
               &:before
-                color: #e8e8e8
-                font-size:  12px !important
-            &:hover 
-              li
-                text-decoration: underline
-              .glyphicons
+                color: $color_text_dark
+                padding-right: 10px
+            &:hover
+              &.fa
                 &:before
-                  color: $blue_color
+                  color: $color_blue
 
-  /* Recent Posts */ 
+  /* Recent Posts */  
 
   .recent_posts
-    float: right
-    position: relative
-    width: 630px
 
-    /* Post */
+    /* Single Post */
 
     .post
-      margin-bottom: 15px
+      margin-top: $box_margin
       position: relative
       z-index: 1
+      &:first-child
+        margin-top: 0 !important
       .date
         color: #c2c2c2
         font-size: 12px
@@ -373,57 +418,45 @@ nav
       .message
         font-size: 14px
         padding: 30px 15px
-      .edit_post 
-        cursor: pointer
-        position: absolute
-        right: 30px
-        top: 5px
-        &:hover
-          &.glyphicons
-            &:before
-              color: $blue_color  
-        &.glyphicons
-          padding: 0
-          &:before
-            color: $gear_color
       .foot
         @include white-area
-        border-top: 1px solid #d7d7d7
+        border-top: 1px solid $color_border
+        display: block
         padding: 15px
         position: relative
+        text-align: right
         a 
-          color: #959595
-          float: right
-          &:hover
-            &.glyphicons
-              &:before
-                color: $blue_color  
-          &.glyphicons
-            padding-left: 35px
+          color: $color_text_light
+          font-weight: 400
+          &.fa
             &:before
-              color: #959595
-              top: -5px
+              padding-right: 5px
+          &:hover
+            color: $color_text_dark
+            text-decoration: none
+            &.fa
+              &:before
+                color: $color_blue
 
-    /* Recent Posts */ 
+    /* Discussion Dropdown */
 
     .comment_container
       background: #FFFFFF
-      border-left: 1px solid #d7d7d7
-      border-bottom: 1px solid #d7d7d7
-      border-right: 1px solid #d7d7d7
-      margin: -16px 15px 15px 15px
+      border-left: 1px solid $color_border
+      border-bottom: 1px solid $color_border
+      border-right: 1px solid $color_border
+      margin: -1px 15px 30px 15px
       position: relative
       z-index: 0
       .comment 
-        border-top: 1px solid #d7d7d7
-        margin: 0 auto
+        border-top: 1px solid $color_border
+        margin: 0 15px
         padding: 15px 0
         position: relative
-        width: 568px
         &:first-child
           border-top: none
         .user
-          color: #464646
+          color: $color_text_dark
           font-size: 14px
           margin-bottom: 5px
           font-weight: 600
@@ -434,43 +467,36 @@ nav
           top: 15px
           right: 15px
         .message
-          color: #898989
+          color: $color_text_light
           font-size: 13px
           line-height: 20px
       textarea
-        background-color: #F7F7F7
+        background-color: $color_background
         border: none
-        border-bottom: 1px solid #d7d7d7
-        border-top: 1px solid #d7d7d7
-        color: #898989
+        border-bottom: 1px solid $color_border
+        border-top: 1px solid $color_border
+        color: $color_text_light
         display: block
         font-size: 14px
+        font-weight: 400
         line-height: 24px
         resize: none
         padding: 15px
-        width: 568px
+        width: 100%
         min-height: 50px
         &:focus 
           outline: none
       .foot  
         display: block
         padding: 15px
-        .error
-          float: left
-        .hide    
+        .hide_discussion    
           color: #959595
           cursor: pointer
-          float: right
-          margin-top: 14px
+          font-size: 12px
+          margin-top: 9px
           margin-right: 15px
-          &:hover 
+          &:hover
             text-decoration: underline
-        input[type="submit"]
-          float: right
-
-
-
-
 
 
 /* Old Styles */
@@ -510,11 +536,6 @@ nav
     cursor: pointer
     color: red
     position: absolute
-
-.error
-  color: red
-  font-size: 10px
-  display: none
 
 label
   display: inline-block

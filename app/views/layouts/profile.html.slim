@@ -3,28 +3,42 @@ html
   head= render 'head'
 
   body
-    nav
-      .wrapper
-        a.logo href=root_path
-          img src=image_path('logo.png')
-        .buttons
-          - if current_user.authorized?
-            a.btn.black.logout href=logout_path Logout
+    nav.navbar-wrapper.navbar-fixed-top role="navigation"
+      .navbar-inner
+        .container
+          a.brand href=root_path
+            img src=image_path('https://buddy-assets.s3.amazonaws.com/images/logo.png')
 
-            - if current_user.complete_profile?
-              - if current_page?(current_profile_path)
-                span.btn.pink My Profile
-              - else
-                a.btn.black.my_profile href=current_profile_path My Profile
+          ul.nav.navbar-nav.pull-right
+            - if current_user.authorized?
+              li
+                a.btn.black href=logout_path 
+                  i.fa.fa-sign-out Logout
 
-              a.btn.black.account_info href=account_info_path Account Info
-            - else current_user.authorized?
-              a.btn.black.finish_profile href=finish_profile_path Finish Registration
-          - else
-            a.btn.black.login.PopupTrigger href='#' data-identifier='login' Login
-            a.btn.pink.signup.PopupTrigger href='#' data-identifier='registration' Sign Up
-          .cf
-        .cf
-    #content= yield
+              - if current_user.complete_profile?
+                - if current_page?(current_profile_path)
+                  li
+                    a.btn.pink
+                      i.fa.fa-user My Profile
+                - else
+                  li
+                    a.btn.pink href=current_profile_path
+                      i.fa.fa-user My Profile
+                li
+                  a.btn.pink href=account_info_path
+                    i.fa.fa-bars Account Info
+
+              - else current_user.authorized?
+                a.btn.black.finish_profile href=finish_profile_path Finish Registration
+            - else
+              li
+                a.btn.pink.login.PopupTrigger href='#' data-identifier='login'
+                  i.fa.fa-lock Login  
+              li
+                a.btn.black.signup.PopupTrigger href='#' data-identifier='registration'
+                  i.fa.fa-sign-in Sign Up
+
+    .container= yield
+
     = render 'authentication_popups'
     #overlay.Overlay
