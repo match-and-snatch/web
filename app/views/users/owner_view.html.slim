@@ -1,19 +1,20 @@
 /* Header */
 #header.box
   .photo_cover
-    a.btn.blue 
+    a.btn.blue
       i.fa.fa-picture-o Change Photo
   .photo_profile
-    a.btn.blue 
+    a.btn.blue
       i.fa.fa-picture-o Change Photo
 
   /* Details Container */
   .details_container.row
     .col-lg-8.col-md-7.profile_name
-      
+
       /* Profile Name */
-      a href=current_profile_path 
-        i.fa.fa-gear = @user.full_name  
+      a href=current_profile_path
+        i.fa.fa-gear.PopupTrigger data-identifier='name-editor'
+          = @profile.full_name
 
     .col-lg-4.col-md-5
 
@@ -21,8 +22,8 @@
       .subscribe_cont
 
         /* Cost Button Owner (Show Only Owner) */
-        a.cost_owner
-          .amount #{@user.subscription_cost}/month
+        a.cost_owner.PopupTrigger data-identifier='cost-editor'
+          .amount #{@profile.subscription_cost}/month
           .btn.pink.fa.fa-usd.fa-2x
           i.fa.fa-gear
           .clearfix
@@ -41,7 +42,7 @@
   .benefits_container.row
     .col-lg-12.col-md-12
 
-      .label Subscriber Benefits
+      .label.PopupTrigger data-identifier='benefits-editor' Subscriber Benefits
       ul
         li.fa.fa-check Your subscriber benefits will be listed out like this!
         li.fa.fa-check Your subscriber benefits will be listed out like this!
@@ -53,17 +54,17 @@
 
 #create_post.box
   ul
-    li  
+    li
       a.fa.fa-pencil.active href=current_profile_path Post Status
-    li  
+    li
       a.fa.fa-music href=current_profile_path Upload Audio/Video
-    li  
+    li
       a.fa.fa-picture-o href=current_profile_path Upload Photos
-    li  
+    li
       a.fa.fa-file-text href=current_profile_path Upload Document
   .clearfix
   #post
-    form.Poster.row action=user_posts_path(@user) data-target='.Posts' method='post'
+    form.Poster.row action=user_posts_path(@profile.object) data-target='.Posts' method='post'
       .col-lg-11.col-md-11
         textarea name='message' placeholder='Keep your subscribers in the know...'
       .col-lg-1.col-md-1
@@ -77,7 +78,8 @@
   .row
     /* Recent Posts */
 
-    .recent_posts.Posts.col-lg-8.col-md-8.col-sm-12.pull-right = render partial: 'posts/post', collection: @user.posts.order('created_at DESC')
+    .recent_posts.Posts.col-lg-8.col-md-8.col-sm-12.pull-right
+      = render partial: 'posts/post', collection: @profile.recent_posts
 
 
     .sidebar.col-lg-4.col-md-4.col-sm-12.pull-left
@@ -85,7 +87,7 @@
       /* Profile Action */
 
       .profile_action
-        .copy_url.btn.blue.pull-left 
+        .copy_url.btn.blue.pull-left
           i.fa.fa-copy Copy URL
         .share_url.btn.blue.pull-right
           i.fa.fa-share-square-o Share URL
@@ -96,34 +98,71 @@
       .search.input-group
         span.input-group-addon
           i.fa.fa-search.fa-fw.fa-lg
-        input.form-control type="text" placeholder="Search profile content"  
+        input.form-control type="text" placeholder="Search profile content"
 
       /* Contact Info */
 
       .contact
         span Contact
         ul.box
-          li 
+          li
             a.fa.fa-envelope href='#' Message
-          li 
+          li
             a.fa.fa-globe href='#' Website
-          li 
+          li
             a.fa.fa-facebook-square href='#' Facebook
-          li 
+          li
             a.fa.fa-twitter href='#' Twitter
-          li 
+          li
             a.fa.fa-youtube href='#' YouTube
-          li 
+          li
             a.fa.fa-instagram href='#' Instagram
-          li 
+          li
             a.fa.fa-pinterest-square href='#' Pintrest
-          li 
+          li
             a.fa.fa-dribbble href='#' Dribble
-          li 
+          li
             a.fa.fa-flickr href='#' Flickr
-          li 
+          li
             a.fa.fa-google-plus-square href='#' Google+
-          li 
+          li
             a.fa.fa-tumblr-square href='#' Tumblr
-          li 
+          li
             a.fa.fa-vimeo-square href='#' Vimeo
+
+/** Popups: place anywhere you want **/
+
+.Popup.popup data-identifier='name-editor'
+  ul.nav.nav-tabs
+    li.active
+      a href='javascript: void(0)' Name
+    li
+      a.PopupTrigger data-identifier='cost-editor' href='#' Cost
+    li
+      a.PopupTrigger data-identifier='benefits-editor' href='#' Benefits
+  h2 Edit name
+  form.Form action=update_name_user_path(@profile.object) method='post'
+    input type='hidden' name='_method' value='put'
+    input type='text' name='full_name' value=@profile.full_name data-target='name-editor'
+
+    input type='submit' value='Change Name'
+
+.Popup.popup data-identifier='cost-editor'
+  ul.nav.nav-tabs
+    li
+      a.PopupTrigger data-identifier='name-editor' href='#' Name
+    li.active
+      a href='javascript: void(0)' Cost
+    li
+      a.PopupTrigger data-identifier='benefits-editor' href='#' Benefits
+  h2 Cost editor
+
+.Popup.popup data-identifier='benefits-editor'
+  ul.nav.nav-tabs
+    li
+      a.PopupTrigger data-identifier='name-editor' href='#' Name
+    li
+      a.PopupTrigger data-identifier='cost-editor' href='#' Cost
+    li.active
+      a href='javascript: void(0)' Benefits
+  h2 Benefits

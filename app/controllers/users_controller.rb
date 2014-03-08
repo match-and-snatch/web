@@ -83,14 +83,20 @@ class UsersController < ApplicationController
     json_success
   end
 
+  def update_name
+    UserProfileManager.new(@user).update_full_name params[:full_name]
+    json_reload
+  end
+
   # Profile page
   def show
-    @user = User.where(slug: params[:id]).first or error(404)
+    user = User.where(slug: params[:id]).first or error(404)
+    @profile = ProfileDecorator.new(user)
 
     template = nil
-    if @user == current_user.object
+    if user == current_user.object
       template = 'owner_view'
-    elsif can?(:see_profile, @user)
+    elsif can?(:see_profile, user)
       template = 'show'
     else
       template = 'public_show'

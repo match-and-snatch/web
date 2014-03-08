@@ -21,6 +21,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_bank_account_data
       get :edit_cc_data
       put :update_cc_data
+      put :update_name
     end
 
     resources :posts, only: [:create]

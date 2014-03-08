@@ -36,6 +36,15 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @param full_name [String]
+  # @return [User]
+  def update_full_name(full_name)
+    fail_with! full_name: :empty if full_name.blank?
+    user.full_name = full_name
+    user.save or fail_with! user.errors
+    user
+  end
+
   # @param holder_name [String]
   # @param routing_number [String]
   # @param account_number [String]
