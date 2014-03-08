@@ -1,9 +1,8 @@
-class AddPgSearchDmetaphoneSupportFunctions < ActiveRecord::Migration
+class AddPgSearchSupportFunctions < ActiveRecord::Migration
   def self.up
-    begin
     execute "create extension fuzzystrmatch;"
-    rescue
-    end
+    execute "create extension unaccent;"
+    execute "create extension pg_trgm;"
     say_with_time("Adding support functions for pg_search :dmetaphone") do
       if ActiveRecord::Base.connection.send(:postgresql_version) < 80400
         execute <<-'SQL'
@@ -42,5 +41,8 @@ DROP FUNCTION unnest(anyarray);
         SQL
       end
     end
+    execute "drop extension fuzzystrmatch;"
+    execute "drop extension unaccent;"
+    execute "drop extension pg_trgm;"
   end
 end
