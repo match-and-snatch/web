@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  before_filter :authenticate!, except: [:new, :create, :register]
+  before_filter :authenticate!, except: [:new, :create, :via_register]
   before_filter :load_user!
 
   def new
