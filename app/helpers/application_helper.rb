@@ -17,4 +17,16 @@ module ApplicationHelper
   def current_profile_path
     profile_path(current_user.object)
   end
+
+  # @param text [String]
+  # @return [String]
+  def super_hightlight(text)
+    q = params[:q]
+    if q.present?
+      highlights = q.split(/\W+/).reject { |token| token.length < 3} << q
+      highlight(text, highlights)
+    else
+      text
+    end
+  end
 end

@@ -1,6 +1,6 @@
 .post.box
   .date= post.created_at
-  .message= highlight(post.message, params[:q].try(:split, /\W+/))
+  .message= super_hightlight(post.message)
   .foot
     a.AjaxLink.fa.fa-comments href=post_comments_path(post) data-target="comments_section-#{post.id}" Join Discussion
   .clearfix
