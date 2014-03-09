@@ -7,14 +7,26 @@ class ProfileDecorator < BaseDecorator
     @object = user
   end
 
+  # @return [Array<String>]
+  def benefits
+    @benefits ||= @object.benefits.order(:ordering)
+  end
+
+  # @return [Array<String>]
+  def benefit_messages
+    (benefits.map(&:message) + 10.times.map {}).first(10)
+  end
+
   def recent_posts
     @object.posts.order('created_at DESC').limit(10)
   end
 
   # @return [Integer, Float]
   def subscription_cost
-    cost = object.subscription_cost
-    ceil_cost = cost.to_i
-    cost - ceil_cost > 0 ? cost : ceil_cost
+    @subscription_cost ||= begin
+      cost = object.subscription_cost
+      ceil_cost = cost.to_i
+      cost - ceil_cost > 0 ? cost : ceil_cost
+    end
   end
 end

@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   include Concerns::Subscribable
 
+  has_many :benefits
   has_many :posts
   has_many :comments
   has_many :subscriptions

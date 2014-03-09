@@ -1,0 +1,9 @@
+ul
+  - if benefits.empty?
+    li.fa.fa-check Your subscriber benefits will be listed out like this!
+    li.fa.fa-check Your subscriber benefits will be listed out like this!
+    li.fa.fa-check Your subscriber benefits will be listed out like this!
+    li.fa.fa-check Your subscriber benefits will be listed out like this!
+  - else
+    - benefits.each do |benefits|
+      li.fa.fa-check= benefits.message

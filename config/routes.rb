@@ -25,6 +25,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_cost
     end
 
+    resources :benefits, only: [:create]
     resources :posts, only: [:index, :create]
     resources :subscriptions, only: [:new, :create, :index] do
       collection do

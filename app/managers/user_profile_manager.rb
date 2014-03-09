@@ -36,6 +36,18 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @param benefits [Array<String>]
+  # @return [User]
+  def update_benefits(benefits)
+    user.benefits.clear
+
+    benefits.each do |ordering, message|
+      user.benefits.create!(message: message, ordering: ordering) if message.present?
+    end
+
+    user
+  end
+
   # @param full_name [String]
   # @return [User]
   def update_full_name(full_name)
