@@ -26,7 +26,7 @@
 *.DS_Store
 
 # Assets
-public/assets*
+public/assets/*
 !public/assets/manifest*
 !public/assets/manifest-*
 !public/assets/manifest.*
