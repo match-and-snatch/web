@@ -12,7 +12,7 @@ html
           ul.nav.navbar-nav.pull-right
             - if current_user.authorized?
               li
-                a.btn.black href=logout_path
+                a.btn href=logout_path
                   i.fa.fa-sign-out Logout
 
               - if current_user.complete_profile?

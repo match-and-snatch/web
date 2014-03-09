@@ -1,13 +1,11 @@
-.left_column
-  ul.dashboard_menu
-    li
-      a.AjaxLink data-target='account-info' href=user_subscriptions_path(@user) My Feed
-    li
-      a.AjaxLink.active data-target='account-info' href=account_settings_user_path(@user) Account Settings
-    li
-      a.AjaxLink data-target='account-info' href=billing_information_user_path(@user) Billing Information
+ul.list-group.pull-left.col-lg-2
+  li.list-group-item
+    a.AjaxLink data-target='account-info' href=user_subscriptions_path(@user) My Feed
+  li.list-group-item
+    a.AjaxLink.active data-target='account-info' href=account_settings_user_path(@user) Account Settings
+  li.list-group-item
+    a.AjaxLink data-target='account-info' href=billing_information_user_path(@user) Billing Information
 
-.right_column
+.pull-left.col-lg-4
   .AjaxContainer data-identifier='account-info' data-url=account_settings_user_path(@user)
 
-div style='clear: both'

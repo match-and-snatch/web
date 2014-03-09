@@ -1,43 +1,45 @@
-form.Form action=update_general_information_user_path(@user)
+h3 Account Settings
+form.Form action=update_general_information_user_path(@user) method='post'
   input type='hidden' name='_method' value='put'
 
-  label Full Name
-  input type='text' name='full_name' value=@user.full_name
-  .error data-field='full_name'
-  br
+  .form-group
+    label.control-label Full Name
+    input.form-control type='text' name='full_name' value=@user.full_name
+    p.text-danger data-field='full_name'
 
-  label Nickname
-  input type='text' name='slug' value=@user.slug
-  .error data-field='slug'
-  br
+  .form-group
+    label.control-label Nickname
+    input.form-control type='text' name='slug' value=@user.slug
+    p.text-danger data-field='slug'
 
-  label Email Address
-  input type='email' name='email' value=@user.email
-  .error data-field='email'
-  br
+  .form-group
+    label.control-label Email Address
+    input.form-control type='email' name='email' value=@user.email
+    p.text-danger data-field='email'
 
-  input type='submit' value='Update General Info'
+  input.btn.btn-primary type='submit' value='Update General Info'
 
 br
 hr
-br
 
-form.Form action=change_password_user_path(@user)
+h3 Change Password
+
+form.Form action=change_password_user_path(@user) method='post'
   input type='hidden' name='_method' value='put'
 
-  label Current Password
-  input type='password' name='current_password' value=''
-  .error data-field='current_password'
-  br
+  .form-group
+    label.control-label Current Password
+    input.form-control type='password' name='current_password' value=''
+    p.text-danger data-field='current_password'
 
-  label New Password
-  input type='password' name='new_password' value=''
-  .error data-field='new_password'
-  br
+  .form-group
+    label.control-label New Password
+    input.form-control type='password' name='new_password' value=''
+    p.text-danger data-field='new_password'
 
-  label Re-type Password
-  input type='password' name='new_password_confirmation' value=''
-  .error data-field='new_password_confirmation'
-  br
+  .form-group
+    label.control-label Re-type Password
+    input.form-control type='password' name='new_password_confirmation' value=''
+    p.text-danger data-field='new_password_confirmation'
 
-  input type='submit' value='Change Your Password'
+  input.btn.btn-primary type='submit' value='Change Your Password'

@@ -3,16 +3,24 @@ html
   head= render 'head'
 
   body
-    nav
-      .wrapper
-        a.logo href=root_path
-          img src=image_path('logo.png')
-        .buttons
-          - if current_user.complete_profile?
-            a.btn.black.logout href=logout_path Logout
-            a.btn.black.my_profile href=current_profile_path My Profile
-            span.btn.pink Account Info
+    nav.navbar-wrapper.navbar-fixed-top role="navigation"
+      .navbar-inner
+        .container
+          a.brand href=root_path
+            img src=image_path('logo.png')
+
+          ul.nav.navbar-nav.pull-right
+            li
+              a.btn href=logout_path
+                i.fa.fa-sign-out Logout
+            li
+              a.btn href=current_profile_path
+                i.fa.fa-user My Profile
+            li
+              a.btn.pink href=account_info_path
+                i.fa.fa-bars Account Info
           .cf
         .cf
-    #content= yield
+    #content.container= yield
     #overlay.Overlay
+    #ClickBlocker

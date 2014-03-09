@@ -1,20 +1,13 @@
-h2 My subscriptions
-br
-ul
+h3 My subscriptions
+ul.list-group
   - @subscriptions.each do |subscription|
-    li.subscription style='font-weight: bold; clear: both'
+    li.list-group-item
       a href=profile_path(subscription.target_user)
         = subscription.target_user.full_name
-      br
-
-br
 hr
-br
-h2 Subscribed on me
-br
-ul
+h3 Subscribed on me
+ul.list-group
   - @subscribed_on_me.each do |subscription|
-    li.subscription style='font-weight: bold; clear: both'
+    li.list-group-item
       a href=profile_path(subscription.target_user)
         = subscription.user.full_name
-      br
