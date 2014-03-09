@@ -1,54 +1,47 @@
-.Popup.popup data-identifier='registration'
-  .up
-  span.PopupTrigger.close_button data-target='registration' close
-  .content
-    h2 Create Your Profile
-
+.Popup.popup.modal-content data-identifier='registration'
+  .modal-header
+    .PopupTrigger.button.close type="button" data-target="registration" aria-hidden="true" ×
+    .modal-title Create Your Profile
+  .modal-body
     form.Form action=users_path method='post'
-      input type='text' name='first_name' placeholder='First Name'
-      .error data-field='first_name'
-      br
+      .form-group
+        input.form-control type='text' name='first_name' placeholder='First Name'
+        p.text-danger data-field='first_name'
 
-      input type='text' name='last_name' placeholder='Last Name'
-      .error data-field='last_name'
-      br
+      .form-group
+        input.form-control type='text' name='last_name' placeholder='Last Name'
+        p.text-danger data-field='last_name'
 
-      input type='text' name='email' placeholder='Email Address'
-      .error data-field='email'
-      br
+      .form-group
+        input.form-control type='text' name='email' placeholder='Email Address'
+        p.text-danger data-field='email'
 
-      input type='password' name='password' placeholder='Password'
-      .error data-field='password'
-      br
+      .form-group
+        input.form-control type='password' name='password' placeholder='Password'
+        p.text-danger data-field='password'
 
-      input type='password' name='password_confirmation' placeholder='Retype Password'
-      .error data-field='password_confirmation'
-      br
+      .form-group
+        input.form-control type='password' name='password_confirmation' placeholder='Retype Password'
+        p.text-danger data-field='password_confirmation'
 
-      input type='hidden' name='authenticity_token' value=form_authenticity_token
-      input type='submit' value='Continue to Profile'
-  .below
-    | Already have an account?
+      .form-group
+        input.btn.btn-primary.form-control type='submit' value='Continue to Profile'
+  .modal-footer
+    | Already have an account?&nbsp;
     a.PopupTrigger href='#' data-target='login' Login
 
-.Popup.popup data-identifier='login'
-  .up
-  span.PopupTrigger.close_button data-target='login' close
-  .content
-    h1 Login
+.Popup.popup.modal-content data-identifier='login'
+  .modal-header
+    .PopupTrigger.button.close type="button" data-target="login" aria-hidden="true" ×
+    .modal-title Existing Account?
 
-    form.Form action=session_path method='post'
-      label email
-      input type='text' name='email'
+  form.Form action=session_path method='post'
+    .modal-body
+      input.form-control type='text' name='email' placeholder='Email Address'
       br
+      input.form-control type='password' name='password' placeholder='Password'
+      p.text-danger.Error
 
-      label password
-      input type='password' name='password'
-      br
-
-      .Error
-      input type='hidden' name='authenticity_token' value=form_authenticity_token
-      input type='submit' value='Login'
-  .below
-    | Has not registered yet?&nbsp;
-    a.PopupTrigger href='#' data-target='registration' Register!
+      input.form-control.pull-right.btn.btn-primary type='submit' value='Login'
+      | Has not registered yet?&nbsp;
+      a.PopupTrigger href='#' data-target='registration' Register!
