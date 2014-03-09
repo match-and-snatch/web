@@ -132,54 +132,61 @@
 /** Popups: place anywhere you want **/
 
 .Popup.popup.modal-content data-identifier='name-editor' style='min-width: 300px'
-  button.close.PopupTrigger type="button" data-target="name-editor" aria-hidden="true" ×
-  ul.nav.nav-tabs
-    li.active
-      a href='javascript: void(0)' Name
-    li
-      a.PopupTrigger data-target='cost-editor' href='#' Cost
-    li
-      a.PopupTrigger data-target='benefits-editor' href='#' Benefits
+  .modal-header
+    button.close.PopupTrigger type="button" data-target="name-editor" aria-hidden="true" ×
+    ul.nav.nav-tabs
+      li.active
+        a href='javascript: void(0)' Name
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Benefits
 
-  form.Form.form-inline action=update_name_user_path(@profile.object) method='post'
-    br
-    input type='hidden' name='_method' value='put'
-    input.form-control type='text' name='full_name' value=@profile.full_name data-target='full-name'
-    .error data-field='full_name'
+  .modal-body
+    form.Form.form-inline action=update_name_user_path(@profile.object) method='post'
+      br
+      input type='hidden' name='_method' value='put'
+      input.form-control type='text' name='full_name' value=@profile.full_name data-target='full-name'
+      .error data-field='full_name'
 
-    input.form-control.btn-primary type='submit' value='Change Name'
+      input.form-control.btn-primary type='submit' value='Change Name'
 
 .Popup.popup.modal-content data-identifier='cost-editor'
-  button.close.PopupTrigger type="button" data-target="cost-editor" aria-hidden="true" ×
-  ul.nav.nav-tabs
-    li
-      a.PopupTrigger data-target='name-editor' href='#' Name
-    li.active
-      a href='javascript: void(0)' Cost
-    li
+  .modal-header
+    button.close.PopupTrigger type="button" data-target="cost-editor" aria-hidden="true" ×
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Name
+      li.active
+        a href='javascript: void(0)' Cost
+      li
       a.PopupTrigger data-target='benefits-editor' href='#' Benefits
-  form.Form.form-inline action=update_cost_user_path(@profile.object) method='post'
-    br
-    input type='hidden' name='_method' value='put'
-    .fa.fa-usd
-    input.form-control type='text' name='subscription_cost' value=@profile.subscription_cost data-target='subscription-cost'
-    .error data-field='subscription_cost'
 
-    input.form-control.btn-primary type='submit' value='Change Cost'
+  .modal-body
+    form.Form.form-inline action=update_cost_user_path(@profile.object) method='post'
+      br
+      input type='hidden' name='_method' value='put'
+      .fa.fa-usd
+      input.form-control type='text' name='subscription_cost' value=@profile.subscription_cost data-target='subscription-cost'
+      .error data-field='subscription_cost'
+
+      input.form-control.btn-primary type='submit' value='Change Cost'
 
 .Popup.popup.modal-content data-identifier='benefits-editor' style='min-width: 400px'
-  button.close.PopupTrigger type="button" data-target="benefits-editor" aria-hidden="true" ×
-  ul.nav.nav-tabs
-    li
-      a.PopupTrigger data-target='name-editor' href='#' Name
-    li
-      a.PopupTrigger data-target='cost-editor' href='#' Cost
-    li.active
-      a href='javascript: void(0)' Benefits
+  .modal-header
+    button.close.PopupTrigger type="button" data-target="benefits-editor" aria-hidden="true" ×
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Name
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Cost
+      li.active
+        a href='javascript: void(0)' Benefits
 
-  form.Form action=user_benefits_path(@profile.object) method='post' data-target='benefits'
-    br
-    - @profile.benefit_messages.each_with_index do |benefit_message, i|
-      input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit...'
-    input.form-control.btn-primary type='submit' value='Set Benefits'
+  .modal-body
+    form.Form action=user_benefits_path(@profile.object) method='post' data-target='benefits'
+      br
+      - @profile.benefit_messages.each_with_index do |benefit_message, i|
+        input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit...'
+      input.form-control.btn-primary type='submit' value='Set Benefits'
 
