@@ -20,7 +20,7 @@ module ApplicationHelper
 
   # @param text [String]
   # @return [String]
-  def super_hightlight(text)
+  def super_highlight(text)
     q = params[:q]
     if q.present?
       highlights = q.split(/\W+/).reject { |token| token.length < 3} << q
