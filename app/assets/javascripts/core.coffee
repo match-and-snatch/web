@@ -10,6 +10,7 @@ class (window.bud or= {}).Core
       return
 
     @instance().__initialize()
+    bud.pub('bud.Core.initialized')
 
   @init_widgets: (parent_container) ->
     _.each window.bud.widgets, (widget_class) ->

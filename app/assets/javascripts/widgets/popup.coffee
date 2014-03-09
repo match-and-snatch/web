@@ -33,6 +33,7 @@ class bud.widgets.Popup extends bud.Widget
 
     # Show overlay
     bud.pub("popup.show.overlay");
+    @$container.find('input:first').focus()
 
   hide: =>
     @$container.hide()
