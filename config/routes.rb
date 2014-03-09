@@ -11,7 +11,7 @@ BuddyPlatform::Application.routes.draw do
 
   resource :session
 
-  resources :users, only: [:create, :edit, :update] do
+  resources :users, only: [:index, :create, :edit, :update] do
     member do
       put :update_payment_information
       get :account_settings

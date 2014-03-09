@@ -1,9 +1,14 @@
 class UsersController < ApplicationController
   layout 'account_info'
 
-  before_filter :authenticate!, :load_user, except: [:create, :show]
+  before_filter :authenticate!, :load_user, except: [:index, :create, :show]
   before_filter :redirect_complete, only: :edit
   before_filter :redirect_incomplete, only: :account_info
+
+  def index
+    @users = User.search_by_full_name(params[:q]).limit(10)
+    json_replace
+  end
 
   # Registers new user
   def create

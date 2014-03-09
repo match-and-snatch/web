@@ -1,2 +1,12 @@
 h1 Welcome
 
+.PopupTrigger.btn.btn-danger data-target='search-users' Search Users
+
+.Popup.popup.modal-content data-identifier='search-users' style='min-width: 500px'
+  form.Form.form-inline action=users_path method='get' data-target='users-list'
+    input.form-control type='text' name='q' value='' placeholder='Search users...'
+    input.form-control.btn-success type='submit' value='Search'
+
+  br
+  div data-identifier='users-list'
+

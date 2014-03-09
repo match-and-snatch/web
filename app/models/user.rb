@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include PgSearch
   include Concerns::Subscribable
 
   has_many :benefits
@@ -9,6 +10,10 @@ class User < ActiveRecord::Base
 
   validates :full_name, :email, presence: true
   before_create :generate_slug
+
+  pg_search_scope :search_by_full_name, against: :full_name,
+                                        using: [:tsearch, :dmetaphone, :trigram],
+                                        ignoring: :accents
 
   # @param new_password [String]
   def set_new_password(new_password)

@@ -1,0 +1,14 @@
+- if @users.any?
+  .list-group-item-heading
+    |Search results for "
+    strong=params[:q]
+    |"
+  ul.list-group
+    - @users.each do |user|
+      li.list-group-item
+        = link_to super_highlight(user.full_name), profile_path(user)
+- else
+  p.bg-danger
+    |No results for "
+    strong=params[:q]
+    |"
