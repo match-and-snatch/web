@@ -13,7 +13,7 @@ class bud.widgets.AjaxContainer extends bud.Widget
 
   render_path: (request_path) ->
     @$container.addClass('pending')
-    bud.Ajax.get(request_path, {}, {success: @render_page})
+    bud.Ajax.get(request_path, {}, {success: @render_page, replace: @render_page})
 
   render_page: (response) =>
     bud.replace_html(@$container, response['html'])

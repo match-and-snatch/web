@@ -81,9 +81,7 @@
   .row
     /* Recent Posts */
 
-    .recent_posts.Posts.col-lg-8.col-md-8.col-sm-12.pull-right data-identifier='posts'
-      = render partial: 'posts/post', collection: @profile.recent_posts
-
+    .AjaxContainer.recent_posts.col-lg-8.col-md-8.col-sm-12.pull-right data-identifier='posts' data-url=user_posts_path(@profile.object)
 
     .sidebar.col-lg-4.col-md-4.col-sm-12.pull-left
 
@@ -102,7 +100,7 @@
         span.input-group-addon
           i.fa.fa-search.fa-fw.fa-lg
         form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
-          input.form-control type="text" name='q' placeholder="Search profile content"
+          input.Autocomplete.form-control type="text" name='q' placeholder="Search profile content"
 
       /* Contact Info */
 
