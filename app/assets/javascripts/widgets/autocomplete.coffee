@@ -4,6 +4,7 @@ class bud.widgets.Autocomplete extends bud.Widget
   initialize: ->
     form  = @$container.parents('form')
     input = @$container
+    input.val('')
 
     input.on 'keyup', (e) ->
       if e.which == 27
