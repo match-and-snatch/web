@@ -6,6 +6,9 @@
       |"
   = render partial: 'post', collection: @posts
 - else
-  |No posts for "
-  b= params[:q]
-  |"
+  - if params[:q].present?
+    |No posts for "
+    b= params[:q]
+    |"
+  - else
+    | No posts so far...
