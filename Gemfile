@@ -44,6 +44,9 @@ gem 'bootstrap-sass'
 # Credit cards, billing, charges, payments
 gem 'stripe'
 
+# Uploads, assets
+gem 'transloadit-rails'
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
