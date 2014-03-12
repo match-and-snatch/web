@@ -8,9 +8,8 @@
     .col-lg-8.col-md-7.profile_name
 
       /* Profile Name */
-      a href=profile_path(@profile)
-        i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='full-name'
-          = @profile.full_name
+      .PopupTrigger data-target='name-editor' data-identifier='full-name'
+        = @profile.full_name
 
     .col-lg-4.col-md-5
 
@@ -30,24 +29,23 @@
 
   .benefits_container.row
     .col-lg-12.col-md-12
-      .label.PopupTrigger.btn data-target='benefits-editor'
-        i.fa.fa-gear.pull-right
-        | Subscriber Benefits
+      .label.btn data-target='benefits-editor' Subscriber Benefits
       div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
 
-.container style='width: 100%; height: 300px; margin: 20px 0 20px 0'
-  .content style='margin: 20px'
-    a.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe
+/* Visitor View */
 
-    br
-    br
+#visitor.box
+  .row
+    .col-md-12
+      a.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe
 
-    div
-      - unless current_user.authorized?
-        | Already a member?
-        br
-        a.btn.black.login.PopupTrigger href='#' data-target='login' Login
-        a.btn.pink.signup.PopupTrigger href='#' data-target='registration' Sign Up
+
+      div
+        - unless current_user.authorized?
+          | Already a member?
+          br
+          a.btn.black.login.PopupTrigger href='#' data-target='login' Login
+          a.btn.pink.signup.PopupTrigger href='#' data-target='registration' Sign Up
 
 .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
   | I AM HERE

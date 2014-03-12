@@ -34,6 +34,9 @@ a
   font-size: 12px
   display: none
 
+.container 
+  max-width: 970px
+
 .box
   @include border-radius($border_radius)
   background: #FFFFFF
@@ -115,11 +118,12 @@ nav
 
   .photo_cover
     background-color: $color_background
-    // background: asset-url('https://buddy-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
+    background: asset-url('https://buddy-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
+    background-size: 100%
     border-bottom: 1px solid $color_border
     display: block
-    height: 280px
-    margin-bottom: 40px
+    height: 270px
+    margin-bottom: 50px
     position: relative
     z-index: 1
     .btn
@@ -160,6 +164,7 @@ nav
     /* Profile Name */
 
     .profile_name
+      color: $color_text_dark
       font-weight: 400
       font-size: 38px
       margin-bottom: 15px
@@ -252,9 +257,10 @@ nav
           float: right
           font-weight: 400
           height: 55px
+          margin-bottom: 15px
           padding: 0 15px
           text-decoration: none
-          width: 278px
+          width: 247px
 
   /* Details Container */
 
@@ -265,6 +271,7 @@ nav
       @include black-area
       @include border-radius(0 10px 10px 0)
       color: #FFFFFF
+      // cursor: default
       font-size: 14px
       font-weight: 400
       padding: 10px 15px
@@ -294,6 +301,7 @@ nav
     @include linear-gradient(#FFFFFF, #F7F7F7)
     border-bottom: 1px solid #d7d7d7
     padding: 0 15px
+    margin: 0
     line-height: 100%
     li
       border-right: 1px solid $color_border
@@ -320,7 +328,7 @@ nav
           &:before
             color: $color_blue
 
-  /* Post Textarea */
+  /* Status Post Textarea */
 
   #post
     padding: 15px
@@ -329,6 +337,60 @@ nav
       display: block
       width: 100%
     input[type="submit"]
+
+  /* Uploading Media */
+
+  #uploading
+    margin-top: 15px
+    position: relative
+
+    /* Progress Bar */
+
+    .progress_title
+      color: $color_blue
+      font-size: 16px
+      font-weight: 600
+      padding: 10px 15px 15px
+ 
+    /* File Status */
+
+    .file_status
+      padding: 0 15px
+      .progress
+        margin-bottom: 15px
+      .file_name
+        color: $color_text_dark
+      .percentage
+        text-align: right
+
+    /* Upload Details */
+
+    .upload_details 
+      border-top: 1px solid $color_border
+      padding: 15px
+      .detail_field
+        @include border-radius($border_radius)
+        background-color: $color_background
+        border: 1px solid $color_border
+        margin-bottom: 15px
+        padding: 8px 10px
+        width: 100%
+        &:focus
+          outline: none
+      textarea
+        height: 91px
+        margin: 0
+        overflow: auto
+      .foot
+        position: relative
+        .cancel_post
+          color: #959595
+          cursor: pointer
+          font-size: 12px
+          margin-top: 9px
+          margin-right: 15px
+          &:hover
+            text-decoration: underline
 
 /* Subscriber Display */
 

@@ -9,14 +9,14 @@
 
   /* Details Container */
   .details_container.row
-    .col-lg-8.col-md-7.profile_name
+    .col-md-7.profile_name
 
       /* Profile Name */
       a href=current_profile_path
         i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='full-name'
           = @profile.full_name
 
-    .col-lg-4.col-md-5
+    .col-md-5
 
       /* Subscribe Container */
       .subscribe_cont
@@ -43,7 +43,7 @@
   /* Subscriber Benefits */
 
   .benefits_container.row
-    .col-lg-12.col-md-12
+    .col-md-12
       .label.PopupTrigger.btn data-target='benefits-editor'
         i.fa.fa-gear.pull-right
         | Subscriber Benefits
@@ -63,14 +63,58 @@
     li
       a.fa.fa-file-text href=current_profile_path Upload Document
   .clearfix
-  #post
+
+  /* Post Status Area */
+
+  #post.hidden
     form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
-      .col-lg-11.col-md-11
+      .col-md-11
         textarea name='message' placeholder='Keep your subscribers in the know...'
-      .col-lg-1.col-md-1
+      .col-md-1
         .error data-field='message'
         input.btn.blue.pull-right type='Submit' value='Post'
         .clearfix
+
+  /* Upload View */
+
+  #uploading
+
+    /* Single File Line */
+      
+    .row.file_status
+      .col-md-3.file_name FileName1.avi  
+      .col-md-8 
+        .progress.progress-striped.active
+          .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%"
+            span.sr-only 25% Complete
+      .col-md-1.percentage 25%
+
+    .row.file_status
+      .col-md-3.file_name FileName2.avi  
+      .col-md-8 
+        .progress.progress-striped.active
+          .progress-bar.progress-bar-info role="progressbar" aria-voluenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"
+            span.sr-only 50% Complete
+      .col-md-1.percentage 50%
+
+    /* Details Form */
+
+    form.upload_details
+      .row
+        .col-md-6 
+          input.detail_field placeholder="Post Title"
+          .clearfix
+          input.detail_field placeholder="Keywords"
+        .col-md-6 
+          textarea.detail_field name='message' placeholder="Description"
+      .row
+        .col-md-12.foot
+
+          /* Disabled until all uploads are 100% */
+
+          input.btn.blue.pull-right type='Submit' value='Uploading....' disabled="true"
+          .cancel_post.pull-right Cancel Post
+
 
 /* Posts & Sidebar (Owner/Subscribed Only) */
 
@@ -78,9 +122,9 @@
   .row
     /* Recent Posts */
 
-    .AjaxContainer.recent_posts.col-lg-8.col-md-8.col-sm-12.pull-right data-identifier='posts' data-url=user_posts_path(@profile.object)
+    .AjaxContainer.recent_posts.col-md-8.col-sm-12.pull-right data-identifier='posts' data-url=user_posts_path(@profile.object)
 
-    .sidebar.col-lg-4.col-md-4.col-sm-12.pull-left
+    .sidebar.col-md-4.col-sm-12.pull-left
 
       /* Profile Action */
 
