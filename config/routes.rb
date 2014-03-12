@@ -23,6 +23,8 @@ BuddyPlatform::Application.routes.draw do
       put :update_cc_data
       put :update_name
       put :update_cost
+      put :update_profile_picture
+      put :update_cover_picture
     end
 
     resources :benefits, only: [:create]
@@ -32,6 +34,9 @@ BuddyPlatform::Application.routes.draw do
         post :via_register
         post :via_update_cc_data
       end
+    end
+    scope module: :users do
+      resources :uploads, only: [:create]
     end
   end
 

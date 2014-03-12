@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include Transloadit::Rails::ParamsDecoder
+
   layout 'account_info'
 
   before_filter :authenticate!, :load_user, except: [:index, :create, :show]
@@ -96,6 +98,16 @@ class UsersController < ApplicationController
   def update_cost
     UserProfileManager.new(@user).update_subscription_cost params[:subscription_cost]
     json_success
+  end
+
+  def update_profile_picture
+    UserProfileManager.new(@user).update_profile_picture(params[:transloadit])
+    json_replace
+  end
+
+  def update_cover_picture
+    UserProfileManager.new(@user).update_cover_picture(params[:transloadit])
+    json_replace
   end
 
   # Profile page

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140309102803) do
+ActiveRecord::Schema.define(version: 20140312135728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,12 @@ ActiveRecord::Schema.define(version: 20140309102803) do
     t.datetime "updated_at"
   end
 
+  create_table "uploads", force: true do |t|
+    t.integer "uploadable_id"
+    t.string  "uploadable_type"
+    t.text    "transloadit_data"
+  end
+
   create_table "users", force: true do |t|
     t.string   "slug"
     t.string   "email"
@@ -74,7 +80,7 @@ ActiveRecord::Schema.define(version: 20140309102803) do
     t.string   "password_hash"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "full_name",            limit: 512
+    t.string   "full_name",                    limit: 512
     t.float    "subscription_cost"
     t.string   "holder_name"
     t.string   "routing_number"
@@ -83,6 +89,10 @@ ActiveRecord::Schema.define(version: 20140309102803) do
     t.string   "stripe_card_id"
     t.string   "last_four_cc_numbers"
     t.string   "card_type"
+    t.text     "profile_picture_url"
+    t.text     "original_profile_picture_url"
+    t.text     "cover_picture_url"
+    t.text     "original_cover_picture_url"
   end
 
 end
