@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :subscriptions
   has_many :source_subscriptions, class_name: 'Subscription', foreign_key: 'target_user_id'
+  has_many :uploads, as: :uploadable
 
   validates :full_name, :email, presence: true
   before_create :generate_slug
