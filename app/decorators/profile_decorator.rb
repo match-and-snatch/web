@@ -1,5 +1,5 @@
 class ProfileDecorator < BaseDecorator
-  delegate :full_name, to: :object
+  delegate :full_name, :profile_picture_url, :original_profile_picture_url, :slug, to: :object
 
   # @param user [User]
   def initialize(user)

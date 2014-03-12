@@ -1,5 +1,5 @@
 - content_for :js do
-  script src='//assets.transloadit.com/js/jquery.transloadit2-v2-latest.js'
+  = transloadit_jquerify :profile_picture_upload, wait: true, triggerUploadOnFileSelection: true, fields: 'input[name=slug]'
 
 /* Header */
 #header.box
@@ -7,8 +7,16 @@
     a.btn.blue
       i.fa.fa-picture-o Change Photo
   .photo_profile
-    a.btn.blue
-      i.fa.fa-picture-o Change Photo
+    .ProfilePictire data-identifier='profile-picture'
+      a href=@profile.original_profile_picture_url
+        img src=@profile.profile_picture_url
+    form.Form#profile_picture_upload action=user_uploads_path(@profile.object) method='post' data-target='profile-picture'
+      = transloadit :profile_picture
+      .btn.blue.i.fa.fa-picture-o
+        | Change Photo
+        input.file type='file' name='profile_picture_file'
+      input type='hidden' name='slug' value=@profile.slug
+      input type='hidden' name='authenticity_token' value=form_authenticity_token
 
   /* Details Container */
   .details_container.row
