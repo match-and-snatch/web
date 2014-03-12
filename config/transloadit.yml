@@ -16,7 +16,7 @@ development:
     # template defined inline
     profile_picture:
       steps:
-        profile_picture:
+        resize:
           robot: '/image/resize'
           width: 250
           height: 250
@@ -28,10 +28,24 @@ development:
           bucket: 'buddy-assets'
           path: 'uploads/profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
           use:
-            - 'profile_picture'
+            - 'resize'
             - ':original'
-          fields:
-            slug: 'nothing'
+    cover_picture:
+      steps:
+        resize:
+          robot: '/image/resize'
+          width: 970
+          height: 280
+          resize_strategy: 'fillcrop'
+        store:
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'buddy-assets'
+          path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          use:
+            - 'resize'
+            - ':original'
 
 production:
   # the jquery_sdk version you want to use, read up on it here:
