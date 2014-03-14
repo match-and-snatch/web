@@ -12,8 +12,6 @@
 
 #= require core
 #= require helpers
-#= require jquery_ujs
 #= require_tree .
 
-$(document).ready ->
-  bud.Core.initialize()
+$(document).ready -> bud.Core.initialize()
