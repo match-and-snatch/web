@@ -1,5 +1,7 @@
 #= require ./popup
 
+# Shows remote URL in the popup
+# @data url [String]
 class bud.widgets.AjaxPopup extends bud.widgets.Popup
   @SELECTOR: '.AjaxPopup'
 

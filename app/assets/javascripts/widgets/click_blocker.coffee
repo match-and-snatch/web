@@ -1,3 +1,4 @@
+# Prevents a page from any clicks before core is initialized
 class bud.widgets.ClickBlocker extends bud.Widget
   @SELECTOR: '#ClickBlocker'
 

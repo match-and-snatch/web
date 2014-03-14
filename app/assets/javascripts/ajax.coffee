@@ -1,3 +1,4 @@
+# All requests go through bud.Ajax
 class bud.Ajax
   @get:  (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).get()
   @post: (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).post()
