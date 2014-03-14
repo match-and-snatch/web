@@ -1,3 +1,7 @@
+# Renders remote URL into html container
+# If a link is clicked - container acts as IFrame
+#
+# @data url [String, null] url to load on widget initialized.
 class bud.widgets.AjaxContainer extends bud.Widget
   @SELECTOR: '.AjaxContainer'
 

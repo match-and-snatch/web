@@ -1,3 +1,5 @@
+# Acts as a simple form
+# Posts data attributes to the URL defined by link href
 class bud.widgets.AjaxFormLink extends bud.Widget
   @SELECTOR: '.AjaxFormLink'
 

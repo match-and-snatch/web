@@ -1,3 +1,4 @@
+# Generally used for popups
 class bud.widgets.Overlay extends bud.Widget
   @SELECTOR: '.Overlay'
 

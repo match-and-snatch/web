@@ -1,3 +1,4 @@
+# Toggles popup visibility
 class bud.widgets.PopupTrigger extends bud.Widget
   @SELECTOR: '.PopupTrigger'
 

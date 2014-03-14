@@ -1,5 +1,6 @@
 #= require ./form
 
+# Form used for posting user posts on profile page
 class bud.widgets.Poster extends bud.widgets.Form
   @SELECTOR: '.Poster'
 

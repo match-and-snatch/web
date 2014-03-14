@@ -1,3 +1,4 @@
+# @data target [String, null]
 class bud.widgets.Form extends bud.Widget
   @SELECTOR = '.Form'
 

@@ -1,3 +1,5 @@
+# Clears target container HTML when container is clicked
+# @data target [String] Target identifier
 class bud.widgets.Cleaner extends bud.Widget
   @SELECTOR: '.Cleaner'
 

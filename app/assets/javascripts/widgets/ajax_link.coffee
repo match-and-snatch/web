@@ -1,3 +1,5 @@
+# Once clicked, renders HTML received by link href into @$target
+# @data target [String] Target container identifier
 class bud.widgets.AjaxLink extends bud.Widget
   @SELECTOR: '.AjaxLink'
 
@@ -5,7 +7,7 @@ class bud.widgets.AjaxLink extends bud.Widget
     @$target = bud.get(@$container.data('target'))
     @$container.click @link_clicked
 
-  link_clicked: (e) =>
+  link_clicked: =>
     $(@constructor.SELECTOR).removeClass('active pending')
     @render_path(@$container.attr('href'))
     @$container.addClass('pending')

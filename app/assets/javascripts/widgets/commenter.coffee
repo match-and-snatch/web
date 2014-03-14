@@ -1,5 +1,7 @@
 #= require ./form
 
+# Appends HTML to a target container once form is posted
+# @data target [String] Target identifier
 class bud.widgets.Commenter extends bud.widgets.Form
   @SELECTOR: '.Commenter'
 
