@@ -7,6 +7,7 @@ class bud.widgets.AjaxContainer extends bud.Widget
 
   initialize: ->
     @url = @$container.data('url')
+    @$container.find('a').click @link_clicked
     @render()
 
   render: ->
@@ -36,6 +37,5 @@ class bud.widgets.AjaxContainer extends bud.Widget
 
   on_response_received: (response) =>
     @$container.removeClass('pending')
-    @$container.find('a').click @link_clicked
 
   request_params: -> {}

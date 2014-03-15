@@ -1,6 +1,6 @@
 .comment
   .user data-identifier='full-name'
     = comment.user.full_name
-  .date= comment.created_at
+  .date #{time_ago_in_words comment.created_at} ago
   .message= comment.message
   .clearfix
