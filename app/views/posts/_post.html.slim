@@ -1,5 +1,5 @@
 .post.box
-  .date= post.created_at
+  .date #{time_ago_in_words(post.created_at)} ago
   .message= super_highlight(post.message)
   .foot
     a.AjaxLink.fa.fa-comments href=post_comments_path(post) data-target="comments_section-#{post.id}" Join Discussion
