@@ -10,5 +10,5 @@
     |No posts for "
     b= params[:q]
     |"
-  - else
+  - elsif !params[:last_post_id]
     | No posts so far...

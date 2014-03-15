@@ -8,7 +8,7 @@ class bud.widgets.Autocomplete extends bud.Widget
     input = @$container
     input.val('')
 
-    input.on 'keyup', ->
+    input.on 'keyup', (e) ->
       if e.which == 27
         input.val('')
         form.submit()

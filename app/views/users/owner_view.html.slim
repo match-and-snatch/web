@@ -143,7 +143,8 @@
   .row
     /* Recent Posts */
 
-    .AjaxContainer.recent_posts.col-md-8.col-sm-12.pull-right data-identifier='posts' data-url=user_posts_path(@profile.object)
+    .pull-right.col-md-8.col-sm-12
+      .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
 
     .sidebar.col-md-4.col-sm-12.pull-left
 
