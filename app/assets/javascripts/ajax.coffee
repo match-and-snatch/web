@@ -3,6 +3,15 @@ class bud.Ajax
   @get:  (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).get()
   @post: (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).post()
 
+  # Usage: bud.Ajax.getScript('//code.com/script.js').done(callback)
+  @getScript: (url) ->
+    options = {
+      url: url
+      dataType: 'script'
+      cache: true
+    }
+    jQuery.ajax(options)
+
   constructor: (path, params = {}, callbacks = {}) ->
     @path      = path
     @params    = params

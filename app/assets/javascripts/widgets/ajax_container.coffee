@@ -6,9 +6,11 @@ class bud.widgets.AjaxContainer extends bud.Widget
   @SELECTOR: '.AjaxContainer'
 
   initialize: ->
-    request_path = @$container.data('url')
-    @render_path(request_path) if request_path
-    @$container.find('a').click @link_clicked
+    @url = @$container.data('url')
+    @render()
+
+  render: ->
+    @render_path(@url) if @url
 
   link_clicked: (e) =>
     link = $(e.currentTarget)
@@ -17,9 +19,23 @@ class bud.widgets.AjaxContainer extends bud.Widget
 
   render_path: (request_path) ->
     @$container.addClass('pending')
-    bud.Ajax.get(request_path, {}, {success: @render_page, replace: @render_page})
+    callbacks = {success: @render_page, replace: @replace_page, append: @append_page, prepend: @prepend_page, after: @on_response_received}
+    bud.Ajax.get(request_path, @request_params(), callbacks)
+
+  append_page: (response) =>
+    bud.append_html(@$container, response['html'])
+
+  prepend_page: (response) =>
+    bud.prepend_html(@$container, response['html'])
+
+  replace_page: (response) =>
+    bud.replace_container(@$container, response['html'])
 
   render_page: (response) =>
     bud.replace_html(@$container, response['html'])
+
+  on_response_received: (response) =>
     @$container.removeClass('pending')
-    # delete @ :)
+    @$container.find('a').click @link_clicked
+
+  request_params: -> {}

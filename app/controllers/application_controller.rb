@@ -75,13 +75,27 @@ class ApplicationController < ActionController::Base
   end
 
   # @param _action [String]
-  def json_render(_action = action_name)
-    json_success html: render_to_string(action: _action, layout: false, formats: [:html])
+  def json_render(_action = action_name, opts = {})
+    json = {html: render_to_string(action: _action, layout: false, formats: [:html])}
+    json_success json.merge(opts)
   end
 
   # @param _action [String]
-  def json_replace(_action = action_name)
-    render json: {status: 'replace', html: render_to_string(action: _action, layout: false, formats: [:html])}
+  def json_append(_action = action_name, opts = {})
+    json = {status: 'append', html: render_to_string(action: _action, layout: false, formats: [:html])}
+    render json: json.merge(opts)
+  end
+
+  # @param _action [String]
+  def json_prepend(_action = action_name, opts = {})
+    json = {status: 'prepend', html: render_to_string(action: _action, layout: false, formats: [:html])}
+    render json: json.merge(opts)
+  end
+
+  # @param _action [String]
+  def json_replace(_action = action_name, opts = {})
+    json = {status: 'replace', html: render_to_string(action: _action, layout: false, formats: [:html])}
+    render json: json.merge(opts)
   end
 
   def json_reload

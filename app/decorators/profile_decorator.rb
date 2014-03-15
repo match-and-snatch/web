@@ -18,7 +18,7 @@ class ProfileDecorator < BaseDecorator
   end
 
   def recent_posts
-    @object.posts.order('created_at DESC').limit(10)
+    @object.posts.order('created_at DESC, id DESC').limit(5)
   end
 
   # @return [Integer, Float]

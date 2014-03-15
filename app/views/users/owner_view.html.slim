@@ -1,33 +1,32 @@
-- content_for :js do
-  = transloadit_jquerify :profile_picture_upload, wait: true, triggerUploadOnFileSelection: true, fields: 'input[name=slug]'
-  = transloadit_jquerify :cover_picture_upload, wait: true, triggerUploadOnFileSelection: true, fields: 'input[name=slug]'
-
 /* Header */
 #header.box
   .photo_cover
-    .CoverPicture data-identifier='cover-picture'
+    div data-identifier='cover-picture'
       a href=@profile.original_cover_picture_url
         img src=@profile.cover_picture_url
-    form.Form#cover_picture_upload action=update_cover_picture_user_path(@profile.object) method='post' data-target='cover-picture'
+
+    form.PictureUploadForm action=update_cover_picture_user_path(@profile.object) method='post' data-target='cover-picture'
       input type='hidden' name='_method' value='put'
       = transloadit :cover_picture
+
       .btn.blue.i.fa.fa-picture-o
         | Change Photo
         input.file type='file' name='cover_picture_file'
       input type='hidden' name='slug' value=@profile.slug
-      input type='hidden' name='authenticity_token' value=form_authenticity_token
+
   .photo_profile
-    .ProfilePictire data-identifier='profile-picture'
+    div data-identifier='profile-picture'
       a href=@profile.original_profile_picture_url
         img src=@profile.profile_picture_url
-    form.Form#profile_picture_upload action=update_profile_picture_user_path(@profile.object) method='post' data-target='profile-picture'
+
+    form.PictureUploadForm action=update_profile_picture_user_path(@profile.object) method='post' data-target='profile-picture'
       input type='hidden' name='_method' value='put'
       = transloadit :profile_picture
+
       .btn.blue.i.fa.fa-picture-o
         | Change Photo
         input.file type='file' name='profile_picture_file'
       input type='hidden' name='slug' value=@profile.slug
-      input type='hidden' name='authenticity_token' value=form_authenticity_token
 
   /* Details Container */
   .details_container.row
@@ -144,7 +143,8 @@
   .row
     /* Recent Posts */
 
-    .AjaxContainer.recent_posts.col-md-8.col-sm-12.pull-right data-identifier='posts' data-url=user_posts_path(@profile.object)
+    .pull-right.col-md-8.col-sm-12
+      .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
 
     .sidebar.col-md-4.col-sm-12.pull-left
 
