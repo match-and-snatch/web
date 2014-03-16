@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from HttpCodeError do |error|
-    render status: error.code, text: error.code.inspect
+    render status: error.code, template: "errors/#{error.code}"
   end
 
   # @param action [Symbol]
