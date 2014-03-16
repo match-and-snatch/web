@@ -3,11 +3,11 @@
 - `git clone git@github.com:subscribebuddy/platform.git`.
 - Checkout development branch `git checkout development`.
 - Install [Ruby 2.0](http://rvm.io/).
-- Setup [Postgres App](http://postgresapp.com/)
+- Setup [Postgres App](http://postgresapp.com/).
 - Setup any ruby version management environment.
 - Setup Guard (if you use it).
 - Run `bundle install`.
-- Create `config/database.yml` using `config/database.yml.example` file.
+- Create `config/database.yml` using [config/database.yml.example](config/database.yml.example) file.
 - Setup foreman (if you are going to use it). Put into project root directory `.env` file containing:
 
 ```bash
