@@ -68,7 +68,7 @@
       .label.PopupTrigger.btn data-target='benefits-editor'
         i.fa.fa-gear.pull-right
         | Subscriber Benefits
-      div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
+      div data-identifier='benefits'= render_benefits(@profile)
 
 
 /* Create Post (Owner View Only) */

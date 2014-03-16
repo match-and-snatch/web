@@ -29,4 +29,10 @@ module ApplicationHelper
       text
     end
   end
+
+  # @param profile [ProfileDecorator]
+  # @return [String]
+  def render_benefits(profile)
+    render '/benefits/list', benefits: profile.benefits
+  end
 end
