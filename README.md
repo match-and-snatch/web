@@ -29,12 +29,38 @@ heroku keys:add ~/.ssh/id_rsa.pub
 Default:
 - `bundle install`
 - `rake db:create`
+- `rake db:migrate`
 - `rails s`
 
 Foreman:
 - `bundle install`
 - `foreman run rake db:create`
+- `foreman run rake db:migrate`
 - `foreman start`
+
+## Basic workflow
+
+```
+> git remote add my git@github.com:mygithubname/platform.git
+> git checkout development
+> git pull origin development
+> bundle install
+> rake db:migrate
+> git checkout -b my-new-feature
+> git commit ...
+> git push my my-new-feature
+
+Create Pull Request on github.
+
+> git checkout development
+> git pull origin development
+> git checkout my-new-feature
+> git rebase development
+> git push my my-new-feature -f
+> git checkout development
+> git merge my-new-feature --no-ff
+> git push origin development
+```
 
 ## How to run the test suite
 
