@@ -1,7 +1,6 @@
 title SubscribeBuddy
 
 link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"
-
 = stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Open+Sans:300,400,600'
 = stylesheet_link_tag 'application', media: 'all'
 
@@ -12,10 +11,5 @@ link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" re
   = javascript_include_tag 'underscore-min'
   = javascript_include_tag 'jquery'
 
-= yield :js
-
 = javascript_include_tag 'application'
 = csrf_meta_tags
-
-javascript:
-  window.bud.config = #{APP_CONFIG['javascript'].to_json.html_safe};

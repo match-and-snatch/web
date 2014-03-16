@@ -23,7 +23,7 @@ class bud.Widget
 
     @initialize()
 
-    @$container.addClass('js-widget')
+    @$container.addClass('js-widget').data('js-widget', @)
     bud.Logger.message("Widget: #{@class_name()} initialized")
 
     bud.Widget.instances.push(@)
@@ -32,3 +32,8 @@ class bud.Widget
 
   initialize: ->
     # To be redeclared in inherited classes
+
+  destroy: ->
+    @$container.unbind()
+    @$container.removeClass('js-widget')
+    bud.Logger.message("Widget: #{@class_name()} destroying")

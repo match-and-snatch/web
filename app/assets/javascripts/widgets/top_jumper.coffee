@@ -10,7 +10,7 @@ class bud.widgets.TopJumper extends bud.Widget
   #                                      |              |
   # ------------------ 0.5               |  ------ 0.5  | 100
   #                                      |              |
-  # ------------------ 1 ~600px end      |  ------ 1    | 200
+  # ------------------ 1 ~600px end      |  ------ 1    | 200 (gap)
   initialize: ->
     @start = parseInt(@$container.data('start'))
     @end   = parseInt(@$container.data('end'))
@@ -32,3 +32,7 @@ class bud.widgets.TopJumper extends bud.Widget
       opacity = (top - @start) / @gap
 
     @$container.css('opacity', opacity)
+
+  destroy: ->
+    super
+    $(window).unbind('scroll', @on_scroll)

@@ -1,0 +1,4 @@
+javascript:
+  window.bud.config = #{APP_CONFIG['javascript'].to_json.html_safe};
+
+= yield :js
