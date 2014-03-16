@@ -106,7 +106,8 @@ Find more in [Bud Helpers](app/assets/javascripts/helpers.coffee#l11)
 
 #### Async responses
 
-Any ajax response has consistent structure:
+Handle all ajax requests using [Bud Ajax](app/assets/javascripts/ajax.coffee).
+List of all possible responses:
 
 ```ruby
 {status: 'redirect', url: 'http://r0.ru'}
