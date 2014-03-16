@@ -2,7 +2,7 @@
 
 - `git clone git@github.com:subscribebuddy/platform.git`.
 - Checkout development branch `git checkout development`.
-- Install Ruby 2.0.
+- Install [Ruby 2.0](http://rvm.io/).
 - Setup [Postgres App](http://postgresapp.com/)
 - Setup any ruby version management environment.
 - Setup Guard (if you use it).
@@ -108,39 +108,39 @@ Find more in [Bud Helpers](app/assets/javascripts/helpers.coffee#l11)
 
 Any ajax response has consistent structure:
 
-```json
+```ruby
 {status: 'redirect', url: 'http://r0.ru'}
 ```
 
-```json
+```ruby
 {status: 'reload'}
 ```
 
-```json
+```ruby
 {status: 'success'}
 ```
 
-```json
+```ruby
 {status: 'success', html: 'posts list'}
 ```
 
-```json
+```ruby
 {status: 'success', message: 'it works'}
 ```
 
-```json
+```ruby
 {status: 'failed', errors: {login: 'invalid'}, message: 'fucked up'}
 ```
 
-```json
+```ruby
 {status: 'append', html: 'new comment'}
 ```
 
-```json
+```ruby
 {status: 'prepend', html: 'new post'}
 ```
 
-```json
+```ruby
 {status: 'replace', html: 'new profile picture'}
 ```
 
