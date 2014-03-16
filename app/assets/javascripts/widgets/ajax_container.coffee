@@ -37,7 +37,5 @@ class bud.widgets.AjaxContainer extends bud.Widget
 
   on_response_received: (response) =>
     @$container.removeClass('pending')
-    unless response['html']
-      bud.replace_html(@$container, response)
 
   request_params: -> {}
