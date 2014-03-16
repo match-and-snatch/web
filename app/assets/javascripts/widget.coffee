@@ -11,6 +11,16 @@ class bud.Widget
     parent_container.find(widget_class.SELECTOR).not('.js-widget').each (index, container) ->
       new widget_class($(container))
 
+  @destroy: (widget_container) ->
+    $widget_container = $(widget_container)
+    widget = $widget_container.data('js-widget')
+    return unless widget
+
+    window.bud.Widget.instances = _.without(window.bud.Widget.instances, widget)
+    widget.destroy()
+    delete $widget_container.data('js-widget')
+    $widget_container.data('js-widget', null)
+
   @highlight_all:   -> $('.js-widget').addClass('js-highlight')
   @dehighlight_all: -> $('.js-widget').removeClass('js-highlight')
 

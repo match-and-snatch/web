@@ -11,11 +11,14 @@
 # HTML helpers
 window.bud.replace_container = (container, replacement) ->
   $container = $(container)
+  bud.Widget.destroy($container)
+  bud.Core.destroy_widgets($container)
   $parent = $container.parent()
   $container.replaceWith(replacement)
   bud.Core.init_widgets($parent)
 
 window.bud.replace_html = (container, replacement) ->
+  bud.Core.destroy_widgets($(container))
   $(container).html(replacement)
   bud.Core.init_widgets(container)
 
@@ -28,7 +31,8 @@ window.bud.prepend_html = (container, replacement) ->
   bud.Core.init_widgets(container)
 
 window.bud.clear_html = (container) ->
-  $(container).html('')
+  bud.Core.destroy_widgets($(container))
+  $(container).empty()
 
 window.bud.get = (identifier) ->
   $("[data-identifier=#{identifier}]")

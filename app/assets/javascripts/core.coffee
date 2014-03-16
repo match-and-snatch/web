@@ -22,13 +22,7 @@ class (window.bud or= {}).Core
   @destroy_widgets: (parent_container) ->
     _.each parent_container.find('.js-widget'), (widget_container) ->
       try
-        $widget_container = $(widget_container)
-        widget = $widget_container.data('js-widget')
-        window.bud.Widget.instances = _.without(window.bud.Widget.instances, widget)
-
-        widget.destroy()
-        delete $widget_container.data('js-widget')
-        $widget_container.data('js-widget', null)
+        bud.Widget.destroy(widget_container)
       catch error
         bud.Logger.error(error)
 

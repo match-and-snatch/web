@@ -31,7 +31,7 @@ class bud.widgets.Form extends bud.Widget
     _.each @$container.find('input[data-target]'), (field) ->
       $field = $(field)
       $target = bud.get($field.data('target'))
-      $target.html($field.val())
+      bud.replace_html($target, $field.val())
 
   on_replace: (response) =>
     if @$target == @$container
