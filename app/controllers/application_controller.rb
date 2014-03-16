@@ -44,12 +44,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
-  # Renders html used in response to JS
-  # @param _action [String] Action name
-  def default_html(_action)
-    render_to_string(action: _action, layout: false, formats: [:html])
-  end
-
   # @param code [Integer]
   def error(code)
     raise HttpCodeError, code
@@ -80,35 +74,44 @@ class ApplicationController < ActionController::Base
   end
 
   # Renders html with success status
-  # @param _action [String]
-  def json_render(_action = action_name, opts = {})
-    json_success({html: default_html(_action)}.merge(opts))
+  # @param json [Hash]
+  def json_render(json = {})
+    json_render_html('success', json)
   end
 
   # Appends html to container
-  # @param _action [String]
-  def json_append(_action = action_name, opts = {})
-    json = {status: 'append', html: default_html(_action)}
-    render json: json.merge(opts)
+  # @param json [Hash]
+  def json_append(json = {})
+    json_render_html('append', json)
   end
 
   # Prepends html to container
-  # @param _action [String]
-  def json_prepend(_action = action_name, opts = {})
-    json = {status: 'prepend', html: default_html(_action)}
-    render json: json.merge(opts)
+  # @param json [Hash]
+  def json_prepend(json = {})
+    json_render_html('prepend', json)
   end
 
   # Replaces container with responded html
-  # @param _action [String]
-  def json_replace(_action = action_name, opts = {})
-    json = {status: 'replace', html: default_html(_action)}
-    render json: json.merge(opts)
+  # @param json [Hash]
+  def json_replace(json = {})
+    json_render_html('replace', json)
   end
 
   # Reloads page via JS
   def json_reload
     render json: {status: 'reload'}
+  end
+
+  # @param status [String]
+  # @param json [Hash]
+  # @option json [String, nil] :template
+  def json_render_html(status, json = {})
+    unless json[:html]
+      template = json.delete(:template) || action_name
+      json[:html] = render_to_string(action: template, layout: false, formats: [:html])
+    end
+
+    render json: json.merge(status: status)
   end
 
   # @return [SessionManager]

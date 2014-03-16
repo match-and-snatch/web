@@ -11,12 +11,12 @@ class PostsController < ApplicationController
 
     if params[:last_post_id].present?
       @posts = @posts.where(['id < ?', params[:last_post_id]])
-      return json_append action_name, last_post_id: @posts.last.try(:id)
+      return json_append last_post_id: @posts.last.try(:id)
     else
       if params[:q]
-        return json_replace action_name, last_post_id: @posts.last.try(:id)
+        return json_replace last_post_id: @posts.last.try(:id)
       else
-        return json_append action_name, last_post_id: @posts.last.try(:id)
+        return json_append last_post_id: @posts.last.try(:id)
       end
     end
   end

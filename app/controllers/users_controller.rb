@@ -27,14 +27,14 @@ class UsersController < ApplicationController
   def edit
     respond_to do |format|
       format.html # Renders demo profile preview
-      format.json { json_render 'edit_price_slug' } # Renders second step
+      format.json { json_render template: 'edit_price_slug' } # Renders second step
     end
   end
 
   # Second step submission
   def update
     UserProfileManager.new(@user).update(subscription_cost: params[:subscription_cost], slug: params[:slug])
-    json_replace 'edit_payment_information'
+    json_replace template: 'edit_payment_information'
   end
 
   # Third step submission
