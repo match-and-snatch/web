@@ -12,29 +12,30 @@ html
           ul.nav.navbar-nav.pull-right
             - if current_user.authorized?
               li
-                a.btn.black href=logout_path
-                  i.fa.fa-sign-out Logout
+                a.logout href=logout_path Log Out
+                / a.btn.black href=logout_path
+                /   i.fa.fa-sign-out Logout
 
               - if current_user.complete_profile?
                 li
-                  a.btn.pink href=current_profile_path
+                  a.btn.black href=current_profile_path
                     i.fa.fa-user My Profile
                 li
-                  a.btn.pink href=account_info_path
+                  a.btn.black href=account_info_path
                     i.fa.fa-bars Account Info
 
               - else current_user.authorized?
                 a.btn.black.finish_profile href=finish_profile_path Finish Registration
             - else
               li
-                a.btn.pink.login.PopupTrigger href='#' data-target='login'
+                a.btn.black.login.PopupTrigger href='#' data-target='login'
                   i.fa.fa-lock Login
               li
                 a.btn.black.signup.PopupTrigger href='#' data-target='registration'
                   i.fa.fa-sign-in Sign Up
               = render 'authentication_popups'
 
-    #content.container= yield
+    #content= yield
     #overlay.Overlay
     #ClickBlocker
     = render 'js'

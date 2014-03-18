@@ -1,16 +1,27 @@
+/* Sign Up Popup */
+
 .Popup.popup.modal-content data-identifier='registration'
+  
+  /* Header Area */
+
   .modal-header
-    .PopupTrigger.button.close type="button" data-target="registration" aria-hidden="true" ×
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="login" aria-hidden="true"
     .modal-title Create Your Profile
+    span In order for you to create your profile
+    span we need some basic information
+
+  /* Body Area */
+
   .modal-body
     form.Form action=users_path method='post'
       .form-group
-        input.form-control type='text' name='first_name' placeholder='First Name'
-        p.text-danger data-field='first_name'
-
-      .form-group
-        input.form-control type='text' name='last_name' placeholder='Last Name'
-        p.text-danger data-field='last_name'
+        .pull-left.margin-right
+          input.form-control type='text' name='first_name' placeholder='First Name'
+          p.text-danger data-field='first_name'
+        .pull-right.margin-left
+          input.form-control type='text' name='last_name' placeholder='Last Name'
+          p.text-danger data-field='last_name'
+        .clearfix
 
       .form-group
         input.form-control type='text' name='email' placeholder='Email Address'
@@ -25,23 +36,47 @@
         p.text-danger data-field='password_confirmation'
 
       .form-group
-        input.btn.btn-primary.form-control type='submit' value='Continue to Profile'
+        .terms_text.pull-left By proceeding, you agree to our Terms of Use and Privacy Policy.
+        input.btn.blue.pull-right type='submit' value='Continue to Profile'
+        .clearfix
+  
+  /* Footer Area */
+
   .modal-footer
-    | Already have an account?&nbsp;
+    span Already have an account?&nbsp;
     a.PopupTrigger href='#' data-target='login' Login
 
+
+
+
+
+/* Login Popup */
+
 .Popup.popup.modal-content data-identifier='login'
+
+  /* Header Area */
+
   .modal-header
-    .PopupTrigger.button.close type="button" data-target="login" aria-hidden="true" ×
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="login" aria-hidden="true"
     .modal-title Existing Account?
+    span If you already have an account please login below
 
-  form.Form action=session_path method='post'
-    .modal-body
-      input.form-control type='text' name='email' placeholder='Email Address'
-      br
-      input.form-control type='password' name='password' placeholder='Password'
-      p.text-danger.Error
+  /* Body Area */
 
-      input.form-control.pull-right.btn.btn-primary type='submit' value='Login'
-      | Has not registered yet?&nbsp;
-      a.PopupTrigger href='#' data-target='registration' Register!
+  .modal-body
+    form.Form action=session_path method='post'
+      .form-group
+        input.form-control type='text' name='email' placeholder='Email Address'
+      .form-group
+        input.form-control type='password' name='password' placeholder='Password'
+
+      .form-group
+        .pull-left.text-danger.Error
+        input.pull-right.btn.blue type='submit' value='Login'
+        .clearfix
+
+  /* Footer Area */
+
+  .modal-footer
+    span Not registered yet?&nbsp;
+    a.PopupTrigger href='#' data-target='registration' Click here to register!

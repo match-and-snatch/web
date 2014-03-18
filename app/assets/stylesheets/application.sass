@@ -34,6 +34,9 @@ a
   font-size: 12px
   display: none
 
+#content
+  margin-top: 45px
+
 .container 
   max-width: 970px
 
@@ -93,6 +96,8 @@ nav
   border-bottom: 1px solid #277aa3
   height: 45px
   text-shadow: none
+  -webkit-box-shadow: 0 0 10px 0 #155270
+  box-shadow: 0 0 10px 0 #155270
   .brand
     img
       margin-top: 6px
@@ -102,11 +107,86 @@ nav
     li
       margin-top: 5px
       margin-left: 10px
+      .logout 
+        background: none
+        color: #FFFFFF
+        font-size: 11px
+        margin: 7px 0 0 0
+        padding: 0
+        &:hover
+          text-decoration: underline
       .btn
         padding: 5px 10px
         .fa
           &:before
             padding-right: 5px
+
+/* Homepage */
+
+.home_pitch
+  background-color: #FFFFFF
+  text-align: center
+  img 
+    margin: 30px auto
+
+.home_blue
+  border-top: 1px solid #277aa3
+  border-bottom: 1px solid #277aa3
+  background-color: $color_blue
+  padding: 50px 0
+  .circle
+    border: 3px solid #FFFFFF
+  .text
+    .title
+      color: #FFFFFF
+    span  
+      color: #145372
+
+.home_gray
+  border-top: 1px solid #FFFFFF
+  border-bottom: 1px solid #FFFFFF
+  background-color: $color_background
+  padding: 50px 0
+  .circle
+    border: 3px solid #ebebeb
+  .text
+    .title
+      color: $color_pink
+      text-shadow: 1px 1px 0 #FFFFFF
+    span  
+      color: $color_text_dark
+      text-shadow: 1px 1px 0 #FFFFFF
+
+.home_blue, .home_gray
+  .circle
+    height: 455px
+    width: 455px  
+  .text
+    .title
+      font-size: 60px
+      margin: 100px 0 15px
+    span  
+      font-size: 26px
+      font-weight: 300
+      line-height: 36px
+
+.button_actions
+  text-align: center
+  .title 
+    color: #FFFFFF
+    font-size: 60px
+    padding-bottom: 30px
+    text-shadow: -1px -1px 0 #4495be
+  .btn
+    font-size: 32px
+    font-weight: 300
+    padding: 15px 0
+    width: 350px
+  .or
+    color: #256484
+    font-size: 48px
+    font-weight: 600
+    text-shadow: 1px 1px 0 #7cc3e7
 
 /* Header */
 
@@ -606,35 +686,108 @@ nav
     font-size: 13px
     font-weight: 300
 
+/* Popup Overlay */
+
+#overlay
+  z-index: $deepest_depth + 10000
+  background: black
+  display: none
+  opacity: 0.4
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  top: 0
+
+/* Popup */
+
+.popup
+  @include border-radius($border_radius)
+  border: 5px solid #464646
+  display: none
+  min-height: 50px
+  min-width: 200px
+  position: fixed
+  left: 50%
+  top: 50%
+  z-index: $deepest_depth + 10001
+
+  /* Header Area */
+
+  .modal-header
+    border: none
+    padding: 15px 20px
+    position: relative
+    text-align: center
+    .close
+      position: absolute
+      top: 5px
+      right: 5px
+    .modal-title
+      color: $color_blue
+      font-size: 32px
+      line-height: 100%
+    span 
+      color: $color_text_light
+      display: block
+      font-size: 13px
+      margin-top: 5px
+
+  /* Body Area */
+
+  .modal-body
+    display: block
+    padding: 5px 20px 0
+    .form-control
+      background-color: $color_background
+      border: 1px solid $color_border
+      &:focus
+        background-color: #FFFFFF
+        border: 1px solid $color_blue
+    input[type="submit"]
+      &:focus
+        color: #FFFFFF
+        outline: none
+    .text-danger
+      color: red
+      font-size: 11px
+      margin: 0
+      padding: 0
+    .margin-left, .margin-right
+      width: 165px
+    .margin-right
+      margin-right: 10px
+    .margin-left
+      margin-left: 10px
+    .terms_text
+      color: #cccccc
+      font-size: 11px
+      width: 180px
+
+  /* Footer Area */
+
+  .modal-footer
+    font-size: 12px
+    margin-top: 0
+    text-align: center
+    span
+      color: $color_text_light
+    a
+      color: $color_text_light
+      &:hover
+        color: $color_text_dark 
+
+
+
+
+
+
+
+
 
 
 
 /* Old Styles */
-
-#content
-  margin-top: 50px
-
-#overlay
-  z-index: $deepest_depth + 10000
-  display: none
-  top: 0
-  right: 0
-  left: 0
-  bottom: 0
-  background: black
-  position: fixed
-  opacity: 0.6
-
-.popup
-  @include border-radius($border_radius)
-  z-index: $deepest_depth + 10001
-  display: none
-  position: fixed
-  min-width: 200px
-  min-height: 50px
-  top: 50%
-  left: 50%
-  border: 5px solid black
 
 /** REQUIRED BY JS (Modifiable, not deletable) **/
 
