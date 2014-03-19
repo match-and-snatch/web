@@ -247,7 +247,7 @@ nav
       color: $color_text_dark
       font-weight: 400
       font-size: 38px
-      margin-bottom: 10px
+      margin-bottom: 15px
       a
         color: $color_text_dark
         .fa
@@ -274,7 +274,7 @@ nav
       .cost_owner, .cost_visitor
         display: block
         float: right
-        margin-bottom: 10px
+        margin-bottom: 15px
         .btn
           @include border-radius($border_radius 0 0 10px)
           cursor: default
@@ -334,6 +334,7 @@ nav
           @include blue-area
           display: block
           color: #FFFFFF
+          cursor: pointer
           float: right
           font-weight: 400
           height: 55px
@@ -762,6 +763,48 @@ nav
       color: #cccccc
       font-size: 11px
       width: 180px
+
+    /* Subscriber Container */
+
+    &.subscribe_container
+      color: $color_text_dark
+      font-size: 16px
+      padding: 0 15px 15px
+      .order_summary, .account_payment
+        background-color: $color_background
+        min-height: 400px
+        padding: 15px
+        width: 325px
+
+      /* Order Summary */
+
+      .order_summary
+        .heading, .item_row
+          border-bottom: 1px solid #e1e1e1
+          padding-bottom: 15px  
+        .heading
+          font-size: 20px
+          font-weight: 600
+          margin-bottom: 15px
+        .subtotal, .transaction_fee
+          margin: 15px 0
+        .total_cost
+          border-top: 1px solid #e1e1e1
+          font-size: 20px
+          font-weight: bold
+          padding-top: 15px
+          .cost
+            color: $color_blue
+
+      /* Account Payment */
+
+      .account_payment
+        .form-control
+          background-color: #FFFFFF
+          border: 1px solid $color_border
+          &:focus
+            background-color: #FFFFFF
+            border: 1px solid $color_blue
 
   /* Footer Area */
 

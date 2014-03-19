@@ -1,41 +1,126 @@
-.modal-header
-  .PopupTrigger.button.close type="button" data-target="subscription" aria-hidden="true" ×
-  .modal-title New unauthorized subscription
+- if current_user.has_cc_payment_account?
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
+    .modal-title Create an account & subscribe
+    span Checkout will create an account for you to login and view your subscriptions
 
-.modal-body
-  strong Subscription costs #{@user.subscription_cost} $
-  br
-  - if current_user.has_cc_payment_account?
-    a.AjaxFormLink href=user_subscriptions_path(@user) Subscribe
-  - else
-    form.Form action=via_register_user_subscriptions_path(@user) method='POST'
-      .form-group
-        input.form-control type='text' name='full_name' placeholder='Full Name'
-        p.text-danger data-field='full_name'
-      .form-group
-        input.form-control type='text' name='email' placeholder='Email Address'
-        p.text-danger data-field='email'
-      .form-group
-        input.form-control type='password' name='password' placeholder='Password'
-        p.text-danger data-field='password'
+  .modal-body.subscribe_container style="width: 300px"
 
-      hr
+    /* Order Summary Column */
 
-      .form-group
-        label.control-label CC Number
-        input.form-control type='text' name='number' placeholder='1234 5678 9012 3456'
-        p.text-danger data-field='number'
-      .form-group
-        label.control-label Expiry Date
-        small month
-        input type='text' name='expiry_month' placeholder='01'
-        small year
-        input type='text' name='expiry_year' placeholder='15'
-        p.text-danger data-field='expiry_date'
-      .form-group
-        label.control-label CVC Code
-        input.form-control type='text' name='cvc' placeholder='123'
-        p.text-danger data-field='cvc'
+    .order_summary
+      .heading Your Order Summary
 
-      input.btn.btn-primary type='submit' value='Pay & Subscribe'
+      /* Item Row */
 
+      .item_row
+        .pull-left Profile Name
+        .pull-right 
+          strong $#{@user.subscription_cost}
+        .clearfix
+
+      /* Subtotal */
+
+      .subtotal
+        .pull-left Subtotal
+        .pull-right 
+          strong $#{@user.subscription_cost}
+        .clearfix
+
+      /* Transaction Fee */
+
+      .transaction_fee 
+        .pull-left Transaction Fee
+        .pull-right 
+          strong $0.79
+        .clearfix
+
+      /* Total Cost */
+
+      .total_cost 
+        .pull-left Total Cost
+        .pull-right.cost $4.79
+        .clearfix
+
+      a.btn.blue.AjaxFormLink href=user_subscriptions_path(@user) Subscribe
+
+- else
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
+    .modal-title Create an account & subscribe
+    span Checkout will create an account for you to login and view your subscriptions
+
+  .modal-body.subscribe_container style="width: 700px"
+
+    /* Order Summary Column */
+
+    .order_summary.pull-left 
+      .heading Your Order Summary
+
+      /* Item Row */
+
+      .item_row
+        .pull-left Profile Name
+        .pull-right 
+          strong $#{@user.subscription_cost}
+        .clearfix
+
+      /* Subtotal */
+
+      .subtotal
+        .pull-left Subtotal
+        .pull-right 
+          strong $#{@user.subscription_cost}
+        .clearfix
+
+      /* Transaction Fee */
+
+      .transaction_fee 
+        .pull-left Transaction Fee
+        .pull-right 
+          strong $0.79
+        .clearfix
+
+      /* Total Cost */
+
+      .total_cost 
+        .pull-left Total Cost
+        .pull-right.cost $4.79
+        .clearfix
+
+    /* Account Payment Column */
+
+    .account_payment.pull-right 
+      form.Form action=via_register_user_subscriptions_path(@user) method='POST'
+        .form-group
+          input.form-control type='text' name='full_name' placeholder='Full Name'
+          p.text-danger data-field='full_name'
+        .form-group
+          input.form-control type='text' name='email' placeholder='Email Address'
+          p.text-danger data-field='email'
+        .form-group
+          input.form-control type='password' name='password' placeholder='Password'
+          p.text-danger data-field='password'
+        .form-group
+          label.control-label CC Number
+          input.form-control type='text' name='number' placeholder='1234 5678 9012 3456'
+          p.text-danger data-field='number'
+        .form-group
+          label.control-label Expiry Date
+          .clearfix
+          .pull-left
+            label.pull-left Month
+            input.form-control type='text' name='expiry_month' placeholder='01' style="width: 50px"
+          .pull-left
+            label.pull-left Year
+            input.form-control type='text' name='expiry_year' placeholder='15' style="width: 50px"
+          .clearfix
+          p.text-danger data-field='expiry_date'
+        .form-group
+          label.control-label CVC Code
+          input.form-control type='text' name='cvc' placeholder='123'
+          p.text-danger data-field='cvc'
+
+        input.btn.blue type='submit' value='Pay & Subscribe' style="width: 100%"
+        .clearfix
+    .clearfix

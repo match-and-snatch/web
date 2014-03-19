@@ -8,8 +8,7 @@
     .col-lg-8.col-md-7.profile_name
 
       /* Profile Name */
-      .PopupTrigger data-target='name-editor' data-identifier='full-name'
-        = @profile.full_name
+      = @profile.full_name
 
     .col-lg-4.col-md-5
 
@@ -23,7 +22,8 @@
           .clearfix
 
         /* Subscribe Button */
-        a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
+        a.subscribe.PopupTrigger data-target='subscription' Subscribe
+        / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
 
   /* Subscriber Benefits */
 
@@ -47,7 +47,6 @@
         li.fa.fa-check-circle Stay up-to-date when content is uploaded
         li.fa.fa-check-circle Listen and download audio
         li.fa.fa-check-circle Watch uploaded videos
-
 
 
       a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
