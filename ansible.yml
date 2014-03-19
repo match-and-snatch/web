@@ -5,6 +5,7 @@
   - name: Update APT package cache
     apt: update_cache=yes
     apt: name=git-core
+    apt: name=nodejs
 
 - include: ansible/postgres.yml
 
@@ -21,4 +22,6 @@
     shell: bash -lc "gem install bundler"
   - name: Install application gems
     shell: bash -lc "bundle install" chdir={{ project_path }}
+  - name: Install DB
+    shell: bash -lc "foreman run rake db:setup" chdir={{ project_path }}
 
