@@ -3,6 +3,8 @@
   sudo: yes
 
   tasks:
+  - name: Update APT package cache
+    apt: update_cache=yes
   - name: Ensure that Postgres packanges are installed
     action: apt name={{item}}
     with_items:
