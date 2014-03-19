@@ -24,4 +24,3 @@
     shell: bash -lc "bundle install" chdir={{ project_path }}
   - name: Install DB
     shell: bash -lc "foreman run rake db:setup" chdir={{ project_path }}
-

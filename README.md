@@ -1,6 +1,6 @@
 ## Setup application
 
-### On a virtual machine
+### On a virtual machine (preferred way)
 
 - Install [Vagrant](http://www.vagrantup.com/)
 - Install [VirtualBox](https://www.virtualbox.org/)
@@ -35,6 +35,11 @@ heroku keys:add ~/.ssh/id_rsa.pub
 ```
 
 ## Running
+
+Virtual Machine (preferred way):
+- `vagrant ssh`
+- `cd /vagrant`
+- `foreman start`
 
 Default:
 - `bundle install`
