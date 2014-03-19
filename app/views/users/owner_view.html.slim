@@ -87,7 +87,7 @@
 
   /* Post Status Area */
 
-  #post.hidden
+  #post
     form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
       .col-md-11
         textarea name='message' placeholder='Keep your subscribers in the know...'
@@ -98,7 +98,7 @@
 
   /* Upload View */
 
-  #uploading
+  #uploading.hidden
 
     /* Single File Line */
       
