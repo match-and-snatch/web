@@ -3,8 +3,8 @@ development:
   encoding: unicode
   database: buddy_platform_development
   pool: 5
-  user: postgres
-  password: q
+  user: buddy
+  password: qwerty
   host: localhost
 
 test:
@@ -12,8 +12,8 @@ test:
   encoding: unicode
   database: buddy_platform_test
   pool: 5
-  user: postgres
-  password: q
+  user: buddy
+  password: qwerty
   host: localhost
 
 production:
@@ -21,6 +21,6 @@ production:
   encoding: unicode
   database: buddy_platform_production
   pool: 5
-  user: postgres
-  password: q
+  user: buddy
+  password: qwerty
   host: localhost

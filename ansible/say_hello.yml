@@ -1,0 +1,5 @@
+---
+- name: Hello man! Here I am.
+  command: pwd
+  register: pwd
+- debug: var=pwd.stdout_lines

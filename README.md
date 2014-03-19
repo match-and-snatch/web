@@ -1,5 +1,15 @@
 ## Setup application
 
+### On a virtual machine (preferred way)
+
+- Install [Vagrant](http://www.vagrantup.com/)
+- Install [VirtualBox](https://www.virtualbox.org/)
+- Install [Ansible](http://www.ansible.com/)
+- `git clone git@github.com:subscribebuddy/platform.git`.
+- run `vagrant up`
+
+### Or on your local box
+
 - `git clone git@github.com:subscribebuddy/platform.git`.
 - Checkout development branch `git checkout development`.
 - Install [Ruby 2.0](http://rvm.io/).
@@ -25,6 +35,11 @@ heroku keys:add ~/.ssh/id_rsa.pub
 ```
 
 ## Running
+
+Virtual Machine (preferred way):
+- `vagrant ssh`
+- `cd /vagrant`
+- `foreman start`
 
 Default:
 - `bundle install`

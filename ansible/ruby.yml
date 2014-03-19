@@ -1,0 +1,8 @@
+---
+- name: Ensure that packanges required by RVM are installed
+  sudo: yes
+  action: apt name=curl
+- name: install rvm
+  shell: \curl -L https://get.rvm.io | bash -s stable --autolibs=3 creates=~/.rvm
+- name: install ruby
+  shell: ~/.rvm/bin/rvm install --default {{ ruby }} creates=~/.rvm/rubies/{{ ruby }}
