@@ -1,5 +1,15 @@
 ## Setup application
 
+### On a virtual machine
+
+- Install [Vagrant](http://www.vagrantup.com/)
+- Install [VirtualBox](https://www.virtualbox.org/)
+- Install [Ansible](http://www.ansible.com/)
+- `git clone git@github.com:subscribebuddy/platform.git`.
+- run `vagrant up`
+
+### Or on your local box
+
 - `git clone git@github.com:subscribebuddy/platform.git`.
 - Checkout development branch `git checkout development`.
 - Install [Ruby 2.0](http://rvm.io/).

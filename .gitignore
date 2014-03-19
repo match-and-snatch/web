@@ -21,6 +21,7 @@
 .env
 .env_test
 .idea
+.vagrant
 
 # Unrelated
 *.DS_Store

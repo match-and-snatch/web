@@ -1,0 +1,10 @@
+---
+# Buddy's virtual environment file
+- hosts: all
+  user: vagrant
+  sudo: true
+  tasks:
+  - name: Update APT package cache
+    apt: update_cache=yes
+
+- include: ansible/postgres.yml
