@@ -16,8 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.sudo = true
   end
 
-  config.vm.network :forwarded_port, guest: 8080, host: 3751
-  config.vm.network :forwarded_port, guest: 80, host: 3750
+  config.vm.network :forwarded_port, guest: 3000, host: 3000
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ['modifyvm', :id, '--memory', '1024', '--name', 'ansible-plaything']
