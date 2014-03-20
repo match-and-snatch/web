@@ -20,6 +20,7 @@
 .ruby-version
 .idea
 .vagrant
+.server_pid
 
 # Unrelated
 *.DS_Store

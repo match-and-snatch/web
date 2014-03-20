@@ -27,3 +27,12 @@
     shell: bash -lc "bundle install" chdir={{ project_path }}
   - name: Install DB
     shell: bash -lc "foreman run rake db:setup" chdir={{ project_path }}
+  - name: Register Upstart
+    sudo: yes
+    tasks:
+    - name: Install Foreman for sudoer
+      shell: bash -lc "gem install foreman"
+    - name: Export Foreman init scripts
+      shell: bash -lc "foreman export --app buddy --user vagrant upstart /etc/init" chdir={{ project_path }}
+  - name: Start Foreman
+    shell: bash -lc "start buddy" chdir={{ project_path }}

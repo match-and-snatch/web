@@ -37,9 +37,11 @@ heroku keys:add ~/.ssh/id_rsa.pub
 ## Running
 
 Virtual Machine (preferred way):
-- `vagrant ssh`
-- `cd /vagrant`
-- `foreman start`
+- `cap buddy server:restart`
+
+You also have commands:
+- `cap buddy server:stop` which stops your web server
+- `cap buddy server:start` which starts server without running all the service jobs
 
 Default:
 - `bundle install`
