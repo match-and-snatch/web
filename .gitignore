@@ -17,13 +17,16 @@
 
 # Heroku
 /config/database.yml
+
+# Developer specific environment
 .ruby-version
 .idea
-.vagrant
-.server_pid
-
-# Unrelated
 *.DS_Store
+
+# Virtual Machine
+.vagrant
+vagrant_ansible_inventory_default
+.server_pid
 
 # Assets
 public/assets/*
