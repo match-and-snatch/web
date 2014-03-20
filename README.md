@@ -33,6 +33,7 @@ heroku keys:add ~/.ssh/id_rsa.pub
 
 #### Virtual Machine (preferred way):
 - `cap buddy server:restart`
+- enjoy it on [localhost:3001](http://localhost:3001)
 
 You also have commands:
 - `cap buddy server:stop` which stops your web server
@@ -43,6 +44,7 @@ You also have commands:
 - `rake db:create`
 - `rake db:migrate`
 - `rails s`
+- enjoy it on [localhost:3000](http://localhost:3000)
 
 ## Basic workflow
 
