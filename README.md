@@ -5,27 +5,22 @@
 - Install [Vagrant](http://www.vagrantup.com/)
 - Install [VirtualBox](https://www.virtualbox.org/)
 - Install [Ansible](http://www.ansible.com/)
-- `git clone git@github.com:subscribebuddy/platform.git`.
+- `git clone git@github.com:subscribebuddy/platform.git`
+- `git checkout development`
 - run `vagrant up`
 
-### Or on your local box
+### Or directly on your local box (not preferred)
 
 - `git clone git@github.com:subscribebuddy/platform.git`.
 - Checkout development branch `git checkout development`.
 - Install [Ruby 2.0](http://rvm.io/).
 - Setup [Postgres App](http://postgresapp.com/).
-- Setup any ruby version management environment.
 - Setup Guard (if you use it).
 - Run `bundle install`.
 - Create `config/database.yml` using [config/database.yml.example](config/database.yml.example) file.
-- Setup foreman (if you are going to use it). Put into project root directory `.env` file containing:
 
-```bash
-RACK_ENV=development
-PORT=3000
-DATABASE_URL=postgres://postgres:password@localhost/buddy_platform_development
-```
 
+## Setting up heroku (not required)
 - Install [Toolbelt](https://devcenter.heroku.com/)
 
 Add your SSH keys:
@@ -36,24 +31,18 @@ heroku keys:add ~/.ssh/id_rsa.pub
 
 ## Running
 
-Virtual Machine (preferred way):
+#### Virtual Machine (preferred way):
 - `cap buddy server:restart`
 
 You also have commands:
 - `cap buddy server:stop` which stops your web server
 - `cap buddy server:start` which starts server without running all the service jobs
 
-Default:
+#### Directly on your local box:
 - `bundle install`
 - `rake db:create`
 - `rake db:migrate`
 - `rails s`
-
-Foreman:
-- `bundle install`
-- `foreman run rake db:create`
-- `foreman run rake db:migrate`
-- `foreman start`
 
 ## Basic workflow
 
@@ -61,9 +50,8 @@ Foreman:
 > git remote add my git@github.com:mygithubname/platform.git
 > git checkout development
 > git pull origin development
-> bundle install
-> rake db:migrate
 > git checkout -b my-new-feature
+> cap buddy update
 > git commit ...
 > git push my my-new-feature
 
@@ -81,18 +69,18 @@ Create Pull Request on github.
 
 ## How to run the test suite
 
-`bundle exec rspec spec`
+`cap buddy specs:all`
 
 Use Guard FTW!
 
-`bundle exec guard start`
-
-Or using Foreman: `foreman run -e .env_test bundle exec guard start`
+`cap buddy specs:guard`
 
 ### Deployment instructions
 
 - `git remote add heroku git@heroku.com:subscribebuddy.git`
-- `git push heroku master`
+- `rake assets:precompile`
+- `git add . && git commit -am "Compressed assets to push" && git push origin your_feature_branch`
+- upload files on S3
 - `git push heroku your_feature_branch:master -f`
 
 ### Staging server access
