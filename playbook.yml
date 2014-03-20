@@ -10,7 +10,7 @@
       - git
       - nodejs
 
-- include: ansible/postgres.yml
+- include: playbooks/postgres.yml
 
 - hosts: all
   vars:
@@ -19,8 +19,8 @@
   user: vagrant
   sudo: no
   tasks:
-  - include: ansible/say_hello.yml
-  - include: ansible/ruby.yml
+  - include: playbooks/say_hello.yml
+  - include: playbooks/ruby.yml
   - name: Install Bundler
     shell: bash -lc "gem install bundler"
   - name: Install application gems
