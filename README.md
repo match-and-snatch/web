@@ -12,6 +12,7 @@
 - [Ruby](https://www.ruby-lang.org/en/)
 - [Rails](http://guides.rubyonrails.org/)
 - [PostgreSQL](www.postgresql.org)
+- [RSpec](http://rspec.info/)
 - [Stripe](stripe.com)
 
 ## Setting up the application
