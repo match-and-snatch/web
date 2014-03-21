@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
   # Registers new profile __owner__ (not just subscriber)
   def create
-    user = AuthenticationManager.new(is_profile_owner:      true,
+    user = AuthenticationManager.new(is_profile_owner:      false,
                                      email:                 params[:email],
                                      first_name:            params[:first_name],
                                      last_name:             params[:last_name],
@@ -32,12 +32,14 @@ class UsersController < ApplicationController
   end
 
   # Second step submission
+  # Third step rendering
   def update
     UserProfileManager.new(@user).update(subscription_cost: params[:subscription_cost], slug: params[:slug])
     json_replace template: 'edit_payment_information'
   end
 
   # Third step submission
+  # Redirect to account info
   def update_payment_information
     UserProfileManager.new(@user).update_payment_information holder_name:    params[:holder_name],
                                                              routing_number: params[:routing_number],
@@ -112,17 +114,17 @@ class UsersController < ApplicationController
 
   def create_profile_page
     UserProfileManager.new(@user).create_profile_page
-    json_redirect finish_profile_path
+    json_redirect(@user.passed_profile_steps? ? profile_path(@user) : finish_profile_path)
   end
 
   # Profile page
   def show
-    user = User.profile_owners.where(slug: params[:id]).first or error(404)
+    user = User.profile_owners.with_complete_profile.where(slug: params[:id]).first or error(404)
     @profile = ProfileDecorator.new(user)
 
     if user == current_user.object
       template = 'owner_view'
-    elsif can?(:see_profile, user)
+    elsif can?(:see, user)
       template = 'show'
     else
       template = 'public_show'

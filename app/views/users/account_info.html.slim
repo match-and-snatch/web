@@ -5,10 +5,7 @@ ul.list-group.pull-left.col-lg-2
     a.AjaxLink.active data-target='account-info' href=account_settings_user_path(@user) Account Settings
   li.list-group-item
     a.AjaxLink data-target='account-info' href=billing_information_user_path(@user) Billing Information
-  - if @user.has_incomplete_profile?
-    li.list-group-item style='background: #FFbbbb'
-      a href=finish_profile_path Finish Profile Page
-  - elsif !@user.passed_profile_steps?
+  - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
     li.list-group-item
       a.AjaxFormLink data-_method='put' href=create_profile_page_user_path(@user) Create Profile Page
 

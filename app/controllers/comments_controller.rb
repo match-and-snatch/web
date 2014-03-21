@@ -2,6 +2,8 @@ class CommentsController < ApplicationController
   before_filter :authenticate!
   before_filter :load_post!
 
+  protect { can? :see, @post }
+
   def index
     @comments = @post.comments
     json_render
