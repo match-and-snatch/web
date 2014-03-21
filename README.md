@@ -1,6 +1,6 @@
 ![Buddy Rocks](http://buddy-assets.s3.amazonaws.com/images/logo_github.png)
 ## Learn
-### Frontent
+### Frontend
 - [Assets Pipeline](http://guides.rubyonrails.org/asset_pipeline.html)
 - [CoffeeScript](http://coffeescript.org/)
 - [Slim templates](http://slim-lang.com/)
