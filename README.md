@@ -1,6 +1,4 @@
---
 ![Buddy Rocks](http://buddy-assets.s3.amazonaws.com/images/logo_github.png)
-==
 ## Learn
 ### Frontent
 - [Assets Pipeline](http://guides.rubyonrails.org/asset_pipeline.html)
