@@ -85,14 +85,6 @@ Create Pull Request on github.
 > git push origin development
 ```
 
-## How to run the test suite
-
-`cap vagrant specs:all`
-
-Use Guard FTW!
-
-`cap vagrant specs:guard`
-
 ### Deployment instructions
 
 - `git remote add heroku git@heroku.com:subscribebuddy.git`
