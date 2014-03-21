@@ -1,6 +1,19 @@
 --
 ![Buddy Rocks](http://buddy-assets.s3.amazonaws.com/images/logo_github.png)
 ==
+## Learn
+### Frontent
+- [Assets Pipeline](http://guides.rubyonrails.org/asset_pipeline.html)
+- [http://coffeescript.org/](http://coffeescript.org/)
+- [http://slim-lang.com/](http://slim-lang.com/)
+- [https://github.com/rails/sass-rails](https://github.com/rails/sass-rails)
+
+### Backend
+- [Ruby](https://www.ruby-lang.org/en/)
+- [Rails](http://guides.rubyonrails.org/)
+- [PostgreSQL](www.postgresql.org)
+- [Stripe](stripe.com)
+
 ## Setting up the application
 
 ### On a virtual machine (preferred way)
