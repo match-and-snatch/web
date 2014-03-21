@@ -10,6 +10,6 @@ class BenefitsController < ApplicationController
   private
 
   def load_user!
-    @user = User.where(slug: params[:user_id]).first or error(404)
+    @user = current_user.object or error(404)
   end
 end
