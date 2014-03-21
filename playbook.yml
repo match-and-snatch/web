@@ -1,29 +1,5 @@
 ---
-- hosts: all
-  user: vagrant
-  tasks:
-  - name: Update APT package cache
-    apt: update_cache=yes
-  - name: Installing required packages
-    action: apt name={{item}}
-    with_items:
-      - git
-      - nodejs
-
+- include: playbooks/packages.yml
 - include: playbooks/postgres.yml
+- include: playbooks/application.yml
 
-- hosts: all
-  vars:
-    ruby: ruby-2.0.0-p247
-    project_path: /vagrant
-  user: vagrant
-  sudo: no
-  tasks:
-  - include: playbooks/say_hello.yml
-  - include: playbooks/ruby.yml
-  - name: Install Bundler
-    shell: bash -lc "gem install bundler"
-  - name: Install application gems
-    shell: bash -lc "bundle install" chdir={{ project_path }}
-  - name: Install DB
-    shell: bash -lc "foreman run rake db:setup" chdir={{ project_path }}
