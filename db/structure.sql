@@ -343,7 +343,8 @@ CREATE TABLE users (
     profile_picture_url text,
     original_profile_picture_url text,
     cover_picture_url text,
-    original_cover_picture_url text
+    original_cover_picture_url text,
+    is_profile_owner boolean DEFAULT false NOT NULL
 );
 
 
@@ -534,3 +535,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140312082212');
 INSERT INTO schema_migrations (version) VALUES ('20140312113727');
 
 INSERT INTO schema_migrations (version) VALUES ('20140312135728');
+
+INSERT INTO schema_migrations (version) VALUES ('20140321091326');

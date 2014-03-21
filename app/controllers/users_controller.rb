@@ -12,9 +12,10 @@ class UsersController < ApplicationController
     json_replace
   end
 
-  # Registers new user
+  # Registers new profile __owner__ (not just subscriber)
   def create
-    user = AuthenticationManager.new(email:                 params[:email],
+    user = AuthenticationManager.new(is_profile_owner:      true,
+                                     email:                 params[:email],
                                      first_name:            params[:first_name],
                                      last_name:             params[:last_name],
                                      password:              params[:password],

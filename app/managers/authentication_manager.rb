@@ -2,19 +2,21 @@ class AuthenticationManager < BaseManager
   include Concerns::EmailValidator
   include Concerns::PasswordValidator
 
-  attr_reader :email, :password, :password_confirmation, :first_name, :last_name, :full_name
+  attr_reader :is_profile_owner, :email, :password, :password_confirmation, :first_name, :last_name, :full_name
 
   # @param email [String]
   # @param password [String]
   # @param password_confirmation [String]
   # @param first_name [String]
   # @param last_name [String]
-  def initialize(email: nil,
+  def initialize(is_profile_owner: false,
+                 email: nil,
                  password: nil,
                  password_confirmation: nil,
                  full_name: nil,
                  first_name: nil,
                  last_name: nil)
+    @is_profile_owner      = is_profile_owner
     @email                 = email.to_s
     @password              = password
     @password_confirmation = password_confirmation
@@ -36,6 +38,7 @@ class AuthenticationManager < BaseManager
   def register
     validate! { validate_input }
 
+    user_is_profile_owner = is_profile_owner
     user.full_name = full_name
     user.email = email
     user.set_new_password(password)

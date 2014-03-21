@@ -6,9 +6,11 @@ def create_user(_params = {})
                         password:              'password',
                         password_confirmation: 'password',
                         first_name:            'sergei',
-                        last_name:             'zinin'
+                        last_name:             'zinin',
+                        is_profile_owner:      false
 
-  AuthenticationManager.new(email:                 params[:email],
+  AuthenticationManager.new(is_profile_owner:      params[:is_profile_owner],
+                            email:                 params[:email],
                             password:              params[:password],
                             password_confirmation: params[:password_confirmation],
                             first_name:            params[:first_name],
