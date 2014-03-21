@@ -1,12 +1,11 @@
 ![Buddy Rocks](http://buddy-assets.s3.amazonaws.com/images/logo_github.png)
-## Learn
-### Frontend
+#### Frontend
 - [Assets Pipeline](http://guides.rubyonrails.org/asset_pipeline.html)
 - [CoffeeScript](http://coffeescript.org/)
 - [Slim templates](http://slim-lang.com/)
 - [SASS](https://github.com/rails/sass-rails)
 
-### Backend
+#### Backend
 - [Ruby](https://www.ruby-lang.org/en/)
 - [Rails](http://guides.rubyonrails.org/)
 - [PostgreSQL](www.postgresql.org)
