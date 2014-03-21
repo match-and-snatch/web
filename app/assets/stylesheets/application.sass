@@ -93,7 +93,7 @@ textarea
 nav
   @include blue-area
   border-top: 1px solid #c5ecff
-  border-bottom: 1px solid #277aa3
+  // border-bottom: 1px solid #277aa3
   height: 45px
   text-shadow: none
   -webkit-box-shadow: 0 0 10px 0 #155270
@@ -105,22 +105,20 @@ nav
       width: 191px
   .navbar-nav
     li
-      margin-top: 5px
-      margin-left: 10px
-      .logout 
-        background: none
+      font-size: 13px
+      a
         color: #FFFFFF
-        font-size: 11px
-        margin: 7px 0 0 0
-        padding: 0
-        &:hover
-          text-decoration: underline
-      .btn
-        padding: 5px 10px
+        margin: 0
+        padding: 12px 15px
+        text-shadow: -1px -1px 0 #4798c0
         .fa
           &:before
             padding-right: 5px
-
+        &:hover 
+          background-color: #277aa3
+          text-shadow: none
+      &.active
+        background-color: #277aa3  
 /* Homepage */
 
 .home_pitch

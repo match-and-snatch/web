@@ -11,14 +11,14 @@ html
 
           ul.nav.navbar-nav.pull-right
             li
-              a.btn.black href=logout_path
+              a href=logout_path
                 i.fa.fa-sign-out Logout
             - if current_user.object.has_complete_profile?
               li
-                a.btn.black href=current_profile_path
+                a href=current_profile_path
                   i.fa.fa-user My Profile
             li
-              a.btn.black href=account_info_path
+              a href=account_info_path
                 i.fa.fa-bars Account Info
           .cf
         .cf
