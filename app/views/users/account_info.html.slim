@@ -1,15 +1,43 @@
-ul.list-group.pull-left.col-lg-2
-  li.list-group-item
-    a.AjaxLink data-target='account-info' href=user_subscriptions_path(@user) My Feed
-  li.list-group-item
-    a.AjaxLink.active data-target='account-info' href=account_settings_user_path(@user) Account Settings
-  li.list-group-item
-    a.AjaxLink data-target='account-info' href=billing_information_user_path(@user) Billing Information
-  - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
-    li.list-group-item
-      a.AjaxFormLink data-_method='put' href=create_profile_page_user_path(@user) Create Profile Page
+.account_info.box style="margin-top: 15px"
+  
+  .header 
+    h1 Welcome John Smith
 
+  .sidebar.pull-left
 
-.pull-left.col-lg-4
-  .AjaxContainer data-identifier='account-info' data-url=account_settings_user_path(@user)
+    ul.general
+      a.AjaxLink data-target='account-info' href=user_subscriptions_path(@user)
+        li My Feed
+      a.active.AjaxLink data-target='account-info' href=account_settings_user_path(@user) 
+        li Account Settings
+      a href="#"
+        li Mailbox
+      - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
+        a.AjaxFormLink data-_method='put' href=create_profile_page_user_path(@user) 
+          li Create Profile Page
+
+    .subscriptions My Subscriptions
+    ul
+      a href="#"
+        li View/Cancel Subscriptions
+      a href="#"
+        li Search Subscriptions
+      a.AjaxLink data-target='account-info' href=billing_information_user_path(@user) 
+        li Billing Information
+
+    .profile My Profile
+    ul
+      - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
+        a.AjaxFormLink data-_method='put' href=create_profile_page_user_path(@user) 
+          li Create Profile Page
+       
+      a href="#"
+        li Profile Details
+      a href="#"
+        li Payout Information
+      a href="#"
+        li View Subscribers
+
+  .info_display.pull-right
+    .AjaxContainer data-identifier='account-info' data-url=account_settings_user_path(@user)
 

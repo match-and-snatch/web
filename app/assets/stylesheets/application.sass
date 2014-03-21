@@ -101,6 +101,7 @@ nav
   .brand
     img
       margin-top: 6px
+      margin-left: 15px
       height: 31px
       width: 191px
   .navbar-nav
@@ -418,6 +419,9 @@ nav
       display: block
       width: 100%
     input[type="submit"]
+      &:focus
+        color: #FFFFFF
+        outline: none
 
   /* Uploading Media */
 
@@ -877,6 +881,55 @@ nav
   .modal-header
     padding: 15px 20px
   
+/* Account Info */
+
+.account_info
+  color: $color_text_dark
+  margin-top: 15px
+  .header
+    border-bottom: 1px solid $color_border
+    margin: 0
+    padding: 30px 15px
+    h1
+      margin: 0
+      padding: 0
+  .sidebar
+    font-size: 16px
+    padding: 0
+    width: 280px
+    ul
+      border-top: 1px solid $color_border
+      &.general
+        border-top: none
+      a
+        color: $color_text_dark
+        text-decoration: none
+        li
+          @include white-area
+          border-bottom: 1px solid $color_border
+          padding: 15px 0 15px 15px
+          &:hover
+            @include linear-gradient(#7dd3f3, #359acd)
+            border-bottom: 1px solid #277aa3
+            color: #FFFFFF
+            text-shadow: -1px -1px 0 #53a1c8
+        &.active
+          li
+            @include linear-gradient(#7dd3f3, #359acd)
+            border-bottom: 1px solid #277aa3
+            color: #FFFFFF
+            text-shadow: -1px -1px 0 #53a1c8
+    .subscriptions, .profile
+      color: $color_blue
+      font-weight: 600
+      font-size: 20px
+      margin-top: 60px
+      padding: 15px 0 15px 15px
+
+  .info_display
+    border-left: 1px solid $color_border
+    padding: 0 15px
+    width: 658px
 
 
 /** REQUIRED BY JS (Modifiable, not deletable) **/
