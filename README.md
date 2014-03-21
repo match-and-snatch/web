@@ -4,6 +4,7 @@
 - [CoffeeScript](http://coffeescript.org/)
 - [Slim templates](http://slim-lang.com/)
 - [SASS](https://github.com/rails/sass-rails)
+- [Transloadit](https://transloadit.com)
 
 #### Backend
 - [Ruby](https://www.ruby-lang.org/en/)
