@@ -4,9 +4,9 @@
 ## Learn
 ### Frontent
 - [Assets Pipeline](http://guides.rubyonrails.org/asset_pipeline.html)
-- [http://coffeescript.org/](http://coffeescript.org/)
-- [http://slim-lang.com/](http://slim-lang.com/)
-- [https://github.com/rails/sass-rails](https://github.com/rails/sass-rails)
+- [CoffeeScript](http://coffeescript.org/)
+- [Slim templates](http://slim-lang.com/)
+- [SASS](https://github.com/rails/sass-rails)
 
 ### Backend
 - [Ruby](https://www.ruby-lang.org/en/)
