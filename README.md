@@ -1,4 +1,7 @@
-## Setup application
+--
+![Buddy Rocks](http://buddy-assets.s3.amazonaws.com/images/logo_github.png)
+==
+## Setting up the application
 
 ### On a virtual machine (preferred way)
 
