@@ -165,10 +165,37 @@
         form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
           input.Autocomplete.form-control type="text" name='q' placeholder="Search profile content"
 
+      /* Category Cloud */
+
+      .cat_cloud 
+        span Categories
+        ul.box 
+          li 
+            a href="#" music
+          li
+            a href="#" flyers
+          li
+            a.med href="#" videos
+          li
+            a.lrg href="#" photos
+          li
+            a.sml href="#" podcasts
+
+
+
       /* Contact Info */
 
       .contact
-        span Contact
+        
+        /* Owner View Contact */
+
+        a.contact_edit href="#"
+          i.fa.fa-gear Contact
+        .clearfix
+        
+        /* Subscriber View Contact */
+        / span Contact
+
         ul.box
           li
             a.fa.fa-envelope href='#' Message
