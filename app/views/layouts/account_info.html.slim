@@ -13,9 +13,10 @@ html
             li
               a.btn.black href=logout_path
                 i.fa.fa-sign-out Logout
-            li
-              a.btn.black href=current_profile_path
-                i.fa.fa-user My Profile
+            - if current_user.object.has_complete_profile?
+              li
+                a.btn.black href=current_profile_path
+                  i.fa.fa-user My Profile
             li
               a.btn.black href=account_info_path
                 i.fa.fa-bars Account Info

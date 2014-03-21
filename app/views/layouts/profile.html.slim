@@ -15,15 +15,15 @@ html
                 a.logout href=logout_path Log Out
 
               - if current_user.has_incomplete_profile?
-                a.btn.black.finish_profile href=finish_profile_path Finish Registration
-              - elsif current_user.authorized?
-                - unless current_page?(current_profile_path)
-                  li
-                    a.btn.black href=current_profile_path
-                      i.fa.fa-user My Profile
                 li
-                  a.btn.black href=account_info_path
-                    i.fa.fa-bars Account Info
+                  a.btn.black.finish_profile href=finish_profile_path Finish Registration
+              - unless current_page?(current_profile_path)
+                li
+                  a.btn.black href=current_profile_path
+                    i.fa.fa-user My Profile
+              li
+                a.btn.black href=account_info_path
+                  i.fa.fa-bars Account Info
             - else
               li
                 a.btn.black.login.PopupTrigger href='#' data-target='login'

@@ -9,8 +9,11 @@ class bud.widgets.AjaxFormLink extends bud.Widget
     @$container.click @link_clicked
 
   link_clicked: =>
+    @data['jsWidget'] = undefined
+    @data['js-widget'] = undefined
     @$container.removeClass('active')
     @$container.addClass('pending')
+    console.log(@url, @data)
     bud.Ajax.post(@url, @data, {success: @render_link})
     return false
 

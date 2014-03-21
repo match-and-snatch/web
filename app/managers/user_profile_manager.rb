@@ -14,6 +14,13 @@ class UserProfileManager < BaseManager
     @user = user
   end
 
+  # @return [User]
+  def create_profile_page
+    @user.is_profile_owner = true
+    @user.save!
+    @user
+  end
+
   # @param subscription_cost [Float, String]
   # @param slug [String]
   # @return [User]

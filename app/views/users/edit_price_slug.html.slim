@@ -11,7 +11,7 @@
       | Example&nbsp;
       | www.subscribebuddy.com/
       strong style='color: red; font-weight: bold'
-        = @user.slug
+        = @user.sample_slug
 
     label Subscription Cost
     input type='text' name='subscription_cost' value=(@user.subscription_cost || 5)

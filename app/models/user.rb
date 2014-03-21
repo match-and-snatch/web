@@ -11,9 +11,11 @@ class User < ActiveRecord::Base
 
   validates :full_name, :email, presence: true
   before_create :generate_slug, if: :is_profile_owner?
+  before_save :set_profile_completion_status, if: :is_profile_owner?
 
   scope :profile_owners, -> { where(is_profile_owner: true) }
   scope :subscribers, -> { where(is_profile_owner: false) }
+  scope :with_complete_profile, -> { where(has_complete_profile: true) }
 
   pg_search_scope :search_by_full_name, against: :full_name,
                                         using: [:tsearch, :dmetaphone, :trigram],
@@ -36,9 +38,18 @@ class User < ActiveRecord::Base
     full_name.split(' ').first if full_name
   end
 
+  def has_complete_profile?
+    read_attribute(:has_complete_profile) || (is_profile_owner? && passed_profile_steps?)
+  end
+
   # Checks if profile owner hasn't passed three steps of registration
   def has_incomplete_profile?
-    is_profile_owner? && [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
+    is_profile_owner? && !passed_profile_steps?
+  end
+
+  # Checks if a user hasn't passed three steps of registration
+  def passed_profile_steps?
+    [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
   end
 
   # Returns true if user has passed Stripe registration
@@ -62,18 +73,30 @@ class User < ActiveRecord::Base
     slug || id.to_s
   end
 
+  # @return [String]
+  def sample_slug
+    @slug_example ||= begin
+      slug_base = full_name.parameterize
+      slug = slug_base
+      i = 0
+
+      while User.where(slug: slug).any?
+        slug = "#{slug_base}-#{i+=1}"
+      end
+
+      slug
+    end
+  end
+
   private
 
   def generate_slug
-    slug_base = full_name.parameterize
-    slug = slug_base
-    i = 0
+    self.slug = sample_slug
+    true
+  end
 
-    while User.where(slug: slug).any?
-      slug = "#{slug_base}-#{i+=1}"
-    end
-
-    self.slug = slug
+  def set_profile_completion_status
+    self.has_complete_profile = true if has_complete_profile?
     true
   end
 end

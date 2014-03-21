@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   before_filter :redirect_complete, only: :edit
 
   def index
-    @users = User.profile_owners.search_by_full_name(params[:q]).limit(10)
+    @users = User.profile_owners.with_complete_profile.search_by_full_name(params[:q]).limit(10)
     json_replace
   end
 
@@ -110,6 +110,11 @@ class UsersController < ApplicationController
     json_replace
   end
 
+  def create_profile_page
+    UserProfileManager.new(@user).create_profile_page
+    json_redirect finish_profile_path
+  end
+
   # Profile page
   def show
     user = User.profile_owners.where(slug: params[:id]).first or error(404)
@@ -130,7 +135,7 @@ class UsersController < ApplicationController
 
   # Redirects profiles on dashboard if all three registration steps are passed
   def redirect_complete
-    redirect_to account_info_path unless @user.has_incomplete_profile?
+    redirect_to account_info_path if @user.has_complete_profile?
   end
 
   def load_user

@@ -25,6 +25,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_cost
       put :update_profile_picture
       put :update_cover_picture
+      put :create_profile_page
     end
 
     resources :benefits, only: [:create]
