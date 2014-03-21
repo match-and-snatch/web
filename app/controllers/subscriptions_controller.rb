@@ -3,6 +3,7 @@ class SubscriptionsController < ApplicationController
   before_filter :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
 
   def new
+    @user = @owner
     template = current_user.authorized? ? 'new' : 'new_unauthorized'
     json_render template: template
   end
@@ -15,13 +16,13 @@ class SubscriptionsController < ApplicationController
 
   # @todo fix
   def create
-    SubscriptionManager.new(current_user.object).subscribe_and_pay_for(@user)
+    SubscriptionManager.new(current_user.object).subscribe_and_pay_for(@owner)
     json_reload
   end
 
   def via_register
     SubscriptionManager.new(current_user.object).tap do |manager|
-      manager.register_subscribe_and_pay target:       @user,
+      manager.register_subscribe_and_pay target:       @owner,
                                          email:        params[:email],
                                          password:     params[:password],
                                          full_name:    params[:full_name],
@@ -36,7 +37,7 @@ class SubscriptionsController < ApplicationController
 
   def via_update_cc_data
     SubscriptionManager.new(current_user.object).tap do |manager|
-      manager.update_cc_subscribe_and_pay target:       @user,
+      manager.update_cc_subscribe_and_pay target:       @owner,
                                           number:       params[:number],
                                           cvc:          params[:cvc],
                                           expiry_month: params[:expiry_month],
@@ -48,6 +49,6 @@ class SubscriptionsController < ApplicationController
   private
 
   def load_owner!
-    @user = User.where(slug: params[:user_id]).first or error(404)
+    @owner = User.where(slug: params[:user_id]).first or error(404)
   end
 end
