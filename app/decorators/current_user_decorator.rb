@@ -20,9 +20,13 @@ class CurrentUserDecorator < BaseDecorator
       case action
       when :subscribe_to         then subject.id != object.id && authorized? && !subscribed_to?(subject)
       when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject)
-      when :see_profile          then subject.id == object.id ||                 subscribed_to?(subject)
+      when :see                  then subject.id == object.id ||                 subscribed_to?(subject)
       else
         raise ArgumentError, "No such action #{action}"
+      end
+    when Post
+      case action
+      when :see then object.id == subject.user.id || subscribed_to?(subject.user)
       end
     else
       raise ArgumentError, "No such subject #{subject.inspect}"

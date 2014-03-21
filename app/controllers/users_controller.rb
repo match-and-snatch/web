@@ -122,7 +122,7 @@ class UsersController < ApplicationController
 
     if user == current_user.object
       template = 'owner_view'
-    elsif can?(:see_profile, user)
+    elsif can?(:see, user)
       template = 'show'
     else
       template = 'public_show'

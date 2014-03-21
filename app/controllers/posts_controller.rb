@@ -2,23 +2,14 @@ class PostsController < ApplicationController
   before_filter :authenticate!
   before_filter :load_user!, only: :index
 
-  def index
-    if params[:q].present?
-      @posts = Post.where(user_id: @user.id).search_by_message(params[:q]).limit(10)
-    else
-      @posts = ProfileDecorator.new(@user).recent_posts
-    end
+  protect(:index) { can? :see, @user }
 
-    if params[:last_post_id].present?
-      @posts = @posts.where(['id < ?', params[:last_post_id]])
-      return json_append last_post_id: @posts.last.try(:id)
-    else
-      if params[:q]
-        return json_replace last_post_id: @posts.last.try(:id)
-      else
-        return json_append last_post_id: @posts.last.try(:id)
-      end
-    end
+  def index
+    query = Queries::Posts.new(user: @user, query: params[:q], start_id: params[:last_post_id])
+    resp = {last_post_id: query.last_post_id}
+    @posts = query.results
+
+    query.user_input? ? json_replace resp : json_append resp
   end
 
   def create

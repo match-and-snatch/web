@@ -17,10 +17,6 @@ class ProfileDecorator < BaseDecorator
     (benefits.map(&:message) + 10.times.map {}).first(10)
   end
 
-  def recent_posts
-    @object.posts.order('created_at DESC, id DESC').limit(5)
-  end
-
   # @return [Integer, Float]
   def subscription_cost
     @subscription_cost ||= begin

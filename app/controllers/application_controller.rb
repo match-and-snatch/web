@@ -22,11 +22,19 @@ class ApplicationController < ActionController::Base
     self.before_filter(*callbacks, only: action)
   end
 
+  def self.protect(*actions, &block)
+    filter_options = actions.any? ? [{only: actions}] : []
+
+    before_filter *filter_options do
+      instance_eval(&block) or error(401)
+    end
+  end
+
   protected
 
   # Restricts public access
   def authenticate!
-    session_manager.current_user.authorized? or error(401)
+    current_user.authorized? or error(401)
   end
 
   # @param action [Symbol]
