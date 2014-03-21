@@ -11,6 +11,7 @@
 - [PostgreSQL](www.postgresql.org)
 - [RSpec](http://rspec.info/)
 - [Stripe](stripe.com)
+- [Transloadit](https://transloadit.com)
 
 ## Setting up the application
 
