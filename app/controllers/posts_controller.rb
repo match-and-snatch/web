@@ -9,7 +9,7 @@ class PostsController < ApplicationController
     resp = {last_post_id: query.last_post_id}
     @posts = query.results
 
-    query.user_input? ? json_replace resp : json_append resp
+    query.user_input? ? json_replace(resp) : json_append(resp)
   end
 
   def create
