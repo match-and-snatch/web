@@ -48,12 +48,12 @@ heroku keys:add ~/.ssh/id_rsa.pub
 ## Running
 
 #### Virtual Machine (preferred way):
-- `cap buddy server:restart`
+- `cap vagrant server:restart`
 - enjoy it on [localhost:3001](http://localhost:3001)
 
 You also have commands:
-- `cap buddy server:stop` which stops your web server
-- `cap buddy server:start` which starts server without running all the service jobs
+- `cap vagrant server:stop` which stops your web server
+- `cap vagrant server:start` which starts server without running all the service jobs
 
 #### Directly on your local box:
 - `bundle install`
@@ -69,7 +69,7 @@ You also have commands:
 > git checkout development
 > git pull origin development
 > git checkout -b my-new-feature
-> cap buddy update
+> cap vagrant update
 > git commit ...
 > git push my my-new-feature
 
@@ -87,11 +87,11 @@ Create Pull Request on github.
 
 ## How to run the test suite
 
-`cap buddy specs:all`
+`cap vagrant specs:all`
 
 Use Guard FTW!
 
-`cap buddy specs:guard`
+`cap vagrant specs:guard`
 
 ### Deployment instructions
 
