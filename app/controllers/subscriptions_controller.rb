@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_filter :authenticate!, except: [:new, :create, :via_register]
-  before_filter :load_user!
+  before_filter :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
 
   def new
     template = current_user.authorized? ? 'new' : 'new_unauthorized'
@@ -8,8 +8,8 @@ class SubscriptionsController < ApplicationController
   end
 
   def index
-    @subscriptions = @user.subscriptions
-    @subscribed_on_me = Subscription.by_target(@user)
+    @subscriptions = current_user.object.subscriptions
+    @subscribed_on_me = Subscription.by_target(current_user.object)
     json_render
   end
 
@@ -47,7 +47,7 @@ class SubscriptionsController < ApplicationController
 
   private
 
-  def load_user!
+  def load_owner!
     @user = User.where(slug: params[:user_id]).first or error(404)
   end
 end

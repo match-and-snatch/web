@@ -10,7 +10,10 @@ class User < ActiveRecord::Base
   has_many :uploads, as: :uploadable
 
   validates :full_name, :email, presence: true
-  before_create :generate_slug
+  before_create :generate_slug, if: :is_profile_owner?
+
+  scope :profile_owners, -> { where(is_profile_owner: true) }
+  scope :subscribers, -> { where(is_profile_owner: false) }
 
   pg_search_scope :search_by_full_name, against: :full_name,
                                         using: [:tsearch, :dmetaphone, :trigram],
@@ -33,9 +36,9 @@ class User < ActiveRecord::Base
     full_name.split(' ').first if full_name
   end
 
-  # Checks if user has passed three steps of registration
-  def complete_profile?
-    [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
+  # Checks if profile owner hasn't passed three steps of registration
+  def has_incomplete_profile?
+    is_profile_owner? && [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
   end
 
   # Returns true if user has passed Stripe registration
@@ -56,7 +59,7 @@ class User < ActiveRecord::Base
   # Used for URL generation
   # @return [String]
   def to_param
-    slug
+    slug || id.to_s
   end
 
   private

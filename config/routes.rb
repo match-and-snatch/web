@@ -35,9 +35,6 @@ BuddyPlatform::Application.routes.draw do
         post :via_update_cc_data
       end
     end
-    scope module: :users do
-      resources :uploads, only: [:create]
-    end
   end
 
   get '/account_info' => 'users#account_info', as: :account_info

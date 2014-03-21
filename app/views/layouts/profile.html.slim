@@ -13,24 +13,17 @@ html
             - if current_user.authorized?
               li
                 a.logout href=logout_path Log Out
-                / a.btn.black href=logout_path
-                /   i.fa.fa-sign-out Logout
 
-              - if current_user.complete_profile?
-                - if current_page?(current_profile_path)
-                  / li
-                  /   a.btn.pink
-                  /     i.fa.fa-user My Profile
-                - else
+              - if current_user.has_incomplete_profile?
+                a.btn.black.finish_profile href=finish_profile_path Finish Registration
+              - elsif current_user.authorized?
+                - unless current_page?(current_profile_path)
                   li
                     a.btn.black href=current_profile_path
                       i.fa.fa-user My Profile
                 li
                   a.btn.black href=account_info_path
                     i.fa.fa-bars Account Info
-
-              - else current_user.authorized?
-                a.btn.black.finish_profile href=finish_profile_path Finish Registration
             - else
               li
                 a.btn.black.login.PopupTrigger href='#' data-target='login'

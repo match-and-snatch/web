@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   def create
     reset_session
     user = session_manager.login(params[:email], params[:password])
-    user.complete_profile? ? json_reload : json_redirect(finish_profile_path)
+    user.has_incomplete_profile? ? json_redirect(finish_profile_path) : json_reload
   end
 
   # Logs user out

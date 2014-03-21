@@ -5,10 +5,9 @@ class UsersController < ApplicationController
 
   before_filter :authenticate!, :load_user, except: [:index, :create, :show]
   before_filter :redirect_complete, only: :edit
-  before_filter :redirect_incomplete, only: :account_info
 
   def index
-    @users = User.search_by_full_name(params[:q]).limit(10)
+    @users = User.profile_owners.search_by_full_name(params[:q]).limit(10)
     json_replace
   end
 
@@ -113,10 +112,9 @@ class UsersController < ApplicationController
 
   # Profile page
   def show
-    user = User.where(slug: params[:id]).first or error(404)
+    user = User.profile_owners.where(slug: params[:id]).first or error(404)
     @profile = ProfileDecorator.new(user)
 
-    template = nil
     if user == current_user.object
       template = 'owner_view'
     elsif can?(:see_profile, user)
@@ -132,12 +130,7 @@ class UsersController < ApplicationController
 
   # Redirects profiles on dashboard if all three registration steps are passed
   def redirect_complete
-    redirect_to account_info_path if @user.complete_profile?
-  end
-
-  # Redirects profiles on dashboard if all three registration steps are passed
-  def redirect_incomplete
-    redirect_to finish_profile_path unless @user.complete_profile?
+    redirect_to account_info_path unless @user.has_incomplete_profile?
   end
 
   def load_user
