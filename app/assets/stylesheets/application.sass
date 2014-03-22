@@ -489,19 +489,14 @@ nav
 
     /* Profile Action */
 
-    .profile_action
-      .copy_url, .share_url
-        font-size: 18px
-        padding: 10px 0
-        width: 50%
-        .fa
-          &:before
-            padding-right: 10px
-      .copy_url
-        @include border-radius($border_radius 0 0 $border_radius)
-      .share_url
-        @include border-radius(0 $border_radius $border_radius 0)
-        border-left: none
+    .share_url
+      font-size: 18px
+      padding: 10px 0
+      text-align: center
+      width: 100%
+      .fa
+        &:before
+          padding-right: 10px
 
     /* Search Profile Content */
 
@@ -524,7 +519,7 @@ nav
         color: #464646
         display: block
         font-size: 24px
-        padding: 30px 0 15px 15px
+        padding: 15px 0
         position: relative
       ul.box
         padding: 15px
@@ -547,14 +542,14 @@ nav
         color: #464646
         display: inline-block
         font-size: 24px
-        margin: 30px 0 15px
-        padding-left: 15px
+        margin: 15px 0
         position: relative
+        text-decoration: none
         .fa
           &:before
             color: $color_gear
             font-size: 16px
-            padding-right: 5px
+            padding-left: 10px
             position: relative
             top: -2px
         &:hover
@@ -565,7 +560,7 @@ nav
         color: #464646
         display: block
         font-size: 24px
-        padding: 30px 0 15px 15px
+        margin: 15px 0
         position: relative
       ul.box
         padding: 15px 15px 0 15px
@@ -606,87 +601,123 @@ nav
         font-size: 12px
         padding: 15px 15px 0 15px
       .message
-        font-size: 14px
-        padding: 30px 15px
-      .foot
+        font-size: 13px
+        line-height: 20px
+        padding: 15px
+      .action_bar
         @include white-area
         border-top: 1px solid $color_border
         display: block
-        padding: 15px
+        padding: 10px 15px
         position: relative
-        text-align: right
-        a
-          color: $color_text_light
-          font-weight: 400
-          &.fa
-            &:before
-              padding-right: 5px
+        .fa
+          &:before
+            position: relative
+            top: 1px
           &:hover
             color: $color_text_dark
             text-decoration: none
             &.fa
               &:before
-                color: $color_blue
+                color: $color_pink
+        .liked_post 
+          &.fa
+            &:before
+              color: $color_pink
+
+        .users_liked  
+          color: $color_text_light
+          font-size: 12px
+          padding-left: 5px
 
     /* Discussion Dropdown */
 
     .comment_container
-      background: #FFFFFF
-      border-left: 1px solid $color_border
-      border-bottom: 1px solid $color_border
-      border-right: 1px solid $color_border
-      margin: -1px 15px 30px 15px
+      background-color: $color_background
+      border-top: 1px solid $color_border
+      padding-top: 15px
       position: relative
-      z-index: 0
-      .comment
-        border-top: 1px solid $color_border
-        margin: 0 15px
-        padding: 15px 0
+      .photo 
+        background-color: #FFFFFF
+        border: 1px solid $color_border
+        height: 50px
+        width: 50px
+      .comment_row
+        padding: 0 15px 15px 15px
         position: relative
-        &:first-child
-          border-top: none
-        .user
-          color: $color_text_dark
-          font-size: 14px
-          margin-bottom: 5px
-          font-weight: 600
-        .date
-          color: #c2c2c2
-          position: absolute
-          font-size: 12px
-          top: 15px
-          right: 15px
-        .message
-          color: $color_text_light
+        .content
           font-size: 13px
           line-height: 20px
-      textarea
-        background-color: $color_background
-        border: none
-        border-bottom: 1px solid $color_border
-        border-top: 1px solid $color_border
-        color: $color_text_light
-        display: block
-        font-size: 14px
-        font-weight: 400
-        line-height: 24px
-        resize: none
-        padding: 15px
-        width: 100%
-        min-height: 50px
-        &:focus
-          outline: none
-      .foot
-        display: block
-        padding: 15px
-        .hide_discussion
-          color: #959595
-          cursor: pointer
-          font-size: 12px
-          margin-top: 9px
+          position: relative
+          width: 520px
+          .delete
+            display: none
+            position: absolute
+            top: 0
+            right: 0
+            &.fa
+              &:before
+                color: $color_text_light
+              &:hover
+                &:before
+                  color: $color_pink
+          .profile_name
+            color: $color_blue
+            font-weight: 600
+          .post_date
+            color: #CCCCCC
+            display: none
+            font-size: 12px
+            line-height: 100%
+            margin-top: 5px
+        &:hover
+          .delete
+            display: block
+      .reply_container
+        padding: 0 15px 15px 15px
+        .reply_input
+          border: 1px solid $color_border
+          font-size: 13px
+          min-height: 50px
           margin-right: 15px
-          &:hover
-            text-decoration: underline
+          padding: 5px 10px
+          position: relative
+          width: 445px
+        .reply
+          font-size: 13px
+          font-weight: 400
+
+      //   .message
+      //     color: $color_text_light
+      //     font-size: 13px
+      //     line-height: 20px
+      // textarea
+      //   background-color: $color_background
+      //   border: none
+      //   border-bottom: 1px solid $color_border
+      //   border-top: 1px solid $color_border
+      //   color: $color_text_light
+      //   display: block
+      //   font-size: 14px
+      //   font-weight: 400
+      //   line-height: 24px
+      //   resize: none
+      //   padding: 15px
+      //   width: 100%
+      //   min-height: 50px
+      //   &:focus
+      //     outline: none
+      // .foot
+      //   display: block
+      //   padding: 15px
+      //   .hide_discussion
+      //     color: #959595
+      //     cursor: pointer
+      //     font-size: 12px
+      //     margin-top: 9px
+      //     margin-right: 15px
+      //     &:hover
+      //       text-decoration: underline
 
 /* Visitor View */
 

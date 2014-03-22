@@ -1,9 +1,52 @@
-.post.box
-  .date #{time_ago_in_words(post.created_at)} ago
-  .message= super_highlight(post.message)
-  .foot
-    a.AjaxLink.fa.fa-comments href=post_comments_path(post) data-target="comments_section-#{post.id}" Join Discussion
-  .clearfix
+/* Regular Text Post */
 
-.comment_container data-identifier="comments_section-#{post.id}"
+.post.box
+  .date Posted #{time_ago_in_words(post.created_at)} ago
+  .message= super_highlight(post.message)
+  .action_bar
+    /* Add .liked_post to display solid pink heart after subscriber clicks the heart */
+    a.fa.fa-heart.pull-left href="#"
+    .users_liked.pull-left Slava Popov, John Smith & 2 more
+    .clearfix
+
+  .comment_container
+
+    /* Comment Row */
+
+    .comment_row
+      .photo.pull-left
+        img
+      .content.pull-right
+        /* Display Delete Only if Owner or if it your comment */
+        .delete.fa.fa-times
+        .profile_name Slava Popov
+        .comment_text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque. 
+        .post_date Posted 15 minutes ago
+      .clearfix
+
+    /* temp comment, please remove */
+
+    .comment_row
+      .photo.pull-left
+        img
+      .content.pull-right
+        .delete.fa.fa-times
+        .profile_name Slava Popov
+        .comment_text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque.
+        .post_date Posted 2 hours ago
+      .clearfix
+
+    /* Show this container be default. Comments or no comment this div shows up below the .action_bar */
+
+    .reply_container
+      .photo.pull-left
+        img
+      .reply.btn.black.pull-right Reply
+      textarea.reply_input.pull-right placeholder="Write your reply..."
+      .clearfix
+
+/* Old discussion stuff */
+
+span.hidden.AjaxLink href=post_comments_path(post) data-target="comments_section-#{post.id}" Join Discussion
+div.hidden data-identifier="comments_section-#{post.id}"
 .clearfix
