@@ -4,7 +4,7 @@
   .date Posted #{time_ago_in_words(post.created_at)} ago
   .message= super_highlight(post.message)
   .action_bar
-    /* Add .liked_post to display solid pink heart after subscriber clicks the heart */
+    /* Add .liked_post (a.fa.fa-heart.liked_post.pull-left) to display solid pink heart after subscriber clicks the heart */
     a.fa.fa-heart.pull-left href="#"
     .users_liked.pull-left Slava Popov, John Smith & 2 more
     .clearfix

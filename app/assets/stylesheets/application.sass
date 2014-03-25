@@ -217,8 +217,8 @@ nav
     position: absolute
     top: 60px
     left: 15px
-    height: 250px
-    width: 250px
+    height: 252px
+    width: 252px
     z-index: 2
     .btn
       right: 52px
@@ -629,6 +629,52 @@ nav
           color: $color_text_light
           font-size: 12px
           padding-left: 5px
+
+      /* Audio Post */
+
+      &.media_post
+        .post_title
+          color: $color_blue
+          font-size: 16px
+          padding: 15px 15px 0 
+        .date
+          padding: 5px 15px 15px 15px
+        .audio_player, .video_player, .doc_view
+          background-color: $color_background
+          border: 1px solid $color_border
+          display: block
+          margin: 0 15px
+        .audio_player
+          height: 30px
+        .video_player
+          height: 300px
+        a.doc_view
+          .icon
+            background-color: #FFFFFF
+            border-right: 1px solid $color_border
+            padding: 10px 15px
+            &.fa
+              &:before
+                font-size: 26px
+          .doc_title
+            display: block
+            padding: 13px 0 0 10px
+          &:hover
+            text-decoration: none
+        ul.photo_view
+          display: block
+          margin: 0 auto
+          list-style-type: none
+          width: 530px
+          li
+            display: inline-block
+            background-color: $color_background
+            border: 1px solid $color_border
+            height: 250px
+            width: 250px
+            margin-right: 15px 
+            margin-bottom: 15px
+
 
     /* Discussion Dropdown */
 
