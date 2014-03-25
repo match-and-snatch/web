@@ -183,7 +183,7 @@
         
         /* Owner View Contact */
 
-        a.contact_edit href="#" 
+        a.contact_edit.PopupTrigger data-target='contacts-editor' href="#"
           | Contact
           i.fa.fa-gear
         .clearfix
@@ -256,6 +256,11 @@
         .pull-left.error data-field='full_name'
         input.btn.blue.pull-right type='submit' value='Change Name'
         .clearfix
+
+/* Contacts Editor */
+
+.Popup.popup.header_edit.modal-content data-identifier='contacts-editor' style='width: 500px'
+  p Slava, add any input here
 
 /* Cost Popup */
 
