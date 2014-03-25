@@ -54,15 +54,4 @@
         .title Heading
         span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus id metus eget bibendum. Nulla vitae dui dapibus, vulputate urna porta.
 
-/* Search Popup */
-
-.Popup.popup.modal-content data-identifier='search-users' style='min-width: 350px; top: 160px'
-  .modal-header
-    button.close.PopupTrigger type="button" data-target="search-users" aria-hidden="true" ×
-    .modal-title Search Users
-  .modal-body
-    form.Form action=users_path method='get' data-target='users-list'
-      input.Autocomplete.form-control type='text' name='q' value='' placeholder='Search users...'
-    br
-    div data-identifier='users-list'
-
+= render 'search_users_popup'
