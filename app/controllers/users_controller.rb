@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   # First and second step of registration flow
   def edit
     respond_to do |format|
-      format.html # Renders demo profile preview
+      format.html { render layout: 'blank' } # Renders demo profile preview
       format.json { json_render template: 'edit_price_slug' } # Renders second step
     end
   end
