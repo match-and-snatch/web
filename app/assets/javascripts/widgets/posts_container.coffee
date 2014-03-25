@@ -4,11 +4,11 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
   @SELECTOR: '.PostsContainer'
 
   initialize: ->
+    @pending = true
     super
     $(window).scroll @on_scroll
     @last_post_id = null
     @disabled = false
-    @pending = false
 
   on_scroll: =>
     return if @disabled || @pending

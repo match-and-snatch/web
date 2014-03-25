@@ -12,10 +12,10 @@ module Queries
     
     # @return [Array<Post>]
     def results
-      @results ||= (autocomplete? ? matching_posts : recent_posts).tap do |posts|
-        if @start_id.present?
-          posts = posts.where(['id < ?', @start_id])
-        end
+      @results ||= begin
+        posts = autocomplete? ? matching_posts : recent_posts
+        posts = posts.where(['id < ?', @start_id]) if @start_id.present?
+        posts
       end.to_a
     end
 
