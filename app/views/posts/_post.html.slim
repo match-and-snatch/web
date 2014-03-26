@@ -13,7 +13,10 @@
 
     /* Comment Row */
 
-    .comment_row
+    = render partial: 'comments/comment', collection: post.comments.first(5)
+    .new_comments data-identifier="comments_section-#{post.id}"
+
+    /.comment_row
       .photo.pull-left
         img
       .content.pull-right
@@ -26,7 +29,7 @@
 
     /* temp comment, please remove */
 
-    .comment_row
+    / .comment_row
       .photo.pull-left
         img
       .content.pull-right
@@ -38,15 +41,10 @@
 
     /* Show this container be default. Comments or no comment this div shows up below the .action_bar */
 
-    .reply_container
+    form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}"
       .photo.pull-left
         img
-      .reply.btn.black.pull-right Reply
-      textarea.reply_input.pull-right placeholder="Write your reply..."
+      input.reply.btn.black.pull-right type='submit' value='Reply'
+      textarea.reply_input.pull-right name='message' placeholder="Write your reply..."
       .clearfix
 
-/* Old discussion stuff */
-
-span.hidden.AjaxLink href=post_comments_path(post) data-target="comments_section-#{post.id}" Join Discussion
-div.hidden data-identifier="comments_section-#{post.id}"
-.clearfix

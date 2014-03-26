@@ -8,7 +8,6 @@ class bud.widgets.Commenter extends bud.widgets.Form
   initialize: ->
     super
     @$target = bud.get(@$container.data('target'))
-    @$container.find('textarea').focus()
 
   on_success: (response) =>
     super
