@@ -17,21 +17,21 @@ class CurrentUserDecorator < BaseDecorator
   def can?(action, subject)
     case subject
     when User
-      case action
-      when :subscribe_to         then subject.id != object.id && authorized? && !subscribed_to?(subject)
-      when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject)
-      when :see                  then subject.id == object.id ||                 subscribed_to?(subject)
-      else
-        raise ArgumentError, "No such action #{action}"
-      end
+    case action
+    when :subscribe_to         then subject.id != object.id && authorized? && !subscribed_to?(subject)
+    when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject)
+    when :see                  then subject.id == object.id ||                 subscribed_to?(subject)
+    else
+      raise ArgumentError, "No such action #{action}"
+    end
     when Comment
-      case action
-      when :delete then subject.user_id == object.id || subject.post_user_id == object.id
-      end
+    case action
+    when :delete then subject.user_id == object.id || subject.post_user_id == object.id
+    end
     when Post
-      case action
-      when :see then object.id == subject.user.id || subscribed_to?(subject.user)
-      end
+    case action
+    when :see then object.id == subject.user.id || subscribed_to?(subject.user)
+    end
     else
       raise ArgumentError, "No such subject #{subject.inspect}"
     end
