@@ -3,7 +3,8 @@
     img
   .content.pull-right
     /* Display Delete Only if Owner or if it your comment */
-    .delete.fa.fa-times
+    - if can?(:delete, comment)
+      .delete.fa.fa-times
     .profile_name data-identifier='full-name'
       = comment.user.full_name
     .comment_text= comment.message

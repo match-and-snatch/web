@@ -14,7 +14,7 @@ class CommentManager < BaseManager
       raise ArgumentError, "Can't comment on non subscribed user posts"
     end
 
-    comment = Comment.new(post: @post, user: @user, message: message)
+    comment = Comment.new(post: @post, user: @user, post_user: @post.user, message: message)
     comment.save or fail_with!(comment.errors)
     comment
   end

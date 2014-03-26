@@ -123,7 +123,8 @@ CREATE TABLE comments (
     user_id integer,
     message text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    post_user_id integer
 );
 
 
@@ -541,3 +542,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140312135728');
 INSERT INTO schema_migrations (version) VALUES ('20140321091326');
 
 INSERT INTO schema_migrations (version) VALUES ('20140321111847');
+
+INSERT INTO schema_migrations (version) VALUES ('20140326104922');
