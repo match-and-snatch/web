@@ -37,13 +37,6 @@ class CurrentUserDecorator < BaseDecorator
     end
   end
 
-  # @return [String]
-  def authorization_status_message
-    if authorized?
-      "Hi, <b>#{object.first_name}</b>!".html_safe
-    end
-  end
-
   def has_subscriptions?
     object.subscriptions.any?
   end

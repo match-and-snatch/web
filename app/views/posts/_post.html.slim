@@ -13,33 +13,8 @@
 
     /* Comment Row */
 
-    = render partial: 'comments/comment', collection: post.comments.first(5)
+    = render partial: 'comments/comment', collection: post.comments.recent
     .new_comments data-identifier="comments_section-#{post.id}"
-
-    /.comment_row
-      .photo.pull-left
-        img
-      .content.pull-right
-        /* Display Delete Only if Owner or if it your comment */
-        .delete.fa.fa-times
-        .profile_name Slava Popov
-        .comment_text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque. 
-        .post_date Posted 15 minutes ago
-      .clearfix
-
-    /* temp comment, please remove */
-
-    / .comment_row
-      .photo.pull-left
-        img
-      .content.pull-right
-        .delete.fa.fa-times
-        .profile_name Slava Popov
-        .comment_text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque.
-        .post_date Posted 2 hours ago
-      .clearfix
-
-    /* Show this container be default. Comments or no comment this div shows up below the .action_bar */
 
     form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}"
       .photo.pull-left
