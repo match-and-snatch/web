@@ -6,6 +6,6 @@ class Comment < ActiveRecord::Base
   validates :message, presence: true
 
   def self.recent
-    order('id DESC').limit(5).to_a.reverse
+    order('id DESC').includes(:user).limit(5).to_a.reverse
   end
 end

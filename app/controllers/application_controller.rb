@@ -24,10 +24,7 @@ class ApplicationController < ActionController::Base
 
   def self.protect(*actions, &block)
     filter_options = actions.any? ? [{only: actions}] : []
-
-    before_filter *filter_options do
-      instance_eval(&block) or error(401)
-    end
+    before_filter(*filter_options) { instance_eval(&block) or error(401) }
   end
 
   protected
