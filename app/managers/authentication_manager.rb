@@ -38,7 +38,7 @@ class AuthenticationManager < BaseManager
   def register
     validate! { validate_input }
 
-    user_is_profile_owner = is_profile_owner
+    user.is_profile_owner = is_profile_owner
     user.full_name = full_name
     user.email = email
     user.set_new_password(password)

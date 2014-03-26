@@ -3,7 +3,6 @@ class SubscriptionsController < ApplicationController
   before_filter :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
 
   def new
-    @user = @owner
     template = current_user.authorized? ? 'new' : 'new_unauthorized'
     json_render template: template
   end

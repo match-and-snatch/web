@@ -1,4 +1,5 @@
 class BenefitsController < ApplicationController
+  before_filter :authenticate!
   before_filter :load_user!
 
   def create

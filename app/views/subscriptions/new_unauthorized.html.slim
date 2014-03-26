@@ -16,7 +16,7 @@
       .item_row
         .pull-left Profile Name
         .pull-right 
-          strong $#{@user.subscription_cost}
+          strong $#{@owner.subscription_cost}
         .clearfix
 
       /* Subtotal */
@@ -24,7 +24,7 @@
       .subtotal
         .pull-left Subtotal
         .pull-right 
-          strong $#{@user.subscription_cost}
+          strong $#{@owner.subscription_cost}
         .clearfix
 
       /* Transaction Fee */
@@ -42,7 +42,7 @@
         .pull-right.cost $4.79
         .clearfix
 
-      a.btn.blue.AjaxFormLink href=user_subscriptions_path(@user) Subscribe
+      a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) Subscribe
 
 - else
   .modal-header
@@ -62,7 +62,7 @@
       .item_row
         .pull-left Profile Name
         .pull-right 
-          strong $#{@user.subscription_cost}
+          strong $#{@owner.subscription_cost}
         .clearfix
 
       /* Subtotal */
@@ -70,7 +70,7 @@
       .subtotal
         .pull-left Subtotal
         .pull-right 
-          strong $#{@user.subscription_cost}
+          strong $#{@owner.subscription_cost}
         .clearfix
 
       /* Transaction Fee */
@@ -91,7 +91,7 @@
     /* Account Payment Column */
 
     .account_payment.pull-right 
-      form.Form action=via_register_user_subscriptions_path(@user) method='POST'
+      form.Form action=via_register_user_subscriptions_path(@owner) method='POST'
         .form-group
           input.form-control type='text' name='full_name' placeholder='Full Name'
           p.text-danger data-field='full_name'

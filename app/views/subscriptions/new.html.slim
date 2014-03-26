@@ -3,12 +3,12 @@
   .modal-title New authorized subscription
 
 .modal-body
-  strong Subscription costs #{@user.subscription_cost} $
+  strong Subscription costs #{@owner.subscription_cost} $
   br
   - if current_user.has_cc_payment_account?
-    a.AjaxFormLink href=user_subscriptions_path(@user) Subscribe
+    a.AjaxFormLink href=user_subscriptions_path(@owner) Subscribe
   - else
-    form.Form action=via_update_cc_data_user_subscriptions_path(@user) method='POST'
+    form.Form action=via_update_cc_data_user_subscriptions_path(@owner) method='POST'
       .form-group
         label.control-label CC Number
         input.form-control type='text' name='number' placeholder='1234 5678 9012 3456'
