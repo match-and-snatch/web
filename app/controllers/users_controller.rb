@@ -33,7 +33,7 @@ class UsersController < ApplicationController
       template = 'public_show'
     end
 
-    render action: template, layout: 'profile'
+    render action: template
   end
 
   def update_name

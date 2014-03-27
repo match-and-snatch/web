@@ -1,343 +1,344 @@
 /* Header */
-#header.box
-  .photo_cover
-    div data-identifier='cover-picture'
-      a href=@profile.original_cover_picture_url
-        img src=@profile.cover_picture_url
+.container
+  #header.box
+    .photo_cover
+      div data-identifier='cover-picture'
+        a href=@profile.original_cover_picture_url
+          img src=@profile.cover_picture_url
 
-    form.PictureUploadForm action=update_cover_picture_user_path(@profile.object) method='post' data-target='cover-picture'
-      input type='hidden' name='_method' value='put'
-      = transloadit :cover_picture
+      form.PictureUploadForm action=update_cover_picture_user_path(@profile.object) method='post' data-target='cover-picture'
+        input type='hidden' name='_method' value='put'
+        = transloadit :cover_picture
 
-      .btn.blue.i.fa.fa-picture-o
-        | Change Photo
-        input.file type='file' name='cover_picture_file'
-      input type='hidden' name='slug' value=@profile.slug
+        .btn.blue.i.fa.fa-picture-o
+          | Change Photo
+          input.file type='file' name='cover_picture_file'
+        input type='hidden' name='slug' value=@profile.slug
 
-  .photo_profile
-    div data-identifier='profile-picture'
-      a href=@profile.original_profile_picture_url
-        img src=@profile.profile_picture_url
+    .photo_profile
+      div data-identifier='profile-picture'
+        a href=@profile.original_profile_picture_url
+          img src=@profile.profile_picture_url
 
-    form.PictureUploadForm action=update_profile_picture_user_path(@profile.object) method='post' data-target='profile-picture'
-      input type='hidden' name='_method' value='put'
-      = transloadit :profile_picture
+      form.PictureUploadForm action=update_profile_picture_user_path(@profile.object) method='post' data-target='profile-picture'
+        input type='hidden' name='_method' value='put'
+        = transloadit :profile_picture
 
-      .btn.blue.i.fa.fa-picture-o
-        | Change Photo
-        input.file type='file' name='profile_picture_file'
-      input type='hidden' name='slug' value=@profile.slug
+        .btn.blue.i.fa.fa-picture-o
+          | Change Photo
+          input.file type='file' name='profile_picture_file'
+        input type='hidden' name='slug' value=@profile.slug
 
-  /* Details Container */
-  .details_container.row
-    .col-md-7.profile_name
+    /* Details Container */
+    .details_container.row
+      .col-md-7.profile_name
 
-      /* Profile Name */
-      a href=current_profile_path
-        i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='full-name'
-          = @profile.full_name
+        /* Profile Name */
+        a href=current_profile_path
+          i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='full-name'
+            = @profile.full_name
 
-    .col-md-5
+      .col-md-5
 
-      /* Subscribe Container */
-      .subscribe_cont
+        /* Subscribe Container */
+        .subscribe_cont
 
-        /* Cost Button Owner (Show Only Owner) */
-        a.cost_owner.PopupTrigger data-target='cost-editor'
-          .amount
-            span data-identifier='subscription-cost'
-              = @profile.subscription_cost
-            |/month
-          .btn.pink.fa.fa-usd.fa-2x
-          i.fa.fa-gear
+          /* Cost Button Owner (Show Only Owner) */
+          a.cost_owner.PopupTrigger data-target='cost-editor'
+            .amount
+              span data-identifier='subscription-cost'
+                = @profile.subscription_cost
+              |/month
+            .btn.pink.fa.fa-usd.fa-2x
+            i.fa.fa-gear
+            .clearfix
+
+          /* Cost Button Visitor (Show Logged User/Visitor) */
+          / a.cost_visitor
+          /   .amount #{@user.subscription_cost}/month
+          /   .btn.pink.fa.fa-usd.fa-2x
+          /   .clearfix
+
+          /* Subscribe Button */
+          / a.subscribe.AjaxFormLink href=user_subscriptions_path(@user) data-user_id=@user.slug Subscribe
+
+    /* Subscriber Benefits */
+
+    .benefits_container.row
+      .col-md-12
+        .label.PopupTrigger.btn data-target='benefits-editor'
+          i.fa.fa-gear.pull-right
+          | Subscriber Benefits
+        div data-identifier='benefits'= render_benefits(@profile)
+
+
+  /* Create Post (Owner View Only) */
+
+  #create_post.box
+    ul
+      li
+        a.fa.fa-pencil.active href=current_profile_path Post Status
+      li
+        a.fa.fa-music href=current_profile_path Upload Audio/Video
+      li
+        a.fa.fa-picture-o href=current_profile_path Upload Photos
+      li
+        a.fa.fa-file-text href=current_profile_path Upload Document
+    .clearfix
+
+    /* Post Status Area */
+
+    #post
+      form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
+        .col-md-11
+          textarea name='message' placeholder='Keep your subscribers in the know...'
+        .col-md-1
+          .error data-field='message'
+          input.btn.blue.pull-right type='Submit' value='Post'
           .clearfix
 
-        /* Cost Button Visitor (Show Logged User/Visitor) */
-        / a.cost_visitor
-        /   .amount #{@user.subscription_cost}/month
-        /   .btn.pink.fa.fa-usd.fa-2x
-        /   .clearfix
+    /* Upload View */
 
-        /* Subscribe Button */
-        / a.subscribe.AjaxFormLink href=user_subscriptions_path(@user) data-user_id=@user.slug Subscribe
+    #uploading.hidden
 
-  /* Subscriber Benefits */
+      /* Single File Line */
 
-  .benefits_container.row
-    .col-md-12
-      .label.PopupTrigger.btn data-target='benefits-editor'
-        i.fa.fa-gear.pull-right
-        | Subscriber Benefits
-      div data-identifier='benefits'= render_benefits(@profile)
+      .row.file_status
+        .col-md-3.file_name FileName1.avi
+        .col-md-8
+          .progress.progress-striped.active
+            .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%"
+              span.sr-only 25% Complete
+        .col-md-1.percentage 25%
 
+      .row.file_status
+        .col-md-3.file_name FileName2.avi
+        .col-md-8
+          .progress.progress-striped.active
+            .progress-bar.progress-bar-info role="progressbar" aria-voluenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"
+              span.sr-only 50% Complete
+        .col-md-1.percentage 50%
 
-/* Create Post (Owner View Only) */
+      /* Details Form */
 
-#create_post.box
-  ul
-    li
-      a.fa.fa-pencil.active href=current_profile_path Post Status
-    li
-      a.fa.fa-music href=current_profile_path Upload Audio/Video
-    li
-      a.fa.fa-picture-o href=current_profile_path Upload Photos
-    li
-      a.fa.fa-file-text href=current_profile_path Upload Document
-  .clearfix
+      form.upload_details
+        .row
+          .col-md-6
+            input.detail_field placeholder="Post Title"
+            .clearfix
+            input.detail_field placeholder="Keywords"
+          .col-md-6
+            textarea.detail_field name='message' placeholder="Description"
+        .row
+          .col-md-12.foot
 
-  /* Post Status Area */
+            /* Disabled until all uploads are 100% */
 
-  #post
-    form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
-      .col-md-11
-        textarea name='message' placeholder='Keep your subscribers in the know...'
-      .col-md-1
-        .error data-field='message'
-        input.btn.blue.pull-right type='Submit' value='Post'
-        .clearfix
-
-  /* Upload View */
-
-  #uploading.hidden
-
-    /* Single File Line */
-      
-    .row.file_status
-      .col-md-3.file_name FileName1.avi  
-      .col-md-8 
-        .progress.progress-striped.active
-          .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%"
-            span.sr-only 25% Complete
-      .col-md-1.percentage 25%
-
-    .row.file_status
-      .col-md-3.file_name FileName2.avi  
-      .col-md-8 
-        .progress.progress-striped.active
-          .progress-bar.progress-bar-info role="progressbar" aria-voluenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"
-            span.sr-only 50% Complete
-      .col-md-1.percentage 50%
-
-    /* Details Form */
-
-    form.upload_details
-      .row
-        .col-md-6 
-          input.detail_field placeholder="Post Title"
-          .clearfix
-          input.detail_field placeholder="Keywords"
-        .col-md-6 
-          textarea.detail_field name='message' placeholder="Description"
-      .row
-        .col-md-12.foot
-
-          /* Disabled until all uploads are 100% */
-
-          input.btn.blue.pull-right type='Submit' value='Uploading....' disabled="true"
-          .cancel_post.pull-right Cancel Post
+            input.btn.blue.pull-right type='Submit' value='Uploading....' disabled="true"
+            .cancel_post.pull-right Cancel Post
 
 
-/* Posts & Sidebar (Owner/Subscribed Only) */
+  /* Posts & Sidebar (Owner/Subscribed Only) */
 
-#subscriber_display
-  .row
-    /* Recent Posts */
+  #subscriber_display
+    .row
+      /* Recent Posts */
 
-    .pull-right.col-md-8.col-sm-12
-      .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
+      .pull-right.col-md-8.col-sm-12
+        .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
 
-    .sidebar.col-md-4.col-sm-12.pull-left
+      .sidebar.col-md-4.col-sm-12.pull-left
 
-      /* Profile Action */
+        /* Profile Action */
 
-      .share_url.btn.blue
-        i.fa.fa-share-square-o Share Your Profile
+        .share_url.btn.blue
+          i.fa.fa-share-square-o Share Your Profile
 
-      /* Search */
+        /* Search */
 
-      .search.input-group
-        span.input-group-addon
-          i.fa.fa-search.fa-fw.fa-lg
-        form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
-          input.Autocomplete.form-control type="text" name='q' placeholder="Search profile content"
-
-      /* Category Cloud */
-
-      .cat_cloud 
-        span Categories
-        ul.box 
-          li 
-            a href="#" music
-          li
-            a href="#" flyers
-          li
-            a.med href="#" videos
-          li
-            a.lrg href="#" photos
-          li
-            a.sml href="#" podcasts
-
-      /* Contact Info */
-
-      .contact
-        
-        /* Owner View Contact */
-
-        a.contact_edit.PopupTrigger data-target='contacts-editor' href="#"
-          | Contact
-          i.fa.fa-gear
-        .clearfix
-        
-        /* Subscriber View Contact */
-        / span Contact
-
-        ul.box
-          li
-            a.fa.fa-envelope href='#' Message
-          li
-            a.fa.fa-globe href='#' Website
-          li
-            a.fa.fa-facebook-square href='#' Facebook
-          li
-            a.fa.fa-twitter href='#' Twitter
-          li
-            a.fa.fa-youtube href='#' YouTube
-          li
-            a.fa.fa-instagram href='#' Instagram
-          li
-            a.fa.fa-pinterest-square href='#' Pintrest
-          li
-            a.fa.fa-dribbble href='#' Dribble
-          li
-            a.fa.fa-flickr href='#' Flickr
-          li
-            a.fa.fa-google-plus-square href='#' Google+
-          li
-            a.fa.fa-tumblr-square href='#' Tumblr
-          li
-            a.fa.fa-vimeo-square href='#' Vimeo
-
-      span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
-
-/* Name Popup */
-
-.Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 500px"
-
-  /* Nav Tab Area */
-
-  ul.nav.nav-tabs
-    li.active
-      a href='javascript: void(0)' Profile Name
-    li
-      a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
-    li
-      a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
-
-  /* Header Area */
-
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
-    .modal-title Edit Profile Name
-    span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
-
-
-  /* Body Area */
-
-  .modal-body
-    form.Form action=update_name_user_path(@profile.object) method='post'
-      
-      .form-group
-        input type='hidden' name='_method' value='put'
-        input.form-control type='text' name='full_name' value=@profile.full_name data-target='full-name'
-      
-      .form-group.profile_address http://www.subscribebuddy.com/PROFILENAME
-
-      .form-group
-        .pull-left.error data-field='full_name'
-        input.btn.blue.pull-right type='submit' value='Change Name'
-        .clearfix
-
-/* Contacts Editor */
-
-.Popup.popup.header_edit.modal-content data-identifier='contacts-editor' style='width: 500px'
-
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="contacts-editor" aria-hidden="true"
-    .modal-title Contacts editor
-    span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
-
-  .modal-body
-    p Slava, Add any input here...
-
-/* Cost Popup */
-
-.Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 500px"
-  
-  /* Nav Tab Area */
-
-  ul.nav.nav-tabs
-    li
-      a.PopupTrigger data-target='name-editor' href='#' Profile Name
-    li.active
-      a href='javascript: void(0)' Subscription Cost
-    li
-      a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
-
-  /* Header Area */
-
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="cost-editor" aria-hidden="true"
-    .modal-title Edit Subscription Cost
-    span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
-
-  /* Body Area */
-
-  .modal-body
-    form.Form action=update_cost_user_path(@profile.object) method='post'
-      .form-group.hidden
-        input type='hidden' name='_method' value='put'
-
-      .cost_container style="width: 230px; margin: 0 auto"
-        .form-group.input-group.pull-left style="width: 100px"
+        .search.input-group
           span.input-group-addon
-            i.fa.fa-usd.fa-fw
-          input.form-control type='text' name='subscription_cost' value=@profile.subscription_cost data-target='subscription-cost'
+            i.fa.fa-search.fa-fw.fa-lg
+          form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
+            input.Autocomplete.form-control type="text" name='q' placeholder="Search profile content"
 
-        .form-group.pull-right
-          input.btn.blue type='submit' value='Update Price'
-        .clearfix
-      .error data-field='subscription_cost'  
+        /* Category Cloud */
 
-/* Benefits Popup */
+        .cat_cloud
+          span Categories
+          ul.box
+            li
+              a href="#" music
+            li
+              a href="#" flyers
+            li
+              a.med href="#" videos
+            li
+              a.lrg href="#" photos
+            li
+              a.sml href="#" podcasts
 
-.Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 500px"
+        /* Contact Info */
 
-  /* Nav Tab Area */
+        .contact
 
-  ul.nav.nav-tabs
-    li
-      a.PopupTrigger data-target='name-editor' href='#' Profile Name
-    li
-      a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
-    li.active
-      a href='javascript: void(0)' Subscriber Benefits
+          /* Owner View Contact */
 
-  /* Header Area */   
+          a.contact_edit.PopupTrigger data-target='contacts-editor' href="#"
+            | Contact
+            i.fa.fa-gear
+          .clearfix
 
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="benefits-editor" aria-hidden="true"
-    .modal-title Edit Subscriber Benefits
-    span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
-    
-  /* Body Area */
+          /* Subscriber View Contact */
+          / span Contact
 
-  .modal-body
-    form.Form action=user_benefits_path(@profile.object) method='post' data-target='benefits'
-      - @profile.benefit_messages.each_with_index do |benefit_message, i|
+          ul.box
+            li
+              a.fa.fa-envelope href='#' Message
+            li
+              a.fa.fa-globe href='#' Website
+            li
+              a.fa.fa-facebook-square href='#' Facebook
+            li
+              a.fa.fa-twitter href='#' Twitter
+            li
+              a.fa.fa-youtube href='#' YouTube
+            li
+              a.fa.fa-instagram href='#' Instagram
+            li
+              a.fa.fa-pinterest-square href='#' Pintrest
+            li
+              a.fa.fa-dribbble href='#' Dribble
+            li
+              a.fa.fa-flickr href='#' Flickr
+            li
+              a.fa.fa-google-plus-square href='#' Google+
+            li
+              a.fa.fa-tumblr-square href='#' Tumblr
+            li
+              a.fa.fa-vimeo-square href='#' Vimeo
+
+        span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
+
+  /* Name Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 500px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li.active
+        a href='javascript: void(0)' Profile Name
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
+      .modal-title Edit Profile Name
+      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=update_name_user_path(@profile.object) method='post'
+
         .form-group
-          input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit description...'
-      
-      .form-group
-        input.btn.blue.pull-right type='submit' value='Update Benefits'
-        .clearfix
+          input type='hidden' name='_method' value='put'
+          input.form-control type='text' name='full_name' value=@profile.full_name data-target='full-name'
+
+        .form-group.profile_address http://www.subscribebuddy.com/PROFILENAME
+
+        .form-group
+          .pull-left.error data-field='full_name'
+          input.btn.blue.pull-right type='submit' value='Change Name'
+          .clearfix
+
+  /* Contacts Editor */
+
+  .Popup.popup.header_edit.modal-content data-identifier='contacts-editor' style='width: 500px'
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="contacts-editor" aria-hidden="true"
+      .modal-title Contacts editor
+      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+
+    .modal-body
+      p Slava, Add any input here...
+
+  /* Cost Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 500px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li.active
+        a href='javascript: void(0)' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="cost-editor" aria-hidden="true"
+      .modal-title Edit Subscription Cost
+      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=update_cost_user_path(@profile.object) method='post'
+        .form-group.hidden
+          input type='hidden' name='_method' value='put'
+
+        .cost_container style="width: 230px; margin: 0 auto"
+          .form-group.input-group.pull-left style="width: 100px"
+            span.input-group-addon
+              i.fa.fa-usd.fa-fw
+            input.form-control type='text' name='subscription_cost' value=@profile.subscription_cost data-target='subscription-cost'
+
+          .form-group.pull-right
+            input.btn.blue type='submit' value='Update Price'
+          .clearfix
+        .error data-field='subscription_cost'
+
+  /* Benefits Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 500px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li.active
+        a href='javascript: void(0)' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="benefits-editor" aria-hidden="true"
+      .modal-title Edit Subscriber Benefits
+      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=user_benefits_path(@profile.object) method='post' data-target='benefits'
+        - @profile.benefit_messages.each_with_index do |benefit_message, i|
+          .form-group
+            input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit description...'
+
+        .form-group
+          input.btn.blue.pull-right type='submit' value='Update Benefits'
+          .clearfix
 

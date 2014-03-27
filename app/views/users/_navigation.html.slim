@@ -1,0 +1,24 @@
+ul.nav.navbar-nav.pull-right
+  - if current_user.authorized?
+    li
+      a.PopupTrigger data-target='search-users' href='#'
+        i.fa.fa-search
+    - if current_user.has_subscriptions?
+      li
+        a href='#'
+          i.fa.fa-bars My Subscriptions
+    li
+      a href=account_info_path
+        i.fa.fa-bars Account Info
+    li
+      a href=logout_path
+        i.fa.fa-sign-out Logout
+  - else
+    li
+      a.PopupTrigger href='#' data-target='login'
+        i.fa.fa-lock Login
+    li
+      a.PopupTrigger href='#' data-target='registration'
+        i.fa.fa-sign-in Sign Up
+
+    = render 'authentication_popups'

@@ -14,7 +14,7 @@ BuddyPlatform::Application.routes.draw do
   resource :account_info, only: :show do
     member do
       put :update_payment_information
-      get :account_settings
+      get :settings
       put :update_general_information
       put :change_password
       get :billing_information
@@ -35,7 +35,7 @@ BuddyPlatform::Application.routes.draw do
 
     resources :benefits, only: :create
     resources :posts, only: [:index, :create]
-    resources :subscriptions, only: [:new, :create, :index] do
+    resources :subscriptions, only: [:new, :create] do
       collection do
         post :via_register
         post :via_update_cc_data
@@ -43,9 +43,12 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
+  resources :subscriptions, only: :index
+
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
   get '/create_profile' => 'owner/first_steps#show', as: :create_profile
+  put '/create_profile' => 'account_infos#create_profile_page'
 
   scope module: :owner do
     resource :second_step, only: %i(show update)

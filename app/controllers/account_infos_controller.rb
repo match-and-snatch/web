@@ -5,7 +5,7 @@ class AccountInfosController < ApplicationController
   def show
   end
 
-  def account_settings
+  def settings
     json_render
   end
 
