@@ -13,7 +13,7 @@ html
             - if current_user.authorized?
               - if current_user.has_incomplete_profile?
                 /li
-                  a href=finish_profile_path Finish Registration
+                  a href=create_profile_path Finish Registration
               - else
                 li
                   a href=current_profile_path

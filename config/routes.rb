@@ -11,7 +11,7 @@ BuddyPlatform::Application.routes.draw do
 
   resource :session
 
-  resources :users, only: [:index, :create, :edit, :update] do
+  resource :account_info, only: :show do
     member do
       put :update_payment_information
       get :account_settings
@@ -21,14 +21,19 @@ BuddyPlatform::Application.routes.draw do
       put :update_bank_account_data
       get :edit_cc_data
       put :update_cc_data
+      put :create_profile_page
+    end
+  end
+
+  resources :users, only: [:index, :create, :edit, :update] do
+    member do
       put :update_name
       put :update_cost
       put :update_profile_picture
       put :update_cover_picture
-      put :create_profile_page
     end
 
-    resources :benefits, only: [:create]
+    resources :benefits, only: :create
     resources :posts, only: [:index, :create]
     resources :subscriptions, only: [:new, :create, :index] do
       collection do
@@ -38,63 +43,18 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
-  get '/account_info' => 'users#account_info', as: :account_info
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
-  get '/finish_profile' => 'users#edit', as: :finish_profile
+  get '/create_profile' => 'owner/first_steps#show', as: :create_profile
+
+  scope module: :owner do
+    resource :second_step, only: %i(show update)
+    resource :third_step, only: %i(show update)
+  end
 
   if Rails.env.development?
     get 'mockups/*mockup' => 'mockups#show'
   end
 
   get '/:id' => 'users#show', as: :profile
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

@@ -1,0 +1,41 @@
+.account_info.box style="margin-top: 15px"
+  .header
+    h1 Welcome #{@user.full_name}
+
+  .sidebar.pull-left
+
+    ul.general
+      a.AjaxLink data-target='account-info' href=user_subscriptions_path(@user)
+        li My Feed
+      a.active.AjaxLink data-target='account-info' href=account_settings_user_path(@user)
+        li Account Settings
+      a.AjaxLink data-target='account-info' href="/mockups/mailbox.json"
+        li Mailbox
+      - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
+        a.AjaxFormLink data-_method='put' href=create_profile_page_user_path(@user)
+          li Create Profile Page
+
+    .subscriptions My Subscriptions
+    ul
+      a.AjaxLink data-target='account-info' href="/mockups/view_cancel_subscriptions.json"
+        li View/Cancel Subscriptions
+      a.AjaxLink data-target='account-info' href="/mockups/search_subscriptions.json"
+        li Search Subscriptions
+      a.AjaxLink data-target='account-info' href=billing_information_user_path(@user)
+        li Billing Information
+
+    .profile My Profile
+    ul
+      - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
+        a.AjaxFormLink data-_method='put' href=create_profile_page_user_path(@user)
+          li Create Profile Page
+
+      a.AjaxLink data-target='account-info' href="/mockups/profile_details.json"
+        li Profile Details
+      a.AjaxLink data-target='account-info' href="/mockups/payout_information.json"
+        li Payout Information
+      a.AjaxLink data-target='account-info' href="/mockups/subscribers.json"
+        li View Subscribers
+
+  .info_display.pull-right
+    .AjaxContainer data-identifier='account-info' data-url=account_settings_user_path(@user)

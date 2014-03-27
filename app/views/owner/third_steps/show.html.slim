@@ -1,0 +1,24 @@
+h2 Edit PAYMENT information here
+form.Form action=third_step_path method='post'
+  input type='hidden' name='_method' value='put'
+
+  h2 Direct deposit is available for US ONLY
+  br
+
+  label pay to the order of
+  input type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
+  .error data-field='holder_name'
+  br
+
+  label Routing Number
+  input type='text' name='routing_number' placeholder='123456789' value=@user.routing_number
+  .error data-field='routing_number'
+  br
+  label Account Number
+  input type='text' name='account_number' placeholder='000123456789' value=@user.account_number
+  .error data-field='account_number'
+  br
+
+  input type='hidden' name='authenticity_token' value=form_authenticity_token
+  input type='submit' value='Publish My Profile'
+
