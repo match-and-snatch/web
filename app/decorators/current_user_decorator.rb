@@ -41,6 +41,10 @@ class CurrentUserDecorator < BaseDecorator
     end
   end
 
+  def has_posts?
+    object.posts.any?
+  end
+
   def has_subscriptions?
     object.subscriptions.any?
   end

@@ -13,8 +13,9 @@ class PostsController < ApplicationController
   end
 
   def create
+    has_posts = current_user.has_posts?
     @post = PostManager.new(user: current_user.object).create(params[:message])
-    json_render
+    has_posts ? json_render : json_replace
   end
 
   private
