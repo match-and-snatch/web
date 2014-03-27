@@ -1,61 +1,61 @@
-/* Header */
-#header.box
-  .photo_cover
-  .photo_profile
+.container
+  #header.box
+    .photo_cover
+    .photo_profile
 
-  /* Details Container */
-  .details_container.row
-    .col-lg-8.col-md-7.profile_name
+    /* Details Container */
+    .details_container.row
+      .col-lg-8.col-md-7.profile_name
 
-      /* Profile Name */
-      = @profile.full_name
+        /* Profile Name */
+        = @profile.full_name
 
-    .col-lg-4.col-md-5
+      .col-lg-4.col-md-5
 
-      /* Subscribe Container */
-      .subscribe_cont
+        /* Subscribe Container */
+        .subscribe_cont
 
-        /* Cost Button Visitor (Show Logged User/Visitor) */
-        a.cost_visitor
-          .amount #{@profile.subscription_cost}/month
-          .btn.pink.fa.fa-usd.fa-2x
-          .clearfix
+          /* Cost Button Visitor (Show Logged User/Visitor) */
+          a.cost_visitor
+            .amount #{@profile.subscription_cost}/month
+            .btn.pink.fa.fa-usd.fa-2x
+            .clearfix
 
-        /* Subscribe Button */
-        a.subscribe.PopupTrigger data-target='subscription' Subscribe
-        / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
+          /* Subscribe Button */
+          a.subscribe.PopupTrigger data-target='subscription' Subscribe
+          / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
 
-  /* Subscriber Benefits */
+    /* Subscriber Benefits */
 
-  .benefits_container.row
-    .col-lg-12.col-md-12
-      .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
-      div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
+    .benefits_container.row
+      .col-lg-12.col-md-12
+        .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
+        div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
 
-/* Visitor View */
+  /* Visitor View */
 
-#visitor.box
-  .row
-    .col-md-12
-      .title Welcome to PROFILE NAME profile page
-      span.tagline In order for you to view this user's profile you must first subscribe.
+  #visitor.box
+    .row
+      .col-md-12
+        .title Welcome to PROFILE NAME profile page
+        span.tagline In order for you to view this user's profile you must first subscribe.
 
-      .title_benefits Here are some benefits of becoming a subscriber
+        .title_benefits Here are some benefits of becoming a subscriber
 
-      ul
-        li.fa.fa-check-circle Full access to user profile 
-        li.fa.fa-check-circle Stay up-to-date when content is uploaded
-        li.fa.fa-check-circle Listen and download audio
-        li.fa.fa-check-circle Watch uploaded videos
+        ul
+          li.fa.fa-check-circle Full access to user profile
+          li.fa.fa-check-circle Stay up-to-date when content is uploaded
+          li.fa.fa-check-circle Listen and download audio
+          li.fa.fa-check-circle Watch uploaded videos
 
 
-      a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
-      .clearfix
+        a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
+        .clearfix
 
-      span.already_user
-        - unless current_user.authorized?
-          | Already a member? 
-          a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
+        span.already_user
+          - unless current_user.authorized?
+            | Already a member?
+            a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
 
-.popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
-  | I AM HERE
+  .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
+    | I AM HERE

@@ -1,5 +1,8 @@
 class CurrentUserDecorator < BaseDecorator
-  delegate :slug, :email, :has_incomplete_profile?, :has_cc_payment_account?, :subscribed_to?, :profile_picture_url, to: :object
+  delegate :slug, :email, :has_complete_profile?, :has_incomplete_profile?, :has_cc_payment_account?, :subscribed_to?,
+           :original_profile_picture_url, :profile_picture_url,
+           :cover_picture_url, :original_cover_picture_url,
+           to: :object
 
   # @param user [User, nil]
   def initialize(user = nil)
@@ -21,6 +24,7 @@ class CurrentUserDecorator < BaseDecorator
     when :subscribe_to         then subject.id != object.id && authorized? && !subscribed_to?(subject)
     when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject)
     when :see                  then subject.id == object.id ||                 subscribed_to?(subject)
+    when :manage               then subject.id == object.id
     else
       raise ArgumentError, "No such action #{action}"
     end
