@@ -1,8 +1,4 @@
-class CurrentUserDecorator < BaseDecorator
-  delegate :slug, :email, :has_complete_profile?, :has_incomplete_profile?, :has_cc_payment_account?, :subscribed_to?,
-           :original_profile_picture_url, :profile_picture_url,
-           :cover_picture_url, :original_cover_picture_url,
-           to: :object
+class CurrentUserDecorator < UserDecorator
 
   # @param user [User, nil]
   def initialize(user = nil)
@@ -31,10 +27,14 @@ class CurrentUserDecorator < BaseDecorator
     when Comment
     case action
     when :delete then subject.user_id == object.id || subject.post_user_id == object.id
+    else
+      raise ArgumentError, "No such action #{action}"
     end
     when Post
     case action
     when :see then object.id == subject.user.id || subscribed_to?(subject.user)
+    else
+      raise ArgumentError, "No such action #{action}"
     end
     else
       raise ArgumentError, "No such subject #{subject.inspect}"

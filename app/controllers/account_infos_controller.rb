@@ -2,9 +2,6 @@ class AccountInfosController < ApplicationController
   before_filter :authenticate!
   before_filter :load_user
 
-  def show
-  end
-
   def settings
     json_render
   end
