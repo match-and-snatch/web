@@ -1,5 +1,5 @@
 h3 Incoming payments
-form.Form action=update_bank_account_data_user_path(@user) method='post'
+form.Form action=update_bank_account_data_account_info_path method='post'
   input type='hidden' name='_method' value='put'
 
   .alert.alert-warning.fade.in
@@ -34,6 +34,6 @@ h3 Outgoing payments
     strong= @user.card_type
     | &nbsp; card with number <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
     br
-    a href=edit_cc_data_user_path(@user) click here to edit
+    a href=edit_cc_data_account_info_path click here to edit
 - else
-  .AjaxContainer data-url=edit_cc_data_user_path(@user)
+  .AjaxContainer data-url=edit_cc_data_account_info_path

@@ -27,6 +27,10 @@ class AccountInfosController < ApplicationController
     json_render
   end
 
+  def edit_payment_information
+    json_render
+  end
+
   def update_bank_account_data
     UserProfileManager.new(@user).update_payment_information holder_name:    params[:holder_name],
                                                              routing_number: params[:routing_number],
