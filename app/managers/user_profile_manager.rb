@@ -53,6 +53,8 @@ class UserProfileManager < BaseManager
   # @param benefits [Array<String>]
   # @return [User]
   def update_benefits(benefits)
+    fail_with! :benefits if benefits.nil?
+
     user.benefits.clear
 
     benefits.each do |ordering, message|
