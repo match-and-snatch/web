@@ -10,6 +10,5 @@ class WelcomeController < ApplicationController
   end
 
   def show
-    @welcome = WelcomePresenter.new(current_user.object)
   end
 end
