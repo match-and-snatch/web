@@ -23,6 +23,7 @@ BuddyPlatform::Application.routes.draw do
       get :edit_cc_data
       put :update_cc_data
       put :create_profile_page
+      delete :delete_profile_page
     end
   end
 

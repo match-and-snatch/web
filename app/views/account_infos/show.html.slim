@@ -30,7 +30,9 @@
         - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
           a.AjaxFormLink data-_method='put' href=create_profile_path
             li Create Profile Page
-
+        - elsif @user.complete_profile?
+          a.AjaxFormLink data-_method='delete' href=delete_profile_page_account_info_path
+            li Delete Profile Page
         a.AjaxLink data-target='account-info' href="/mockups/profile_details.json"
           li Profile Details
         a.AjaxLink data-target='account-info' href=edit_payment_information_account_info_path

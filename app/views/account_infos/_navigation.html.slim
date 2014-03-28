@@ -6,7 +6,7 @@ ul.nav.navbar-nav.pull-right
     li
       a href='#'
         i.fa.fa-bars My Subscriptions
-  - if current_user.object.has_complete_profile?
+  - if current_user.object.complete_profile?
     li
       a href=current_profile_path
         i.fa.fa-user My Profile

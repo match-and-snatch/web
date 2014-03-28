@@ -21,8 +21,8 @@ describe User do
     end
   end
 
-  describe '#has_complete_profile?' do
-    subject { described_class.new(is_profile_owner: true, slug: slug, subscription_cost: subscription_cost, holder_name: holder_name, routing_number: routing_number, account_number: account_number).has_complete_profile? }
+  describe '#complete_profile?' do
+    subject { described_class.new(is_profile_owner: true, slug: slug, subscription_cost: subscription_cost, holder_name: holder_name, routing_number: routing_number, account_number: account_number).complete_profile? }
 
     let(:slug) { 'sergei' }
     let(:subscription_cost) { 1 }

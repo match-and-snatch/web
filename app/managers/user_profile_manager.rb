@@ -21,6 +21,13 @@ class UserProfileManager < BaseManager
     @user
   end
 
+  # @return [User]
+  def delete_profile_page
+    @user.is_profile_owner = false
+    @user.save!
+    @user
+  end
+
   # @param subscription_cost [Float, String]
   # @param slug [String]
   # @return [User]

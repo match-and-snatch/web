@@ -38,13 +38,17 @@ class User < ActiveRecord::Base
     full_name.split(' ').first if full_name
   end
 
-  def has_complete_profile?
-    read_attribute(:has_complete_profile) || (is_profile_owner? && passed_profile_steps?)
+  def complete_profile?
+    read_attribute(:has_complete_profile) || profile_enabled?
   end
 
   # Checks if profile owner hasn't passed three steps of registration
-  def has_incomplete_profile?
+  def profile_disabled?
     is_profile_owner? && !passed_profile_steps?
+  end
+
+  def profile_enabled?
+    is_profile_owner? && passed_profile_steps?
   end
 
   # Checks if a user hasn't passed three steps of registration
@@ -96,7 +100,7 @@ class User < ActiveRecord::Base
   end
 
   def set_profile_completion_status
-    self.has_complete_profile = true if has_complete_profile?
+    self.has_complete_profile = true if complete_profile?
     true
   end
 end

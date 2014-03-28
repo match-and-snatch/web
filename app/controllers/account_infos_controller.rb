@@ -52,6 +52,11 @@ class AccountInfosController < ApplicationController
     json_redirect(@user.passed_profile_steps? ? profile_path(@user) : create_profile_path)
   end
 
+  def delete_profile_page
+    UserProfileManager.new(@user).delete_profile_page
+    json_reload
+  end
+
   private
 
   def load_user

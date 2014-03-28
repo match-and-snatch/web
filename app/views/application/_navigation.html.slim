@@ -1,6 +1,6 @@
 ul.nav.navbar-nav.pull-right
   - if current_user.authorized?
-    - if current_user.has_incomplete_profile?
+    - if current_user.profile_disabled?
       /li
         a href=create_profile_path Finish Registration
     - else
