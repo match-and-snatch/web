@@ -25,7 +25,7 @@ class SubscriptionManager < BaseManager
                                  cvc: nil,
                                  expiry_month: nil,
                                  expiry_year: nil,
-                                 target: (raise ArgumentError)
+                                target: (raise ArgumentError)
 
     unless target.is_a?(Concerns::Subscribable)
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"

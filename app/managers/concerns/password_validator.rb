@@ -1,8 +1,8 @@
 module Concerns::PasswordValidator
   MINIMUM_PASSWORD_LENGTH = 5
 
-  # @param password_field [Hash]
-  # @param password_confirmation_field [Hash]
+  # @param password [Hash]
+  # @param password_confirmation [Hash]
   # @param password_field_name [String]
   # @param password_confirmation_field_name [String]
   def validate_password(password: nil,
