@@ -18,7 +18,7 @@ describe SessionsController do
       end
 
       it { should be_success }
-      its(:body) { should match_regex /redirect/ }
+      its(:body) { should match_regex /reload/ }
     end
   end
 end

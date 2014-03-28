@@ -2,19 +2,27 @@ require 'spec_helper'
 
 describe User do
   describe '.create' do
-    it 'assigns slug' do
-      expect(create_user(first_name: 'slava', last_name: 'popov').slug).to eq('slava-popov')
+    context 'profile owner' do
+      it 'assigns slug' do
+        expect(create_user(first_name: 'slava', last_name: 'popov', is_profile_owner: true).slug).to eq('slava-popov')
+      end
+
+      it 'generates uniq slug' do
+        create_user(first_name: 'slava', last_name: 'popov', email: 'e@m.il', is_profile_owner: true)
+        expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e2@m.il', is_profile_owner: true).slug).to eq('slava-popov-1')
+        expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e3@m.il', is_profile_owner: true).slug).to eq('slava-popov-2')
+      end
     end
 
-    it 'generates uniq slug' do
-      create_user(first_name: 'slava', last_name: 'popov', email: 'e@m.il')
-      expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e2@m.il').slug).to eq('slava-popov-1')
-      expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e3@m.il').slug).to eq('slava-popov-2')
+    context 'subscriber' do
+      it 'does not assign slug' do
+        expect(create_user(first_name: 'slava', last_name: 'popov', is_profile_owner: false).slug).to eq(nil)
+      end
     end
   end
 
-  describe '#complete_profile?' do
-    subject { described_class.new(slug: slug, subscription_cost: subscription_cost, holder_name: holder_name, routing_number: routing_number, account_number: account_number).complete_profile? }
+  describe '#has_complete_profile?' do
+    subject { described_class.new(is_profile_owner: true, slug: slug, subscription_cost: subscription_cost, holder_name: holder_name, routing_number: routing_number, account_number: account_number).has_complete_profile? }
 
     let(:slug) { 'sergei' }
     let(:subscription_cost) { 1 }

@@ -28,29 +28,29 @@ describe AuthenticationManager do
 
     context 'already registered user' do
       before { manager.register }
-      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: t_error(:taken)) } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) } }
     end
 
     context 'invalid email' do
       let(:email) { 'whatever' }
-      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: t_error(:default)) } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:default)) } }
     end
 
     context 'empty email' do
       let(:email) { '' }
-      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to include(email: t_error(:empty)) } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:empty)) } }
     end
 
     context 'password confirmation does not match' do
       let(:password_confirmation) { 'qwertyui' }
-      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to have_key(:password_confirmation) } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:password_confirmation) } }
     end
 
     context 'short password' do
       let(:password) { 'qwer' }
       let(:password_confirmation) { 'qwer' }
-      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).to have_key(:password) } }
-      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages).not_to have_key(:password_confirmation) } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:password) } }
+      specify { expect { manager.register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).not_to have_key(:password_confirmation) } }
     end
   end
 

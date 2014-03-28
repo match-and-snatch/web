@@ -25,7 +25,7 @@ class UserProfileManager < BaseManager
   # @param slug [String]
   # @return [User]
   def update(subscription_cost: nil, slug: nil)
-    slug = slug.try(:strip)
+    slug = slug.try(:strip).to_s
 
     validate! do
       if subscription_cost.blank?
@@ -249,8 +249,8 @@ class UserProfileManager < BaseManager
   end
 
   def validate_slug(slug)
-    fail_with slug: :empty          if slug.blank?
-    fail_with slug: :not_a_slug unless slug.match SLUG_REGEXP
-    fail_with slug: :taken          if slug_taken?(slug)
+    return fail_with slug: :empty          if slug.blank?
+    return fail_with slug: :not_a_slug unless slug.match SLUG_REGEXP
+    return fail_with slug: :taken          if slug_taken?(slug)
   end
 end
