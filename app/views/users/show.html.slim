@@ -1,31 +1,276 @@
-#header.container
-  .cover_photo
-  .profile_photo
-  .details_container
-    .profile_name
-      a.glyphicons.wrench href=profile_path(@profile.object) = @profile.object.full_name
-    .subscriber_benefits
-      .label Subscriber Benefits
-      .benefit_list
-        ul
-          li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
-          li.glyphicons.ok_2 Your subscriber benefits will be listed out like this!
-    .subscribe_container
-      .subscribe_cost
-        .sign $
-        .amount #{@profile.object.subscription_cost}/month
-        .cf
-      a.subscribe href='#' Subscribe
-  .cf
-.cf
+/* Header */
+.container
+  #header.box
+    .photo_cover
+      div data-identifier='cover-picture'
+        a href=@profile.original_cover_picture_url
+          img src=@profile.cover_picture_url 
 
-#subscriber_display
-  .sidebar
-    .share_box
-      a.copy Copy URL
-      a.share Share URL
-    .search search
-    .contact contact
+    .photo_profile
+      div data-identifier='profile-picture'
+        a href=@profile.original_profile_picture_url
+          img src=@profile.profile_picture_url
 
-  .recent_posts.Posts
-    = render partial: 'posts/post', collection: @profile.object.posts.order('created_at DESC')
+
+    /* Details Container */
+    .details_container.row
+      .col-md-7.profile_name = @profile.full_name
+
+      .col-md-5
+
+        /* Subscribe Container */
+        .subscribe_cont
+
+          /* Subscribe Button */
+          .subscribed Subscribed
+
+    /* Subscriber Benefits */
+
+    .benefits_container.row
+      .col-md-12
+        .label Subscriber Benefits
+        div data-identifier='benefits'= render_benefits(@profile)
+
+  /* Posts & Sidebar (Owner/Subscribed Only) */
+
+  #subscriber_display
+    .row
+      /* Recent Posts */
+
+      .pull-right.col-md-8.col-sm-12
+        .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
+
+      .sidebar.col-md-4.col-sm-12.pull-left
+
+        /* Search */
+
+        .search.input-group style="margin-top: 0"
+          span.input-group-addon
+            i.fa.fa-search.fa-fw.fa-lg
+          form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
+            input.Autocomplete.form-control type="text" name='q' placeholder="Search profile content"
+
+        /* Category Cloud */
+
+        .cat_cloud
+          span Categories
+          ul.box
+            li
+              a href="#" music
+            li
+              a href="#" flyers
+            li
+              a.med href="#" videos
+            li
+              a.lrg href="#" photos
+            li
+              a.sml href="#" podcasts
+
+        /* Contact Info */
+
+        .contact
+
+          /* Owner View Contact */
+
+          span Contact
+
+          /* Subscriber View Contact */
+
+          ul.box
+            li
+              a.fa.fa-envelope href='#' Message
+            li
+              a.fa.fa-globe href='#' Website
+            li
+              a.fa.fa-facebook-square href='#' Facebook
+            li
+              a.fa.fa-twitter href='#' Twitter
+            li
+              a.fa.fa-youtube href='#' YouTube
+            li
+              a.fa.fa-instagram href='#' Instagram
+            li
+              a.fa.fa-pinterest-square href='#' Pintrest
+            li
+              a.fa.fa-dribbble href='#' Dribble
+            li
+              a.fa.fa-flickr href='#' Flickr
+            li
+              a.fa.fa-google-plus-square href='#' Google+
+            li
+              a.fa.fa-tumblr-square href='#' Tumblr
+            li
+              a.fa.fa-vimeo-square href='#' Vimeo
+
+        span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
+
+  /* Name Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 500px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li.active
+        a href='javascript: void(0)' Profile Name
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
+      .modal-title Edit Profile Name
+      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=update_name_user_path(@profile.object) method='post'
+
+        .form-group
+          input type='hidden' name='_method' value='put'
+          input.form-control type='text' name='full_name' value=@profile.full_name data-target='full-name'
+
+        .form-group.profile_address http://www.subscribebuddy.com/PROFILENAME
+
+        .form-group
+          .pull-left.error data-field='full_name'
+          input.btn.blue.pull-right type='submit' value='Change Name'
+          .clearfix
+
+  /* Contacts Editor */
+
+  .Popup.popup.contacts_edit.modal-content data-identifier='contacts-editor' style='width: 600px'
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="contacts-editor" aria-hidden="true"
+      .modal-title Edit Contact Information
+      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate augue faucibus malesuada.
+
+    .modal-body
+
+      .pull-left style="width: 262px;"  
+        .input-group
+          span.input-group-addon
+            i.fa.fa-globe.fa-fw
+          input.form-control type='text' placeholder="Website URL"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-facebook-square.fa-fw
+          input.form-control type='text' placeholder="Facebook"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-twitter.fa-fw
+          input.form-control type='text' placeholder="Twitter"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-youtube.fa-fw
+          input.form-control type='text' placeholder="YouTube"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-instagram.fa-fw
+          input.form-control type='text' placeholder="Instagram"
+
+      .pull-right style="width: 262px;"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-pinterest-square.fa-fw
+          input.form-control type='text' placeholder="Pinterest"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-dribbble.fa-fw
+          input.form-control type='text' placeholder="Dribbble"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-flickr.fa-fw
+          input.form-control type='text' placeholder="Flickr"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-google-plus-square.fa-fw
+          input.form-control type='text' placeholder="Google+"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-tumblr-square.fa-fw
+          input.form-control type='text' placeholder="Tumblr"
+
+      .clearfix
+
+      .form-group.pull-right
+        input.btn.blue type='submit' value='Update Contact Information'
+        .clearfix
+
+  /* Cost Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 500px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li.active
+        a href='javascript: void(0)' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="cost-editor" aria-hidden="true"
+      .modal-title Edit Subscription Cost
+      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=update_cost_user_path(@profile.object) method='post'
+        .form-group.hidden
+          input type='hidden' name='_method' value='put'
+
+        .cost_container style="width: 230px; margin: 0 auto"
+          .form-group.input-group.pull-left style="width: 100px"
+            span.input-group-addon
+              i.fa.fa-usd.fa-fw
+            input.form-control type='text' name='subscription_cost' value=@profile.subscription_cost data-target='subscription-cost'
+
+          .form-group.pull-right
+            input.btn.blue type='submit' value='Update Price'
+          .clearfix
+        .error data-field='subscription_cost'
+
+  /* Benefits Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 500px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li.active
+        a href='javascript: void(0)' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="benefits-editor" aria-hidden="true"
+      .modal-title Edit Subscriber Benefits
+      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=user_benefits_path(@profile.object) method='post' data-target='benefits'
+        - @profile.benefit_messages.each_with_index do |benefit_message, i|
+          .form-group
+            input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit description...'
+
+        .form-group
+          input.btn.blue.pull-right type='submit' value='Update Benefits'
+          .clearfix

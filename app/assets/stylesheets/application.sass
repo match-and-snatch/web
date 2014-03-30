@@ -27,6 +27,14 @@ a
   &:hover
     color: $color_text_dark
 
+h1
+  font-size: 28px
+h2
+  font-size: 24px
+h3
+  font-size: 20px
+  padding-bottom: 15px
+
 .hidden
   display: none
 
@@ -34,6 +42,11 @@ a
   color: $color_pink
   font-size: 12px
   display: none
+
+.btn
+  &:focus
+    color: #FFFFFF
+    outline: none
 
 #content
   margin-top: 45px
@@ -121,6 +134,7 @@ nav
           text-shadow: none
       &.active
         background-color: #277aa3  
+
 /* Homepage */
 
 .home_pitch
@@ -188,6 +202,136 @@ nav
     font-weight: 600
     text-shadow: 1px 1px 0 #7cc3e7
 
+/* Registration Areas */
+
+.registration_steps
+  background-color: #FFFFFF
+  border-bottom: 1px solid $color_border
+  margin-bottom: 30px
+  padding: 30px
+  .reg_head
+    text-align: center
+    margin-bottom: 30px
+    .reg_title 
+      color: $color_green
+      font-size: 24px
+    .reg_text
+      color: $color_text_light
+      font-size: 13px
+  .steps_row
+    cursor: default
+    color: #e1e1e1
+    .bar
+      background-color: #e1e1e1
+      height: 5px
+      margin-bottom: 10px
+    .number
+      background-color: #e1e1e1
+      color: #FFFFFF
+      font-weight: 600
+      line-height: 100%
+      height: 26px
+      width: 26px
+      margin-right: 10px
+      position: relative
+      span 
+        position: absolute
+        top: 6px
+        &.one
+          left: 8px
+        &.two
+          left: 9px
+        &.three
+          left: 9px
+    .number_title
+      padding-top: 3px
+
+    /* Done */
+
+    .done
+      color: $color_green
+      .bar 
+        background-color: $color_green
+      .number
+        background-color: $color_green
+
+    /* Active */
+
+    .active
+      color: $color_pink
+      .bar 
+        background-color: $color_pink
+      .number
+        background-color: $color_pink
+
+/* Steps Container */
+
+.steps_container
+  .row
+    margin: 0
+  .box 
+    padding: 15px 0
+    text-align: center
+    label
+      color: $color_text_dark
+    .btn
+      margin: 0 auto 
+
+    /* Sample Profile */
+
+    .sample_profile
+      margin: 15px 0
+      width: 900px
+
+  /* Step 2 */
+
+  &.step_two
+    .box
+      padding-bottom: 0
+    .error
+      padding-top: 10px
+
+    /* Profile Name */
+
+    .profile_name
+      text-align: left
+      .example
+        color: $color_text_light
+        font-size: 12px
+        padding-top: 10px
+
+    /* Subscription Cost */
+
+    .subscription_cost
+      text-align: left
+
+    /* Subscription Cost */
+
+    .continue_step_three
+      input
+        margin-top: 24px
+
+    /* FAQs */
+
+    .faq
+      margin-top: 30px
+      padding-bottom: 15px
+      text-align: center
+      .title
+        display: block
+        color: $color_blue
+        font-size: 24px 
+        margin-bottom: 5px
+      a 
+        color: $color_text_dark
+        display: block
+        padding-bottom: 5px
+      .well
+        color: $color_text_light
+        margin-bottom: 15px
+        &.last
+          margin-bottom: 0
+
 /* Header */
 
 #header
@@ -245,7 +389,7 @@ nav
 
     .profile_name
       color: $color_text_dark
-      font-weight: 400
+      font-weight: 600
       font-size: 38px
       margin-bottom: 15px
       a
@@ -342,6 +486,22 @@ nav
           padding: 0 15px
           text-decoration: none
           width: 247px
+
+      /* Subscribed */
+
+      .subscribed
+        @include border-radius($border_radius)
+        @include green-area
+        display: block
+        color: #FFFFFF
+        cursor: default
+        float: right
+        font-weight: 400
+        height: 55px
+        margin-bottom: 15px
+        padding: 0 15px
+        text-decoration: none
+        width: 247px
 
   /* Details Container */
 
@@ -538,6 +698,7 @@ nav
     /* Contact Info */
 
     .contact
+      margin-bottom: 30px
       a.contact_edit
         color: #464646
         display: inline-block
@@ -587,6 +748,29 @@ nav
   /* Recent Posts */
 
   .recent_posts
+
+    /* Search Posts */
+
+    .show_results
+      @include border-radius($border_radius)
+      border: 1px solid #e6d996
+      color: #b7a549
+      padding: 15px
+
+    /* No Posts */
+
+    .no_post_yet
+      color: #e1e1e1
+      font-size: 24px
+      text-align: center
+      .fa-stack
+        margin: 0 auto
+        .fa-exclamation
+          &:before
+            color: $color_background
+      span 
+        display: block
+        margin-top: 15px
 
     /* Single Post */
 
@@ -943,7 +1127,7 @@ nav
 
 /* Header Edit Popup */
 
-.header_edit
+.header_edit, .contacts_edit
   overflow: hidden
 
   /* Nav Tabs */
@@ -995,6 +1179,12 @@ nav
       color: #cccccc
       font-size: 11px
 
+/* Contacts Edit */
+
+.contacts_edit
+  .input-group
+    margin-bottom: 15px
+
 /* Authentication Popup */
 
 .authentication_popup
@@ -1006,6 +1196,14 @@ nav
 .account_info
   color: $color_text_dark
   margin-top: 15px
+  label
+    color: #898989
+  .form-control
+    background-color: $color_background
+    border: 1px solid $color_border
+    &:focus
+      background-color: #FFFFFF
+      border: 1px solid $color_blue
   .header
     border-bottom: 1px solid $color_border
     margin: 0
@@ -1014,6 +1212,7 @@ nav
       margin: 0
       padding: 0
   .sidebar
+    border-right: 1px solid $color_border
     font-size: 16px
     padding: 0
     width: 280px
@@ -1047,9 +1246,19 @@ nav
       padding: 15px 0 15px 15px
 
   .info_display
-    border-left: 1px solid $color_border
     padding: 0 15px
     width: 658px
+    .form-group
+      label
+        font-weight: 400 !important
+        margin-top: 7px
+        text-align: right
+        width: 180px
+      .form-control
+        width: 430px
+      .error
+        margin: 5px 0 0 197px
+
 
 
 /** REQUIRED BY JS (Modifiable, not deletable) **/

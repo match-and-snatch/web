@@ -1,23 +1,81 @@
-.price_page
-  form.Form action=second_step_path method='post'
-    input type='hidden' name='_method' value='put'
+.container-fluid.registration_steps
+  .container
 
-    h2 Profile page name
-    input type='text' name='slug' placeholder='Type here'
-    .error data-field='slug'
-    br
+    /* Header Content */
 
-    .example
-      | Example&nbsp;
-      | www.subscribebuddy.com/
-      strong style='color: red; font-weight: bold'
-        = @user.sample_slug
+    .row
+      .col-md-12.reg_head
+        .reg_title Your profile is almost complete!
+        .reg_text In order to take your profile live we require a few important items to get you on your way to making money.
+    
+    /* Steps 1 - 3 row */
 
-    label Subscription Cost
-    input type='text' name='subscription_cost' value=(@user.subscription_cost || 5)
-    | $
-    .error data-field='subscription_cost'
-    br
+    .row.steps_row
+      .col-md-4.done
+        .bar
+        .number.img-circle.pull-left
+          span.one 1
+        .number_title.pull-left View Sample Profile
+        .clearfix
+      .col-md-4.active
+        .bar
+        .number.img-circle.pull-left
+          span.two 2
+        .number_title.pull-left Profile Name & Price
+        .clearfix
+      .col-md-4 
+        .bar
+        .number.img-circle.pull-left
+         span.three 3
+        .number_title.pull-left Payout Information
+        .clearfix
 
-    input type='hidden' name='authenticity_token' value=form_authenticity_token
-    input type='submit' value='Continue to Profile'
+.container.steps_container.step_two
+  .row.box
+    form.Form action=second_step_path method='post'
+      input type='hidden' name='_method' value='put'
+
+      /* Profile Page Name */
+
+      .col-md-6.profile_name
+        label Profile Page Name
+        input.form-control type='text' name='slug' placeholder='Type your profile name here...'
+        .error data-field='slug'
+        .example
+          | Example&nbsp;
+          | www.subscribebuddy.com/
+          strong style='color: red; font-weight: bold'
+            = @user.sample_slug
+
+
+      /* Subscription Cost */
+
+      .col-md-2.subscription_cost
+        label Monthly Cost
+        .input-group
+          span.input-group-addon
+            i.fa.fa-usd.fa-fw.fa-lg
+          input.form-control type='text' name='subscription_cost' style="width: 80px; text-align: right;" value=(@user.subscription_cost || 5)
+        .error data-field='subscription_cost'
+          
+      /* Continue to Step 3 */ 
+
+      .col-md-4.continue_step_three
+        input type='hidden' name='authenticity_token' value=form_authenticity_token
+        input.btn.blue.pull-right type='submit' value='Continue to Step 3 - Payout Information'
+        .clearfix
+
+      /* FAQs */
+      .col-md-12.faq
+        .title Frequently Asked Questions
+
+        /* Show .well when question link is clicked. If 1 .well is open and another question is clicked, please close that first .well and open the 2nd one */
+
+        a href="#" Where can I change my profile URL?
+        .well You can edit your profile URL after you have completed registration under Account Info.
+        
+        a href="#" What is your profile name?
+        .well Show this when link above is clicked.
+        
+        a href="#" How often can I change my subscription cost?
+        .well.last Show this when link above is clicked.

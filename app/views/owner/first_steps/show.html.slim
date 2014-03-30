@@ -1,8 +1,39 @@
-.container
-  h2 Your profile is almost complete
-  small In order to take your profile live...
-  hr
-  .AjaxContainer
-    h2 Sample Profile
+.AjaxContainer
+  .container-fluid.registration_steps
+    .container
 
-    a href=second_step_path Edit Price FTW!
+      /* Header Content */
+
+      .row
+        .col-md-12.reg_head
+          .reg_title Your profile is almost complete!
+          .reg_text In order to take your profile live we require a few important items to get you on your way to making money.
+      
+      /* Steps 1 - 3 row */
+
+      .row.steps_row
+        .col-md-4.active
+          .bar
+          .number.img-circle.pull-left
+            span.one 1
+          .number_title.pull-left View Sample Profile
+          .clearfix
+        .col-md-4
+          .bar
+          .number.img-circle.pull-left
+            span.two 2
+          .number_title.pull-left Profile Name & Price
+          .clearfix
+        .col-md-4 
+          .bar
+          .number.img-circle.pull-left
+           span.three 3
+          .number_title.pull-left Payout Information
+          .clearfix
+
+  .container.steps_container
+    .step_one.row.box
+      .col-md-12
+        a.btn.blue href=second_step_path Continue to Step 2: Profile Name & Price
+        img.sample_profile src="https://buddy-assets.s3.amazonaws.com/images/temp-step1.png"
+        a.btn.blue href=second_step_path Continue to Step 2: Profile Name & Price

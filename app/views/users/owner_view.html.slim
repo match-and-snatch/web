@@ -260,15 +260,64 @@
 
   /* Contacts Editor */
 
-  .Popup.popup.header_edit.modal-content data-identifier='contacts-editor' style='width: 500px'
+  .Popup.popup.contacts_edit.modal-content data-identifier='contacts-editor' style='width: 600px'
 
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="contacts-editor" aria-hidden="true"
-      .modal-title Contacts editor
-      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+      .modal-title Edit Contact Information
+      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate augue faucibus malesuada.
 
     .modal-body
-      p Slava, Add any input here...
+
+      .pull-left style="width: 262px;"  
+        .input-group
+          span.input-group-addon
+            i.fa.fa-globe.fa-fw
+          input.form-control type='text' placeholder="Website URL"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-facebook-square.fa-fw
+          input.form-control type='text' placeholder="Facebook"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-twitter.fa-fw
+          input.form-control type='text' placeholder="Twitter"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-youtube.fa-fw
+          input.form-control type='text' placeholder="YouTube"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-instagram.fa-fw
+          input.form-control type='text' placeholder="Instagram"
+
+      .pull-right style="width: 262px;"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-pinterest-square.fa-fw
+          input.form-control type='text' placeholder="Pinterest"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-dribbble.fa-fw
+          input.form-control type='text' placeholder="Dribbble"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-flickr.fa-fw
+          input.form-control type='text' placeholder="Flickr"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-google-plus-square.fa-fw
+          input.form-control type='text' placeholder="Google+"
+        .input-group
+          span.input-group-addon
+            i.fa.fa-tumblr-square.fa-fw
+          input.form-control type='text' placeholder="Tumblr"
+
+      .clearfix
+
+      .form-group.pull-right
+        input.btn.blue type='submit' value='Update Contact Information'
+        .clearfix
 
   /* Cost Popup */
 

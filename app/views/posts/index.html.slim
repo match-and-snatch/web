@@ -1,6 +1,6 @@
 - if @posts.any?
   - if params[:q].present?
-    div
+    .show_results.bg-warning
       |Results for "
       b= params[:q]
       |"
@@ -11,4 +11,11 @@
     b= params[:q]
     |"
   - elsif !params[:last_post_id]
-    | No posts so far...
+    | 
+    .no_post_yet 
+      span.fa-stack.fa-lg
+        i.fa.fa-circle.fa-stack-2x
+        i.fa.fa-exclamation.fa-stack-1x
+      .clearfix
+      span Your currently have nothing 
+      | posted to your profile
