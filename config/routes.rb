@@ -45,7 +45,7 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
-  resources :subscriptions, only: :index
+  resources :subscriptions, only: [:index, :create]
 
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
