@@ -9,5 +9,5 @@ class bud.widgets.VideoPlayer extends bud.Widget
     bud.Ajax.getScript(@constructor.FLOWPLAYER_SCRIPT_PATH).done(@on_script_loaded)
 
   on_script_loaded: =>
-    @$container.flowplayer({ swf: bud.widgets.VideoPlayer.SWF_PATH });
+    @$container.flowplayer()#{ swf: @constructor.SWF_PATH });
 
