@@ -1,4 +1,3 @@
-# Generally used for popups
 class bud.widgets.VideoPlayer extends bud.Widget
   @SELECTOR: '.video_player'
   @SWF_PATH= "http://releases.flowplayer.org/5.4.6/flowplayer.swf"
