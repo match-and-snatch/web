@@ -41,7 +41,7 @@
         label Profile Page Name
         input.form-control type='text' name='slug' placeholder='Type your profile name here...'
         .error data-field='slug'
-        .example
+        .example.hidden
           | Example&nbsp;
           | www.subscribebuddy.com/
           strong style='color: red; font-weight: bold'
@@ -72,10 +72,10 @@
         /* Show .well when question link is clicked. If 1 .well is open and another question is clicked, please close that first .well and open the 2nd one */
 
         a href="#" Where can I change my profile URL?
-        .well You can edit your profile URL after you have completed registration under Account Info.
+        .well.hidden You can edit your profile URL after you have completed registration under Account Info.
         
         a href="#" What is your profile name?
-        .well Show this when link above is clicked.
+        .well.hidden Show this when link above is clicked.
         
         a href="#" How often can I change my subscription cost?
-        .well.last Show this when link above is clicked.
+        .well.hidden.last Show this when link above is clicked.
