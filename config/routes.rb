@@ -34,6 +34,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_cost
       put :update_profile_picture
       put :update_cover_picture
+      post :create_pending_upload
     end
 
     resources :benefits, only: :create

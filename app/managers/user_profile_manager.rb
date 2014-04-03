@@ -227,6 +227,18 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @param transloadit_data [Hash]
+  # @return [User]
+  def create_upload(transloadit_data)
+    upload = Upload.create!(transloadit_data: transloadit_data, user_id: user.id)
+
+    if user.changes.any?
+      user.save or fail_with user.errors
+    end
+
+    user
+  end
+
   # @param current_password [String]
   # @param new_password [String]
   # @param new_password_confirmation [String]

@@ -55,4 +55,10 @@ class UsersController < ApplicationController
     UserProfileManager.new(current_user.object).update_cover_picture(params[:transloadit])
     json_replace
   end
+
+  def create_pending_upload
+    UserProfileManager.new(current_user.object).create_upload(params[:transloadit])
+    json_replace
+  end
+
 end
