@@ -333,7 +333,8 @@ CREATE TABLE uploads (
     id integer NOT NULL,
     uploadable_id integer,
     uploadable_type character varying(255),
-    transloadit_data text
+    transloadit_data text,
+    user_id integer
 );
 
 
@@ -595,4 +596,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140321111847');
 
 INSERT INTO schema_migrations (version) VALUES ('20140326104922');
 
+INSERT INTO schema_migrations (version) VALUES ('20140403112436');
+
 INSERT INTO schema_migrations (version) VALUES ('20140403141129');
+
