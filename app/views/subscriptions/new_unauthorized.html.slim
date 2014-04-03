@@ -101,6 +101,17 @@
         .form-group
           input.form-control type='password' name='password' placeholder='Password'
           p.text-danger data-field='password'
+        
+        ul.cc_row 
+          li
+            img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Visa@2x.png')
+          li
+            img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Mastercard@2x.png')
+          li
+            img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Amex@2x.png')
+          li
+            img src=image_path('https://buddy-assets.s3.amazonaws.com/images/DDiscover@2x.png')
+
         .form-group
           label.control-label CC Number
           input.form-control type='text' name='number' placeholder='1234 5678 9012 3456'
@@ -124,3 +135,7 @@
         input.btn.blue type='submit' value='Pay & Subscribe' style="width: 100%"
         .clearfix
     .clearfix
+
+  .modal-footer
+    span Already have an account?&nbsp;
+    a.PopupTrigger href='#' data-target='login' Login
