@@ -9,5 +9,4 @@ h3 Subscribed on me
 ul.list-group
   - @subscribed_on_me.each do |subscription|
     li.list-group-item
-      a href=profile_path(subscription.target_user)
-        = subscription.user.full_name
+      = link_to_if subscription.user.has_profile_page?, subscription.user.full_name, profile_path(subscription.user)

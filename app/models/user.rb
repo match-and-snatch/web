@@ -38,6 +38,10 @@ class User < ActiveRecord::Base
     full_name.split(' ').first if full_name
   end
 
+  def has_profile_page?
+    has_complete_profile? && is_profile_owner?
+  end
+
   def complete_profile?
     read_attribute(:has_complete_profile) || profile_enabled?
   end
