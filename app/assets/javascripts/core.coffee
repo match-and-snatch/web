@@ -28,4 +28,5 @@ class (window.bud or= {}).Core
 
   __initialize: ->
     bud.Core.init_widgets()
+    $(window).on 'hashchange', -> bud.pub('window.hashchange')
     @initialized = true

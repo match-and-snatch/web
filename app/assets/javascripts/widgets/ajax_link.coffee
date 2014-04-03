@@ -1,25 +1,45 @@
 # Once clicked, renders HTML received by link href into @$target
+# @data use_anchor [true, false, null] if true then sets hash on click
 # @data target [String] Target container identifier
 class bud.widgets.AjaxLink extends bud.Widget
   @SELECTOR: '.AjaxLink'
 
   initialize: ->
-    @$target = bud.get(@$container.data('target'))
+    @href       = @$container.attr('href')
+    @hash       = @href #.replace(/^\//, '')
+    @$target    = bud.get(@$container.data('target'))
+    @use_anchor = @$container.data('use_anchor')
+
+    @location_changed()
+    bud.sub('window.hashchange', @location_changed) if @use_anchor
+
     @$container.click @link_clicked
+
+  location_changed: =>
+    if @use_anchor && "##{@hash}" == window.location.hash
+      @render_path(@href)
 
   link_clicked: =>
     $(@constructor.SELECTOR).removeClass('active pending')
-    @render_path(@$container.attr('href'))
-    @$container.addClass('pending')
+
+    if @use_anchor
+      window.location.hash = @hash
+    else
+      @render_path(@href)
+
     return false
 
+  make_active: ->
+    @$container.removeClass('pending')
+    @$container.addClass('active')
+
   render_path: (request_path) ->
+    @$container.addClass('pending')
     @$target.addClass('pending')
     bud.Ajax.get(request_path, {}, {success: @render_page})
 
   render_page: (response) =>
-    @$container.removeClass('pending')
-    @$container.addClass('active')
+    @make_active()
     bud.replace_html(@$target, response['html'])
     @$target.removeClass('pending')
     @$target.show()

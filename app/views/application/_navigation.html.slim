@@ -9,7 +9,7 @@ ul.nav.navbar-nav.pull-right
           i.fa.fa-user My Profile
     - if current_user.has_subscriptions?
       li
-        a href='#'
+        a href=account_info_path(anchor: subscriptions_path)
           i.fa.fa-bars My Subscriptions
     li
       a href=account_info_path

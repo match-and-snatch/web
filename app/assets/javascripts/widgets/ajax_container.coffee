@@ -1,14 +1,20 @@
 # Renders remote URL into html container
 # If a link is clicked - container acts as IFrame
 #
+# @data use_anchor [true, false, null] if true does not use @url and changes page anchor
 # @data url [String, null] url to load on widget initialized.
 class bud.widgets.AjaxContainer extends bud.Widget
   @SELECTOR: '.AjaxContainer'
 
   initialize: ->
     @url = @$container.data('url')
+    @use_anchor = @$container.data('use_anchor')
     @$container.find('a').click @link_clicked
-    @render()
+
+    if @use_anchor && _.isEmpty(window.location.hash)
+      window.location.hash = @url
+    else
+      @render()
 
   render: ->
     @render_path(@url) if @url

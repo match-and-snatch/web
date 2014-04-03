@@ -4,7 +4,7 @@ ul.nav.navbar-nav.pull-right
       i.fa.fa-search
   - if current_user.has_subscriptions?
     li
-      a href='#'
+      a href=account_info_path(anchor: subscriptions_path)
         i.fa.fa-bars My Subscriptions
   - if current_user.object.complete_profile?
     li
