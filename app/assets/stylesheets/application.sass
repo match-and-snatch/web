@@ -1130,13 +1130,15 @@ nav
       padding: 0 15px 15px
       .order_summary, .account_payment
         background-color: $color_background
-        min-height: 400px
+        min-height: 330px
         padding: 15px
         width: 325px
 
       /* Order Summary */
 
       .order_summary
+        background-color: #FFFFFF
+        padding: 0
         .heading, .item_row
           border-bottom: 1px solid #e1e1e1
           padding-bottom: 15px  
@@ -1157,18 +1159,44 @@ nav
       /* Account Payment */
 
       .account_payment
+        padding: 15px 15px 0 15px
         .form-control
           background-color: #FFFFFF
           border: 1px solid $color_border
           &:focus
             background-color: #FFFFFF
             border: 1px solid $color_blue
-        ul.cc_row
-          display: block
-          li
-            img
-              height: 44px
-              width: 64px
+        .cc_row
+          position: relative
+          ul
+            list-style: none
+            position: absolute
+            top: -2px
+            right: -4px
+            li
+              display: inline-block
+              padding-right: 5px
+              img
+                height: 22px
+                width: 32px
+        .exp_date
+          position: relative
+          .small
+            font-size: 13px
+            font-weight: 400
+            padding: 8px 5px 0 0
+        .cvc
+          width: 70px
+          input 
+            width: 55px
+          .fa
+            cursor: pointer
+            padding-top: 8px
+            &:before
+              color: $color_text_light
+            &:hover
+              &:before
+                color: $color_text_dark
 
   /* Footer Area */
 
