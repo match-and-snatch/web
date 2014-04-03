@@ -41,6 +41,13 @@ class CurrentUserDecorator < UserDecorator
     end
   end
 
+  def idols
+    User.joins(source_subscriptions: :target_user).
+      where(subscriptions: {user_id: object.id}).
+      order('subscriptions.created_at DESC').
+      limit(10)
+  end
+
   def has_posts?
     object.posts.any?
   end

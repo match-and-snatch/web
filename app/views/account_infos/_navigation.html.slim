@@ -3,9 +3,7 @@ ul.nav.navbar-nav.pull-right
     a.PopupTrigger data-target='search-users' href='#'
       i.fa.fa-search
   - if current_user.has_subscriptions?
-    li
-      a href=account_info_path(anchor: subscriptions_path)
-        i.fa.fa-bars My Subscriptions
+    = render 'subscriptions_nav'
   - if current_user.object.complete_profile?
     li
       a href=current_profile_path
