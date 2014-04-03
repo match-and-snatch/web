@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :source_subscriptions, class_name: 'Subscription', foreign_key: 'target_user_id'
   has_many :uploads, as: :uploadable
+  has_many :likes
+  has_many :source_likes, class_name: 'Like', foreign_key: 'target_user_id'
 
   validates :full_name, :email, presence: true
   before_create :generate_slug, if: :is_profile_owner?

@@ -52,6 +52,10 @@ class CurrentUserDecorator < UserDecorator
     object.posts.any?
   end
 
+  def likes?(post)
+    object.likes.where(post_id: post.id).any?
+  end
+
   def has_subscriptions?
     object.subscriptions.any?
   end

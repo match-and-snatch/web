@@ -35,4 +35,8 @@ window.bud.clear_html = (container) ->
   $(container).empty()
 
 window.bud.get = (identifier) ->
-  $("[data-identifier=#{identifier}]")
+  elem = $("[data-identifier=#{identifier}]")
+  if elem.length > 0
+    return elem
+  else
+    return null

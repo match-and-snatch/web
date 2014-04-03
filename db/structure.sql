@@ -3,7 +3,8 @@
 --
 
 SET statement_timeout = 0;
-SET client_encoding = 'LATIN1';
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
@@ -144,6 +145,41 @@ CREATE SEQUENCE comments_id_seq
 --
 
 ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
+
+
+--
+-- Name: likes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE likes (
+    id integer NOT NULL,
+    user_id integer,
+    likable_id integer,
+    likable_type character varying(255),
+    post_id integer,
+    target_user_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: likes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE likes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: likes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE likes_id_seq OWNED BY likes.id;
 
 
 --
@@ -387,6 +423,13 @@ ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY likes ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY payment_failures ALTER COLUMN id SET DEFAULT nextval('payment_failures_id_seq'::regclass);
 
 
@@ -439,6 +482,14 @@ ALTER TABLE ONLY benefits
 
 ALTER TABLE ONLY comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY likes
+    ADD CONSTRAINT likes_pkey PRIMARY KEY (id);
 
 
 --
@@ -543,3 +594,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140321091326');
 INSERT INTO schema_migrations (version) VALUES ('20140321111847');
 
 INSERT INTO schema_migrations (version) VALUES ('20140326104922');
+
+INSERT INTO schema_migrations (version) VALUES ('20140403141129');

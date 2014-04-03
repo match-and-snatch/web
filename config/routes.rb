@@ -7,6 +7,7 @@ BuddyPlatform::Application.routes.draw do
 
   resources :posts, only: [] do
     resources :comments, only: [:create, :index]
+    resources :likes, only: [:create]
   end
 
   resource :session
