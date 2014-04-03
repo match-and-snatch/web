@@ -90,37 +90,58 @@
 
     /* Account Payment Column */
 
-    .account_payment.pull-right 
-      form.Form action=via_register_user_subscriptions_path(@owner) method='POST'
+    
+    form.pull-right.Form action=via_register_user_subscriptions_path(@owner) method='POST'
+      .account_payment
         .form-group
           input.form-control type='text' name='full_name' placeholder='Full Name'
-          p.text-danger data-field='full_name'
+          span.error data-field='full_name'
         .form-group
           input.form-control type='text' name='email' placeholder='Email Address'
-          p.text-danger data-field='email'
-        .form-group
+          span.error data-field='email'
+        .form-group style="margin-bottom: 30px"
           input.form-control type='password' name='password' placeholder='Password'
-          p.text-danger data-field='password'
-        .form-group
+          span.error data-field='password'
+        .form-group.cc_row
           label.control-label CC Number
+          ul 
+            li
+              img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Visa@2x.png')
+            li
+              img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Mastercard@2x.png')
+            li
+              img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Amex@2x.png')
+            li
+              img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Discover@2x.png')
           input.form-control type='text' name='number' placeholder='1234 5678 9012 3456'
-          p.text-danger data-field='number'
-        .form-group
+          span.error data-field='number'
+
+        .form-group.exp_date.pull-left
           label.control-label Expiry Date
           .clearfix
           .pull-left
-            label.pull-left Month
+            label.small.pull-left Month
             input.form-control type='text' name='expiry_month' placeholder='01' style="width: 50px"
-          .pull-left
-            label.pull-left Year
+          .pull-left style="margin-left: 5px"
+            label.small.pull-left Year
             input.form-control type='text' name='expiry_year' placeholder='15' style="width: 50px"
           .clearfix
-          p.text-danger data-field='expiry_date'
-        .form-group
-          label.control-label CVC Code
-          input.form-control type='text' name='cvc' placeholder='123'
-          p.text-danger data-field='cvc'
-
-        input.btn.blue type='submit' value='Pay & Subscribe' style="width: 100%"
+          span.error data-field='expiry_date'
+          .clearfix
+        .form-group.cvc.pull-right
+          label.control-label CVC
+          .clearfix
+          input.form-control.pull-left type='text' name='cvc' placeholder='123'
+          .pull-right
+            i.fa.fa-question
+          .clearfix
+          span.error data-field='cvc'
         .clearfix
+
+      input.btn.blue type='submit' value='Pay & Subscribe' style="width: 100%; margin-top: 15px; font-size: 24px"
+      .clearfix
     .clearfix
+
+  .modal-footer
+    span Already have an account?&nbsp;
+    a.PopupTrigger href='#' data-target='login' Login

@@ -35,6 +35,9 @@ h3
   font-size: 20px
   padding-bottom: 15px
 
+img 
+  border: none
+
 .hidden
   display: none
 
@@ -106,7 +109,7 @@ textarea
 
 nav
   @include blue-area
-  border-top: 1px solid #c5ecff
+  // border-top: 1px solid #c5ecff
   // border-bottom: 1px solid #277aa3
   height: 45px
   text-shadow: none
@@ -134,6 +137,53 @@ nav
           text-shadow: none
       &.active
         background-color: #277aa3  
+
+      /* My Subscriptions CSS */
+
+      &.my_sub
+        position: relative
+        .my_sub_cont
+          background-color: $color_background
+          border-left: 1px solid $color_border
+          border-bottom: 1px solid $color_border
+          border-right: 1px solid $color_border
+          border-top: 1px solid $color_border
+          border-radius: 0 0 $border_radius $border_radius
+          display: none
+          font-size: 13px
+          padding: 15px
+          position: absolute
+          top: 45px
+          left: 0
+          width: 200px
+          a
+            background: none
+            display: block
+            margin: 10px 0 0 0
+            padding: 0
+            text-decoration: none
+            &:first-child
+              margin-top: 0
+            .picture
+              background-color: #FFFFFF
+              border: 1px solid $color_border
+              height: 40px
+              width: 40px
+            .name
+              color: $color_text_light
+              margin-top: 10px
+              margin-left: 10px
+              padding: 0
+              width: 118px
+        &:hover
+          .my_sub_cont
+            display: block
+            a
+              background: none !important
+              color: $color_text_dark
+          a
+            background-color: #277aa3  
+            text-shadow: none
 
 /* Homepage */
 
@@ -346,7 +396,8 @@ nav
     background-size: 100%
     border-bottom: 1px solid $color_border
     display: block
-    height: 270px
+    height: 271px
+    overflow: hidden
     margin-bottom: 50px
     position: relative
     z-index: 1
@@ -831,7 +882,8 @@ nav
         .audio_player
           height: 30px
         .video_player
-          height: 300px
+          height: 330px
+          width: 585px
         a.doc_view
           .icon
             background-color: #FFFFFF
@@ -1078,13 +1130,15 @@ nav
       padding: 0 15px 15px
       .order_summary, .account_payment
         background-color: $color_background
-        min-height: 400px
+        min-height: 330px
         padding: 15px
         width: 325px
 
       /* Order Summary */
 
       .order_summary
+        background-color: #FFFFFF
+        padding: 0
         .heading, .item_row
           border-bottom: 1px solid #e1e1e1
           padding-bottom: 15px  
@@ -1105,12 +1159,44 @@ nav
       /* Account Payment */
 
       .account_payment
+        padding: 15px 15px 0 15px
         .form-control
           background-color: #FFFFFF
           border: 1px solid $color_border
           &:focus
             background-color: #FFFFFF
             border: 1px solid $color_blue
+        .cc_row
+          position: relative
+          ul
+            list-style: none
+            position: absolute
+            top: -2px
+            right: -4px
+            li
+              display: inline-block
+              padding-right: 5px
+              img
+                height: 22px
+                width: 32px
+        .exp_date
+          position: relative
+          .small
+            font-size: 13px
+            font-weight: 400
+            padding: 8px 5px 0 0
+        .cvc
+          width: 70px
+          input 
+            width: 55px
+          .fa
+            cursor: pointer
+            padding-top: 8px
+            &:before
+              color: $color_text_light
+            &:hover
+              &:before
+                color: $color_text_dark
 
   /* Footer Area */
 
@@ -1258,6 +1344,13 @@ nav
         width: 430px
       .error
         margin: 5px 0 0 197px
+
+
+
+/* TEMP */
+#transloadit_expose
+  background-color: red !important
+  background: red !important
 
 
 
