@@ -19,7 +19,7 @@ class bud.widgets.Popup extends bud.Widget
   # Toggles visibility on trigger click
   toggle: => if @$container.is(':visible') then @hide() else @show()
 
-  autoplace: ->
+  autoplace: =>
     @$container.css('margin-left', "-#{@width()/2}px")
     @$container.css('margin-top', "-#{@height()/2}px")
 
