@@ -11,7 +11,6 @@ class UploadsController < ApplicationController
 
   def destroy
     @upload.delete
-    json_replace
   end
 
   protected
