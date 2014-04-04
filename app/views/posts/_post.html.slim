@@ -4,9 +4,13 @@
   .date Posted #{time_ago_in_words(post.created_at)} ago
 
   - post.uploads.each do |upload|
-    .VideoPlayer.video_player
-      video  preload="none" poster=upload.url_on_step('thumbs')
-        source type="video/mp4" src=upload.url_on_step(':original')
+    - if upload.video?
+      .VideoPlayer.video_player
+        video  preload="none" poster=upload.url_on_step('thumbs')
+          source type="video/mp4" src=upload.url_on_step(':original')
+    - if upload.image?
+      .video_player
+        img src=upload.url_on_step(':original')
 
   .message= super_highlight(post.message)
   .action_bar= render 'like', post: post

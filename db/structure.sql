@@ -3,8 +3,7 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
+SET client_encoding = 'LATIN1';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
@@ -334,7 +333,10 @@ CREATE TABLE uploads (
     uploadable_id integer,
     uploadable_type character varying(255),
     transloadit_data text,
-    user_id integer
+    user_id integer,
+    duration double precision,
+    type character varying(255),
+    mime_type character varying(255)
 );
 
 
@@ -600,3 +602,4 @@ INSERT INTO schema_migrations (version) VALUES ('20140403112436');
 
 INSERT INTO schema_migrations (version) VALUES ('20140403141129');
 
+INSERT INTO schema_migrations (version) VALUES ('20140404115337');

@@ -1,4 +1,5 @@
 class Upload < ActiveRecord::Base
+  self.inheritance_column = nil
   serialize :transloadit_data, Hash
   belongs_to :uploadable, polymorphic: true
 
@@ -17,6 +18,14 @@ class Upload < ActiveRecord::Base
         return step[attribute.to_s]
       end
     end
+  end
+
+  def video?
+    'video' == type
+  end
+
+  def image?
+    'image' == type
   end
 
 end

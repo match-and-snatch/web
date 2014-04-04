@@ -1,14 +1,14 @@
 #= require ./form
 
-class bud.widgets.VideoUploadForm extends bud.widgets.Form
-  @SELECTOR: '.VideoUploadForm'
+class bud.widgets.PhotoUploadForm extends bud.widgets.Form
+  @SELECTOR: '.PhotoUploadForm'
   @TRANSLOADIT_SCRIPT_PATH: '//assets.transloadit.com/js/jquery.transloadit2-latest.js'
 
   initialize: ->
     super
     @$target = bud.get(@$container.data('target'))
     bud.sub('post', @on_post)
-    bud.Ajax.getScript(bud.widgets.VideoUploadForm.TRANSLOADIT_SCRIPT_PATH).done(@on_script_loaded)
+    bud.Ajax.getScript(bud.widgets.PhotoUploadForm.TRANSLOADIT_SCRIPT_PATH).done(@on_script_loaded)
 
   on_script_loaded: =>
     @$container.attr('enctype', 'multipart/form-data')
@@ -22,7 +22,7 @@ class bud.widgets.VideoUploadForm extends bud.widgets.Form
         $('.progress-bar-info').width(progress)
         $('.percentage').text(progress)
       onUpload: (upload, assembly) =>
-        @$target.prepend("<div class='alert.alert-success'>#{upload.name} is uploaded.</div>")
+        @$target.prepend("<div>#{upload.name} is uploaded.</div>")
       onSuccess: (assembly)->
         $('#uploading > .file_status').addClass('hidden')
       onStart: (assembly)->

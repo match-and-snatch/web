@@ -30,6 +30,7 @@ BuddyPlatform::Application.routes.draw do
 
   resources :subscriptions, only: [:index, :create]
   resources :videos, only: [:create, :destroy]
+  resources :photos, only: [:create, :destroy]
 
   resources :users, only: [:index, :create, :edit, :update] do
     member do

@@ -86,7 +86,12 @@
             input.file type='file' name='post_videos' multiple='multiple'
           input type='hidden' name='slug' value=@profile.slug
       li
-        a.fa.fa-picture-o href=current_profile_path Upload Photos
+        form.PhotoUploadForm action=photos_path method='post' data-target='pending-video-posts'
+          = transloadit :post_photo
+          a.fa.fa-music href='javascript:void(0)' style='position: relative;'
+            | Upload Photos
+            input.file type='file' name='post_videos' multiple='multiple'
+          input type='hidden' name='slug' value=@profile.slug
       li
         a.fa.fa-file-text href=current_profile_path Upload Document
     .clearfix
