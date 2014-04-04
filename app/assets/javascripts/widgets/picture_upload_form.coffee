@@ -14,3 +14,9 @@ class bud.widgets.PictureUploadForm extends bud.widgets.Form
   on_script_loaded: =>
     @$container.attr('enctype', 'multipart/form-data')
     @$container.transloadit({wait: true, triggerUploadOnFileSelection: true, fields: "input[name=slug]"})
+
+  on_replace: (response) =>
+    @$container.unbind('submit.transloadit');
+    super
+    @on_script_loaded()
+    @$container.find('textarea[name=transloadit]').remove()
