@@ -119,9 +119,18 @@
       .uploaded data-identifier='pending-video-posts'
         = render partial: 'pending_post_upload', collection: current_user.pending_post_uploads
 
+      #post
+        form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
+          .col-md-11
+            textarea name='message' placeholder='Keep your subscribers in the know...'
+          .col-md-1
+            .error data-field='message'
+            input.btn.blue.pull-right type='Submit' value='Post'
+            .clearfix
+
       /* Details Form */
 
-      form.upload_details
+      form.upload_details.hidden
         .row
           .col-md-6
             input.detail_field placeholder="Post Title"

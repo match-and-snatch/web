@@ -2,6 +2,9 @@ class Upload < ActiveRecord::Base
   serialize :transloadit_data, Hash
   belongs_to :uploadable, polymorphic: true
 
+  scope :pending, -> { where uploadable_id: nil }
+  scope :posts, -> { where uploadable_type: 'Post' }
+
   # @param step_name [String, Symbol] See transloadit.yml
   # @return [String, nil]
   def url_on_step(step_name)

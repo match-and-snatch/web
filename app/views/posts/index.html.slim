@@ -4,7 +4,7 @@
       |Results for "
       b= params[:q]
       |"
-  = render partial: 'video_post'
+  /= render partial: 'video_post'
   = render partial: 'post', collection: @posts
 - else
   - if params[:q].present?

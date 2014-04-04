@@ -7,6 +7,7 @@ class bud.widgets.VideoUploadForm extends bud.widgets.Form
   initialize: ->
     super
     @$target = bud.get(@$container.data('target'))
+    bud.sub('post', @on_post)
     bud.Ajax.getScript(bud.widgets.VideoUploadForm.TRANSLOADIT_SCRIPT_PATH).done(@on_script_loaded)
 
   on_script_loaded: =>
@@ -27,6 +28,9 @@ class bud.widgets.VideoUploadForm extends bud.widgets.Form
       onStart: (assembly)->
         $('#uploading > .file_status').removeClass('hidden')
     )
+
+  on_post: =>
+    bud.clear_html(@$target)
 
   #can't unbind transloadit callbacks
   on_replace: (response) =>
