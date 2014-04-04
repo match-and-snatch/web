@@ -17,7 +17,7 @@
 
     .photo_profile
       div data-identifier='profile-picture'
-        a href=@profile.original_profile_picture_url
+        a.PopupTrigger data-target='full-profile-photo' href=@profile.original_profile_picture_url
           img src=@profile.profile_picture_url
 
       form.PictureUploadForm action=update_profile_picture_user_path(@profile.object) method='post' data-target='profile-picture'
@@ -233,6 +233,8 @@
               a.fa.fa-vimeo-square href='#' Vimeo
 
         span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
+
+  .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=photo_path(0, photo_url: @profile.original_profile_picture_url)
 
   /* Name Popup */
 
