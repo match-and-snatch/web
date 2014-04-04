@@ -1,14 +1,16 @@
 .container
   #header.box
     .photo_cover
+      img src=@profile.cover_picture_url
     .photo_profile
+      img src=@profile.profile_picture_url
 
     /* Details Container */
     .details_container.row
       .col-lg-8.col-md-7.profile_name
 
         /* Profile Name */
-        = @profile.full_name
+        = @profile.profile_name
 
       .col-lg-4.col-md-5
 
