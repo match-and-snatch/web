@@ -5,8 +5,8 @@ class Owner::SecondStepsController < Owner::BaseController
   end
 
   def update
-    UserProfileManager.new(@user).update(subscription_cost: params[:subscription_cost],
-                                         slug: params[:slug])
+    UserProfileManager.new(@user).update subscription_cost: params[:subscription_cost],
+                                         profile_name:      params[:profile_name]
     redirect_to third_step_path
   end
 end

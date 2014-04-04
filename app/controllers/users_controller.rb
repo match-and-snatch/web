@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   end
 
   def update_name
-    UserProfileManager.new(current_user.object).update_full_name(params[:full_name])
+    UserProfileManager.new(current_user.object).update_profile_name(params[:profile_name])
     json_success
   end
 

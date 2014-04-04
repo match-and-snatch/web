@@ -333,7 +333,8 @@ CREATE TABLE uploads (
     id integer NOT NULL,
     uploadable_id integer,
     uploadable_type character varying(255),
-    transloadit_data text
+    transloadit_data text,
+    user_id integer
 );
 
 
@@ -382,7 +383,8 @@ CREATE TABLE users (
     cover_picture_url text,
     original_cover_picture_url text,
     is_profile_owner boolean DEFAULT false NOT NULL,
-    has_complete_profile boolean DEFAULT false NOT NULL
+    has_complete_profile boolean DEFAULT false NOT NULL,
+    profile_name character varying(512)
 );
 
 
@@ -595,4 +597,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140321111847');
 
 INSERT INTO schema_migrations (version) VALUES ('20140326104922');
 
+INSERT INTO schema_migrations (version) VALUES ('20140403112436');
+
 INSERT INTO schema_migrations (version) VALUES ('20140403141129');
+
+INSERT INTO schema_migrations (version) VALUES ('20140404115255');

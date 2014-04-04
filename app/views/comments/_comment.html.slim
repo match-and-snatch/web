@@ -5,7 +5,7 @@
     /* Display Delete Only if Owner or if it your comment */
     - if can?(:delete, comment)
       .delete.fa.fa-times
-    .profile_name data-identifier='full-name'
+    .profile_name data-identifier='profile-name'
       = comment.user.full_name
     .comment_text= comment.message
     .post_date Posted #{time_ago_in_words comment.created_at} ago
