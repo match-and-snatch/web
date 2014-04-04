@@ -31,8 +31,9 @@
 
     .benefits_container.row
       .col-lg-12.col-md-12
-        .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
-        div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
+        - if @profile.benefits.any?
+          .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
+          div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
 
   /* Visitor View */
 
