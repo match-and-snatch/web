@@ -87,7 +87,7 @@ class User < ActiveRecord::Base
   # @return [String]
   def sample_slug
     @slug_example ||= begin
-      slug_base = full_name.parameterize
+      slug_base = (profile_name || full_name).parameterize
       slug = slug_base
       i = 0
 
@@ -99,12 +99,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  private
-
   def generate_slug
     self.slug = sample_slug
     true
   end
+
+  private
 
   def set_profile_completion_status
     self.has_complete_profile = true if complete_profile?

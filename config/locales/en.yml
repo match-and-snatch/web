@@ -4,6 +4,7 @@ en:
     empty: cannot be empty
     taken: is already taken by someone else
     too_short: please enter at least %{minimum} characters
+    too_short: seems to be too long
     does_not_match_password: does not match password
     zero: must be greater than zero
     not_a_slug: must contain only a-z characters and dashes

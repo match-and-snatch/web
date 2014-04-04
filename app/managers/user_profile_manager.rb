@@ -29,23 +29,29 @@ class UserProfileManager < BaseManager
   end
 
   # @param subscription_cost [Float, String]
-  # @param slug [String]
+  # @param profile_name [String]
   # @return [User]
-  def update(subscription_cost: nil, slug: nil)
-    slug = slug.try(:strip).to_s
+  def update(subscription_cost: nil, profile_name: nil)
+    profile_name = profile_name.try(:strip).to_s
 
     validate! do
-      if subscription_cost.blank?
-        fail_with subscription_cost: :empty
-      else
-        fail_with subscription_cost: :zero if subscription_cost.to_f.zero?
+      if profile_name.blank?
+        fail_with profile_name: :empty
+      elsif profile_name.length > 200
+        fail_with profile_name: :too_long
       end
 
-      validate_slug slug
+      if subscription_cost.blank?
+        fail_with! subscription_cost: :empty
+      elsif subscription_cost.to_f.zero?
+        fail_with! subscription_cost: :zero
+      end
     end
 
     user.subscription_cost = subscription_cost
-    user.slug = slug
+    user.profile_name = profile_name
+    user.generate_slug
+
     user.save or fail_with! user.errors
     user
   end
@@ -64,11 +70,13 @@ class UserProfileManager < BaseManager
     user
   end
 
-  # @param full_name [String]
+  # @param profile_name [String]
   # @return [User]
-  def update_full_name(full_name)
-    fail_with! full_name: :empty if full_name.blank?
-    user.full_name = full_name
+  def update_profile_name(profile_name)
+    fail_with! profile_name: :empty if profile_name.blank?
+    fail_with! profile_name: :too_long if profile_name.length > 200
+
+    user.profile_name = profile_name
     user.save or fail_with! user.errors
     user
   end

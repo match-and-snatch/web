@@ -35,8 +35,8 @@
 
         /* Profile Name */
         a href=current_profile_path
-          i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='full-name'
-            = @profile.full_name
+          i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='profile-name'
+            = @profile.profile_name
 
       .col-md-5
 
@@ -260,15 +260,14 @@
 
     .modal-body
       form.Form action=update_name_user_path(@profile.object) method='post'
-
         .form-group
           input type='hidden' name='_method' value='put'
-          input.form-control type='text' name='full_name' value=@profile.full_name data-target='full-name'
+          input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name'
 
         .form-group.profile_address.hidden http://www.subscribebuddy.com/PROFILENAME
 
         .form-group
-          .pull-left.error data-field='full_name'
+          .pull-left.error data-field='profile_name'
           input.btn.blue.pull-right type='submit' value='Update Profile Name'
           .clearfix
 
