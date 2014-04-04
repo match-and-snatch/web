@@ -11,7 +11,7 @@
         = transloadit :cover_picture
 
         .btn.blue.i.fa.fa-picture-o
-          | Change Photo
+          |&nbsp;Change Photo
           input.file type='file' name='cover_picture_file'
         input type='hidden' name='slug' value=@profile.slug
 
@@ -25,7 +25,7 @@
         = transloadit :profile_picture
 
         .btn.blue.i.fa.fa-picture-o
-          | Change Photo
+          |&nbsp;Change Photo
           input.file type='file' name='profile_picture_file'
         input type='hidden' name='slug' value=@profile.slug
 
@@ -81,7 +81,7 @@
       li
         form.VideoUploadForm action=videos_path method='post' data-target='pending-video-posts'
           = transloadit :post_video
-          .a.fa.fa-music href="#"
+          a.fa.fa-music href='javascript:void(0)' style='position: relative;'
             | Upload Video
             input.file type='file' name='post_videos' multiple='multiple'
           input type='hidden' name='slug' value=@profile.slug
@@ -117,7 +117,7 @@
         .col-md-1.percentage 0%
 
       .uploaded data-identifier='pending-video-posts'
-        = render partial:'pending_post_upload', collection: current_user.pending_post_uploads
+        = render partial: 'pending_post_upload', collection: current_user.pending_post_uploads
 
 
       /* Details Form */

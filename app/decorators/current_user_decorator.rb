@@ -25,6 +25,10 @@ class CurrentUserDecorator < UserDecorator
     else
       raise ArgumentError, "No such action #{action}"
     end
+    when Upload
+    case action
+    when :manage then subject.user_id == object.id
+    end
     when Comment
     case action
     when :delete then subject.user_id == object.id || subject.post_user_id == object.id
