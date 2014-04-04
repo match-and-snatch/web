@@ -5,7 +5,7 @@
 
   - post.uploads.each do |upload|
     .VideoPlayer.video_player
-      video poster=upload.url_on_step('thumbs')
+      video  preload="none" poster=upload.url_on_step('thumbs')
         source type="video/mp4" src=upload.url_on_step(':original')
 
   .message= super_highlight(post.message)
