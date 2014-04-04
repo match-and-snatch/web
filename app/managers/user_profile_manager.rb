@@ -208,13 +208,13 @@ class UserProfileManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [User]
   def update_profile_picture(transloadit_data)
-    upload = Upload.create!(transloadit_data: transloadit_data, uploadable: user)
+    upload = UploadManager.new(user).create(transloadit_data)
 
     user.profile_picture_url = upload.url_on_step('resize')
     user.original_profile_picture_url = upload.url_on_step(':original')
 
     if user.changes.any?
-      user.save or fail_with user.errors
+      user.save or fail_with! user.errors
     end
 
     user
@@ -223,16 +223,22 @@ class UserProfileManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [User]
   def update_cover_picture(transloadit_data)
-    upload = Upload.create!(transloadit_data: transloadit_data, uploadable: user)
+    upload = UploadManager.new(user).create(transloadit_data)
 
     user.cover_picture_url = upload.url_on_step('resize')
     user.original_cover_picture_url = upload.url_on_step(':original')
 
     if user.changes.any?
-      user.save or fail_with user.errors
+      user.save or fail_with! user.errors
     end
 
     user
+  end
+
+  # @param transloadit_data [Hash]
+  # @return [User]
+  def create_upload(transloadit_data)
+    UploadManager.new(user).create_pending_video(transloadit_data)
   end
 
   # @param current_password [String]

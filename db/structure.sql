@@ -3,8 +3,7 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
+SET client_encoding = 'LATIN1';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
@@ -83,7 +82,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: benefits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: benefits; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE benefits (
@@ -114,7 +113,7 @@ ALTER SEQUENCE benefits_id_seq OWNED BY benefits.id;
 
 
 --
--- Name: comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: comments; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE comments (
@@ -148,7 +147,7 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
--- Name: likes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: likes; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE likes (
@@ -183,7 +182,7 @@ ALTER SEQUENCE likes_id_seq OWNED BY likes.id;
 
 
 --
--- Name: payment_failures; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_failures; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE payment_failures (
@@ -217,7 +216,7 @@ ALTER SEQUENCE payment_failures_id_seq OWNED BY payment_failures.id;
 
 
 --
--- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE payments (
@@ -251,7 +250,7 @@ ALTER SEQUENCE payments_id_seq OWNED BY payments.id;
 
 
 --
--- Name: posts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: posts; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE posts (
@@ -283,7 +282,7 @@ ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE schema_migrations (
@@ -292,7 +291,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE subscriptions (
@@ -326,7 +325,7 @@ ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
 
 
 --
--- Name: uploads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: uploads; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE uploads (
@@ -334,7 +333,14 @@ CREATE TABLE uploads (
     uploadable_id integer,
     uploadable_type character varying(255),
     transloadit_data text,
+<<<<<<< HEAD
+    user_id integer,
+    duration double precision,
+    type character varying(255),
+    mime_type character varying(255)
+=======
     user_id integer
+>>>>>>> 6b909891ee4477c7b08969641f43e9376fcf235f
 );
 
 
@@ -358,7 +364,7 @@ ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE TABLE users (
@@ -471,7 +477,7 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 
 --
--- Name: benefits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: benefits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY benefits
@@ -479,7 +485,7 @@ ALTER TABLE ONLY benefits
 
 
 --
--- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY comments
@@ -487,7 +493,7 @@ ALTER TABLE ONLY comments
 
 
 --
--- Name: likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY likes
@@ -495,7 +501,7 @@ ALTER TABLE ONLY likes
 
 
 --
--- Name: payment_failures_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_failures_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY payment_failures
@@ -503,7 +509,7 @@ ALTER TABLE ONLY payment_failures
 
 
 --
--- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY payments
@@ -511,7 +517,7 @@ ALTER TABLE ONLY payments
 
 
 --
--- Name: posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY posts
@@ -519,7 +525,7 @@ ALTER TABLE ONLY posts
 
 
 --
--- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY subscriptions
@@ -527,7 +533,7 @@ ALTER TABLE ONLY subscriptions
 
 
 --
--- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY uploads
@@ -535,7 +541,7 @@ ALTER TABLE ONLY uploads
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY users
@@ -543,7 +549,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -602,3 +608,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140403112436');
 INSERT INTO schema_migrations (version) VALUES ('20140403141129');
 
 INSERT INTO schema_migrations (version) VALUES ('20140404115255');
+
+INSERT INTO schema_migrations (version) VALUES ('20140404115337');

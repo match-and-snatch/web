@@ -1,4 +1,5 @@
 class CurrentUserDecorator < UserDecorator
+  delegate :pending_post_uploads, to: :object
 
   # @param user [User, nil]
   def initialize(user = nil)
@@ -23,6 +24,10 @@ class CurrentUserDecorator < UserDecorator
     when :manage               then subject.id == object.id
     else
       raise ArgumentError, "No such action #{action}"
+    end
+    when Upload
+    case action
+    when :manage then subject.user_id == object.id
     end
     when Comment
     case action

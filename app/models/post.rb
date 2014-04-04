@@ -4,6 +4,7 @@ class Post < ActiveRecord::Base
   belongs_to :user
   has_many :comments
   has_many :likes
+  has_many :uploads, as: :uploadable
 
   pg_search_scope :search_by_message, against: :message,
                                       using: [:tsearch, :dmetaphone, :trigram],

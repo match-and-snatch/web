@@ -11,8 +11,9 @@ class PostManager < BaseManager
   def create(message)
     fail_with! message: :empty if message.blank?
 
-    post = Post.new(user: @user, message: message)
-    post.save or fail_with! post.errors
-    post
+    Post.new(user: @user, message: message).tap do |post|
+      post.save or fail_with! post.errors
+      @user.pending_post_uploads.each { |upload| post.uploads << upload }
+    end
   end
 end

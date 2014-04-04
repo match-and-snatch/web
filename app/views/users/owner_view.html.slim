@@ -11,7 +11,7 @@
         = transloadit :cover_picture
 
         .btn.blue.i.fa.fa-picture-o
-          | Change Photo
+          |&nbsp;Change Photo
           input.file type='file' name='cover_picture_file'
         input type='hidden' name='slug' value=@profile.slug
 
@@ -25,7 +25,7 @@
         = transloadit :profile_picture
 
         .btn.blue.i.fa.fa-picture-o
-          | Change Photo
+          |&nbsp;Change Photo
           input.file type='file' name='profile_picture_file'
         input type='hidden' name='slug' value=@profile.slug
 
@@ -79,16 +79,26 @@
       li
         a.fa.fa-pencil.active href=current_profile_path Post Status
       li
-        a.fa.fa-music href=current_profile_path Upload Audio/Video
+        form.VideoUploadForm action=videos_path method='post' data-target='pending-video-posts'
+          = transloadit :post_video
+          a.fa.fa-music href='javascript:void(0)' style='position: relative;'
+            | Upload Video
+            input.file type='file' name='post_videos' multiple='multiple'
+          input type='hidden' name='slug' value=@profile.slug
       li
-        a.fa.fa-picture-o href=current_profile_path Upload Photos
+        form.PhotoUploadForm action=photos_path method='post' data-target='pending-video-posts'
+          = transloadit :post_photo
+          a.fa.fa-music href='javascript:void(0)' style='position: relative;'
+            | Upload Photos
+            input.file type='file' name='post_videos' multiple='multiple'
+          input type='hidden' name='slug' value=@profile.slug
       li
         a.fa.fa-file-text href=current_profile_path Upload Document
     .clearfix
 
     /* Post Status Area */
 
-    #post
+    #post.hidden
       form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
         .col-md-11
           textarea name='message' placeholder='Keep your subscribers in the know...'
@@ -99,29 +109,33 @@
 
     /* Upload View */
 
-    #uploading.hidden
+    #uploading.hidden1
 
       /* Single File Line */
 
-      .row.file_status
-        .col-md-3.file_name FileName1.avi
+      .row.file_status.hidden
+        .col-md-3.file_name Uploading....
         .col-md-8
           .progress.progress-striped.active
-            .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%"
-              span.sr-only 25% Complete
-        .col-md-1.percentage 25%
+            .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
+              span.sr-only 0% Complete
+        .col-md-1.percentage 0%
 
-      .row.file_status
-        .col-md-3.file_name FileName2.avi
-        .col-md-8
-          .progress.progress-striped.active
-            .progress-bar.progress-bar-info role="progressbar" aria-voluenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"
-              span.sr-only 50% Complete
-        .col-md-1.percentage 50%
+      .uploaded data-identifier='pending-video-posts'
+        = render partial: 'pending_post_upload', collection: current_user.pending_post_uploads
+
+      #post
+        form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
+          .col-md-11
+            textarea name='message' placeholder='Keep your subscribers in the know...'
+          .col-md-1
+            .error data-field='message'
+            input.btn.blue.pull-right type='Submit' value='Post'
+            .clearfix
 
       /* Details Form */
 
-      form.upload_details
+      form.upload_details.hidden
         .row
           .col-md-6
             input.detail_field placeholder="Post Title"
@@ -268,7 +282,7 @@
 
     .modal-body
 
-      .pull-left style="width: 262px;"  
+      .pull-left style="width: 262px;"
         .input-group
           span.input-group-addon
             i.fa.fa-globe.fa-fw
