@@ -5,13 +5,6 @@ BuddyPlatform::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#show'
 
-  resources :posts, only: [] do
-    resources :comments, only: [:create, :index]
-    resources :likes, only: [:create]
-  end
-
-  resource :session
-
   resource :account_info, only: :show do
     member do
       put :update_payment_information
@@ -28,13 +21,22 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
+  resources :posts, only: [] do
+    resources :comments, only: [:create, :index]
+    resources :likes, only: :create
+  end
+
+  resource :session
+
+  resources :subscriptions, only: [:index, :create]
+  resources :videos, only: :create
+
   resources :users, only: [:index, :create, :edit, :update] do
     member do
       put :update_name
       put :update_cost
       put :update_profile_picture
       put :update_cover_picture
-      post :create_pending_upload
     end
 
     resources :benefits, only: :create
@@ -46,8 +48,6 @@ BuddyPlatform::Application.routes.draw do
       end
     end
   end
-
-  resources :subscriptions, only: [:index, :create]
 
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login

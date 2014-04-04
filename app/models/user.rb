@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :uploads, as: :uploadable
   has_many :likes
   has_many :source_likes, class_name: 'Like', foreign_key: 'target_user_id'
-  has_many :pending_post_uploads, -> { where uploadable_type: nil }, class_name: 'Upload', foreign_key: 'user_id'
+  has_many :pending_post_uploads, -> { where uploadable_type: 'Post', uploadable_id: nil }, class_name: 'Upload'
 
   validates :full_name, :email, presence: true
   before_create :generate_slug, if: :is_profile_owner?

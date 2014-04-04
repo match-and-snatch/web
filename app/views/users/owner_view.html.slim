@@ -79,10 +79,10 @@
       li
         a.fa.fa-pencil.active href=current_profile_path Post Status
       li
-        form.VideoUploadForm action=create_pending_upload_user_path(@profile.object) method='post' data-target='pending-video-posts'
+        form.VideoUploadForm action=videos_path method='post' data-target='pending-video-posts'
           = transloadit :post_video
           .a.fa.fa-music href="#"
-            | Upload Audio/Video
+            | Upload Video
             input.file type='file' name='post_videos' multiple='multiple'
           input type='hidden' name='slug' value=@profile.slug
       li
