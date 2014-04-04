@@ -117,7 +117,7 @@
         .col-md-1.percentage 0%
 
       .uploaded data-identifier='pending-video-posts'
-        = render partial: "users/pending_post_upload", collection: @profile.object.pending_post_uploads
+        = render partial:'pending_post_upload', collection: current_user.pending_post_uploads
 
 
       /* Details Form */

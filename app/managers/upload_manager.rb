@@ -9,7 +9,7 @@ class UploadManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [Upload]
   def create_pending_video(transloadit_data)
-    create(transloadit_data, attributes: {uploadable_type: 'Post', uplodable_id: nil})
+    create(transloadit_data, attributes: {uploadable_type: 'Post', uploadable_id: nil})
   end
 
   # @param transloadit_data [Hash]

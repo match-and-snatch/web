@@ -1,4 +1,5 @@
 class CurrentUserDecorator < UserDecorator
+  delegate :pending_post_uploads, to: :object
 
   # @param user [User, nil]
   def initialize(user = nil)
