@@ -3,7 +3,5 @@
   - if pending_post_upload.video?
     .duration
       | Dutaion: #{pending_post_upload.duration}
-    img src=pending_post_upload.url_on_step('thumbs')
-  - if pending_post_upload.image?
-    img src=pending_post_upload.url_on_step(':original')
+  img src=pending_post_upload.preview_url
   a.AjaxFormLink href=video_path(pending_post_upload) data-_method='DELETE' data-target='pending-video-posts' DELETE ATTACHMENT

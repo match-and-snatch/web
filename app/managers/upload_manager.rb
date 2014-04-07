@@ -9,13 +9,17 @@ class UploadManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [Upload]
   def create_pending_video(transloadit_data)
-    create(transloadit_data, attributes: {uploadable_type: 'Post', uploadable_id: nil})
+    create(transloadit_data, attributes: { uploadable_type: 'Post',
+                                           uploadable_id: nil,
+                                           preview_url: transloadit_data["results"]["thumbs"].try(:first)["url"]})
   end
 
   # @param transloadit_data [Hash]
   # @return [Upload]
   def create_pending_photo(transloadit_data)
-    create(transloadit_data, attributes: {uploadable_type: 'Post', uploadable_id: nil})
+    create(transloadit_data, attributes: { uploadable_type: 'Post',
+                                           uploadable_id: nil,
+                                           preview_url: transloadit_data["results"][":original"].try(:first)["url"]})
   end
 
   # @param transloadit_data [Hash]
@@ -28,7 +32,10 @@ class UploadManager < BaseManager
                         user_id: user.id,
                         type: transloadit_data["uploads"][0]["type"],
                         duration: transloadit_data["uploads"][0]["meta"]["duration"],
-                        mime_type: transloadit_data["uploads"][0]["mime"]
+                        mime_type: transloadit_data["uploads"][0]["mime"],
+                        width: transloadit_data["uploads"][0]["meta"]["width"],
+                        height: transloadit_data["uploads"][0]["meta"]["height"],
+                        url: transloadit_data["results"][":original"].try(:first)["url"]
     upload.attributes = attributes
     upload.save or fail_with! upload.errors
     upload
