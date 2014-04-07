@@ -2,7 +2,7 @@
   .row.box
     .col-md-12.payout_info
 
-      h2 Payout Information
+      h2 Your payout information is needed so we know where to send your money.
       form.Form action=third_step_path method='post'
         input type='hidden' name='_method' value='put'
 
@@ -24,5 +24,7 @@
         br
 
         input type='hidden' name='authenticity_token' value=form_authenticity_token
-        input type='submit' value='Publish My Profile'
+        input.btn.pink type='submit' value='Finish Registration'
+
+        a href="#" Continue to profile. Remind me later.
 

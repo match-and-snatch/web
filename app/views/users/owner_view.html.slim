@@ -1,3 +1,8 @@
+.notification_bar 
+  span Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!
+  .fa.fa-times-circle.close.pull-right 
+  .clearfix
+
 /* Header */
 .container
   #header.box
@@ -37,6 +42,10 @@
         a href=current_profile_path
           i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='profile-name'
             = @profile.profile_name
+        .clearfix 
+
+        /* Profile Type */
+        span.profile_type Podcaster / Blogger / Band
 
       .col-md-5
 
@@ -66,9 +75,8 @@
 
     .benefits_container.row
       .col-md-12
-        .label.PopupTrigger.btn data-target='benefits-editor'
-          i.fa.fa-gear.pull-right
-          | Subscriber Benefits
+        .label.btn Subscriber Benefits
+        i.fa.fa-gear.edit.PopupTrigger data-target='benefits-editor'
         div data-identifier='benefits'= render_benefits(@profile)
 
 
@@ -82,18 +90,18 @@
         form.VideoUploadForm action=videos_path method='post' data-target='pending-video-posts'
           = transloadit :post_video
           a.fa.fa-music href='javascript:void(0)' style='position: relative;'
-            | Upload Video
+            | Add Audio/Video
             input.file type='file' name='post_videos' multiple='multiple'
           input type='hidden' name='slug' value=@profile.slug
       li
         form.PhotoUploadForm action=photos_path method='post' data-target='pending-video-posts'
           = transloadit :post_photo
           a.fa.fa-music href='javascript:void(0)' style='position: relative;'
-            | Upload Photos
+            | Add Photos
             input.file type='file' name='post_videos' multiple='multiple'
           input type='hidden' name='slug' value=@profile.slug
       li
-        a.fa.fa-file-text href=current_profile_path Upload Document
+        a.fa.fa-file-text href=current_profile_path Add Document
     .clearfix
 
     /* Post Status Area */
@@ -165,8 +173,10 @@
 
         /* Profile Action */
 
-        .share_url.btn.blue
-          i.fa.fa-share-square-o Share Your Profile
+        .share_url.btn.pink
+          i.fa.fa-share-square-o
+          .heading Share Your Profile
+          span Expand your audience!
 
         /* Search */
 
@@ -179,18 +189,18 @@
         /* Category Cloud */
 
         .cat_cloud
-          span Categories
+          span Archived Content
           ul.box
             li
-              a href="#" music
+              a href="#" audio
             li
-              a href="#" flyers
+              a href="#" video
             li
-              a.med href="#" videos
+              a.med href="#" photos
             li
-              a.lrg href="#" photos
+              a.lrg href="#" status
             li
-              a.sml href="#" podcasts
+              a.sml href="#" documents
 
         /* Contact Info */
 
@@ -256,8 +266,7 @@
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
       .modal-title Edit Profile Name
-      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
-
+      span This is the name that appears at the top of your profile page.
 
     /* Body Area */
 
@@ -266,8 +275,6 @@
         .form-group
           input type='hidden' name='_method' value='put'
           input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name'
-
-        .form-group.profile_address.hidden http://www.subscribebuddy.com/PROFILENAME
 
         .form-group
           .pull-left.error data-field='profile_name'
@@ -354,7 +361,7 @@
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="cost-editor" aria-hidden="true"
       .modal-title Edit Subscription Cost
-      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+      span Please note, to keep subscribers happy and billing cycles consistent you can only change your subscription cost once every 30 days. 
 
     /* Body Area */
 
@@ -393,7 +400,7 @@
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="benefits-editor" aria-hidden="true"
       .modal-title Edit Subscriber Benefits
-      span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vulputate augue faucibus malesuada accumsan.
+      span Tell your subscribers what they are getting by subscribing to you. When marketing your profile, potential subscribers will see this list before they subscribe.
 
     /* Body Area */
 

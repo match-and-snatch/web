@@ -12,6 +12,9 @@
         /* Profile Name */
         = @profile.profile_name
 
+        /* Profile Type */
+        span.profile_type Podcaster / Blogger / Band
+
       .col-lg-4.col-md-5
 
         /* Subscribe Container */
@@ -41,23 +44,45 @@
     .row
       .col-md-12
         .title Welcome to PROFILE NAME profile page
-        span.tagline In order for you to view this user's profile you must first subscribe.
+        span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
 
-        .title_benefits Here are some benefits of becoming a subscriber
+        span.sub_heading By subscribing to this profile on ConnectPal, you get the following benefits.
 
         ul
-          li.fa.fa-check-circle Full access to user profile
-          li.fa.fa-check-circle Stay up-to-date when content is uploaded
-          li.fa.fa-check-circle Listen and download audio
-          li.fa.fa-check-circle Watch uploaded videos
+          li.fa.fa-check-circle Full access to user’s profile content
+          li.fa.fa-check-circle Stay up-to-date with status notifications.
+          li.fa.fa-check-circle You can directly message the profile owner.
+          li.fa.fa-check-circle With ConnectPal, you can cancel anytime.
 
+        span.sub_heading ConnectPal is the world’s #1 subscription marketplace.
+        span.sub_heading Any person or group can create a subscription business in less than 3 minutes.
 
         a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
         .clearfix
 
         span.already_user
           - unless current_user.authorized?
-            | Already a member?
+            | Already a member? &nbsp;
             a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
 
   .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
+
+/* Footer */
+
+footer.footer
+  .cont
+    ul.pull-left
+      li 
+        a href="#" Home
+      li 
+        a href="#" About Us
+      li 
+        a href="#" Pricing
+      li 
+        a href="#" Contact Us
+      li 
+        a href="#" Terms of Use
+      li 
+        a href="#" Privacy Policy 
+    .pull-right.copyright &copy Copyright Andrew Dean Media Inc. dba ConnectPal. 2014 All rights reserved.
+    .clearfix

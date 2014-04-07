@@ -6,9 +6,7 @@
 
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="registration" aria-hidden="true"
-    .modal-title Create Your Profile
-    span In order for you to create your profile
-    span we need some basic information
+    .modal-title Let’s Get Started!
 
   /* Body Area */
 
@@ -37,14 +35,14 @@
 
       .form-group
         .terms_text.pull-left By proceeding, you agree to our Terms of Use and Privacy Policy.
-        input.btn.blue.pull-right type='submit' value='Continue to Profile'
+        input.btn.blue.pull-right type='submit' value='Continue to Profile' style="padding: 10px 0; width: 170px;"
         .clearfix
   
   /* Footer Area */
 
   .modal-footer
-    span Already have an account?&nbsp;
-    a.PopupTrigger href='#' data-target='login' Login
+    span Already have an account? &nbsp;
+    a.PopupTrigger href='#' data-target='login' Click here to login.
 
 
 
@@ -59,7 +57,7 @@
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="login" aria-hidden="true"
     .modal-title Existing Account?
-    span If you already have an account please login below
+    span If you already have an account, please login below.
 
   /* Body Area */
 
@@ -71,7 +69,11 @@
         input.form-control type='password' name='password' placeholder='Password'
 
       .form-group
-        .pull-left.text-danger.Error
+        .pull-left
+          .checkbox
+            label.remember_me
+              input type="checkbox" Remember Me
+          .text-danger.Error
         input.pull-right.btn.blue type='submit' value='Login'
         .clearfix
 
@@ -80,3 +82,5 @@
   .modal-footer
     span Not registered yet?&nbsp;
     a.PopupTrigger href='#' data-target='registration' Click here to register!
+    .clearfix
+    a href="#" Forgot Password

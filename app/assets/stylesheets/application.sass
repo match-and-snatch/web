@@ -27,14 +27,6 @@ a
   &:hover
     color: $color_text_dark
 
-h1
-  font-size: 28px
-h2
-  font-size: 24px
-h3
-  font-size: 20px
-  padding-bottom: 15px
-
 img 
   border: none
 
@@ -50,6 +42,9 @@ img
   &:focus
     color: #FFFFFF
     outline: none
+
+.dosis
+  font-family: 'Dosis', 'Open Sans', Arial !important
 
 #content
   margin-top: 45px
@@ -115,12 +110,13 @@ nav
   text-shadow: none
   -webkit-box-shadow: 0 0 10px 0 #155270
   box-shadow: 0 0 10px 0 #155270
+  z-index: 9999
   .brand
     img
       margin-top: 6px
       margin-left: 15px
       height: 31px
-      width: 191px
+      width: 128px
   .navbar-nav
     li
       font-size: 13px
@@ -185,6 +181,41 @@ nav
             background-color: #277aa3  
             text-shadow: none
 
+/* Notifcation Bar */
+
+.notification_bar
+  background-color: #faf258
+  text-align: center
+  border-bottom: 1px solid #f4cf3e
+  color: #b29525
+  padding: 15px
+  z-index: 9998
+
+/* Footer */
+
+footer
+  background-color: $color_text_dark
+  border-top: 1px solid $color_border
+  color: $color_text_light
+  font-size: 13px
+  line-height: 100%
+  margin-top: 30px
+  padding: 15px 15px 10px 15px
+  .cont
+    margin: 0 auto
+    width: 970px
+    ul
+      li
+        list-style: none
+        display: inline
+        padding-right: 15px
+        a
+          &:hover
+            color: #FFFFFF
+            text-decoration: underline
+    .copyright
+      font-size: 12px
+
 /* Homepage */
 
 .home_pitch
@@ -233,22 +264,29 @@ nav
       font-size: 26px
       font-weight: 300
       line-height: 36px
+      margin-top: 100px
+      display: block
 
 .button_actions
+  @include blue-area
   text-align: center
   .title 
     color: #FFFFFF
     font-size: 60px
+    font-weight: 700
     padding-bottom: 30px
     text-shadow: -1px -1px 0 #4495be
+    span 
+      line-height: 100%
   .btn
-    font-size: 32px
-    font-weight: 300
+    font-size: 24px
+    font-weight: 400
     padding: 15px 0
-    width: 350px
+    width: 370px
+
   .or
     color: #256484
-    font-size: 48px
+    font-size: 60px
     font-weight: 600
     text-shadow: 1px 1px 0 #7cc3e7
 
@@ -396,9 +434,9 @@ nav
     background-size: 100%
     border-bottom: 1px solid $color_border
     display: block
-    height: 271px
+    height: 240px
     overflow: hidden
-    margin-bottom: 50px
+    margin-bottom: 15px
     position: relative
     z-index: 1
     .btn
@@ -410,10 +448,10 @@ nav
     background-color: $color_background
     border: 1px solid $color_border
     position: absolute
-    top: 60px
+    top: 15px
     left: 15px
-    height: 252px
-    width: 252px
+    height: 210px
+    width: 210px
     z-index: 2
     .btn
       right: 52px
@@ -442,6 +480,7 @@ nav
       color: $color_text_dark
       font-weight: 600
       font-size: 38px
+      line-height: 100%
       margin-bottom: 15px
       a
         color: $color_text_dark
@@ -456,6 +495,12 @@ nav
           .fa
             &:before
               color: $color_gear_hover
+      .profile_type
+        color: #898989
+        display: block
+        height: 30px
+        font-size: 12px
+        font-weight: 400
 
     /* Cost Button/Subscribe Button */
 
@@ -564,16 +609,15 @@ nav
       @include border-radius(0 10px 10px 0)
       color: #FFFFFF
       // cursor: default
-      font-size: 14px
-      font-weight: 400
+      font-size: 13px
+      font-weight: 600
       padding: 10px 15px
       position: absolute
       top: 0
       left: -1px
-      &.visitor
-        cursor: default
+      cursor: default
     ul
-      font-size: 14px
+      font-size: 13px
       line-height: 20px
       margin-top: 46px
       columns: 2
@@ -701,13 +745,25 @@ nav
     /* Profile Action */
 
     .share_url
-      font-size: 18px
-      padding: 10px 0
-      text-align: center
+      padding: 15px
+      text-align: left
+      position: relative
       width: 100%
       .fa
+        position: absolute
+        top: 15px
+        left: 15px
         &:before
-          padding-right: 10px
+          font-size: 50px
+      .heading, span
+        line-height: 100%
+        padding-left: 60px
+      .heading
+        font-size: 22px
+        font-weight: 600
+        padding-top: 2px
+      span 
+        font-size: 13px
 
     /* Search Profile Content */
 
@@ -969,38 +1025,6 @@ nav
           font-size: 13px
           font-weight: 400
 
-      //   .message
-      //     color: $color_text_light
-      //     font-size: 13px
-      //     line-height: 20px
-      // textarea
-      //   background-color: $color_background
-      //   border: none
-      //   border-bottom: 1px solid $color_border
-      //   border-top: 1px solid $color_border
-      //   color: $color_text_light
-      //   display: block
-      //   font-size: 14px
-      //   font-weight: 400
-      //   line-height: 24px
-      //   resize: none
-      //   padding: 15px
-      //   width: 100%
-      //   min-height: 50px
-      //   &:focus
-      //     outline: none
-      // .foot
-      //   display: block
-      //   padding: 15px
-      //   .hide_discussion
-      //     color: #959595
-      //     cursor: pointer
-      //     font-size: 12px
-      //     margin-top: 9px
-      //     margin-right: 15px
-      //     &:hover
-      //       text-decoration: underline
-
 /* Visitor View */
 
 #visitor
@@ -1016,19 +1040,22 @@ nav
     display: block
     font-size: 14px
     margin-bottom: 15px
-  .title_benefits
+  .sub_heading
     color: $color_text_dark
-    font-size: 26px
+    display: block
+    font-size: 16px
     font-weight: 600
     margin-bottom: 5px
   ul
+    margin: 15px 0
     text-align: left
-    margin-left: 180px
+    margin-left: 135px
     width: 700px
     columns: 2
     -webkit-columns: 2
     -moz-columns: 2
     li
+      font-size: 13px
       font-weight: 400
       margin-bottom: 5px
       &.fa
@@ -1121,6 +1148,9 @@ nav
       color: #cccccc
       font-size: 11px
       width: 180px
+    .remember_me
+      color: $color_text_light
+      font-size: 12px
 
     /* Subscriber Container */
 
