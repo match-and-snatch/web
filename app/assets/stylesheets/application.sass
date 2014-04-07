@@ -237,52 +237,62 @@ footer
   img 
     margin: 30px auto
 
-.home_blue
-  border-top: 1px solid #277aa3
-  border-bottom: 1px solid #277aa3
-  background-color: $color_blue
-  padding: 50px 0
-  .circle
-    border: 3px solid #FFFFFF
-  .text
-    .title
-      color: #FFFFFF
-    span  
-      color: #145372
+/* Rows 1, 2, and 3 */
 
-.home_gray
-  border-top: 1px solid #FFFFFF
-  border-bottom: 1px solid #FFFFFF
-  background-color: $color_background
-  padding: 50px 0
-  .circle
-    border: 3px solid #ebebeb
-  .text
-    .title
-      color: $color_pink
-      text-shadow: 1px 1px 0 #FFFFFF
-    span  
-      color: $color_text_dark
-      text-shadow: 1px 1px 0 #FFFFFF
-
-.home_blue, .home_gray
+.row-1, .row-2, .row-3
   .circle
     height: 455px
     width: 455px  
   .text
     .title
       font-size: 60px
-      margin: 100px 0 15px
-    span  
-      font-size: 26px
-      font-weight: 300
-      line-height: 36px
-      margin-top: 100px
+      font-weight: 700
+      text-shadow: 1px 1px 0 #FFFFFF
+    span
       display: block
+      font-size: 28px
+      line-height: 40px
+
+/* Row 1 & Row 3 */
+
+.row-1, .row-3
+  background-color: $color_background
+  padding-top: 30px
+  .circle
+    border: 5px solid #FFFFFF
+  .text
+    color: $color_text_dark
+    text-shadow: 1px 1px 0 #FFFFFF
+    .title
+      color: $color_pink
+    span
+      margin-top: 60px
+
+/* Row 2 */
+
+.row-2
+  background-color: $color_blue
+  padding: 30px 0
+  .circle
+    border: 5px solid #FFFFFF
+  .text
+    .title
+      color: #FFFFFF
+      text-shadow: -1px -1px 0 #4495be
+    span 
+      color: #145372
+
+/* Row 3 */
+
+.row-3
+  padding: 50px 0 
+
+/* Button Actions */     
 
 .button_actions
   @include blue-area
   text-align: center
+  padding: 30px 0
   .title 
     color: #FFFFFF
     font-size: 60px
@@ -302,6 +312,26 @@ footer
     font-size: 60px
     font-weight: 600
     text-shadow: 1px 1px 0 #7cc3e7
+
+/* Affiliates */
+
+.affiliates_row
+  background-color: #ececec
+  border-top: 1px solid $color_border
+  padding: 30px 0
+  .title
+    text-align: center
+    font-size: 32px
+    font-weight: 600
+    line-height: 100%
+    padding-bottom: 30px
+    text-shadow: 1px 1px 0 #FFFFFF
+  img
+    height: 70px
+    width: 140px
+
+
+
 
 /* Registration Areas */
 
@@ -935,6 +965,7 @@ footer
         font-size: 13px
         line-height: 20px
         padding: 15px
+        word-wrap: break-word
       .action_bar
         @include white-area
         border-top: 1px solid $color_border
