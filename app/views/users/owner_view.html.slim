@@ -1,7 +1,6 @@
 .notification_bar 
-  span Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!
-  .fa.fa-times-circle.close.pull-right 
-  .clearfix
+  .cont Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!
+  .fa.fa-times-circle.close
 
 /* Header */
 .container
@@ -96,7 +95,7 @@
       li
         form.PhotoUploadForm action=photos_path method='post' data-target='pending-video-posts'
           = transloadit :post_photo
-          a.fa.fa-music href='javascript:void(0)' style='position: relative;'
+          a.fa.fa-picture-o href='javascript:void(0)' style='position: relative;'
             | Add Photos
             input.file type='file' name='post_videos' multiple='multiple'
           input type='hidden' name='slug' value=@profile.slug

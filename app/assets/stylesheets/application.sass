@@ -110,7 +110,7 @@ nav
   text-shadow: none
   -webkit-box-shadow: 0 0 10px 0 #155270
   box-shadow: 0 0 10px 0 #155270
-  z-index: 9999
+  z-index: 9999 !important
   .brand
     img
       margin-top: 6px
@@ -189,7 +189,23 @@ nav
   border-bottom: 1px solid #f4cf3e
   color: #b29525
   padding: 15px
+  position: relative
+  text-align: center
   z-index: 9998
+  .cont 
+    margin: 0 auto
+    text-align: center
+    width: 970px
+  .close
+    position: absolute
+    top: 15px
+    right: 15px
+    opacity: 1
+    &:before
+      color: #f4cf3e
+    &:hover
+      &:before
+        color: #b29525
 
 /* Footer */
 
@@ -200,21 +216,18 @@ footer
   font-size: 13px
   line-height: 100%
   margin-top: 30px
-  padding: 15px 15px 10px 15px
-  .cont
-    margin: 0 auto
-    width: 970px
-    ul
-      li
-        list-style: none
-        display: inline
-        padding-right: 15px
-        a
-          &:hover
-            color: #FFFFFF
-            text-decoration: underline
-    .copyright
-      font-size: 12px
+  padding: 15px 15px 5px 15px
+  ul
+    li
+      list-style: none
+      display: inline
+      padding-right: 15px
+      a
+        &:hover
+          color: #FFFFFF
+          text-decoration: underline
+  .copyright
+    font-size: 11px
 
 /* Homepage */
 
@@ -450,11 +463,14 @@ footer
     position: absolute
     top: 15px
     left: 15px
-    height: 210px
-    width: 210px
+    height: 212px
+    width: 212px
     z-index: 2
+    img
+      height: 210px
+      width: 210px
     .btn
-      right: 52px
+      right: 33px
 
   .photo_cover, .photo_profile
     .btn
@@ -898,6 +914,19 @@ footer
       z-index: 1
       &:first-child
         margin-top: 0 !important
+      .edit_post
+        cursor: pointer
+        position: absolute
+        top: 15px
+        right: 15px
+        &.fa
+          &:before
+            color: $color_gear
+        &:hover
+          &.fa
+            &:before
+              color: $color_gear_hover
+
       .date
         color: #c2c2c2
         font-size: 12px
@@ -1104,6 +1133,7 @@ footer
   display: none
   min-height: 50px
   min-width: 200px
+  overflow: hidden
   position: fixed
   left: 50%
   top: 50%
@@ -1162,6 +1192,25 @@ footer
     .remember_me
       color: $color_text_light
       font-size: 12px
+
+    /* Photo Display */
+
+    &.photo 
+      padding: 0 !important
+      position: relative !important
+      .close
+        position: absolute
+        top: 5px
+        right: 5px
+        opacity: 1
+        text-shadow: none
+        &:before
+          color: $color_background
+        &:hover
+          &:before
+            color: $color_pink
+      img
+        max-width: 500px
 
     /* Subscriber Container */
 

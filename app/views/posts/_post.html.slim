@@ -1,6 +1,7 @@
 /* Regular Text Post */
 
 .post.box
+  i.fa.fa-gear.edit_post
   .date Posted #{time_ago_in_words(post.created_at)} ago
 
   - post.uploads.each do |upload|
