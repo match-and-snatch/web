@@ -2,7 +2,7 @@ class Admin::ProfileTypesController < Admin::BaseController
   before :destroy, :load_profile_type!
 
   def index
-    @profile_types = ProfileType.limit(100).all.to_a
+    @profile_types = ProfileType.limit(100).to_a
     json_render
   end
 
