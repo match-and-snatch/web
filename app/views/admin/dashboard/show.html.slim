@@ -1,0 +1,20 @@
+.container
+  .account_info.box style="margin-top: 15px;"
+    .header.admin
+      h1 Welcome #{current_user.full_name}
+
+    .sidebar.pull-left
+
+      ul.general
+        a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_staffs_path
+          li Staff members
+        a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=subscriptions_path
+          li My Feed
+        a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=settings_account_info_path
+          li Account Settings
+        a.AjaxLink data-use_anchor='true' data-target='admin-panel' href="/mockups/mailbox.json"
+          li Mailbox
+
+    .info_display.pull-right
+      .AjaxContainer data-use_anchor='true' data-identifier='admin-panel' data-url=admin_staffs_path
+    .clearfix

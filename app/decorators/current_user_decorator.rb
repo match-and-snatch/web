@@ -1,5 +1,5 @@
 class CurrentUserDecorator < UserDecorator
-  delegate :pending_post_uploads, to: :object
+  delegate :pending_post_uploads, :admin?, to: :object
 
   # @param user [User, nil]
   def initialize(user = nil)
@@ -15,6 +15,8 @@ class CurrentUserDecorator < UserDecorator
   # @raise [ArgumentError] if action or subject are not registered
   # @return [true, false]
   def can?(action, subject)
+    return true if object.admin?
+
     case subject
     when User
     case action
@@ -63,5 +65,16 @@ class CurrentUserDecorator < UserDecorator
 
   def has_subscriptions?
     object.subscriptions.any?
+  end
+
+  def ==(other)
+    case other
+    when User
+      other.id == object.id
+    when UserDecorator
+      other.object.id == object.id
+    else
+      super
+    end
   end
 end
