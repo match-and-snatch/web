@@ -26,14 +26,7 @@ class User < ActiveRecord::Base
                                         ignoring: :accents
 
   def admin?
-    return true if is_admin?
-
-    case email
-    when 's.popov.design@gmail.com', 'szinin@gmail.com'
-      true
-    else
-      false
-    end
+    is_admin? || APP_CONFIG['admins'].include?(email)
   end
 
   # @param new_password [String]

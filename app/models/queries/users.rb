@@ -18,7 +18,7 @@ module Queries
 
     def emails
       (@query.split(/[ ,]+/) - [@user.email]).keep_if do |email|
-        email =~ /\A[^@\s]+@([^@\s\.]+\.)+[^@\s\.]+\z/i
+        email =~ EMAIL_REGEX
       end
     end
   end
