@@ -9,9 +9,9 @@
           | &nbsp;
           strong= user.email
         - if user.admin?
-          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_admin_admin_user_path(user) Drop Admin
+          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_admin_admin_user_path(user.id) Drop Admin
         - else
-          button.AjaxFormLink.btn.pink.pull-right data-_method='put' href=make_admin_admin_user_path(user) Make Admin
+          button.AjaxFormLink.btn.pink.pull-right data-_method='put' href=make_admin_admin_user_path(user.id) Make Admin
         .clearfix
   .clearfix
 - else

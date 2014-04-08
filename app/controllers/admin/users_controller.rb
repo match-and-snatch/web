@@ -19,6 +19,6 @@ class Admin::UsersController < Admin::BaseController
   private
 
   def load_user!
-    @user = User.where(slug: params[:id]).first or error(404)
+    @user = User.where(id: params[:id]).first or error(404)
   end
 end

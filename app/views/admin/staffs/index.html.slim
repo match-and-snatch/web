@@ -13,7 +13,7 @@ table.table
       td= link_to_user(user)
       td
         - unless current_user == user
-          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_admin_admin_user_path(user) Drop Admin
+          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_admin_admin_user_path(user.id) Drop Admin
 
 h3 Invite new staff members
 

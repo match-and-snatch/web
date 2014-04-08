@@ -51,7 +51,7 @@ BuddyPlatform::Application.routes.draw do
   end
 
   namespace :admin do
-    resources :staffs
+    resources :staffs, only: :index
     resources :users, only: :index do
       member do
         put :make_admin
