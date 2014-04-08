@@ -11,7 +11,9 @@ class UploadManager < BaseManager
   def create_pending_video(transloadit_data)
     create(transloadit_data, attributes: { uploadable_type: 'Post',
                                            uploadable_id: nil,
-                                           preview_url: transloadit_data["results"]["thumbs"].try(:first)["url"]})
+                                           preview_url: transloadit_data["results"]["thumbs"][0]["url"]})
+  rescue
+    raise ManagerError.new(message: t(:default))
   end
 
   # @param transloadit_data [Hash]
@@ -19,7 +21,9 @@ class UploadManager < BaseManager
   def create_pending_photo(transloadit_data)
     create(transloadit_data, attributes: { uploadable_type: 'Post',
                                            uploadable_id: nil,
-                                           preview_url: transloadit_data["results"][":original"].try(:first)["url"]})
+                                           preview_url: transloadit_data["results"][":original"][0]["url"]})
+  rescue
+    raise ManagerError.new(message: t(:default))
   end
 
   # @param transloadit_data [Hash]
@@ -35,7 +39,7 @@ class UploadManager < BaseManager
                         mime_type: transloadit_data["uploads"][0]["mime"],
                         width: transloadit_data["uploads"][0]["meta"]["width"],
                         height: transloadit_data["uploads"][0]["meta"]["height"],
-                        url: transloadit_data["results"][":original"].try(:first)["url"]
+                        url: transloadit_data["results"][":original"][0]["url"]
     upload.attributes = attributes
     upload.save or fail_with! upload.errors
     upload
