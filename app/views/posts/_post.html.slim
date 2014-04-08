@@ -6,8 +6,8 @@
   - post.uploads.each do |upload|
     - if upload.video?
       .VideoPlayer.video_player
-        video  preload="none" poster=upload.url_on_step('thumbs')
-          source type="video/mp4" src=upload.url_on_step(':original')
+        video  preload="none" poster=upload.secure_url_on_step('thumbs')
+          source type="video/mp4" src=upload.secure_url_on_step(':original')
     - if upload.image?
       .video_player
         img src=upload.url_on_step(':original')
