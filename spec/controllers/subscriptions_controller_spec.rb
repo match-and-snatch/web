@@ -4,7 +4,7 @@ describe SubscriptionsController do
   let(:owner) {
     create_user.tap do |user|
       UserProfileManager.new(user).create_profile_page
-      UserProfileManager.new(user).update(subscription_cost: 10, slug: 'some_slug')
+      UserProfileManager.new(user).update(subscription_cost: 10, profile_name: 'profile name')
       UserProfileManager.new(user).update_payment_information holder_name:    'Sergei Zinin',
                                                               routing_number: '123456789',
                                                               account_number: '000123456789'
