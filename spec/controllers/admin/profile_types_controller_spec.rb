@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Admin::ProfileTypesController do
   before { sign_in create_admin }
 
-  describe 'POST #index' do
+  describe 'GET #index' do
     subject { get 'index' }
     its(:status) { should == 200 }
   end
