@@ -50,6 +50,17 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :staffs
+    resources :users, only: :index do
+      member do
+        put :make_admin
+        put :drop_admin
+      end
+    end
+  end
+
+  get '/application_settings' => 'admin/dashboard#show', as: :application_settings
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
   get '/create_profile' => 'owner/first_steps#show', as: :create_profile

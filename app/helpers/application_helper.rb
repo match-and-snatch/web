@@ -35,4 +35,10 @@ module ApplicationHelper
   def render_benefits(profile)
     render '/benefits/list', benefits: profile.benefits
   end
+
+  # @param user [User]
+  # @return [String]
+  def link_to_user(user)
+    link_to_if user.has_profile_page?, user.full_name, profile_path(user)
+  end
 end

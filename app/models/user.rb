@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   before_create :generate_slug, if: :is_profile_owner?
   before_save :set_profile_completion_status, if: :is_profile_owner?
 
+  scope :admins, -> { where(is_admin: true) }
   scope :profile_owners, -> { where(is_profile_owner: true) }
   scope :subscribers, -> { where(is_profile_owner: false) }
   scope :with_complete_profile, -> { where(has_complete_profile: true) }
@@ -23,6 +24,17 @@ class User < ActiveRecord::Base
   pg_search_scope :search_by_full_name, against: :full_name,
                                         using: [:tsearch, :dmetaphone, :trigram],
                                         ignoring: :accents
+
+  def admin?
+    return true if is_admin?
+
+    case email
+    when 's.popov.design@gmail.com', 'szinin@gmail.com'
+      true
+    else
+      false
+    end
+  end
 
   # @param new_password [String]
   def set_new_password(new_password)

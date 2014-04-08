@@ -387,7 +387,8 @@ CREATE TABLE users (
     original_cover_picture_url text,
     is_profile_owner boolean DEFAULT false NOT NULL,
     has_complete_profile boolean DEFAULT false NOT NULL,
-    profile_name character varying(512)
+    profile_name character varying(512),
+    is_admin boolean DEFAULT false NOT NULL
 );
 
 
@@ -607,3 +608,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140403141129');
 INSERT INTO schema_migrations (version) VALUES ('20140404115255');
 
 INSERT INTO schema_migrations (version) VALUES ('20140404115337');
+
+INSERT INTO schema_migrations (version) VALUES ('20140408072458');
