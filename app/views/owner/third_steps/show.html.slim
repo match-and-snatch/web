@@ -1,4 +1,36 @@
-.container.steps_container
+.container-fluid.registration_steps
+  .container
+
+    /* Header Content */
+
+    .row
+      .col-md-12.reg_head
+        .reg_title Your profile is almost complete!
+        .reg_text In order to take your profile live, just 3 more quick things!
+
+    /* Steps 1 - 3 row */
+
+    .row.steps_row
+      .col-md-4.done
+        .bar
+        .number.img-circle.pull-left
+          span.one 1
+        .number_title.pull-left View Sample Profile
+        .clearfix
+      .col-md-4.done
+        .bar
+        .number.img-circle.pull-left
+          span.two 2
+        .number_title.pull-left Profile Name & Price
+        .clearfix
+      .col-md-4.active
+        .bar
+        .number.img-circle.pull-left
+         span.three 3
+        .number_title.pull-left Payout Information
+        .clearfix
+
+.container.steps_container.step_three
   .row.box
     .col-md-12.payout_info
 
