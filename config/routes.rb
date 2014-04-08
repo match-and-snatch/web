@@ -58,6 +58,7 @@ BuddyPlatform::Application.routes.draw do
         put :drop_admin
       end
     end
+    resources :profile_types, only: [:index, :create, :destroy]
   end
 
   get '/application_settings' => 'admin/dashboard#show', as: :application_settings

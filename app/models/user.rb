@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :likes
   has_many :source_likes, class_name: 'Like', foreign_key: 'target_user_id'
   has_many :pending_post_uploads, -> { pending.posts }, class_name: 'Upload'
+  has_many :profile_types_users
+  has_many :profile_types, through: :profile_types_users
 
   validates :full_name, :email, presence: true
   before_create :generate_slug, if: :is_profile_owner?
