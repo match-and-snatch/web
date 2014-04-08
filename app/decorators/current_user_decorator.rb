@@ -70,9 +70,11 @@ class CurrentUserDecorator < UserDecorator
   def ==(other)
     case other
     when User
-      other.id.to_i == object.id.to_i
+      other.id == object.id
+    when UserDecorator
+      other.object.id == object.id
     else
-      other == self
+      super
     end
   end
 end
