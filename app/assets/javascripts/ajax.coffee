@@ -34,10 +34,13 @@ class bud.Ajax
       csrf_param = $('meta[name=csrf-param]').attr('content');
       @options['data'][csrf_param] = token
 
-    $.ajax(@path, @options).done(@on_response_received).fail(@on_bad_response_received).always(@after)
+    $.ajax(@path, @options).done(@on_response_received).fail(@on_bad_response_received).always(@after).always(@refresh_token)
 
   on_bad_response_received: =>
     bud.Logger.error("Invalid request on #{@path}")
+
+  refresh_token: (response) =>
+    $('meta[name="csrf-token"]').attr('content', response['token'])
 
   on_response_received: (response) =>
     if callback = @callbacks[response['status']]

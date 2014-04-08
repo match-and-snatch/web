@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
   # Notifies client side about failed operation
   # @param response_params [Hash]
   def json_fail(response_params = {})
-    render json: { status: 'failed' }.merge(response_params)
+    render json: { status: 'failed', token: form_authenticity_token }.merge(response_params)
   end
 
   # Renders failed response with errors hash
@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
   # Notifies client side of successful action
   # @param response_params [Hash]
   def json_success(response_params = {})
-    render json: {status: 'success'}.merge(response_params)
+    render json: {status: 'success', token: form_authenticity_token}.merge(response_params)
   end
 
   # Renders html with success status
@@ -116,7 +116,7 @@ class ApplicationController < ActionController::Base
       json[:html] = render_to_string(action: template, layout: false, formats: [:html])
     end
 
-    render json: json.merge(status: status)
+    render json: json.merge(status: status, token: form_authenticity_token)
   end
 
   # @return [SessionManager]
