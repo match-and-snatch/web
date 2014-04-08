@@ -11,5 +11,10 @@ class bud.widgets.Overlay extends bud.Widget
       bud.sub('popup.show.overlay', @show)
       bud.sub('popup.hide.overlay', @hide)
 
-  show: => @$container.show()
-  hide: => @$container.hide()
+  show: =>
+    $('body').css('overflow', 'hidden')
+    @$container.show()
+
+  hide: =>
+    $('body').css('overflow', 'visible')
+    @$container.hide()

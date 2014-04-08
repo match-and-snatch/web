@@ -57,4 +57,21 @@ describe User do
       it { should eq(false) }
     end
   end
+
+  describe '#admin?' do
+    context 'admins' do
+      subject { User.new is_admin: true }
+      its(:admin?) { should eq(true) }
+
+      context 'from config' do
+        subject { User.new email: 'szinin@gmail.com' }
+        its(:admin?) { should eq(true) }
+      end
+    end
+
+    context 'non admins' do
+      its(:is_admin?) { should eq(false) }
+      its(:admin?) { should eq(false) }
+    end
+  end
 end

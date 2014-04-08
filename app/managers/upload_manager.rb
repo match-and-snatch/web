@@ -12,7 +12,7 @@ class UploadManager < BaseManager
     create(transloadit_data, attributes: { uploadable_type: 'Post',
                                            uploadable_id: nil,
                                            preview_url: transloadit_data["results"]["thumbs"][0]["url"]})
-  rescue
+  rescue NoMethodError
     raise ManagerError.new(message: t(:default))
   end
 
@@ -22,7 +22,7 @@ class UploadManager < BaseManager
     create(transloadit_data, attributes: { uploadable_type: 'Post',
                                            uploadable_id: nil,
                                            preview_url: transloadit_data["results"][":original"][0]["url"]})
-  rescue
+  rescue NoMethodError
     raise ManagerError.new(message: t(:default))
   end
 

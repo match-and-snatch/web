@@ -30,7 +30,7 @@ BuddyPlatform::Application.routes.draw do
 
   resources :subscriptions, only: [:index, :create]
   resources :videos, only: [:create, :destroy]
-  resources :photos, only: [:create, :show, :destroy]
+  resources :photos, only: [:create, :destroy]
 
   resources :users, only: [:index, :create, :edit, :update] do
     member do
@@ -40,6 +40,12 @@ BuddyPlatform::Application.routes.draw do
       put :update_cover_picture
     end
 
+    resources :photos, only: [] do
+      collection do
+        get :profile_picture
+        get :cover_picture
+      end
+    end
     resources :benefits, only: :create
     resources :posts, only: [:index, :create]
     resources :subscriptions, only: [:new, :create] do
@@ -50,6 +56,18 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :staffs, only: :index
+    resources :users, only: :index do
+      member do
+        put :make_admin
+        put :drop_admin
+      end
+    end
+    resources :profile_types, only: [:index, :create, :destroy]
+  end
+
+  get '/application_settings' => 'admin/dashboard#show', as: :application_settings
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
   get '/create_profile' => 'owner/first_steps#show', as: :create_profile

@@ -7,8 +7,9 @@
   #header.box
     .photo_cover
       div data-identifier='cover-picture'
-        a.PopupTrigger data-target='full-cover-photo' href=@profile.original_cover_picture_url
-          img src=@profile.cover_picture_url
+        - if @profile.original_cover_picture_url
+          a.PopupTrigger data-target='full-cover-photo' href=@profile.original_cover_picture_url
+            img src=@profile.cover_picture_url
 
       form.PictureUploadForm action=update_cover_picture_user_path(@profile.object) method='post' data-target='cover-picture'
         input type='hidden' name='_method' value='put'
@@ -21,8 +22,9 @@
 
     .photo_profile
       div data-identifier='profile-picture'
-        a.PopupTrigger data-target='full-profile-photo' href=@profile.original_profile_picture_url
-          img src=@profile.profile_picture_url
+        - if @profile.original_profile_picture_url
+          a.PopupTrigger data-target='full-profile-photo' href=@profile.original_profile_picture_url
+            img src=@profile.profile_picture_url
 
       form.PictureUploadForm action=update_profile_picture_user_path(@profile.object) method='post' data-target='profile-picture'
         input type='hidden' name='_method' value='put'
@@ -243,8 +245,8 @@
 
         span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
-  .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=photo_path(0, photo_url: @profile.original_profile_picture_url, target: 'full-profile-photo')
-  .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=photo_path(0, photo_url: @profile.original_cover_picture_url, target: 'full-cover-photo')
+  .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(current_user.object)
+  .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(current_user.object)
 
   /* Name Popup */
 

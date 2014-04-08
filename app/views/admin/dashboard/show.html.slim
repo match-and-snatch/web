@@ -1,0 +1,16 @@
+.container
+  .account_info.box style="margin-top: 15px;"
+    .header.admin
+      h1 Welcome #{current_user.full_name}
+
+    .sidebar.pull-left
+
+      ul.general
+        a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_staffs_path
+          li Staff members
+        a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_profile_types_path
+          li Profile types
+
+    .info_display.pull-right
+      .AjaxContainer data-use_anchor='true' data-identifier='admin-panel' data-url=admin_staffs_path
+    .clearfix

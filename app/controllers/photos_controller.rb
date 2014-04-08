@@ -1,6 +1,11 @@
 class PhotosController < UploadsController
+  before_filter :load_user!, only: [:profile_picture, :cover_picture]
 
-  def show
+  def profile_picture
+    json_render
+  end
+
+  def cover_picture
     json_render
   end
 
@@ -14,5 +19,11 @@ class PhotosController < UploadsController
     super
     json_render html: render_to_string(partial: 'pending_post_upload',
                                        collection: current_user.pending_post_uploads(true))
+  end
+
+  private
+
+  def load_user!
+    @user = User.where(slug: params[:user_id]).first or error(404)
   end
 end

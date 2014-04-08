@@ -283,6 +283,67 @@ ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
 
 
 --
+-- Name: profile_types; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE profile_types (
+    id integer NOT NULL,
+    title character varying(255),
+    ordering integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: profile_types_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE profile_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: profile_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE profile_types_id_seq OWNED BY profile_types.id;
+
+
+--
+-- Name: profile_types_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE profile_types_users (
+    id integer NOT NULL,
+    user_id integer,
+    profile_type_id integer,
+    ordering integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: profile_types_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE profile_types_users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: profile_types_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE profile_types_users_id_seq OWNED BY profile_types_users.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -387,7 +448,8 @@ CREATE TABLE users (
     original_cover_picture_url text,
     is_profile_owner boolean DEFAULT false NOT NULL,
     has_complete_profile boolean DEFAULT false NOT NULL,
-    profile_name character varying(512)
+    profile_name character varying(512),
+    is_admin boolean DEFAULT false NOT NULL
 );
 
 
@@ -450,6 +512,20 @@ ALTER TABLE ONLY payments ALTER COLUMN id SET DEFAULT nextval('payments_id_seq':
 --
 
 ALTER TABLE ONLY posts ALTER COLUMN id SET DEFAULT nextval('posts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY profile_types ALTER COLUMN id SET DEFAULT nextval('profile_types_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY profile_types_users ALTER COLUMN id SET DEFAULT nextval('profile_types_users_id_seq'::regclass);
 
 
 --
@@ -519,6 +595,22 @@ ALTER TABLE ONLY payments
 
 ALTER TABLE ONLY posts
     ADD CONSTRAINT posts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: profile_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY profile_types
+    ADD CONSTRAINT profile_types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: profile_types_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY profile_types_users
+    ADD CONSTRAINT profile_types_users_pkey PRIMARY KEY (id);
 
 
 --
@@ -607,3 +699,9 @@ INSERT INTO schema_migrations (version) VALUES ('20140403141129');
 INSERT INTO schema_migrations (version) VALUES ('20140404115255');
 
 INSERT INTO schema_migrations (version) VALUES ('20140404115337');
+
+INSERT INTO schema_migrations (version) VALUES ('20140408072458');
+
+INSERT INTO schema_migrations (version) VALUES ('20140408163449');
+
+INSERT INTO schema_migrations (version) VALUES ('20140408163607');

@@ -1,0 +1,20 @@
+h2 Profile types
+
+- if @profile_types.any?
+  table.table
+    th Title
+    th
+
+    - @profile_types.each do |profile_type|
+      tr
+        td= profile_type.title
+        td
+          button.AjaxFormLink.btn.pink.pull-right data-_method='delete' href=admin_profile_type_path(profile_type) Destroy
+
+h3 Create new type
+
+form.Form action=admin_profile_types_path method='post'
+  .form-group
+    input.form-control type='text' name='title' placeholder='Enter title'
+  .form-group
+    input.btn.blue.btn type='submit' value='Create'
