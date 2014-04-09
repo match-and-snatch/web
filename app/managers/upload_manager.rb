@@ -9,21 +9,19 @@ class UploadManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [Upload]
   def create_pending_video(transloadit_data)
+    thumb = transloadit_data["results"]["thumbs"].try(:first) or fail_with! 'No thumb received'
     create(transloadit_data, attributes: { uploadable_type: 'Post',
                                            uploadable_id: nil,
-                                           preview_url: transloadit_data["results"]["thumbs"][0]["url"]})
-  rescue NoMethodError
-    raise ManagerError.new(message: t(:default))
+                                           preview_url: thumb["url"]})
   end
 
   # @param transloadit_data [Hash]
   # @return [Upload]
   def create_pending_photo(transloadit_data)
+    orignal = transloadit_data["results"][":original"].try(:first) or fail_with! 'No photo received'
     create(transloadit_data, attributes: { uploadable_type: 'Post',
                                            uploadable_id: nil,
-                                           preview_url: transloadit_data["results"][":original"][0]["url"]})
-  rescue NoMethodError
-    raise ManagerError.new(message: t(:default))
+                                           preview_url: orignal["url"]})
   end
 
   # @param transloadit_data [Hash]
