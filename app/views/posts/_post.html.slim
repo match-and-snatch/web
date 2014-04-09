@@ -7,11 +7,11 @@
   - post.uploads.each do |upload|
     - if upload.video?
       .VideoPlayer.video_player
-        video  preload="none" poster=upload.secure_url_on_step('thumbs')
-          source type="video/mp4" src=upload.secure_url_on_step(':original')
+        video  preload="none" poster=upload.secure_preview_url
+          source type=upload.mime_type src=upload.secure_url
     - if upload.image?
       .video_player
-        img src=upload.url_on_step(':original')
+        img src=upload.url
 
   .message= super_highlight(post.message)
   .action_bar= render 'like', post: post
