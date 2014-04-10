@@ -90,6 +90,14 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @param contacts_info [Hash]
+  # @return [User]
+  def update_contacts_info(contacts_info)
+    user.contacts_info = contacts_info
+    user.save or fail_with! user.errors
+    user
+  end
+
   # @param holder_name [String]
   # @param routing_number [String]
   # @param account_number [String]

@@ -16,6 +16,12 @@ class ProfileDecorator < UserDecorator
     (benefits.map(&:message) + 10.times.map {}).first(10)
   end
 
+  # @return [Hash]
+  def contacts_info
+    @contacts_info ||= @object.contacts_info
+  end
+
+
   # @return [Integer, Float]
   def subscription_cost
     @subscription_cost ||= begin

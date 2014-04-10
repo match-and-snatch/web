@@ -55,4 +55,9 @@ class UsersController < ApplicationController
     UserProfileManager.new(current_user.object).update_cover_picture(params[:transloadit])
     json_replace
   end
+
+  def update_contacts_info
+    UserProfileManager.new(current_user.object).update_contacts_info(params[:contacts_info])
+    json_replace
+  end
 end
