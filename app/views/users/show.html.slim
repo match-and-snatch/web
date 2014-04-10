@@ -14,7 +14,15 @@
 
     /* Details Container */
     .details_container.row
-      .col-md-7.profile_name = @profile.profile_name
+      .col-md-7.profile_details
+
+        /* Profile Name */
+        span.profile_name = @profile.profile_name
+        .clearfix 
+
+        /* Profile Type */
+        span.profile_type Podcaster / Blogger / Band
+
 
       .col-md-5
 
@@ -53,31 +61,25 @@
 
         /* Category Cloud */
 
-        .cat_cloud
-          span Categories
-          ul.box
+        .archive_cloud.box
+          span Archived Content
+          ul
             li
-              a href="#" music
+              a href="#" audio
             li
-              a href="#" flyers
+              a href="#" video
             li
-              a.med href="#" videos
+              a.med href="#" photos
             li
-              a.lrg href="#" photos
+              a.lrg href="#" status
             li
-              a.sml href="#" podcasts
+              a.sml href="#" documents
 
         /* Contact Info */
 
-        .contact
-
-          /* Owner View Contact */
-
+        .contact.box
           span Contact
-
-          /* Subscriber View Contact */
-
-          ul.box
+          ul
             li
               a.fa.fa-envelope href='#' Message
             li

@@ -31,32 +31,33 @@
         .clearfix
 
 .container.steps_container.step_three
-  .row.box
-    .col-md-12.payout_info
+  .row.box.payout_info
+    form.Form action=third_step_path method='post'
+      input type='hidden' name='_method' value='put'
 
       h2 Your payout information is needed so we know where to send your money.
-      form.Form action=third_step_path method='post'
-        input type='hidden' name='_method' value='put'
 
-        h2 Direct deposit is available for US ONLY
-        br
+      h5 Direct deposit is available for US ONLY
+      
+      .clearfix
 
-        label pay to the order of
-        input type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
-        .error data-field='holder_name'
-        br
+      label Pay to the order of:
+      input.form-control type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
+      .error data-field='holder_name'
 
-        label Routing Number
-        input type='text' name='routing_number' placeholder='123456789' value=@user.routing_number
-        .error data-field='routing_number'
-        br
-        label Account Number
-        input type='text' name='account_number' placeholder='000123456789' value=@user.account_number
-        .error data-field='account_number'
-        br
 
-        input type='hidden' name='authenticity_token' value=form_authenticity_token
-        input.btn.pink type='submit' value='Finish Registration'
+      label Routing Number
+      input type='text' name='routing_number' placeholder='123456789' value=@user.routing_number
+      .error data-field='routing_number'
+      br
+      label Account Number
+      input type='text' name='account_number' placeholder='000123456789' value=@user.account_number
+      .error data-field='account_number'
+      
 
-        a href="#" Continue to profile. Remind me later.
+
+      input type='hidden' name='authenticity_token' value=form_authenticity_token
+      input.btn.pink type='submit' value='Finish Registration'
+
+      a href="#" Continue to profile. Remind me later.
 

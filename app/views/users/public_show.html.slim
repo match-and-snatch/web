@@ -7,10 +7,11 @@
 
     /* Details Container */
     .details_container.row
-      .col-lg-8.col-md-7.profile_name
+      .col-lg-8.col-md-7.profile_details
 
         /* Profile Name */
-        = @profile.profile_name
+        span.profile_name = @profile.profile_name
+        .clearfix 
 
         /* Profile Type */
         span.profile_type Podcaster / Blogger / Band

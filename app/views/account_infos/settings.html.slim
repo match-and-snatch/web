@@ -1,4 +1,4 @@
-h3 General Information
+h2 General Information
 form.Form action=update_general_information_account_info_path method='post'
   input type='hidden' name='_method' value='put'
 
@@ -7,10 +7,9 @@ form.Form action=update_general_information_account_info_path method='post'
     input.form-control.pull-right type='text' name='full_name' value=@user.full_name
     .clearfix
     .error data-field='full_name'
-    
 
   .form-group
-    label.pull-left Nickname 
+    label.pull-left Profile URL 
     input.form-control.pull-right type='text' name='slug' value=@user.slug
     .clearfix
     .error data-field='slug'
@@ -21,12 +20,12 @@ form.Form action=update_general_information_account_info_path method='post'
     .clearfix
     .error data-field='email'
 
-  input.btn.blue.pull-right type='submit' value='Update Information'
+  input.btn.pink.pull-right type='submit' value='Update Information'
   .clearfix
 
 hr
 
-h3 Change Password
+h2 Change Password
 
 form.Form action=change_password_account_info_path method='post'
   input type='hidden' name='_method' value='put'
@@ -49,5 +48,5 @@ form.Form action=change_password_account_info_path method='post'
     .clearfix
     .error data-field='new_password_confirmation'
 
-  input.btn.blue.pull-right type='submit' value='Change Your Password'
+  input.btn.pink.pull-right type='submit' value='Change Your Password'
   .clearfix

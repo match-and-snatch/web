@@ -1,7 +1,9 @@
 .container
   .account_info.box style="margin-top: 15px;"
     .header
-      h1 Welcome #{@user.full_name}
+      h1 
+        | Welcome 
+        span.name #{@user.full_name}
 
     .sidebar.pull-left
 
@@ -13,7 +15,7 @@
         a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/mailbox.json"
           li Mailbox
 
-      .subscriptions My Subscriptions
+      h2.subscriptions My Subscriptions
       ul
         a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/view_cancel_subscriptions.json"
           li View/Cancel Subscriptions
@@ -22,21 +24,42 @@
         a.AjaxLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
           li Billing Information
 
-      .profile My Profile
-      ul
+      h2.profile My Profile
+      ul style="margin-bottom: 0"
         - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
           a.AjaxFormLink data-_method='put' href=create_profile_path
             li Create Profile Page
         - elsif @user.complete_profile?
-          a.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
+          a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
             li Delete Profile Page
         a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/profile_details.json"
           li Profile Details
         a.AjaxLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
           li Payout Information
         a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/subscribers.json"
-          li View Subscribers
+          li style="border-bottom: none;" View Subscribers
 
     .info_display.pull-right
       .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=settings_account_info_path
     .clearfix
+
+
+footer.footer style="position: fixed; bottom: 0; width: 100%;"
+  .container
+    .row-fluid
+      .col-md-12
+        ul.pull-left
+          li 
+            a href="#" Homes
+          li 
+            a href="#" About Us
+          li 
+            a href="#" Pricing
+          li 
+            a href="#" Contact Us
+          li 
+            a href="#" Terms of Use
+          li 
+            a href="#" Privacy Policy 
+        .pull-right.copyright &copy Copyright Andrew Dean Media Inc. dba ConnectPal. 2014 All rights reserved.
+        .clearfix

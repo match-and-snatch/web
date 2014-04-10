@@ -1,5 +1,3 @@
-/* Regular Text Post */
-
 .post.box
   i.fa.fa-gear.edit_post
   .date Posted #{time_ago_in_words(post.created_at)} ago
@@ -10,8 +8,9 @@
         video  preload="none" poster=upload.secure_preview_url
           source type=upload.mime_type src=upload.secure_url
     - if upload.image?
-      .video_player
+      .photo_display
         img src=upload.url
+        .clearfix
 
   .message= super_highlight(post.message)
   .action_bar= render 'like', post: post

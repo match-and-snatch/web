@@ -22,6 +22,9 @@ body
   color: $color_text_dark
   font-family: 'Open Sans', Arial, sans-serif !important
 
+.dosis
+  font-family: 'Dosis', 'Open Sans', Arial !important
+
 a
   color: $color_text_light
   &:hover
@@ -29,6 +32,23 @@ a
 
 img 
   border: none
+
+h1, h2, h3, h4, h5
+  line-height: 100%
+
+h1
+  font-size: 2em
+h2
+  font-size: 1.5em
+h3
+  font-size: 1.17em
+h4
+  font-size: 0.83em
+h5
+  font-size: 0.75em
+
+input
+  font-size: 13px !important
 
 .hidden
   display: none
@@ -42,9 +62,6 @@ img
   &:focus
     color: #FFFFFF
     outline: none
-
-.dosis
-  font-family: 'Dosis', 'Open Sans', Arial !important
 
 #content
   margin-top: 45px
@@ -64,7 +81,7 @@ img
 textarea
   color: #898989
   border: none
-  font-size: 14px
+  font-size: 13px
   font-weight: 400
   line-height: 18px
   resize: none
@@ -185,9 +202,9 @@ nav
 
 .notification_bar
   background-color: #faf258
-  text-align: center
   border-bottom: 1px solid #f4cf3e
   color: #b29525
+  font-size: 13px 
   padding: 15px
   position: relative
   text-align: center
@@ -330,9 +347,6 @@ footer
     height: 70px
     width: 140px
 
-
-
-
 /* Registration Areas */
 
 .registration_steps
@@ -439,8 +453,10 @@ footer
     /* Subscription Cost */
 
     .continue_step_three
-      input
-        margin-top: 24px
+      input.btn
+        font-size: 16px !important
+        padding: 10px 30px
+        margin-bottom: 15px !important
 
     /* FAQs */
 
@@ -491,16 +507,16 @@ footer
     background-color: $color_background
     border: 1px solid $color_border
     position: absolute
-    top: 15px
+    top: 28px
     left: 15px
-    height: 212px
-    width: 212px
+    height: 182px
+    width: 182px
     z-index: 2
     img
-      height: 210px
-      width: 210px
+      height: 180px
+      width: 180px
     .btn
-      right: 33px
+      right: 19px
 
   .photo_cover, .photo_profile
     .btn
@@ -522,31 +538,35 @@ footer
 
     /* Profile Name */
 
-    .profile_name
+    .profile_details
       color: $color_text_dark
       font-weight: 600
       font-size: 38px
       line-height: 100%
       margin-bottom: 15px
-      a
+      .profile_name
         color: $color_text_dark
+        cursor: pointer
+        text-decoration: none
         .fa
           &:before
             color: $color_gear
-            font-size: 16px
+            font-size: 20px
             padding-right: 5px
             position: relative
-            top: -7px
+            top: -6px
         &:hover
           .fa
             &:before
               color: $color_gear_hover
+      span.profile_name
+        cursor: default
       .profile_type
         color: #898989
         display: block
-        height: 30px
         font-size: 12px
         font-weight: 400
+        text-decoration: none
 
     /* Cost Button/Subscribe Button */
 
@@ -656,7 +676,7 @@ footer
       color: #FFFFFF
       // cursor: default
       font-size: 13px
-      font-weight: 600
+      font-weight: 400
       padding: 10px 15px
       position: absolute
       top: 0
@@ -678,50 +698,57 @@ footer
             padding-right: 5px
     .edit
       position: absolute
-      top: 12px
-      left: 157px
+      top: 8px
+      left: 150px
       &.fa
         cursor: pointer
         &:before
           color: $color_gear
+          font-size: 20px
         &:hover
           &:before
             color: $color_gear_hover
 
 /* Create Post (Owner View) */
 
-#create_post
+#create_post_nav
+  @include linear-gradient(#FFFFFF, #F7F7F7)
+  border-radius: $border_radius $border_radius 0 0
+  border-left: 1px solid $color_border
+  border-top: 1px solid $color_border
+  border-right: 1px solid $color_border
+  padding: 0 0 0 15px
+  margin: 0
   margin-top: $box_margin
-  ul
-    @include linear-gradient(#FFFFFF, #F7F7F7)
-    border-bottom: 1px solid #d7d7d7
-    padding: 0 15px
-    margin: 0
-    line-height: 100%
-    li
-      border-right: 1px solid $color_border
-      display: inline-block
-      font-size: 18px
-      list-style-type: none
-      padding: 15px 30px
-      &:first-child
-        padding-left: 0
-      &:last-child
-        border-right: none
-      a
-        color: #464646
-        text-decoration: none
-        text-shadow: -1px -1px 0 #FFFFFF
-        &.fa
-          &:before
-            color: $color_text_dark
-            padding-right: 10px
+  line-height: 100%
+  width: 745px
+  li
+    border-right: 1px solid $color_border
+    display: inline-block
+    font-size: 16px
+    list-style-type: none
+    padding: 15px 30px
+    &:first-child
+      padding-left: 0
+    &:last-child
+      border-right: none
+    a
+      color: #464646
+      text-decoration: none
+      text-shadow: -1px -1px 0 #FFFFFF
+      &.fa
+        &:before
+          color: $color_text_dark
+          padding-right: 10px
 
-        &:hover
+      &:hover
+        color: $color_blue
+        .fa
+        &:before
           color: $color_blue
-          .fa
-          &:before
-            color: $color_blue
+
+#create_post
+  border-radius: 0 $border_radius $border_radius $border_radius
 
   /* Status Post Textarea */
 
@@ -730,6 +757,7 @@ footer
     position: relative
     textarea
       display: block
+      min-height: 52px
       width: 100%
     input[type="submit"]
       &:focus
@@ -739,7 +767,6 @@ footer
   /* Uploading Media */
 
   #uploading
-    margin-top: 15px
     position: relative
 
     /* Progress Bar */
@@ -836,17 +863,25 @@ footer
         @include border-radius(0 $border_radius $border_radius 0)
         height: 47px !important
 
+    /* Cat Cloud & Contact Info */
+
+    .archive_cloud, .contact
+      margin-top: 30px
+      padding: 15px
+      position: relative
+      span
+        color: $color_pink
+        display: block
+        font-size: 22px
+        font-weight: 600
+        line-height: 100%
+        padding-bottom: 10px
+
     /* Category Cloud */
 
-    .cat_cloud
-      span
-        color: #464646
-        display: block
-        font-size: 24px
-        padding: 15px 0
-        position: relative
-      ul.box
-        padding: 15px
+    .archive_cloud
+      ul
+        margin: 0
         li 
           display: inline-block
           list-style-type: none
@@ -862,38 +897,28 @@ footer
     /* Contact Info */
 
     .contact
+      padding-bottom: 0
       margin-bottom: 30px
-      a.contact_edit
-        color: #464646
-        display: inline-block
-        font-size: 24px
-        margin: 15px 0
-        position: relative
-        text-decoration: none
-        .fa
-          &:before
-            color: $color_gear
-            font-size: 16px
-            padding-left: 10px
-            position: relative
-            top: -2px
-        &:hover
-          .fa
-            &:before
-              color: $color_gear_hover
       span
-        color: #464646
-        display: block
-        font-size: 24px
-        margin: 15px 0
-        position: relative
-      ul.box
-        padding: 15px 15px 0 15px
+        padding-bottom: 20px
+      .edit_contact
+        cursor: pointer
+        position: absolute
+        top: 15px  
+        right: 15px
+        &:before
+          color: $color_gear
+          font-size: 20px
+        &:hover
+          &:before
+            color: $color_gear_hover
+      ul
+        margin: 0
         columns: 2
         -webkit-columns: 2
         -moz-columns: 2
         li
-          font-size: 14px
+          font-size: 13px
           line-height: 100%
           padding-bottom: 15px
           a
@@ -903,7 +928,10 @@ footer
             &.fa
               &:before
                 color: $color_text_dark
+                font-size: 16px
                 padding-right: 10px
+                position: relative
+                top: 1px
             &:hover
               &.fa
                 &:before
@@ -956,11 +984,54 @@ footer
           &.fa
             &:before
               color: $color_gear_hover
-
+      .post_title
+        color: $color_blue
+        font-size: 16px
+        padding: 15px 15px 0 
       .date
         color: #c2c2c2
         font-size: 12px
         padding: 15px 15px 0 15px
+      .audio_player, .video_player, .photo_display, .doc_view
+        background-color: $color_background
+        border: 1px solid $color_border
+        display: block
+        margin: 15px 15px 0 15px
+      .audio_player
+        height: 30px
+      .video_player
+        height: 330px
+        width: 585px
+      .photo_display
+        width: 585px
+        img
+          width: 583px
+      a.doc_view
+        .icon
+          background-color: #FFFFFF
+          border-right: 1px solid $color_border
+          padding: 10px 15px
+          &.fa
+            &:before
+              font-size: 26px
+        .doc_title
+          display: block
+          padding: 13px 0 0 10px
+        &:hover
+          text-decoration: none
+      ul.photo_view
+        display: block
+        margin: 0 auto
+        list-style-type: none
+        width: 530px
+        li
+          display: inline-block
+          background-color: $color_background
+          border: 1px solid $color_border
+          height: 250px
+          width: 250px
+          margin-right: 15px 
+          margin-bottom: 15px
       .message
         font-size: 13px
         line-height: 20px
@@ -970,6 +1041,7 @@ footer
         @include white-area
         border-top: 1px solid $color_border
         display: block
+        height: 38px
         padding: 10px 15px
         position: relative
         .fa
@@ -992,53 +1064,6 @@ footer
           font-size: 12px
           padding-left: 5px
 
-      /* Audio Post */
-
-      &.media_post
-        .post_title
-          color: $color_blue
-          font-size: 16px
-          padding: 15px 15px 0 
-        .date
-          padding: 5px 15px 15px 15px
-        .audio_player, .video_player, .doc_view
-          background-color: $color_background
-          border: 1px solid $color_border
-          display: block
-          margin: 0 15px
-        .audio_player
-          height: 30px
-        .video_player
-          height: 330px
-          width: 585px
-        a.doc_view
-          .icon
-            background-color: #FFFFFF
-            border-right: 1px solid $color_border
-            padding: 10px 15px
-            &.fa
-              &:before
-                font-size: 26px
-          .doc_title
-            display: block
-            padding: 13px 0 0 10px
-          &:hover
-            text-decoration: none
-        ul.photo_view
-          display: block
-          margin: 0 auto
-          list-style-type: none
-          width: 530px
-          li
-            display: inline-block
-            background-color: $color_background
-            border: 1px solid $color_border
-            height: 250px
-            width: 250px
-            margin-right: 15px 
-            margin-bottom: 15px
-
-
     /* Discussion Dropdown */
 
     .comment_container
@@ -1049,8 +1074,8 @@ footer
       .photo 
         background-color: #FFFFFF
         border: 1px solid $color_border
-        height: 50px
-        width: 50px
+        height: 52px
+        width: 52px
       .comment_row
         padding: 0 15px 15px 15px
         position: relative
@@ -1087,7 +1112,7 @@ footer
         .reply_input
           border: 1px solid $color_border
           font-size: 13px
-          min-height: 50px
+          min-height: 52px
           margin-right: 15px
           padding: 5px 10px
           position: relative
@@ -1160,7 +1185,7 @@ footer
 
 .popup
   @include border-radius($border_radius)
-  border: 5px solid #464646
+  border: 1px solid #464646
   display: none
   min-height: 50px
   min-width: 200px
@@ -1398,10 +1423,11 @@ footer
   .modal-header
     padding: 15px 20px
   
+
+
 /* Account Info */
 
 .account_info
-  padding-bottom: 50px
   color: $color_text_dark
   margin-top: 15px
   label
@@ -1422,11 +1448,13 @@ footer
     h1
       margin: 0
       padding: 0
+      span 
+        color: $color_pink
   .sidebar
     border-right: 1px solid $color_border
-    font-size: 16px
+    font-size: 13px
     padding: 0
-    width: 280px
+    width: 250px
     ul
       border-top: 1px solid $color_border
       &.general
@@ -1440,25 +1468,26 @@ footer
           padding: 15px 0 15px 15px
           &:hover
             @include linear-gradient(#7dd3f3, #359acd)
-            border-bottom: 1px solid #277aa3
             color: #FFFFFF
             text-shadow: -1px -1px 0 #53a1c8
         &.active
           li
-            @include linear-gradient(#7dd3f3, #359acd)
-            border-bottom: 1px solid #277aa3
+            @include linear-gradient(#ea4e65, #ea2f49)
+            text-shadow: -1px -1px 0 #c3384c
+            // @include linear-gradient(#7dd3f3, #359acd)
             color: #FFFFFF
-            text-shadow: -1px -1px 0 #53a1c8
     .subscriptions, .profile
       color: $color_blue
       font-weight: 600
-      font-size: 20px
       margin-top: 60px
-      padding: 15px 0 15px 15px
+      padding: 15px 0 5px 15px
 
   .info_display
+    font-size: 13px !important
     padding: 0 15px
-    width: 658px
+    width: 688px
+    h2
+      margin-bottom: 30px
     .form-group
       label
         font-weight: 400 !important
@@ -1466,9 +1495,13 @@ footer
         text-align: right
         width: 180px
       .form-control
-        width: 430px
+        width: 460px
       .error
         margin: 5px 0 0 197px
+    .btn
+      font-size: 13px
+      font-weight: normal
+      padding: 10px 30px
 
 
 
@@ -1476,7 +1509,6 @@ footer
 #transloadit_expose
   background-color: red !important
   background: red !important
-
 
 
 /** REQUIRED BY JS (Modifiable, not deletable) **/

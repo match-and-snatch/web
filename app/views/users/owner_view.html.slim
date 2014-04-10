@@ -37,12 +37,12 @@
 
     /* Details Container */
     .details_container.row
-      .col-md-7.profile_name
+      .col-md-7.profile_details
 
         /* Profile Name */
-        a href=current_profile_path
+        a.profile_name href=current_profile_path
           i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='profile-name'
-            = @profile.profile_name
+          = @profile.profile_name
         .clearfix 
 
         /* Profile Type */
@@ -83,27 +83,28 @@
 
   /* Create Post (Owner View Only) */
 
+  ul#create_post_nav
+    li
+      a.fa.fa-pencil.active href=current_profile_path Post Status
+    li
+      form.VideoUploadForm action=videos_path method='post' data-target='pending-video-posts'
+        = transloadit :post_video
+        a.fa.fa-music href='javascript:void(0)' style='position: relative;'
+          | Add Audio/Video
+          input.file type='file' name='post_videos' multiple='multiple'
+        input type='hidden' name='slug' value=@profile.slug
+    li
+      form.PhotoUploadForm action=photos_path method='post' data-target='pending-video-posts'
+        = transloadit :post_photo
+        a.fa.fa-picture-o href='javascript:void(0)' style='position: relative;'
+          | Add Photos
+          input.file type='file' name='post_videos' multiple='multiple'
+        input type='hidden' name='slug' value=@profile.slug
+    li
+      a.fa.fa-file-text href=current_profile_path Add Document
+  .clearfix
+
   #create_post.box
-    ul
-      li
-        a.fa.fa-pencil.active href=current_profile_path Post Status
-      li
-        form.VideoUploadForm action=videos_path method='post' data-target='pending-video-posts'
-          = transloadit :post_video
-          a.fa.fa-music href='javascript:void(0)' style='position: relative;'
-            | Add Audio/Video
-            input.file type='file' name='post_videos' multiple='multiple'
-          input type='hidden' name='slug' value=@profile.slug
-      li
-        form.PhotoUploadForm action=photos_path method='post' data-target='pending-video-posts'
-          = transloadit :post_photo
-          a.fa.fa-picture-o href='javascript:void(0)' style='position: relative;'
-            | Add Photos
-            input.file type='file' name='post_videos' multiple='multiple'
-          input type='hidden' name='slug' value=@profile.slug
-      li
-        a.fa.fa-file-text href=current_profile_path Add Document
-    .clearfix
 
     /* Post Status Area */
 
@@ -138,9 +139,10 @@
           .col-md-11
             textarea name='message' placeholder='Keep your subscribers in the know...'
           .col-md-1
-            .error data-field='message'
             input.btn.blue.pull-right type='Submit' value='Post'
             .clearfix
+          .col-md-12
+            .error data-field='message'
 
       /* Details Form */
 
@@ -189,9 +191,9 @@
 
         /* Category Cloud */
 
-        .cat_cloud
+        .archive_cloud.box
           span Archived Content
-          ul.box
+          ul
             li
               a href="#" audio
             li
@@ -205,19 +207,10 @@
 
         /* Contact Info */
 
-        .contact
-
-          /* Owner View Contact */
-
-          a.contact_edit.PopupTrigger data-target='contacts-editor' href="#"
-            | Contact
-            i.fa.fa-gear
-          .clearfix
-
-          /* Subscriber View Contact */
-          / span Contact
-
-          ul.box
+        .contact.box
+          i.edit_contact.fa.fa-gear.PopupTrigger data-target='contacts-editor' href="#"
+          span Contact
+          ul
             li
               a.fa.fa-envelope href='#' Message
             li
