@@ -58,6 +58,6 @@ class UsersController < ApplicationController
 
   def update_contacts_info
     UserProfileManager.new(current_user.object).update_contacts_info(params[:contacts_info])
-    json_replace
+    json_replace html: render_to_string(partial: 'user_contacts_info_links', locals: {user: current_user})
   end
 end
