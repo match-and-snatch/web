@@ -26,6 +26,14 @@ describe UserProfileManager do
       specify do
         expect { manager.update(subscription_cost: 0, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(subscription_cost: t_error(:zero)) }
       end
+
+      specify do
+        expect { manager.update(subscription_cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(subscription_cost: t_error(:zero)) }
+      end
+
+      specify do
+        expect { manager.update(subscription_cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(subscription_cost: t_error(:zero)) }
+      end
     end
 
     context 'empty slug' do

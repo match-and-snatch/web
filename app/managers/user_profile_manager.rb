@@ -43,7 +43,7 @@ class UserProfileManager < BaseManager
 
       if subscription_cost.blank?
         fail_with! subscription_cost: :empty
-      elsif subscription_cost.to_f.zero?
+      elsif subscription_cost.to_f <= 0
         fail_with! subscription_cost: :zero
       end
     end
