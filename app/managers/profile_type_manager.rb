@@ -6,7 +6,7 @@ class ProfileTypeManager < BaseManager
     fail_with! title: :taken if ProfileType.where(title: title).any?
 
     ProfileType.create(title: title).tap do |profile_type|
-      profile_type.valid? or fail_with!(_.errors)
+      profile_type.valid? or fail_with!(profile_type.errors)
     end
   end
 end

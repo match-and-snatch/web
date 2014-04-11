@@ -1,0 +1,12 @@
+- if @profile_types.any?
+  ul.list-group
+    - @profile_types.each do |profile_type|
+      li.list-group-item
+        a.AjaxFormLink href=profile_types_path data-profile_type_id=profile_type.id data-target='user-profile-types'
+          = profile_type.title
+- else
+  - if params[:q].present?
+    p.bg-danger
+      |No results for "
+      strong=params[:q]
+      |"
