@@ -1,5 +1,5 @@
-.container
-  .account_info.box style="margin-top: 15px;"
+.container style="margin-bottom: 60px;"
+  .my_account.box style="margin-top: 15px;"
     .header
       h1 
         | Welcome 
@@ -19,8 +19,8 @@
       ul
         a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/view_cancel_subscriptions.json"
           li View/Cancel Subscriptions
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/search_subscriptions.json"
-          li Search Subscriptions
+        / a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/search_subscriptions.json"
+        /   li Search Subscriptions
         a.AjaxLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
           li Billing Information
 
@@ -37,7 +37,7 @@
         a.AjaxLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
           li Payout Information
         a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/subscribers.json"
-          li style="border-bottom: none;" View Subscribers
+          li View Subscribers
 
     .info_display.pull-right
       .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=settings_account_info_path

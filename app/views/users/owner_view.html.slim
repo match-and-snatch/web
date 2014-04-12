@@ -40,9 +40,8 @@
       .col-md-7.profile_details
 
         /* Profile Name */
-        a.profile_name href=current_profile_path
-          i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='profile-name'
-          = @profile.profile_name
+        span.profile_name
+          i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='profile-name' = @profile.profile_name
         .clearfix 
 
         /* Profile Type */
@@ -62,15 +61,6 @@
             .btn.pink.fa.fa-usd.fa-2x
             i.fa.fa-gear
             .clearfix
-
-          /* Cost Button Visitor (Show Logged User/Visitor) */
-          / a.cost_visitor
-          /   .amount #{@user.subscription_cost}/month
-          /   .btn.pink.fa.fa-usd.fa-2x
-          /   .clearfix
-
-          /* Subscribe Button */
-          / a.subscribe.AjaxFormLink href=user_subscriptions_path(@user) data-user_id=@user.slug Subscribe
 
     /* Subscriber Benefits */
 

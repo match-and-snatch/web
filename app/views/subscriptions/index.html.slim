@@ -1,11 +1,43 @@
-h3 My subscriptions
-ul.list-group
+h2 My Feed
+ul.hidden
   - @subscriptions.each do |subscription|
-    li.list-group-item
+    li.item_sub
       a href=profile_path(subscription.target_user)
         = subscription.target_user.full_name
-hr
-h3 Subscribed on me
-ul.list-group
+
   - @subscribed_on_me.each do |subscription|
-    li.list-group-item= link_to_user subscription.user
+    li.item_sub= link_to_user subscription.user
+
+ul 
+
+  /* Subscribed Profile Updates */
+
+  li.item_feed
+    .name.pull-left Profile Name
+    .date.pull-right Date Posted: February 15, 2014
+    .clearfix
+
+    .profile_picture.pull-left
+      img
+    .latest_post.box.pull-right Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper tincidunt placerat.
+    .clearfix
+
+
+  li.item_feed
+    .name.pull-left Profile Name
+    .date.pull-right Date Posted: February 15, 2014
+    .clearfix
+
+    .profile_picture.pull-left
+      img
+    .latest_post.box.pull-right Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper tincidunt placerat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper tincidunt placerat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper tincidunt placerat.
+    .clearfix
+
+  /* User's Profile Updates + New Subscriber */
+
+  li.item_feed
+    .name.pull-left Subscriber Name
+    .date.pull-right Date Subscribed: February 25, 2014
+    .clearfix
+
+    .box Congratulations, Jane Smith is now subscribed to your profile!

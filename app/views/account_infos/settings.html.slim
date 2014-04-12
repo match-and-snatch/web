@@ -9,16 +9,22 @@ form.Form action=update_general_information_account_info_path method='post'
     .error data-field='full_name'
 
   .form-group
-    label.pull-left Profile URL 
-    input.form-control.pull-right type='text' name='slug' value=@user.slug
-    .clearfix
-    .error data-field='slug'
-
-  .form-group
     label.pull-left Email Address
     input.form-control.pull-right type='email' name='email' value=@user.email
     .clearfix
     .error data-field='email'
+
+  .form-group
+    label.pull-left Company/Organization
+    input.form-control.pull-right type='text' name='' value=''
+    .clearfix
+    .error data-field=''
+
+  .form-group
+    label.pull-left Profile URL 
+    input.form-control.pull-right type='text' name='slug' value=@user.slug
+    .clearfix
+    .error data-field='slug'
 
   input.btn.pink.pull-right type='submit' value='Update Information'
   .clearfix

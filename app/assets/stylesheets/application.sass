@@ -263,7 +263,7 @@ footer
     line-height: 100%
     margin: 15px 0 30px
   .step
-    color: $color_text_light
+    color: $color_text_dark
     font-size: 20px
     font-weight: 600
     margin: 15px 0 5px
@@ -274,76 +274,31 @@ footer
     height: 100px
   .title
     color: $color_blue
-    font-size: 28px
+    font-size: 32px
     font-weight: 600
     line-height: 100%
     margin: 15px 0
   .description
-    color: $color_text_dark
-    font-size: 13px
+    color: #252525
+    font-size: 14px
     line-height: 20px
     a
+      display: block
       color: $color_blue
+      font-size: 16px
+      padding-top: 5px
       text-decoration: underline
       &:hover
         color: $color_pink
-
-/* Rows 1, 2, and 3 */
-
-.row-1, .row-2, .row-3
-  .circle
-    height: 455px
-    width: 455px  
-  .text
-    .title
-      font-size: 60px
-      font-weight: 700
-      text-shadow: 1px 1px 0 #FFFFFF
-    span
-      display: block
-      font-size: 28px
-      line-height: 40px
-
-/* Row 1 & Row 3 */
-
-.row-1, .row-3
-  background-color: $color_background
-  padding-top: 30px
-  .circle
-    border: 5px solid #FFFFFF
-  .text
-    color: $color_text_dark
-    text-shadow: 1px 1px 0 #FFFFFF
-    .title
-      color: $color_pink
-    span
-      margin-top: 60px
-
-/* Row 2 */
-
-.row-2
-  background-color: $color_blue
-  padding: 30px 0
-  .circle
-    border: 5px solid #FFFFFF
-  .text
-    .title
-      color: #FFFFFF
-      text-shadow: -1px -1px 0 #4495be
-    span 
-      color: #145372
-
-/* Row 3 */
-
-.row-3
-  padding: 50px 0 
 
 /* Button Actions */     
 
 .button_actions
   @include blue-area
-  text-align: center
+  border-left: none
+  border-right: none
   padding: 30px 0
+  text-align: center
   .title 
     color: #FFFFFF
     font-size: 60px
@@ -364,22 +319,58 @@ footer
     font-weight: 600
     text-shadow: 1px 1px 0 #7cc3e7
 
-/* Affiliates */
+/* Homepage Rows */
 
-.affiliates_row
-  background-color: #ececec
-  border-top: 1px solid $color_border
+.homepage_profile, .homepage_our_users, .homepage_analytics
   padding: 30px 0
-  .title
-    text-align: center
-    font-size: 32px
-    font-weight: 600
-    line-height: 100%
-    padding-bottom: 30px
-    text-shadow: 1px 1px 0 #FFFFFF
-  img
-    height: 70px
-    width: 140px
+  .description
+    color: #000000
+    .title
+      font-size: 60px
+      font-weight: 700
+    ul
+      list-style: disc
+      font-size: 28px
+      line-height: 40px
+      padding: 50px 0 0 30px
+      li
+        padding-top: 30px
+        &:first-child
+          padding-top: 0
+
+    span
+      display: block
+      font-size: 28px
+      line-height: 40px
+
+
+/* Homepage Profile */
+
+.homepage_profile
+  padding: 30px 0 0    
+
+/* Homepage Our Users */
+
+.homepage_our_users
+  @include blue-area
+  border-left: none
+  border-right: none
+  .description
+    padding-top: 90px
+    .title
+      color: #FFFFFF
+    span
+      color: #000000
+      text-shadow: none
+
+
+/* Homepage Analytics */
+
+.homepage_analytics
+  .description
+    padding-top: 140px
+    .title
+      color: $color_pink
 
 /* Registration Areas */
 
@@ -582,7 +573,10 @@ footer
         color: $color_text_dark
         cursor: pointer
         text-decoration: none
+        word-wrap: break-word
         .fa
+          max-width: 517px
+          word-wrap: break-word
           &:before
             color: $color_gear
             font-size: 20px
@@ -593,8 +587,9 @@ footer
           .fa
             &:before
               color: $color_gear_hover
-      span.profile_name
-        cursor: default
+      .profile_name
+        &.visitor
+          cursor: default
       .profile_type
         color: #898989
         display: block
@@ -751,17 +746,16 @@ footer
   border-left: 1px solid $color_border
   border-top: 1px solid $color_border
   border-right: 1px solid $color_border
-  padding: 0 0 0 15px
+  padding: 0 0 0 50px
   margin: 0
   margin-top: $box_margin
   line-height: 100%
-  width: 745px
   li
     border-right: 1px solid $color_border
     display: inline-block
     font-size: 16px
     list-style-type: none
-    padding: 15px 30px
+    padding: 15px 52px
     &:first-child
       padding-left: 0
     &:last-child
@@ -770,6 +764,9 @@ footer
       color: #464646
       text-decoration: none
       text-shadow: -1px -1px 0 #FFFFFF
+      input
+        cursor: pointer !important
+        height: 15px
       &.fa
         &:before
           color: $color_text_dark
@@ -782,7 +779,7 @@ footer
           color: $color_blue
 
 #create_post
-  border-radius: 0 $border_radius $border_radius $border_radius
+  border-radius: 0 0 $border_radius $border_radius
 
   /* Status Post Textarea */
 
@@ -1459,9 +1456,9 @@ footer
   
 
 
-/* Account Info */
+/* My Account */
 
-.account_info
+.my_account, .account_info
   color: $color_text_dark
   margin-top: 15px
   label
@@ -1484,8 +1481,10 @@ footer
       padding: 0
       span 
         color: $color_pink
+  
+  /* My Account - Sidebar */
+
   .sidebar
-    border-right: 1px solid $color_border
     font-size: 13px
     padding: 0
     width: 250px
@@ -1506,22 +1505,29 @@ footer
             text-shadow: -1px -1px 0 #53a1c8
         &.active
           li
-            @include linear-gradient(#ea4e65, #ea2f49)
-            text-shadow: -1px -1px 0 #c3384c
+            @include linear-gradient(#3e3e3e, #2d2d2d)
+            text-shadow: -1px -1px 0 #000000
             // @include linear-gradient(#7dd3f3, #359acd)
             color: #FFFFFF
     .subscriptions, .profile
       color: $color_blue
       font-weight: 600
-      margin-top: 60px
+      margin-top: 30px
       padding: 15px 0 5px 15px
 
+  /* My Account - Display */
+
   .info_display
+    border-left: 1px solid $color_border
     font-size: 13px !important
-    padding: 0 15px
+    min-height: 590px
     width: 688px
-    h2
-      margin-bottom: 30px
+    h2  
+      font-weight: bold
+      margin: 15px 0 14px
+      padding-left: 15px
+    form
+      padding: 0 15px
     .form-group
       label
         font-weight: 400 !important
@@ -1537,12 +1543,110 @@ footer
       font-weight: normal
       padding: 10px 30px
 
+    /* My Account Containers */
+
+    .item_block, .item_sub, .item_feed
+      border-top: 1px solid $color_border
+      padding: 15px
+      h2
+        margin: 0 0 15px
+        padding: 0
+      p 
+        color: $color_text_light
+        font-size: 13px
+
+    /* Profile Details */
+
+    .stats
+      @include linear-gradient(#3e3e3e, #2d2d2d)
+      border-left: none
+      border-right: none
+      color: #FFFFFF
+      padding: 30px
+      text-align: center
+      text-shadow: -1px -1px 0 #1c1c1c
+      .value
+        font-size: 60px
+        font-weight: 600
+        line-height: 100%
+      span
+        color: #FFFFFF
+        display: block
+        font-size: 12px
+        padding-top: 10px
+        text-shadow: none
+
+    .graph
+      color: $color_text_light
+      height: 200px
+      padding: 15px
+
+    /* View/Cancel Subscriptions */
+
+    ul
+      li.item_sub
+        .name, .cost
+          font-size: 16px
+          font-weight: bold
+          padding-bottom: 10px
+        .name
+          color: $color_blue
+          width: 500px
+        .cost
+          color: $color_pink
+        p
+          font-weight: bold
+          margin: 0
+          padding-bottom: 5px
+          span
+            font-weight: normal 
+        .actions
+          font-size: 13px
+          a
+            margin-left: 15px 
+            .fa
+              &:before
+                font-size: 20px
+                position: relative
+                top: 2px
+                padding-right: 5px
+            .pink
+              &:before
+                color: $color_pink
+                top: 3px
+            .blue
+              &:before
+                color: $color_blue
+
+    /* My Feed */
+
+    .item_feed
+      .name
+        color: $color_blue
+        font-size: 16px
+        font-weight: bold
+        padding-bottom: 10px
+      .date
+        color: $color_text_light
+        font-size: 12px
+      .profile_picture
+        img
+          border: 1px solid $color_border
+          height: 75px
+          width: 75px
+      .latest_post, .box
+        background-color: $color_background
+        padding: 10px
+      .latest_post
+        width: 567px
 
 
-/* TEMP */
-#transloadit_expose
-  background-color: red !important
-  background: red !important
+
+
+
+
+
+
 
 
 /** REQUIRED BY JS (Modifiable, not deletable) **/
