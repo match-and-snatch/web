@@ -97,7 +97,9 @@ class UserProfileManager < BaseManager
 
     user.contacts_info = {}.tap do |info|
       contacts_info.each do |provider, url|
-        info[provider] = (url =~ /^https?:\/\//) ? url : "http://#{url}"
+        if url.present?
+          info[provider] = (url =~ /^https?:\/\//) ? url : "http://#{url}"
+        end
       end
     end
 

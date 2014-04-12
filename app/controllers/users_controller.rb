@@ -58,6 +58,7 @@ class UsersController < ApplicationController
 
   def update_contacts_info
     UserProfileManager.new(current_user.object).update_contacts_info(params[:contacts_info])
-    json_replace html: render_to_string(partial: 'user_contacts_info_links', locals: {user: current_user})
+    profile = ProfileDecorator.new(current_user.object)
+    json_replace html: render_to_string(partial: 'user_contacts_info_links', locals: {profile: profile})
   end
 end

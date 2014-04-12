@@ -201,7 +201,7 @@
           i.edit_contact.fa.fa-gear.PopupTrigger data-target='contacts-editor' href="#"
           span Contact
           ul data-identifier='contacts-links'
-            = render 'user_contacts_info_links', user: @profile.object
+            = render 'user_contacts_info_links', profile: @profile
         span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
   .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(current_user.object)

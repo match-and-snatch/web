@@ -16,6 +16,18 @@ class ProfileDecorator < UserDecorator
     (benefits.map(&:message) + 10.times.map {}).first(10)
   end
 
+  # @return [Hash]
+  def contacts_info_links
+    @contacts_info ||= Hash.new do |hash, key|
+      hash[key] = object.contacts_info[key].presence || 'javascript: void(0)'
+    end
+  end
+
+  # @return [String]
+  def class_for(whatever)
+    'pending' if object.contacts_info[whatever].blank?
+  end
+
   # @return [Integer, Float]
   def subscription_cost
     @subscription_cost ||= begin

@@ -131,5 +131,9 @@ describe UserProfileManager do
     specify do
       expect { manager.update_contacts_info(twitter: 'twit.ru') }.to change { user.reload.contacts_info[:twitter] }.from(nil).to('http://twit.ru')
     end
+
+    specify do
+      expect { manager.update_contacts_info(twitter: ' ') }.not_to change { user.reload.contacts_info[:twitter] }
+    end
   end
 end
