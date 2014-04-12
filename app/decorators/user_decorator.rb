@@ -4,6 +4,7 @@ class UserDecorator < BaseDecorator
            :has_cc_payment_account?, :subscribed_to?,
            :original_profile_picture_url, :profile_picture_url,
            :cover_picture_url, :original_cover_picture_url,
+           :contacts_info,
            to: :object
 
   # @param object [User]

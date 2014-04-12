@@ -90,6 +90,23 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @param contacts_info [Hash]
+  # @return [User]
+  def update_contacts_info(contacts_info)
+    raise ArgumentError unless contacts_info.is_a?(Hash)
+
+    user.contacts_info = {}.tap do |info|
+      contacts_info.each do |provider, url|
+        if url.present?
+          info[provider] = (url =~ /^https?:\/\//) ? url : "http://#{url}"
+        end
+      end
+    end
+
+    user.save or fail_with! user.errors
+    user
+  end
+
   # @param holder_name [String]
   # @param routing_number [String]
   # @param account_number [String]

@@ -38,6 +38,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_cost
       put :update_profile_picture
       put :update_cover_picture
+      put :update_contacts_info
     end
 
     resources :photos, only: [] do

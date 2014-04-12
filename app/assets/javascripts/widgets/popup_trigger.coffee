@@ -8,4 +8,5 @@ class bud.widgets.PopupTrigger extends bud.Widget
 
   on_click: =>
     bud.pub("popup.toggle.#{@target}")
-    false
+    return false if @$container.is('a')
+    return true

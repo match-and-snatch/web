@@ -1,4 +1,4 @@
-.notification_bar 
+.notification_bar
   .cont Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!
   .fa.fa-times-circle.close
 
@@ -41,7 +41,7 @@
 
         /* Profile Name */
         span.profile_name
-          i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='profile-name' = @profile.profile_name
+          i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='profile-name'= @profile.profile_name
         .clearfix 
 
         /* Profile Type */
@@ -200,32 +200,8 @@
         .contact.box
           i.edit_contact.fa.fa-gear.PopupTrigger data-target='contacts-editor' href="#"
           span Contact
-          ul
-            li
-              a.fa.fa-envelope href='#' Message
-            li
-              a.fa.fa-globe href='#' Website
-            li
-              a.fa.fa-facebook-square href='#' Facebook
-            li
-              a.fa.fa-twitter href='#' Twitter
-            li
-              a.fa.fa-youtube href='#' YouTube
-            li
-              a.fa.fa-instagram href='#' Instagram
-            li
-              a.fa.fa-pinterest-square href='#' Pintrest
-            li
-              a.fa.fa-dribbble href='#' Dribble
-            li
-              a.fa.fa-flickr href='#' Flickr
-            li
-              a.fa.fa-google-plus-square href='#' Google+
-            li
-              a.fa.fa-tumblr-square href='#' Tumblr
-            li
-              a.fa.fa-vimeo-square href='#' Vimeo
-
+          ul data-identifier='contacts-links'
+            = render 'user_contacts_info_links', profile: @profile
         span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
   .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(current_user.object)
@@ -268,63 +244,62 @@
   /* Contacts Editor */
 
   .Popup.popup.contacts_edit.modal-content data-identifier='contacts-editor' style='width: 600px'
-
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="contacts-editor" aria-hidden="true"
       .modal-title Edit Contact Information
       span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate augue faucibus malesuada.
 
     .modal-body
+      form.Form action=update_contacts_info_user_path(@profile.object) method='post' data-target='contacts-links'
+        input type='hidden' name='_method' value='put'
+        .pull-left style="width: 262px;"
+          .input-group
+            span.input-group-addon
+              i.fa.fa-globe.fa-fw
+            input.form-control type='text' placeholder='Website URL' name='contacts_info[website]' value=@profile.contacts_info["website"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-facebook-square.fa-fw
+            input.form-control type='text' placeholder='Facebook' name='contacts_info[facebook]' value=@profile.contacts_info["facebook"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-twitter.fa-fw
+            input.form-control type='text' placeholder='Twitter' name='contacts_info[twitter]' value=@profile.contacts_info["twitter"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-youtube.fa-fw
+            input.form-control type='text' placeholder="YouTube" name='contacts_info[youtube]' value=@profile.contacts_info["youtube"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-instagram.fa-fw
+            input.form-control type='text' placeholder="Instagram" name='contacts_info[instagram]' value=@profile.contacts_info["instagram"]
+        .pull-right style="width: 262px;"
+          .input-group
+            span.input-group-addon
+              i.fa.fa-pinterest-square.fa-fw
+            input.form-control type='text' placeholder="Pinterest" name='contacts_info[pinterest]' value=@profile.contacts_info["pinterest"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-dribbble.fa-fw
+            input.form-control type='text' placeholder="Dribble" name='contacts_info[dribble]' value=@profile.contacts_info["dribble"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-flickr.fa-fw
+            input.form-control type='text' placeholder="Flickr" name='contacts_info[flickr]' value=@profile.contacts_info["flickr"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-google-plus-square.fa-fw
+            input.form-control type='text' placeholder="Google+" name='contacts_info[google+]' value=@profile.contacts_info["google+"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-tumblr-square.fa-fw
+            input.form-control type='text' placeholder="Tumblr" name='contacts_info[tumblr]' value=@profile.contacts_info["tumblr"]
 
-      .pull-left style="width: 262px;"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-globe.fa-fw
-          input.form-control type='text' placeholder="Website URL"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-facebook-square.fa-fw
-          input.form-control type='text' placeholder="Facebook"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-twitter.fa-fw
-          input.form-control type='text' placeholder="Twitter"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-youtube.fa-fw
-          input.form-control type='text' placeholder="YouTube"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-instagram.fa-fw
-          input.form-control type='text' placeholder="Instagram"
-
-      .pull-right style="width: 262px;"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-pinterest-square.fa-fw
-          input.form-control type='text' placeholder="Pinterest"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-dribbble.fa-fw
-          input.form-control type='text' placeholder="Dribbble"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-flickr.fa-fw
-          input.form-control type='text' placeholder="Flickr"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-google-plus-square.fa-fw
-          input.form-control type='text' placeholder="Google+"
-        .input-group
-          span.input-group-addon
-            i.fa.fa-tumblr-square.fa-fw
-          input.form-control type='text' placeholder="Tumblr"
-
-      .clearfix
-
-      .form-group.pull-right
-        input.btn.blue type='submit' value='Update Contact Information'
         .clearfix
+
+        .form-group.pull-right
+          input.btn.blue.PopupTrigger type='submit' value='Update Contact Information' data-target="contacts-editor"
+          .clearfix
 
   /* Cost Popup */
 
@@ -345,7 +320,7 @@
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="cost-editor" aria-hidden="true"
       .modal-title Edit Subscription Cost
-      span Please note, to keep subscribers happy and billing cycles consistent you can only change your subscription cost once every 30 days. 
+      span Please note, to keep subscribers happy and billing cycles consistent you can only change your subscription cost once every 30 days.
 
     /* Body Area */
 
