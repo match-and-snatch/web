@@ -102,7 +102,7 @@ production:
           robot: '/s3/store'
           key: 'AKIAJ5KUIYFXQB5KUD5A'
           secret: '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'
-          bucket: 'buddy-assets'
+          bucket: 'connectpal-assets'
           path: 'uploads/profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
           use:
             - 'resize'
@@ -118,7 +118,7 @@ production:
           robot: '/s3/store'
           key: 'AKIAJ5KUIYFXQB5KUD5A'
           secret: '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'
-          bucket: 'buddy-assets'
+          bucket: 'connectpal-assets'
           path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
           use:
             - 'resize'
@@ -147,7 +147,7 @@ production:
           robot: '/s3/store'
           key: 'AKIAJ5KUIYFXQB5KUD5A'
           secret: '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'
-          bucket: 'buddy-assets'
+          bucket: 'connectpal-assets'
           path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
           use:
             - ':original'
