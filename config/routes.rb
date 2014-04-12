@@ -57,7 +57,7 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
-  resources :profile_types, only: [:index, :create]
+  resources :profile_types, only: [:index, :create, :destroy]
 
   namespace :admin do
     resources :staffs, only: :index

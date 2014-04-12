@@ -22,6 +22,14 @@ class UserProfileManager < BaseManager
     @user.profile_types << profile_type
   end
 
+  # @param profile_type [ProfileType]
+  def remove_profile_type(profile_type)
+    raise ArgumentError unless profile_type.is_a?(ProfileType)
+    fail_with! profile_type: :not_set unless @user.profile_types.where(id: profile_type.id).any?
+
+    @user.profile_types.delete(profile_type)
+  end
+
   # @return [User]
   def create_profile_page
     @user.is_profile_owner = true

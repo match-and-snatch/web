@@ -17,6 +17,17 @@ describe UserProfileManager do
     end
   end
 
+  describe '#remove_profile_type' do
+    let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
+
+    before { manager.add_profile_type(profile_type) }
+
+    specify do
+      expect { manager.remove_profile_type(profile_type) }.to change(user.profile_types, :count).from(1).to(0)
+      expect(user.profile_types).not_to include(profile_type)
+    end
+  end
+
   describe '#update' do
     specify do
       expect { manager.update(subscription_cost: 1, profile_name: 'some-random-name') }.not_to raise_error

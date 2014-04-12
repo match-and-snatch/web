@@ -57,12 +57,8 @@
               input.AutocompleteField.form-control data-url=profile_types_path data-target='profile-types' type='text' placeholder='Band, Blogger, Podcaster, etc...'
               .error data-field='profile_type'
               div data-identifier='profile-types'
-              div data-identifier='user-profile-types'
-                strong assigned profile types
-                ul.list-group
-                  - current_user.object.profile_types.each do |profile_type|
-                    li.list-group-item
-                      = profile_type.title
+              = render 'profile_types/list_assigned', profile_types: current_user.profile_types
+
       .col-md-6
         .well This field needs to transfer over to the profile view. 
 
