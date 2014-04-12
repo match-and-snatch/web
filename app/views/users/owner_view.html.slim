@@ -41,8 +41,9 @@
 
         /* Profile Name */
         span.profile_name
-          i.fa.fa-gear.PopupTrigger data-target='name-editor' data-identifier='profile-name'= @profile.profile_name
-        .clearfix 
+          i.fa.fa-gear.PopupTrigger data-target='name-editor'
+          span data-identifier='profile-name'= @profile.profile_name
+        .clearfix
 
         /* Profile Type */
         span.profile_type Podcaster / Blogger / Band
