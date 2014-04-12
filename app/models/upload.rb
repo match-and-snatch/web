@@ -39,7 +39,7 @@ class Upload < ActiveRecord::Base
   private
     def generate_secure_url(upload_url, expiration_date = 30.minutes.from_now.utc.to_i)
       key, secret, bucket = Transloadit::Rails::Engine.configuration["templates"]['post_video']['steps']['store'].slice("key", "secret", "bucket").values
-      s3_base_url = "http://#{URI(upload_url).host}"
+      s3_base_url = "//#{URI(upload_url).host}"
       s3_path = URI(upload_url).path
       # this needs to be formatted exactly as shown below and UTF-8 encoded
       string_to_sign = "GET\n\n\n#{expiration_date}\n/#{bucket}#{s3_path}".encode("UTF-8")
