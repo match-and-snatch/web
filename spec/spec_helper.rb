@@ -65,5 +65,5 @@ end
 # @return [Integer] user id
 def sign_in(user = nil)
   user ||= create_user(email: 'email@gmail.com', password: 'password', password_confirmation: 'password')
-  session[:user_id] = user.id
+  cookies[:auth_token] = user.auth_token
 end

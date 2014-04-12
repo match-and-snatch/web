@@ -26,7 +26,7 @@ class SessionManager < BaseManager
   # @return [CurrentUserDecorator]
   def current_user
     if needs_authorization?
-      user = User.where(auth_token: @auth_token).first if @auth_token = @session[:auth_token]
+      user = User.where(auth_token: @auth_token).first if @auth_token = @session['auth_token']
       @current_user = CurrentUserDecorator.new(user)
     end
     @current_user
@@ -39,6 +39,6 @@ class SessionManager < BaseManager
   end
 
   def reauthorized?
-    @auth_token != @session[:auth_token]
+    @auth_token != @session['auth_token']
   end
 end

@@ -1,9 +1,7 @@
 require 'spec_helper'
 
-describe SessionManager do
-  let(:session) { {} }
-
-  subject(:manager) { described_class.new(session) }
+describe SessionManager, type: :request do
+  subject(:manager) { described_class.new(cookies) }
 
   let(:email) { 'szinin@gmail.com' }
   let(:password) { 'qwerty' }
@@ -13,7 +11,11 @@ describe SessionManager do
       let!(:user) { create_user(email: email, password: password, password_confirmation: password) }
 
       specify do
-        expect { manager.login(email, password) }.to change { session[:user_id] }.from(nil).to(user.id)
+        expect(user.auth_token).not_to be_blank
+      end
+
+      specify do
+        expect { manager.login(email, password) }.to change { cookies['auth_token'] }.from(nil).to(user.auth_token)
       end
     end
 
@@ -32,7 +34,7 @@ describe SessionManager do
     end
 
     specify do
-      expect { manager.logout }.to change { session[:user_id] }.from(user.id).to(nil)
+      expect { manager.logout }.to change { cookies['auth_token'] }.from(user.auth_token).to('')
     end
   end
 

@@ -13,14 +13,14 @@ module Queries
     # @return [Array<Post>]
     def results
       @results ||= begin
-        posts = autocomplete? ? matching_posts : recent_posts
+        posts = @query.present? ? matching_posts : recent_posts
         posts = posts.where(['id < ?', @start_id]) if @start_id.present?
         posts
       end.to_a
     end
 
     def autocomplete?
-      @query.present?
+      !@query.nil?
     end
 
     # @return [Integer, nil]
