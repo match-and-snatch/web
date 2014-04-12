@@ -12,3 +12,5 @@ en:
     not_an_integer: must contain only digits
     not_an_account_number: must contain 12 digits
     invalid_login: Email or password is invalid
+    already_set: Already set
+    not_set: Not set

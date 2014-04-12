@@ -4,6 +4,30 @@ describe UserProfileManager do
   let(:user) { create_user }
   subject(:manager) { described_class.new(user) }
 
+  describe '#add_profile_type' do
+    let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
+
+    specify do
+      expect(user.profile_types).to be_empty
+    end
+
+    specify do
+      expect { manager.add_profile_type(profile_type) }.to change(user.profile_types, :count).from(0).to(1)
+      expect(user.profile_types).to include(profile_type)
+    end
+  end
+
+  describe '#remove_profile_type' do
+    let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
+
+    before { manager.add_profile_type(profile_type) }
+
+    specify do
+      expect { manager.remove_profile_type(profile_type) }.to change(user.profile_types, :count).from(1).to(0)
+      expect(user.profile_types).not_to include(profile_type)
+    end
+  end
+
   describe '#update' do
     specify do
       expect { manager.update(subscription_cost: 1, profile_name: 'some-random-name') }.not_to raise_error
