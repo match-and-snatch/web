@@ -23,6 +23,7 @@ describe AuthenticationManager do
     its(:password_hash) { should_not be_blank }
     its(:password_salt) { should_not be_blank }
     its(:full_name) { should == 'Sergei Zinin' }
+    its(:auth_token) { should_not be_blank }
 
     specify { expect { manager.register }.to change(User, :count).by(1) }
 

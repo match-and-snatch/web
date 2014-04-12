@@ -42,6 +42,7 @@ class AuthenticationManager < BaseManager
     user.full_name = full_name
     user.email = email
     user.set_new_password(password)
+    user.generate_auth_token
 
     user.save or fail_with! user.errors
     user

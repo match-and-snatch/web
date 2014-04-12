@@ -113,6 +113,13 @@ class User < ActiveRecord::Base
     true
   end
 
+  def generate_auth_token
+    begin
+      self.auth_token = SecureRandom.urlsafe_base64
+    end while User.exists?(auth_token: self.auth_token)
+    true
+  end
+
   private
 
   def set_profile_completion_status

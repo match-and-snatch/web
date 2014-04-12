@@ -121,6 +121,6 @@ class ApplicationController < ActionController::Base
 
   # @return [SessionManager]
   def session_manager
-    @session_manager ||= SessionManager.new(session)
+    @session_manager ||= SessionManager.new(cookies)
   end
 end

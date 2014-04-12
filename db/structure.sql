@@ -454,7 +454,8 @@ CREATE TABLE users (
     has_complete_profile boolean DEFAULT false NOT NULL,
     profile_name character varying(512),
     is_admin boolean DEFAULT false NOT NULL,
-    contacts_info text
+    contacts_info text,
+    auth_token character varying(255)
 );
 
 
@@ -714,3 +715,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140408163449');
 INSERT INTO schema_migrations (version) VALUES ('20140408163607');
 
 INSERT INTO schema_migrations (version) VALUES ('20140410071915');
+
+INSERT INTO schema_migrations (version) VALUES ('20140412094101');

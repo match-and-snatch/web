@@ -61,6 +61,11 @@ class bud.widgets.Form extends bud.Widget
     result = {}
     _.each @$container.find('input, select, textarea'), (input) ->
       $input = $(input)
-      result[$input.attr('name')] = $input.val()
+
+      if $input.attr('name')
+        if $input.is('[type=checkbox]')
+          result[$input.attr('name')] = '1' if $input.is(':checked')
+        else
+          result[$input.attr('name')] = $input.val()
 
     result
