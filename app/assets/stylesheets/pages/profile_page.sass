@@ -1,0 +1,694 @@
+/* Header */
+
+#header
+  margin-top: 20px
+  position: relative
+
+  /* Photo Cover */
+
+  .photo_cover
+    background-color: $color_background
+    background: asset-url('https://buddy-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
+    background-size: 100%
+    border-bottom: 1px solid $color_border
+    display: block
+    height: 240px
+    overflow: hidden
+    margin-bottom: 15px
+    position: relative
+    z-index: 1
+    .btn
+      right: 15px
+
+  /* Photo Profile */
+
+  .photo_profile
+    background-color: $color_background
+    border: 1px solid $color_border
+    position: absolute
+    top: 28px
+    left: 15px
+    height: 182px
+    width: 182px
+    z-index: 2
+    img
+      height: 180px
+      width: 180px
+    .btn
+      right: 19px
+
+  .photo_cover, .photo_profile
+    .btn
+      display: none
+      position: absolute
+      bottom: 15px
+      .fa
+        &:before
+          padding-right: 5px
+    &:hover
+      .btn
+        display: block
+
+  /* Details Container */
+
+  .details_container
+    padding: 0 15px
+    position: relative
+
+    /* Profile Name */
+
+    .profile_details
+      color: $color_text_dark
+      font-weight: 600
+      font-size: 38px
+      line-height: 100%
+      margin-bottom: 15px
+      .profile_name
+        color: $color_text_dark
+        cursor: pointer
+        text-decoration: none
+        word-wrap: break-word
+        .fa
+          max-width: 517px
+          word-wrap: break-word
+          &:before
+            color: $color_gear
+            font-size: 20px
+            padding-right: 5px
+            position: relative
+            top: -6px
+        &:hover
+          .fa
+            &:before
+              color: $color_gear_hover
+      .profile_name
+        &.visitor
+          cursor: default
+      .profile_type
+        color: #898989
+        display: block
+        font-size: 12px
+        font-weight: 400
+        text-decoration: none
+
+    /* Cost Button/Subscribe Button */
+
+    .subscribe_cont
+      font-size: 36px
+      font-weight: 600
+      text-align: center
+
+      /* Cost Owner/Visitor */
+
+      .cost_owner, .cost_visitor
+        display: block
+        float: right
+        margin-bottom: 15px
+        .btn
+          @include border-radius($border_radius 0 0 10px)
+          cursor: default
+          float: right
+          height: 55px
+          width: 65px
+        .fa
+          &:before
+            font-size: 30px
+        .amount
+          @include border-radius(0 $border_radius $border_radius 0)
+          background-color: $color_background
+          border-top: 1px solid $color_border
+          border-right: 1px solid $color_border
+          border-bottom: 1px solid $color_border
+          color: $color_pink
+          cursor: default
+          float: right
+          height: 55px
+          max-width: 215px
+          overflow: hidden
+          padding: 0 15px
+        &:hover
+          .btn
+            @include pink-area
+
+      /* Cost Owner */
+
+      .cost_owner
+        cursor: pointer
+        .btn, .amount
+          cursor: pointer
+        .fa-gear
+          &:before
+            color: $color_gear
+            font-size: 20px
+            padding-right: 10px
+            position: relative
+            top: -3px
+        &:hover
+          .fa-gear
+            &:before
+              color: $color_gear_hover
+
+      /* Cost Visitor */
+
+      .subscribe
+        display: none
+
+      /* Cost Visitor Hover */
+
+      &:hover
+        .cost_visitor
+          display: none
+        .subscribe
+          @include border-radius($border_radius)
+          @include blue-area
+          display: block
+          color: #FFFFFF
+          cursor: pointer
+          float: right
+          font-weight: 400
+          height: 55px
+          margin-bottom: 15px
+          padding: 0 15px
+          text-decoration: none
+          width: 247px
+
+      /* Subscribed */
+
+      .subscribed
+        @include border-radius($border_radius)
+        @include green-area
+        display: block
+        color: #FFFFFF
+        cursor: default
+        float: right
+        font-weight: 400
+        height: 55px
+        margin-bottom: 15px
+        padding: 0 15px
+        text-decoration: none
+        width: 247px
+
+  /* Details Container */
+
+  .benefits_container
+    padding: 0 15px
+    position: relative
+    .label
+      @include black-area
+      @include border-radius(0 10px 10px 0)
+      color: #FFFFFF
+      // cursor: default
+      font-size: 13px
+      font-weight: 400
+      padding: 10px 15px
+      position: absolute
+      top: 0
+      left: -1px
+      cursor: default
+    ul
+      font-size: 13px
+      line-height: 20px
+      margin-top: 46px
+      columns: 2
+      -webkit-columns: 2
+      -moz-columns: 2
+      li
+        color: $color_text_dark
+        &.fa
+          font-weight: 400
+          &:before
+            color: $color_green
+            padding-right: 5px
+    .edit
+      position: absolute
+      top: 8px
+      left: 150px
+      &.fa
+        cursor: pointer
+        &:before
+          color: $color_gear
+          font-size: 20px
+        &:hover
+          &:before
+            color: $color_gear_hover
+
+/* Create Post (Owner View) */
+
+#create_post_nav
+  @include linear-gradient(#FFFFFF, #F7F7F7)
+  border-radius: $border_radius $border_radius 0 0
+  border-left: 1px solid $color_border
+  border-top: 1px solid $color_border
+  border-right: 1px solid $color_border
+  padding: 0 0 0 50px
+  margin: 0
+  margin-top: $box_margin
+  line-height: 100%
+  li
+    border-right: 1px solid $color_border
+    display: inline-block
+    font-size: 16px
+    list-style-type: none
+    padding: 15px 52px
+    &:first-child
+      padding-left: 0
+    &:last-child
+      border-right: none
+    a
+      color: #464646
+      text-decoration: none
+      text-shadow: -1px -1px 0 #FFFFFF
+      input
+        cursor: pointer !important
+        height: 15px
+      &.fa
+        &:before
+          color: $color_text_dark
+          padding-right: 10px
+
+      &:hover
+        color: $color_blue
+        .fa
+          &:before
+            color: $color_blue
+
+#create_post
+  border-radius: 0 0 $border_radius $border_radius
+
+  /* Status Post Textarea */
+
+  #post
+    padding: 15px
+    position: relative
+    textarea
+      display: block
+      min-height: 52px
+      width: 100%
+    input[type="submit"]
+      &:focus
+        color: #FFFFFF
+        outline: none
+
+  /* Uploading Media */
+
+  #uploading
+    position: relative
+
+    /* Progress Bar */
+
+    .progress_title
+      color: $color_blue
+      font-size: 16px
+      font-weight: 600
+      padding: 10px 15px 15px
+
+    /* File Status */
+
+    .file_status
+      padding: 0 15px
+      .progress
+        margin-bottom: 15px
+      .file_name
+        color: $color_text_dark
+      .percentage
+        text-align: right
+
+    /* Upload Details */
+
+    .upload_details
+      border-top: 1px solid $color_border
+      padding: 15px
+      .detail_field
+        @include border-radius($border_radius)
+        background-color: $color_background
+        border: 1px solid $color_border
+        margin-bottom: 15px
+        padding: 8px 10px
+        width: 100%
+        &:focus
+          outline: none
+      textarea
+        height: 91px
+        margin: 0
+        overflow: auto
+      .foot
+        position: relative
+        .cancel_post
+          color: #959595
+          cursor: pointer
+          font-size: 12px
+          margin-top: 9px
+          margin-right: 15px
+          &:hover
+            text-decoration: underline
+
+/* Subscriber Display */
+
+#subscriber_display
+  margin-top: $box_margin
+
+  /* Sidebar */
+
+  .sidebar
+
+    /* Profile Action */
+
+    .share_url
+      padding: 15px
+      text-align: left
+      position: relative
+      width: 100%
+      .fa
+        position: absolute
+        top: 15px
+        left: 15px
+        &:before
+          font-size: 50px
+      .heading, span
+        line-height: 100%
+        padding-left: 60px
+      .heading
+        font-size: 22px
+        font-weight: 600
+        padding-top: 2px
+      span
+        font-size: 13px
+
+    /* Search Profile Content */
+
+    .search
+      margin-top: $box_margin
+      .input-group-addon
+        @include black-area
+        @include border-radius($border_radius 0 0 $border_radius)
+        padding: 15px
+        .fa
+          color: #FFFFFF
+      input
+        @include border-radius(0 $border_radius $border_radius 0)
+        height: 47px !important
+
+    /* Cat Cloud & Contact Info */
+
+    .archive_cloud, .contact
+      margin-top: 30px
+      padding: 15px
+      position: relative
+      span
+        color: $color_pink
+        display: block
+        font-size: 22px
+        font-weight: 600
+        line-height: 100%
+        padding-bottom: 10px
+
+    /* Category Cloud */
+
+    .archive_cloud
+      ul
+        margin: 0
+        li
+          display: inline-block
+          list-style-type: none
+          padding-right: 10px
+        a
+          &.sml
+            font-size: 18px
+          &.med
+            font-size: 20px
+          &.lrg
+            font-size: 22px
+
+    /* Contact Info */
+
+    .contact
+      padding-bottom: 0
+      margin-bottom: 30px
+      span
+        padding-bottom: 20px
+      .edit_contact
+        cursor: pointer
+        position: absolute
+        top: 15px
+        right: 15px
+        &:before
+          color: $color_gear
+          font-size: 20px
+        &:hover
+          &:before
+            color: $color_gear_hover
+      ul
+        margin: 0
+        columns: 2
+        -webkit-columns: 2
+        -moz-columns: 2
+        li
+          font-size: 13px
+          line-height: 100%
+          padding-bottom: 15px
+          a
+            color: $color_text_dark
+            font-weight: 400
+            text-decoration: none
+            &.fa
+              &:before
+                color: $color_text_dark
+                font-size: 16px
+                padding-right: 10px
+                position: relative
+                top: 1px
+            &:hover
+              &.fa
+                &:before
+                  color: $color_blue
+
+  /* Recent Posts */
+
+  .recent_posts
+
+    /* Search Posts */
+
+    .show_results
+      @include border-radius($border_radius)
+      border: 1px solid #e6d996
+      color: #b7a549
+      padding: 15px
+
+    /* No Posts */
+
+    .no_post_yet
+      color: #e1e1e1
+      font-size: 24px
+      text-align: center
+      .fa-stack
+        margin: 0 auto
+        .fa-exclamation
+          &:before
+            color: $color_background
+      span
+        display: block
+        margin-top: 15px
+
+    /* Single Post */
+
+    .post
+      margin-top: $box_margin
+      position: relative
+      z-index: 1
+      &:first-child
+        margin-top: 0 !important
+      .edit_post
+        cursor: pointer
+        position: absolute
+        top: 15px
+        right: 15px
+        &.fa
+          &:before
+            color: $color_gear
+        &:hover
+          &.fa
+            &:before
+              color: $color_gear_hover
+      .post_title
+        color: $color_blue
+        font-size: 16px
+        padding: 15px 15px 0
+      .date
+        color: #c2c2c2
+        font-size: 12px
+        padding: 15px 15px 0 15px
+      .audio_player, .video_player, .photo_display, .doc_view
+        background-color: $color_background
+        border: 1px solid $color_border
+        display: block
+        margin: 15px 15px 0 15px
+      .audio_player
+        height: 30px
+      .video_player
+        height: 330px
+        width: 585px
+      .photo_display
+        width: 585px
+        img
+          width: 583px
+      a.doc_view
+        .icon
+          background-color: #FFFFFF
+          border-right: 1px solid $color_border
+          padding: 10px 15px
+          &.fa
+            &:before
+              font-size: 26px
+        .doc_title
+          display: block
+          padding: 13px 0 0 10px
+        &:hover
+          text-decoration: none
+      ul.photo_view
+        display: block
+        margin: 0 auto
+        list-style-type: none
+        width: 530px
+        li
+          display: inline-block
+          background-color: $color_background
+          border: 1px solid $color_border
+          height: 250px
+          width: 250px
+          margin-right: 15px
+          margin-bottom: 15px
+      .message
+        font-size: 13px
+        line-height: 20px
+        padding: 15px
+        word-wrap: break-word
+      .action_bar
+        @include white-area
+        border-top: 1px solid $color_border
+        display: block
+        height: 38px
+        padding: 10px 15px
+        position: relative
+        .fa
+          &:before
+            position: relative
+            top: 1px
+          &:hover
+            color: $color_text_dark
+            text-decoration: none
+            &.fa
+              &:before
+                color: $color_pink
+        .liked_post
+          &.fa
+            &:before
+              color: $color_pink
+
+        .users_liked
+          color: $color_text_light
+          font-size: 12px
+          padding-left: 5px
+
+    /* Discussion Dropdown */
+
+    .comment_container
+      background-color: $color_background
+      border-top: 1px solid $color_border
+      padding-top: 15px
+      position: relative
+      .photo
+        background-color: #FFFFFF
+        border: 1px solid $color_border
+        height: 52px
+        width: 52px
+      .comment_row
+        padding: 0 15px 15px 15px
+        position: relative
+        .content
+          font-size: 13px
+          line-height: 20px
+          position: relative
+          width: 520px
+          .delete
+            display: none
+            position: absolute
+            top: 0
+            right: 0
+            &.fa
+              &:before
+                color: $color_text_light
+              &:hover
+                &:before
+                  color: $color_pink
+          .profile_name
+            color: $color_blue
+            font-weight: 600
+          .post_date
+            color: #CCCCCC
+            display: none
+            font-size: 12px
+            line-height: 100%
+            margin-top: 5px
+        &:hover
+          .delete
+            display: block
+      .reply_container
+        padding: 0 15px 15px 15px
+        .reply_input
+          border: 1px solid $color_border
+          font-size: 13px
+          min-height: 52px
+          margin-right: 15px
+          padding: 5px 10px
+          position: relative
+          width: 445px
+        .reply
+          font-size: 13px
+          font-weight: 400
+
+/* Visitor View */
+
+#visitor
+  color: $color_text_light
+  margin-top: $box_margin
+  padding: 15px
+  text-align: center
+  .title
+    color: $color_pink
+    font-size: 30px
+    font-weight: 600
+  .tagline
+    display: block
+    font-size: 14px
+    margin-bottom: 15px
+  .sub_heading
+    color: $color_text_dark
+    display: block
+    font-size: 16px
+    font-weight: 600
+    margin-bottom: 5px
+  ul
+    margin: 15px 0
+    text-align: left
+    margin-left: 135px
+    width: 700px
+    columns: 2
+    -webkit-columns: 2
+    -moz-columns: 2
+    li
+      font-size: 13px
+      font-weight: 400
+      margin-bottom: 5px
+      &.fa
+        &:before
+          color: $color_green
+          padding-right: 5px
+  .subscribe
+    font-size: 40px
+    font-weight: 400
+    margin: 15px 0
+    padding: 5px 30px
+    text-decoration: none
+  .already_user
+    font-size: 13px
+    font-weight: 300
