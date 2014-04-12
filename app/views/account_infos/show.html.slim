@@ -43,23 +43,5 @@
       .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=settings_account_info_path
     .clearfix
 
-
-footer.footer style="position: fixed; bottom: 0; width: 100%;"
-  .container
-    .row-fluid
-      .col-md-12
-        ul.pull-left
-          li 
-            a href="#" Homes
-          li 
-            a href="#" About Us
-          li 
-            a href="#" Pricing
-          li 
-            a href="#" Contact Us
-          li 
-            a href="#" Terms of Use
-          li 
-            a href="#" Privacy Policy 
-        .pull-right.copyright &copy Copyright Andrew Dean Media Inc. dba ConnectPal. 2014 All rights reserved.
-        .clearfix
+div style='position: fixed; bottom: 0; width: 100%'
+  = render 'footer'

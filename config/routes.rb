@@ -81,6 +81,12 @@ BuddyPlatform::Application.routes.draw do
     resource :third_step, only: %i(show update)
   end
 
+  get '/about' => 'pages#about', as: :about
+  get '/pricing' => 'pages#pricing', as: :pricing
+  get '/contact_us' => 'pages#contact_us', as: :contact_us
+  get '/terms_of_use' => 'pages#terms_of_use', as: :terms_of_use
+  get '/privacy_policy' => 'pages#privacy_policy', as: :privacy_policy
+
   if Rails.env.development?
     get 'mockups/*mockup' => 'mockups#show'
   end
