@@ -1,5 +1,4 @@
 class ProfileDecorator < UserDecorator
-  delegate :contacts_info, to: :object
 
   # @param user [User]
   def initialize(user)
@@ -16,7 +15,6 @@ class ProfileDecorator < UserDecorator
   def benefit_messages
     (benefits.map(&:message) + 10.times.map {}).first(10)
   end
-
 
   # @return [Integer, Float]
   def subscription_cost

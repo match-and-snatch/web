@@ -398,7 +398,11 @@ CREATE TABLE uploads (
     user_id integer,
     duration double precision,
     type character varying(255),
-    mime_type character varying(255)
+    mime_type character varying(255),
+    width integer,
+    height integer,
+    preview_url character varying(255),
+    url character varying(255)
 );
 
 
@@ -449,7 +453,8 @@ CREATE TABLE users (
     is_profile_owner boolean DEFAULT false NOT NULL,
     has_complete_profile boolean DEFAULT false NOT NULL,
     profile_name character varying(512),
-    is_admin boolean DEFAULT false NOT NULL
+    is_admin boolean DEFAULT false NOT NULL,
+    contacts_info text
 );
 
 
@@ -700,8 +705,12 @@ INSERT INTO schema_migrations (version) VALUES ('20140404115255');
 
 INSERT INTO schema_migrations (version) VALUES ('20140404115337');
 
+INSERT INTO schema_migrations (version) VALUES ('20140407054251');
+
 INSERT INTO schema_migrations (version) VALUES ('20140408072458');
 
 INSERT INTO schema_migrations (version) VALUES ('20140408163449');
 
 INSERT INTO schema_migrations (version) VALUES ('20140408163607');
+
+INSERT INTO schema_migrations (version) VALUES ('20140410071915');
