@@ -1,7 +1,3 @@
-.notification_bar
-  .cont Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!
-  .fa.fa-times-circle.close
-
 /* Header */
 .container
   #header.box
@@ -20,7 +16,7 @@
           input.file type='file' name='cover_picture_file'
         input type='hidden' name='slug' value=@profile.slug
 
-    .photo_profile
+    .photo_profile class="#{'blank' if @profile.profile_picture_url.blank?}"
       div data-identifier='profile-picture'
         - if @profile.original_profile_picture_url
           a.PopupTrigger data-target='full-profile-photo' href=@profile.original_profile_picture_url

@@ -123,4 +123,11 @@ class ApplicationController < ActionController::Base
   def session_manager
     @session_manager ||= SessionManager.new(cookies)
   end
+
+  # @param message [Symbol] i18n Identifier
+  def notice(message, opts = {})
+    if message
+      flash.notice = I18n.t message, opts.reverse_merge(scope: :messages, default: [:default, message])
+    end
+  end
 end

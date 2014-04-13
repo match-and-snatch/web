@@ -8,6 +8,7 @@ class Owner::ThirdStepsController < Owner::BaseController
     UserProfileManager.new(@user).update_payment_information holder_name:    params[:holder_name],
                                                              routing_number: params[:routing_number],
                                                              account_number: params[:account_number]
+    notice(:congrats)
     json_redirect profile_path(@user)
   end
 end

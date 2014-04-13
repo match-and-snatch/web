@@ -14,7 +14,13 @@ html
                 a href=application_settings_path
                   i.fa.fa-gears Application Settings
           = render 'navigation'
-    #content= yield
+
+    #content
+      - if flash.notice.present?
+        .notification_bar.Notification data-identifier='notification-bar'
+          .cont= flash.notice
+          .fa.fa-times-circle.close.Toggler data-target='notification-bar'
+      = yield
     #overlay.Overlay
     = render 'search_users_popup'
     #ClickBlocker
