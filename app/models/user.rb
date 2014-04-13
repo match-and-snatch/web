@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   has_many :profile_types_users
   has_many :profile_types, through: :profile_types_users
 
+  has_one :pending_post
+
   validates :full_name, :email, presence: true
   before_create :generate_slug, if: :is_profile_owner? # TODO: move to manager
   before_save :set_profile_completion_status, if: :is_profile_owner?

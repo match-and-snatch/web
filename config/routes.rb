@@ -26,6 +26,13 @@ BuddyPlatform::Application.routes.draw do
     resources :likes, only: :create
   end
 
+  resource :pending_post, only: [:update]
+
+  resources :status_post,    only: [:new, :create]
+  resources :video_posts,    only: [:new, :create]
+  resources :photo_posts,    only: [:new, :create]
+  resources :document_posts, only: [:new, :create]
+
   resource :session
 
   resources :subscriptions, only: [:index, :create]

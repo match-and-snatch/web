@@ -8,6 +8,6 @@ describe Queries::Users do
 
   subject { described_class.new(user: performer, query: 'szinin@gmail.com, spopov@gmail.com, performer@gmail.com') }
 
-  its(:results) { should == [first_user, second_user] }
+  its(:results) { should =~ [first_user, second_user] }
   its(:emails) { should =~ ['szinin@gmail.com', 'spopov@gmail.com'] }
 end

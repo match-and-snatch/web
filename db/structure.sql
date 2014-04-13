@@ -251,6 +251,38 @@ ALTER SEQUENCE payments_id_seq OWNED BY payments.id;
 
 
 --
+-- Name: pending_posts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE pending_posts (
+    id integer NOT NULL,
+    user_id integer,
+    title character varying(512),
+    message text,
+    keywords text
+);
+
+
+--
+-- Name: pending_posts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE pending_posts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pending_posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE pending_posts_id_seq OWNED BY pending_posts.id;
+
+
+--
 -- Name: posts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -517,6 +549,13 @@ ALTER TABLE ONLY payments ALTER COLUMN id SET DEFAULT nextval('payments_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY pending_posts ALTER COLUMN id SET DEFAULT nextval('pending_posts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY posts ALTER COLUMN id SET DEFAULT nextval('posts_id_seq'::regclass);
 
 
@@ -593,6 +632,14 @@ ALTER TABLE ONLY payment_failures
 
 ALTER TABLE ONLY payments
     ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pending_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY pending_posts
+    ADD CONSTRAINT pending_posts_pkey PRIMARY KEY (id);
 
 
 --
@@ -717,3 +764,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140408163607');
 INSERT INTO schema_migrations (version) VALUES ('20140410071915');
 
 INSERT INTO schema_migrations (version) VALUES ('20140412094101');
+
+INSERT INTO schema_migrations (version) VALUES ('20140413122522');
