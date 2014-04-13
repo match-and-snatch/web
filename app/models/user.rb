@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   has_many :profile_types, through: :profile_types_users
 
   validates :full_name, :email, presence: true
-  before_create :generate_slug, if: :is_profile_owner?
+  before_create :generate_slug, if: :is_profile_owner? # TODO: move to manager
   before_save :set_profile_completion_status, if: :is_profile_owner?
 
   scope :admins, -> { where(is_admin: true) }
@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   scope :subscribers, -> { where(is_profile_owner: false) }
   scope :with_complete_profile, -> { where(has_complete_profile: true) }
 
-  pg_search_scope :search_by_full_name, against: :full_name,
+  pg_search_scope :search_by_full_name, against: [:full_name, :profile_name],
                                         using: [:tsearch, :dmetaphone, :trigram],
                                         ignoring: :accents
 
