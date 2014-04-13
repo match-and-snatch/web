@@ -135,7 +135,7 @@ production:
           robot: '/s3/store'
           key: 'AKIAJ5KUIYFXQB5KUD5A'
           secret: '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'
-          bucket: 'buddy-video-assets'
+          bucket: 'connectpal-videos'
           path: 'uploads/post_videos/${fields.slug}/${assembly.id}____${file.url_name}'
           use:
             - ':original'
