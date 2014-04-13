@@ -1,0 +1,17 @@
+div data-identifier='post-form'
+  ul#create_post_nav
+    li
+      a.fa.fa-pencil.active.AjaxLink href=new_status_post_path data-target='post-form'
+        | Post Status
+    li
+      a.fa.fa-music.AjaxLink href=new_video_post_path data-target='post-form' style='position: relative;'
+        | Add Audio/Video
+    li
+      a.fa.fa-picture-o.AjaxLink href=new_photo_post_path data-target='post-form' style='position: relative;'
+        | Add Photos
+    li
+      a.fa.fa-file-text href=current_profile_path Add Document
+  .clearfix
+
+  #create_post.box
+    = render 'pending_post_form'

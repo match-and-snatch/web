@@ -39,10 +39,16 @@ class bud.widgets.AjaxLink extends bud.Widget
   render_path: (request_path) ->
     @$container.addClass('pending')
     @$target.addClass('pending')
-    bud.Ajax.get(request_path, {}, {success: @render_page})
+    bud.Ajax.get(request_path, {}, {success: @render_page, replace: @replace_page})
 
   render_page: (response) =>
     @make_active()
     bud.replace_html(@$target, response['html'])
+    @$target.removeClass('pending')
+    @$target.show()
+
+  replace_page: (response) =>
+    @make_active()
+    bud.replace_container(@$target, response['html'])
     @$target.removeClass('pending')
     @$target.show()
