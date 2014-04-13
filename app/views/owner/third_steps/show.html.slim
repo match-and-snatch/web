@@ -54,10 +54,8 @@
       input type='text' name='account_number' placeholder='000123456789' value=@user.account_number
       .error data-field='account_number'
       
-
-
       input type='hidden' name='authenticity_token' value=form_authenticity_token
       input.btn.pink type='submit' value='Finish Registration'
 
-      a href="#" Continue to profile. Remind me later.
+      a href=profile_path(@user.slug) Continue to profile. Remind me later.
 

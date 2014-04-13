@@ -69,7 +69,8 @@ class User < ActiveRecord::Base
 
   # Checks if a user hasn't passed three steps of registration
   def passed_profile_steps?
-    [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
+    # [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
+    [profile_name, slug, subscription_cost].all?(&:present?)
   end
 
   # Returns true if user has passed Stripe registration
@@ -100,7 +101,7 @@ class User < ActiveRecord::Base
       slug = slug_base
       i = 0
 
-      while User.where(slug: slug).any?
+      while User.where(slug: slug).where.not(id: id).any?
         slug = "#{slug_base}-#{i+=1}"
       end
 
