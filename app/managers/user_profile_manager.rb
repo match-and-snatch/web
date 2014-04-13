@@ -53,7 +53,7 @@ class UserProfileManager < BaseManager
     validate! do
       if profile_name.blank?
         fail_with profile_name: :empty
-      elsif profile_name.length > 200
+      elsif profile_name.length > 140
         fail_with profile_name: :too_long
       end
 
@@ -61,6 +61,8 @@ class UserProfileManager < BaseManager
         fail_with! subscription_cost: :empty
       elsif subscription_cost.to_f <= 0
         fail_with! subscription_cost: :zero
+      elsif subscription_cost.to_f > 9999
+        fail_with! subscription_cost: :reached_maximum
       end
     end
 
@@ -90,7 +92,7 @@ class UserProfileManager < BaseManager
   # @return [User]
   def update_profile_name(profile_name)
     fail_with! profile_name: :empty if profile_name.blank?
-    fail_with! profile_name: :too_long if profile_name.length > 200
+    fail_with! profile_name: :too_long if profile_name.length > 140
 
     user.profile_name = profile_name
     user.save or fail_with! user.errors
@@ -101,6 +103,7 @@ class UserProfileManager < BaseManager
   # @return [User]
   def update_subscription_cost(cost)
     fail_with! subscription_cost: :zero if cost.to_f <= 0.0
+    fail_with! subscription_cost: :reached_maximum if cost.to_f > 9999
     user.subscription_cost = cost
     user.save or fail_with! user.errors
     user
