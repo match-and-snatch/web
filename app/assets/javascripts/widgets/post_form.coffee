@@ -2,6 +2,7 @@ class bud.widgets.PostForm extends bud.Widget
   @SELECTOR: '.PostForm'
 
   initialize: ->
+    @uploading = false
     @pending_post_url = @$container.data('url')
     @$target = bud.get(@$container.data('target'))
     bud.sub('PostTab.changed', @on_tab_changed)

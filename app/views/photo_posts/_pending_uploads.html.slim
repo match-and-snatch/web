@@ -1,1 +1,7 @@
-span photo uploads
+ul.pending_photos data-identifier='pending-photos'
+  - current_user.pending_photos.each do |upload|
+    li
+      img src=upload.preview_url width=80 height=60
+      br
+      a.AjaxFormLink href=photo_path(upload) data-_method='DELETE' data-target='pending-photos' delete
+.clearfix

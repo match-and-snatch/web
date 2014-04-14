@@ -5,6 +5,8 @@ class Upload < ActiveRecord::Base
 
   scope :pending, -> { where uploadable_id: nil }
   scope :posts, -> { where uploadable_type: 'Post' }
+  scope :photos, -> { where type: 'image' }
+  scope :videos, -> { where type: 'video' }
 
   # @param step_name [String, Symbol] See transloadit.yml
   # @return [String, nil]
