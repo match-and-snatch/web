@@ -3,7 +3,6 @@ class PendingPostsController < ApplicationController
   before_filter :init_profile, only: :new
 
   def new
-    @pending_post = current_user.object.pending_post || PendingPost.new
     json_replace
   end
 

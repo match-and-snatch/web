@@ -69,7 +69,7 @@
 
 
   /* Create Post (Owner View Only) */
-  div.PostForm data-identifier='post-form' data-target='post-fields'
+  div.PostForm data-identifier='post-form' data-target='post-fields' data-url=pending_post_path
     ul#create_post_nav
       li.PostTab data-url=new_status_post_path
         a.fa.fa-pencil href='javascript: void(0)'
@@ -85,7 +85,7 @@
     .clearfix
 
     #create_post.box data-identifier='post-fields'
-      = render template: 'pending_posts/new'
+      = render 'pending_post_form', pending_post: @profile.pending_post
 
   /* Posts & Sidebar (Owner/Subscribed Only) */
 

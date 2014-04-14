@@ -42,4 +42,9 @@ class ProfileDecorator < UserDecorator
       cost - ceil_cost > 0 ? cost : ceil_cost
     end
   end
+
+  # @return [PendingPost]
+  def pending_post
+    @pending_post ||= object.pending_post || PendingPost.new
+  end
 end

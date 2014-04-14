@@ -15,11 +15,12 @@
   form.upload_details
     .row
       .col-md-6
-        input.detail_field placeholder="Post Title" value=@pending_post.title
+        input.detail_field name='title' placeholder="Post Title" value=pending_post.title
         .clearfix
-        input.detail_field placeholder="Keywords" value=@pending_post.keywords
+        input.detail_field name='keywords' placeholder="Keywords" value=pending_post.keywords
       .col-md-6
-        textarea.detail_field name='message' placeholder="Description" value=@pending_post.message
+        textarea.detail_field name='message' placeholder="Description"
+          = pending_post.message
     .row
       .col-md-12.foot
 
