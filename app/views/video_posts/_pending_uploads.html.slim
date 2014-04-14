@@ -1,7 +1,19 @@
-ul.pending_photos data-identifier='pending-videos'
-  - current_user.pending_videos.each do |upload|
-    li
-      img src=upload.preview_url width=80 height=60
-      br
-      a.AjaxFormLink href=video_path(upload) data-_method='DELETE' data-target='pending-videos' delete
+div data-identifier='pending-videos'
+  ul.pending_photos
+    - current_user.pending_videos.each do |upload|
+      li
+        img src=upload.preview_url width=80 height=60
+        br
+        a.AjaxFormLink href=video_path(upload) data-_method='DELETE' data-target='pending-videos' delete
+        
+  .clearfix
+  form.VideoUploadForm action=videos_path method='post' data-target='pending-videos'
+    = transloadit :post_video
+    br
+    br
+    input type='file' name='post_videos' multiple='multiple'
+    br
+    br
+    input type='hidden' name='slug' value=current_user.slug
 .clearfix
+
