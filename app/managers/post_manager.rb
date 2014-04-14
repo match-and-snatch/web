@@ -24,7 +24,11 @@ class PostManager < BaseManager
   # @param keywords [String]
   # @return [PendingPost]
   def update_pending(message: nil, title: nil, keywords: nil)
-    attributes = { message: message, title: title, keywords: keywords }
+    attributes = {}
+
+    attributes[:message]  = message  unless message.nil?
+    attributes[:title]    = title    unless title.nil?
+    attributes[:keywords] = keywords unless keywords.nil?
 
     if user.pending_post
       user.pending_post.update_attributes!(attributes)
