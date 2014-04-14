@@ -1,7 +1,7 @@
 BuddyPlatform::Application.routes.draw do
 
   # Redirect all non-https requests
-  if Rails.app.config.use_ssl
+  if Rails.application.config.use_ssl
     get '*path' => redirect('https://www.connectpal.com/%{path}'), constraints: { protocol: 'http://' }
   end
 
