@@ -69,7 +69,23 @@
 
 
   /* Create Post (Owner View Only) */
-  = render template: 'pending_posts/new'
+  div.PostForm data-identifier='post-form' data-target='post-fields'
+    ul#create_post_nav
+      li.PostTab data-url=new_status_post_path
+        a.fa.fa-pencil href='javascript: void(0)'
+          | Post Status
+      li.PostTab data-url=new_video_post_path
+        a.fa.fa-music href='javascript: void(0)'
+          | Add Audio/Video
+      li.PostTab data-url=new_photo_post_path
+        a.fa.fa-picture-o.PostTab href='javascript: void(0)'
+          | Add Photos
+      li
+        a.fa.fa-file-text href=current_profile_path Add Document
+    .clearfix
+
+    #create_post.box data-identifier='post-fields'
+      = render template: 'pending_posts/new'
 
   /* Posts & Sidebar (Owner/Subscribed Only) */
 
