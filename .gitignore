@@ -27,6 +27,7 @@
 .vagrant
 vagrant_ansible_inventory_default
 .server_pid
+.certificates
 
 # Assets
 public/assets/*

@@ -1,8 +1,10 @@
 BuddyPlatform::Application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
+  # Redirect all non-https requests
+  if Rails.app.config.use_ssl
+    get '*path' => redirect('https://www.connectpal.com/%{path}'), constraints: { protocol: 'http://' }
+  end
+
   root 'welcome#show'
 
   resource :account_info, only: :show do
