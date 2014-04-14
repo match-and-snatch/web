@@ -30,6 +30,4 @@ BuddyPlatform::Application.configure do
   config.assets.debug = false
 
   config.assets.use_cdn = false
-
-  config.use_ssl = ENV['USE_SSL']
 end

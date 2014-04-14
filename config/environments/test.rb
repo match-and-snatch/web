@@ -34,6 +34,4 @@ BuddyPlatform::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
-
-  config.use_ssl = ENV['USE_SSL']
 end
