@@ -15,9 +15,31 @@ development:
   use_cdn: false
   javascript:
     log_level: 3
+    flow_player:
+      script_path: //d2z0vrgpqs4fn9.cloudfront.net/flowplayer-3.2.13.min.js
+      swf_path: //d2z0vrgpqs4fn9.cloudfront.net/flowplayer-3.2.18.swf
+      settings:
+        clip:
+          provider: rtmp
+        plugins:
+          rtmp:
+            url: http://d2z0vrgpqs4fn9.cloudfront.net/flowplayer.rtmp-3.2.13.swf
+            netConnectionUrl: 'rtmp://s1y5uslj4plb.cloudfront.net/cfx/st'
 
 production:
   <<: *defaults
+  javascript:
+    log_level: 0
+    flow_player:
+      script_path: //assets.connectpal.com/flowplayer-3.2.13.min.js
+      swf_path: //assets.connectpal.com/flowplayer-3.2.18.swf
+      settings:
+        clip:
+          provider: rtmp
+        plugins:
+          rtmp:
+            url: http://videos.connectpal.com/flowplayer.rtmp-3.2.13.swf
+            netConnectionUrl: 'rtmp://videos.connectpal.com/cfx/st'
 
 staging:
   <<: *defaults
