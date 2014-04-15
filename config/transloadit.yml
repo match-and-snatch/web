@@ -52,7 +52,14 @@ development:
         thumbs:
           use: ":original"
           robot: "/video/thumbs"
-          count: 4
+          count: 1
+        s3_thumb:
+          use: 'thumbs'
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'buddy-assets'
+          path: 'uploads/thumbs/${fields.slug}/${assembly.id}____${file.url_name}'
         store:
           acl: private
           robot: '/s3/store'
@@ -60,9 +67,7 @@ development:
           secret: 'VT+rhtCWknANpzvmzDrQsnIe4KixKviKW6FCK8WY'
           bucket: 'buddy-video-assets'
           path: 'uploads/post_videos/${fields.slug}/${assembly.id}____${file.url_name}'
-          use:
-            - ':original'
-            - 'thumbs'
+          use: ':original'
 
     post_photo:
       steps:
@@ -141,7 +146,14 @@ production:
         thumbs:
           use: ":original"
           robot: "/video/thumbs"
-          count: 4
+          count: 1
+        s3_thumb:
+          use: 'thumbs'
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'connectpal-assets'
+          path: 'uploads/thumbs/${fields.slug}/${assembly.id}____${file.url_name}'
         store:
           acl: private
           robot: '/s3/store'
@@ -149,9 +161,7 @@ production:
           secret: 'VT+rhtCWknANpzvmzDrQsnIe4KixKviKW6FCK8WY'
           bucket: 'connectpal-videos'
           path: 'uploads/post_videos/${fields.slug}/${assembly.id}____${file.url_name}'
-          use:
-            - ':original'
-            - 'thumbs'
+          use: ':original'
 
     post_photo:
       steps:

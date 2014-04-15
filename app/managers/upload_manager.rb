@@ -20,7 +20,7 @@ class UploadManager < BaseManager
     thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
     create_video(transloadit_data, attributes: { uploadable_type: 'Post',
                                                  uploadable_id: nil,
-                                                 preview_url: thumb['url'] })
+                                                 preview_url: thumb['ssl_url'] })
   end
 
   # @param transloadit_data [Hash]
@@ -38,8 +38,8 @@ class UploadManager < BaseManager
                          filename:         upload_data['name'],
                          width:            upload_data['meta']['width'],
                          height:           upload_data['meta']['height'],
-                         url:              original['url']
-      upload.attributes = attributes.merge(preview_url: original['url'])
+                         url:              original['ssl_url']
+      upload.attributes = attributes.merge(preview_url: original['ssl_url'])
       upload.save or fail_with! upload.errors
       upload
     end
@@ -65,7 +65,7 @@ class UploadManager < BaseManager
                             filename:         upload_data['name'],
                             width:            upload_data['meta']['width'],
                             height:           upload_data['meta']['height'],
-                            url:              original['url']
+                            url:              original['ssl_url']
       upload.attributes = attributes
       upload.save or fail_with! upload.errors
       upload
@@ -88,7 +88,7 @@ class UploadManager < BaseManager
                        filename: transloadit_data["uploads"][0]['name'],
                        width: transloadit_data["uploads"][0]["meta"]["width"],
                        height: transloadit_data["uploads"][0]["meta"]["height"],
-                       url: transloadit_data["results"][":original"][0]["url"]
+                       url: transloadit_data["results"][":original"][0]["ssl_url"]
     upload.attributes = attributes
     upload.save or fail_with! upload.errors
     upload
