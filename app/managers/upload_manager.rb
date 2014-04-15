@@ -52,7 +52,6 @@ class UploadManager < BaseManager
       fail_with! "You can't upload more than 5 documents."
     end
 
-    ap transloadit_data
     attributes = { uploadable_type: 'Post', uploadable_id: nil }
 
     transloadit_data['uploads'].each_with_index.map do |upload_data, index|
