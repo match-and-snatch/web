@@ -11,7 +11,7 @@ class Upload < ActiveRecord::Base
   # @param step_name [String, Symbol] See transloadit.yml
   # @return [String, nil]
   def url_on_step(step_name)
-    attr_on_step(step_name, 'url')
+    attr_on_step(step_name, 'ssl_url')
   end
 
   def attr_on_step(step_name, attribute)
