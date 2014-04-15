@@ -19,6 +19,17 @@ class PostManager < BaseManager
     end
   end
 
+  def create_video_post(title: nil, keywords_text: nil, message: nil)
+    if user.pending_post_uploads.videos.many?
+      fail_with! "You can't upload more than one video."
+    end
+
+    create_media_post(title: title,
+                      keywords_text: keywords_text,
+                      message: message,
+                      uploads: user.pending_post_uploads.videos)
+  end
+
   # @param message [String]
   # @param title [String]
   # @param keywords [String]
@@ -37,5 +48,25 @@ class PostManager < BaseManager
     end
 
     user.pending_post(true)
+  end
+
+  private
+
+  def create_media_post(title: nil, keywords_text: nil, message: nil, uploads: [])
+    fail_with! 'Please upload files' if uploads.empty?
+
+    validate! do
+      fail_with title:   :empty if title.blank?
+      fail_with message: :empty if message.blank?
+
+      fail_with title:         :too_long if title.to_s.length > 200
+      fail_with keywords_text: :too_long if keywords_text.to_s.length > 200
+    end
+
+    Post.new(user: user, message: message, title: title, keywords_text: keywords_text).tap do |post|
+      post.save or fail_with! post.errors
+      uploads.each { |upload| post.uploads << upload }
+      user.pending_post.try(:destroy!)
+    end
   end
 end

@@ -18,6 +18,7 @@ class bud.widgets.Form extends bud.Widget
       replace: @on_replace,
       before:  @on_before,
       after:   @on_after,
+      prepend: @on_prepend,
       failed:  @on_fail
     }
     method = @$container.attr('method')
@@ -38,6 +39,9 @@ class bud.widgets.Form extends bud.Widget
       bud.replace_container(@$target, response['html'])
     else
       bud.replace_html(@$target, response['html'])
+
+  on_prepend: (response) =>
+    bud.prepend_html(@$target, response['html'])
 
   on_before: =>
     _.each @params(), (value, field) =>

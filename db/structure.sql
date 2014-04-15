@@ -291,7 +291,9 @@ CREATE TABLE posts (
     user_id integer,
     message text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    title character varying(512),
+    keywords_text character varying(512)
 );
 
 
@@ -766,3 +768,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140410071915');
 INSERT INTO schema_migrations (version) VALUES ('20140412094101');
 
 INSERT INTO schema_migrations (version) VALUES ('20140413122522');
+
+INSERT INTO schema_migrations (version) VALUES ('20140415050828');

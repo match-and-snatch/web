@@ -1,0 +1,26 @@
+.post.box
+  i.fa.fa-gear.edit_post
+  .date Posted #{time_ago_in_words(post.created_at)} ago
+
+  - post.uploads.each do |upload|
+    .VideoPlayer.video_player
+      video  preload="none" poster=upload.secure_preview_url
+        source type=upload.mime_type src=upload.secure_url
+
+  .message= super_highlight(post.message)
+  .action_bar= render 'like', post: post
+
+  .comment_container
+
+    /* Comment Row */
+
+    = render partial: 'comments/comment', collection: post.comments.recent
+    .new_comments data-identifier="comments_section-#{post.id}"
+
+    form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}"
+      .photo.pull-left
+        img src=current_user.profile_picture_url width=50 height=50
+      input.reply.btn.black.pull-right type='submit' value='Reply'
+      textarea.reply_input.pull-right name='message' placeholder="Write your reply..."
+      .clearfix
+
