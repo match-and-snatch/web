@@ -9,10 +9,18 @@ class UploadManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [Upload]
   def create_pending_video(transloadit_data)
-    thumb = transloadit_data["results"]["thumbs"].try(:first) or fail_with! 'No thumb received'
+    transloadit_data['uploads']                       or fail_with! 'Nothing uploaded'
+    transloadit_data['uploads'][0]                    or fail_with! 'No uploads'
+    transloadit_data['uploads'][0]['type'] == 'video' or fail_with! 'Uploaded file is not a video'
+
+    if user.pending_post_uploads.videos.any?
+      fail_with! "You can't upload more than one video."
+    end
+
+    thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
     create(transloadit_data, attributes: { uploadable_type: 'Post',
                                            uploadable_id: nil,
-                                           preview_url: thumb["url"]})
+                                           preview_url: thumb['url']})
   end
 
   # @param transloadit_data [Hash]

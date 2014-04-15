@@ -12,7 +12,7 @@
   .uploaded data-identifier='pending-uploads'
     = render 'pending_uploads'
 
-  form.upload_details
+  form.Form.upload_details action=
     .row
       .col-md-6
         input.detail_field name='title' placeholder="Post Title" value=pending_post.title
@@ -26,5 +26,5 @@
 
         /* Disabled until all uploads are 100% */
 
-        input.btn.blue.pull-right type='Submit' value='Uploading....' disabled="true"
+        input.btn.blue.pull-right type='Submit' value='Post'
         .cancel_post.pull-right Cancel Post
