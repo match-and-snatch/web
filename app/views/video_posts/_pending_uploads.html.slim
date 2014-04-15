@@ -10,7 +10,7 @@ div data-identifier='pending-videos'
   br
   .clearfix
   - if current_user.pending_videos.empty?
-    form.VideoUploadForm action=videos_path method='post' data-target='pending-videos'
+    form.UploadForm action=videos_path method='post' data-target='pending-videos'
       = transloadit :post_video
       br
       br

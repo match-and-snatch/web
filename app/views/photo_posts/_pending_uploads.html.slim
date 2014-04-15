@@ -7,7 +7,7 @@ div data-identifier='pending-photos'
         a.AjaxFormLink href=photo_path(upload) data-_method='DELETE' data-target='pending-photos' delete
 
   .clearfix
-  form.PhotoUploadForm action=photos_path method='post' data-target='pending-photos'
+  form.UploadForm action=photos_path method='post' data-target='pending-photos'
     = transloadit :post_photo
     br
     br
