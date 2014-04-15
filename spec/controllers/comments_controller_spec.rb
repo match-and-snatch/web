@@ -3,7 +3,7 @@ require 'spec_helper'
 describe CommentsController do
   let(:poster) { create_user email: 'poster@gmail.com' }
   let(:commenter) { create_user email: 'commenter@gmail.com' }
-  let(:_post) { PostManager.new(user: poster).create('some post') }
+  let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
 
   describe 'GET #index' do
     subject { get 'index', post_id: _post.id }

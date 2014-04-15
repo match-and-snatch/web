@@ -12,6 +12,12 @@ class Post < ActiveRecord::Base
 
   scope :recent, -> { order('created_at DESC, id DESC').limit(5) }
 
+  # @param user [User]
+  # @return [Array<Upload>]
+  def self.pending_uploads_for(user)
+    raise NotImplementedError
+  end
+
   # @todo move to decorator
   def likers_text
     likes_count = likes.count
@@ -29,5 +35,21 @@ class Post < ActiveRecord::Base
         "#{recent_likes} and #{likes_count} others"
       end
     end
+  end
+
+  def status?
+    type == 'StatusPost'
+  end
+
+  def video?
+    type == 'VideoPost'
+  end
+
+  def photo?
+    type == 'PhotoPost'
+  end
+
+  def document?
+    type == 'DocumentPost'
   end
 end

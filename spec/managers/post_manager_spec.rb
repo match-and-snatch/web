@@ -6,11 +6,11 @@ describe PostManager do
 
   describe '#create' do
     specify do
-      expect(manager.create('some text')).to be_a Post
+      expect(manager.create_status_post(message: 'some text')).to be_a Post
     end
 
     specify do
-      expect(manager.create('some text')).to be_persisted
+      expect(manager.create_status_post(message: 'some text')).to be_persisted
     end
   end
 

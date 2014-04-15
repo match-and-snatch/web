@@ -9,7 +9,7 @@ class PendingPostsController < ApplicationController
   def create
     had_posts = current_user.has_posts?
     @post = create_post
-    had_posts ? json_prepend : json_replace
+    had_posts ? json_prepend(html: post_html) : json_replace(html: post_html)
   end
 
   def update
@@ -23,6 +23,10 @@ class PendingPostsController < ApplicationController
 
   def create_post
     raise NotImplementedError
+  end
+
+  def post_html
+    render_to_string(partial: 'post', locals: {post: @post})
   end
 
   private
