@@ -1,5 +1,7 @@
 .post.box
   i.fa.fa-gear.edit_post
+  - if post.title
+    .post_title= post.title.humanize
   .date Posted #{time_ago_in_words(post.created_at)} ago
 
   = render 'post_uploads', post: post
