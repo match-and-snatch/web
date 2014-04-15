@@ -1,0 +1,4 @@
+- post.uploads.each do |upload|
+  .VideoPlayer.video_player
+    video preload="none" poster=upload.secure_preview_url
+      source type=upload.mime_type src=upload.secure_url

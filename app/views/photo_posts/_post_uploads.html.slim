@@ -1,0 +1,5 @@
+ul.photo_view
+  - post.uploads.each do |upload|
+    li.photo
+      a href=upload.url target='_blank'
+        img src=upload.preview_url height=250 width=250

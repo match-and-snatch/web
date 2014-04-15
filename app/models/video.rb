@@ -1,0 +1,2 @@
+class Video < Upload
+end

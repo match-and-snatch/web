@@ -5,7 +5,10 @@ class bud.widgets.PostForm extends bud.Widget
     @uploading = false
     @pending_post_url = @$container.data('url')
     @$target = bud.get(@$container.data('target'))
+    @$current_tab = bud.get(@$container.data('default_post_tab'))
+
     bud.sub('PostTab.changed', @on_tab_changed)
+    bud.sub('post', @reload_tab)
 
   on_tab_changed: (e, $tab_element) =>
     if @$current_tab != $($tab_element)
@@ -27,8 +30,10 @@ class bud.widgets.PostForm extends bud.Widget
     if message_container.length > 0
       params['message'] = message_container.val()
 
-    bud.Ajax.post @pending_post_url, params, success: =>
-      bud.Ajax.get(@$current_tab.data('url'), {}, replace: @on_render_form)
+    bud.Ajax.post @pending_post_url, params, success: @reload_tab
+
+  reload_tab: =>
+    bud.Ajax.get(@$current_tab.data('url'), {}, replace: @on_render_form)
 
   on_render_form: (response) =>
     bud.replace_html(@$target, response['html'])

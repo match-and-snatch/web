@@ -10,7 +10,7 @@ class PhotosController < UploadsController
   end
 
   def create
-    manager.create_pending_photo(params[:transloadit])
+    manager.create_pending_photos(params[:transloadit])
     json_replace html: render_to_string(partial: 'photo_posts/pending_uploads')
   end
 

@@ -1,16 +1,10 @@
 .post.box
   i.fa.fa-gear.edit_post
+  - if post.title
+    .post_title= post.title.humanize
   .date Posted #{time_ago_in_words(post.created_at)} ago
 
-  - post.uploads.each do |upload|
-    - if upload.video?
-      .VideoPlayer.video_player
-        video  preload="none" poster=upload.secure_preview_url
-          source type=upload.mime_type src=upload.secure_url
-    - if upload.image?
-      .photo_display
-        img src=upload.url
-        .clearfix
+  = render 'post_uploads', post: post
 
   .message= super_highlight(post.message)
   .action_bar= render 'like', post: post
@@ -28,4 +22,3 @@
       input.reply.btn.black.pull-right type='submit' value='Reply'
       textarea.reply_input.pull-right name='message' placeholder="Write your reply..."
       .clearfix
-

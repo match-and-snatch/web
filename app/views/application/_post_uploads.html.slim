@@ -1,0 +1,6 @@
+- if post.video?
+  = render 'video_posts/post_uploads', post: post
+- elsif post.photo?
+  = render 'photo_posts/post_uploads', post: post
+- elsif post.document?
+  = render 'document_posts/post_uploads', post: post

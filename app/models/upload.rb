@@ -1,12 +1,12 @@
 class Upload < ActiveRecord::Base
-  self.inheritance_column = nil
   serialize :transloadit_data, Hash
   belongs_to :uploadable, polymorphic: true
 
-  scope :pending, -> { where uploadable_id: nil }
-  scope :posts, -> { where uploadable_type: 'Post' }
-  scope :photos, -> { where type: 'image' }
-  scope :videos, -> { where type: 'video' }
+  scope :pending,   -> { where uploadable_id: nil }
+  scope :posts,     -> { where uploadable_type: 'Post' }
+  scope :photos,    -> { where type: 'Photo' }
+  scope :videos,    -> { where type: 'Video' }
+  scope :documents, -> { where type: 'Document' }
 
   # @param step_name [String, Symbol] See transloadit.yml
   # @return [String, nil]
@@ -31,11 +31,15 @@ class Upload < ActiveRecord::Base
   end
 
   def video?
-    'video' == type
+    'Video' == type
   end
 
   def image?
-    'image' == type
+    'Image' == type
+  end
+
+  def document?
+    'Document' == type
   end
 
   private

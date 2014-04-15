@@ -1,0 +1,23 @@
+div data-identifier='pending-documents'
+  ul.pending_documents
+    - current_user.pending_documents.each do |upload|
+      li
+        .doc_view style='width: 400px;'
+          i.fa.fa-paperclip.icon.pull-left
+          .doc_title.pull-left= upload.filename
+          a.pull-right.AjaxFormLink href=document_path(upload) data-_method='DELETE' data-target='pending-documents' delete
+          .clearfix
+
+  .clearfix
+  - if current_user.pending_documents.count < 5
+    form.UploadForm action=documents_path method='post' data-target='pending-documents'
+      = transloadit :post_document
+      br
+      br
+      input type='file' name='post_documents' multiple='multiple'
+      br
+      br
+      input type='hidden' name='slug' value=current_user.slug
+  - else
+    p You can't upload more than 5 documents
+.clearfix
