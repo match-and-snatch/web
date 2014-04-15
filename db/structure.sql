@@ -437,7 +437,8 @@ CREATE TABLE uploads (
     width integer,
     height integer,
     preview_url character varying(255),
-    url character varying(255)
+    url character varying(255),
+    filename text
 );
 
 
@@ -773,3 +774,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140413122522');
 INSERT INTO schema_migrations (version) VALUES ('20140415050828');
 
 INSERT INTO schema_migrations (version) VALUES ('20140415061847');
+
+INSERT INTO schema_migrations (version) VALUES ('20140415125049');

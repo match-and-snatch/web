@@ -78,11 +78,15 @@ class CurrentUserDecorator < UserDecorator
     end
   end
 
+  def pending_videos
+    @pending_videos ||= object.pending_post_uploads.videos.to_a
+  end
+
   def pending_photos
     @pending_photos ||= object.pending_post_uploads.photos.to_a
   end
 
-  def pending_videos
-    @pending_videos ||= object.pending_post_uploads.videos.to_a
+  def pending_documents
+    @pending_documents ||= object.pending_post_uploads.documents.to_a
   end
 end

@@ -344,6 +344,19 @@
             text-decoration: underline
 
 /* Subscriber Display */
+.doc_view
+  .icon
+    background-color: #FFFFFF
+    border-right: 1px solid $color_border
+    padding: 10px 15px
+    &.fa
+      &:before
+        font-size: 26px
+  .doc_title
+    display: block
+    padding: 13px 0 0 10px
+  &:hover
+    text-decoration: none
 
 #subscriber_display
   margin-top: $box_margin
@@ -532,19 +545,6 @@
         width: 585px
         img
           width: 583px
-      a.doc_view
-        .icon
-          background-color: #FFFFFF
-          border-right: 1px solid $color_border
-          padding: 10px 15px
-          &.fa
-            &:before
-              font-size: 26px
-        .doc_title
-          display: block
-          padding: 13px 0 0 10px
-        &:hover
-          text-decoration: none
       ul.photo_view
         display: block
         margin: 0 auto
