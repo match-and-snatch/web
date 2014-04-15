@@ -4,15 +4,15 @@
 class bud.widgets.Poster extends bud.widgets.Form
   @SELECTOR: '.Poster'
 
-  initialize: ->
-    super
-    @$target = bud.get(@$container.data('target'))
+  on_prepend: (response) =>
+    super(response)
+    @after_render()
 
-  on_success: (response) =>
-    bud.prepend_html(@$target, response['html'])
+  on_replace: (response) =>
+    super(response)
+    @after_render()
+
+  after_render: ->
     @$container[0].reset()
     bud.pub('post')
 
-  on_replace: (response) =>
-    super
-    @$container[0].reset()
