@@ -75,7 +75,27 @@
                 input.form-control type='text' name='subscription_cost' style="width: 80px; text-align: right;" value=(@user.subscription_cost || 5)
               .error data-field='subscription_cost'
       .col-md-6
-        .well Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi feugiat nunc ac lorem mollis, in luctus eros fermentum. 
+        .well Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi feugiat nunc ac lorem mollis, in luctus eros fermentum.
+
+      .THIRD_STEPOS
+        h2 Your payout information is needed so we know where to send your money.
+
+        h5 Direct deposit is available for US ONLY
+
+        .clearfix
+
+        label Pay to the order of:
+        input.form-control type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
+        .error data-field='holder_name'
+
+
+        label Routing Number
+        input type='text' name='routing_number' placeholder='123456789' value=@user.routing_number
+        .error data-field='routing_number'
+        br
+        label Account Number
+        input type='text' name='account_number' placeholder='000123456789' value=@user.account_number
+        .error data-field='account_number'
 
       /* Continue to Step 3 */ 
 
