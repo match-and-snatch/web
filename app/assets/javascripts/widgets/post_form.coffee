@@ -5,6 +5,8 @@ class bud.widgets.PostForm extends bud.Widget
     @uploading = false
     @pending_post_url = @$container.data('url')
     @$target = bud.get(@$container.data('target'))
+    @$current_tab = bud.get(@$container.data('default_post_tab'))
+
     bud.sub('PostTab.changed', @on_tab_changed)
     bud.sub('post', @reload_tab)
 
