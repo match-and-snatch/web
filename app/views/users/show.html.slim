@@ -81,29 +81,40 @@
           span Contact
           ul
             li
-              a.fa.fa-envelope href='#' Message
-            li
-              a.fa.fa-globe href='#' Website
-            li
-              a.fa.fa-facebook-square href='#' Facebook
-            li
-              a.fa.fa-twitter href='#' Twitter
-            li
-              a.fa.fa-youtube href='#' YouTube
-            li
-              a.fa.fa-instagram href='#' Instagram
-            li
-              a.fa.fa-pinterest-square href='#' Pintrest
-            li
-              a.fa.fa-dribbble href='#' Dribble
-            li
-              a.fa.fa-flickr href='#' Flickr
-            li
-              a.fa.fa-google-plus-square href='#' Google+
-            li
-              a.fa.fa-tumblr-square href='#' Tumblr
-            li
-              a.fa.fa-vimeo-square href='#' Vimeo
+              a.fa.fa-envelope href="mailto:#{@profile.email}" Message
+            - if url = @profile.contacts_info['website'].presence
+              li
+                a.fa.fa-globe href=url target="_blank" Website
+            - if url = @profile.contacts_info['facebook'].presence
+              li
+                a.fa.fa-facebook-square href=url target="_blank" Facebook
+            - if url = @profile.contacts_info['twitter'].presence
+              li
+                a.fa.fa-twitter href=url target="_blank" Twitter
+            - if url = @profile.contacts_info['youtube'].presence
+              li
+                a.fa.fa-youtube href=url target="_blank" YouTube
+            - if url = @profile.contacts_info['instagram'].presence
+              li
+                a.fa.fa-instagram href=url target="_blank" Instagram
+            - if url = @profile.contacts_info['pinterest'].presence
+              li
+                a.fa.fa-pinterest-square href=url target="_blank" Pinterest
+            - if url = @profile.contacts_info['dribble'].presence
+              li
+                a.fa.fa-dribbble href=url target="_blank" Dribble
+            - if url = @profile.contacts_info['flickr'].presence
+              li
+                a.fa.fa-flickr  href=url target="_blank" Flickr
+            - if url = @profile.contacts_info['google+'].presence
+              li
+                a.fa.fa-google-plus-square href=url target="_blank" Google+
+            - if url = @profile.contacts_info['tumblr'].presence
+              li
+                a.fa.fa-tumblr-square href=url target="_blank" Tumblr
+            - if url = @profile.contacts_info['vimeo'].presence
+              li
+                a.fa.fa-vimeo-square  href=url target="_blank" Vimeo
 
         span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
