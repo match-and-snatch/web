@@ -78,6 +78,10 @@ class CurrentUserDecorator < UserDecorator
     end
   end
 
+  def pending_audios
+    @pending_audios ||= AudioPost.pending_uploads_for(object).to_a
+  end
+
   def pending_documents
     @pending_documents ||= DocumentPost.pending_uploads_for(object).to_a
   end

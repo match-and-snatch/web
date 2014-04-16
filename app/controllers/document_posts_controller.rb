@@ -1,4 +1,4 @@
-class DocumentPostsController < MediaPostsController
+class DocumentPostsController < PendingPostsController
 
   protected
 

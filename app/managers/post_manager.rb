@@ -18,6 +18,14 @@ class PostManager < BaseManager
     end
   end
 
+  def create_audio_post(*args)
+    if AudioPost.pending_uploads_for(user).count > 15
+      fail_with! "You can't upload more than 15 tracks."
+    end
+
+    create_media_post AudioPost, *args
+  end
+
   def create_video_post(*args)
     if VideoPost.pending_uploads_for(user).many?
       fail_with! "You can't upload more than one video."
