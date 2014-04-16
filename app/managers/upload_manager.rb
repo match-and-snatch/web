@@ -7,6 +7,35 @@ class UploadManager < BaseManager
   end
 
   # @param transloadit_data [Hash]
+  # @return [Array<Upload>]
+  def create_pending_audios(transloadit_data)
+    transloadit_data['uploads']                       or fail_with! 'Nothing uploaded'
+    transloadit_data['uploads'][0]                    or fail_with! 'No uploads'
+    transloadit_data['uploads'][0]['type'] == 'audio' or fail_with! 'Uploaded file is not an audio'
+
+    if AudioPost.pending_uploads_for(user).count > 15
+      fail_with! "You can't upload more than 15 tracks."
+    end
+
+    attributes = { uploadable_type: 'Post', uploadable_id: nil }
+
+    transloadit_data['uploads'].each_with_index.map do |upload_data, index|
+      original = transloadit_data['results'][':original'][index]
+      # TODO: fetch track name
+      upload = Audio.new transloadit_data: transloadit_data,
+                         user_id:          user.id,
+                         type:             'Audio',
+                         duration:         upload_data['meta']['duration'],
+                         mime_type:        upload_data['mime'],
+                         filename:         upload_data['name'],
+                         url:              original['ssl_url']
+      upload.attributes = attributes
+      upload.save or fail_with! upload.errors
+      upload
+    end
+  end
+
+  # @param transloadit_data [Hash]
   # @return [Upload]
   def create_pending_video(transloadit_data)
     transloadit_data['uploads']                       or fail_with! 'Nothing uploaded'

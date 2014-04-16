@@ -25,13 +25,16 @@ BuddyPlatform::Application.routes.draw do
   resource :pending_post, only: [:update]
 
   resources :status_posts,   only: [:new, :create]
+  resources :media_posts,    only: [:new]
   resources :video_posts,    only: [:new, :create]
+  resources :audio_posts,    only: [:new, :create]
   resources :photo_posts,    only: [:new, :create]
   resources :document_posts, only: [:new, :create]
 
   resource :session
 
   resources :subscriptions, only: [:index, :create]
+  resources :audios, only: [:create, :destroy]
   resources :videos, only: [:create, :destroy]
   resources :photos, only: [:create, :destroy]
   resources :documents, only: [:create, :destroy]

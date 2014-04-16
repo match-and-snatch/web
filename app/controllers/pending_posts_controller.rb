@@ -25,6 +25,11 @@ class PendingPostsController < ApplicationController
     raise NotImplementedError
   end
 
+  def media_posts_path
+    raise NotImplementedError
+  end
+  helper_method :media_posts_path
+
   def post_html
     render_to_string(partial: 'post', locals: {post: @post})
   end
