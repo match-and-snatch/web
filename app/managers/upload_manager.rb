@@ -21,6 +21,7 @@ class UploadManager < BaseManager
 
     transloadit_data['uploads'].each_with_index.map do |upload_data, index|
       original = transloadit_data['results'][':original'][index]
+      # TODO: fetch track name
       upload = Audio.new transloadit_data: transloadit_data,
                          user_id:          user.id,
                          type:             'Audio',

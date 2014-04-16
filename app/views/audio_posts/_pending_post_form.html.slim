@@ -1,0 +1,24 @@
+.uploaded data-identifier='pending-uploads'
+  div data-identifier='pending-audios'
+    = render 'pending_uploads'
+  .clearfix
+
+form.Poster.upload_details action=media_posts_path method='POST' data-target='posts'
+  .row
+    .col-md-6
+      input.detail_field name='title' placeholder="Post Title" value=pending_post.title
+      .error data-field='title'
+      .clearfix
+      input.detail_field name='keywords' placeholder="Keywords" value=pending_post.keywords
+      .error data-field='keywords'
+    .col-md-6
+      textarea.detail_field name='message' placeholder="Description"
+      .error data-field='message'
+        = pending_post.message
+  .row
+    .col-md-12.foot
+
+      /* Disabled until all uploads are 100% */
+
+      input.btn.blue.pull-right type='Submit' value='Post'
+      .cancel_post.pull-right Cancel Post
