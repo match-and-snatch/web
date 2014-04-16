@@ -19,9 +19,12 @@
     font-size: 20px
     font-weight: 600
     margin: 15px 0 5px
-  hr
+  .hr_circle
+    background: asset-url('https://buddy-assets.s3.amazonaws.com/images/steps-circle.png') no-repeat
+    position: relative
     margin: 15px auto
-    width: 650px
+    height: 25px
+    width: 670px
   .icon
     height: 100px
   .title
@@ -75,8 +78,11 @@
 
 .homepage_profile, .homepage_our_users, .homepage_analytics
   padding: 30px 0
+  .img-circle
+    background-color: #FFFFFF
+    border: 3px solid $color_border
   .description
-    color: #000000
+    color: $color_homepage_text
     .title
       font-size: 60px
       font-weight: 700
@@ -99,20 +105,34 @@
 /* Homepage Profile */
 
 .homepage_profile
-  padding: 30px 0 0
+  border-bottom: 1px solid $color_border
+  .image_hover
+    position: relative
+    .view_profile
+      cursor: pointer
+      display: none
+      font-size: 16px
+      padding: 10px 30px
+      position: absolute
+      top: 220px
+      left: 135px
+    &:hover
+      .view_profile
+        display: block
 
 /* Homepage Our Users */
 
 .homepage_our_users
-  @include blue-area
+  background-color: #FFFFFF
   border-left: none
   border-right: none
+  border-bottom: 1px solid $color_border
   .description
     padding-top: 90px
     .title
-      color: #FFFFFF
+      color: $color_blue
     span
-      color: #000000
+      color: $color_homepage_text
       text-shadow: none
 
 
@@ -120,69 +140,6 @@
 
 .homepage_analytics
   .description
-    padding-top: 140px
+    padding-top: 130px
     .title
       color: $color_pink
-
-/* Registration Areas */
-
-.registration_steps
-  background-color: #FFFFFF
-  border-bottom: 1px solid $color_border
-  margin-bottom: 30px
-  padding: 30px
-  .reg_head
-    text-align: center
-    margin-bottom: 30px
-    .reg_title
-      color: $color_green
-      font-size: 24px
-    .reg_text
-      color: $color_text_light
-      font-size: 13px
-  .steps_row
-    cursor: default
-    color: #e1e1e1
-    .bar
-      background-color: #e1e1e1
-      height: 5px
-      margin-bottom: 10px
-    .number
-      background-color: #e1e1e1
-      color: #FFFFFF
-      font-weight: 600
-      line-height: 100%
-      height: 26px
-      width: 26px
-      margin-right: 10px
-      position: relative
-      span
-        position: absolute
-        top: 6px
-        &.one
-          left: 8px
-        &.two
-          left: 9px
-        &.three
-          left: 9px
-    .number_title
-      padding-top: 3px
-
-    /* Done */
-
-    .done
-      color: $color_green
-      .bar
-        background-color: $color_green
-      .number
-        background-color: $color_green
-
-    /* Active */
-
-    .active
-      color: $color_pink
-      .bar
-        background-color: $color_pink
-      .number
-        background-color: $color_pink
-

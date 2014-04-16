@@ -123,7 +123,7 @@
           cursor: default
           float: right
           height: 55px
-          max-width: 215px
+          max-width: 265px
           overflow: hidden
           padding: 0 15px
         &:hover
@@ -255,7 +255,10 @@
       padding-left: 0
     &:last-child
       border-right: none
+    &.active
+      border-bottom: none
     a
+      border-bottom: none
       color: #464646
       text-decoration: none
       text-shadow: -1px -1px 0 #FFFFFF
@@ -549,17 +552,22 @@
           width: 583px
       ul.photo_view
         display: block
-        margin: 0 auto
+        margin-left: 15px
         list-style-type: none
-        width: 530px
         li
           display: inline-block
           background-color: $color_background
           border: 1px solid $color_border
-          height: 250px
-          width: 250px
-          margin-right: 15px
-          margin-bottom: 15px
+          padding: 0
+          margin: 0
+          width: 585px
+          img
+            height: 100%
+            width: 585px
+          &:nth-of-type(1n+4)
+            display: none
+
+
       .message
         font-size: 13px
         line-height: 20px

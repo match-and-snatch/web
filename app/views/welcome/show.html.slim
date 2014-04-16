@@ -10,7 +10,7 @@
       .col-md-4.dosis.step Step 2
       .col-md-4.dosis.step Step 3
       .col-md-12
-        hr
+        .hr_circle
       .col-md-4
         .icon
           img src=image_path('https://buddy-assets.s3.amazonaws.com/images/icon-homepage-step-1.png')
@@ -53,13 +53,16 @@
 
 /* Row 1 */
 
-.homepage_profile.dosis
+.homepage_profile
   .container
     .row
-      .col-md-6 
-        img src=image_path('https://buddy-assets.s3.amazonaws.com/images/temp-homepage-row-1.png') style="width: 455px;"
+      .col-md-6
+        
+          .image_hover
+            img.img-circle  src=image_path('https://buddy-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
+            .btn.black.view_profile View Sample Profile
 
-      .col-md-6.description
+      .col-md-6.description.dosis
         ul
           li Our platform allows content creators to control and monetize their own content.
           li ConnectPal handles all of the boring business stuff for our users, including credit card processing and content hosting.
@@ -73,8 +76,8 @@
         .title Our Users
         span Our users include YouTube Creators, Music Bands, Bloggers, Athletes, Religious Groups, Charities, Gamers, Teachers, and more...
 
-      .col-md-6 
-        img src=image_path('https://buddy-assets.s3.amazonaws.com/images/row-2.png') style="width: 455px;"
+      .col-md-6
+        img.img-circle src=image_path('https://buddy-assets.s3.amazonaws.com/images/homepage-our-users.png')
 
 /* Row 3 */
 
@@ -82,7 +85,7 @@
   .container
     .row
       .col-md-6 
-        img src=image_path('https://buddy-assets.s3.amazonaws.com/images/row-3.png') style="width: 455px;"
+        img.img-circle src=image_path('https://buddy-assets.s3.amazonaws.com/images/homepage-analytics.png')
 
       .col-md-6.description
         .title Account Analytics
