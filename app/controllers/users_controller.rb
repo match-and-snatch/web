@@ -48,12 +48,12 @@ class UsersController < ApplicationController
 
   def update_profile_picture
     UserProfileManager.new(current_user.object).update_profile_picture(params[:transloadit])
-    json_replace
+    json_replace html: render_to_string(partial: 'profile_picture')
   end
 
   def update_cover_picture
     UserProfileManager.new(current_user.object).update_cover_picture(params[:transloadit])
-    json_replace
+    json_replace html: render_to_string(partial: 'cover_picture')
   end
 
   def update_contacts_info
