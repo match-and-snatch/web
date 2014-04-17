@@ -25,7 +25,10 @@ class Upload < ActiveRecord::Base
 
   def rtmp_path
     return if url.blank?
-    "mp4:#{URI(url).path.sub(/^\//,'')}"
+    uri = URI(url)
+    host = uri.host
+    path = uri.path
+    "rtmp://#{host}/cfx/st#{path}"
   end
 
   def secure_url

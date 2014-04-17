@@ -1,3 +1,3 @@
 - post.uploads.each do |upload|
-  a.VideoPlayer.video_player href=upload.rtmp_path
-    img.poster src=upload.preview_url
+  .video_player
+    .VideoPlayer id="Upload__#{upload.id}" data-file=upload.rtmp_path data-original=upload.url data-image=upload.preview_url
