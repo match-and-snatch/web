@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
   # Checks if a user hasn't passed three steps of registration
   def passed_profile_steps?
     # [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
-    [profile_name, slug, subscription_cost].all?(&:present?)
+    [profile_name, slug, cost].all?(&:present?)
   end
 
   # Returns true if user has passed Stripe registration
@@ -121,6 +121,36 @@ class User < ActiveRecord::Base
       self.auth_token = SecureRandom.urlsafe_base64
     end while User.exists?(auth_token: self.auth_token)
     true
+  end
+
+  # Sets costs and fees
+  # - $4 or less = $0.79
+  # - $5 - $9 = $0.95
+  # - $10 - $20 = $1.79
+  # - $21 & above = 9% of price
+  #
+  # @param val [Integer]
+  # @return [S]
+  def cost=(val)
+    super(val).tap do |cost|
+      cost = cost.to_i
+      fees = 0
+
+      if cost <= 4
+        fees = 0.79
+      elsif cost >= 5 && cost <= 9
+        fees = 0.95
+      elsif cost >= 10 && cost <= 20
+        fees = 1.79
+      elsif cost >= 21
+        fees = cost * 0.09
+      else
+        raise ArgumentError, 'Invalid cost'
+      end
+
+      self.subscription_fees = fees
+      self.subscription_cost = fees + cost
+    end
   end
 
   private

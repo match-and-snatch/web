@@ -47,7 +47,7 @@ class UserProfileManager < BaseManager
   # @param subscription_cost [Float, String]
   # @param profile_name [String]
   # @return [User]
-  def update(subscription_cost: nil, profile_name: nil)
+  def update(cost: nil, profile_name: nil)
     profile_name = profile_name.try(:strip).to_s
 
     validate! do
@@ -57,16 +57,20 @@ class UserProfileManager < BaseManager
         fail_with profile_name: :too_long
       end
 
-      if subscription_cost.blank?
-        fail_with! subscription_cost: :empty
-      elsif subscription_cost.to_f <= 0
-        fail_with! subscription_cost: :zero
-      elsif subscription_cost.to_f > 9999
-        fail_with! subscription_cost: :reached_maximum
+      if cost.blank?
+        fail_with! cost: :empty
+      elsif cost.to_f <= 0
+        fail_with! cost: :zero
+      elsif cost.to_f > 9999
+        fail_with! cost: :reached_maximum
+      end
+
+      unless cost.to_s.strip.match ONLY_DIGITS
+        fail_with! cost: :not_an_integer
       end
     end
 
-    user.subscription_cost = subscription_cost
+    user.cost = cost
     user.profile_name = profile_name
     user.generate_slug
 
@@ -101,10 +105,15 @@ class UserProfileManager < BaseManager
 
   # @param cost [Integer, Float, String]
   # @return [User]
-  def update_subscription_cost(cost)
-    fail_with! subscription_cost: :zero if cost.to_f <= 0.0
-    fail_with! subscription_cost: :reached_maximum if cost.to_f > 9999
-    user.subscription_cost = cost
+  def update_cost(cost)
+    fail_with! cost: :zero if cost.to_f <= 0.0
+    fail_with! cost: :reached_maximum if cost.to_f > 9999
+
+    unless cost.to_s.strip.match ONLY_DIGITS
+      fail_with! cost: :not_an_integer
+    end
+
+    user.cost = cost
     user.save or fail_with! user.errors
     user
   end

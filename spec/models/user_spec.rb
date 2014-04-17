@@ -22,11 +22,11 @@ describe User do
   end
 
   describe '#complete_profile?' do
-    subject { described_class.new(is_profile_owner: true, profile_name: profile_name, slug: slug, subscription_cost: subscription_cost, holder_name: holder_name, routing_number: routing_number, account_number: account_number).complete_profile? }
+    subject { described_class.new(is_profile_owner: true, profile_name: profile_name, slug: slug, cost: cost, holder_name: holder_name, routing_number: routing_number, account_number: account_number).complete_profile? }
 
     let(:profile_name) { 'Serezha' }
     let(:slug) { 'sergei' }
-    let(:subscription_cost) { 1 }
+    let(:cost) { 1 }
     let(:holder_name) { 'sergei' }
     let(:routing_number) { '123' }
     let(:account_number) { '12345' }
@@ -43,8 +43,8 @@ describe User do
       it { should eq(false) }
     end
 
-    context 'empty subscription_cost' do
-      let(:subscription_cost) {}
+    context 'empty cost' do
+      let(:cost) {}
       it { should eq(false) }
     end
 
