@@ -61,4 +61,9 @@ class UsersController < ApplicationController
     profile = ProfileDecorator.new(current_user.object)
     json_replace html: render_to_string(partial: 'user_contacts_info_links', locals: {profile: profile})
   end
+
+  def update_cover_picture_position
+    UserProfileManager.new(current_user.object).update_cover_picture_position(params[:cover_picture_possition])
+    json_success
+  end
 end
