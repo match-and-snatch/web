@@ -97,6 +97,7 @@ BuddyPlatform::Application.routes.draw do
 
   if Rails.env.development?
     get 'mockups/*mockup' => 'mockups#show'
+    get 'emails/*mockup' => 'emails#show'
   end
 
   get '/:id' => 'users#show', as: :profile
