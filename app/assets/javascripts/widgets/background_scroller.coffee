@@ -29,9 +29,9 @@ class bud.widgets.BackgroundScroller extends bud.Widget
     delta_y      = e.pageY - @current_y
     @current_y   = e.pageY
 
-    @y_position = parseInt(@$target.css('background-position-y')) + delta_y * 2
+    @y_position = parseInt(@$target.css('background-position').replace(/^.* /, '')) + delta_y * 2
     @y_position = 0 if @y_position > 0
-    @$target.css('background-position-y', @y_position)
+    @$target.css('background-position', "50% #{@y_position}px")
 
   disable_editing: =>
     return unless @current_y

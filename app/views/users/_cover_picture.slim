@@ -11,5 +11,5 @@
     input type='hidden' name='slug' value=current_user.slug
 
   - if current_user.cover_picture_url.present?
-    #change_possition.BackgroundScroller.btn.blue data-target='cover-background' data-focus_target='cover-container' data-position=current_user.cover_picture_position data-url=update_cover_picture_position_user_path(current_user.object)
-      | Change position
+    #change_possition.BackgroundScroller.fa.fa-arrows-v.btn.blue data-target='cover-background' data-focus_target='cover-container' data-position=current_user.cover_picture_position data-url=update_cover_picture_position_user_path(current_user.object)
+      |&nbsp;Change position
