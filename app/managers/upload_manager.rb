@@ -28,6 +28,7 @@ class UploadManager < BaseManager
                          duration:         upload_data['meta']['duration'],
                          mime_type:        upload_data['mime'],
                          filename:         upload_data['name'],
+                         basename:         upload_data['basename'],
                          url:              original['ssl_url']
       upload.attributes = attributes
       upload.save or fail_with! upload.errors
@@ -91,6 +92,7 @@ class UploadManager < BaseManager
                             duration:         upload_data['meta']['duration'],
                             mime_type:        upload_data['mime'],
                             filename:         upload_data['name'],
+                            basename:         upload_data['basename'],
                             width:            upload_data['meta']['width'],
                             height:           upload_data['meta']['height'],
                             url:              original['ssl_url']
@@ -111,6 +113,7 @@ class UploadManager < BaseManager
                        duration: transloadit_data["uploads"][0]["meta"]["duration"],
                        mime_type: transloadit_data["uploads"][0]["mime"],
                        filename: transloadit_data["uploads"][0]['name'],
+                       basename: transloadit_data["uploads"][0]['basename'],
                        width: transloadit_data["uploads"][0]["meta"]["width"],
                        height: transloadit_data["uploads"][0]["meta"]["height"],
                        url: transloadit_data["results"][":original"][0]["ssl_url"]
@@ -133,6 +136,7 @@ class UploadManager < BaseManager
                        duration: transloadit_data["uploads"][0]["meta"]["duration"],
                        mime_type: transloadit_data["uploads"][0]["mime"],
                        filename: transloadit_data["uploads"][0]['name'],
+                       basename: transloadit_data["uploads"][0]['basename'],
                        width: transloadit_data["uploads"][0]["meta"]["width"],
                        height: transloadit_data["uploads"][0]["meta"]["height"],
                        url: transloadit_data["results"][":original"][0]["ssl_url"]

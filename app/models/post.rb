@@ -41,6 +41,10 @@ class Post < ActiveRecord::Base
     type == 'StatusPost'
   end
 
+  def audio?
+    type == 'AudioPost'
+  end
+
   def video?
     type == 'VideoPost'
   end
