@@ -76,7 +76,10 @@
           | Post Status
       li.PostTab data-url=new_media_post_path
         a.fa.fa-music href='javascript: void(0)'
-          | Add Audio/Video
+          | Add Audio
+      li.PostTab
+        a.fa.fa-video-camera href="#"
+          | Add Video
       li.PostTab data-url=new_photo_post_path
         a.fa.fa-picture-o.PostTab href='javascript: void(0)'
           | Add Photos
@@ -119,15 +122,13 @@
           span Archived Content
           ul
             li
-              a href="#" audio
+              a href="#" Audio
             li
-              a href="#" video
+              a href="#" Video
             li
-              a.med href="#" photos
+              a href="#" Photos
             li
-              a.lrg href="#" status
-            li
-              a.sml href="#" documents
+              a href="#" Documents
 
         /* Contact Info */
 
@@ -172,7 +173,7 @@
 
         .form-group
           .pull-left.error data-field='profile_name'
-          input.btn.blue.pull-right type='submit' value='Update Profile Name'
+          input.btn.pink.pull-right type='submit' value='Update Profile Name'
           .clearfix
 
   /* Contacts Editor */
@@ -254,7 +255,10 @@
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="cost-editor" aria-hidden="true"
       .modal-title Edit Subscription Cost
-      span Please note, to keep subscribers happy and billing cycles consistent you can only change your subscription cost once every 30 days.
+      span 
+        | Please note, to keep subscribers happy and billing cycles consistent,
+        br 
+        | you can only change your subscription cost once every 30 days.
 
     /* Body Area */
 
@@ -264,15 +268,22 @@
           input type='hidden' name='_method' value='put'
 
         .cost_container style="width: 230px; margin: 0 auto"
-          .form-group.input-group.pull-left style="width: 100px"
+          .form-group.input-group.pull-left style="width: 100px; margin-bottom: 0;"
             span.input-group-addon
               i.fa.fa-usd.fa-fw
             input.form-control type='text' name='subscription_cost' value=@profile.subscription_cost data-target='subscription-cost'
 
-          .form-group.pull-right
-            input.btn.blue type='submit' value='Update Price'
+          .form-group.pull-right style="margin-bottom: 0;"
+            input.btn.pink type='submit' value='Update Price'
           .clearfix
         .error data-field='subscription_cost'
+
+      hr
+
+      .pricing_table style="margin-bottom: 15px"
+        p INTRO
+        p TABLE
+        p For example
 
   /* Benefits Popup */
 
@@ -293,7 +304,12 @@
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="benefits-editor" aria-hidden="true"
       .modal-title Edit Subscriber Benefits
-      span Tell your subscribers what they are getting by subscribing to you. When marketing your profile, potential subscribers will see this list before they subscribe.
+      span style="padding: 0 15px;" 
+        | Tell your subscribers what they are getting by subscribing to you. 
+        br
+        | When marketing your profile to potential subscribers,
+        br
+        | they will see this list before they subscribe.
 
     /* Body Area */
 
@@ -304,7 +320,7 @@
             input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit description...'
 
         .form-group
-          input.btn.blue.pull-right type='submit' value='Update Benefits'
+          input.btn.pink.pull-right type='submit' value='Update Benefits'
           .clearfix
 
 

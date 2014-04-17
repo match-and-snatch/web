@@ -1,32 +1,33 @@
-form.Form action=update_cc_data_account_info_path method='post'
-  input type='hidden' name='_method' value='put'
+.col-md-12
+  form.Form action=update_cc_data_account_info_path method='post'
+    input type='hidden' name='_method' value='put'
 
-  .form-group
-    label.pull-left CC Number
-    input.form-control.pull-right type='text' name='number' placeholder='1234 5678 9012 3456'
+    .form-group
+      label.pull-left CC Number
+      input.form-control.pull-right type='text' name='number' placeholder='1234 5678 9012 3456'
+      .clearfix
+      .error data-field='number'
+
+    .form-group
+      label.pull-left Expiry Date
+      .pull-right style="width: 430px"
+        
+        input.form-control.pull-left type='text' name='expiry_year' placeholder='15' style="width: 50px;"
+        label.pull-left style="width: 80px; text-align: left; padding-left: 10px;" Year
+
+        input.form-control.pull-left type='text' name='expiry_month' placeholder='01' style="width: 50px;"
+        label.pull-left style="width: 80px; text-align: left; padding-left: 10px;" Month
+
+      .clearfix
+      .error data-field='expiry_date'
+
+    .form-group
+      label.pull-left CVC Code
+      input.form-control.pull-right type='text' name='cvc' placeholder='123'
+      .clearfix
+      .error data-field='cvc'
+
+    input.btn.blue.pull-right type='submit' value='Update Credit Card Information'
     .clearfix
-    .error data-field='number'
 
-  .form-group
-    label.pull-left Expiry Date
-    .pull-right style="width: 430px"
-      
-      input.form-control.pull-left type='text' name='expiry_year' placeholder='15' style="width: 50px;"
-      label.pull-left style="width: 80px; text-align: left; padding-left: 10px;" Year
-
-      input.form-control.pull-left type='text' name='expiry_month' placeholder='01' style="width: 50px;"
-      label.pull-left style="width: 80px; text-align: left; padding-left: 10px;" Month
-
-    .clearfix
-    .error data-field='expiry_date'
-
-  .form-group
-    label.pull-left CVC Code
-    input.form-control.pull-right type='text' name='cvc' placeholder='123'
-    .clearfix
-    .error data-field='cvc'
-
-  input.btn.blue.pull-right type='submit' value='Update Credit Card Information'
-  .clearfix
-
-  hr
+    hr

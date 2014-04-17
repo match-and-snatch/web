@@ -1,42 +1,43 @@
-h2 Subscription Billing Information
-- if @user.has_cc_payment_account?
-  .AjaxContainer
-    | You have registered &nbsp;
-    strong= @user.card_type
-    | &nbsp; card with number <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
-    br
-    a href=edit_cc_data_account_info_path click here to edit
-- else
-  .AjaxContainer data-url=edit_cc_data_account_info_path
+.col-md-12
+  h2 Subscription Billing Information
+  - if @user.has_cc_payment_account?
+    .AjaxContainer
+      | You have registered &nbsp;
+      strong= @user.card_type
+      | &nbsp; card with number <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
+      br
+      a href=edit_cc_data_account_info_path click here to edit
+  - else
+    .AjaxContainer data-url=edit_cc_data_account_info_path
 
 
-.hidden
-  h3 Payout Information
-  form.Form action=update_bank_account_data_account_info_path method='post'
-    input type='hidden' name='_method' value='put'
+  .hidden
+    h3 Payout Information
+    form.Form action=update_bank_account_data_account_info_path method='post'
+      input type='hidden' name='_method' value='put'
 
-    .alert.alert-warning.fade.in
-      | Direct deposit is available for&nbsp;
-      strong US only
-      |.
+      .alert.alert-warning.fade.in
+        | Direct deposit is available for&nbsp;
+        strong US only
+        |.
 
-    .form-group
-      label.pull-left Pay to the order of
-      input.form-control.pull-right type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
+      .form-group
+        label.pull-left Pay to the order of
+        input.form-control.pull-right type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
+        .clearfix
+        .error data-field='holder_name'
+
+      .form-group
+        label.pull-left Routing Number
+        input.form-control.pull-right type='text' name='routing_number' placeholder='123456789' value=@user.routing_number
+        .clearfix
+        .error data-field='routing_number'
+
+      .form-group
+        label.pull-left Account Number
+        input.form-control.pull-right type='text' name='account_number' placeholder='000123456789' value=@user.account_number
+        .clearfix
+        .error data-field='account_number'
+
+      input.btn.blue.pull-right type='submit' value='Update Bank Account Data'
       .clearfix
-      .error data-field='holder_name'
-
-    .form-group
-      label.pull-left Routing Number
-      input.form-control.pull-right type='text' name='routing_number' placeholder='123456789' value=@user.routing_number
-      .clearfix
-      .error data-field='routing_number'
-
-    .form-group
-      label.pull-left Account Number
-      input.form-control.pull-right type='text' name='account_number' placeholder='000123456789' value=@user.account_number
-      .clearfix
-      .error data-field='account_number'
-
-    input.btn.blue.pull-right type='submit' value='Update Bank Account Data'
-    .clearfix

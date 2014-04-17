@@ -1,58 +1,59 @@
-h2 General Information
-form.Form action=update_general_information_account_info_path method='post'
-  input type='hidden' name='_method' value='put'
+.col-md-12
+  h2 General Information
+  form.Form action=update_general_information_account_info_path method='post'
+    input type='hidden' name='_method' value='put'
 
-  .form-group
-    label.pull-left Account Full Name
-    input.form-control.pull-right type='text' name='full_name' value=@user.full_name
+    .form-group
+      label.pull-left Account Full Name
+      input.form-control.pull-right type='text' name='full_name' value=@user.full_name
+      .clearfix
+      .error data-field='full_name'
+
+    .form-group
+      label.pull-left Email Address
+      input.form-control.pull-right type='email' name='email' value=@user.email
+      .clearfix
+      .error data-field='email'
+
+    .form-group
+      label.pull-left Company/Organization
+      input.form-control.pull-right type='text' name='' value=''
+      .clearfix
+      .error data-field=''
+
+    .form-group
+      label.pull-left Profile URL 
+      input.form-control.pull-right type='text' name='slug' value=@user.slug
+      .clearfix
+      .error data-field='slug'
+
+    input.btn.pink.pull-right type='submit' value='Update Information'
     .clearfix
-    .error data-field='full_name'
 
-  .form-group
-    label.pull-left Email Address
-    input.form-control.pull-right type='email' name='email' value=@user.email
+  hr
+
+  h2 Change Password
+
+  form.Form action=change_password_account_info_path method='post'
+    input type='hidden' name='_method' value='put'
+
+    .form-group
+      label.pull-left Current Password
+      input.form-control.pull-right type='password' name='current_password' value=''
+      .clearfix
+      .error data-field='current_password'
+
+    .form-group
+      label.pull-left New Password
+      input.form-control.pull-right type='password' name='new_password' value=''
+      .clearfix
+      .error data-field='new_password'
+
+    .form-group
+      label.pull-left Re-type Password
+      input.form-control.pull-right type='password' name='new_password_confirmation' value=''
+      .clearfix
+      .error data-field='new_password_confirmation'
+
+    input.btn.pink.pull-right type='submit' value='Change Your Password' style="margin-bottom: 15px"
     .clearfix
-    .error data-field='email'
-
-  .form-group
-    label.pull-left Company/Organization
-    input.form-control.pull-right type='text' name='' value=''
-    .clearfix
-    .error data-field=''
-
-  .form-group
-    label.pull-left Profile URL 
-    input.form-control.pull-right type='text' name='slug' value=@user.slug
-    .clearfix
-    .error data-field='slug'
-
-  input.btn.pink.pull-right type='submit' value='Update Information'
-  .clearfix
-
-hr
-
-h2 Change Password
-
-form.Form action=change_password_account_info_path method='post'
-  input type='hidden' name='_method' value='put'
-
-  .form-group
-    label.pull-left Current Password
-    input.form-control.pull-right type='password' name='current_password' value=''
-    .clearfix
-    .error data-field='current_password'
-
-  .form-group
-    label.pull-left New Password
-    input.form-control.pull-right type='password' name='new_password' value=''
-    .clearfix
-    .error data-field='new_password'
-
-  .form-group
-    label.pull-left Re-type Password
-    input.form-control.pull-right type='password' name='new_password_confirmation' value=''
-    .clearfix
-    .error data-field='new_password_confirmation'
-
-  input.btn.pink.pull-right type='submit' value='Change Your Password'
-  .clearfix

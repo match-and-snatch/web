@@ -37,7 +37,7 @@
         .col-md-12
           .row_label 
             | Profile Name
-            span Your profile name will be display on your profile and used in email notifications to your subscribers
+            span Your profile name will be displayed at the top of your profile.
         .col-md-12
           input.form-control type='text' name='profile_name' placeholder='Enter your profile name here.'
           .error data-field='profile_name'
@@ -49,7 +49,7 @@
 
         .row_label
           | Profile Type
-          span Category that your profile falls under. Helps let potential subscribers know what type of content they might expect.
+          span Please classify your profile type or types. This info helps our search function find more potential subscribers who might like your content.
         div
           input.AutocompleteField.form-control data-url=profile_types_path data-target='profile-types' type='text' placeholder='Band, Photographer, Organization, etc.'
           .error data-field='profile_type'
@@ -63,15 +63,17 @@
         .row_label
           | Subscription Cost
           span 
-            | This is your monthly subscribe price. When you have a moment please read more about our 
-            a href="#" pricing breakdown here
-            | .
+            | Set your monthly price for people to access your profile. You keep 
+            b 100% 
+            | of the price you set. ConnectPal adds a service fee on top of your subscription price.
         div
           .input-group
             span.input-group-addon
               i.fa.fa-usd.fa-fw.fa-lg
             input.form-control type='text' name='subscription_cost' style="width: 80px; text-align: right;" value=(@user.subscription_cost || 5)
+            a.pull-right.breakdown href="#" Check out our pricing breakdown here
           .error data-field='subscription_cost'
+          p.bg-warning * Please note, to keep subscribers happy and billing cycles consistent, you can only change your subscription cost once every 30 days.
       .clearfix
 
       hr
@@ -79,9 +81,9 @@
       .col-md-12
         h1 style="padding-top: 0" Payout Information
         p 
-          | This is where we will send you your earnings from your profile. You can add/update this information at any time you like, but please note that this is required in order for you to receieve you money. 
-          span.bg-warning Direct deposit is available for US ONLY at this time.
-
+          | This is where we will send your money. You can add/update this information at any time. Payments will be electronically transferred to your account on the 1st of the month and they will appear within 7 days on your bank statement. 
+          span.bg-warning * Direct deposit is available for US ONLY at this time.
+      
       .col-md-12
         .check
           .inside_cont

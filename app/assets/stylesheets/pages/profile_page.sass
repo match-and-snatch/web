@@ -62,12 +62,14 @@
       font-weight: 600
       font-size: 38px
       line-height: 100%
-      margin-bottom: 15px
+      margin-bottom: 5px
       .profile_name
         color: $color_text_dark
         cursor: pointer
         text-decoration: none
         word-wrap: break-word
+        &.visitor
+          cursor: default
         .fa
           max-width: 517px
           word-wrap: break-word
@@ -126,6 +128,8 @@
           max-width: 265px
           overflow: hidden
           padding: 0 15px
+          .month
+            font-size: 20px
         &:hover
           .btn
             @include pink-area
@@ -240,7 +244,7 @@
   border-left: 1px solid $color_border
   border-top: 1px solid $color_border
   border-right: 1px solid $color_border
-  padding: 0 0 0 50px
+  padding: 0
   margin: 0
   margin-top: $box_margin
   line-height: 100%
@@ -250,13 +254,13 @@
     display: inline-block
     font-size: 16px
     list-style-type: none
-    padding: 15px 52px
-    &:first-child
-      padding-left: 0
+    padding: 15px 36px
     &:last-child
       border-right: none
     &.active
-      border-bottom: none
+      a
+        color: $color_blue
+
     a
       border-bottom: none
       color: #464646
@@ -437,14 +441,9 @@
         li
           display: inline-block
           list-style-type: none
-          padding-right: 10px
-        a
-          &.sml
-            font-size: 18px
-          &.med
-            font-size: 20px
-          &.lrg
-            font-size: 22px
+          padding-right: 15px
+          a
+            color: $color_text_dark
 
     /* Contact Info */
 

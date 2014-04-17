@@ -8,40 +8,35 @@
 
     /* Order Summary Column */
 
-    .order_summary
+    .order_summary.pull-left 
       .heading Your Order Summary
 
       /* Item Row */
 
       .item_row
-        .pull-left Profile Name
+        .pull-left #{@owner.profile_name}
         .pull-right 
-          strong $#{@owner.subscription_cost}
-        .clearfix
-
-      /* Subtotal */
-
-      .subtotal
-        .pull-left Subtotal
-        .pull-right 
+          /* Please display both decimal points for the cost only in this place */
           strong $#{@owner.subscription_cost}
         .clearfix
 
       /* Transaction Fee */
 
       .transaction_fee 
-        .pull-left Transaction Fee
+        .pull-left Service Fee
         .pull-right 
-          strong $0.79
+          strong $0.95 
         .clearfix
 
       /* Total Cost */
 
       .total_cost 
-        .pull-left Total Cost
-        .pull-right.cost $4.79
+        .pull-left Total Monthly Cost
+        .pull-right.cost $5.95
         .clearfix
 
+      .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
+      
       a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) Subscribe
 
 - else
@@ -60,33 +55,28 @@
       /* Item Row */
 
       .item_row
-        .pull-left Profile Name
+        .pull-left #{@owner.profile_name}
         .pull-right 
-          strong $#{@owner.subscription_cost}
-        .clearfix
-
-      /* Subtotal */
-
-      .subtotal
-        .pull-left Subtotal
-        .pull-right 
+          /* Please display both decimal points for the cost only in this place */
           strong $#{@owner.subscription_cost}
         .clearfix
 
       /* Transaction Fee */
 
       .transaction_fee 
-        .pull-left Transaction Fee
+        .pull-left Service Fee
         .pull-right 
-          strong $0.79
+          strong $0.95 
         .clearfix
 
       /* Total Cost */
 
       .total_cost 
-        .pull-left Total Cost
-        .pull-right.cost $4.79
+        .pull-left Total Monthly Cost
+        .pull-right.cost $5.95
         .clearfix
+
+      .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime. 
 
     /* Account Payment Column */
 
@@ -117,7 +107,7 @@
           span.error data-field='number'
 
         .form-group.exp_date.pull-left
-          label.control-label Expiry Date
+          label.control-label Expiration Date
           .clearfix
           .pull-left
             label.small.pull-left Month

@@ -1,4 +1,4 @@
-.container
+.container style="margin-bottom: 73px;"
   #header.box
     .photo_cover
       img src=@profile.cover_picture_url
@@ -10,7 +10,7 @@
       .col-md-7.profile_details
 
         /* Profile Name */
-        span.profile_name = @profile.profile_name
+        span.profile_name.visitor = @profile.profile_name
         .clearfix 
 
         /* Profile Type */
@@ -70,22 +70,5 @@
 
 /* Footer */
 
-footer.footer
-  .container
-    .row-fluid
-      .col-md-12
-        ul.pull-left
-          li 
-            a href="#" Homes
-          li 
-            a href="#" About Us
-          li 
-            a href="#" Pricing
-          li 
-            a href="#" Contact Us
-          li 
-            a href="#" Terms of Use
-          li 
-            a href="#" Privacy Policy 
-        .pull-right.copyright &copy Copyright Andrew Dean Media Inc. dba ConnectPal. 2014 All rights reserved.
-        .clearfix
+div style='position: fixed; bottom: 0; width: 100%'
+  = render 'footer'

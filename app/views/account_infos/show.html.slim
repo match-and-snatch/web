@@ -1,47 +1,51 @@
-.container style="margin-bottom: 60px;"
-  .my_account.box style="margin-top: 15px;"
+.container.my_account
+
+  /* Sidebar */
+
+  .sidebar.box 
+
     .header
-      h1 
-        | Welcome 
-        span.name #{@user.full_name}
+      | Welcome 
+      span.name #{@user.full_name}
 
-    .sidebar.pull-left
+    ul.general
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
+        li My Feed
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
+        li Account Settings
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/mailbox.json"
+        li Mailbox
 
-      ul.general
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
-          li My Feed
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
-          li Account Settings
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/mailbox.json"
-          li Mailbox
+    h2.subscriptions My Subscriptions
+    ul
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/view_cancel_subscriptions.json"
+        li View/Cancel Subscriptions
+      / a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/search_subscriptions.json"
+      /   li Search Subscriptions
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
+        li Billing Information
 
-      h2.subscriptions My Subscriptions
-      ul
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/view_cancel_subscriptions.json"
-          li View/Cancel Subscriptions
-        / a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/search_subscriptions.json"
-        /   li Search Subscriptions
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
-          li Billing Information
+    h2.profile My Profile
+    ul style="margin-bottom: 0"
+      - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
+        a.AjaxFormLink data-_method='put' href=create_profile_path
+          li Create Profile Page
+      - elsif @user.complete_profile?
+        a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
+          li Delete Profile Page
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/profile_details.json"
+        li Profile Details
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
+        li Payout Information
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/subscribers.json"
+        li style="border-bottom: none;" View Subscribers
 
-      h2.profile My Profile
-      ul style="margin-bottom: 0"
-        - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
-          a.AjaxFormLink data-_method='put' href=create_profile_path
-            li Create Profile Page
-        - elsif @user.complete_profile?
-          a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
-            li Delete Profile Page
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/profile_details.json"
-          li Profile Details
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
-          li Payout Information
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/subscribers.json"
-          li View Subscribers
+  /* Content */
 
-    .info_display.pull-right
-      .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=settings_account_info_path
-    .clearfix
+  .content.box.pull-right
+    .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=settings_account_info_path
+  .clearfix
+
 
 div style='position: fixed; bottom: 0; width: 100%'
   = render 'footer'

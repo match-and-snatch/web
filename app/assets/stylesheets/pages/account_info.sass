@@ -1,35 +1,31 @@
-/* My Account */
-
-.my_account, .account_info
-  color: $color_text_dark
-  margin-top: 15px
-  label
-    color: #898989
-  .form-control
-    background-color: $color_background
-    border: 1px solid $color_border
-    &:focus
-      background-color: #FFFFFF
-      border: 1px solid $color_blue
-  .header
-    &.admin
-      background-color: $color_pink
-      color: white
-    border-bottom: 1px solid $color_border
-    margin: 0
-    padding: 30px 15px
-    h1
-      margin: 0
-      padding: 0
-      span
-        color: $color_pink
-
-  /* My Account - Sidebar */
+/* My Account Info */
+.my_account
+  font-size: 13px
+  margin: 65px 0 73px
+  position: relative
+  
+  /* Sidebar */
 
   .sidebar
-    font-size: 13px
     padding: 0
+    position: fixed
     width: 250px
+    margin-bottom: 60px
+
+    /* Header */
+
+    .header
+      border-bottom: 1px solid $color_border
+      font-size: 13px
+      margin: 0
+      padding: 15px
+      span
+        color: $color_pink
+        display: block
+        font-size: 20px
+
+    /* Navigation */
+
     ul
       border-top: 1px solid $color_border
       &.general
@@ -57,39 +53,50 @@
       margin-top: 30px
       padding: 15px 0 5px 15px
 
-  /* My Account - Display */
+  /* Content */
 
-  .info_display
-    border-left: 1px solid $color_border
-    font-size: 13px !important
-    min-height: 590px
-    width: 688px
+  .content
+    min-height: 400px
+    width: 660px
     h2
-      font-weight: bold
-      margin: 15px 0 14px
-      padding-left: 15px
-    form
-      padding: 0 15px
+      color: $color_blue
+      font-weight: 600
+      margin: 15px 0
+      padding: 0
+
+    /* Form & Labels */
+
+    label
+      color: #898989
+    .form-control
+      background-color: $color_background
+      border: 1px solid $color_border
+      &:focus
+        background-color: #FFFFFF
+        border: 1px solid $color_blue
     .form-group
       label
         font-weight: 400 !important
         margin-top: 7px
         text-align: right
-        width: 180px
+        width: 150px
       .form-control
-        width: 460px
+        width: 463px
       .error
         margin: 5px 0 0 197px
+
+    /* Button */
+
     .btn
       font-size: 13px
       font-weight: normal
       padding: 10px 30px
 
-    /* My Account Containers */
+    /* Item Blocks */
 
     .item_block, .item_sub, .item_feed
       border-top: 1px solid $color_border
-      padding: 15px
+      padding: 15px 0
       h2
         margin: 0 0 15px
         padding: 0
@@ -97,31 +104,31 @@
         color: $color_text_light
         font-size: 13px
 
-    /* Profile Details */
+    /* My Feed */
 
-    .stats
-      @include linear-gradient(#3e3e3e, #2d2d2d)
-      border-left: none
-      border-right: none
-      color: #FFFFFF
-      padding: 30px
-      text-align: center
-      text-shadow: -1px -1px 0 #1c1c1c
-      .value
-        font-size: 60px
-        font-weight: 600
-        line-height: 100%
-      span
-        color: #FFFFFF
-        display: block
+    .item_feed
+      .name
+        color: $color_text_dark
+        font-size: 13px
+        font-weight: bold
+        padding-bottom: 10px
+      .date
+        color: $color_text_light
         font-size: 12px
-        padding-top: 10px
-        text-shadow: none
-
-    .graph
-      color: $color_text_light
-      height: 200px
-      padding: 15px
+      .profile_picture
+        img
+          border: 1px solid $color_border
+          height: 50px
+          width: 50px
+      .latest_post, .box
+        background-color: $color_background
+        padding: 10px
+      .latest_post
+        width: 567px
+      .box
+        span
+          color: $color_pink
+          font-weight: bold
 
     /* View/Cancel Subscriptions */
 
@@ -160,24 +167,28 @@
               &:before
                 color: $color_blue
 
-    /* My Feed */
+    /* Profile Details */
 
-    .item_feed
-      .name
-        color: $color_blue
-        font-size: 16px
-        font-weight: bold
-        padding-bottom: 10px
-      .date
-        color: $color_text_light
+    .stats
+      @include linear-gradient(#3e3e3e, #2d2d2d)
+      border-left: none
+      border-right: none
+      color: #FFFFFF
+      padding: 30px
+      text-align: center
+      text-shadow: -1px -1px 0 #1c1c1c
+      .value
+        font-size: 60px
+        font-weight: 600
+        line-height: 100%
+      span
+        color: #FFFFFF
+        display: block
         font-size: 12px
-      .profile_picture
-        img
-          border: 1px solid $color_border
-          height: 75px
-          width: 75px
-      .latest_post, .box
-        background-color: $color_background
-        padding: 10px
-      .latest_post
-        width: 567px
+        padding-top: 10px
+        text-shadow: none
+
+    .graph
+      color: $color_text_light
+      height: 200px
+      padding: 15px
