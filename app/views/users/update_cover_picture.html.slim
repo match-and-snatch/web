@@ -1,1 +1,1 @@
-div.background_cover.BackgroundImage data-background_image_url=current_user.cover_picture_url  data-position=current_user.cover_picture_position data-identifier='cover-background-image'
+div.background_cover data-identifier='cover-background' style='#{"background-image: url(#{@profile.cover_picture_url})" if @profile.cover_picture_url}'
