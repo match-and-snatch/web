@@ -256,11 +256,21 @@ class UserProfileManager < BaseManager
     user
   end
 
+  def update_cover_picture_position(position)
+    user.cover_picture_position = position
+
+    if user.changes.any?
+      user.save or fail_with! user.errors
+    end
+
+    user
+  end
+
   # @param transloadit_data [Hash]
   # @return [User]
   def update_cover_picture(transloadit_data)
     upload = UploadManager.new(user).create_photo(transloadit_data)
-
+    user.cover_picture_position = 0
     user.cover_picture_url = upload.url_on_step('resize')
     user.original_cover_picture_url = upload.url_on_step(':original')
 

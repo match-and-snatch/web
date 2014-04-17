@@ -35,8 +35,7 @@ development:
         resize:
           robot: '/image/resize'
           width: 970
-          height: 280
-          resize_strategy: 'fillcrop'
+          resize_strategy: 'fit'
         store:
           robot: '/s3/store'
           key: 'AKIAJ5KUIYFXQB5KUD5A'
@@ -142,8 +141,7 @@ production:
         resize:
           robot: '/image/resize'
           width: 970
-          height: 280
-          resize_strategy: 'fillcrop'
+          resize_strategy: 'fit'
         store:
           robot: '/s3/store'
           key: 'AKIAJ5KUIYFXQB5KUD5A'

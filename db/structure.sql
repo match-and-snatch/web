@@ -491,7 +491,8 @@ CREATE TABLE users (
     profile_name character varying(512),
     is_admin boolean DEFAULT false NOT NULL,
     contacts_info text,
-    auth_token character varying(255)
+    auth_token character varying(255),
+    cover_picture_position integer DEFAULT 0 NOT NULL
 );
 
 
@@ -776,3 +777,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140415050828');
 INSERT INTO schema_migrations (version) VALUES ('20140415061847');
 
 INSERT INTO schema_migrations (version) VALUES ('20140415125049');
+
+INSERT INTO schema_migrations (version) VALUES ('20140417115754');
