@@ -70,9 +70,9 @@
           .input-group
             span.input-group-addon
               i.fa.fa-usd.fa-fw.fa-lg
-            input.form-control type='text' name='subscription_cost' style="width: 80px; text-align: right;" value=(@user.subscription_cost || 5)
+            input.form-control type='text' name='cost' style="width: 80px; text-align: right;" value=(@user.cost || 5)
             a.pull-right.breakdown href="#" Check out our pricing breakdown here
-          .error data-field='subscription_cost'
+          .error data-field='cost'
           p.bg-warning * Please note, to keep subscribers happy and billing cycles consistent, you can only change your subscription cost once every 30 days.
       .clearfix
 

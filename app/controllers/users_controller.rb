@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   end
 
   def update_cost
-    UserProfileManager.new(current_user.object).update_subscription_cost(params[:subscription_cost])
+    UserProfileManager.new(current_user.object).update_cost(params[:cost])
     json_success
   end
 

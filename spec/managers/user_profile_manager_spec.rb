@@ -30,69 +30,69 @@ describe UserProfileManager do
 
   describe '#update' do
     specify do
-      expect { manager.update(subscription_cost: 1, profile_name: 'some-random-name') }.not_to raise_error
+      expect { manager.update(cost: 1, profile_name: 'some-random-name') }.not_to raise_error
     end
 
     it 'updates slug' do
-      expect { manager.update(subscription_cost: 1, profile_name: 'obama') }.to change(user, :slug).to('obama')
+      expect { manager.update(cost: 1, profile_name: 'obama') }.to change(user, :slug).to('obama')
     end
 
-    it 'updates subscription_cost' do
-      expect { manager.update(subscription_cost: 5, profile_name: 'obama') }.to change(user, :subscription_cost).to(5.0)
-      expect { manager.update(subscription_cost: ' 6.1', profile_name: 'obama') }.to change(user, :subscription_cost).to(6.1)
+    it 'updates cost' do
+      expect { manager.update(cost: 5, profile_name: 'obama') }.to change(user, :cost).to(5.0)
+      expect { manager.update(cost:' 6', profile_name: 'obama') }.to change(user, :cost).to(6)
     end
 
-    context 'empty subscription_cost' do
+    context 'empty cost' do
       specify do
-        expect { manager.update(subscription_cost: '', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(subscription_cost: t_error(:empty)) }
+        expect { manager.update(cost: '', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:empty)) }
       end
 
       specify do
-        expect { manager.update(subscription_cost: 0, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(subscription_cost: t_error(:zero)) }
+        expect { manager.update(cost: 0, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) }
       end
 
       specify do
-        expect { manager.update(subscription_cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(subscription_cost: t_error(:zero)) }
+        expect { manager.update(cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) }
       end
 
       specify do
-        expect { manager.update(subscription_cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(subscription_cost: t_error(:zero)) }
+        expect { manager.update(cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) }
       end
     end
 
     context 'empty slug' do
       specify do
-        expect { manager.update(subscription_cost: 1, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) }
+        expect { manager.update(cost: 1, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) }
       end
     end
 
     context 'trailing spaces in slug' do
       specify do
-        expect { manager.update(subscription_cost: 1, profile_name: ' obama ') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: ' obama ') }.not_to raise_error
       end
     end
 
     context 'upcase in slug' do
       specify do
-        expect { manager.update(subscription_cost: 1, profile_name: 'FUck') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: 'FUck') }.not_to raise_error
       end
     end
 
     context 'underscore in slug' do
       specify do
-        expect { manager.update(subscription_cost: 1, profile_name: 'obama_the_president') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: 'obama_the_president') }.not_to raise_error
       end
     end
 
     context 'numbers in slug' do
       specify do
-        expect { manager.update(subscription_cost: 1, profile_name: 'agent-007') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: 'agent-007') }.not_to raise_error
       end
       specify do
-        expect { manager.update(subscription_cost: 1, profile_name: '007-agent') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: '007-agent') }.not_to raise_error
       end
       specify do
-        expect { manager.update(subscription_cost: 1, profile_name: 'a-007-gent') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: 'a-007-gent') }.not_to raise_error
       end
     end
   end

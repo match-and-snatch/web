@@ -493,7 +493,9 @@ CREATE TABLE users (
     is_admin boolean DEFAULT false NOT NULL,
     contacts_info text,
     auth_token character varying(255),
-    cover_picture_position integer DEFAULT 0 NOT NULL
+    cover_picture_position integer DEFAULT 0 NOT NULL,
+    subscription_fees double precision,
+    cost integer
 );
 
 
@@ -782,3 +784,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140415125049');
 INSERT INTO schema_migrations (version) VALUES ('20140417115754');
 
 INSERT INTO schema_migrations (version) VALUES ('20140417184746');
+
+INSERT INTO schema_migrations (version) VALUES ('20140417193428');
