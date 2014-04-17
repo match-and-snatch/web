@@ -1,22 +1,24 @@
-ul.pending_photos
-  - current_user.pending_audios.each do |upload|
-    li
-      .doc_view style='width: 400px;'
-        i.fa.fa-paperclip.icon.pull-left
-        .doc_title.pull-left= upload.filename
-        a.pull-right.AjaxFormLink href=audio_path(upload) data-_method='DELETE' data-target='pending-audios' delete
-        .clearfix
-br
-br
+div data-identifier='pending-audios'
+  ul.pending_photos
+    - current_user.pending_audios.each do |upload|
+      li
+        .doc_view style='width: 400px;'
+          i.fa.fa-music.icon.pull-left
+          .doc_title.pull-left= upload.filename
+          a.pull-right.AjaxFormLink href=audio_path(upload) data-_method='DELETE' data-target='pending-audios' delete
+          .clearfix
+  br
+  br
+  .clearfix
+  - if current_user.pending_audios.count < 16
+    form.UploadForm action=audios_path method='post' data-target='pending-audios'
+      = transloadit :post_audio
+      br
+      br
+      input type='file' name='post_audios' multiple='multiple'
+      br
+      br
+      input type='hidden' name='slug' value=current_user.slug
+  - else
+    p You can upload only upload 15 files.
 .clearfix
-- if current_user.pending_audios.count < 16
-  form.UploadForm action=audios_path method='post' data-target='pending-audios'
-    = transloadit :post_audio
-    br
-    br
-    input type='file' name='post_audios' multiple='multiple'
-    br
-    br
-    input type='hidden' name='slug' value=current_user.slug
-- else
-  p You can upload only upload 15 files.
