@@ -43,7 +43,7 @@ class UsersController < ApplicationController
 
   def update_cost
     UserProfileManager.new(current_user.object).update_cost(params[:cost])
-    json_success
+    json_reload
   end
 
   def update_profile_picture
