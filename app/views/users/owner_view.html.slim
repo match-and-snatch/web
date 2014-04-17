@@ -1,9 +1,8 @@
 /* Header */
 .container
   #header.box
-    .photo_cover
-      div.PopupTrigger data-identifier='cover-picture' data-target='full-cover-photo' style="height: inherit"
-        div.background_cover.BackgroundImage data-background_image_url=@profile.cover_picture_url  data-position=@profile.cover_picture_position data-identifier='cover-background-image'
+    .photo_cover data-identifier='cover-container'
+      div.background_cover data-identifier='cover-background' style='#{"background-image: url(#{@profile.cover_picture_url})" if @profile.cover_picture_url}'
 
       form.PictureUploadForm action=update_cover_picture_user_path(@profile.object) method='post' data-target='cover-picture'
         input type='hidden' name='_method' value='put'
@@ -14,7 +13,8 @@
           input.file type='file' name='cover_picture_file'
         input type='hidden' name='slug' value=@profile.slug
 
-      #change_possition.BackgroundImageRoller.btn.blue data-target='cover-background-image' data-action=update_cover_picture_position_user_path(@profile.object)
+      #change_possition.BackgroundScroller.btn.blue data-target='cover-background' data-focus_target='cover-container' data-position=@profile.cover_picture_position data-url=update_cover_picture_position_user_path(@profile.object)
+        | Change position
 
     .photo_profile class="#{'blank' if @profile.profile_picture_url.blank?}"
       div data-identifier='profile-picture'
