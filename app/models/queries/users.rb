@@ -16,6 +16,14 @@ module Queries
       end
     end
 
+    def profile_owners
+       User.profile_owners.where(profile_name: profile_names).limit(200).order(:profile_name).to_a
+    end
+
+    def profile_names
+      (@query.split(/[ ,]+/) - [@user.profile_name])
+    end
+
     def emails
       (@query.split(/[ ,]+/) - [@user.email]).keep_if do |email|
         email =~ EMAIL_REGEX
