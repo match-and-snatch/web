@@ -16,8 +16,7 @@
       .item_row
         .pull-left #{@owner.profile_name}
         .pull-right 
-          /* Please display both decimal points for the cost only in this place */
-          strong $#{@owner.subscription_cost}
+          strong= number_to_currency(@owner.subscription_cost)
         .clearfix
 
       /* Transaction Fee */
@@ -57,8 +56,7 @@
       .item_row
         .pull-left #{@owner.profile_name}
         .pull-right 
-          /* Please display both decimal points for the cost only in this place */
-          strong $#{@owner.subscription_cost}
+          strong= number_to_currency(@owner.subscription_cost)
         .clearfix
 
       /* Transaction Fee */
