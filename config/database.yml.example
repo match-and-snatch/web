@@ -24,3 +24,12 @@ production:
   user: buddy
   password: qwerty
   host: localhost
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: buddy_platform_staging
+  pool: 5
+  user: buddy
+  password: qwerty
+  host: localhost

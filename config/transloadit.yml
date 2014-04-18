@@ -5,8 +5,8 @@ development:
   # use "v1.0.0" if you need IE6 support (using jQuery < 1.9)
   jquery_sdk_version: 'latest'
   auth:
-    key     : '6742a710a9ab11e3a661690b776b09a8'
-    secret  : 'ccc5f19c2c26cf803715551cd7dceff20efe8b65' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
+    key: '6742a710a9ab11e3a661690b776b09a8'
+    secret: 'ccc5f19c2c26cf803715551cd7dceff20efe8b65' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
     duration: 1800 # 30 minute validity period for signed upload forms
 
   templates:
@@ -88,6 +88,112 @@ development:
           key: 'AKIAJ5KUIYFXQB5KUD5A'
           secret: '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'
           bucket: 'buddy-assets'
+          path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          use:
+            - ':original'
+
+    post_document:
+      steps:
+        store:
+          acl: private
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'buddy-private-assets'
+          path: 'uploads/post_documents/${fields.slug}/${assembly.id}/${file.url_name}'
+          use:
+            - ':original'
+
+staging:
+  # the jquery_sdk version you want to use, read up on it here:
+  # https://transloadit.com/blog/2013/02/transloadit-javascript-plugin-and-jquery-1-9
+  # defaults to latest
+  # use "v1.0.0" if you need IE6 support (using jQuery < 1.9)
+  jquery_sdk_version: 'latest'
+  auth:
+    key     : '6742a710a9ab11e3a661690b776b09a8'
+    secret  : 'ccc5f19c2c26cf803715551cd7dceff20efe8b65' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
+    duration: 1800 # 30 minute validity period for signed upload forms
+
+  templates:
+    # template identified by template_id
+    s3_store: 'S3_STORE_TEMPLATE_ID'
+
+    # template defined inline
+    profile_picture:
+      steps:
+        resize:
+          robot: '/image/resize'
+          width: 250
+          height: 250
+          resize_strategy: 'fillcrop'
+        store:
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'connectpal-assets'
+          path: 'uploads/profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          use:
+            - 'resize'
+            - ':original'
+    cover_picture:
+      steps:
+        resize:
+          robot: '/image/resize'
+          width: 970
+          resize_strategy: 'fit'
+        store:
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'connectpal-assets'
+          path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          use:
+            - 'resize'
+            - ':original'
+
+    post_video:
+      steps:
+        thumbs:
+          use: ":original"
+          robot: "/video/thumbs"
+          count: 1
+        s3_thumb:
+          use: 'thumbs'
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'connectpal-assets'
+          path: 'uploads/thumbs/${fields.slug}/${assembly.id}____${file.url_name}'
+        store:
+          url_prefix: 'http://s1y5uslj4plb.cloudfront.net/'
+          #acl: private
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'connectpal-videos'
+          path: 'uploads/post_videos/${fields.slug}/${assembly.id}____${file.url_name}'
+          use: ':original'
+
+    post_audio:
+      steps:
+        store:
+          url_prefix: 'http://s1y5uslj4plb.cloudfront.net/'
+          #acl: private
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'connectpal-videos'
+          path: 'uploads/post_audios/${fields.slug}/${assembly.id}____${file.url_name}'
+          use: ':original'
+
+    post_photo:
+      steps:
+        store:
+          robot: '/s3/store'
+          key: 'AKIAJ5KUIYFXQB5KUD5A'
+          secret: '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'
+          bucket: 'connectpal-assets'
           path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
           use:
             - ':original'

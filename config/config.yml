@@ -4,7 +4,6 @@ defaults: &defaults
     password: staging
   javascript:
     log_level: 0
-  use_cdn: true
   admins:
     - szinin@gmail.com
     - s.popov.design@gmail.com
@@ -12,7 +11,6 @@ defaults: &defaults
 development:
   <<: *defaults
   http_access: false
-  use_cdn: false
   javascript:
     log_level: 3
     jwplayer:
@@ -22,21 +20,16 @@ production:
   <<: *defaults
   javascript:
     log_level: 0
-    flow_player:
-      script_path: //assets.connectpal.com/flowplayer-3.2.13.min.js
-      swf_path: //assets.connectpal.com/flowplayer-3.2.18.swf
-      settings:
-        clip:
-          provider: rtmp
-        plugins:
-          rtmp:
-            url: http://videos.connectpal.com/flowplayer.rtmp-3.2.13.swf
-            netConnectionUrl: 'rtmp://videos.connectpal.com/cfx/st'
+    jwplayer:
+      script_path: //jwpsrv.com/library/i2XZ_MYyEeOEtyIACrqE1A.js
 
 staging:
   <<: *defaults
+  javascript:
+    log_level: 3
+    jwplayer:
+      script_path: //jwpsrv.com/library/i2XZ_MYyEeOEtyIACrqE1A.js
 
 test:
   <<: *defaults
   http_access: false
-  use_cdn: false

@@ -4,5 +4,5 @@
 require File.expand_path('../config/application', __FILE__)
 
 BuddyPlatform::Application.load_tasks
-Rake::Task["db:structure:dump"].clear if Rails.env.production?
+Rake::Task["db:structure:dump"].clear if Rails.env.production? || Rails.env.staging?
 
