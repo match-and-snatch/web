@@ -16,7 +16,7 @@
       .item_row
         .pull-left #{@owner.profile_name}
         .pull-right 
-          strong= number_to_currency(@owner.subscription_cost)
+          strong= super_number_to_currency(@owner.subscription_cost)
         .clearfix
 
       /* Transaction Fee */
@@ -56,7 +56,7 @@
       .item_row
         .pull-left #{@owner.profile_name}
         .pull-right 
-          strong= number_to_currency(@owner.subscription_cost)
+          strong= super_number_to_currency(@owner.subscription_cost)
         .clearfix
 
       /* Transaction Fee */

@@ -26,7 +26,7 @@
           a.cost_owner.PopupTrigger data-target='cost-editor'
             .amount
               span data-identifier='subscription-cost'
-                = number_to_currency(@profile.subscription_cost, format: '%n')
+                = super_number_to_currency(@profile.subscription_cost, format: '%n')
               |/month
             .btn.pink.fa.fa-usd.fa-2x
             i.fa.fa-gear

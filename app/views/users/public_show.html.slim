@@ -24,7 +24,7 @@
 
           /* Cost Button Visitor (Show Logged User/Visitor) */
           a.cost_visitor
-            .amount #{number_to_currency(@profile.subscription_cost, format: '%n')}/month
+            .amount #{super_number_to_currency(@profile.subscription_cost, format: '%n')}/month
             .btn.pink.fa.fa-usd.fa-2x
             .clearfix
 

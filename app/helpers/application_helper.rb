@@ -30,6 +30,15 @@ module ApplicationHelper
     end
   end
 
+  # Returns number displaying subscription cost
+  # @param cost [Integer, Float, String]
+  # @return [String]
+  def super_number_to_currency(cost, *args)
+    cost = cost.to_f
+    ceil_cost = cost.to_i
+    cost - ceil_cost > 0 ? number_to_currency(cost, *args) : ceil_cost
+  end
+
   # @param profile [ProfileDecorator]
   # @return [String]
   def render_benefits(profile)
