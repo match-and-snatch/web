@@ -77,6 +77,12 @@ BuddyPlatform::Application.routes.draw do
     resources :profile_types, only: [:index, :create, :destroy]
   end
 
+  resource :password, only: [:edit, :update] do
+    member do
+      post 'restore'
+    end
+  end
+
   get '/application_settings' => 'admin/dashboard#show', as: :application_settings
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login

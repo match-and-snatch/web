@@ -495,7 +495,8 @@ CREATE TABLE users (
     auth_token character varying(255),
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees double precision,
-    cost integer
+    cost integer,
+    password_reset_token character varying(255)
 );
 
 
@@ -786,3 +787,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140417115754');
 INSERT INTO schema_migrations (version) VALUES ('20140417184746');
 
 INSERT INTO schema_migrations (version) VALUES ('20140417193428');
+
+INSERT INTO schema_migrations (version) VALUES ('20140418134507');

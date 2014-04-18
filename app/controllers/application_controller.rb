@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
   # @param message [Symbol] i18n Identifier
   def notice(message, opts = {})
     if message
-      flash.notice = I18n.t message, opts.reverse_merge(scope: :messages, default: [:default, message])
+      flash.notice = I18n.t(message, opts.reverse_merge(scope: :messages, default: [:default, message])).html_safe
     end
   end
 end

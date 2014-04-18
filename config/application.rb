@@ -21,6 +21,8 @@ module BuddyPlatform
     # config.i18n.default_locale = :de
     config.active_record.schema_format = :sql
 
+    config.action_mailer.default_url_options = { host: 'www.connectpal.com' }
+
     I18n.enforce_available_locales = true
   end
 end

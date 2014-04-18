@@ -47,6 +47,8 @@ gem 'stripe'
 # Uploads, assets
 gem 'transloadit-rails'
 
+gem 'mailcatcher', group: :development
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', require: false

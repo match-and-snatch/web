@@ -48,6 +48,32 @@ class AuthenticationManager < BaseManager
     user
   end
 
+  def restore_password
+    validate! do
+      fail_with email: :empty if email.blank?
+      fail_with :email unless email.match(EMAIL_REGEXP)
+    end
+    fail_with! email: :no_such_email unless email_taken?
+
+    user.generate_password_reset_token!
+    AuthMailer.forgot_password(user).deliver
+  end
+
+  # @return [User]
+  def change_password
+    fail_with! token: :empty if user.password_reset_token.blank?
+
+    validate! do
+      validate_password password:              password,
+                        password_confirmation: password_confirmation
+    end
+
+    user.set_new_password(password)
+    user.password_reset_token = nil
+    user.save or fail_with! user.errors
+    user
+  end
+
   def valid_input?
     validate_input
     valid?
@@ -55,7 +81,7 @@ class AuthenticationManager < BaseManager
 
   private
 
-  def email_taken? _
+  def email_taken? _=nil
     !user.new_record?
   end
 

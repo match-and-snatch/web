@@ -80,4 +80,35 @@
     span Not registered yet?&nbsp;
     a.PopupTrigger href='#' data-target='registration' Click here to register!
     .clearfix
-    a href="#" Forgot Password
+    a.PopupTrigger href='#' data-target='forgot-password' Forgot Password
+
+
+/* Restore Password Popup */
+
+.Popup.popup.authentication_popup.modal-content data-identifier='forgot-password'
+
+  /* Header Area */
+
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="forgot-password" aria-hidden="true"
+    .modal-title Forgot your password?
+    span If you already have an account, please enter email.
+
+  /* Body Area */
+
+  .modal-body
+    form.Form action=restore_password_path method='post'
+      .form-group
+        .pull-left
+          input.form-control type='text' name='email' placeholder='Email Address'
+          p.text-danger data-field='email'
+        input.pull-right.btn.blue type='submit' value='Send'
+        .clearfix
+
+  /* Footer Area */
+
+  .modal-footer
+    span Not registered yet?&nbsp;
+    a.PopupTrigger href='#' data-target='registration' Click here to register!
+    .clearfix
+    a.PopupTrigger href='#' data-target='login' Login

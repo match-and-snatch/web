@@ -123,6 +123,11 @@ class User < ActiveRecord::Base
     true
   end
 
+  def generate_password_reset_token!
+    self.password_reset_token = SecureRandom.urlsafe_base64
+    self.save!
+  end
+
   # Sets costs and fees
   # - $4 or less = $0.79
   # - $5 - $9 = $0.95
