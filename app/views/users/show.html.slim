@@ -28,9 +28,17 @@
 
         /* Subscribe Container */
         .subscribe_cont
-
+          - unless current_user.authorized?
+            a.cost_visitor
+              .amount #{@profile.subscription_cost}/month
+              .btn.pink.fa.fa-usd.fa-2x
+              .clearfix
+            /* Subscribe Button */
+            a.subscribe.PopupTrigger data-target='subscription' Subscribe
+          / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
           /* Subscribe Button */
-          .subscribed Subscribed
+          - if current_user.authorized?
+            .subscribed Subscribed
 
     /* Subscriber Benefits */
 
@@ -120,4 +128,5 @@
 
 .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(@profile.object)
 .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(@profile.object)
+.popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
 

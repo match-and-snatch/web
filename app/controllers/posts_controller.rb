@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate!
+  before_filter :authenticate!, except: :index
   before_filter :load_user!, only: :index
 
   protect(:index) { can? :see, @user }
