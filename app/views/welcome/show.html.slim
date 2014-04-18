@@ -15,20 +15,20 @@
         .icon
           img src=image_path('https://buddy-assets.s3.amazonaws.com/images/icon-homepage-step-1.png')
         .title.dosis Create a Profile
-        .description Any person or group can setup a profile in just seconds. There are no startup fees or hosting fees, so let’s get going!  
+        .description Any person or group can setup a profile in just seconds. There are no startup fees or hosting fees, so let’s get going!
       .col-md-4 
         .icon
           img src=image_path('https://buddy-assets.s3.amazonaws.com/images/icon-homepage-step-2.png')
         .title.dosis Post Content
         .description Add content to your profile - audio, video, photos, documents, and more.  Update your content whenever you want.
-      .col-md-4 
+      .col-md-4
         .icon
           img src=image_path('https://buddy-assets.s3.amazonaws.com/images/icon-homepage-step-3.png')
         .title.dosis Set Your Price
-        .description 
+        .description
           | Set a monthly price for people to access your profile content. Tell your friends and followers… and we handle the rest!
           .cleafix
-          a href="#"
+          a href=profile_path(@random_public_profile)
             | View A Sample Profile
       .clearfix
 
@@ -37,17 +37,17 @@
 .button_actions
   .container
     .row
-      .col-md-12.title.dosis 
-        span style="display: block;" Now you get how it works, 
+      .col-md-12.title.dosis
+        span style="display: block;" Now you get how it works,
         span what do you want to do?
     .row
-      .col-md-5 
-        .btn.pink.PopupTrigger.dosis data-target='registration' 
+      .col-md-5
+        .btn.pink.PopupTrigger.dosis data-target='registration'
           span style="display: block;" I want to create my own profile
           span to start getting subscribers.
       .col-md-2.or.dosis or
       .col-md-5
-        .btn.pink.PopupTrigger.dosis data-target='search-users' 
+        .btn.pink.PopupTrigger.dosis data-target='search-users'
           span  style="display: block;" I want to search other profiles
           span and subscribe to someone else.
 
@@ -57,7 +57,7 @@
   .container
     .row
       .col-md-6
-        
+
           .image_hover
             img src=image_path('https://buddy-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
             .btn.black.view_profile View Sample Profile
@@ -74,8 +74,8 @@
     .row
       .col-md-6.description
         .title Our Users
-        span 
-         | Our users include YouTube Creators, Music Bands, Bloggers, Gamers, Charities, Business Consultants, Religious Groups, Political Groups, Athletes, Teachers, 
+        span
+         | Our users include YouTube Creators, Music Bands, Bloggers, Gamers, Charities, Business Consultants, Religious Groups, Political Groups, Athletes, Teachers,
          span style="font-style: italic;" and more...
 
       .col-md-6
@@ -86,7 +86,7 @@
 .homepage_analytics.dosis
   .container
     .row
-      .col-md-6 
+      .col-md-6
         img.img-circle src=image_path('https://buddy-assets.s3.amazonaws.com/images/homepage-analytics.png')
 
       .col-md-6.description
