@@ -17,7 +17,7 @@ module Queries
     end
 
     def profile_owners
-       User.profile_owners.where(profile_name: profile_names).limit(200).order(:profile_name).to_a
+      User.profile_owners.search_by_profile_name(profile_names).limit(200).order(:profile_name).to_a
     end
 
     def profile_names

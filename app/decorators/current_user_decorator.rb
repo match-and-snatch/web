@@ -22,7 +22,7 @@ class CurrentUserDecorator < UserDecorator
     case action
     when :subscribe_to         then subject.id != object.id && authorized? && !subscribed_to?(subject)
     when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject)
-    when :see                  then subject.id == object.id ||                 subscribed_to?(subject) || subject.is_public_profile
+    when :see                  then subject.id == object.id ||                 subscribed_to?(subject) || subject.is_public_profile?
     when :manage               then subject.id == object.id
     else
       raise ArgumentError, "No such action #{action}"
