@@ -1,5 +1,5 @@
 div data-identifier="likes-#{post.id}"
-  - if current_user.authorized?
+  - if current_user.subscribed_to?(post.user)
     a.AjaxFormLink.fa.fa-thumbs-up.pull-left data-target="likes-#{post.id}" href=post_likes_path(post) class='#{'liked_post' if current_user.likes?(post)}'
   - else
     a.fa.fa-thumbs-up.pull-left.PopupTrigger data-target='subscription'

@@ -28,7 +28,7 @@
 
         /* Subscribe Container */
         .subscribe_cont
-          - if current_user.authorized?
+          - if current_user.subscribed_to?(@profile.object)
             .subscribed Subscribed
           - else
             a.cost_visitor

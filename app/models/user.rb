@@ -85,6 +85,7 @@ class User < ActiveRecord::Base
   end
 
   def subscribed_to?(target)
+    return false if new_record?
     subscriptions.by_target(target).any?
   end
 
