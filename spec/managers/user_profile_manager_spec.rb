@@ -30,16 +30,16 @@ describe UserProfileManager do
 
   describe '#update' do
     specify do
-      expect { manager.update(cost: 1, profile_name: 'some-random-name') }.not_to raise_error
+      expect { manager.update(cost: 1, profile_name: 'some-random-name', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
     end
 
     it 'updates slug' do
-      expect { manager.update(cost: 1, profile_name: 'obama') }.to change(user, :slug).to('obama')
+      expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :slug).to('obama')
     end
 
     it 'updates cost' do
-      expect { manager.update(cost: 5, profile_name: 'obama') }.to change(user, :cost).to(5.0)
-      expect { manager.update(cost:' 6', profile_name: 'obama') }.to change(user, :cost).to(6)
+      expect { manager.update(cost: 5, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(5.0)
+      expect { manager.update(cost:' 6', profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(6)
     end
 
     context 'empty cost' do
@@ -52,11 +52,11 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.update(cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) }
+        expect { manager.update(cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_an_integer)) }
       end
 
       specify do
-        expect { manager.update(cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) }
+        expect { manager.update(cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_an_integer)) }
       end
     end
 
@@ -68,31 +68,75 @@ describe UserProfileManager do
 
     context 'trailing spaces in slug' do
       specify do
-        expect { manager.update(cost: 1, profile_name: ' obama ') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: ' obama ', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
       end
     end
 
     context 'upcase in slug' do
       specify do
-        expect { manager.update(cost: 1, profile_name: 'FUck') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: 'FUck', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
       end
     end
 
     context 'underscore in slug' do
       specify do
-        expect { manager.update(cost: 1, profile_name: 'obama_the_president') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: 'obama_the_president', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
       end
     end
 
     context 'numbers in slug' do
       specify do
-        expect { manager.update(cost: 1, profile_name: 'agent-007') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: 'agent-007', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
       end
       specify do
-        expect { manager.update(cost: 1, profile_name: '007-agent') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: '007-agent', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
       end
       specify do
-        expect { manager.update(cost: 1, profile_name: 'a-007-gent') }.not_to raise_error
+        expect { manager.update(cost: 1, profile_name: 'a-007-gent', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
+      end
+    end
+
+    describe 'payment information' do
+      specify do
+        expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :holder_name).to('holder')
+      end
+      specify do
+        expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :routing_number).to('123456789')
+      end
+      specify do
+        expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :account_number).to('000123456789')
+      end
+
+      context 'empty holder name' do
+        specify do
+          expect { manager.update(cost: 1, profile_name: 'obama', holder_name: '', routing_number: '123456789', account_number: '000123456789') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:holder_name) }
+        end
+      end
+
+      context 'entire empty payment information' do
+        specify do
+          expect { manager.update(cost: 1, profile_name: 'obama', holder_name: '', routing_number: '', account_number: '') }.not_to raise_error
+        end
+      end
+
+      context 'invalid routing number' do
+        specify do
+          expect { manager.update(routing_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_an_integer)) }
+        end
+
+        specify do
+          expect { manager.update(routing_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_a_routing_number)) }
+        end
+      end
+
+      context 'invalid account number' do
+        specify do
+          expect { manager.update(account_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_integer)) }
+        end
+
+        specify do
+          expect { manager.update(account_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
+        end
       end
     end
   end

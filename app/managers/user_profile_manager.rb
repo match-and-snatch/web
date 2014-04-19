@@ -44,11 +44,17 @@ class UserProfileManager < BaseManager
     @user
   end
 
-  # @param subscription_cost [Float, String]
+  # @param cost [Float, String]
   # @param profile_name [String]
+  # @param holder_name [String]
+  # @param routing_number [String]
+  # @param account_number [String]
   # @return [User]
-  def update(cost: nil, profile_name: nil)
-    profile_name = profile_name.try(:strip).to_s
+  def update(cost: nil, profile_name: nil, holder_name: nil, routing_number: nil, account_number: nil)
+    profile_name   = profile_name.try(:strip).to_s
+    holder_name    = holder_name.to_s.strip
+    routing_number = routing_number.to_s.strip
+    account_number = account_number.to_s.strip
 
     validate! do
       if profile_name.blank?
@@ -58,20 +64,37 @@ class UserProfileManager < BaseManager
       end
 
       if cost.blank?
-        fail_with! cost: :empty
+        fail_with cost: :empty
+      elsif !cost.to_s.strip.match ONLY_DIGITS
+        fail_with! cost: :not_an_integer
       elsif cost.to_f <= 0
-        fail_with! cost: :zero
+        fail_with cost: :zero
       elsif cost.to_f > 9999
-        fail_with! cost: :reached_maximum
+        fail_with cost: :reached_maximum
       end
 
-      unless cost.to_s.strip.match ONLY_DIGITS
-        fail_with! cost: :not_an_integer
+      if holder_name.present? || routing_number.present? || account_number.present?
+        fail_with holder_name: :empty if holder_name.blank?
+
+        if routing_number.match ONLY_DIGITS
+          fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
+        else
+          fail_with routing_number: :not_an_integer
+        end
+
+        if account_number.match ONLY_DIGITS
+          fail_with account_number: :not_an_account_number if account_number.try(:length) != 12
+        else
+          fail_with account_number: :not_an_integer
+        end
       end
     end
 
-    user.cost = cost
-    user.profile_name = profile_name
+    user.cost           = cost
+    user.profile_name   = profile_name
+    user.holder_name    = holder_name
+    user.routing_number = routing_number
+    user.account_number = account_number
     user.generate_slug
 
     user.save or fail_with! user.errors
@@ -89,6 +112,36 @@ class UserProfileManager < BaseManager
       user.benefits.create!(message: message, ordering: ordering) if message.present?
     end
 
+    user
+  end
+
+  # @return [User]
+  def update_payment_information(holder_name: nil, routing_number: nil, account_number: nil)
+    holder_name    = holder_name.to_s.strip
+    routing_number = routing_number.to_s.strip
+    account_number = account_number.to_s.strip
+
+    validate! do
+      fail_with holder_name: :empty if holder_name.blank?
+
+      if routing_number.match ONLY_DIGITS
+        fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
+      else
+        fail_with routing_number: :not_an_integer
+      end
+
+      if account_number.match ONLY_DIGITS
+        fail_with account_number: :not_an_account_number if account_number.try(:length) != 12
+      else
+        fail_with account_number: :not_an_integer
+      end
+    end
+
+    user.holder_name    = holder_name
+    user.routing_number = routing_number
+    user.account_number = account_number
+
+    user.save or fail_with! user.errors
     user
   end
 
@@ -130,39 +183,6 @@ class UserProfileManager < BaseManager
         end
       end
     end
-
-    user.save or fail_with! user.errors
-    user
-  end
-
-  # @param holder_name [String]
-  # @param routing_number [String]
-  # @param account_number [String]
-  # @return [User]
-  def update_payment_information(holder_name: nil, routing_number: nil, account_number: nil)
-    holder_name    = holder_name.to_s.strip
-    routing_number = routing_number.to_s.strip
-    account_number = account_number.to_s.strip
-
-    validate! do
-      fail_with holder_name: :empty if holder_name.blank?
-
-      if routing_number.match ONLY_DIGITS
-        fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
-      else
-        fail_with routing_number: :not_an_integer
-      end
-
-      if account_number.match ONLY_DIGITS
-        fail_with account_number: :not_an_account_number if account_number.try(:length) != 12
-      else
-        fail_with account_number: :not_an_integer
-      end
-    end
-
-    user.holder_name    = holder_name
-    user.routing_number = routing_number
-    user.account_number = account_number
 
     user.save or fail_with! user.errors
     user
