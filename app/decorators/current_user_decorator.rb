@@ -15,8 +15,6 @@ class CurrentUserDecorator < UserDecorator
   # @raise [ArgumentError] if action or subject are not registered
   # @return [true, false]
   def can?(action, subject)
-    return true if object.admin?
-
     case subject
     when User
       case action
