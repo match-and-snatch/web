@@ -92,6 +92,8 @@ class AuthenticationManager < BaseManager
   def validate_input
     if full_name.blank?
       fail_with full_name: :empty
+      fail_with first_name: :empty
+      fail_with last_name: :empty
     elsif first_name.present? || last_name.present?
       fail_with first_name: :empty if first_name.blank?
       fail_with last_name: :empty if last_name.blank?
