@@ -23,6 +23,13 @@ class Upload < ActiveRecord::Base
     end
   end
 
+  def original_url
+    return if url.blank?
+    host = APP_CONFIG['video_host']
+    path = URI(url).path
+    "https://#{host}#{path}"
+  end
+
   def rtmp_path
     return if url.blank?
     uri = URI(url)
