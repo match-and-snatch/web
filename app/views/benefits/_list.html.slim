@@ -1,7 +1,13 @@
-ul
+ul.fa-ul
   - if benefits.empty?
-    li.fa.fa-check Click the edit button above to add/remove subscriber benefits.
-    li.fa.fa-check Your subscriber benefits will be listed out like this!
+    li
+      i.fa-li.fa.fa-check 
+      | Click the edit button above to add/remove subscriber benefits.
+    li
+      i.fa-li.fa.fa-check 
+      | Your subscriber benefits will be listed out like this!
   - else
     - benefits.each do |benefits|
-      li.fa.fa-check= benefits.message
+      li
+        i.fa-li.fa.fa-check 
+        span= benefits.message

@@ -1,17 +1,37 @@
 .container
-  .row.box style="margin: 15px 0 60px"
+  .row.box.general_page
     .col-md-12
       h1 Pricing Breakdown
+      p At ConnectPal, there are no startup fees or hosting fees!... And you can cancel anytime.  
 
-      table
-        tr style="font-weight: bold"
-          td Subscription Price
-          td ConnectPal Service Fee (includes all fees & credit card processing)
+      p Any person or group can set up a profile and become a profile owner for free.
+
+      p Profile owners set their monthly subscription price for subscribers to view their profile content. Profile owners keep 100% of the price they set. Then, ConnectPal adds a service fee on top of the subscription price to pay for credit card processing and to keep our platform running at its best.  
+
+      p The pricing table is below...
+
+      table.table.table-striped.table-bordered
+        tr 
+          td 
+            b Subscription Price
+          td 
+            |
+            b ConnectPal Service Fee 
+            span style="font-size: 11px;"(includes all fees & credit card processing)
         tr
-          td #1
-          td #2
+          td $4 or less
+          td $0.79
+        tr
+          td $5 - $9
+          td $0.95
+        tr
+          td $10 - $20
+          td $1.79
+        tr
+          td $21 & above
+          td 9% of subscription price
 
-
+      p For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout, subscribers will pay $4.79 monthly – which includes our 79 cent service fee. The profile owner will receive $4 per subscriber per month. And ConnectPal will receive 79 cents per subscriber per month.
 
 div style='position: fixed; bottom: 0; width: 100%' 
   = render 'footer'

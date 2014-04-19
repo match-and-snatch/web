@@ -2,8 +2,8 @@
   /* Single File Line */
 
   .row.file_status.hidden style='margin-top: 20px'
-    .col-md-3.file_name Uploading....
-    .col-md-8
+    .col-md-2.file_name Uploading...
+    .col-md-9
       .progress.progress-striped.active
         .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
           span.sr-only 0% Complete
@@ -18,7 +18,7 @@
         input.detail_field name='title' placeholder="Post Title" value=pending_post.title
         .error data-field='title'
         .clearfix
-        input.detail_field name='keywords' placeholder="Keywords" value=pending_post.keywords
+        input.hidden.detail_field name='keywords' placeholder="Keywords" value=pending_post.keywords style="margin-top: 18px;"
         .error data-field='keywords'
       .col-md-6
         textarea.detail_field name='message' placeholder="Description"

@@ -15,7 +15,9 @@
         .clearfix
 
         /* Profile Type */
-        span.profile_type= @profile.types
+        .profile_type
+          i.fa.fa-gear.PopupTrigger data-target='type-editor'
+          span= @profile.types
 
       .col-md-5
 
@@ -115,40 +117,6 @@
   .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(current_user.object)
   .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(current_user.object)
 
-  /* Name Popup */
-
-  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 500px"
-
-    /* Nav Tab Area */
-
-    ul.nav.nav-tabs
-      li.active
-        a href='javascript: void(0)' Profile Name
-      li
-        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
-      li
-        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
-
-    /* Header Area */
-
-    .modal-header
-      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
-      .modal-title Edit Profile Name
-      span This is the name that appears at the top of your profile page.
-
-    /* Body Area */
-
-    .modal-body
-      form.Form action=update_name_user_path(@profile.object) method='post'
-        .form-group
-          input type='hidden' name='_method' value='put'
-          input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name'
-
-        .form-group
-          .pull-left.error data-field='profile_name'
-          input.btn.pink.pull-right type='submit' value='Update Profile Name'
-          .clearfix
-
   /* Contacts Editor */
 
   .Popup.popup.contacts_edit.modal-content data-identifier='contacts-editor' style='width: 600px'
@@ -209,15 +177,92 @@
           input.btn.blue.PopupTrigger type='submit' value='Update Contact Information' data-target="contacts-editor"
           .clearfix
 
-  /* Cost Popup */
+  /* Profile Name Popup */
 
-  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 500px"
+  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 610px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li.active
+        a href='javascript: void(0)' Profile Name
+      li
+        a.PopupTrigger data-target='type-editor' href='#' Profile Type
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
+      .modal-title Edit Profile Name
+      span This is the name that appears at the top of your profile page.
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=update_name_user_path(@profile.object) method='post'
+        .form-group
+          input type='hidden' name='_method' value='put'
+          input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name'
+
+        .form-group
+          .pull-left.error data-field='profile_name'
+          input.btn.pink.pull-right type='submit' value='Update Profile Name'
+          .clearfix
+
+  /* Profile Type Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='type-editor' style="width: 610px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li.active
+        a href='javascript: void(0)' Profile Type
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="type-editor" aria-hidden="true"
+      .modal-title Edit Profile Type
+      span 
+        |Please classify your profile type or types. This info helps our search 
+        br
+        |function find more potential subscribers who might like your content.
+
+    /* Body Area */
+
+    .modal-body
+
+      /* PLEASE FIX THIS AREA */
+
+      form.Form action=update_name_user_path(@profile.object) method='post'
+
+        input.AutocompleteField.form-control data-url=profile_types_path data-target='profile-types' type='text' placeholder='Band, Photographer, Organization, etc.'
+        .error data-field='profile_type'
+        div data-identifier='profile-types' style="padding-top: 10px"
+          = render 'profile_types/list_assigned', profile_types: current_user.profile_types
+
+  /* Profile Cost Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 610px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li
+        a.PopupTrigger data-target='type-editor' href='#' Profile Type
       li.active
         a href='javascript: void(0)' Subscription Cost
       li
@@ -241,7 +286,7 @@
           input type='hidden' name='_method' value='put'
 
         .cost_container style="width: 230px; margin: 0 auto"
-          .form-group.input-group.pull-left style="width: 100px; margin-bottom: 0;"
+          .form-group.input-group.pull-left style="width: 113px; margin-bottom: 0;"
             span.input-group-addon
               i.fa.fa-usd.fa-fw
             input.form-control type='text' name='cost' value=@profile.cost data-target='subscription-cost'
@@ -249,24 +294,45 @@
           .form-group.pull-right style="margin-bottom: 0;"
             input.btn.pink type='submit' value='Update Price'
           .clearfix
-        .error data-field='cost'
+          .error data-field='cost' style="text-align: center; padding-top: 5px"
 
       hr
 
-      .pricing_table style="margin-bottom: 15px"
-        p INTRO
-        p TABLE
-        p For example
+      .pricing_table
+        p The pricing table is below...
+        table.table.table-striped.table-bordered
+          tr 
+            td 
+              b Subscription Price
+            td 
+              |
+              b ConnectPal Service Fee 
+              span style="font-size: 11px;"(includes all fees & credit card processing)
+          tr
+            td $4 or less
+            td $0.79
+          tr
+            td $5 - $9
+            td $0.95
+          tr
+            td $10 - $20
+            td $1.79
+          tr
+            td $21 & above
+            td 9% of subscription price
+        p For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout, subscribers will pay $4.79 monthly – which includes our 79 cent service fee. The profile owner will receive $4 per subscriber per month. And ConnectPal will receive 79 cents per subscriber per month.
 
-  /* Benefits Popup */
+  /* Profile Benefits Popup */
 
-  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 500px"
+  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 610px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li
+        a.PopupTrigger data-target='type-editor' href='#' Profile Type
       li
         a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
       li.active

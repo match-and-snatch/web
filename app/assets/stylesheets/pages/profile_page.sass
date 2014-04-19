@@ -98,6 +98,20 @@
         font-size: 12px
         font-weight: 400
         text-decoration: none
+        .fa
+          cursor: pointer
+          max-width: 517px
+          word-wrap: break-word
+          &:before
+            color: $color_gear
+            font-size: 20px
+            padding-right: 5px
+            position: relative
+            top: 2px
+        &:hover
+          .fa
+            &:before
+              color: $color_gear_hover
 
     /* Cost Button/Subscribe Button */
 
@@ -219,16 +233,18 @@
       font-size: 13px
       line-height: 20px
       margin-top: 46px
-      columns: 2
-      -webkit-columns: 2
-      -moz-columns: 2
+      margin-left: 20px !important
+      // columns: 2
+      // -webkit-columns: 2
+      // -moz-columns: 2
       li
         color: $color_text_dark
-        &.fa
+        font-size: 13px
+        .fa
           font-weight: 400
+          top: 3px
           &:before
             color: $color_green
-            padding-right: 5px
     .edit
       position: absolute
       top: 8px
@@ -286,6 +302,8 @@
           &:before
             color: $color_blue
 
+/* Create Post */
+
 #create_post
   border-radius: 0 0 $border_radius $border_radius
 
@@ -296,17 +314,94 @@
     position: relative
     textarea
       display: block
-      min-height: 52px
+      min-height: 100px
       width: 100%
     input[type="submit"]
       &:focus
         color: #FFFFFF
         outline: none
 
-  /* Uploading Media */
+  /* Uploading Container */
 
   #uploading
     position: relative
+
+    /* Pending Files */
+
+    .pending_audio, .pending_video, .pending_photo, .pending_document
+      padding: 0 15px 15px 15px
+      position: relative
+      ul
+        font-size: 13px
+        margin: 15px 0
+        li
+          padding-top: 5px
+          .fa-music, .fa-paperclip
+            &:before
+              color: $color_blue
+              font-size: 11px
+              padding-right: 3px
+              position: relative
+              top: 2px
+          &:first-child
+            padding-top: 0
+          a
+            padding-left: 10px
+      p
+        font-size: 13px
+        margin: 0
+        padding: 0
+
+      .select_file_container
+        .multi
+          width: 100%
+        .hide_btn
+          opacity: 0
+          cursor: pointer
+          position: absolute
+          bottom: 15px
+          left: 15px
+          height: 34px
+          width: 908px
+
+    /* Pending Photo */
+
+    .pending_photo
+      ul
+        border-bottom: 1px solid $color_border
+        padding-bottom: 15px
+        overflow-x: auto
+        white-space: nowrap
+        li
+          float: none
+          display: inline-block
+          margin-left: 15px
+          position: relative
+          &:first-child
+            margin-left: 0
+
+          img
+            border: 1px solid $color_border 
+            height: 100px
+          .delete_photo
+            background-color: $color_pink
+            border-radius: 0 $border_radius 0 0
+            color: #FFFFFF
+            font-size: 11px
+            padding: 5px 10px
+            position: absolute
+            left: 1px
+            bottom: 1px
+            text-decoration: none
+            &:hover
+              background-color: $color_blue
+
+
+    /* Pending Video */
+
+    .pending_video
+      img
+        width: 100px
 
     /* New Boxes */
 
@@ -330,6 +425,7 @@
 
     .file_status
       padding: 0 15px
+      border-bottom: 1px solid $color_border
       .progress
         margin-bottom: 15px
       .file_name
@@ -342,16 +438,18 @@
     .upload_details
       border-top: 1px solid $color_border
       padding: 15px
+      .error
+        padding: 5px 0
       .detail_field
         @include border-radius($border_radius)
         background-color: $color_background
         border: 1px solid $color_border
-        margin-bottom: 15px
         padding: 8px 10px
         width: 100%
         &:focus
           outline: none
       textarea
+        color: $color_text_dark
         height: 91px
         margin: 0
         overflow: auto
@@ -367,19 +465,22 @@
             text-decoration: underline
 
 /* Subscriber Display */
-.doc_view
-  .icon
-    background-color: #FFFFFF
-    border-right: 1px solid $color_border
-    padding: 10px 15px
-    &.fa
-      &:before
-        font-size: 26px
-  .doc_title
-    display: block
-    padding: 13px 0 0 10px
-  &:hover
-    text-decoration: none
+
+// .doc_view
+//   .icon
+//     background-color: #FFFFFF
+//     border-right: 1px solid $color_border
+//     padding: 10px 15px
+//     &.fa
+//       &:before
+//         font-size: 26px
+//   .doc_title
+//     display: block
+//     padding: 13px 0 0 10px
+//   &:hover
+//     text-decoration: none
+
+/* Subscriber Display */
 
 #subscriber_display
   margin-top: $box_margin
@@ -525,6 +626,7 @@
 
     .post
       margin-top: $box_margin
+      padding-top: 15px
       position: relative
       z-index: 1
       &:first-child
@@ -544,11 +646,11 @@
       .post_title
         color: $color_blue
         font-size: 16px
-        padding: 15px 15px 0
+        padding: 0 15px 5px 15px
       .date
         color: #c2c2c2
         font-size: 12px
-        padding: 15px 15px 0 15px
+        padding: 0 15px
       .audio_player, .video_player, .photo_display, .doc_view
         background-color: $color_background
         border: 1px solid $color_border
@@ -559,7 +661,7 @@
       .video_player
         height: 330px
         width: 585px
-        > img.poster
+        img.poster
           width: inherit
       .photo_display
         width: 585px
@@ -568,6 +670,7 @@
       ul.photo_view
         display: block
         margin-left: 15px
+        margin-top: 15px
         list-style-type: none
         li
           display: inline-block
@@ -581,8 +684,6 @@
             width: 585px
           &:nth-of-type(1n+4)
             display: none
-
-
       .message
         font-size: 13px
         line-height: 20px
@@ -597,6 +698,7 @@
         position: relative
         .fa
           &:before
+            color: $color_text_light
             position: relative
             top: 1px
           &:hover
@@ -604,11 +706,11 @@
             text-decoration: none
             &.fa
               &:before
-                color: $color_pink
+                color: $color_blue
         .liked_post
           &.fa
             &:before
-              color: $color_pink
+              color: $color_blue
 
         .users_liked
           color: $color_text_light

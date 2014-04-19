@@ -34,6 +34,9 @@ a
 img 
   border: none
 
+p 
+  font-size: 13px
+
 h1, h2, h3, h4, h5
   line-height: 100%
 
@@ -78,6 +81,18 @@ input
   margin: 0 auto
   overflow: hidden
   position: relative
+  &.general_page
+    margin: 15px 0 60px
+    padding-bottom: 5px
+    h1
+      margin-top: 15px
+    h2
+      text-decoration: underline
+      margin: 0 0 15px 0
+    ol
+      font-size: 13px
+      list-style: decimal
+      margin-left: 15px
 
 textarea
   color: #898989
@@ -151,6 +166,30 @@ nav
           text-shadow: none
       &.active
         background-color: #277aa3  
+
+
+      &.homepage_search
+        .form-control
+          border: 1px solid #3b9fd1
+          font-size: 11px !important
+          margin-top: 8px
+          height: 29px
+          width: 125px
+          margin-right: 30px
+        .search_results
+          .list-group-item-heading
+            background-color: $color_background
+            border-left: 1px solid $color_border
+            border-bottom: 1px solid $color_border
+            border-right: 1px solid $color_border
+            border-top: 1px solid $color_border
+            border-radius: 0 0 $border_radius $border_radius
+            font-size: 13px
+            padding: 15px
+            position: absolute
+            top: 45px
+            left: 0
+            width: 200px
 
       /* My Subscriptions CSS */
 
@@ -241,7 +280,7 @@ footer
       display: inline
       padding-right: 15px
       a
-        color: $color_text_light
+        color: #FFFFFF
         &:hover
           color: #FFFFFF
           text-decoration: underline
@@ -435,6 +474,16 @@ footer
               &:before
                 color: $color_text_dark
 
+    .pricing_table
+      color: $color_text_light 
+      table
+        color: $color_text_dark
+        font-size: 13px
+        span
+          display: block
+      p
+        text-align: center
+
   /* Footer Area */
 
   .modal-footer
@@ -464,6 +513,7 @@ footer
       &:first-child
         margin-left: 20px
       a
+        color: $color_text_light
         &:hover
           color: $color_text_dark
           background-color: #FFFFFF
