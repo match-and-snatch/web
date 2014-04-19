@@ -26,7 +26,7 @@
     form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}"
       .photo.pull-left
         img src=current_user.profile_picture_url width=50 height=50
-      - if current_user.subscribed_to?(post.user)
+      - if current_user.can?(:comment, post)
         input.reply.btn.black.pull-right type='submit' value='Reply'
       - else
         .reply.btn.black.pull-right.PopupTrigger data-target='subscription' Reply
