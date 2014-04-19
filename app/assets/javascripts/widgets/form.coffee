@@ -62,12 +62,13 @@ class bud.widgets.Form extends bud.Widget
 
       # Scroll to the first error
       first_error   = @$container.find('[data-field]:visible')
-      top           = first_error.offset().top
-      docViewTop    = $(window).scrollTop()
-      docViewBottom = docViewTop + $(window).height();
+      if first_error.length > 0
+        top           = first_error.offset().top
+        docViewTop    = $(window).scrollTop()
+        docViewBottom = docViewTop + $(window).height();
 
-      if first_error.length > 0 && (top < (docViewTop + 45) || top > docViewBottom)
-        $('html, body').animate({scrollTop: top - 150}, 500)
+        if (top < (docViewTop + 45) || top > docViewBottom)
+          $('html, body').animate({scrollTop: top - 150}, 500)
 
   # Override this method for custom forms
   params: ->
