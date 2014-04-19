@@ -9,7 +9,7 @@
       span.name #{@user.full_name}
 
     ul.general
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href='#'
         li My Feed
       a.AjaxLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
         li Account Settings
@@ -18,7 +18,7 @@
 
     h2.subscriptions My Subscriptions
     ul
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/view_cancel_subscriptions.json"
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
         li View/Cancel Subscriptions
       / a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/search_subscriptions.json"
       /   li Search Subscriptions

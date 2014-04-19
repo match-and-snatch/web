@@ -102,6 +102,11 @@ class User < ActiveRecord::Base
   end
 
   # @return [String]
+  def name
+    profile_name || full_name || holder_name
+  end
+
+  # @return [String]
   def sample_slug
     @slug_example ||= begin
       slug_base = (profile_name || full_name).parameterize

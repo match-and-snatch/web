@@ -32,7 +32,7 @@ BuddyPlatform::Application.routes.draw do
 
   resource :session
 
-  resources :subscriptions, only: [:index, :create]
+  resources :subscriptions, only: [:index, :create, :destroy]
   resources :audios, only: [:create, :destroy]
   resources :videos, only: [:create, :destroy]
   resources :photos, only: [:create, :destroy]

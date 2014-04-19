@@ -19,31 +19,37 @@ class CurrentUserDecorator < UserDecorator
 
     case subject
     when User
-    case action
-    when :subscribe_to         then subject.id != object.id && authorized? && !subscribed_to?(subject)
-    when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject)
-    when :see                  then subject.id == object.id ||                 subscribed_to?(subject) || subject.has_public_profile?
-    when :manage               then subject.id == object.id
-    else
-      raise ArgumentError, "No such action #{action}"
-    end
+      case action
+      when :subscribe_to         then subject.id != object.id && authorized? && !subscribed_to?(subject)
+      when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject)
+      when :see                  then subject.id == object.id ||                 subscribed_to?(subject) || subject.has_public_profile?
+      when :manage               then subject.id == object.id
+      else
+        raise ArgumentError, "No such action #{action}"
+      end
     when Upload
-    case action
-    when :manage then subject.user_id == object.id
-    end
-    when Comment
-    case action
-    when :delete then subject.user_id == object.id || subject.post_user_id == object.id
-    else
-      raise ArgumentError, "No such action #{action}"
-    end
+      case action
+      when :manage then subject.user_id == object.id
+      end
+      when Comment
+      case action
+      when :delete then subject.user_id == object.id || subject.post_user_id == object.id
+      else
+        raise ArgumentError, "No such action #{action}"
+      end
     when Post
-    case action
-    when :see then object.id == subject.user_id || subscribed_to?(subject.user)
-    when :delete then object.id == subject.user_id
-    else
-      raise ArgumentError, "No such action #{action}"
-    end
+      case action
+      when :see then object.id == subject.user_id || subscribed_to?(subject.user)
+      when :delete then object.id == subject.user_id
+      else
+        raise ArgumentError, "No such action #{action}"
+      end
+    when Subscription
+      case action
+      when :delete then object.id == subject.user_id
+      else
+        raise ArgumentError, "No such action #{action}"
+      end
     else
       raise ArgumentError, "No such subject #{subject.inspect}"
     end

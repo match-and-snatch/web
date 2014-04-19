@@ -1,6 +1,9 @@
 class SubscriptionsController < ApplicationController
   before_filter :authenticate!, except: [:new, :via_register]
   before_filter :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
+  before_filter :load_subscription!, only: [:destroy]
+
+  protect(:destroy) { can? :delete, @subscription }
 
   def new
     template = current_user.authorized? ? 'new' : 'new_unauthorized'
@@ -9,7 +12,7 @@ class SubscriptionsController < ApplicationController
 
   def index
     @subscriptions = current_user.object.subscriptions
-    @subscribed_on_me = Subscription.by_target(current_user.object)
+    #@subscribed_on_me = Subscription.by_target(current_user.object)
     json_render
   end
 
@@ -45,7 +48,16 @@ class SubscriptionsController < ApplicationController
     json_reload
   end
 
+  def destroy
+    @subscription.destroy
+    json_render
+  end
+
   private
+
+  def load_subscription!
+    @subscription = Subscription.where(id: params[:id]).first or error(404)
+  end
 
   def load_owner!
     @owner = User.where(slug: params[:user_id]).first or error(404)
