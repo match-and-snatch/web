@@ -1,3 +1,3 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'noreply@connectpal.com'
+  default from: 'Connectpal <noreply@connectpal.com>'
 end
