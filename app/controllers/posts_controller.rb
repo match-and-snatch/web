@@ -1,8 +1,10 @@
 class PostsController < ApplicationController
   before_filter :authenticate!, except: :index
   before_filter :load_user!, only: :index
+  before_filter :load_post!, only: :destroy
 
   protect(:index) { can? :see, @user }
+  protect(:destroy) { can? :delete, @post }
 
   def index
     query = Queries::Posts.new(user: @user, query: params[:q], start_id: params[:last_post_id])
@@ -18,7 +20,16 @@ class PostsController < ApplicationController
     has_posts ? json_prepend : json_replace
   end
 
+  def destroy
+    @post.destroy
+    json_replace
+  end
+
   private
+
+  def load_post!
+    @post = Post.where(id: params[:id]).first or error(404)
+  end
 
   def load_user!
     @user = User.where(slug: params[:user_id]).first or error(404)

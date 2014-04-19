@@ -1,11 +1,12 @@
-.post.box
-  i.fa.fa-gear.edit_post.pull-right
-    .edit_container
-      span Delete post? 
-      a.delete_btn href="" Yes
-      /* Trigger Close Container */
-      a href="" Cancel
-      .clearfix
+.post.box data-identifier='post-#{post.id}'
+  - if can?(:delete, post)
+    i.fa.fa-gear.edit_post.pull-right.Toggler data-target='edit-post-#{post.id}'
+      .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
+        span Delete post?
+        a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}' Yes
+        /* Trigger Close Container */
+        a.Toggler data-target='edit-post-#{post.id}' href="#" Cancel
+        .clearfix
   - if post.title
     .post_title= post.title.humanize
   .date Posted #{time_ago_in_words(post.created_at)} ago

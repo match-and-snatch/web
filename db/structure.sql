@@ -496,8 +496,8 @@ CREATE TABLE users (
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees double precision,
     cost integer,
-    password_reset_token character varying(255),
-    has_public_profile boolean DEFAULT false
+    has_public_profile boolean DEFAULT false,
+    password_reset_token character varying(255)
 );
 
 
