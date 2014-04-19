@@ -6,7 +6,7 @@
       li.list-group-item
         .pull-left
           span= user.profile_name
-        - if user.is_public_profile?
+        - if user.has_public_profile?
           button.AjaxFormLink.btn.pink.pull-right data-_method='put' href=make_private_admin_profile_path(user.id) Make profile private
         - else
           button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=make_public_admin_profile_path(user.id) Make profile public

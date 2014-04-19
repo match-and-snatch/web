@@ -28,8 +28,9 @@
         .description
           | Set a monthly price for people to access your profile content. Tell your friends and followers… and we handle the rest!
           .cleafix
-          a href=profile_path(@random_public_profile)
-            | View A Sample Profile
+          - if @random_public_profile
+            a href=profile_path(@random_public_profile)
+              | View A Sample Profile
       .clearfix
 
 /* Blue Row & Action Buttons */
@@ -57,10 +58,10 @@
   .container
     .row
       .col-md-6
-
-          .image_hover
-            img src=image_path('https://buddy-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
-            .btn.black.view_profile View Sample Profile
+        .image_hover
+          img src=image_path('https://buddy-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
+          - if @random_public_profile
+            a.btn.black.view_profile href=profile_path(@random_public_profile) View Sample Profile
 
       .col-md-6.description.dosis
         ul
@@ -75,8 +76,8 @@
       .col-md-6.description
         .title Our Users
         span
-         | Our users include YouTube Creators, Music Bands, Bloggers, Gamers, Charities, Business Consultants, Religious Groups, Political Groups, Athletes, Teachers,
-         span style="font-style: italic;" and more...
+          | Our users include YouTube Creators, Music Bands, Bloggers, Gamers, Charities, Business Consultants, Religious Groups, Political Groups, Athletes, Teachers,
+          span style="font-style: italic;" and more...
 
       .col-md-6
         img src=image_path('https://buddy-assets.s3.amazonaws.com/images/homepage-our-users.png')

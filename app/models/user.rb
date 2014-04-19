@@ -26,15 +26,14 @@ class User < ActiveRecord::Base
   scope :profile_owners, -> { where(is_profile_owner: true) }
   scope :subscribers, -> { where(is_profile_owner: false) }
   scope :with_complete_profile, -> { where(has_complete_profile: true) }
-  scope :with_public_profile, -> { where(is_public_profile: true) }
-  scope :random_public_profile, -> { with_public_profile.order("random()").limit(1) }
 
   pg_search_scope :search_by_full_name, against: [:full_name, :profile_name],
                                         using: [:tsearch, :dmetaphone, :trigram],
                                         ignoring: :accents
-  pg_search_scope :search_by_profile_name, against: [:profile_name],
-                                        using: [:tsearch, :dmetaphone, :trigram],
-                                        ignoring: :accents
+
+  def self.random_public_profile
+    where(has_public_profile: true).order("random()").first
+  end
 
   def admin?
     is_admin? || APP_CONFIG['admins'].include?(email)

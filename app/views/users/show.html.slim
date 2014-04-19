@@ -28,17 +28,15 @@
 
         /* Subscribe Container */
         .subscribe_cont
-          - unless current_user.authorized?
+          - if current_user.authorized?
+            .subscribed Subscribed
+          - else
             a.cost_visitor
               .amount #{@profile.subscription_cost}/month
               .btn.pink.fa.fa-usd.fa-2x
               .clearfix
-            /* Subscribe Button */
             a.subscribe.PopupTrigger data-target='subscription' Subscribe
           / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
-          /* Subscribe Button */
-          - if current_user.authorized?
-            .subscribed Subscribed
 
     /* Subscriber Benefits */
 

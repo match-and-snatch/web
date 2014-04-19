@@ -2,7 +2,7 @@ class Admin::ProfilesController < Admin::BaseController
   before_filter :load_user!, only: %i(make_public make_private)
 
   def index
-    @users = Queries::Users.new(user: current_user.object, query: params[:q]).profile_owners
+    @users = User.profile_owners.search_by_full_name(params[:q]).limit(10)
     json_replace
   end
 

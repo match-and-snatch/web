@@ -10,6 +10,6 @@ class WelcomeController < ApplicationController
   end
 
   def show
-    @random_public_profile = User.random_public_profile.first
+    @random_public_profile = User.random_public_profile
   end
 end
