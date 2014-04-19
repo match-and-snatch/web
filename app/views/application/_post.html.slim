@@ -1,5 +1,11 @@
 .post.box
-  i.fa.fa-gear.edit_post
+  i.fa.fa-gear.edit_post.pull-right
+    .edit_container
+      span Delete post? 
+      a.delete_btn href="" Yes
+      /* Trigger Close Container */
+      a href="" Cancel
+      .clearfix
   - if post.title
     .post_title= post.title.humanize
   .date Posted #{time_ago_in_words(post.created_at)} ago

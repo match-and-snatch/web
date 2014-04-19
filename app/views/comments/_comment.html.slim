@@ -5,6 +5,12 @@
     /* Display Delete Only if Owner or if it your comment */
     - if can?(:delete, comment)
       .delete.fa.fa-times
+        .edit_container
+          span Delete post? 
+          a.delete_btn href="" Yes
+          /* Trigger Close Container */
+          a href="" Cancel
+          .clearfix
     .profile_name data-identifier='profile-name'
       = comment.user.full_name
     .comment_text= comment.message
