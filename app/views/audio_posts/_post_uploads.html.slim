@@ -1,4 +1,6 @@
 - post.uploads.each do |upload|
-  h2 style='padding-left: 15px' = upload.filename
+  span.file_name.pull-left style='padding-left: 15px' = upload.filename
+  a.file_download.pull-right Download
+  .clearfix
   .audio_player
     .AudioPlayer id="Upload__#{upload.id}" data-file=upload.rtmp_path data-original=upload.original_url

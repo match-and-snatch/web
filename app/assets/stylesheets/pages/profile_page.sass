@@ -314,7 +314,7 @@
     position: relative
     textarea
       display: block
-      min-height: 100px
+      min-height: 60px
       width: 100%
     input[type="submit"]
       &:focus
@@ -622,6 +622,13 @@
         display: block
         margin-top: 15px
 
+    /* Deleted */
+
+    .deleted
+      margin-top: 30px
+      font-weight: bold
+      text-align: center
+
     /* Single Post */
 
     .post
@@ -678,13 +685,25 @@
         color: #c2c2c2
         font-size: 12px
         padding: 0 15px
+      span.file_name
+        font-size: 12px
+        font-weight: 600
+        padding: 10px 15px 5px
+        width: 540px
+      a.file_download 
+        cursor: pointer
+        display: inline-block
+        font-size: 12px
+        margin: 10px 15px 0 0
       .audio_player, .video_player, .photo_display, .doc_view
         background-color: $color_background
         border: 1px solid $color_border
         display: block
         margin: 15px 15px 0 15px
       .audio_player
-        height: 30px
+        background-color: none
+        margin: 0 15px
+        border: none
       .video_player
         height: 330px
         width: 585px
