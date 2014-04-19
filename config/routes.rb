@@ -68,6 +68,13 @@ BuddyPlatform::Application.routes.draw do
 
   namespace :admin do
     resources :staffs, only: :index
+    resources :profiles, only: [:index, :new] do
+      member do
+        put :make_public
+        put :make_private
+      end
+    end
+
     resources :users, only: :index do
       member do
         put :make_admin

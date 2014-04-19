@@ -1,5 +1,6 @@
 class PhotosController < UploadsController
   before_filter :load_user!, only: [:profile_picture, :cover_picture]
+  skip_before_filter :authenticate!, only: [:profile_picture, :cover_picture]
 
   def profile_picture
     json_render

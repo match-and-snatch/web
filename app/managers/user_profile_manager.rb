@@ -312,6 +312,22 @@ class UserProfileManager < BaseManager
     fail_with! :current_password
   end
 
+  def make_profile_public
+    fail_with! 'Profile is already public' if @user.has_public_profile
+
+    user.has_public_profile = true
+    user.save or fail_with!(@user.errors)
+    user
+  end
+
+  def make_profile_private
+    fail_with! 'Profile is already private' unless @user.has_public_profile
+
+    user.has_public_profile = false
+    user.save or fail_with!(@user.errors)
+    user
+  end
+
   private
 
   # @param slug [String]

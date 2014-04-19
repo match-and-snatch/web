@@ -25,6 +25,9 @@
     form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}"
       .photo.pull-left
         img src=current_user.profile_picture_url width=50 height=50
-      input.reply.btn.black.pull-right type='submit' value='Reply'
+      - if current_user.authorized?
+        input.reply.btn.black.pull-right type='submit' value='Reply'
+      - else
+        .reply.btn.black.pull-right.PopupTrigger data-target='subscription' Reply
       textarea.reply_input.pull-right name='message' placeholder="Write your reply..."
       .clearfix

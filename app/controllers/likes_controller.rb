@@ -1,4 +1,5 @@
 class LikesController < ApplicationController
+  before_filter :authenticate!
   before_filter :load_post!
 
   def create

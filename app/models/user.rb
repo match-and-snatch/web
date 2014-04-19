@@ -31,6 +31,10 @@ class User < ActiveRecord::Base
                                         using: [:tsearch, :dmetaphone, :trigram],
                                         ignoring: :accents
 
+  def self.random_public_profile
+    where(has_public_profile: true).order("random()").first
+  end
+
   def admin?
     is_admin? || APP_CONFIG['admins'].include?(email)
   end
