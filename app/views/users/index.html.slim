@@ -6,10 +6,13 @@
   ul.list-group
     - @users.each do |user|
       li.list-group-item
+        .pull-left
+          img src=user.profile_picture_url width=50 height=50
         .pull-left= link_to super_highlight(user.profile_name), profile_path(user.slug)
         - if current_user == user
-          small.pull-right.text-muted you
+          small.pull-right.text-muted You
         .clearfix
+        
 - else
   - if params[:q].present?
     p.bg-danger

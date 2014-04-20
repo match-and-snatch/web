@@ -133,6 +133,22 @@
           color: $color_pink
           font-weight: bold
 
+    /* CC Row */
+
+    .cc_row
+      position: relative
+      ul
+        list-style: none
+        position: absolute
+        top: 49px
+        right: -5px
+        li
+          display: inline-block
+          padding-right: 5px
+          img
+            height: 22px
+            width: 32px
+
     /* View/Cancel Subscriptions */
 
     ul
@@ -155,7 +171,10 @@
         .actions
           font-size: 13px
           a
+            color: $color_text_dark
             margin-left: 15px
+            &:hover
+              color: $color_text_light
             .fa
               &:before
                 font-size: 20px
@@ -195,3 +214,21 @@
       color: $color_text_light
       height: 200px
       padding: 15px
+
+    /* View Subscribers */
+
+    .subscriber_table
+      font-size: 12px !important
+      .fa
+        a
+          color: $color_text_dark
+          &:hover
+            color: $color_pink
+        &:before
+          padding-right: 5px
+      .message
+        width: 90px
+      .hide_activity
+        width: 108px 
+      .remove
+        width: 145px
