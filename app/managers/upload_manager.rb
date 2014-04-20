@@ -139,7 +139,7 @@ class UploadManager < BaseManager
                        basename: transloadit_data["uploads"][0]['basename'],
                        width: transloadit_data["uploads"][0]["meta"]["width"],
                        height: transloadit_data["uploads"][0]["meta"]["height"],
-                       url: transloadit_data["results"][":original"][0]["ssl_url"]
+                       url: transloadit_data["results"]["encode"][0]["ssl_url"]
     upload.attributes = attributes
     upload.save or fail_with! upload.errors
     upload

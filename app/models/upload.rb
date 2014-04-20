@@ -25,7 +25,7 @@ class Upload < ActiveRecord::Base
 
   def original_url
     return if url.blank?
-    host = APP_CONFIG['video_host']
+    host = APP_CONFIG['media_host']
     path = URI(url).path
     "https://#{host}#{path}"
   end

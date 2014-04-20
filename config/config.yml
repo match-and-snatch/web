@@ -1,5 +1,5 @@
 defaults: &defaults
-  video_host: buddy-video-assets.s3.amazonaws.com
+  media_host: buddy-video-assets.s3.amazonaws.com
   http_access:
     name: buddy
     password: staging
@@ -9,28 +9,29 @@ defaults: &defaults
     - szinin@gmail.com
     - s.popov.design@gmail.com
 
+jwplayer: &jwplayer
+  jwplayer:
+    script_path: //jwpsrv.com/library/i2XZ_MYyEeOEtyIACrqE1A.js
+
 development:
   <<: *defaults
   http_access: false
   javascript:
     log_level: 3
-    jwplayer:
-      script_path: //jwpsrv.com/library/i2XZ_MYyEeOEtyIACrqE1A.js
+    <<: *jwplayer
 
 production:
-  video_host: connectpal-videos.s3.amazonaws.com
+  media_host: connectpal-media.s3.amazonaws.com
   <<: *defaults
   javascript:
     log_level: 0
-    jwplayer:
-      script_path: //jwpsrv.com/library/i2XZ_MYyEeOEtyIACrqE1A.js
+    <<: *jwplayer
 
 staging:
   <<: *defaults
   javascript:
     log_level: 3
-    jwplayer:
-      script_path: //jwpsrv.com/library/i2XZ_MYyEeOEtyIACrqE1A.js
+    <<: *jwplayer
 
 test:
   <<: *defaults

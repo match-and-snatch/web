@@ -3,14 +3,14 @@ s3: &s3
   key: 'AKIAJ5KUIYFXQB5KUD5A'
   secret: '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'
 
-profile_image: &profile_image
-  <<: *s3
-  use:
-    - 'resize'
-    - ':original'
-  bucket: 'buddy-assets'
-
 development:
+  profile_image: &profile_image
+    <<: *s3
+    use:
+      - 'resize'
+      - ':original'
+    bucket: 'buddy-assets'
+
   # the jquery_sdk version you want to use, read up on it here:
   # https://transloadit.com/blog/2013/02/transloadit-javascript-plugin-and-jquery-1-9
   # defaults to latest
@@ -58,12 +58,24 @@ development:
           use: 'thumbs'
           bucket: 'buddy-assets'
           path: 'uploads/thumbs/${fields.slug}/${assembly.id}____${file.url_name}'
+        encode:
+          robot: "/video/encode"
+          use: ":original"
+          ffmpeg_stack: "v2.0.0"
+          preset: "ipad"
+          width: null
+          height: null
+          ffmpeg:
+            b: "700k"
+            vf: "scale='min(iw,1280)':-1"
         store:
           <<: *s3
-          use: ':original'
+          use:
+            - 'encode'
+            - ':original'
           url_prefix: 's1y5uslj4plb.cloudfront.net/'
           bucket: 'buddy-video-assets'
-          path: '${assembly.id}____${file.url_name}'
+          path: '${assembly.id}__${file.id}____${file.url_name}'
 
     post_audio:
       steps:
@@ -197,14 +209,32 @@ staging:
             - ':original'
 
 production:
+  attachment: &attachment
+    <<: *s3
+    use: ':original'
+    bucket: 'connectpal-uploads'
+
+  media: &media
+    <<: *s3
+    url_prefix: 's3kch7itxilxuh.cloudfront.net/'
+    bucket: 'connectpal-media'
+    path: '${assembly.id}__${file.id}____${file.url_name}'
+
+  user_picture: &user_picture
+    <<: *s3
+    use:
+      - 'resize'
+      - ':original'
+    bucket: 'connectpal-uploads'
+
   # the jquery_sdk version you want to use, read up on it here:
   # https://transloadit.com/blog/2013/02/transloadit-javascript-plugin-and-jquery-1-9
   # defaults to latest
   # use "v1.0.0" if you need IE6 support (using jQuery < 1.9)
   jquery_sdk_version: 'latest'
   auth:
-    key     : '6742a710a9ab11e3a661690b776b09a8'
-    secret  : 'ccc5f19c2c26cf803715551cd7dceff20efe8b65' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
+    key     : 'bd5bea60c06e11e3bf3d4b00c82e3cf7'
+    secret  : '80d8d557d23c2e6798dc55c6bedfdebaf281fec5' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
     duration: 1800 # 30 minute validity period for signed upload forms
 
   templates:
@@ -220,14 +250,9 @@ production:
           height: 250
           resize_strategy: 'fillcrop'
         store:
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-assets'
-          path: 'uploads/profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
-          use:
-            - 'resize'
-            - ':original'
+          <<: *user_picture
+          path: 'profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+
     cover_picture:
       steps:
         resize:
@@ -235,14 +260,8 @@ production:
           width: 970
           resize_strategy: 'fit'
         store:
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-assets'
-          path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
-          use:
-            - 'resize'
-            - ':original'
+          <<: *user_picture
+          path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:
       steps:
@@ -251,53 +270,40 @@ production:
           robot: "/video/thumbs"
           count: 1
         s3_thumb:
+          <<: *s3
           use: 'thumbs'
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-assets'
-          path: 'uploads/thumbs/${fields.slug}/${assembly.id}____${file.url_name}'
+          bucket: 'connectpal-uploads'
+          path: 'video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
+        encode:
+          robot: "/video/encode"
+          use: ":original"
+          ffmpeg_stack: "v2.0.0"
+          preset: "ipad"
+          width: null
+          height: null
+          ffmpeg:
+            b: "700k"
+            vf: "scale='min(iw,1280)':-1"
         store:
-          url_prefix: 'http://s1y5uslj4plb.cloudfront.net/'
-          #acl: private
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-videos'
-          path: 'uploads/post_videos/${fields.slug}/${assembly.id}____${file.url_name}'
-          use: ':original'
+          <<: *media
+          use:
+            - 'encode'
+            - ':original'
 
     post_audio:
       steps:
         store:
-          url_prefix: 'http://s1y5uslj4plb.cloudfront.net/'
-          #acl: private
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-videos'
-          path: 'uploads/post_audios/${fields.slug}/${assembly.id}____${file.url_name}'
+          <<: *media
           use: ':original'
 
     post_photo:
       steps:
         store:
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-assets'
-          path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
-          use:
-            - ':original'
+          <<: *attachment
+          path: 'photos/${fields.slug}/${assembly.id}__${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_document:
       steps:
         store:
-          acl: private
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'buddy-private-assets'
-          path: 'uploads/post_documents/${fields.slug}/${assembly.id}/${file.url_name}'
-          use:
-            - ':original'
+          <<: *attachment
+          path: 'documents/${fields.slug}/${assembly.id}__${file.url_name}'

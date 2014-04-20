@@ -26,6 +26,9 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         @change_progress '0%'
       onStart: (assembly) ->
         $('#uploading > .file_status').removeClass('hidden')
+      onError: (error) ->
+        console.log(error)
+        alert('Sorry, but file you are trying to upload is invalid')
     )
 
   on_post: =>
