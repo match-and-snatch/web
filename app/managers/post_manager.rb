@@ -12,6 +12,8 @@ class PostManager < BaseManager
   def create_status_post(message: message)
     fail_with! message: :empty if message.blank?
 
+    message = CGI.escapeHTML(message)
+
     StatusPost.new(user: user, message: message).tap do |post|
       post.save or fail_with! post.errors
       user.pending_post.try(:destroy!)
@@ -57,9 +59,9 @@ class PostManager < BaseManager
   def update_pending(message: nil, title: nil, keywords: nil)
     attributes = {}
 
-    attributes[:message]  = message  unless message.nil?
-    attributes[:title]    = title    unless title.nil?
-    attributes[:keywords] = keywords unless keywords.nil?
+    attributes[:message]  = CGI.escapeHTML(message) unless message.nil?
+    attributes[:title]    = title                   unless title.nil?
+    attributes[:keywords] = keywords                unless keywords.nil?
 
     if user.pending_post
       user.pending_post.update_attributes!(attributes)
@@ -88,6 +90,8 @@ class PostManager < BaseManager
       fail_with title:         :too_long if title.to_s.length > 200
       fail_with keywords_text: :too_long if keywords_text.to_s.length > 200
     end
+
+    message = CGI.escapeHTML(message)
 
     post_class.new(user: user, message: message, title: title, keywords_text: keywords_text).tap do |post|
       post.save or fail_with! post.errors
