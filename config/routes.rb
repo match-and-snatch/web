@@ -1,7 +1,7 @@
 BuddyPlatform::Application.routes.draw do
   root 'welcome#show'
 
-  resource :account_info, only: :show do
+  resource :account_info, only: [] do
     member do
       put :update_payment_information
       get :settings
@@ -94,6 +94,7 @@ BuddyPlatform::Application.routes.draw do
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
   get '/create_profile' => 'owner/first_steps#show', as: :create_profile
+  get '/account' => 'account_infos#show', as: :account_info
   put '/create_profile' => 'account_infos#create_profile_page'
 
   scope module: :owner do

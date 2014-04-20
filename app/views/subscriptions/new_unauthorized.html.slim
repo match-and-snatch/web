@@ -16,7 +16,7 @@
       .item_row
         .pull-left #{@owner.profile_name}
         .pull-right 
-          strong= super_number_to_currency(@owner.cost)
+          strong= super_number_to_currency(@owner.cost, use_ceil: false)
         .clearfix
 
       /* Transaction Fee */
@@ -24,14 +24,14 @@
       .transaction_fee 
         .pull-left Service Fee
         .pull-right 
-          strong= super_number_to_currency(@owner.subscription_fees)
+          strong= super_number_to_currency(@owner.subscription_fees, use_ceil: false)
         .clearfix
 
       /* Total Cost */
 
       .total_cost 
         .pull-left Total Monthly Cost
-        .pull-right.cost= super_number_to_currency(@owner.subscription_cost)
+        .pull-right.cost= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
         .clearfix
 
       .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
@@ -56,7 +56,7 @@
       .item_row
         .pull-left #{@owner.profile_name}
         .pull-right 
-          strong= super_number_to_currency(@owner.cost)
+          strong= super_number_to_currency(@owner.cost, use_ceil: false)
         .clearfix
 
       /* Transaction Fee */
@@ -64,14 +64,14 @@
       .transaction_fee 
         .pull-left Service Fee
         .pull-right 
-          strong= super_number_to_currency(@owner.subscription_fees)
+          strong= super_number_to_currency(@owner.subscription_fees, use_ceil: false)
         .clearfix
 
       /* Total Cost */
 
       .total_cost 
         .pull-left Total Monthly Cost
-        .pull-right.cost= super_number_to_currency(@owner.subscription_cost)
+        .pull-right.cost= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
         .clearfix
 
       .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime. 
