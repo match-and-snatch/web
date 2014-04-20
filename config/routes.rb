@@ -18,6 +18,8 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
+  resources :comments, only: [:destroy]
+
   resources :posts, only: [:destroy] do
     resources :comments, only: [:create, :index]
     resources :likes, only: :create

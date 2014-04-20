@@ -4,7 +4,6 @@
       .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
         span Delete post?
         a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}' Yes
-        /* Trigger Close Container */
         a.Toggler data-target='edit-post-#{post.id}' href="#" Cancel
         .clearfix
   - if post.title
