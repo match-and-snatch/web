@@ -15,7 +15,7 @@
             span= subscription.created_at.to_date.to_s(:long)
           p
             ' Next Billing Cycle:
-            span= Time.zone.today.next_month.beginning_of_month.to_date.to_s(:long)
+            span= subscription.created_at.to_date.next_month.to_s(:long)
           .actions
             a.pull-right.AjaxFormLink data-_method='delete' href=subscription_path(subscription.id)
               i.fa.fa-times-circle-o.pink Cancel Subscription
