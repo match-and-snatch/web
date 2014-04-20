@@ -59,18 +59,17 @@ class Upload < ActiveRecord::Base
   end
 
   private
-    def generate_secure_url(upload_url, expiration_date = 30.minutes.from_now.utc.to_i)
-      key, secret, bucket = Transloadit::Rails::Engine.configuration["templates"]['post_video']['steps']['store'].slice("key", "secret", "bucket").values
-      s3_base_url = "//#{URI(upload_url).host}"
-      s3_path = URI(upload_url).path
-      # this needs to be formatted exactly as shown below and UTF-8 encoded
-      string_to_sign = "GET\n\n\n#{expiration_date}\n/#{bucket}#{s3_path}".encode("UTF-8")
-      signature = CGI.escape( Base64.encode64(
-                                OpenSSL::HMAC.digest(
-                                  OpenSSL::Digest::Digest.new('sha1'),
-                                    secret, string_to_sign)).gsub("\n","") )
-      "#{s3_base_url}#{s3_path}?AWSAccessKeyId=#{key}&Expires=#{expiration_date}&Signature=#{signature}"
-    end
 
-
+  def generate_secure_url(upload_url, expiration_date = 30.minutes.from_now.utc.to_i)
+    key, secret, bucket = Transloadit::Rails::Engine.configuration["templates"]['post_video']['steps']['store'].slice("key", "secret", "bucket").values
+    s3_base_url = "//#{URI(upload_url).host}"
+    s3_path = URI(upload_url).path
+    # this needs to be formatted exactly as shown below and UTF-8 encoded
+    string_to_sign = "GET\n\n\n#{expiration_date}\n/#{bucket}#{s3_path}".encode("UTF-8")
+    signature = CGI.escape( Base64.encode64(
+                              OpenSSL::HMAC.digest(
+                                OpenSSL::Digest::Digest.new('sha1'),
+                                  secret, string_to_sign)).gsub("\n","") )
+    "#{s3_base_url}#{s3_path}?AWSAccessKeyId=#{key}&Expires=#{expiration_date}&Signature=#{signature}"
+  end
 end
