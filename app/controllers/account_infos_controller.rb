@@ -5,6 +5,11 @@ class AccountInfosController < ApplicationController
   def show
   end
 
+  def details
+    @user = UserStatsDecorator.new(@user)
+    json_render
+  end
+
   def settings
     json_render
   end

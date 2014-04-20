@@ -122,6 +122,13 @@ class SubscriptionManager < BaseManager
       subscription.target_user = target.subscription_source_user
 
       subscription.save or fail_with!(subscription.errors)
+      UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
     end
+  end
+
+  # @param subscription [Subscription]
+  def unsubscribe(subscription)
+    subscription.destroy
+    UserStatsManager.new(subscription.target_user).log_subscriptions_count
   end
 end

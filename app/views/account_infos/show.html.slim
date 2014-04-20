@@ -33,7 +33,7 @@
       - elsif @user.complete_profile?
         a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
           li Delete Profile Page
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/profile_details.json"
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
         li Profile Details
       a.AjaxLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
         li Payout Information

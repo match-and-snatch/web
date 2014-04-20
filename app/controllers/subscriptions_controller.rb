@@ -49,7 +49,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
-    @subscription.destroy
+    SubscriptionManager.new(current_user.object).unsubscribe(@subscription)
     json_render
   end
 

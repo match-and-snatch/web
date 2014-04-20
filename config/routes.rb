@@ -11,6 +11,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_bank_account_data
       get :edit_payment_information
       get :edit_cc_data
+      get :details
       put :update_cc_data
       put :create_profile_page
       put :delete_profile_page

@@ -388,6 +388,39 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: subscription_daily_count_change_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE subscription_daily_count_change_events (
+    id integer NOT NULL,
+    subscriptions_count integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    created_on date,
+    user_id integer
+);
+
+
+--
+-- Name: subscription_daily_count_change_events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE subscription_daily_count_change_events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subscription_daily_count_change_events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE subscription_daily_count_change_events_id_seq OWNED BY subscription_daily_count_change_events.id;
+
+
+--
 -- Name: subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -496,8 +529,8 @@ CREATE TABLE users (
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees double precision,
     cost integer,
-    has_public_profile boolean DEFAULT false,
-    password_reset_token character varying(255)
+    password_reset_token character varying(255),
+    has_public_profile boolean DEFAULT false
 );
 
 
@@ -581,6 +614,13 @@ ALTER TABLE ONLY profile_types ALTER COLUMN id SET DEFAULT nextval('profile_type
 --
 
 ALTER TABLE ONLY profile_types_users ALTER COLUMN id SET DEFAULT nextval('profile_types_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscription_daily_count_change_events ALTER COLUMN id SET DEFAULT nextval('subscription_daily_count_change_events_id_seq'::regclass);
 
 
 --
@@ -674,6 +714,14 @@ ALTER TABLE ONLY profile_types
 
 ALTER TABLE ONLY profile_types_users
     ADD CONSTRAINT profile_types_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subscription_daily_count_change_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY subscription_daily_count_change_events
+    ADD CONSTRAINT subscription_daily_count_change_events_pkey PRIMARY KEY (id);
 
 
 --
@@ -794,3 +842,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140418112251');
 INSERT INTO schema_migrations (version) VALUES ('20140418134507');
 
 INSERT INTO schema_migrations (version) VALUES ('20140419085232');
+
+INSERT INTO schema_migrations (version) VALUES ('20140420102145');
