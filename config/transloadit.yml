@@ -88,9 +88,17 @@ development:
 
     post_photo:
       steps:
+        preview:
+          robot: '/image/resize'
+          use: ':original'
+          width: 100
+          height: 100
+          resize_strategy: 'fillcrop'
         store:
           <<: *s3
-          use: ':original'
+          use:
+            - ':original'
+            - 'preview'
           bucket: 'buddy-assets'
           path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
@@ -298,8 +306,17 @@ production:
 
     post_photo:
       steps:
+        preview:
+          robot: '/image/resize'
+          use: ':original'
+          width: 100
+          height: 100
+          resize_strategy: 'fillcrop'
         store:
           <<: *attachment
+          use:
+            - ':original'
+            - 'preview'
           path: 'photos/${fields.slug}/${assembly.id}__${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_document:

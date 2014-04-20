@@ -59,7 +59,11 @@ class UploadManager < BaseManager
     attributes = { uploadable_type: 'Post', uploadable_id: nil }
 
     transloadit_data['uploads'].each_with_index.map do |upload_data, index|
+      transloadit_data['results']['preview']   or fail_with! 'Invalid image'
+      transloadit_data['results'][':original'] or fail_with! 'Invalid image'
+
       original = transloadit_data['results'][':original'][index]
+      preview  = transloadit_data['results']['preview'][index]
       upload = Photo.new transloadit_data: transloadit_data,
                          user_id:          user.id,
                          type:             'Photo',
@@ -69,7 +73,7 @@ class UploadManager < BaseManager
                          width:            upload_data['meta']['width'],
                          height:           upload_data['meta']['height'],
                          url:              original['ssl_url']
-      upload.attributes = attributes.merge(preview_url: original['ssl_url'])
+      upload.attributes = attributes.merge(preview_url: preview['ssl_url'])
       upload.save or fail_with! upload.errors
       upload
     end
