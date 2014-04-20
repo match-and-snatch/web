@@ -85,12 +85,12 @@
 
 /* Restore Password Popup */
 
-.Popup.popup.authentication_popup.modal-content data-identifier='forgot-password'
+.Popup.popup.authentication_popup.modal-content data-identifier='forgot-password' style="width: 400px;"
 
   /* Header Area */
 
   .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="forgot-password" aria-hidden="true"
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="forgot-password" aria-hidden="true" style="top: 5px"
     .modal-title Forgot your password?
     span If you already have an account, please enter email.
 
@@ -100,7 +100,7 @@
     form.Form action=restore_password_path method='post'
       .form-group
         .pull-left
-          input.form-control type='text' name='email' placeholder='Email Address'
+          input.form-control type='text' name='email' placeholder='Email Address' style="width: 287px"
           p.text-danger data-field='email'
         input.pull-right.btn.blue type='submit' value='Send'
         .clearfix
