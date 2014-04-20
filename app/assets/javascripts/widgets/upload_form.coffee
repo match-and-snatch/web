@@ -20,7 +20,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       onProgress: (bytesReceived, bytesExpected, assembly) =>
         @change_progress (bytesReceived / bytesExpected * 100).toFixed(2) + '%'
       onUpload: (upload, assembly) =>
-        @$target.prepend("<div>#{upload.name} is uploaded.</div>")
+        #@$target.prepend("<div>#{upload.name} is uploaded.</div>")
       onSuccess: (assembly) =>
         $('#uploading > .file_status').addClass('hidden')
         @change_progress '0%'

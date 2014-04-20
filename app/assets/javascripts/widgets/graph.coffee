@@ -23,7 +23,6 @@ class bud.widgets.Graph extends bud.Widget
 
     graph = new Rickshaw.Graph( {
       element: @$container[0],
-      renderer: 'line',
       width: 600,
       height: 180,
       series: [{
