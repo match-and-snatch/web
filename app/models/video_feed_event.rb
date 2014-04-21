@@ -1,0 +1,2 @@
+class VideoFeedEvent < Feedevent
+end
