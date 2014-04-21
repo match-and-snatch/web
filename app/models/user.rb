@@ -89,6 +89,10 @@ class User < ActiveRecord::Base
     subscriptions.by_target(target).any?
   end
 
+  def subscribers
+    User.joins(:subscriptions).where(subscriptions: {target_user_id: id})
+  end
+
   # @see Concerns::Subscribable#subscription_source_user
   # @return [User]
   def subscription_source_user
