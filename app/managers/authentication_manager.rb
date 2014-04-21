@@ -45,6 +45,7 @@ class AuthenticationManager < BaseManager
     user.generate_auth_token
 
     user.save or fail_with! user.errors
+    AuthMailer.registered(user).deliver
     user
   end
 
