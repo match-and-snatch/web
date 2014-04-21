@@ -4,7 +4,7 @@ ul.nav.navbar-nav.pull-right
       i.fa.fa-search
   - if current_user.has_subscriptions?
     = render 'subscriptions_nav'
-  - if current_user.object.complete_profile?
+  - if current_user.object.has_profile_page?
     li
       a href=current_profile_path
         i.fa.fa-user My Profile
