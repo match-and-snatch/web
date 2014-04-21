@@ -26,7 +26,7 @@ class bud.Widget
 
   constructor: (container) ->
     if container.hasClass('js-widget')
-      bud.Logger.error("Widget: #{@class_name()} already initialized")
+      bud.Logger.error("Widget: #{@class_name} already initialized")
       return
 
     @$container = container
@@ -34,11 +34,11 @@ class bud.Widget
     @initialize()
 
     @$container.addClass('js-widget').data('js-widget', @)
-    bud.Logger.message("Widget: #{@class_name()} initialized")
+    bud.Logger.message("Widget: #{@class_name} initialized")
 
     bud.Widget.instances.push(@)
 
-  class_name: -> @.__proto__.constructor.name
+  class_name: -> @
 
   initialize: ->
     # To be redeclared in inherited classes
@@ -46,4 +46,4 @@ class bud.Widget
   destroy: ->
     @$container.unbind()
     @$container.removeClass('js-widget')
-    bud.Logger.message("Widget: #{@class_name()} destroying")
+    bud.Logger.message("Widget: #{@class_name} destroying")
