@@ -1,0 +1,9 @@
+li.item_feed
+  .name.pull-left= current_user.name
+  .date.pull-right Date: #{event.created_at.to_date.to_s(:long)}
+  .clearfix
+
+  .box
+    ' Congratulations,
+    = link_to_user event.target
+    |  is now subscribed to your profile!

@@ -1,3 +1,2 @@
-class AudioFeedEvent < Feedevent
+class AudioFeedEvent < FeedEvent
 end
-

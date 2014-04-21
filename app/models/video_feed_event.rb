@@ -1,2 +1,2 @@
-class VideoFeedEvent < Feedevent
+class VideoFeedEvent < FeedEvent
 end

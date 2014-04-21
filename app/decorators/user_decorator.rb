@@ -7,7 +7,7 @@ class UserDecorator < BaseDecorator
            :cover_picture_url, :original_cover_picture_url, :id,
            :contacts_info,
            :cover_picture_position,
-           :cost,
+           :cost, :name,
            to: :object
 
   # @param object [User]

@@ -81,6 +81,11 @@ class PostManager < BaseManager
     user.pending_post(true)
   end
 
+  def delete(post)
+    FeedEvent.where(target_type: 'Post', target_id: post.id).delete_all
+    post.destroy
+  end
+
   private
 
   # @param post_class [Class]
