@@ -34,7 +34,7 @@
         /* Sample Profile */
 
         .sample_profile
-          img src="https://buddy-assets.s3.amazonaws.com/images/mozart-sample-profile.jpg"
+          img src="https://buddy-assets.s3.amazonaws.com/images/mozart-sample-profile.jpg" height="852px"
 
           .note.n1 Add custom cover photo and profile picture
           .note.n2 Tell your subscribers what benefits they get by subscribing to you.
@@ -44,10 +44,39 @@
             | Set your monthly price for people to access your profile. You keep 
             b 100% 
             | of the price you set. At ConnectPal, there are no startup or hosting fees, and you can cancel anytime. ConnectPal adds a service fee on top of your subscription price to keep our platform running. Check out the fee breakdown 
-            a href="#" here.
+            a.PopupTrigger data-target='pricing-breakdown' href="#" here.
 
           .note.n5 Post updates, add audio or video files, photos, and documents.
           .note.n6 Engage in discussions with your audience.
 
         .clearfix
         a.btn.pink href=second_step_path style="font-size: 16px; padding: 10px 30px;" I’m ready to continue to step 2
+
+.Popup.popup.modal-content data-identifier='pricing-breakdown' style='width: 600px'
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="pricing-breakdown" aria-hidden="true"
+    .modal-title The pricing table is below...
+
+  .modal-body
+    table.table.table-striped.table-bordered
+      tr 
+        td 
+          b Subscription Price
+        td 
+          |
+          b ConnectPal Service Fee 
+          span style="font-size: 11px;"(includes all fees & credit card processing)
+      tr
+        td $4 or less
+        td $0.79
+      tr
+        td $5 - $9
+        td $0.95
+      tr
+        td $10 - $20
+        td $1.79
+      tr
+        td $21 & above
+        td 9% of subscription price
+
+    p For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout, subscribers will pay $4.79 monthly – which includes our 79 cent service fee. The profile owner will receive $4 per subscriber per month. And ConnectPal will receive 79 cents per subscriber per month.

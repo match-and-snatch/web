@@ -527,6 +527,7 @@
     /* Category Cloud */
 
     .archive_cloud
+      display: none
       ul
         margin: 0
         li
@@ -774,6 +775,9 @@
       border-top: 1px solid $color_border
       padding-top: 15px
       position: relative
+      .deleted
+        margin-top: 0
+        padding: 15px
       .photo
         background-color: #FFFFFF
         border: 1px solid $color_border
@@ -788,42 +792,42 @@
           position: relative
           width: 520px
           .delete
-            display: none
+            cursor: pointer
             position: absolute
             top: 0
             right: 0
-            .edit_container
-              border-radius: 5px
-              background-color: #FFFFFF
-              border: 1px solid $color_border
-              cursor: default !important
-              font-size: 12px !important
-              position: absolute
-              top: 0
-              right: 0
-              padding: 7px 10px
-              width: 165px
-              span
-                color: $color_text_dark
-                display: inline-block
-                padding-top: 3px
-              a
-                color: $color_text_dark 
-                cursor: pointer
-                display: inline-block
-                text-decoration: none
-                margin-left: 5px
-                &.delete_btn
-                  color: $color_pink !important
-                &:hover
-                  color: $color_text_dark
-                  text-decoration: underline
             &.fa
               &:before
                 color: $color_text_light
               &:hover
                 &:before
                   color: $color_pink
+          .edit_container
+            border-radius: 5px
+            background-color: #FFFFFF
+            border: 1px solid $color_border
+            cursor: default !important
+            font-size: 12px !important
+            position: absolute
+            top: 0
+            right: 0
+            padding: 7px 10px
+            width: 190px
+            span
+              color: $color_text_dark
+              display: inline-block
+              padding-top: 3px
+            a
+              color: $color_text_dark 
+              cursor: pointer
+              display: inline-block
+              text-decoration: none
+              margin-left: 5px
+              &.delete_btn
+                color: $color_pink !important
+              &:hover
+                color: $color_text_dark
+                text-decoration: underline
           .profile_name
             color: $color_blue
             font-weight: 600
