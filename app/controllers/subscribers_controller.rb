@@ -9,6 +9,7 @@ class SubscribersController < ApplicationController
 
   def destroy
     SubscriptionManager.new(@subscriber).unsubscribe(@subscription)
+    notice("#{@subscriber.name} is no longer subscribed on you.")
     json_reload
   end
 
