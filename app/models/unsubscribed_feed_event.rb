@@ -1,0 +1,2 @@
+class UnsubscribedFeedEvent < FeedEvent
+end
