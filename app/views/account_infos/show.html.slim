@@ -30,15 +30,16 @@
       - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
         a.AjaxFormLink data-_method='put' href=create_profile_path
           li Create Profile Page
-      - elsif @user.complete_profile?
+      - if @user.has_profile_page?
         a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
           li Delete Profile Page
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
-        li Profile Details
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
-        li Payout Information
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscribers_path
-        li style="border-bottom: none;" View Subscribers
+      - if @user.complete_profile?
+        a.AjaxLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
+          li Profile Details
+        a.AjaxLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
+          li Payout Information
+        a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscribers_path
+          li style="border-bottom: none;" View Subscribers
 
   /* Content */
 
