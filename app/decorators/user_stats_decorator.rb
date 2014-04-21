@@ -25,11 +25,11 @@ class UserStatsDecorator < UserDecorator
   end
 
   def start_date
-    [Time.zone.now.beginning_of_month.to_date, object.created_at.to_date].max
+    [Time.zone.now.beginning_of_month.to_date, object.created_at.to_date].max - 1.day
   end
 
   def end_date
-    Time.zone.now.to_date
+    Time.zone.now.to_date + 1.day
   end
 
   def events

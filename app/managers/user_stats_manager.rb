@@ -6,7 +6,7 @@ class UserStatsManager < BaseManager
   end
 
   def log_subscriptions_count
-    stat_entry = SubscriptionDailyCountChangeEvent.where(created_on: current_date).first
+    stat_entry = SubscriptionDailyCountChangeEvent.where(created_on: current_date, user_id: user.id).first
 
     if stat_entry
       stat_entry.update_attribute(:subscriptions_count, user.source_subscriptions.count)
