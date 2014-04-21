@@ -12,12 +12,13 @@ class PaymentManager < BaseManager
                                    customer:    target.customer.stripe_user_id,
                                    currency:    'usd',
                                    description: description,
-                                   statement_description: "#{target.statement_description} - ConnectPal.com",
+                                   statement_description: 'ConnectPal.com',
                                    metadata:    {target_id:   target.id,
                                                  target_type: target.class.name,
                                                  user_id:     target.customer.id}
     Payment.create! target:             target,
                     user:               target.customer,
+                    target_user:        target.recipient,
                     amount:             charge['amount'],
                     stripe_charge_data: charge.as_json,
                     description:        description

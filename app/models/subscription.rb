@@ -19,6 +19,11 @@ class Subscription < ActiveRecord::Base
     user
   end
 
+  # @return [User]
+  def recipient
+    target_user
+  end
+
   def statement_description
     target_user.name
   end

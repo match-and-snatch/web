@@ -71,6 +71,7 @@ BuddyPlatform::Application.routes.draw do
   resources :profile_types, only: [:index, :create, :destroy]
 
   namespace :admin do
+    resources :payments, only: :index
     resources :staffs, only: :index
     resources :profiles, only: [:index, :new] do
       member do

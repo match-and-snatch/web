@@ -10,6 +10,12 @@ module Concerns::Payable
     raise NotImplementedError
   end
 
+  # @return [User]
+  def recipient
+    raise NotImplementedError
+  end
+
+  # @return [String]
   def statement_description
     raise NotImplementedError
   end
