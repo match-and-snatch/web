@@ -10,6 +10,11 @@ class bud.widgets.Overlay extends bud.Widget
       bud.widgets.Overlay.__instance = @
       bud.sub('popup.show.overlay', @show)
       bud.sub('popup.hide.overlay', @hide)
+    @$container.click @on_click
+
+  on_click: =>
+    bud.pub("popup.show")
+    @hide()
 
   show: =>
     $('body').css('overflow', 'hidden')
