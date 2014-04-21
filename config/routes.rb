@@ -93,6 +93,8 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
+  resource :feed, only: :show
+
   get '/application_settings' => 'admin/dashboard#show', as: :application_settings
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login

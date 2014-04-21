@@ -1,18 +1,8 @@
 .col-md-12
   h2 My Feed
-  ul.hidden
-    - @subscriptions.each do |subscription|
-      li.item_sub
-        a href=profile_path(subscription.target_user)
-          = subscription.target_user.full_name
-
-    - @subscribed_on_me.each do |subscription|
-      li.item_sub= link_to_user subscription.user
+  /* New Status */
 
   ul
-
-    /* New Status */
-
     li.item_feed
       .name.pull-left SubscribedProfileName / OwnerProfileName
       .date.pull-right Date: February 15, 2014
