@@ -8,6 +8,6 @@ class bud.Logger
 
   constructor: (log_level) -> @log_level = log_level || 0
 
-  error:   (text) -> console.error(text) if @log_level >= 1
-  warning: (text) -> console.warn(text)  if @log_level >= 2
-  message: (text) -> console.log(text)   if @log_level >= 3
+  error:   (text) -> console.error(text) if @log_level >= 1 && console
+  warning: (text) -> console.warn(text)  if @log_level >= 2 && console
+  message: (text) -> console.log(text)   if @log_level >= 3 && console

@@ -32,7 +32,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         $('#uploading > .file_status').removeClass('hidden')
         bud.pub('attachment.uploading')
       onError: (error) ->
-        console.log(error)
+        console.log(error) if console
         alert('Sorry, but file you are trying to upload is invalid')
     )
 
