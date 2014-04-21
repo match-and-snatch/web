@@ -466,22 +466,6 @@
 
 /* Subscriber Display */
 
-// .doc_view
-//   .icon
-//     background-color: #FFFFFF
-//     border-right: 1px solid $color_border
-//     padding: 10px 15px
-//     &.fa
-//       &:before
-//         font-size: 26px
-//   .doc_title
-//     display: block
-//     padding: 13px 0 0 10px
-//   &:hover
-//     text-decoration: none
-
-/* Subscriber Display */
-
 #subscriber_display
   margin-top: $box_margin
 
@@ -731,6 +715,25 @@
             width: 585px
           &:nth-of-type(1n+4)
             display: none
+      .doc_view
+        color: $color_text_dark
+        .icon
+          background-color: #FFFFFF
+          border-right: 1px solid $color_border
+          padding: 7px 15px
+          &.fa
+            &:before
+              font-size: 26px
+        .doc_title
+          display: block
+          font-size: 13px
+          padding: 10px 0 0 10px
+        &:hover
+          text-decoration: none
+          background: #FFFFFF
+          .icon
+            background-color: $color_background
+
       .message
         font-size: 13px
         line-height: 20px
