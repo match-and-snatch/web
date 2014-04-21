@@ -25,7 +25,9 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         $('#uploading > .file_status').addClass('hidden')
         @change_progress '0%'
         bud.pub('attachment.uploaded')
-      onStart: (assembly) ->
+        @$container.find('.select_file_container').removeClass('hidden')
+      onStart: (assembly) =>
+        @$container.find('.select_file_container').addClass('hidden')
         $('#uploading > .file_status').removeClass('hidden')
         bud.pub('attachment.uploading')
       onError: (error) ->
