@@ -220,7 +220,7 @@ staging:
 
     post_audio:
       steps:
-        <<: *filter_audio
+        <<: *audio_filter
         store:
           url_prefix: 'http://s1y5uslj4plb.cloudfront.net/'
           #acl: private
