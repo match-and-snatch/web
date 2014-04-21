@@ -5,6 +5,7 @@ class bud.widgets.AjaxFormLink extends bud.Widget
 
   initialize: ->
     @url = @$container.attr('href')
+    @event = @$container.data('event')
     @data = @$container.data()
     @$target = bud.get(@$container.data('target')) || @$container
     @$container.click @link_clicked
@@ -18,6 +19,7 @@ class bud.widgets.AjaxFormLink extends bud.Widget
     @$container.removeClass('active')
     @$container.addClass('pending')
 
+    bud.pub(@event, [@]) if @event
     bud.Ajax.post(@url, @data, {success: @render_link, replace: @on_replace})
     return false
 
