@@ -92,4 +92,7 @@ BuddyPlatform::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # Redirect to www.connectpal.com any invalid request
+  config.middleware.use Redirector
 end
