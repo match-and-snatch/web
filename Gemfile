@@ -42,7 +42,7 @@ gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'bootstrap-sass'
 
 # Credit cards, billing, charges, payments
-gem 'stripe'
+gem 'stripe-rails'
 
 # Uploads, assets
 gem 'transloadit-rails'
