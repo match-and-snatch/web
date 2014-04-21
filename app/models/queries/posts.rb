@@ -38,8 +38,20 @@ module Queries
       @start_id.present?
     end
 
+    def tagged?
+      @query.include?('#')
+    end
+
+    def types
+      @query.split(/\W+/).map(&:singularize).map(&:camelize).map { |x| x << 'Post' } & %w(AudioPost VideoPost PhotoPost DocumentPost StatusPost)
+    end
+
     def matching_posts
-      @user.posts.search_by_message(@query).limit(10)
+      if tagged?
+        @user.posts.where(type: types)
+      else
+        @user.posts.search_by_message(@query).limit(10)
+      end
     end
 
     def recent_posts

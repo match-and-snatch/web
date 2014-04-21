@@ -93,7 +93,7 @@
           span.input-group-addon
             i.fa.fa-search.fa-fw.fa-lg
           form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
-            input.Autocomplete.form-control type="text" name='q' placeholder="Search profile content"
+            input.Autocomplete.form-control data-identifier='search-posts-autocomplete' type="text" name='q' placeholder="Search profile content"
 
         /* Category Cloud */
 
@@ -101,13 +101,13 @@
           span Archived Content
           ul
             li
-              a href="#" Audio
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='audio' href="#" Audio
             li
-              a href="#" Video
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='video' href="#" Video
             li
-              a href="#" Photos
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='photo' href="#" Photos
             li
-              a href="#" Documents
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='document' href="#" Documents
 
         /* Contact Info */
 

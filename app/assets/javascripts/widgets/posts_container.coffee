@@ -8,7 +8,12 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
     super
     $(window).scroll @on_scroll
     @last_post_id = null
+    @q = null
     @disabled = false
+    bud.sub('search.changed', @on_search_changed)
+
+  on_search_changed: (e, q) =>
+    @q = q
 
   on_scroll: =>
     return if @disabled || @pending
@@ -30,4 +35,7 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
     @pending = false
 
   request_params: ->
-    {last_post_id: @last_post_id}
+    result = {last_post_id: @last_post_id}
+    if !_.isEmpty(@q)
+      result['q'] = @q
+    result

@@ -1,12 +1,12 @@
 - if @posts.any?
-  - if params[:q].present?
+  - if params[:q].present? && !params[:last_post_id]
     .show_results.bg-warning
       |Results for "
       b= params[:q]
       |"
   /= render partial: 'video_post'
   = render partial: 'post', collection: @posts
-- else
+- elsif !params[:last_post_id]
   - if params[:q].present?
     |No posts for "
     b= params[:q]

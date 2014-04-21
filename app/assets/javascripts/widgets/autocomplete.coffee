@@ -4,14 +4,16 @@ class bud.widgets.Autocomplete extends bud.Widget
   @SELECTOR: '.Autocomplete'
 
   initialize: ->
-    form  = @$container.parents('form')
-    input = @$container
-    input.val('')
+    @form  = @$container.parents('form')
+    @input = @$container
+    @input.val('')
 
-    input.on 'keyup', (e) ->
+    @input.on 'keyup', (e) =>
       if e.which == 27
-        input.val('')
-        form.submit()
+        @input.val('')
+        @form.submit()
+        bud.pub('search.changed', [@input.val()])
 
-    input.on 'input', ->
-      form.submit()
+    @input.on 'input', =>
+      @form.submit()
+      bud.pub('search.changed', [@input.val()])
