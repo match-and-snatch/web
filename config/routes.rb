@@ -27,14 +27,14 @@ BuddyPlatform::Application.routes.draw do
 
   resource :pending_post, only: [:update]
 
-  resources :status_posts,   only: [:new, :create]
-  resources :audio_posts,    only: [:new, :create] do
+  resources :status_posts, only: [:new, :create]
+  resources :audio_posts, only: [:new, :create] do
     delete :cancel, on: :collection
   end
-  resources :video_posts,    only: [:new, :create] do
+  resources :video_posts, only: [:new, :create] do
     delete :cancel, on: :collection
   end
-  resources :photo_posts,    only: [:new, :create]do
+  resources :photo_posts, only: [:new, :create]do
     delete :cancel, on: :collection
   end
   resources :document_posts, only: [:new, :create] do
