@@ -11,7 +11,7 @@
 
     /* Details Container */
     .details_container.row
-      .col-md-7.profile_details
+      .col-md-7.col-sm-7.col-xs-7.profile_details
 
         /* Profile Name */
         span.profile_name.visitor = @profile.profile_name
@@ -20,7 +20,7 @@
         /* Profile Type */
         span.profile_type= @profile.types
 
-      .col-md-5
+      .col-md-5.col-sm-5.col-xs-5
 
         /* Subscribe Container */
         .subscribe_cont
@@ -42,7 +42,7 @@
     /* Subscriber Benefits */
 
     .benefits_container.row
-      .col-lg-12.col-md-12
+      .col-md-12.col-sm-12.col-xs-12
         - if @profile.benefits.any?
           .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
           div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
@@ -51,7 +51,7 @@
 
   #visitor.box
     .row
-      .col-md-12
+      .col-md-12.col-sm-12.col-xs-12
         .title Welcome to #{@profile.profile_name}'s profile page
         span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
 

@@ -17,7 +17,7 @@
 
     /* Details Container */
     .details_container.row
-      .col-md-7.profile_details
+      .col-md-7.col-sm-7.col-xs-7.profile_details
 
         /* Profile Name */
         span.profile_name= @profile.profile_name
@@ -27,7 +27,7 @@
         span.profile_type= @profile.types
 
 
-      .col-md-5
+      .col-md-5.col-sm-5.col-xs-5
 
         /* Subscribe Container */
         .subscribe_cont
@@ -48,7 +48,7 @@
     /* Subscriber Benefits */
 
     .benefits_container.row
-      .col-md-12
+      .col-md-12.col-sm-12.col-xs-12
         - if @profile.benefits.any?
           .label Subscriber Benefits
           div data-identifier='benefits'= render_benefits(@profile)
@@ -57,12 +57,7 @@
 
   #subscriber_display
     .row
-      /* Recent Posts */
-
-      .pull-right.col-md-8.col-sm-12
-        .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
-
-      .sidebar.col-md-4.col-sm-12.pull-left
+      .sidebar.col-md-4.col-sm-12.col-xs-12.pull-left
 
         /* Search */
 
@@ -130,6 +125,12 @@
                 a.fa.fa-vimeo-square  href=url target="_blank" Vimeo
 
         span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
+
+      /* Recent Posts */
+
+      .pull-right.col-md-8.col-sm-12.col-xs-12
+        .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
+
 
 .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(@profile.object)
 .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(@profile.object)
