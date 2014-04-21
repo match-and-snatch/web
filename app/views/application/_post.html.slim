@@ -7,7 +7,7 @@
         a.Toggler data-target='edit-post-#{post.id}' href="#" Cancel
         .clearfix
   - if post.title
-    .post_title= post.title.humanize
+    .post_title= post.title
   .date Posted #{time_ago_in_words(post.created_at)} ago
 
   = render 'post_uploads', post: post
