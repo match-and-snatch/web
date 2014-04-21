@@ -3,7 +3,7 @@ ul.nav.navbar-nav.pull-right
     li
       a.PopupTrigger data-target='search-users' href='#'
         i.fa.fa-search
-    - if current_user.has_profile_page? && !current_page?(current_profile_path)
+    - if current_user.object.has_profile_page? && !current_page?(current_profile_path)
       li
         a href=current_profile_path
           i.fa.fa-user My Profile
