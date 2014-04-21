@@ -21,9 +21,9 @@ development:
     <<: *jwplayer
 
 production:
-  http_access: false
-  media_host: connectpal-media.s3.amazonaws.com
   <<: *defaults
+  media_host: connectpal-media.s3.amazonaws.com
+  http_access: false
   javascript:
     log_level: 0
     <<: *jwplayer
