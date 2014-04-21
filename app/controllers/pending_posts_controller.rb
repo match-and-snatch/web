@@ -1,6 +1,6 @@
 class PendingPostsController < ApplicationController
   before_filter :authenticate!
-  before_filter :init_profile, only: :new
+  before_filter :init_profile, only: [:new, :cancel]
 
   def new
     json_replace
