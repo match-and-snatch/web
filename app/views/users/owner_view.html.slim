@@ -29,7 +29,8 @@
             .amount
               span data-identifier='subscription-cost'
                 = super_number_to_currency(@profile.subscription_cost, format: '%n')
-              |/month
+              span.month
+                |/month
             .btn.pink.fa.fa-usd.fa-2x
             i.fa.fa-gear
             .clearfix

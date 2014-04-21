@@ -32,7 +32,11 @@
             .subscribed Subscribed
           - else
             a.cost_visitor
-              .amount #{@profile.subscription_cost}/month
+              .amount
+                span
+                  = super_number_to_currency(@profile.subscription_cost, format: '%n')
+                span.month
+                  |/month
               .btn.pink.fa.fa-usd.fa-2x
               .clearfix
             a.subscribe.PopupTrigger data-target='subscription' Subscribe
