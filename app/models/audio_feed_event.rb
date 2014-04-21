@@ -1,0 +1,2 @@
+class AudioFeedEvent < FeedEvent
+end

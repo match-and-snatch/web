@@ -1,0 +1,28 @@
+doctype html
+html
+  head= render 'head'
+
+  body
+    nav.navbar-wrapper.navbar-fixed-top role="navigation"
+      .navbar-inner
+        .container
+          a.brand.pull-left href=root_path
+            img src=image_path('https://buddy-assets.s3.amazonaws.com/images/logo.png')
+          - if current_user.admin?
+            ul.nav.navbar-nav.pull-left style='margin-left: 5px'
+              li
+                a href=application_settings_path
+                  i.fa.fa-gears Application Settings
+          = render 'navigation'
+
+    #content
+      - if flash.notice.present?
+        .notification_bar.Notification data-identifier='notification-bar'
+          .cont= flash.notice
+          .fa.fa-times-circle.close.Toggler data-target='notification-bar'
+      = yield
+    #overlay.Overlay
+    = render 'search_users_popup'
+    #ClickBlocker
+    = render 'js'
+

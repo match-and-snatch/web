@@ -1,0 +1,33 @@
+.post.box data-identifier='post-#{post.id}'
+  - if can?(:delete, post)
+    i.fa.fa-gear.edit_post.pull-right.Toggler data-target='edit-post-#{post.id}'
+      .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
+        span Delete post?
+        a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}' Yes
+        a.Toggler data-target='edit-post-#{post.id}' href="#" Cancel
+        .clearfix
+  - if post.title
+    .post_title= post.title
+  .date Posted #{time_ago_in_words(post.created_at)} ago
+
+  = render 'post_uploads', post: post
+
+  .message= format_post_message(super_highlight(post.message))
+  .action_bar= render 'like', post: post
+
+  .comment_container
+
+    /* Comment Row */
+
+    = render partial: 'comments/comment', collection: post.comments.recent
+    .new_comments data-identifier="comments_section-#{post.id}"
+
+    form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}"
+      .photo.pull-left
+        img src=current_user.profile_picture_url width=50 height=50
+      - if current_user.can?(:comment, post)
+        input.reply.btn.black.pull-right type='submit' value='Reply'
+      - else
+        .reply.btn.black.pull-right.PopupTrigger data-target='subscription' Reply
+      textarea.reply_input.pull-right name='message' placeholder="Write your reply..."
+      .clearfix

@@ -1,56 +1,133 @@
-StreamrushPlatform::Application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+BuddyPlatform::Application.routes.draw do
+  root 'welcome#show'
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  resource :account_info, only: [] do
+    member do
+      put :update_payment_information
+      get :settings
+      put :update_general_information
+      put :change_password
+      get :billing_information
+      put :update_bank_account_data
+      get :edit_payment_information
+      get :edit_cc_data
+      get :details
+      put :update_cc_data
+      put :create_profile_page
+      put :delete_profile_page
+    end
+  end
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  resources :comments, only: [:destroy]
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  resources :posts, only: [:destroy] do
+    resources :comments, only: [:create, :index]
+    resources :likes, only: :create
+  end
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  resource :pending_post, only: [:update]
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+  resources :status_posts, only: [:new, :create]
+  resources :audio_posts, only: [:new, :create] do
+    delete :cancel, on: :collection
+  end
+  resources :video_posts, only: [:new, :create] do
+    delete :cancel, on: :collection
+  end
+  resources :photo_posts, only: [:new, :create]do
+    delete :cancel, on: :collection
+  end
+  resources :document_posts, only: [:new, :create] do
+    delete :cancel, on: :collection
+  end
 
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+  resource :session
 
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
+  resources :subscribers, only: [:index, :destroy]
+  resources :subscriptions, only: [:index, :create, :destroy]
+  resources :audios, only: [:create, :destroy]
+  resources :videos, only: [:create, :destroy]
+  resources :photos, only: [:create, :destroy]
+  resources :documents, only: [:create, :destroy]
 
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
+  resources :users, only: [:index, :create, :edit, :update] do
+    member do
+      put :update_name
+      put :update_cost
+      put :update_profile_picture
+      put :update_cover_picture
+      put :update_contacts_info
+      put :update_cover_picture_position
+    end
 
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+    resources :photos, only: [] do
+      collection do
+        get :profile_picture
+        get :cover_picture
+      end
+    end
+    resources :benefits, only: :create
+    resources :posts, only: [:index, :create]
+    resources :subscriptions, only: [:new, :create] do
+      collection do
+        post :via_register
+        post :via_update_cc_data
+      end
+    end
+  end
+
+  resources :profile_types, only: [:index, :create, :destroy]
+
+  namespace :admin do
+    resources :payments, only: :index
+    resources :staffs, only: :index
+    resources :profiles, only: [:index, :new] do
+      member do
+        put :make_public
+        put :make_private
+      end
+    end
+
+    resources :users, only: :index do
+      member do
+        put :make_admin
+        put :drop_admin
+      end
+    end
+    resources :profile_types, only: [:index, :create, :destroy]
+  end
+
+  resource :password, only: [:edit, :update] do
+    member do
+      post 'restore'
+    end
+  end
+
+  resource :feed, only: :show
+
+  get '/application_settings' => 'admin/dashboard#show', as: :application_settings
+  get '/logout' => 'sessions#logout', as: :logout
+  get '/login' => 'sessions#new', as: :login
+  get '/create_profile' => 'owner/first_steps#show', as: :create_profile
+  get '/account' => 'account_infos#show', as: :account_info
+  put '/create_profile' => 'account_infos#create_profile_page'
+
+  scope module: :owner do
+    resource :second_step, only: %i(show update)
+    resource :third_step, only: %i(show update)
+  end
+
+  get '/about' => 'pages#about', as: :about
+  get '/pricing' => 'pages#pricing', as: :pricing
+  get '/contact_us' => 'pages#contact_us', as: :contact_us
+  get '/terms_of_use' => 'pages#terms_of_use', as: :terms_of_use
+  get '/privacy_policy' => 'pages#privacy_policy', as: :privacy_policy
+  get '/faq' => 'pages#faq', as: :faq
+
+  if Rails.env.development?
+    get 'mockups/*mockup' => 'mockups#show'
+    get 'emails/*mockup' => 'emails#show'
+  end
+
+  get '/:id' => 'users#show', as: :profile
 end

@@ -1,0 +1,135 @@
+- if current_user.has_cc_payment_account?
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
+    .modal-title Subscribe Now
+    span Review your subscription order.
+
+  .modal-body.subscribe_container style="width: 300px"
+
+    /* Order Summary Column */
+
+    .order_summary.pull-left 
+      .heading Your Order Summary
+
+      /* Item Row */
+
+      .item_row
+        .pull-left #{@owner.profile_name}
+        .pull-right 
+          strong= super_number_to_currency(@owner.cost, use_ceil: false)
+        .clearfix
+
+      /* Transaction Fee */
+
+      .transaction_fee 
+        .pull-left Service Fee
+        .pull-right 
+          strong= super_number_to_currency(@owner.subscription_fees, use_ceil: false)
+        .clearfix
+
+      /* Total Cost */
+
+      .total_cost 
+        .pull-left Total Monthly Cost
+        .pull-right.cost= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
+        .clearfix
+
+      .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
+      
+      a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) Subscribe
+
+- else
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
+    .modal-title Create an account & subscribe
+    span Checkout will create an account for you to login and view your subscriptions
+
+  .modal-body.subscribe_container style="width: 700px"
+
+    /* Order Summary Column */
+
+    .order_summary.pull-left 
+      .heading Your Order Summary
+
+      /* Item Row */
+
+      .item_row
+        .pull-left #{@owner.profile_name}
+        .pull-right 
+          strong= super_number_to_currency(@owner.cost, use_ceil: false)
+        .clearfix
+
+      /* Transaction Fee */
+
+      .transaction_fee 
+        .pull-left Service Fee
+        .pull-right 
+          strong= super_number_to_currency(@owner.subscription_fees, use_ceil: false)
+        .clearfix
+
+      /* Total Cost */
+
+      .total_cost 
+        .pull-left Total Monthly Cost
+        .pull-right.cost= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
+        .clearfix
+
+      .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime. 
+
+    /* Account Payment Column */
+
+    
+    form.pull-right.Form action=via_register_user_subscriptions_path(@owner) method='POST'
+      .account_payment
+        .form-group
+          input.form-control type='text' name='full_name' placeholder='Full Name on credit card'
+          span.error data-field='full_name'
+        .form-group
+          input.form-control type='text' name='email' placeholder='Email Address'
+          span.error data-field='email'
+        .form-group style="margin-bottom: 30px"
+          input.form-control type='password' name='password' placeholder='Password'
+          span.error data-field='password'
+        .form-group.cc_row
+          label.control-label CC Number
+          ul 
+            li
+              img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Visa@2x.png')
+            li
+              img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Mastercard@2x.png')
+            li
+              img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Amex@2x.png')
+            li
+              img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Discover@2x.png')
+          input.form-control type='text' name='number' placeholder='1234 5678 9012 3456'
+          span.error data-field='number'
+
+        .form-group.exp_date.pull-left
+          label.control-label Expiration Date
+          .clearfix
+          .pull-left
+            label.small.pull-left Month
+            input.form-control type='text' name='expiry_month' placeholder='01' style="width: 50px"
+          .pull-left style="margin-left: 5px"
+            label.small.pull-left Year
+            input.form-control type='text' name='expiry_year' placeholder='15' style="width: 50px"
+          .clearfix
+          span.error data-field='expiry_date'
+          .clearfix
+        .form-group.cvc.pull-right
+          label.control-label CVC
+          .clearfix
+          input.form-control.pull-left type='text' name='cvc' placeholder='123'
+          .pull-right
+            i.fa.fa-question
+          .clearfix
+          span.error data-field='cvc'
+        .clearfix
+
+      input.btn.blue type='submit' value='Pay & Subscribe' style="width: 100%; margin-top: 15px; font-size: 24px"
+      .clearfix
+    .clearfix
+
+  .modal-footer
+    span Already have an account?&nbsp;
+    a.PopupTrigger href='#' data-target='login' Login

@@ -1,0 +1,392 @@
+- content_for :head do
+  = render 'meta'
+
+/* Header */
+.container
+  #header.box
+    div data-identifier='cover-picture'= render 'cover_picture'
+    div data-identifier='profile-picture'= render 'profile_picture'
+
+    /* Details Container */
+    .details_container.row
+      .col-md-7.col-sm-7.col-xs-7.profile_details
+
+        /* Profile Name */
+        span.profile_name
+          i.fa.fa-gear.PopupTrigger data-target='name-editor'
+          span data-identifier='profile-name'= @profile.profile_name
+        .clearfix
+
+        /* Profile Type */
+        .profile_type
+          i.fa.fa-gear.PopupTrigger data-target='type-editor'
+          span= @profile.types
+
+      .col-md-5.col-sm-5.col-xs-5
+
+        /* Subscribe Container */
+        .subscribe_cont
+
+          /* Cost Button Owner (Show Only Owner) */
+          a.cost_owner.PopupTrigger data-target='cost-editor'
+            .amount
+              span data-identifier='subscription-cost'
+                = super_number_to_currency(@profile.subscription_cost, format: '%n')
+              span.month
+                |/month
+            .btn.pink.fa.fa-usd.fa-2x
+            i.fa.fa-gear
+            .clearfix
+
+    /* Subscriber Benefits */
+
+    .benefits_container.row
+      .col-md-12.col-sm-12.col-xs-12
+        .label.btn Subscriber Benefits
+        i.fa.fa-gear.edit.PopupTrigger data-target='benefits-editor'
+        div data-identifier='benefits'= render_benefits(@profile)
+
+
+  /* Create Post (Owner View Only) */
+  div.PostForm data-identifier='post-form' data-default_post_tab='default-post-tab' data-target='post-fields' data-url=pending_post_path
+    ul#create_post_nav
+      li.PostTab data-identifier='default-post-tab' data-url=new_status_post_path
+        a.fa.fa-pencil href='javascript: void(0)'
+          | Post Status
+      li.PostTab data-url=new_audio_post_path
+        a.fa.fa-music href='javascript: void(0)'
+          | Add Audio
+      li.PostTab data-url=new_video_post_path
+        a.fa.fa-video-camera href="javascript: void(0)"
+          | Add Video
+      li.PostTab data-url=new_photo_post_path
+        a.fa.fa-picture-o.PostTab href='javascript: void(0)'
+          | Add Photos
+      li.PostTab data-url=new_document_post_path
+        a.fa.fa-file-text href='javascript: void(0)' Add Document
+    .clearfix
+
+    #create_post.box data-identifier='post-fields'
+      = render 'pending_post_form', pending_post: @profile.pending_post
+
+  /* Posts & Sidebar (Owner/Subscribed Only) */
+
+  #subscriber_display
+    .row
+
+      .sidebar.col-md-4.col-sm-12.col-xs-12.pull-left
+
+        /* Profile Action */
+
+        .share_url.btn.pink.PopupTrigger data-target='share'
+          i.fa.fa-share-square-o
+          .heading Share Your Profile
+          span Expand your audience!
+
+        /* Search */
+
+        .search.input-group
+          span.input-group-addon
+            i.fa.fa-search.fa-fw.fa-lg
+          form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
+            input.Autocomplete.form-control data-identifier='search-posts-autocomplete' type="text" name='q' placeholder="Search profile content"
+
+        /* Category Cloud */
+
+        .archive_cloud.box
+          span Archived Content
+          ul
+            li
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='audio' href="#" Audio
+            li
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='video' href="#" Video
+            li
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='photo' href="#" Photos
+            li
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='document' href="#" Documents
+
+        /* Contact Info */
+
+        .contact.box
+          i.edit_contact.fa.fa-gear.PopupTrigger data-target='contacts-editor' href="#"
+          span Contact
+          ul data-identifier='contacts-links'
+            = render 'user_contacts_info_links', profile: @profile
+        span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
+
+      /* Recent Posts */
+
+      .pull-right.col-md-8.col-sm-12.col-xs-12
+        .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
+
+
+  .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(current_user.object)
+  .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(current_user.object)
+
+  /* Contacts Editor */
+
+  .Popup.popup.contacts_edit.modal-content data-identifier='contacts-editor' style='width: 600px'
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="contacts-editor" aria-hidden="true"
+      .modal-title Edit Contact Information
+      span Please enter the full URL path to your social media profile.
+
+    .modal-body
+      form.Form action=update_contacts_info_user_path(@profile.object) method='post' data-target='contacts-links'
+        input type='hidden' name='_method' value='put'
+        .pull-left style="width: 262px;"
+          .input-group
+            span.input-group-addon
+              i.fa.fa-globe.fa-fw
+            input.form-control type='text' placeholder='Website URL' name='contacts_info[website]' value=@profile.contacts_info["website"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-facebook-square.fa-fw
+            input.form-control type='text' placeholder='Facebook' name='contacts_info[facebook]' value=@profile.contacts_info["facebook"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-twitter.fa-fw
+            input.form-control type='text' placeholder='Twitter' name='contacts_info[twitter]' value=@profile.contacts_info["twitter"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-youtube.fa-fw
+            input.form-control type='text' placeholder="YouTube" name='contacts_info[youtube]' value=@profile.contacts_info["youtube"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-instagram.fa-fw
+            input.form-control type='text' placeholder="Instagram" name='contacts_info[instagram]' value=@profile.contacts_info["instagram"]
+        .pull-right style="width: 262px;"
+          .input-group
+            span.input-group-addon
+              i.fa.fa-pinterest-square.fa-fw
+            input.form-control type='text' placeholder="Pinterest" name='contacts_info[pinterest]' value=@profile.contacts_info["pinterest"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-dribbble.fa-fw
+            input.form-control type='text' placeholder="Dribble" name='contacts_info[dribble]' value=@profile.contacts_info["dribble"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-flickr.fa-fw
+            input.form-control type='text' placeholder="Flickr" name='contacts_info[flickr]' value=@profile.contacts_info["flickr"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-google-plus-square.fa-fw
+            input.form-control type='text' placeholder="Google+" name='contacts_info[google+]' value=@profile.contacts_info["google+"]
+          .input-group
+            span.input-group-addon
+              i.fa.fa-tumblr-square.fa-fw
+            input.form-control type='text' placeholder="Tumblr" name='contacts_info[tumblr]' value=@profile.contacts_info["tumblr"]
+
+        .clearfix
+
+        .form-group.pull-right
+          input.btn.blue.PopupTrigger type='submit' value='Update Contact Information' data-target="contacts-editor"
+          .clearfix
+
+  /* Profile Name Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 610px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li.active
+        a href='javascript: void(0)' Profile Name
+      li
+        a.PopupTrigger data-target='type-editor' href='#' Profile Type
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
+      .modal-title Edit Profile Name
+      span This is the name that appears at the top of your profile page.
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=update_name_user_path(@profile.object) method='post'
+        .form-group
+          input type='hidden' name='_method' value='put'
+          input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name'
+
+        .form-group
+          .pull-left.error data-field='profile_name'
+          input.btn.pink.pull-right type='submit' value='Update Profile Name'
+          .clearfix
+
+  /* Profile Type Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='type-editor' style="width: 610px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li.active
+        a href='javascript: void(0)' Profile Type
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.fa.fa-times-circle.close type="button" data-target="type-editor" aria-hidden="true" onclick='window.location.reload()'
+      .modal-title Edit Profile Type
+      span 
+        |Please classify your profile type or types. This info helps our search 
+        br
+        |function find more potential subscribers who might like your content.
+
+    /* Body Area */
+
+    .modal-body
+
+      /* PLEASE FIX THIS AREA */
+
+      form.Form action=update_name_user_path(@profile.object) method='post'
+
+        input.AutocompleteField.form-control data-url=profile_types_path data-target='profile-types' type='text' placeholder='Band, Photographer, Organization, etc.'
+        .error data-field='profile_type'
+        div data-identifier='profile-types' style="padding-top: 10px"
+          = render 'profile_types/list_assigned', profile_types: current_user.profile_types
+
+  /* Profile Cost Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 610px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li
+        a.PopupTrigger data-target='type-editor' href='#' Profile Type
+      li.active
+        a href='javascript: void(0)' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="cost-editor" aria-hidden="true"
+      .modal-title Edit Subscription Cost
+      span 
+        | Please note, to keep subscribers happy and billing cycles consistent,
+        br 
+        | you can only change your subscription cost once every 30 days.
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=update_cost_user_path(@profile.object) method='post'
+        .form-group.hidden
+          input type='hidden' name='_method' value='put'
+
+        .cost_container style="width: 230px; margin: 0 auto"
+          .form-group.input-group.pull-left style="width: 113px; margin-bottom: 0;"
+            span.input-group-addon
+              i.fa.fa-usd.fa-fw
+            input.form-control type='text' name='cost' value=@profile.cost data-target='subscription-cost'
+
+          .form-group.pull-right style="margin-bottom: 0;"
+            input.btn.pink type='submit' value='Update Price'
+          .clearfix
+          .error data-field='cost' style="text-align: center; padding-top: 5px"
+
+      hr
+
+      .pricing_table
+        p The pricing table is below...
+        table.table.table-striped.table-bordered
+          tr 
+            td 
+              b Subscription Price
+            td 
+              |
+              b ConnectPal Service Fee 
+              span style="font-size: 11px;"(includes all fees & credit card processing)
+          tr
+            td $4 or less
+            td $0.79
+          tr
+            td $5 - $9
+            td $0.95
+          tr
+            td $10 - $20
+            td $1.79
+          tr
+            td $21 & above
+            td 9% of subscription price
+        p 
+          |For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout,
+          br
+          |subscribers will pay $4.79 monthly – which includes our 79 cent service fee.
+          br
+          |The profile owner will receive $4 per subscriber per month.
+          br
+          |And ConnectPal will receive 79 cents per subscriber per month.
+
+  /* Profile Benefits Popup */
+
+  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 610px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li
+        a.PopupTrigger data-target='type-editor' href='#' Profile Type
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li.active
+        a href='javascript: void(0)' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="benefits-editor" aria-hidden="true"
+      .modal-title Edit Subscriber Benefits
+      span style="padding: 0 15px;" 
+        | Tell your subscribers what they are getting by subscribing to you. 
+        br
+        | When marketing your profile to potential subscribers,
+        br
+        | they will see this list before they subscribe.
+
+    /* Body Area */
+
+    .modal-body
+      form.Form action=user_benefits_path(@profile.object) method='post' data-target='benefits'
+        - @profile.benefit_messages.each_with_index do |benefit_message, i|
+          .form-group
+            input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit description...'
+
+        .form-group
+          input.btn.pink.pull-right type='submit' value='Update Benefits'
+          .clearfix
+
+
+  /* Share popup */
+
+  .Popup.popup.modal-content data-identifier='share' style="width: 350px"
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="share" aria-hidden="true"
+      .modal-title Share Your Profile
+      span Share your profile with your social networks!
+
+    .modal-body style="text-align: center; margin-bottom: 15px"
+      span class='st_facebook_large' displayText='Facebook'
+      span class='st_twitter_large' displayText='Tweet'
+      span class='st_googleplus_large' displayText='Google +'
+      span class='st_pinterest_large' displayText='Pinterest'
+      .clearfix

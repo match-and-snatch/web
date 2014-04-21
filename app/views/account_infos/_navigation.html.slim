@@ -1,0 +1,13 @@
+ul.nav.navbar-nav.pull-right
+  li
+    a.PopupTrigger data-target='search-users' href='#'
+      i.fa.fa-search
+  - if current_user.has_subscriptions?
+    = render 'subscriptions_nav'
+  - if current_user.object.has_profile_page?
+    li
+      a href=current_profile_path
+        i.fa.fa-user My Profile
+  li
+    a href=logout_path
+      i.fa.fa-sign-out Logout

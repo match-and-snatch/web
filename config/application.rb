@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
-module StreamrushPlatform
+module BuddyPlatform
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -19,5 +19,10 @@ module StreamrushPlatform
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+    config.active_record.schema_format = :sql
+
+    config.action_mailer.default_url_options = { host: 'www.connectpal.com' }
+
+    I18n.enforce_available_locales = true
   end
 end

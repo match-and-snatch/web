@@ -1,0 +1,20 @@
+h2 Change Password
+
+form.Form action=password_path method='post'
+  input type='hidden' name='_method' value='put'
+  input type='hidden' name='token' value=params[:token]
+
+  .form-group
+    label.pull-left New Password
+    input.form-control.pull-right type='password' name='password' value=''
+    .clearfix
+    .error data-field='password'
+
+  .form-group
+    label.pull-left Re-type Password
+    input.form-control.pull-right type='password' name='password_confirmation' value=''
+    .clearfix
+    .error data-field='password_confirmation'
+
+  input.btn.pink.pull-right type='submit' value='Change Your Password' style="margin-bottom: 15px"
+  .clearfix

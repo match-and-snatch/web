@@ -1,0 +1,8 @@
+meta property="og:site_name"   content="ConnectPal"
+meta property="og:title"       content="#{@profile.name} on ConnectPal.com"
+meta property="og:description" content="Subscribe on #{@profile.name}"
+meta property="og:type"        content="profile"
+meta property="og:url"         content=url_for(only_path: false)
+
+- if @profile.profile_picture_url
+  meta property="og:image" content=@profile.profile_picture_url

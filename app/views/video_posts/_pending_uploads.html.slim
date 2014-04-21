@@ -1,0 +1,18 @@
+div data-identifier='pending-videos'
+  .pending_video
+    ul
+      - current_user.pending_videos.each do |upload|
+        li
+          img src=upload.preview_url
+          a.AjaxFormLink href=video_path(upload) data-_method='DELETE' data-target='pending-videos' Delete
+    .clearfix
+    - if current_user.pending_videos.empty?
+      form.UploadForm action=videos_path method='post' data-target='pending-videos'
+        = transloadit :post_video
+        .select_file_container
+          .btn.blue.multi Add Video File
+          input.hide_btn type='file' name='post_videos'
+          input type='hidden' name='slug' value=current_user.slug
+    - else
+      p You can upload only one video file.
+  .clearfix

@@ -1,0 +1,23 @@
+.stats.row-fluid
+  .col-md-6
+    .value= @user.subscriptions_count
+    span Total Subscriptions
+  .col-md-6
+    .value $#{@user.monthly_earnings}
+    span Monthly Earnings
+  .clearfix
+
+.col-md-12
+  - if @user.subscriptions_count > 0
+    .YAxis
+    .graph.Graph data-data=@user.graph_data.to_json Please wait...
+
+  .item_block
+    h2 Vacation Mode
+    p You can put your account into vacation mode. This will notify your subscribers about your action and not bill them on their upcoming billing cycle. Please note that existing subscribers will still be able to view your profile.
+    .btn.pink Enable Vacation Mode
+
+  .item_block
+    h2 Delete Profile
+    p You can delete your profile at anytime. Please note that doing this will remove your profile page from our system. We cannot do anything to bring your profile back. Please think twice.
+    .btn.pink.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path Delete My Profile Page

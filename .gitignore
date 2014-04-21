@@ -15,6 +15,22 @@
 /log/*.log
 /tmp
 
-.ruby-version
-
+# Heroku
 /config/database.yml
+
+# Developer specific environment
+.ruby-version
+.idea
+*.DS_Store
+
+# Virtual Machine
+.vagrant
+vagrant_ansible_inventory_default
+.server_pid
+.certificates
+
+# Assets
+public/assets/*
+!public/assets/manifest*
+!public/assets/manifest-*
+!public/assets/manifest.*

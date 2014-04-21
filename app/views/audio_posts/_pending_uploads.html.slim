@@ -1,0 +1,21 @@
+div data-identifier='pending-audios'
+  .pending_audio
+    ul
+      - current_user.pending_audios.each do |upload|
+        li
+          i.fa.fa-music.icon.pull-left
+          .file_name.pull-left= upload.filename
+          a.pull-right.AjaxFormLink href=audio_path(upload) data-_method='DELETE' data-target='pending-audios' Delete
+          .clearfix
+
+    .clearfix
+    - if current_user.pending_audios.count < 16
+      form.UploadForm action=audios_path method='post' data-target='pending-audios'
+        = transloadit :post_audio
+        .select_file_container
+          .btn.blue.multi Add Audio Files
+          input.hide_btn type='file' name='post_audios' multiple='multiple'
+          input type='hidden' name='slug' value=current_user.slug
+    - else
+      p You can upload only upload 15 files.
+  .clearfix

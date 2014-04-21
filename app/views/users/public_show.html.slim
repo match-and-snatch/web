@@ -1,0 +1,82 @@
+- content_for :head do
+  = render 'meta'
+
+.container style="margin-bottom: 73px;"
+  #header.box
+    .photo_cover
+      - if @profile.cover_picture_url.present?
+        div style='background: url(#{@profile.cover_picture_url}); background-position-y: #{@profile.cover_picture_position}px; width: 100%; height: 100%'
+    .photo_profile
+      img src=@profile.profile_picture_url
+
+    /* Details Container */
+    .details_container.row
+      .col-md-7.col-sm-7.col-xs-7.profile_details
+
+        /* Profile Name */
+        span.profile_name.visitor = @profile.profile_name
+        .clearfix 
+
+        /* Profile Type */
+        span.profile_type= @profile.types
+
+      .col-md-5.col-sm-5.col-xs-5
+
+        /* Subscribe Container */
+        .subscribe_cont
+
+          /* Cost Button Visitor (Show Logged User/Visitor) */
+          a.cost_visitor
+            .amount
+              span
+                = super_number_to_currency(@profile.subscription_cost, format: '%n')
+              span.month
+                |/month
+            .btn.pink.fa.fa-usd.fa-2x
+            .clearfix
+
+          /* Subscribe Button */
+          a.subscribe.PopupTrigger data-target='subscription' Subscribe
+          / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
+
+    /* Subscriber Benefits */
+
+    .benefits_container.row
+      .col-md-12.col-sm-12.col-xs-12
+        - if @profile.benefits.any?
+          .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
+          div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
+
+  /* Visitor View */
+
+  #visitor.box
+    .row
+      .col-md-12.col-sm-12.col-xs-12
+        .title Welcome to #{@profile.profile_name}'s profile page
+        span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
+
+        span.sub_heading By subscribing to this profile on ConnectPal, you get the following benefits.
+
+        ul
+          li.fa.fa-check-circle Full access to user’s profile content.
+          li.fa.fa-check-circle Stay up-to-date with status notifications.
+          li.fa.fa-check-circle You can directly message the profile owner.
+          li.fa.fa-check-circle With ConnectPal, you can cancel anytime.
+
+        span.sub_heading ConnectPal is the World’s #1 Subscription Marketplace.
+        span.sub_heading Any person or group can create a subscription business in less than 3 minutes.
+
+        a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
+        .clearfix
+
+        span.already_user
+          - unless current_user.authorized?
+            | Already a member? &nbsp;
+            a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
+
+  .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
+
+/* Footer */
+
+div style='position: fixed; bottom: 0; width: 100%'
+  = render 'footer'

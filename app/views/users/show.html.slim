@@ -1,0 +1,138 @@
+- content_for :head do
+  = render 'meta'
+
+/* Header */
+.container
+  #header.box
+    .photo_cover
+      - if @profile.cover_picture_url.present?
+        a.PopupTrigger data-target='full-cover-photo' href=@profile.original_cover_picture_url
+          div style='background: url(#{@profile.cover_picture_url}); background-position-y: #{@profile.cover_picture_position}px; width: 100%; height: 100%'
+
+    .photo_profile
+      - if @profile.profile_picture_url.present?
+        div data-identifier='profile-picture'
+          a.PopupTrigger data-target='full-profile-photo' href=@profile.original_profile_picture_url
+            img src=@profile.profile_picture_url
+
+    /* Details Container */
+    .details_container.row
+      .col-md-7.col-sm-7.col-xs-7.profile_details
+
+        /* Profile Name */
+        span.profile_name= @profile.profile_name
+        .clearfix
+
+        /* Profile Type */
+        span.profile_type= @profile.types
+
+
+      .col-md-5.col-sm-5.col-xs-5
+
+        /* Subscribe Container */
+        .subscribe_cont
+          - if current_user.subscribed_to?(@profile.object)
+            .subscribed Subscribed
+          - else
+            a.cost_visitor
+              .amount
+                span
+                  = super_number_to_currency(@profile.subscription_cost, format: '%n')
+                span.month
+                  |/month
+              .btn.pink.fa.fa-usd.fa-2x
+              .clearfix
+            a.subscribe.PopupTrigger data-target='subscription' Subscribe
+          / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
+
+    /* Subscriber Benefits */
+
+    .benefits_container.row
+      .col-md-12.col-sm-12.col-xs-12
+        - if @profile.benefits.any?
+          .label Subscriber Benefits
+          div data-identifier='benefits'= render_benefits(@profile)
+
+  /* Posts & Sidebar (Owner/Subscribed Only) */
+
+  #subscriber_display
+    .row
+      .sidebar.col-md-4.col-sm-12.col-xs-12.pull-left
+
+        /* Search */
+
+        .search.input-group style="margin-top: 0"
+          span.input-group-addon
+            i.fa.fa-search.fa-fw.fa-lg
+          form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
+            input.Autocomplete.form-control type="text" name='q' placeholder="Search profile content"
+
+        /* Category Cloud */
+
+        .archive_cloud.box
+          span Archived Content
+          ul
+            li
+              a href="#" audio
+            li
+              a href="#" video
+            li
+              a.med href="#" photos
+            li
+              a.lrg href="#" status
+            li
+              a.sml href="#" documents
+
+        /* Contact Info */
+
+        .contact.box
+          span Contact
+          ul
+            li
+              a.fa.fa-envelope href="mailto:#{@profile.email}" Message
+            - if url = @profile.contacts_info['website'].presence
+              li
+                a.fa.fa-globe href=url target="_blank" Website
+            - if url = @profile.contacts_info['facebook'].presence
+              li
+                a.fa.fa-facebook-square href=url target="_blank" Facebook
+            - if url = @profile.contacts_info['twitter'].presence
+              li
+                a.fa.fa-twitter href=url target="_blank" Twitter
+            - if url = @profile.contacts_info['youtube'].presence
+              li
+                a.fa.fa-youtube href=url target="_blank" YouTube
+            - if url = @profile.contacts_info['instagram'].presence
+              li
+                a.fa.fa-instagram href=url target="_blank" Instagram
+            - if url = @profile.contacts_info['pinterest'].presence
+              li
+                a.fa.fa-pinterest-square href=url target="_blank" Pinterest
+            - if url = @profile.contacts_info['dribble'].presence
+              li
+                a.fa.fa-dribbble href=url target="_blank" Dribble
+            - if url = @profile.contacts_info['flickr'].presence
+              li
+                a.fa.fa-flickr  href=url target="_blank" Flickr
+            - if url = @profile.contacts_info['google+'].presence
+              li
+                a.fa.fa-google-plus-square href=url target="_blank" Google+
+            - if url = @profile.contacts_info['tumblr'].presence
+              li
+                a.fa.fa-tumblr-square href=url target="_blank" Tumblr
+            - if url = @profile.contacts_info['vimeo'].presence
+              li
+                a.fa.fa-vimeo-square  href=url target="_blank" Vimeo
+
+        span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
+
+      /* Recent Posts */
+
+      .pull-right.col-md-8.col-sm-12.col-xs-12
+        .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
+
+
+.AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(@profile.object)
+.AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(@profile.object)
+.popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
+

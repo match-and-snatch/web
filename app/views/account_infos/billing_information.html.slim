@@ -1,0 +1,11 @@
+.col-md-12 style="padding-bottom: 15px"
+  h2 Subscription Billing Information
+  - if @user.has_cc_payment_account?
+    .AjaxContainer
+      | Card on file is 
+      strong= @user.card_type
+      | &nbsp;ending with <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
+      br
+      a href=edit_cc_data_account_info_path Click here to edit
+  - else
+    .AjaxContainer data-url=edit_cc_data_account_info_path

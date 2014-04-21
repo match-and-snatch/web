@@ -1,0 +1,234 @@
+/* My Account Info */
+.my_account
+  font-size: 13px
+  margin: 65px 0 73px
+  position: relative
+  
+  /* Sidebar */
+
+  .sidebar
+    padding: 0
+    position: fixed
+    width: 250px
+    margin-bottom: 60px
+
+    /* Header */
+
+    .header
+      border-bottom: 1px solid $color_border
+      font-size: 13px
+      margin: 0
+      padding: 15px
+      span
+        color: $color_pink
+        display: block
+        font-size: 16px
+
+    /* Navigation */
+
+    ul
+      border-top: 1px solid $color_border
+      &.general
+        border-top: none
+      a
+        color: $color_text_dark
+        text-decoration: none
+        li
+          @include white-area
+          border-bottom: 1px solid $color_border
+          font-size: 13px
+          padding: 12px 15px
+          &:hover
+            @include linear-gradient(#7dd3f3, #359acd)
+            color: #FFFFFF
+            text-shadow: -1px -1px 0 #53a1c8
+        &.active
+          li
+            @include linear-gradient(#3e3e3e, #2d2d2d)
+            text-shadow: -1px -1px 0 #000000
+            // @include linear-gradient(#7dd3f3, #359acd)
+            color: #FFFFFF
+    .subscriptions, .profile
+      color: #000000
+      font-size: 16px
+      font-weight: 600
+      margin-top: 25px
+      padding: 0 0 5px 15px
+
+  /* Content */
+
+  .content
+    min-height: 90px
+    width: 660px
+    h2
+      color: $color_blue
+      font-size: 20px
+      font-weight: 600
+      margin: 15px 0
+      padding: 0
+
+    /* Form & Labels */
+
+    label
+      color: #898989
+    .form-control
+      background-color: $color_background
+      border: 1px solid $color_border
+      &:focus
+        background-color: #FFFFFF
+        border: 1px solid $color_blue
+    .form-group
+      label
+        font-weight: 400 !important
+        margin-top: 7px
+        text-align: right
+        width: 150px
+      .form-control
+        width: 463px
+      .error
+        margin: 5px 0 0 197px
+
+    /* Button */
+
+    .btn
+      font-size: 13px
+      font-weight: normal
+      padding: 10px 30px
+
+    /* Item Blocks */
+
+    .item_block, .item_sub, .item_feed
+      border-top: 1px solid $color_border
+      padding: 15px 0
+      h2
+        margin: 0 0 15px
+        padding: 0
+      p
+        color: $color_text_light
+        font-size: 13px
+
+    /* My Feed */
+
+    .item_feed
+      .name
+        color: $color_text_dark
+        font-size: 13px
+        font-weight: bold
+        padding-bottom: 10px
+      .date
+        color: $color_text_light
+        font-size: 12px
+      .profile_picture
+        img
+          border: 1px solid $color_border
+          height: 50px
+          width: 50px
+      .latest_post, .box
+        background-color: $color_background
+        padding: 10px
+      .latest_post
+        width: 567px
+      .box
+        span
+          color: $color_pink
+          font-weight: bold
+
+    /* CC Row */
+
+    .cc_row
+      position: relative
+      ul
+        list-style: none
+        position: absolute
+        top: 49px
+        right: -5px
+        li
+          display: inline-block
+          padding-right: 5px
+          img
+            height: 22px
+            width: 32px
+
+    /* View/Cancel Subscriptions */
+
+    ul
+      li.item_sub
+        .name, .cost
+          font-size: 16px
+          font-weight: bold
+          padding-bottom: 10px
+        .name
+          color: $color_blue
+          width: 500px
+        .cost
+          color: $color_pink
+        p
+          font-weight: bold
+          margin: 0
+          padding-bottom: 5px
+          span
+            font-weight: normal
+        .actions
+          font-size: 13px
+          a
+            color: $color_text_dark
+            margin-left: 15px
+            &:hover
+              color: $color_text_light
+            .fa
+              &:before
+                font-size: 20px
+                position: relative
+                top: 2px
+                padding-right: 5px
+            .pink
+              &:before
+                color: $color_pink
+                top: 3px
+            .blue
+              &:before
+                color: $color_blue
+
+    /* Profile Details */
+
+    .stats
+      @include linear-gradient(#3e3e3e, #2d2d2d)
+      border-left: none
+      border-right: none
+      color: #FFFFFF
+      padding: 30px
+      text-align: center
+      text-shadow: -1px -1px 0 #1c1c1c
+      .value
+        font-size: 60px
+        font-weight: 600
+        line-height: 100%
+      span
+        color: #FFFFFF
+        display: block
+        font-size: 12px
+        padding-top: 10px
+        text-shadow: none
+
+    .graph
+      color: $color_text_light
+      height: 200px
+      padding: 15px
+
+    /* View Subscribers */
+
+    .subscriber_table
+      font-size: 12px !important
+      .fa
+        a
+          color: $color_text_dark
+          &:hover
+            color: $color_pink
+        &:before
+          padding-right: 5px
+      .message
+        width: 90px
+      .hide_activity
+        width: 108px 
+      .remove
+        width: 145px

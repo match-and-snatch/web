@@ -1,0 +1,19 @@
+h2 Add New Type
+
+form.Form action=admin_profile_types_path method='post'
+  .form-group
+    input.form-control type='text' name='title' placeholder='Enter Title/Subject'
+  .form-group
+    input.btn.blue.btn type='submit' value='Add Item'
+
+hr
+
+h2 Existing Profile Types
+br
+- if @profile_types.any?
+  table.table
+    - @profile_types.each do |profile_type|
+      tr
+        td= profile_type.title
+        td
+          button.AjaxFormLink.btn.pink.pull-right data-_method='delete' href=admin_profile_type_path(profile_type) REMOVE ITEM

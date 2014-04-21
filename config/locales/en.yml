@@ -1,23 +1,23 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  errors:
+    default: is not valid
+    empty: cannot be empty
+    taken: is already taken by someone else
+    too_short: please enter at least %{minimum} characters
+    too_long: seems to be too long
+    does_not_match_password: does not match password
+    zero: must be greater than zero
+    not_a_slug: must contain only a-z characters and dashes
+    not_a_routing_number: must contain 9 digits
+    not_an_integer: must contain only digits
+    not_an_account_number: must contain 12 digits
+    invalid_login: Email or password is invalid
+    already_set: Already set
+    not_set: Not set
+    reached_maximum: This is too much
+    no_such_email: There is no user registered with this email
+  messages:
+    congrats: Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!
+    password_sent: We sent you an email on <strong>%{email}</strong> with futher steps to restore your password.
+    invalid_email_token: Sorry, this link is no longer valid. Please request another one.
+    password_set: Success. Now you can login using your new password.

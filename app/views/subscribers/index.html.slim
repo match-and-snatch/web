@@ -1,0 +1,19 @@
+.col-md-12
+  h2 View Subscribers
+
+  - if @subscribers.empty?
+    .well style="text-align: center;" No subscribers at this moment. Share and promote your profile to gain more subscribers.
+  - else
+    table.table.table-striped.table-bordered.subscriber_table
+      - @subscribers.find_each do |subscriber|
+        tr
+          td.name= link_to_user subscriber
+          td.message.pending
+            i.fa.fa-envelope
+              span Message
+          td.hide_activity.pending
+            i.fa.fa-warning
+              span Hide Activity
+          td.remove
+            i.fa.fa-times
+              a.AjaxFormLink href=subscriber_path(subscriber.id) data-_method='DELETE' Remove Subscriber

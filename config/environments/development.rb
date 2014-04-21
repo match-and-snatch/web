@@ -1,5 +1,7 @@
-StreamrushPlatform::Application.configure do
+BuddyPlatform::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  #config.action_controller.asset_host = "//s3-us-west-1.amazonaws.com/buddy-assets"
+  config.action_controller.asset_host = '//d37ecui9yfxlx3.cloudfront.net'
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -15,6 +17,8 @@ StreamrushPlatform::Application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -25,5 +29,8 @@ StreamrushPlatform::Application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
-  config.assets.debug = true
+  config.assets.debug = false
+
+  config.assets.use_cdn = false
+  config.stripe.api_key = 'sk_test_onN61JMWKmncifVcCx8tsmGA'
 end

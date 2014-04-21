@@ -1,0 +1,36 @@
+---
+- hosts: all
+  sudo: yes
+
+  tasks:
+  - name: Update APT package cache
+    apt: update_cache=yes
+  - name: Ensure that Postgres packanges are installed
+    action: apt name={{item}}
+    with_items:
+      - postgresql
+      - postgresql-contrib
+      - libpq-dev
+      - python-psycopg2
+
+- hosts: all
+  sudo: yes
+  sudo_user: postgres
+
+  tasks:
+    - name: Ensure DB user is ready to go
+      postgresql_user: name=buddy password=qwerty role_attr_flags=CREATEDB,SUPERUSER
+
+    - name: Create Development, Production and Test databases
+      action: postgresql_db name={{item}}
+      with_items:
+        - buddy_platform_development
+        - buddy_platform_test
+        - buddy_platform_production
+
+    - name: Ensure user has access to databases
+      action: postgresql_user db={{item}} name=buddy password=qwerty priv=ALL
+      with_items:
+        - buddy_platform_development
+        - buddy_platform_test
+        - buddy_platform_production

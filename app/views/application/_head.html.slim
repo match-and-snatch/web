@@ -1,0 +1,28 @@
+title= layout.title
+meta name='description' content="Welcome to the World's #1 Most Popular Content Marketplace. Any person or group can create a subscription business in less than 3 minutes. Our users create a simple profile, and add content.  Then, our users set a price for subscribers to view their profile, and ConnectPal handles the rest!"
+
+= content_for :head
+
+link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"
+= stylesheet_link_tag '//fonts.googleapis.com/css?family=Open+Sans:300,400,600'
+= stylesheet_link_tag '//fonts.googleapis.com/css?family=Dosis:400,600,700'
+= stylesheet_link_tag 'application', media: 'all'
+
+- if Rails.application.config.assets.use_cdn
+  script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'
+  script type='text/javascript' src='//code.jquery.com/jquery-1.11.0.min.js'
+- else
+  = javascript_include_tag 'underscore-min'
+  = javascript_include_tag 'jquery'
+
+= javascript_include_tag 'application'
+= csrf_meta_tags
+
+javascript:
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50203571-1', 'connectpal.com');
+  ga('send', 'pageview');

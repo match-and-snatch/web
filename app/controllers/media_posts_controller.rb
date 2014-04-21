@@ -1,0 +1,2 @@
+class MediaPostsController < PendingPostsController
+end

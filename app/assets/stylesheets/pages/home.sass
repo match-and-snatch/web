@@ -1,0 +1,143 @@
+/* Homepage */
+
+.home_pitch
+  background-color: #FFFFFF
+  padding: 30px 0
+  text-align: center
+  .heading
+    color: $color_pink
+    font-size: 60px
+    font-weight: 600
+    line-height: 100%
+  .sub_heading
+    color: #000000
+    font-size: 20px
+    line-height: 100%
+    margin: 15px 0 30px
+  .step
+    color: #000000
+    font-size: 20px
+    font-weight: 600
+    margin: 15px 0 5px
+  .hr_circle
+    background: asset-url('https://buddy-assets.s3.amazonaws.com/images/steps-circle.png') no-repeat
+    position: relative
+    margin: 15px auto
+    height: 25px
+    width: 670px
+  .icon
+    height: 100px
+  .title
+    color: $color_blue
+    font-size: 32px
+    font-weight: 600
+    line-height: 100%
+    margin: 15px 0
+  .description
+    color: #000000
+    font-size: 14px
+    line-height: 20px
+    a
+      display: block
+      cursor: pointer
+      color: $color_blue
+      font-size: 16px
+      padding-top: 5px
+      text-decoration: underline
+      &:hover
+        color: $color_pink
+
+/* Button Actions */
+
+.button_actions
+  @include blue-area
+  border-left: none
+  border-right: none
+  padding: 30px 0
+  text-align: center
+  .title
+    color: #FFFFFF
+    font-size: 60px
+    font-weight: 700
+    padding-bottom: 30px
+    text-shadow: -1px -1px 0 #4495be
+    span
+      line-height: 100%
+  .btn
+    font-size: 24px
+    font-weight: 400
+    padding: 15px 0
+    width: 370px
+
+  .or
+    color: #256484
+    font-size: 60px
+    font-weight: 600
+    text-shadow: 1px 1px 0 #7cc3e7
+
+/* Homepage Rows */
+
+.homepage_profile, .homepage_our_users, .homepage_analytics
+  padding: 30px 0
+  .img-circle
+    background-color: #FFFFFF
+    border: 3px solid $color_border
+  .description
+    color: #000000
+    .title
+      font-size: 60px
+      font-weight: 700
+    ul
+      list-style: disc
+      font-size: 28px
+      line-height: 40px
+      padding: 50px 0 0 30px
+      li
+        padding-top: 30px
+        &:first-child
+          padding-top: 0
+
+    span
+      display: block
+      font-size: 28px
+      line-height: 40px
+
+
+/* Homepage Profile */
+
+.homepage_profile
+  border-bottom: 1px solid $color_border
+  a
+    cursor: pointer
+  .image_hover
+    position: relative
+    .view_profile
+      cursor: pointer
+      display: none
+      font-size: 16px
+      padding: 10px 30px
+      position: absolute
+      top: 220px
+      left: 135px
+    &:hover
+      .view_profile
+        display: block
+
+/* Homepage Our Users */
+
+.homepage_our_users
+  background-color: #FFFFFF
+  border-bottom: 1px solid $color_border
+  .description
+    padding-top: 90px
+    .title
+      color: $color_blue
+
+
+/* Homepage Analytics */
+
+.homepage_analytics
+  .description
+    padding-top: 130px
+    .title
+      color: $color_pink

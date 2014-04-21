@@ -1,0 +1,114 @@
+/* Sign Up Popup */
+
+.Popup.popup.authentication_popup.modal-content data-identifier='registration'
+  
+  /* Header Area */
+
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="registration" aria-hidden="true"
+    .modal-title Let’s Get Started!
+
+  /* Body Area */
+
+  .modal-body
+    form.Form action=users_path method='post'
+      .form-group
+        .pull-left.margin-right
+          input.form-control type='text' name='first_name' placeholder='First Name'
+          p.text-danger data-field='first_name'
+        .pull-right.margin-left
+          input.form-control type='text' name='last_name' placeholder='Last Name'
+          p.text-danger data-field='last_name'
+        .clearfix
+
+      .form-group
+        input.form-control type='text' name='email' placeholder='Email Address'
+        p.text-danger data-field='email'
+
+      .form-group
+        input.form-control type='password' name='password' placeholder='Password'
+        p.text-danger data-field='password'
+
+      .form-group
+        input.form-control type='password' name='password_confirmation' placeholder='Retype Password'
+        p.text-danger data-field='password_confirmation'
+
+      .form-group
+        .terms_text.pull-left By proceeding, you agree to our Terms of Use and Privacy Policy.
+        input.btn.blue.pull-right type='submit' value='Continue to Profile' style="padding: 10px 0; width: 170px;"
+        .clearfix
+  
+  /* Footer Area */
+
+  .modal-footer
+    span Already have an account? &nbsp;
+    a.PopupTrigger href='#' data-target='login' Click here to login.
+
+
+/* Login Popup */
+
+.Popup.popup.authentication_popup.modal-content data-identifier='login'
+
+  /* Header Area */
+
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="login" aria-hidden="true"
+    .modal-title Existing Account?
+    span If you already have an account, please login below.
+
+  /* Body Area */
+
+  .modal-body
+    form.Form action=session_path method='post'
+      .form-group
+        input.form-control type='text' name='email' placeholder='Email Address'
+      .form-group
+        input.form-control type='password' name='password' placeholder='Password'
+
+      .form-group
+        .pull-left
+          .checkbox
+            label.remember_me
+              input name='remember_me' type="checkbox" Remember Me
+          .text-danger.Error
+        input.pull-right.btn.blue type='submit' value='Login'
+        .clearfix
+
+  /* Footer Area */
+
+  .modal-footer
+    span Not registered yet?&nbsp;
+    a.PopupTrigger href='#' data-target='registration' Click here to register!
+    .clearfix
+    a.PopupTrigger href='#' data-target='forgot-password' Forgot Password
+
+
+/* Restore Password Popup */
+
+.Popup.popup.authentication_popup.modal-content data-identifier='forgot-password' style="width: 400px;"
+
+  /* Header Area */
+
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="forgot-password" aria-hidden="true" style="top: 5px"
+    .modal-title Forgot your password?
+    span If you already have an account, please enter email.
+
+  /* Body Area */
+
+  .modal-body
+    form.Form action=restore_password_path method='post'
+      .form-group
+        .pull-left
+          input.form-control type='text' name='email' placeholder='Email Address' style="width: 287px"
+          p.text-danger data-field='email'
+        input.pull-right.btn.blue type='submit' value='Send'
+        .clearfix
+
+  /* Footer Area */
+
+  .modal-footer
+    span Not registered yet?&nbsp;
+    a.PopupTrigger href='#' data-target='registration' Click here to register!
+    .clearfix
+    a.PopupTrigger href='#' data-target='login' Login

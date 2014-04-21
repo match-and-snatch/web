@@ -1,0 +1,11 @@
+- hosts: all
+  vars:
+    ruby: ruby-2.0.0-p247
+    project_path: /vagrant
+  user: vagrant
+  sudo: no
+  tasks:
+  - include: application/ruby.yml
+  - include: application/gems.yml
+  - name: Install DB
+    shell: bash -lc "foreman run rake db:setup" chdir={{ project_path }}

@@ -1,0 +1,51 @@
+.container.my_account
+
+  /* Sidebar */
+
+  .sidebar.box.col-sm-12.col-xs-12 
+
+    .header
+      | Welcome 
+      span.name #{@user.full_name}
+
+    ul.general
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=feed_path
+        li My Feed
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
+        li Account Settings
+      a.hidden.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/mailbox.json"
+        li Mailbox
+
+    h2.subscriptions My Subscriptions
+    ul
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
+        li View/Cancel Subscriptions
+      / a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/search_subscriptions.json"
+      /   li Search Subscriptions
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
+        li Billing Information
+
+    h2.profile My Profile
+    ul style="margin-bottom: 0"
+      - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
+        a.AjaxFormLink data-_method='put' href=create_profile_path
+          li Create Profile Page
+      - elsif @user.complete_profile?
+        a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
+          li Delete Profile Page
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
+        li Profile Details
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
+        li Payout Information
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscribers_path
+        li style="border-bottom: none;" View Subscribers
+
+  /* Content */
+
+  .content.box.pull-right.col-sm-12.col-xs-12
+    .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=feed_path
+  .clearfix
+
+
+div style='position: fixed; bottom: 0; width: 100%'
+  = render 'footer'

@@ -1,0 +1,22 @@
+- if @posts.any?
+  - if params[:q].present? && !params[:last_post_id]
+    .show_results.bg-warning
+      |Results for "
+      b= params[:q]
+      |"
+  /= render partial: 'video_post'
+  = render partial: 'post', collection: @posts
+- elsif !params[:last_post_id]
+  - if params[:q].present?
+    |No posts for "
+    b= params[:q]
+    |"
+  - elsif !params[:last_post_id]
+    |
+    .no_post_yet
+      span.fa-stack.fa-lg
+        i.fa.fa-circle.fa-stack-2x
+        i.fa.fa-exclamation.fa-stack-1x
+      .clearfix
+      span You currently have nothing
+      | posted to your profile

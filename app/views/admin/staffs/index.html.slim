@@ -1,0 +1,25 @@
+h2 Staff Members
+
+- if @users.any?
+  table.table
+    th Name
+    th Email
+    th Profile Page
+    th
+
+    - @users.each do |user|
+      tr
+        td= user.full_name
+        td= user.email
+        td= link_to_user(user)
+        td
+          - unless current_user == user
+            button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_admin_admin_user_path(user.id) Drop Admin
+
+p Invite New Staff Members
+
+form.Form action=admin_users_path method='get' data-target='users'
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search profiles by email"
+
+div data-identifier='users'
+

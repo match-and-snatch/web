@@ -1,0 +1,35 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: buddy_platform_development
+  pool: 5
+  user: buddy
+  password: qwerty
+  host: localhost
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: buddy_platform_test
+  pool: 5
+  user: buddy
+  password: qwerty
+  host: localhost
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: buddy_platform_production
+  pool: 5
+  user: buddy
+  password: qwerty
+  host: localhost
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: buddy_platform_staging
+  pool: 5
+  user: buddy
+  password: qwerty
+  host: localhost

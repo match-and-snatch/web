@@ -1,0 +1,11 @@
+.Popup.popup.modal-content data-identifier='search-users' style='min-width: 350px; top: 160px'
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="search-users" aria-hidden="true" style="top: 5px"
+    .modal-title Search Profiles
+    span Search for profiles or categories.
+
+  .modal-body
+    form.Form action=users_path method='get' data-target='users-list'
+      input.Autocomplete.search_user.form-control type='text' name='q' value='' placeholder='Search by name, category, topic, etc...'
+      .clearfix
+    .user_list data-identifier='users-list'

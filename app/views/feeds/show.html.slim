@@ -1,0 +1,8 @@
+.col-md-12
+  h2 My Feed
+  - if @feed_events.any?
+    ul
+      - @feed_events.each do |event|
+        = render event.kind, event: event
+  - else
+    strong Here you will see all upcoming news related to your subscriptions

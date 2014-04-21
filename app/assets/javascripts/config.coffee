@@ -1,0 +1,1 @@
+window.bud.config or= {}
