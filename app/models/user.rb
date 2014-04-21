@@ -84,6 +84,10 @@ class User < ActiveRecord::Base
     [last_four_cc_numbers, stripe_card_id, stripe_user_id].all?(&:present?)
   end
 
+  def statement_description
+    name
+  end
+
   def subscribed_to?(target)
     return false if new_record?
     subscriptions.by_target(target).any?
