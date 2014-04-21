@@ -1,0 +1,2 @@
+class DocumentFeedEvent < FeedEvent
+end

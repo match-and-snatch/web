@@ -1,0 +1,9 @@
+li.item_feed
+  .name.pull-left #{current_user.name} / #{link_to_user event.subscription_target_user}
+  .date.pull-right Date: #{event.created_at.to_date.to_s(:long)}
+  .clearfix
+
+  .profile_picture.pull-left
+    img src=event.subscription_target_user.profile_picture_url
+  .latest_post.box.pull-right Just added a new audio file to their profile.
+  .clearfix

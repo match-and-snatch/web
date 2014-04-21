@@ -148,6 +148,42 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
+-- Name: feed_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE feed_events (
+    id integer NOT NULL,
+    type character varying(255),
+    target_id integer,
+    target_type character varying(255),
+    target_user_id integer,
+    subscription_target_user_id integer,
+    data text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: feed_events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE feed_events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: feed_events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE feed_events_id_seq OWNED BY feed_events.id;
+
+
+--
 -- Name: likes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -571,6 +607,13 @@ ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY feed_events ALTER COLUMN id SET DEFAULT nextval('feed_events_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY likes ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regclass);
 
 
@@ -658,6 +701,14 @@ ALTER TABLE ONLY benefits
 
 ALTER TABLE ONLY comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: feed_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY feed_events
+    ADD CONSTRAINT feed_events_pkey PRIMARY KEY (id);
 
 
 --
@@ -844,3 +895,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140418134507');
 INSERT INTO schema_migrations (version) VALUES ('20140419085232');
 
 INSERT INTO schema_migrations (version) VALUES ('20140420102145');
+
+INSERT INTO schema_migrations (version) VALUES ('20140421093001');

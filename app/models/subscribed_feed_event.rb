@@ -1,0 +1,2 @@
+class SubscribedFeedEvent < FeedEvent
+end

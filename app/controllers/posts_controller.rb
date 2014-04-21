@@ -21,7 +21,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy
+    PostManager.new(user: current_user.object).delete(@post)
     json_replace
   end
 

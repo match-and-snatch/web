@@ -1,74 +1,8 @@
 .col-md-12
   h2 My Feed
-  /* New Status */
-
-  ul
-    li.item_feed
-      .name.pull-left SubscribedProfileName / OwnerProfileName
-      .date.pull-right Date: February 15, 2014
-      .clearfix
-
-      .profile_picture.pull-left
-        img
-      .latest_post.box.pull-right Post entire status post. Do this only for status posts.
-      .clearfix
-
-    /* New Audio */
-
-    li.item_feed
-      .name.pull-left SubscribedProfileName / OwnerProfileName
-      .date.pull-right Date: February 15, 2014
-      .clearfix
-
-      .profile_picture.pull-left
-        img
-      .latest_post.box.pull-right Just added a new audio file to their profile.
-      .clearfix
-
-    /* New Video */
-
-    li.item_feed
-      .name.pull-left SubscribedProfileName / OwnerProfileName
-      .date.pull-right Date: February 15, 2014
-      .clearfix
-
-      .profile_picture.pull-left
-        img
-      .latest_post.box.pull-right Just posted a new video to their profile.
-      .clearfix
-
-    /* New Photo */
-
-    li.item_feed
-      .name.pull-left SubscribedProfileName / OwnerProfileName
-      .date.pull-right Date: February 15, 2014
-      .clearfix
-
-      .profile_picture.pull-left
-        img
-      .latest_post.box.pull-right Just posted # photos to their profile.
-      .clearfix
-
-    /* New Subscriber */
-
-    li.item_feed
-      .name.pull-left OwnerProfileName
-      .date.pull-right Date: February 25, 2014
-      .clearfix
-
-      .box
-        | Congratulations,
-        span SUBSCRIBER NAME
-        | is now subscribed to your profile!
-
-    /* Unsubscriber */
-
-    li.item_feed
-      .name.pull-left OwnerProfileName
-      .date.pull-right Date: February 25, 2014
-      .clearfix
-
-      .box
-        | Bummer,
-        span SUBSCRIBER NAME
-        | is no longer subscribed to your profile.
+  - if @feed_events.any?
+    ul
+      - @feed_events.each do |event|
+        = render event.kind, event: event
+  - else
+    strong Here you will see all upcoming news related to your subscriptions

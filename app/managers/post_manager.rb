@@ -16,6 +16,7 @@ class PostManager < BaseManager
 
     StatusPost.new(user: user, message: message).tap do |post|
       post.save or fail_with! post.errors
+      StatusFeedEvent.create! subscription_target_user: user, target: post, data: {message: message}
       user.pending_post.try(:destroy!)
     end
   end
@@ -25,7 +26,9 @@ class PostManager < BaseManager
       fail_with! "You can't upload more than 15 tracks."
     end
 
-    create_media_post AudioPost, *args
+    create_media_post(AudioPost, *args).tap do |post|
+      AudioFeedEvent.create! subscription_target_user: user, target: post
+    end
   end
 
   def create_video_post(*args)
@@ -33,7 +36,9 @@ class PostManager < BaseManager
       fail_with! "You can't upload more than one video."
     end
 
-    create_media_post VideoPost, *args
+    create_media_post(VideoPost, *args).tap do |post|
+      VideoFeedEvent.create! subscription_target_user: user, target: post
+    end
   end
 
   def create_photo_post(*args)
@@ -41,7 +46,9 @@ class PostManager < BaseManager
       fail_with! "You can't upload more than 15 photos."
     end
 
-    create_media_post PhotoPost, *args
+    create_media_post(PhotoPost, *args).tap do |post|
+      PhotoFeedEvent.create! subscription_target_user: user, target: post
+    end
   end
   
   def create_document_post(*args)
@@ -49,7 +56,9 @@ class PostManager < BaseManager
       fail_with! "You can't upload more than 5 documents."
     end
 
-    create_media_post DocumentPost, *args
+    create_media_post(DocumentPost, *args).tap do |post|
+      DocumentFeedEvent.create! subscription_target_user: user, target: post
+    end
   end
 
   # @param message [String]
@@ -70,6 +79,11 @@ class PostManager < BaseManager
     end
 
     user.pending_post(true)
+  end
+
+  def delete(post)
+    FeedEvent.where(target_type: 'Post', target_id: post.id).delete_all
+    post.destroy
   end
 
   private

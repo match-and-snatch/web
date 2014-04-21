@@ -1,0 +1,2 @@
+class PhotoFeedEvent < FeedEvent
+end
