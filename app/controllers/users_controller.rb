@@ -25,6 +25,8 @@ class UsersController < ApplicationController
     user = User.profile_owners.with_complete_profile.where(slug: params[:id]).first or error(404)
     @profile = ProfileDecorator.new(user)
 
+    layout.title = "#{@profile.name} - ConnectPal.com"
+
     if current_user.can?(:manage, user)
       template = 'owner_view'
     elsif can?(:see, user)

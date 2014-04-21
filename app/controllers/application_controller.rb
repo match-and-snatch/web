@@ -54,6 +54,16 @@ class ApplicationController < ActionController::Base
     raise HttpCodeError, code
   end
 
+  def layout
+    @layout ||= Layout.new
+  end
+  helper_method :layout
+
+  def set_layout(key, val = nil, &block)
+    layout[key.to_sym] = val || capture(&block)
+  end
+  helper_method :set_layout
+
   # Redirects page on response via JS
   # @param url [String] to redirect to
   def json_redirect(url)

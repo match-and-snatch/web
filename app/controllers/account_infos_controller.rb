@@ -3,6 +3,7 @@ class AccountInfosController < ApplicationController
   before_filter :load_user
 
   def show
+    layout.title = 'Account - ConnectPal.com'
   end
 
   def details
