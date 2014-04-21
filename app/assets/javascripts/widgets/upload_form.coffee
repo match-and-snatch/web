@@ -24,8 +24,10 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       onSuccess: (assembly) =>
         $('#uploading > .file_status').addClass('hidden')
         @change_progress '0%'
+        bud.pub('attachment.uploaded')
       onStart: (assembly) ->
         $('#uploading > .file_status').removeClass('hidden')
+        bud.pub('attachment.uploading')
       onError: (error) ->
         console.log(error)
         alert('Sorry, but file you are trying to upload is invalid')
