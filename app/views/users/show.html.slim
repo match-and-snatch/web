@@ -65,7 +65,7 @@
           span.input-group-addon
             i.fa.fa-search.fa-fw.fa-lg
           form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
-            input.Autocomplete.form-control type="text" name='q' placeholder="Search profile content"
+            input.Autocomplete.form-control data-identifier='search-posts-autocomplete' type="text" name='q' placeholder="Search profile content"
 
         /* Category Cloud */
 
