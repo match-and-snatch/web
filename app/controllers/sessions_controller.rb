@@ -8,7 +8,8 @@ class SessionsController < ApplicationController
   def create
     reset_session
     user = session_manager.login(params[:email], params[:password], params[:remember_me])
-    user.profile_disabled? ? json_redirect(create_profile_path) : json_reload
+    # user.profile_disabled? ? json_redirect(account_path) : json_reload
+    json_reload
   end
 
   # Logs user out
