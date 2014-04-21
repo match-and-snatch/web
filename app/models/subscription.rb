@@ -18,4 +18,8 @@ class Subscription < ActiveRecord::Base
   def customer
     user
   end
+
+  def statement_description
+    target_user.name
+  end
 end
