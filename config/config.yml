@@ -21,6 +21,7 @@ development:
     <<: *jwplayer
 
 production:
+  http_access: false
   media_host: connectpal-media.s3.amazonaws.com
   <<: *defaults
   javascript:
