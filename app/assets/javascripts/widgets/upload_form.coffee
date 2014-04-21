@@ -8,6 +8,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     super
     @$target = bud.get(@$container.data('target'))
     bud.sub('post', @on_post)
+    bud.sub('attachment.cancel', @on_cancel)
     bud.Ajax.getScript(bud.widgets.UploadForm.TRANSLOADIT_SCRIPT_PATH).done(@on_script_loaded)
 
   on_script_loaded: =>
@@ -24,13 +25,23 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       onSuccess: (assembly) =>
         $('#uploading > .file_status').addClass('hidden')
         @change_progress '0%'
-      onStart: (assembly) ->
+        bud.pub('attachment.uploaded')
+        @$container.find('.select_file_container').removeClass('hidden')
+      onStart: (assembly) =>
+        @$container.find('.select_file_container').addClass('hidden')
         $('#uploading > .file_status').removeClass('hidden')
+        bud.pub('attachment.uploading')
       onError: (error) ->
         console.log(error)
         alert('Sorry, but file you are trying to upload is invalid')
     )
 
+  on_cancel: =>
+    $('#uploading > .file_status').addClass('hidden')
+    @change_progress '0%'
+    u = @$container.data('transloadit.uploader')
+    if u && u.$files
+      u.cancel()
   on_post: =>
     bud.clear_html(@$target)
 

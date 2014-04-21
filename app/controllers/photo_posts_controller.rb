@@ -1,5 +1,10 @@
 class PhotoPostsController < PendingPostsController
 
+  def cancel
+    PostManager.new(user: current_user.object).cancel_pending_photos
+    json_render html: render_to_string('new', layout: false)
+  end
+
   protected
 
   def create_post
@@ -8,8 +13,12 @@ class PhotoPostsController < PendingPostsController
                                                                  message:       params[:message]
   end
 
+  def cancel_media_posts_path
+    cancel_photo_posts_path
+  end
+
   def media_posts_path
     photo_posts_path
   end
-  helper_method :media_posts_path
+  helper_method :media_posts_path, :cancel_media_posts_path
 end

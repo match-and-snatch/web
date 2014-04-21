@@ -50,7 +50,7 @@ class PostManager < BaseManager
       PhotoFeedEvent.create! subscription_target_user: user, target: post
     end
   end
-  
+
   def create_document_post(*args)
     if DocumentPost.pending_uploads_for(user).count > 5
       fail_with! "You can't upload more than 5 documents."
@@ -81,12 +81,36 @@ class PostManager < BaseManager
     user.pending_post(true)
   end
 
+  def cancel_pending_audios
+    @user.pending_post_uploads.audios.destroy_all
+    make_panding_blank
+  end
+
+  def cancel_pending_videos
+    @user.pending_post_uploads.videos.destroy_all
+    make_panding_blank
+  end
+
+  def cancel_pending_photos
+    @user.pending_post_uploads.photos.destroy_all
+   make_panding_blank
+  end
+
+  def cancel_pending_documents
+    @user.pending_post_uploads.documents.destroy_all
+    make_panding_blank
+  end
+
   def delete(post)
     FeedEvent.where(target_type: 'Post', target_id: post.id).delete_all
     post.destroy
   end
 
   private
+
+  def make_panding_blank
+    update_pending message: "", title: "", keywords: ""
+  end
 
   # @param post_class [Class]
   # @param title [String]
