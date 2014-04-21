@@ -263,7 +263,9 @@ CREATE TABLE payments (
     user_id integer,
     amount integer,
     stripe_charge_data text,
-    description text
+    description text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -897,3 +899,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140419085232');
 INSERT INTO schema_migrations (version) VALUES ('20140420102145');
 
 INSERT INTO schema_migrations (version) VALUES ('20140421093001');
+
+INSERT INTO schema_migrations (version) VALUES ('20140421152627');

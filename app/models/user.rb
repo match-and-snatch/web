@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_many :pending_post_uploads, -> { pending.posts }, class_name: 'Upload'
   has_many :profile_types_users
   has_many :profile_types, through: :profile_types_users
+  has_many :payments
 
   has_one :pending_post
 
