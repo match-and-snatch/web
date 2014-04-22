@@ -8,11 +8,34 @@
   .clearfix
 
 .col-md-12
+  h2 Subscriber Monthly Growth
+
   - if @user.subscriptions_count > 0
     .YAxis
     .graph.Graph data-data=@user.graph_data.to_json Please wait...
 
-  .item_block
+  hr
+
+  h2 Change Profile Page URL
+
+  form.Form action=update_general_information_account_info_path method='post'
+    input type='hidden' name='_method' value='put'
+
+    .form-group
+      label.pull-left Profile URL
+      input.form-control.pull-right type='text' name='slug' value=@user.slug
+      .clearfix
+      .error data-field='slug'
+
+    .example_url.bg-warning.pull-right
+      |www.ConnectPal.com/
+      span YourProfileURL
+    .clearfix
+
+    input.btn.pink.pull-right type='submit' value='Update Profile URL' style="margin-bottom: 15px"
+    .clearfix
+
+  .item_block.hidden
     h2 Vacation Mode
     p You can put your account into vacation mode. This will notify your subscribers about your action and not bill them on their upcoming billing cycle. Please note that existing subscribers will still be able to view your profile.
     .btn.pink onClick='javascript: alert("Coming soon")' Enable Vacation Mode
@@ -21,4 +44,6 @@
     .item_block
       h2 Delete Profile
       p You can delete your profile at anytime. Please note that doing this will remove your profile page from our system. We cannot do anything to bring your profile back. Please think twice.
-      .btn.pink.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path Delete My Profile Page
+      .btn.pink.pull-right.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path Delete My Profile Page
+      .clearfix
+
