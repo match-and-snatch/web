@@ -24,3 +24,15 @@ def create_admin(_params = {})
     UserManager.new(user).make_admin
   end
 end
+
+def create_video_upload(user, _params = {})
+  UploadManager.new(user).create_pending_video(_params[:transloadit])
+end
+
+def create_audios_upload(user, _params = {})
+  UploadManager.new(user).create_pending_audios(_params[:transloadit])
+end
+
+def create_documents_upload(user, _params = {})
+  UploadManager.new(user).create_pending_documents(_params[:transloadit])
+end
