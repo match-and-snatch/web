@@ -20,7 +20,6 @@
     font-weight: 600
     margin: 15px 0 5px
   .hr_circle
-    background: asset-url('https://buddy-assets.s3.amazonaws.com/images/steps-circle.png') no-repeat
     position: relative
     margin: 15px auto
     height: 25px
@@ -46,6 +45,81 @@
       text-decoration: underline
       &:hover
         color: $color_pink
+
+/* Small Devices */
+
+// .home_pitch
+//   .col-sm-12
+//     .heading
+//       font-size: 40px
+//     .sub_heading
+//       font-size: 16px
+//       margin-bottom: 15px
+//     .step
+//       font-size: 16px
+//     .hr_circle
+//   .col-sm-4
+//     .title
+//       font-size: 24px
+//       margin-bottom: 5px
+//     .description
+//       font-size: 13px
+//       a
+//         font-size: 13px
+
+// .button_actions
+//   .col-md-12
+//     &.title
+//       font-size: 40px
+//   .col-md-5
+//     .btn
+//       font-size: 18px
+//       width: 280px
+//   .col-md-2
+//     .or
+//       font-size: 50px
+
+// .homepage_profile, .homepage_our_users, .homepage_analytics
+//   .col-sm-6
+//     img
+//       width: 340px
+
+// .homepage_profile
+//   .col-sm-6
+//     &.description
+//       ul
+//         font-size: 22px
+//         line-height: 30px
+//         padding-top: 60px
+
+// .homepage_our_users, .homepage_analytics
+//   .col-sm-6
+//     &.description
+//       padding-top: 55px
+//       .title
+//         font-size: 45px
+//       span
+//         font-size: 22px
+//         line-height: 32px
+//         span 
+//           font-size: 22px
+
+// .homepage_analytics
+//   .col-sm-6
+//     &.description
+//       padding-top: 100px
+
+// .footer
+//   .col-sm-12
+//     ul
+//       font-size: 12px
+//       text-align: center
+//       margin: 0 auto
+//       float: none !important
+//     .copyright
+//       float: none !important
+//       text-align: center
+//       margin: 10px 0
 
 /* Button Actions */
 
@@ -143,81 +217,82 @@
       color: $color_pink
 
 /* Homepage Sample Profile */
-
-.sample_profile
-  margin: 15px
-  position: relative
-  width: 870px
-  text-align: center
-  img
-    border-radius: $border_radius
-    width: 600px
-  .note
-    font-size: 12px
-    position: absolute
-    top: 0
-    &.n1
-      top: 35px
-      left: -15px
-      width: 135px
-    &.n2
-      top: 345px
-      left: -15px
-      width: 135px
-    &.n3
-      top: 681px
-      left: -15px
-      width: 145px
-    &.n4
-      top: -25px
-      right: -15px
-      width: 142px
-      a
-        color: $color_pink
-    &.n5
-      top: 420px
-      right: -15px
-      width: 135px
-    &.n6
-      top: 685px
-      right: -15px
-      width: 135px
-    .arrow
-      background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
-      position: absolute
-      &.n1
-        background-position: 0 0
-        top: 50px
-        left: 55px
-        height: 68px
-        width: 81px
-      &.n2
-        background-position: 0 138px
-        top: -55px
-        left: 75px
-        height: 44px
-        width: 57px
-      &.n3
-        background-position: 0 95px
-        top: -105px
-        left: 75px
-        height: 95px
-        width: 66px
-      &.n4
-        background-position: 99px 0
-        top: 260px
-        left: -85px
-        height: 54px
-        width: 99px
-      &.n5
-        background-position: 99px 138px
-        top: -45px
-        left: -8px
-        height: 37px
-        width: 69px
-      &.n6
-        background-position: 99px 94px
-        top: 45px
-        left: 5px
-        height: 73px
-        width: 81px
+.popup
+  .modal-body
+    .sample_profile
+      margin-top: -15px
+      position: relative
+      width: 900px
+      text-align: center
+      img
+        border-radius: $border_radius
+        width: 580px
+      .note
+        font-size: 12px
+        position: absolute
+        top: 0
+        &.n1
+          top: 35px
+          left: -5px
+          width: 150px
+        &.n2
+          top: 315px
+          left: -5px
+          width: 145px
+        &.n3
+          top: 647px
+          left: -5px
+          width: 155px
+        &.n4
+          top: 5px
+          right: -5px
+          width: 160px
+          a
+            color: $color_pink
+        &.n5
+          top: 390px
+          right: -5px
+          width: 155px
+        &.n6
+          top: 615px
+          right: -5px
+          width: 145px
+        .arrow
+          background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
+          position: absolute
+          &.n1
+            background-position: 0 0
+            top: 40px
+            left: 75px
+            height: 68px
+            width: 81px
+          &.n2
+            background-position: 0 138px
+            top: -50px
+            left: 95px
+            height: 44px
+            width: 57px
+          &.n3
+            background-position: 0 95px
+            top: -100px
+            left: 85px
+            height: 95px
+            width: 66px
+          &.n4
+            background-position: 99px 0
+            top: 210px
+            left: -85px
+            height: 54px
+            width: 99px
+          &.n5
+            background-position: 99px 138px
+            top: -45px
+            left: 0
+            height: 37px
+            width: 69px
+          &.n6
+            background-position: 99px 94px
+            top: 40px
+            left: -5px
+            height: 73px
+            width: 81px
