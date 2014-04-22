@@ -17,11 +17,14 @@ ul.nav.navbar-nav.pull-right
         i.fa.fa-sign-out Logout
 
   - else
-    li.homepage_search
-      form.Form action=users_path method='get' data-target='users-list'
-        .form-group
-          input.Autocomplete.form-control type='text' name='q' value='' placeholder='Search users...'
-        .search_results data-identifier='users-list'
+    li
+      a.PopupTrigger data-target='search-users' href='#'
+        i.fa.fa-search Search Users
+    / li.homepage_search
+    /   form.Form action=users_path method='get' data-target='users-list'
+    /     .form-group
+    /       input.Autocomplete.form-control type='text' name='q' value='' placeholder='Search users...'
+    /     .search_results data-identifier='users-list'
 
     li
       a.PopupTrigger href='#' data-target='login'
