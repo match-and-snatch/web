@@ -36,3 +36,7 @@ end
 def create_documents_upload(user, _params = {})
   UploadManager.new(user).create_pending_documents(_params[:transloadit])
 end
+
+def create_photo_upload(user, _params = {})
+  UploadManager.new(user).create_pending_photos(_params[:transloadit])
+end
