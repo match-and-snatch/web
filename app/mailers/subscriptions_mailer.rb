@@ -1,14 +1,17 @@
 class SubscriptionsMailer < ApplicationMailer
+  add_template_helper ApplicationHelper
 
-  # @param user [User]
-  def subscribed(user)
-    @user = user
-    mail to: @user.email, subject: 'Subscribed'
+  def subscribed(subscription)
+    @subscription = subscription
+    @subscriber = subscription.user
+    @owner = subscription.target_user
+    mail to: @subscriber.email, subject: "You're now subscribed to #{@owner.name}."
   end
 
-  # @param user [User]
-  def unsubscribed(user)
-    @user = user
-    mail to: @user.email, subject: 'Unsubscribed'
+  def unsubscribed(subscription)
+    @subscription = subscription
+    @subscriber = subscription.user
+    @owner = subscription.target_user
+    mail to: @subscriber.email, subject: 'You have been unsubscribed.'
   end
 end

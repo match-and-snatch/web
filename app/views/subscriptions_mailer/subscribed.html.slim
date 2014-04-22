@@ -36,12 +36,12 @@ html
                 div style="color: #ea2e49; font-size: 24px;" Congratulations
                 p style="color: #464646;" 
                   |You subscribed to 
-                  a href="" style="color: #ea2e49;"ProfileName
+                  a href=profile_url(@owner) style="color: #ea2e49;"= @owner.name
                   |&nbsp
                   |on 
-                  b SUBSCRIBEDATE 
-                  | at 
-                  b style="color: $ea2e49;"$X.XX
+                  b= @subscription.created_at.to_date.to_s(:long)
+                  ' at
+                  b style="color: $ea2e49;"= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
                   |&nbsp
                   |per month. 
 
