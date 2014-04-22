@@ -93,7 +93,7 @@ class PostManager < BaseManager
 
   def cancel_pending_photos
     @user.pending_post_uploads.photos.destroy_all
-   make_panding_blank
+    make_panding_blank
   end
 
   def cancel_pending_documents
