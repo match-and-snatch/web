@@ -82,7 +82,9 @@ development:
           resize_strategy: 'fit'
         store:
           <<: *profile_image
-          use: resized
+          use:
+            - resized
+            - ":original"
           path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:
@@ -220,7 +222,9 @@ staging:
           resize_strategy: 'fit'
         store:
           <<: *user_picture
-          use: resized
+          use:
+            - resized
+            - ":original"
           path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:
@@ -348,7 +352,9 @@ production:
           resize_strategy: 'fit'
         store:
           <<: *user_picture
-          use: resized
+          use:
+            - resized
+            - ":original"
           path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:
