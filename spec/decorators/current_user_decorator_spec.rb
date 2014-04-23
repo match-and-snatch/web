@@ -8,9 +8,7 @@ describe CurrentUserDecorator do
     context 'admin' do
       let(:user) { User.new is_admin: true }
 
-      specify do
-        expect(subject.can?(:do, :anything)).to eq(true)
-      end
+      # TODO: ...
     end
   end
 

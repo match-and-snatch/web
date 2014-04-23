@@ -17,9 +17,9 @@
 
     .form-group
       label.pull-left Company/Organization
-      input.form-control.pull-right type='text' name='' value=''
+      input.form-control.pull-right type='text' name='company_name' value=@user.company_name
       .clearfix
-      .error data-field=''
+      .error data-field='company_name'
 
     input.btn.pink.pull-right type='submit' value='Update Information'
     .clearfix
@@ -49,5 +49,5 @@
       .clearfix
       .error data-field='new_password_confirmation'
 
-    input.btn.pink.pull-right type='submit' value='Change Your Password' style="margin-bottom: 15px"
+    input.btn.pink.pull-right type='submit' data-wait_text='Please, wait...' value='Change Your Password' style="margin-bottom: 15px"
     .clearfix

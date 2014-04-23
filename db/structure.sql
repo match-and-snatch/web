@@ -568,8 +568,9 @@ CREATE TABLE users (
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees double precision,
     cost integer,
+    has_public_profile boolean DEFAULT false,
     password_reset_token character varying(255),
-    has_public_profile boolean DEFAULT false
+    company_name character varying(255)
 );
 
 
@@ -904,3 +905,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140421093001');
 INSERT INTO schema_migrations (version) VALUES ('20140421152627');
 
 INSERT INTO schema_migrations (version) VALUES ('20140421153513');
+
+INSERT INTO schema_migrations (version) VALUES ('20140423124726');

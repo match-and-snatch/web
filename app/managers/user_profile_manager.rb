@@ -252,19 +252,21 @@ class UserProfileManager < BaseManager
   end
 
   # @param full_name [String]
-  # @param slug [String]
+  # @param company_name [String]
   # @param email [String]
   # @return [User]
-  def update_general_information(full_name: nil, slug: nil, email: nil)
+  def update_general_information(full_name: nil, company_name: nil, email: nil)
     validate! do
       fail_with full_name: :empty unless full_name.present?
-      validate_slug slug
+      if company_name
+        fail_with company_name: :too_long if company_name.length > 200
+      end
       validate_email(email) if email != user.email
     end
 
-    user.full_name = full_name
-    user.slug      = slug
-    user.email     = email
+    user.full_name    = full_name
+    user.company_name = company_name
+    user.email        = email
 
     user.save or fail_with! user.errors
     user
