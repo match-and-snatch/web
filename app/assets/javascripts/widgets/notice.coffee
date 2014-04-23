@@ -29,7 +29,7 @@ class bud.widgets.Notice extends bud.Widget
 
   on_hide: =>
     @countdown = @timeout
-    @$container.slideUp()
+    @$container.stop(true, true).fadeOut({queue: false}).slideUp()
     clearInterval(@interval)
 
   on_show: (e, text) =>
@@ -42,6 +42,6 @@ class bud.widgets.Notice extends bud.Widget
 
     @$container.removeClass('hidden')
     @$container.css('display', 'none')
-    @$container.slideDown()
+    @$container.stop(true, true).fadeIn({queue: false}).css('display', 'none').slideDown()
 
     @start()
