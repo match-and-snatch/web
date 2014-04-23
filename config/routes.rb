@@ -123,6 +123,7 @@ BuddyPlatform::Application.routes.draw do
   get '/terms_of_use' => 'pages#terms_of_use', as: :terms_of_use
   get '/privacy_policy' => 'pages#privacy_policy', as: :privacy_policy
   get '/faq' => 'pages#faq', as: :faq
+  get '/sampleprofile' => 'pages#sampleprofile', as: :sampleprofile
 
   if Rails.env.development?
     get 'mockups/*mockup' => 'mockups#show'

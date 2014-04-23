@@ -82,12 +82,14 @@
     form.pull-right.Form action=via_register_user_subscriptions_path(@owner) method='POST'
       .account_payment
         .form-group
-          input.form-control type='text' name='full_name' placeholder='Full Name on credit card'
+          label Full Name on credit card
+          input.form-control type='text' name='full_name'
           span.error data-field='full_name'
         .form-group
-          input.form-control type='text' name='email' placeholder='Email Address'
+          label Email Address
+          input.form-control type='text' name='email'
           span.error data-field='email'
-        .form-group style="margin-bottom: 30px"
+        .form-group style="margin-bottom: 5px"
           label.password_label Enter Password
           input.form-control.password type='password' name='password' placeholder=''
           span.error data-field='password'
@@ -102,7 +104,7 @@
               img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Amex@2x.png')
             li
               img src=image_path('https://buddy-assets.s3.amazonaws.com/images/Discover@2x.png')
-          input.form-control type='text' name='number' placeholder='1234 5678 9012 3456'
+          input.form-control type='text' name='number' placeholder='1234 5678 9012 3456' style="width: 150px"
           span.error data-field='number'
 
         .form-group.exp_date.pull-left
@@ -110,10 +112,10 @@
           .clearfix
           .pull-left
             label.small.pull-left Month
-            input.form-control type='text' name='expiry_month' placeholder='01' style="width: 50px"
+            input.form-control type='text' name='expiry_month' placeholder='01' style="width: 42px"
           .pull-left style="margin-left: 5px"
             label.small.pull-left Year
-            input.form-control type='text' name='expiry_year' placeholder='15' style="width: 50px"
+            input.form-control type='text' name='expiry_year' placeholder='15' style="width: 45px"
           .clearfix
           span.error data-field='expiry_date'
           .clearfix
