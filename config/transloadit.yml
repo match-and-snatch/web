@@ -34,9 +34,6 @@ video_filter: &video_filter
 development:
   profile_image: &profile_image
     <<: *s3
-    use:
-      - 'resize'
-      - ':original'
     bucket: 'buddy-assets'
 
   # the jquery_sdk version you want to use, read up on it here:
@@ -57,24 +54,35 @@ development:
     profile_picture:
       steps:
         <<: *image_filter
-        resize:
+        thumb_180x180:
           robot: '/image/resize'
-          width: 250
-          height: 250
+          width: 180
+          height: 180
           resize_strategy: 'fillcrop'
+        thumb_50x50:
+          robot: '/image/resize'
+          width: 50
+          height: 50
+          resize_strategy: 'fillcrop'
+          use: thumb_180x180
         store:
           <<: *profile_image
+          use:
+            - 'thumb_180x180'
+            - 'thumb_50x50'
+            - ':original'
           path: 'uploads/profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     cover_picture:
       steps:
         <<: *image_filter
-        resize:
+        resized:
           robot: '/image/resize'
           width: 970
           resize_strategy: 'fit'
         store:
           <<: *profile_image
+          use: resized
           path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:
@@ -114,9 +122,12 @@ development:
         store:
           <<: *s3
           use: ':original'
-          url_prefix: 's1y5uslj4plb.cloudfront.net/'
           bucket: 'buddy-video-assets'
           path: '${assembly.id}____${file.url_name}'
+          url_prefix: 's1y5uslj4plb.cloudfront.net/'
+          headers:
+            'Content-Type': "${file.mime}"
+            'Content-Disposition': "attachment; filename=${file.url_name}"
 
     post_photo:
       steps:
@@ -145,14 +156,32 @@ development:
           path: 'uploads/post_documents/${fields.slug}/${assembly.id}/${file.url_name}'
 
 staging:
+  attachment: &attachment
+    <<: *s3
+    use: ':original'
+    bucket: 'buddy-assets'
+
+  media: &media
+    <<: *s3
+    bucket: 'buddy-video-assets'
+    url_prefix: 's1y5uslj4plb.cloudfront.net/'
+    path: '${assembly.id}__${file.id}____${file.url_name}'
+
+  user_picture: &user_picture
+    <<: *s3
+    use:
+      - 'resize'
+      - ':original'
+    bucket: 'buddy-assets'
+
   # the jquery_sdk version you want to use, read up on it here:
   # https://transloadit.com/blog/2013/02/transloadit-javascript-plugin-and-jquery-1-9
   # defaults to latest
   # use "v1.0.0" if you need IE6 support (using jQuery < 1.9)
   jquery_sdk_version: 'latest'
   auth:
-    key     : '6742a710a9ab11e3a661690b776b09a8'
-    secret  : 'ccc5f19c2c26cf803715551cd7dceff20efe8b65' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
+    key: '6742a710a9ab11e3a661690b776b09a8'
+    secret: 'ccc5f19c2c26cf803715551cd7dceff20efe8b65' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
     duration: 1800 # 30 minute validity period for signed upload forms
 
   templates:
@@ -163,36 +192,36 @@ staging:
     profile_picture:
       steps:
         <<: *image_filter
-        resize:
+        thumb_180x180:
           robot: '/image/resize'
-          width: 250
-          height: 250
+          width: 180
+          height: 180
           resize_strategy: 'fillcrop'
+        thumb_50x50:
+          robot: '/image/resize'
+          width: 50
+          height: 50
+          resize_strategy: 'fillcrop'
+          use: thumb_180x180
         store:
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-assets'
-          path: 'uploads/profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          <<: *user_picture
           use:
-            - 'resize'
+            - 'thumb_180x180'
+            - 'thumb_50x50'
             - ':original'
+          path: 'profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+
     cover_picture:
       steps:
         <<: *image_filter
-        resize:
+        resized:
           robot: '/image/resize'
           width: 970
           resize_strategy: 'fit'
         store:
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-assets'
-          path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
-          use:
-            - 'resize'
-            - ':original'
+          <<: *user_picture
+          use: resized
+          path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:
       steps:
@@ -202,57 +231,60 @@ staging:
           robot: "/video/thumbs"
           count: 1
         s3_thumb:
+          <<: *s3
           use: 'thumbs'
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-assets'
-          path: 'uploads/thumbs/${fields.slug}/${assembly.id}____${file.url_name}'
+          bucket: 'buddy-video-assets'
+          path: 'video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
+        encode:
+          robot: "/video/encode"
+          use: ":original"
+          ffmpeg_stack: "v2.0.0"
+          preset: "ipad"
+          width: null
+          height: null
+          ffmpeg:
+            b: "700k"
+            vf: "scale='min(iw,1280)':-1"
         store:
-          url_prefix: 'http://s1y5uslj4plb.cloudfront.net/'
-          #acl: private
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-videos'
-          path: 'uploads/post_videos/${fields.slug}/${assembly.id}____${file.url_name}'
-          use: ':original'
+          <<: *media
+          use:
+            - 'encode'
+            - ':original'
 
     post_audio:
       steps:
         <<: *audio_filter
         store:
-          url_prefix: 'http://s1y5uslj4plb.cloudfront.net/'
-          #acl: private
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-videos'
-          path: 'uploads/post_audios/${fields.slug}/${assembly.id}____${file.url_name}'
+          <<: *media
+          use: ':original'
+          headers:
+            'Content-Type': "${file.mime}"
+            'Content-Disposition': "attachment; filename=${file.url_name}"
           use: ':original'
 
     post_photo:
       steps:
+        <<: *image_filter
+        preview:
+          robot: '/image/resize'
+          use: ':original'
+          width: 100
+          height: 100
+          resize_strategy: 'fillcrop'
         store:
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'connectpal-assets'
-          path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          <<: *attachment
           use:
             - ':original'
+            - 'preview'
+          path: 'photos/${fields.slug}/${assembly.id}__${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_document:
       steps:
+        <<: *document_filter
         store:
-          acl: private
-          robot: '/s3/store'
-          key: 'AKIAJ5KUIYFXQB5KUD5A'
-          secret: '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'
-          bucket: 'buddy-private-assets'
-          path: 'uploads/post_documents/${fields.slug}/${assembly.id}/${file.url_name}'
-          use:
-            - ':original'
+          <<: *attachment
+          path: 'documents/${fields.slug}/${assembly.id}__${file.url_name}'
+
 
 production:
   attachment: &attachment
@@ -268,9 +300,6 @@ production:
 
   user_picture: &user_picture
     <<: *s3
-    use:
-      - 'resize'
-      - ':original'
     bucket: 'connectpal-uploads'
 
   # the jquery_sdk version you want to use, read up on it here:
@@ -291,24 +320,35 @@ production:
     profile_picture:
       steps:
         <<: *image_filter
-        resize:
+        thumb_180x180:
           robot: '/image/resize'
-          width: 250
-          height: 250
+          width: 180
+          height: 180
           resize_strategy: 'fillcrop'
+        thumb_50x50:
+          robot: '/image/resize'
+          width: 50
+          height: 50
+          resize_strategy: 'fillcrop'
+          use: thumb_180x180
         store:
           <<: *user_picture
+          use:
+            - 'thumb_180x180'
+            - 'thumb_50x50'
+            - ':original'
           path: 'profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     cover_picture:
       steps:
         <<: *image_filter
-        resize:
+        resized:
           robot: '/image/resize'
           width: 970
           resize_strategy: 'fit'
         store:
           <<: *user_picture
+          use: resized
           path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:
@@ -345,6 +385,9 @@ production:
         store:
           <<: *media
           use: ':original'
+          headers:
+            'Content-Type': "${file.mime}"
+            'Content-Disposition': "attachment; filename=${file.url_name}"
 
     post_photo:
       steps:

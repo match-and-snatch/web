@@ -84,7 +84,7 @@
         text-align: right
         width: 150px
       .form-control
-        width: 463px
+        width: 435px
       .error
         margin: 5px 0 0 197px
 
@@ -127,7 +127,7 @@
         background-color: $color_background
         padding: 10px
       .latest_post
-        width: 567px
+        width: 530px
       .box
         span
           color: $color_pink
@@ -191,11 +191,25 @@
 
     /* Profile Details */
 
+    .example_url 
+      border-radius: $border_radius
+      color: $color_text_light
+      padding: 15px
+      width: 435px
+      margin-bottom: 15px
+      font-size: 11px
+      span
+        color: $color_text_dark
+        font-weight: bold
+
+
     .stats
       @include linear-gradient(#3e3e3e, #2d2d2d)
+      border-radius: $border_radius
       border-left: none
       border-right: none
       color: #FFFFFF
+      margin-top: 15px
       padding: 30px
       text-align: center
       text-shadow: -1px -1px 0 #1c1c1c
@@ -219,6 +233,8 @@
 
     .subscriber_table
       font-size: 12px !important
+      a
+        color: $color_text_dark
       .fa
         a
           color: $color_text_dark

@@ -6,6 +6,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_payment_information
       get :settings
       put :update_general_information
+      put :update_slug
       put :change_password
       get :billing_information
       put :update_bank_account_data
@@ -92,6 +93,7 @@ BuddyPlatform::Application.routes.draw do
       member do
         put :make_admin
         put :drop_admin
+        post :login_as
       end
     end
     resources :profile_types, only: [:index, :create, :destroy]
@@ -123,6 +125,7 @@ BuddyPlatform::Application.routes.draw do
   get '/terms_of_use' => 'pages#terms_of_use', as: :terms_of_use
   get '/privacy_policy' => 'pages#privacy_policy', as: :privacy_policy
   get '/faq' => 'pages#faq', as: :faq
+  get '/sampleprofile' => 'pages#sampleprofile', as: :sampleprofile
 
   if Rails.env.development?
     get 'mockups/*mockup' => 'mockups#show'

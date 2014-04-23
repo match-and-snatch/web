@@ -3,11 +3,11 @@ class UserDecorator < BaseDecorator
            :profile_types,
            :complete_profile?, :profile_disabled?,
            :has_cc_payment_account?, :subscribed_to?,
-           :original_profile_picture_url, :profile_picture_url,
+           :original_profile_picture_url, :profile_picture_url, :small_profile_picture_url,
            :cover_picture_url, :original_cover_picture_url, :id,
            :contacts_info,
            :cover_picture_position,
-           :cost, :name,
+           :cost, :name, :has_profile_page?,
            to: :object
 
   # @param object [User]

@@ -64,16 +64,27 @@ class ApplicationController < ActionController::Base
   end
   helper_method :set_layout
 
+  def json_response(status, data = {})
+    resp = {status: status, token: form_authenticity_token}.reverse_merge(data)
+
+    if resp[:notice].is_a? Symbol
+      resp[:notice] = translate_message(resp[:notice])
+    end
+    resp[:notice] ||= @notice if @notice
+
+    render json: resp
+  end
+
   # Redirects page on response via JS
   # @param url [String] to redirect to
   def json_redirect(url)
-    render json: { status: 'redirect', url: url }
+    json_response 'redirect', url: url
   end
 
   # Notifies client side about failed operation
   # @param response_params [Hash]
   def json_fail(response_params = {})
-    render json: { status: 'failed', token: form_authenticity_token }.merge(response_params)
+    json_response 'failed', response_params
   end
 
   # Renders failed response with errors hash
@@ -85,7 +96,7 @@ class ApplicationController < ActionController::Base
   # Notifies client side of successful action
   # @param response_params [Hash]
   def json_success(response_params = {})
-    render json: {status: 'success', token: form_authenticity_token}.merge(response_params)
+    json_response 'success', response_params
   end
 
   # Renders html with success status
@@ -114,7 +125,7 @@ class ApplicationController < ActionController::Base
 
   # Reloads page via JS
   def json_reload
-    render json: {status: 'reload'}
+    json_response 'reload'
   end
 
   # @param status [String]
@@ -125,8 +136,7 @@ class ApplicationController < ActionController::Base
       template = json.delete(:template) || action_name
       json[:html] = render_to_string(action: template, layout: false, formats: [:html])
     end
-
-    render json: json.merge(status: status, token: form_authenticity_token)
+    json_response status, json
   end
 
   # @return [SessionManager]
@@ -137,7 +147,16 @@ class ApplicationController < ActionController::Base
   # @param message [Symbol] i18n Identifier
   def notice(message, opts = {})
     if message
-      flash.notice = I18n.t(message, opts.reverse_merge(scope: :messages, default: [:default, message])).html_safe
+      message = translate_message(message, opts = {})
+      @notice = message
+      flash.notice = message
     end
+  end
+
+  private
+
+  def translate_message(message, opts = {})
+    raise ArgumentError unless message.is_a? Symbol
+    I18n.t(message, opts.reverse_merge(scope: :messages, default: [:default, message])).html_safe
   end
 end

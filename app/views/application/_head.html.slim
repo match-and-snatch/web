@@ -4,9 +4,12 @@ meta name='description' content="Welcome to the World's #1 Most Popular Content 
 = content_for :head
 
 link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"
-= stylesheet_link_tag '//fonts.googleapis.com/css?family=Open+Sans:300,400,600'
-= stylesheet_link_tag '//fonts.googleapis.com/css?family=Dosis:400,600,700'
+= stylesheet_link_tag '//fonts.googleapis.com/css?family=Open+Sans:300,400,600|Dosis:400,600,700'
 = stylesheet_link_tag 'application', media: 'all'
+
+<!--[if lt IE 9]>
+  link rel="stylesheet" type="text/css" href="/assets/ie8-and-down.css"
+<![endif]-->
 
 - if Rails.application.config.assets.use_cdn
   script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'
@@ -16,6 +19,10 @@ link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" re
   = javascript_include_tag 'jquery'
 
 = javascript_include_tag 'application'
+<!--[if IE]>
+script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js'
+script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.js'
+<![endif]-->
 = csrf_meta_tags
 
 javascript:

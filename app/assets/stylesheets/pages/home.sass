@@ -6,33 +6,30 @@
   text-align: center
   .heading
     color: $color_pink
-    font-size: 60px
     font-weight: 600
+    font-size: 60px
     line-height: 100%
   .sub_heading
     color: #000000
     font-size: 20px
-    line-height: 100%
     margin: 15px 0 30px
-  .step
-    color: #000000
-    font-size: 20px
-    font-weight: 600
-    margin: 15px 0 5px
+    line-height: 100%
   .hr_circle
-    background: asset-url('https://buddy-assets.s3.amazonaws.com/images/steps-circle.png') no-repeat
     position: relative
     margin: 15px auto
     height: 25px
     width: 670px
+  .step
+    color: #000000
+    font-weight: 600
   .icon
     height: 100px
   .title
     color: $color_blue
-    font-size: 32px
     font-weight: 600
-    line-height: 100%
+    font-size: 32px
     margin: 15px 0
+    line-height: 100%
   .description
     color: #000000
     font-size: 14px
@@ -46,6 +43,59 @@
       text-decoration: underline
       &:hover
         color: $color_pink
+
+  /* Large & Medium */
+
+  @media screen and (min-width: 992px)
+    .heading
+      font-size: 60px 
+    .sub_heading
+      font-size: 20px
+      margin: 15px 0 30px
+    .step
+      font-size: 20px
+      margin: 15px 0 5px
+    .title
+      font-size: 32px
+      margin: 15px 0
+    .description     
+      font-size: 14px
+      line-height: 20px
+      a
+        font-size: 16px
+        padding-top: 5px
+
+  /* Tablet */  
+
+  @media screen and (max-width: 991px)
+    .heading
+      font-size: 48px 
+    .sub_heading
+      font-size: 18px
+      margin: 15px 0
+    .hr_circle
+      img
+        width: 515px
+    .step
+      font-size: 18px
+      margin: 15px 0 5px
+    .icon
+      height: 80px
+      img
+        height: 80px
+    .title
+      font-size: 24px
+      margin: 15px 0 10px
+    .description     
+      font-size: 13px
+      line-height: 20px
+      a
+        font-size: 14px
+        padding-top: 5px
+
+  /* Mobile */
+
+  @media screen and (max-width: 600px)
 
 /* Button Actions */
 
@@ -64,16 +114,41 @@
     span
       line-height: 100%
   .btn
-    font-size: 24px
     font-weight: 400
+    font-size: 24px
     padding: 15px 0
     width: 370px
-
   .or
     color: #256484
     font-size: 60px
     font-weight: 600
     text-shadow: 1px 1px 0 #7cc3e7
+
+  /* Large & Medium */
+
+  @media screen and (min-width: 992px)
+    .title
+      font-size: 60px
+      padding-bottom: 30px
+    .btn
+      font-size: 24px
+      padding: 15px 0
+      width: 370px
+    .or
+      font-size: 60px
+
+  /* Tablet */  
+
+  @media screen and (max-width: 991px)
+    .title
+      font-size: 44px
+      padding-bottom: 30px
+    .btn
+      font-size: 20px
+      padding: 15px 0
+      width: 280px
+    .or
+      font-size: 54px
 
 /* Homepage Rows */
 
@@ -88,20 +163,50 @@
       font-size: 60px
       font-weight: 700
     ul
-      list-style: disc
       font-size: 28px
       line-height: 40px
+      list-style: disc
       padding: 50px 0 0 30px
       li
         padding-top: 30px
         &:first-child
           padding-top: 0
-
     span
       display: block
       font-size: 28px
       line-height: 40px
 
+  /* Large & Medium */
+
+  @media screen and (min-width: 992px)
+    .description
+      .title  
+        font-size: 60px
+      ul
+        font-size: 28px
+        line-height: 40px
+        padding: 50px 0 0 30px
+      span
+        font-size: 28px
+
+
+  /* Tablet */  
+
+  @media screen and (max-width: 991px)
+    img
+      width: 340px
+    .description
+      .title  
+        font-size: 44px
+      ul
+        font-size: 22px
+        line-height: 30px
+        padding: 60px 0 0 30px
+      span
+        font-size: 22px
+        line-height: 32px
+        span
+          font-size: 22px
 
 /* Homepage Profile */
 
@@ -109,19 +214,6 @@
   border-bottom: 1px solid $color_border
   a
     cursor: pointer
-  .image_hover
-    position: relative
-    .view_profile
-      cursor: pointer
-      display: none
-      font-size: 16px
-      padding: 10px 30px
-      position: absolute
-      top: 220px
-      left: 135px
-    &:hover
-      .view_profile
-        display: block
 
 /* Homepage Our Users */
 
@@ -132,7 +224,9 @@
     padding-top: 90px
     .title
       color: $color_blue
-
+  @media screen and (max-width: 991px)
+    .description
+      padding-top: 50px
 
 /* Homepage Analytics */
 
@@ -141,3 +235,18 @@
     padding-top: 130px
     .title
       color: $color_pink
+  @media screen and (max-width: 991px)
+    .description
+      padding-top: 100px
+
+@media screen and (max-width: 991px)
+  .footer
+    ul
+      font-size: 12px
+      text-align: center
+      margin: 0 auto
+      float: none !important
+    .copyright
+      float: none !important
+      text-align: center
+      margin: 10px 0

@@ -21,6 +21,8 @@
 
         /* Profile Name */
         span.profile_name= @profile.profile_name
+        - if can? :login_as, @profile.object
+          a.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this user
         .clearfix
 
         /* Profile Type */
@@ -65,7 +67,7 @@
           span.input-group-addon
             i.fa.fa-search.fa-fw.fa-lg
           form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
-            input.Autocomplete.form-control type="text" name='q' placeholder="Search profile content"
+            input.Autocomplete.form-control data-identifier='search-posts-autocomplete' type="text" name='q' placeholder="Search profile content"
 
         /* Category Cloud */
 
@@ -73,15 +75,13 @@
           span Archived Content
           ul
             li
-              a href="#" audio
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='audio' href="#" Audio
             li
-              a href="#" video
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='video' href="#" Video
             li
-              a.med href="#" photos
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='photo' href="#" Photos
             li
-              a.lrg href="#" status
-            li
-              a.sml href="#" documents
+              a.SearchTag data-target='search-posts-autocomplete' data-tag='document' href="#" Documents
 
         /* Contact Info */
 

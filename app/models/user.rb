@@ -109,7 +109,7 @@ class User < ActiveRecord::Base
 
   # @return [String]
   def name
-    profile_name || full_name || holder_name
+    profile_name || full_name || holder_name || email
   end
 
   # @return [String]
