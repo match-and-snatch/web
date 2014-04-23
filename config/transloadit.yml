@@ -170,8 +170,8 @@ staging:
   # use "v1.0.0" if you need IE6 support (using jQuery < 1.9)
   jquery_sdk_version: 'latest'
   auth:
-    key     : 'bd5bea60c06e11e3bf3d4b00c82e3cf7'
-    secret  : '80d8d557d23c2e6798dc55c6bedfdebaf281fec5' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
+    key: '6742a710a9ab11e3a661690b776b09a8'
+    secret: 'ccc5f19c2c26cf803715551cd7dceff20efe8b65' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
     duration: 1800 # 30 minute validity period for signed upload forms
 
   templates:
@@ -235,6 +235,7 @@ staging:
         <<: *audio_filter
         store:
           <<: *media
+          use: ':original'
           headers:
             'Content-Type': "${file.mime}"
             'Content-Disposition': "attachment; filename=${file.url_name}"
