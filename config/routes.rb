@@ -93,6 +93,7 @@ BuddyPlatform::Application.routes.draw do
       member do
         put :make_admin
         put :drop_admin
+        post :login_as
       end
     end
     resources :profile_types, only: [:index, :create, :destroy]

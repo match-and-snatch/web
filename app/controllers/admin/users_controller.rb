@@ -1,9 +1,14 @@
 class Admin::UsersController < Admin::BaseController
-  before_filter :load_user!, only: %i(make_admin drop_admin)
+  before_filter :load_user!, only: %i(make_admin drop_admin login_as)
 
   def index
     @users = Queries::Users.new(user: current_user.object, query: params[:q]).results
     json_replace
+  end
+
+  def login_as
+    session_manager.login_as(current_user.object, @user)
+    json_reload
   end
 
   def make_admin

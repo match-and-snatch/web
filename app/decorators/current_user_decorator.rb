@@ -18,6 +18,7 @@ class CurrentUserDecorator < UserDecorator
     case subject
     when User
       case action
+      when :login_as             then object.admin?
       when :subscribe_to         then subject.id != object.id && authorized? && !subscribed_to?(subject)
       when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject)
       when :see                  then subject.id == object.id ||                 subscribed_to?(subject) || subject.has_public_profile?
