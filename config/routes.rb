@@ -6,6 +6,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_payment_information
       get :settings
       put :update_general_information
+      put :update_slug
       put :change_password
       get :billing_information
       put :update_bank_account_data

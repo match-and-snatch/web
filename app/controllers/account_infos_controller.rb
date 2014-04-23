@@ -19,7 +19,13 @@ class AccountInfosController < ApplicationController
     UserProfileManager.new(@user).update_general_information full_name: params[:full_name],
                                                              slug:      params[:slug],
                                                              email:     params[:email]
-    notice('Your account information has been updated.')
+    notice(:account_updated)
+    json_reload
+  end
+
+  def update_slug
+    UserProfileManager.new(@user).update_slug params[:slug]
+    notice(:slug_updated)
     json_reload
   end
 

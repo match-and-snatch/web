@@ -270,6 +270,16 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @param slug [String]
+  # @return [User]
+  def update_slug(slug)
+    validate! { validate_slug slug }
+
+    user.slug = slug
+    user.save or fail_with! user.errors
+    user
+  end
+
   # @param transloadit_data [Hash]
   # @return [User]
   def update_profile_picture(transloadit_data)
