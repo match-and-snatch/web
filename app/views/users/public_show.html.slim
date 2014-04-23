@@ -15,7 +15,7 @@
 
         /* Profile Name */
         span.profile_name.visitor = @profile.profile_name
-        - if can?(:login_as, @profile.object).inspect
+        - if can? :login_as, @profile.object
           a.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this user
         .clearfix
 
