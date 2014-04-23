@@ -154,7 +154,7 @@ staging:
 
   media: &media
     <<: *s3
-    bucket: 'buddy-videos'
+    bucket: 'buddy-video-assets'
     path: '${assembly.id}__${file.id}____${file.url_name}'
 
   user_picture: &user_picture
@@ -212,7 +212,7 @@ staging:
         s3_thumb:
           <<: *s3
           use: 'thumbs'
-          bucket: 'buddy-videos'
+          bucket: 'buddy-video-assets'
           path: 'video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
         encode:
           robot: "/video/encode"
