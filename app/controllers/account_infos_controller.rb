@@ -19,8 +19,7 @@ class AccountInfosController < ApplicationController
     UserProfileManager.new(@user).update_general_information full_name:    params[:full_name],
                                                              company_name: params[:company_name],
                                                              email:        params[:email]
-    notice(:account_updated)
-    json_reload
+    json_success notice: :account_updated
   end
 
   def update_slug
@@ -33,7 +32,7 @@ class AccountInfosController < ApplicationController
     UserProfileManager.new(@user).change_password current_password:          params[:current_password],
                                                   new_password:              params[:new_password],
                                                   new_password_confirmation: params[:new_password_confirmation]
-    json_success
+    json_success notice: :updated_password
   end
 
   def billing_information

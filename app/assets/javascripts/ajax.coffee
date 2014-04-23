@@ -43,6 +43,9 @@ class bud.Ajax
     $('meta[name="csrf-token"]').attr('content', response['token'])
 
   on_response_received: (response) =>
+    if response['notice']
+      bud.pub('notice.show', [response['notice']])
+
     if callback = @callbacks[response['status']]
       callback(response)
     else

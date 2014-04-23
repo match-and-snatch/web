@@ -11,6 +11,7 @@ $color_gear: #d7d7d7
 $color_gear_hover: #464646
 $color_homepage_text: #252525
 $box_margin: 30px
+$nav_height: 45px
 
 @import "mixins/**/*"
 @import "pages/**/*"
@@ -68,7 +69,7 @@ input
     outline: none
 
 #content
-  margin-top: 45px
+  margin-top: $nav_height
 
 .container 
   max-width: 970px
@@ -113,13 +114,13 @@ input
           left: -15px
           width: 135px
         &.n2
-          top: 345px
+          top: 3$nav_height
           left: -15px
           width: 135px
         &.n3
           top: 681px
           left: -15px
-          width: 145px
+          width: 1$nav_height
         &.n4
           top: -5px
           right: -15px
@@ -163,13 +164,13 @@ input
             width: 99px
           &.n5
             background-position: 99px 138px
-            top: -45px
+            top: -$nav_height
             left: -8px
             height: 37px
             width: 69px
           &.n6
             background-position: 99px 94px
-            top: 45px
+            top: $nav_height
             left: 5px
             height: 73px
             width: 81px
@@ -219,7 +220,7 @@ nav
   @include blue-area
   // border-top: 1px solid #c5ecff
   // border-bottom: 1px solid #277aa3
-  height: 45px
+  height: $nav_height
   text-shadow: none
   -webkit-box-shadow: 0 0 10px 0 #155270
   box-shadow: 0 0 10px 0 #155270
@@ -321,7 +322,7 @@ nav
           font-size: 13px
           padding: 15px
           position: absolute
-          top: 45px
+          top: $nav_height
           left: 0
           width: 200px
           a
@@ -808,3 +809,14 @@ input.file
     li
       display: inline-block
       padding-right: 15px
+
+.Notice
+  z-index: $deepest_depth + 10001
+  position: fixed
+  top: 45px
+  width: 100%
+
+.notice_counter
+  position: absolute
+  top: 17px
+  right: 40px
