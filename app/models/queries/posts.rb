@@ -48,7 +48,7 @@ module Queries
 
     def matching_posts
       if tagged?
-        @user.posts.where(type: types)
+        @user.posts.where(type: types).order('created_at DESC, id DESC')
       else
         @user.posts.search_by_message(@query).limit(10)
       end
