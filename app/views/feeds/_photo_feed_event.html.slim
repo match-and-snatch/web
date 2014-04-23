@@ -4,7 +4,7 @@ li.item_feed
   .clearfix
 
   .profile_picture.pull-left
-    img src=event.subscription_target_user.profile_picture_url
+    img src=event.subscription_target_user.small_profile_picture_url
   - count = event.target.uploads.count
   .latest_post.box.pull-right Just posted #{count} #{'photo'.pluralize(count)} to their profile.
   .clearfix

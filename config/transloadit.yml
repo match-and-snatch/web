@@ -34,9 +34,6 @@ video_filter: &video_filter
 development:
   profile_image: &profile_image
     <<: *s3
-    use:
-      - 'resize'
-      - ':original'
     bucket: 'buddy-assets'
 
   # the jquery_sdk version you want to use, read up on it here:
@@ -57,24 +54,35 @@ development:
     profile_picture:
       steps:
         <<: *image_filter
-        resize:
+        thumb_180x180:
           robot: '/image/resize'
-          width: 250
-          height: 250
+          width: 180
+          height: 180
           resize_strategy: 'fillcrop'
+        thumb_50x50:
+          robot: '/image/resize'
+          width: 50
+          height: 50
+          resize_strategy: 'fillcrop'
+          use: thumb_180x180
         store:
           <<: *profile_image
+          use:
+            - 'thumb_180x180'
+            - 'thumb_50x50'
+            - ':original'
           path: 'uploads/profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     cover_picture:
       steps:
         <<: *image_filter
-        resize:
+        resized:
           robot: '/image/resize'
           width: 970
           resize_strategy: 'fit'
         store:
           <<: *profile_image
+          use: resized
           path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:
@@ -184,24 +192,35 @@ staging:
     profile_picture:
       steps:
         <<: *image_filter
-        resize:
+        thumb_180x180:
           robot: '/image/resize'
-          width: 250
-          height: 250
+          width: 180
+          height: 180
           resize_strategy: 'fillcrop'
+        thumb_50x50:
+          robot: '/image/resize'
+          width: 50
+          height: 50
+          resize_strategy: 'fillcrop'
+          use: thumb_180x180
         store:
           <<: *user_picture
+          use:
+            - 'thumb_180x180'
+            - 'thumb_50x50'
+            - ':original'
           path: 'profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     cover_picture:
       steps:
         <<: *image_filter
-        resize:
+        resized:
           robot: '/image/resize'
           width: 970
           resize_strategy: 'fit'
         store:
           <<: *user_picture
+          use: resized
           path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:
@@ -281,9 +300,6 @@ production:
 
   user_picture: &user_picture
     <<: *s3
-    use:
-      - 'resize'
-      - ':original'
     bucket: 'connectpal-uploads'
 
   # the jquery_sdk version you want to use, read up on it here:
@@ -304,24 +320,35 @@ production:
     profile_picture:
       steps:
         <<: *image_filter
-        resize:
+        thumb_180x180:
           robot: '/image/resize'
-          width: 250
-          height: 250
+          width: 180
+          height: 180
           resize_strategy: 'fillcrop'
+        thumb_50x50:
+          robot: '/image/resize'
+          width: 50
+          height: 50
+          resize_strategy: 'fillcrop'
+          use: thumb_180x180
         store:
           <<: *user_picture
+          use:
+            - 'thumb_180x180'
+            - 'thumb_50x50'
+            - ':original'
           path: 'profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     cover_picture:
       steps:
         <<: *image_filter
-        resize:
+        resized:
           robot: '/image/resize'
           width: 970
           resize_strategy: 'fit'
         store:
           <<: *user_picture
+          use: resized
           path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_video:

@@ -287,7 +287,8 @@ class UserProfileManager < BaseManager
   def update_profile_picture(transloadit_data)
     upload = UploadManager.new(user).create_photo(transloadit_data)
 
-    user.profile_picture_url = upload.url_on_step('resize')
+    user.profile_picture_url = upload.url_on_step('thumb_180x180')
+    user.small_profile_picture_url = upload.url_on_step('thumb_50x50')
     user.original_profile_picture_url = upload.url_on_step(':original')
 
     if user.changes.any?
@@ -312,7 +313,7 @@ class UserProfileManager < BaseManager
   def update_cover_picture(transloadit_data)
     upload = UploadManager.new(user).create_photo(transloadit_data)
     user.cover_picture_position = 0
-    user.cover_picture_url = upload.url_on_step('resize')
+    user.cover_picture_url = upload.url_on_step('resized')
     user.original_cover_picture_url = upload.url_on_step(':original')
 
     if user.changes.any?
