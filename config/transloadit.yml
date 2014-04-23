@@ -114,9 +114,11 @@ development:
         store:
           <<: *s3
           use: ':original'
-          url_prefix: 's1y5uslj4plb.cloudfront.net/'
           bucket: 'buddy-video-assets'
           path: '${assembly.id}____${file.url_name}'
+          headers:
+            'Content-Type': "${file.mime}"
+            'Content-Disposition': "attachment; filename=${file.url_name}"
 
     post_photo:
       steps:
@@ -234,9 +236,8 @@ staging:
         store:
           <<: *media
           headers:
-            "Content-Type": "${file.mime}",
-            "Content-Disposition": "attachment",
-            "filename": "${file.name}"
+            'Content-Type': "${file.mime}"
+            'Content-Disposition': "attachment; filename=${file.url_name}"
           use: ':original'
 
     post_photo:
@@ -354,6 +355,9 @@ production:
         store:
           <<: *media
           use: ':original'
+          headers:
+            'Content-Type': "${file.mime}"
+            'Content-Disposition': "attachment; filename=${file.url_name}"
 
     post_photo:
       steps:
