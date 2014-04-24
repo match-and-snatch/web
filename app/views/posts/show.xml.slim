@@ -22,6 +22,5 @@ rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
         itunes:summary= @post.message
         itunes:image href=@post.user.profile_picture_url.gsub('https', 'http') /
         enclosure length="#{upload.transloadit_data[:results][':original'][0]['size']}" type="#{upload.transloadit_data[:results][':original'][0]['mime']}" url="http://#{upload.transloadit_data[:results][':original'][0]['url']}" /
-        guid= upload.id
         pubDate= @post.created_at.rfc2822
         itunes:duration= upload.duration.to_i
