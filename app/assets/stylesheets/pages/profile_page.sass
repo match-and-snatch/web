@@ -714,7 +714,7 @@
           img
             height: 100%
             width: 585px
-          &:nth-of-type(1n+4)
+          &:nth-of-type(1n+2)
             display: none
       .doc_view
         color: $color_text_dark
@@ -936,12 +936,17 @@
           height: 47px !important
           font-size: 24px !important
           padding-top: 5px !important
-
+          width: 203px !important
   #create_post_nav
     li
       font-size: 14px
       padding: 15px 19px
   #create_post
+    #post
+      .error
+        padding-bottom: 5px
+      .status_btn
+        width: 100%
     #uploading
       .file_status
         width: 718px
@@ -955,9 +960,12 @@
         display: none
       .contact
         ul
-          columns: 6
-          -webkit-columns: 6
-          -moz-columns: 6
+          columns: 1
+          -webkit-columns: 1
+          -moz-columns: 1
+          li
+            display: inline-block
+            margin-right: 15px
     .recent_posts
       .comment_container
         .comment_row
@@ -976,6 +984,11 @@
           div
             height: 388px !important
             width: 686px !important
+        .photo_view
+          .photo
+            width: 688px
+            img
+              width: 686px
   #visitor
     margin-bottom: 20px
     .title

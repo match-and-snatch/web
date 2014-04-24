@@ -1,9 +1,9 @@
 #post
   form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
-    .col-md-11
+    .col-md-11.col-sm-12.col-xs-12
       textarea name='message' placeholder='Keep your subscribers in the know...'
         = pending_post.message
-    .col-md-1
+    .col-md-1.col-sm-12.col-xs-12
       .error data-field='message'
-      input.btn.blue.pull-right type='Submit' value='Post'
+      input.btn.blue.status_btn.pull-right type='Submit' value='Post'
       .clearfix

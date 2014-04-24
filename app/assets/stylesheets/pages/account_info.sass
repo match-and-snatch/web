@@ -253,30 +253,50 @@
       .remove
         width: 145px
 
-// @media screen and (min-width: 992px)
-// .my_account
-//   .sidebar
-//     width: 250px
+@media screen and (min-width: 992px)
+  .my_account
+    .sidebar
+      width: 250px
+    .content
+      width: 660px
 
-// /* Tablet */
+/* Tablet */
 
-// @media screen and (max-width: 991px)
-// .my_account
-//   .sidebar
-//     overflow: hidden
-//     width: 190px
-//     h2.subscriptions, h2.profile
-//       font-size: 14px
-//     ul
-//       a
-//         li
-//           font-size: 12px
-//   .content
-//     width: 515px
-//     .form-group
-//       label
-//         font-size: 12px
-//         width: 135px
-//       .form-control
-//         font-size: 12px
-//         width: 335px
+@media screen and (max-width: 991px)
+  .my_account
+    .sidebar
+      overflow: hidden
+      width: 190px
+      h2.subscriptions, h2.profile
+        font-size: 14px
+      ul
+        a
+          li
+            font-size: 12px
+    .content
+      margin-bottom: 15px
+      width: 515px
+      .example_url
+        width: 335px
+      .graph
+        svg
+          width: 450px
+      ul
+        li.item_sub
+          p
+      .cc_row 
+        ul
+          top: -38px
+      .expiry_date  
+        width: 334px
+      .item_feed
+        .latest_post
+          font-size: 12px
+          width: 420px
+      .form-group
+        label
+          font-size: 12px
+          width: 135px
+        .form-control
+          font-size: 12px
+          width: 335px
