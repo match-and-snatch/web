@@ -20,4 +20,42 @@ describe UsersController do
       its(:body) { should match_regex /redirect/ }
     end
   end
+
+  describe 'GET #show' do
+    let!(:owner)  { create_profile email: 'owner@gmail.com' }
+    let(:visitor) { create_user email: 'visitor@gmail.com' }
+    subject { get 'show', id: owner.slug  }
+
+    context 'authorized access' do
+      before { sign_in owner }
+      its(:status) { should == 200 }
+      it{ should render_template('owner_view') }
+    end
+
+    context 'unauthorized access' do
+      its(:status) { should == 200 }
+      it{ should render_template('public_show') }
+    end
+
+    context 'when profile public' do
+      let!(:owner) { create_public_profile email: 'owner_with_public@gmail.com' }
+      its(:status) { should == 200 }
+      it{ should render_template('show') }
+    end
+  end
+
+  describe 'PUT #update_name' do
+    let(:owner) { create_profile email: 'owner@gmail.com' }
+    subject { put 'update_name', id: owner.slug, profile_name: 'anotherName'}
+
+    context 'authorized access' do
+      before { sign_in owner }
+      its(:status){ should == 200 }
+      its(:body){ should match_regex /success/ }
+    end
+
+    context 'unauthorized access' do
+      its(:status) { should == 401 }
+    end
+  end
 end

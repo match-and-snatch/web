@@ -19,6 +19,33 @@ end
 
 # @param _params [Hash]
 # @return [User]
+def create_profile(_params = {})
+  params = _params.clone
+  params.reverse_merge! account_number:   '000123456789',
+                        cost:             5,
+                        holder_name:      'serg',
+                        profile_name:     'serg',
+                        routing_number:   '123456789',
+                        is_profile_owner: true
+
+  UserProfileManager.new(create_user(params)).update account_number:    params[:account_number],
+                                                     cost:              params[:cost],
+                                                     holder_name:       params[:holder_name],
+                                                     profile_name:      params[:profile_name],
+                                                     routing_number:    params[:routing_number]
+
+
+
+end
+
+# @param _params [Hash]
+# @return [User]
+def create_public_profile(params = {})
+  UserProfileManager.new(create_profile(params)).make_profile_public
+end
+
+# @param _params [Hash]
+# @return [User]
 def create_admin(_params = {})
   create_user(_params).tap do |user|
     UserManager.new(user).make_admin
