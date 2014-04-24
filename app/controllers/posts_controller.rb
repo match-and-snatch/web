@@ -4,7 +4,6 @@ class PostsController < ApplicationController
   before_filter :load_post!, only: [:destroy, :show]
 
   protect(:index) { can? :see, @user }
-  protect(:show) { can? :see, @post.user }
   protect(:destroy) { can? :delete, @post }
 
   def index
