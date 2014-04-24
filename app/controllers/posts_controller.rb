@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate!, except: :index
+  before_filter :authenticate!, except: [:index, :show]
   before_filter :load_user!, only: :index
   before_filter :load_post!, only: [:destroy, :show]
 
