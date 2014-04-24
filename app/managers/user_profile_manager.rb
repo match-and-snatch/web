@@ -252,20 +252,32 @@ class UserProfileManager < BaseManager
   end
 
   # @param full_name [String]
-  # @param slug [String]
+  # @param company_name [String]
   # @param email [String]
   # @return [User]
-  def update_general_information(full_name: nil, slug: nil, email: nil)
+  def update_general_information(full_name: nil, company_name: nil, email: nil)
     validate! do
       fail_with full_name: :empty unless full_name.present?
-      validate_slug slug
+      if company_name
+        fail_with company_name: :too_long if company_name.length > 200
+      end
       validate_email(email) if email != user.email
     end
 
-    user.full_name = full_name
-    user.slug      = slug
-    user.email     = email
+    user.full_name    = full_name
+    user.company_name = company_name
+    user.email        = email
 
+    user.save or fail_with! user.errors
+    user
+  end
+
+  # @param slug [String]
+  # @return [User]
+  def update_slug(slug)
+    validate! { validate_slug slug }
+
+    user.slug = slug
     user.save or fail_with! user.errors
     user
   end
@@ -275,7 +287,8 @@ class UserProfileManager < BaseManager
   def update_profile_picture(transloadit_data)
     upload = UploadManager.new(user).create_photo(transloadit_data)
 
-    user.profile_picture_url = upload.url_on_step('resize')
+    user.profile_picture_url = upload.url_on_step('thumb_180x180')
+    user.small_profile_picture_url = upload.url_on_step('thumb_50x50')
     user.original_profile_picture_url = upload.url_on_step(':original')
 
     if user.changes.any?
@@ -300,7 +313,7 @@ class UserProfileManager < BaseManager
   def update_cover_picture(transloadit_data)
     upload = UploadManager.new(user).create_photo(transloadit_data)
     user.cover_picture_position = 0
-    user.cover_picture_url = upload.url_on_step('resize')
+    user.cover_picture_url = upload.url_on_step('resized')
     user.original_cover_picture_url = upload.url_on_step(':original')
 
     if user.changes.any?

@@ -14,9 +14,17 @@ class bud.widgets.AudioPlayer extends bud.Widget
     @skin        = data['skin'] || 'bekle'
 
     bud.Ajax.getScript(window.bud.config.jwplayer.script_path).done(@on_script_loaded)
+    bud.sub('player.play', @stop)
+
+  on_play: =>
+    bud.pub('player.play', [@])
+
+  stop: (e, player) =>
+    if player != @ && @player
+      @player.stop()
 
   on_script_loaded: =>
-    jwplayer(@id).setup({
+    @player = jwplayer(@id).setup({
       playlist: [{
         sources: [{file: @file}, {file: @original}]
       }],
@@ -25,4 +33,4 @@ class bud.widgets.AudioPlayer extends bud.Widget
       primary: @primary,
       skin: @skin
     })
-
+    @player.onPlay(@on_play)

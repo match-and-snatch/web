@@ -8,6 +8,6 @@ li.my_sub
     - current_user.idols.each do |user|
       li
         a.row href=profile_path(user)
-          img.picture.pull-left src=user.profile_picture_url
+          img.picture.pull-left src=user.small_profile_picture_url
           .name.pull-left= user.full_name
         .clearfix

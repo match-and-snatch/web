@@ -5,7 +5,7 @@
 .home_pitch
   .container
     .row
-      .col-md-12.col-sm-12.col-xs-12
+      .col-xs-12.col-sm-12.col-md-12
         .heading.dosis How it Works?
         .sub_heading Welcome to the World's #1 Most Popular Content Marketplace.
       .col-md-4.col-sm-4.col-xs-4.dosis.step Step 1
@@ -13,7 +13,8 @@
       .col-md-4.col-sm-4.col-xs-4.dosis.step Step 3
       .col-md-12.col-sm-12.col-xs-12
         .hr_circle
-      .col-md-4.col-sm-4.col-xs-4 style="width: 33%"
+          img src=image_path('https://buddy-assets.s3.amazonaws.com/images/steps-circle.png')
+      .col-md-4.col-sm-4.col-xs-4
         .icon
           img src=image_path('https://connectpal-assets.s3.amazonaws.com/images/icon-homepage-step-1.png')
         .title.dosis Create a Profile
@@ -30,7 +31,7 @@
         .description
           | Set a monthly price for people to access your profile content. Tell your friends and followers… and we handle the rest!
           .cleafix
-          a.PopupTrigger data-target='sample-profile' View A Sample Profile
+          a href="sampleprofile" target='_blank' View A Sample Profile
 
           / - if @random_public_profile
           /   a href=profile_path(@random_public_profile)
@@ -46,29 +47,28 @@
         span style="display: block;" Now you get how it works,
         span what do you want to do?
     .row
-      .col-md-5.col-sm-12.col-xs-12
+      .col-md-5.col-sm-5.col-xs-12
         .btn.pink.PopupTrigger.dosis data-target='registration'
           span style="display: block;" I want to create my own profile
           span to start getting subscribers.
-      .col-md-2.col-sm-12.col-xs-12.or.dosis or
-      .col-md-5.col-sm-12.col-xs-12
+      .col-md-2.col-sm-2.col-xs-12.or.dosis or
+      .col-md-5.col-sm-5.col-xs-12
         .btn.pink.PopupTrigger.dosis data-target='search-users'
           span  style="display: block;" I want to search other profiles
           span and subscribe to someone else.
-
+      
 /* Row 1 */
 
 .homepage_profile
   .container
     .row
-      .col-md-6.col-sm-12.col-xs-12
-        .image_hover
-          a.PopupTrigger data-target='sample-profile'
-            img src=image_path('https://connectpal-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
+      .col-md-6.col-sm-6.col-xs-12
+        a href="sampleprofile" target='_blank' 
+          img src=image_path('https://connectpal-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
           / - if @random_public_profile
           /   a.btn.black.view_profile href=profile_path(@random_public_profile) View Sample Profile
 
-      .col-md-6.col-sm-12.col-xs-12.description.dosis
+      .col-md-6.col-sm-6.col-xs-12.description.dosis
         ul
           li Our platform allows content creators to control and monetize their own content.
           li ConnectPal handles all of the boring business stuff for our users, including credit card processing and content hosting.
@@ -78,13 +78,13 @@
 .homepage_our_users.dosis
   .container
     .row
-      .col-md-6.col-sm-12.col-xs-12.description
+      .col-md-6.col-sm-6.col-xs-12.description
         .title Our Users
         span
           | Our users include YouTube Creators, Music Bands, Bloggers, Gamers, Charities, Business Consultants, Religious Groups, Political Groups, Athletes, Teachers,
           span style="font-style: italic;" and more...
 
-      .col-md-6.col-sm-12.col-xs-12
+      .col-md-6.col-sm-6.col-xs-12
         img src=image_path('https://connectpal-assets.s3.amazonaws.com/images/homepage-our-users.png')
 
 /* Row 3 */
@@ -92,19 +92,12 @@
 .homepage_analytics.dosis
   .container
     .row
-      .col-md-6.col-sm-12.col-xs-12
+      .col-md-6.col-sm-6.col-xs-12
         img.img-circle src=image_path('https://connectpal-assets.s3.amazonaws.com/images/homepage-analytics.png')
 
-      .col-md-6.col-sm-12.col-xs-12.description
+      .col-md-6.col-sm-6.col-xs-12.description
         .title Account Analytics
         span ConnectPal provides in-depth analytics so you can grow your audience.
 
 = render 'footer'
-
-
-.Popup.popup.modal-content data-identifier='sample-profile'
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="sample-profile" aria-hidden="true"
-  .modal-body
-    = render 'sample_profile'
 

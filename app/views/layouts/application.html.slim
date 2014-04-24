@@ -17,9 +17,13 @@ html
 
     #content
       - if flash.notice.present?
-        .notification_bar.Notification data-identifier='notification-bar'
+        .notification_bar data-identifier='notification-flash-bar'
           .cont= flash.notice
-          .fa.fa-times-circle.close.Toggler data-target='notification-bar'
+          .fa.fa-times-circle.close.Toggler data-target='notification-flash-bar'
+      .Notice.notification_bar.hidden data-target='notice' data-timeout='5' data-counter-target='notice-counter' data-identifier='notification-bar'
+        .cont data-identifier='notice'
+        .notice_counter data-identifier='notice-counter'
+        .fa.fa-times-circle.close.Toggler data-target='notification-bar'
       = yield
     #overlay.Overlay
     = render 'search_users_popup'

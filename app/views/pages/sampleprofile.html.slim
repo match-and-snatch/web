@@ -1,0 +1,37 @@
+.container
+  .row.box.general_page style="padding: 0 15px; margin-bottom: 30px;"
+    .col-md-12
+      h1 style="text-align: center;" Sample Profile
+      = render 'sample_profile'
+
+= render 'footer'
+
+
+.Popup.popup.modal-content data-identifier='pricing-breakdown' style='width: 600px'
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="pricing-breakdown" aria-hidden="true"
+    .modal-title The pricing table is below...
+
+  .modal-body
+    table.table.table-striped.table-bordered
+      tr 
+        td 
+          b Subscription Price
+        td 
+          |
+          b ConnectPal Service Fee 
+          span style="font-size: 11px;"(includes all fees & credit card processing)
+      tr
+        td $4 or less
+        td $0.79
+      tr
+        td $5 - $9
+        td $0.95
+      tr
+        td $10 - $20
+        td $1.79
+      tr
+        td $21 & above
+        td 9% of subscription price
+
+    p For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout, subscribers will pay $4.79 monthly – which includes our 79 cent service fee. The profile owner will receive $4 per subscriber per month. And ConnectPal will receive 79 cents per subscriber per month.

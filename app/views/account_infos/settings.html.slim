@@ -1,5 +1,18 @@
 .col-md-12
   h2 General Information
+
+  form.hidden.PictureUploadForm action=update_profile_picture_user_path(current_user.object) method='post' data-target='profile-picture'
+   .form-group
+    label.pull-left Account Photo
+    .account_photo.pull-right
+      img src=current_user.profile_picture_url
+      .change_button
+        .btn.pink.i.fa.fa-picture-o
+          |&nbsp;Change Photo
+          input.file type='file' name='profile_picture_file'
+        input type='hidden' name='slug' value=current_user.slug
+    .clearfix
+
   form.Form action=update_general_information_account_info_path method='post'
     input type='hidden' name='_method' value='put'
 
@@ -17,9 +30,9 @@
 
     .form-group
       label.pull-left Company/Organization
-      input.form-control.pull-right type='text' name='' value=''
+      input.form-control.pull-right type='text' name='company_name' value=@user.company_name
       .clearfix
-      .error data-field=''
+      .error data-field='company_name'
 
     input.btn.pink.pull-right type='submit' value='Update Information'
     .clearfix
@@ -49,5 +62,5 @@
       .clearfix
       .error data-field='new_password_confirmation'
 
-    input.btn.pink.pull-right type='submit' value='Change Your Password' style="margin-bottom: 15px"
+    input.btn.pink.pull-right type='submit' data-wait_text='Please, wait...' value='Change Your Password' style="margin-bottom: 15px"
     .clearfix

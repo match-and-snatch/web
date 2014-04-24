@@ -19,8 +19,21 @@ class SessionManager < BaseManager
     end
   end
 
+  # @param admin [User]
+  # @param user [User]
+  def login_as(admin, user)
+    raise 'Pizdec' unless admin.admin?
+
+    @session[:auth_token] = user.auth_token
+    @session[:admin_token] = admin.auth_token
+  end
+
   def logout
     @session[:auth_token] = nil
+    if @session[:admin_token]
+      @session[:auth_token] = @session[:admin_token]
+    end
+    @session[:admin_token] = nil
   end
 
   # @return [CurrentUserDecorator]

@@ -9,7 +9,7 @@ class bud.Widget
 
     widget_class = @
     parent_container.find(widget_class.SELECTOR).not('.js-widget').each (index, container) ->
-      new widget_class($(container))
+      new widget_class($(container), widget_class)
 
   @destroy: (widget_container) ->
     $widget_container = $(widget_container)
@@ -24,9 +24,10 @@ class bud.Widget
   @highlight_all:   -> $('.js-widget').addClass('js-highlight')
   @dehighlight_all: -> $('.js-widget').removeClass('js-highlight')
 
-  constructor: (container) ->
+  constructor: (container, klass) ->
+    @klass = klass
     if container.hasClass('js-widget')
-      bud.Logger.error("Widget: #{@class_name} already initialized")
+      bud.Logger.error("Widget: #{@class_name()} already initialized")
       return
 
     @$container = container
@@ -34,11 +35,11 @@ class bud.Widget
     @initialize()
 
     @$container.addClass('js-widget').data('js-widget', @)
-    bud.Logger.message("Widget: #{@class_name} initialized")
+    bud.Logger.message("Widget: #{@class_name()} initialized")
 
     bud.Widget.instances.push(@)
 
-  class_name: -> @
+  class_name: -> @klass
 
   initialize: ->
     # To be redeclared in inherited classes
@@ -46,4 +47,4 @@ class bud.Widget
   destroy: ->
     @$container.unbind()
     @$container.removeClass('js-widget')
-    bud.Logger.message("Widget: #{@class_name} destroying")
+    bud.Logger.message("Widget: #{@class_name()} destroying")
