@@ -95,86 +95,6 @@ input
       list-style: decimal
       margin-left: 15px
 
-    /* Sample Profile */
-
-    .sample_profile
-      margin: 15px 0
-      position: relative
-      text-align: center
-      img
-        border-radius: $border_radius
-        margin: 0 auto
-        width: 600px
-      .note
-        font-size: 12px
-        position: absolute
-        top: 0
-        &.n1
-          top: 35px
-          left: -15px
-          width: 135px
-        &.n2
-          top: 3$nav_height
-          left: -15px
-          width: 135px
-        &.n3
-          top: 681px
-          left: -15px
-          width: 1$nav_height
-        &.n4
-          top: -5px
-          right: -15px
-          width: 142px
-          a
-            color: $color_pink
-        &.n5
-          top: 420px
-          right: -15px
-          width: 135px
-        &.n6
-          top: 685px
-          right: -15px
-          width: 135px
-        .arrow
-          background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
-          position: absolute
-          &.n1
-            background-position: 0 0
-            top: 50px
-            left: 55px
-            height: 68px
-            width: 81px
-          &.n2
-            background-position: 0 138px
-            top: -55px
-            left: 75px
-            height: 44px
-            width: 57px
-          &.n3
-            background-position: 0 95px
-            top: -105px
-            left: 75px
-            height: 95px
-            width: 66px
-          &.n4
-            background-position: 99px 0
-            top: 230px
-            left: -85px
-            height: 54px
-            width: 99px
-          &.n5
-            background-position: 99px 138px
-            top: -$nav_height
-            left: -8px
-            height: 37px
-            width: 69px
-          &.n6
-            background-position: 99px 94px
-            top: $nav_height
-            left: 5px
-            height: 73px
-            width: 81px
-
 textarea
   color: #898989
   border: none
@@ -305,8 +225,6 @@ nav
               img 
                 display: none
             
-            
-
       /* My Subscriptions CSS */
 
       &.my_sub
@@ -784,6 +702,17 @@ input.file
     width: 80px
     height: 80px
 
+.Notice
+  z-index: $deepest_depth + 10001
+  position: fixed
+  top: 45px
+  width: 100%
+
+.notice_counter
+  position: absolute
+  top: 17px
+  right: 40px
+
 /* Admin Settings */
 
 .admin_settings
@@ -810,13 +739,174 @@ input.file
       display: inline-block
       padding-right: 15px
 
-.Notice
-  z-index: $deepest_depth + 10001
-  position: fixed
-  top: 45px
-  width: 100%
 
-.notice_counter
-  position: absolute
-  top: 17px
-  right: 40px
+/* Sample Profile */
+@media screen and (min-width: 992px)
+  .box    
+    .sample_profile
+      margin: 15px 0
+      position: relative
+      text-align: center
+      img
+        border-radius: $border_radius
+        margin: 0 auto
+        width: 600px
+      .note
+        font-size: 12px
+        position: absolute
+        top: 0
+        &.n1
+          top: 35px
+          left: -15px
+          width: 135px
+        &.n2
+          top: 345px
+          left: -15px
+          width: 135px
+        &.n3
+          top: 681px
+          left: -15px
+          width: 135px
+        &.n4
+          top: -35px
+          right: -15px
+          width: 142px
+          a
+            color: $color_pink
+        &.n5
+          top: 420px
+          right: -15px
+          width: 135px
+        &.n6
+          top: 685px
+          right: -15px
+          width: 135px
+        .arrow
+          background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
+          position: absolute
+          &.n1
+            background-position: 0 0
+            top: 60px
+            left: 55px
+            height: 68px
+            width: 81px
+          &.n2
+            background-position: 0 138px
+            top: -55px
+            left: 75px
+            height: 44px
+            width: 57px
+          &.n3
+            background-position: 0 95px
+            top: -105px
+            left: 75px
+            height: 95px
+            width: 66px
+          &.n4
+            background-position: 99px 0
+            top: 260px
+            left: -85px
+            height: 54px
+            width: 99px
+          &.n5
+            background-position: 99px 138px
+            top: -45px
+            left: -8px
+            height: 37px
+            width: 69px
+          &.n6
+            background-position: 99px 94px
+            top: 45px
+            left: 5px
+            height: 73px
+            width: 81px
+
+/* Tablet */  
+
+@media screen and (max-width: 991px)
+  .box    
+    overflow: visible
+    .sample_profile
+      margin: 15px 0
+      position: relative
+      text-align: center
+      img
+        border-radius: $border_radius
+        margin: 0 auto
+        width: 600px
+      .note
+        font-size: 12px
+        position: absolute
+        top: 0
+        p
+          background-color: #FFFFFF
+          border-radius: $border_radius
+          border: 1px solid $color_border
+          font-size: 11px
+          line-height: 16px
+          padding: 10px
+        &.n1
+          top: 35px
+          left: -135px
+          width: 150px
+        &.n2
+          top: 345px
+          left: -125px
+          width: 145px
+        &.n3
+          top: 681px
+          left: -135px
+          width: 155px
+        &.n4
+          top: -20px
+          right: -140px
+          width: 160px
+          a
+            color: $color_pink
+        &.n5
+          top: 420px
+          right: -135px
+          width: 155px
+        &.n6
+          top: 685px
+          right: -125px
+          width: 135px
+        .arrow
+          background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
+          position: absolute
+          &.n1
+            background-position: 0 0
+            top: 60px
+            left: 55px
+            height: 68px
+            width: 81px
+          &.n2
+            background-position: 0 138px
+            top: -55px
+            left: 75px
+            height: 44px
+            width: 57px
+          &.n3
+            background-position: 0 95px
+            top: -105px
+            left: 65px
+            height: 95px
+            width: 66px
+          &.n4
+            background-position: 99px 0
+            top: 245px
+            left: -85px
+            height: 54px
+            width: 99px
+          &.n5
+            background-position: 99px 138px
+            top: -45px
+            left: -20px
+            height: 37px
+            width: 69px
+          &.n6
+            background-position: 99px 94px
+            top: 62px
+            left: -5px
+            height: 73px
+            width: 81px

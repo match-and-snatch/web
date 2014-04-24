@@ -48,7 +48,8 @@
       .col-md-6.col-sm-6.col-xs-6
 
         .row_label
-          | Profile Type
+          | Profile Type 
+          span style="display: inline-block; padding: 0; margin: 0; color: #c2c2c2;" (optional)
           span Please classify your profile type or types. This info helps our search function find more potential subscribers who might like your content.
         div
           input.AutocompleteField.form-control data-url=profile_types_path data-target='profile-types' type='text' placeholder='Band, Photographer, Organization, etc.'
@@ -70,8 +71,9 @@
           .input-group
             span.input-group-addon
               i.fa.fa-usd.fa-fw.fa-lg
-            input.form-control type='text' name='cost' style="width: 80px; text-align: right;" value=(@user.cost || 5)
+            input.form-control.usd type='text' name='cost' value=(@user.cost || 5)
             a.pull-right.breakdown href="#" Check out our pricing breakdown here
+            .clearfix
           .error data-field='cost'
           p.bg-warning * Please note, to keep subscribers happy and billing cycles consistent, you can only change your subscription cost once every 30 days.
       .clearfix

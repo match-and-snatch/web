@@ -10,6 +10,7 @@
     padding: 0
     position: fixed
     width: 250px
+    overflow: hidden
     margin-bottom: 60px
 
     /* Header */
@@ -82,7 +83,7 @@
         font-weight: 400 !important
         margin-top: 7px
         text-align: right
-        width: 150px
+        width: 175px
       .form-control
         width: 435px
       .error
@@ -149,6 +150,9 @@
             height: 22px
             width: 32px
 
+    .expiry_date
+      width: 434px
+
     /* View/Cancel Subscriptions */
 
     ul
@@ -209,7 +213,7 @@
       border-left: none
       border-right: none
       color: #FFFFFF
-      margin-top: 15px
+      margin: 15px 15px 0 15px
       padding: 30px
       text-align: center
       text-shadow: -1px -1px 0 #1c1c1c
@@ -248,3 +252,31 @@
         width: 108px 
       .remove
         width: 145px
+
+// @media screen and (min-width: 992px)
+// .my_account
+//   .sidebar
+//     width: 250px
+
+// /* Tablet */
+
+// @media screen and (max-width: 991px)
+// .my_account
+//   .sidebar
+//     overflow: hidden
+//     width: 190px
+//     h2.subscriptions, h2.profile
+//       font-size: 14px
+//     ul
+//       a
+//         li
+//           font-size: 12px
+//   .content
+//     width: 515px
+//     .form-group
+//       label
+//         font-size: 12px
+//         width: 135px
+//       .form-control
+//         font-size: 12px
+//         width: 335px
