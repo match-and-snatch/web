@@ -30,7 +30,7 @@
 
       .form-group
         label Password
-        input.form-control.password type='password' name='password' 
+        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
         p.text-danger data-field='password'
 
       .form-group
@@ -59,7 +59,7 @@
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="login" aria-hidden="true"
     .modal-title Existing Account?
-    span If you already have an account, please login below.
+    span If you already have an account, please login below. 
 
   /* Body Area */
 
@@ -70,8 +70,8 @@
         input.form-control type='text' name='email'
       .form-group
         label Password
-        input.form-control.password type='password' name='password' 
-
+        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
+        .mobile_message.alert.alert-warning Passwords are case sensitve, please make sure you enter correct your password.
       .form-group style="margin-top: 15px"
         .pull-left
           .checkbox

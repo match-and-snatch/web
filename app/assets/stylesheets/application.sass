@@ -373,6 +373,8 @@ footer
   .modal-body
     display: block
     padding: 5px 20px 0
+    .mobile_message
+      display: none
     .form-group
       margin-bottom: 5px
       label
@@ -824,6 +826,13 @@ input.file
 /* Tablet */  
 
 @media screen and (max-width: 991px)
+  .modal-body
+    .mobile_message
+      display: block !important
+      font-size: 12px
+      margin-top: 10px
+      padding: 5px 10px
+      width: 300px
   .box    
     overflow: visible
     .sample_profile
