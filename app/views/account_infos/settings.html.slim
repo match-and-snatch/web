@@ -1,7 +1,7 @@
 .col-md-12
   h2 General Information
 
-  form.PictureUploadForm action=update_profile_picture_user_path(current_user.object) method='post' data-target='profile-picture'
+  form.hidden.PictureUploadForm action=update_profile_picture_user_path(current_user.object) method='post' data-target='profile-picture'
    .form-group
     label.pull-left Account Photo
     .account_photo.pull-right
