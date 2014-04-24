@@ -1,9 +1,10 @@
 class PostsController < ApplicationController
   before_filter :authenticate!, except: :index
   before_filter :load_user!, only: :index
-  before_filter :load_post!, only: :destroy
+  before_filter :load_post!, only: [:destroy, :show]
 
   protect(:index) { can? :see, @user }
+  protect(:show) { can? :see, @post.user }
   protect(:destroy) { can? :delete, @post }
 
   def index
@@ -12,6 +13,23 @@ class PostsController < ApplicationController
     @posts = query.results
 
     query.user_input? ? json_replace(resp) : json_append(resp)
+  end
+
+  def show
+    if @post.is_a? AudioPost
+      respond_to do |wants|
+        wants.html do
+          error(404)
+        end
+        wants.xml do
+          @uploads = @post.uploads.to_a
+          render :layout => false;
+          response.headers["Content-Type"] = "application/xml; charset=utf-8"
+        end
+      end
+    else
+      error(404)
+    end
   end
 
   def create
