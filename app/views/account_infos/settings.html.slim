@@ -5,12 +5,14 @@
    .form-group
     label.pull-left Account Photo
     .account_photo.pull-right
+
       img src=current_user.profile_picture_url
       .change_button
         .btn.pink.i.fa.fa-picture-o
           |&nbsp;Change Photo
           input.file type='file' name='profile_picture_file'
         input type='hidden' name='slug' value=current_user.slug
+
     .clearfix
 
   form.Form action=update_general_information_account_info_path method='post'

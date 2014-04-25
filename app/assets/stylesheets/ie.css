@@ -1,0 +1,15 @@
+ul.navbar-nav {
+  margin-top: 0 !important;
+}
+
+#overlay {
+  opacity: 0.5 !important;
+}
+
+.btn {
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  -ms-border-radius: 0 !important;
+  -o-border-radius: 0 !important;
+  border-radius: 0 !important;
+}

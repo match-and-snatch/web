@@ -19,6 +19,9 @@ $nav_height: 45px
 
 /* General */
 
+html
+  max-height: 1000000px
+
 body
   background-color: $color_background
   color: $color_text_dark
@@ -182,7 +185,7 @@ nav
           position: absolute
           width: 200px
           .bg-danger
-            border-radius: 0 0 5px 5px
+            @include border-radius(0 0 5px 5px)
             padding: 5px 10px
             position: absolute
             top: -7px
@@ -202,7 +205,7 @@ nav
             font-size: 11px
             width: 202px
           .list-group
-            border-radius: 0 0 5px 5px
+            @include border-radius(0 0 5px 5px)
             border-left: 1px solid $color_border
             border-bottom: 1px solid $color_border
             border-right: 1px solid $color_border
@@ -230,12 +233,12 @@ nav
       &.my_sub
         position: relative
         .my_sub_cont
+          @include border-radius(0 0 $border_radius $border_radius)
           background-color: $color_background
           border-left: 1px solid $color_border
           border-bottom: 1px solid $color_border
           border-right: 1px solid $color_border
           border-top: 1px solid $color_border
-          border-radius: 0 0 $border_radius $border_radius
           display: none
           font-size: 13px
           padding: 15px
@@ -327,12 +330,16 @@ footer
   z-index: $deepest_depth + 10000
   background: black
   display: none
-  opacity: 0.5
   position: fixed
   bottom: 0
   left: 0
   right: 0
   top: 0
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"
+  filter: alpha(opacity=50)
+  -moz-opacity: 0.5
+  -khtml-opacity: 0.5
+  opacity: 0.5
 
 /* Popup */
 
@@ -413,7 +420,7 @@ footer
       margin-bottom: 15px
     .user_list
       .bg-danger
-        border-radius: $border_radius
+        @include border-radius($border_radius)
         padding: 10px 15px
         margin-bottom: 15px
         font-size: 12px
@@ -434,7 +441,7 @@ footer
             margin-right: 15px
           small
             @include pink-area
-            border-radius: 5px
+            @include border-radius(5px)
             color: #FFFFFF
             font-size: 11px
             margin-top: 10px
@@ -507,7 +514,7 @@ footer
           .cost
             color: $color_blue
         .note
-          border-radius: $border_radius
+          @include border-radius($border_radius)
           font-size: 12px
           padding: 10px
           margin-top: 28px
@@ -750,7 +757,7 @@ input.file
       position: relative
       text-align: center
       img
-        border-radius: $border_radius
+        @include border-radius($border_radius)
         margin: 0 auto
         width: 600px
       .note
@@ -840,7 +847,7 @@ input.file
       position: relative
       text-align: center
       img
-        border-radius: $border_radius
+        @include border-radius($border_radius)
         margin: 0 auto
         width: 600px
       .note
@@ -848,8 +855,8 @@ input.file
         position: absolute
         top: 0
         p
+          @include border-radius($border_radius)
           background-color: #FFFFFF
-          border-radius: $border_radius
           border: 1px solid $color_border
           font-size: 11px
           line-height: 16px
