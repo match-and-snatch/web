@@ -83,6 +83,10 @@ BuddyPlatform::Application.routes.draw do
     resources :payments, only: :index
     resources :staffs, only: :index
     resources :profiles, only: [:index, :new] do
+      collection do
+        get :profile_owners
+      end
+
       member do
         put :make_public
         put :make_private
