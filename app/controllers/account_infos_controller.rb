@@ -1,4 +1,6 @@
 class AccountInfosController < ApplicationController
+  include Transloadit::Rails::ParamsDecoder
+
   before_filter :authenticate!
   before_filter :load_user
 
@@ -13,6 +15,11 @@ class AccountInfosController < ApplicationController
 
   def settings
     json_render
+  end
+
+  def update_account_picture
+    UserProfileManager.new(current_user.object).update_account_picture(params[:transloadit])
+    json_replace html: render_to_string(partial: 'account_picture')
   end
 
   def update_general_information

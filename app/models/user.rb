@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
     is_admin? || APP_CONFIG['admins'].include?(email)
   end
 
+  def comment_picture_url
+    small_account_picture_url || small_profile_picture_url
+  end
+
   # @param new_password [String]
   def set_new_password(new_password)
     self.password_salt = BCrypt::Engine.generate_salt

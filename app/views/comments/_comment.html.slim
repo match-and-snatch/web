@@ -1,6 +1,6 @@
 .comment_row data-identifier='comment-#{comment.id}'
   .photo.pull-left
-    img src=comment.user.small_profile_picture_url width=50 height=50
+    img src=comment.user.comment_picture_url width=50 height=50
   .content.pull-right
     /* Display Delete Only if Owner or if it your comment */
     - if can?(:delete, comment)
