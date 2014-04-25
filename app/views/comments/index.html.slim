@@ -1,3 +1,3 @@
 - if @query.has_more_comments?
-  a.AjaxLink href=post_comments_path(@post.id, last_comment_id: @query.results.first.id) Load Older Comments
+  a.AjaxLink.load_more_comments.fa.fa-angle-double-up href=post_comments_path(@post.id, last_comment_id: @query.results.first.id)  Load Older Comments
 = render partial: 'comment', collection: @query.results
