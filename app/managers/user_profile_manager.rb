@@ -284,6 +284,22 @@ class UserProfileManager < BaseManager
 
   # @param transloadit_data [Hash]
   # @return [User]
+  def update_account_picture(transloadit_data)
+    upload = UploadManager.new(user).create_photo(transloadit_data)
+
+    user.account_picture_url = upload.url_on_step('thumb_180x180')
+    user.small_account_picture_url = upload.url_on_step('thumb_50x50')
+    user.original_account_picture_url = upload.url_on_step(':original')
+
+    if user.changes.any?
+      user.save or fail_with! user.errors
+    end
+
+    user
+  end
+
+  # @param transloadit_data [Hash]
+  # @return [User]
   def update_profile_picture(transloadit_data)
     upload = UploadManager.new(user).create_photo(transloadit_data)
 

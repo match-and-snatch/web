@@ -16,15 +16,17 @@
   .action_bar= render 'like', post: post
 
   .comment_container
+    - if post.comments_query.has_more_comments?
+      a.AjaxLink.load_more_comments.fa.fa-angle-double-up href=post_comments_path(post.id, last_comment_id: post.comments_query.last_comment_id)  Load Older Comments
 
     /* Comment Row */
 
-    = render partial: 'comments/comment', collection: post.comments.recent
+    = render partial: 'comments/comment', collection: post.comments_query.results
     .new_comments data-identifier="comments_section-#{post.id}"
 
     form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}"
       .photo.pull-left
-        img src=current_user.small_profile_picture_url width=50 height=50
+        img src=current_user.comment_picture_url width=50 height=50
       - if current_user.can?(:comment, post)
         input.reply.btn.black.pull-right type='submit' value='Reply'
       - else

@@ -1,0 +1,15 @@
+form.PictureUploadForm action=update_account_picture_account_info_path(current_user.object) method='post' data-target='account-picture'
+  input type='hidden' name='_method' value='put'
+  = transloadit :profile_picture
+  .form-group
+    label.pull-left Account Photo
+    .account_photo.pull-right
+
+      img src=current_user.account_picture_url
+      .change_button
+        .btn.pink.i.fa.fa-picture-o style='position: relative'
+          |&nbsp;Change Photo
+          input.file type='file' name='account_picture_file' style='height: 41px'
+        input type='hidden' name='slug' value=current_user.slug
+
+    .clearfix

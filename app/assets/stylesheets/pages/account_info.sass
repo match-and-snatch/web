@@ -74,7 +74,7 @@
       height: 150px
       width: 435px
       img
-        border-radius: $border_radius
+        @include border-radius($border_radius)
         border: 1px solid $color_border
         height: 150px
         width: 150px
@@ -212,7 +212,7 @@
     /* Profile Details */
 
     .example_url 
-      border-radius: $border_radius
+      @include border-radius($border_radius)
       color: $color_text_light
       padding: 15px
       width: 435px
@@ -225,7 +225,7 @@
 
     .stats
       @include linear-gradient(#3e3e3e, #2d2d2d)
-      border-radius: $border_radius
+      @include border-radius($border_radius)
       border-left: none
       border-right: none
       color: #FFFFFF

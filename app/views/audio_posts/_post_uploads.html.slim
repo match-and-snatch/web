@@ -1,7 +1,7 @@
-a.file_download.pull-right href=post_url(post, format: :xml, protocol: 'itpc') target='_blank' Add to iTunes
 - post.uploads.each do |upload|
   span.file_name.pull-left style='padding-left: 15px' = upload.filename
+  a.file_download.pull-right href=post_url(post, format: :xml, protocol: 'itpc') target='_blank' Add to iTunes
   a.file_download.pull-right href=upload.original_url target='_blank' Download
   .clearfix
   .audio_player
-    .AudioPlayer id="Upload__#{upload.id}" data-file=upload.rtmp_path data-original=upload.original_url
+    .AudioPlayer id="Upload__#{upload.id}" data-file=upload.rtmp_path data-original=upload.original_url data-primary='html5'

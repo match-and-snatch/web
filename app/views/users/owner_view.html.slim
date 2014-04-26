@@ -62,7 +62,7 @@
       li.PostTab data-url=new_photo_post_path
         a.fa.fa-picture-o.PostTab href='javascript: void(0)'
           | Add Photos
-      li.PostTab data-url=new_document_post_path
+      li.PostTab.ie_last_tab data-url=new_document_post_path
         a.fa.fa-file-text href='javascript: void(0)' Add Document
     .clearfix
 
@@ -74,7 +74,7 @@
   #subscriber_display
     .row
 
-      .sidebar.col-md-4.col-sm-12.col-xs-12.pull-left
+      .sidebar.col-md-4.col-sm-4.col-xs-4.pull-left
 
         /* Profile Action */
 
@@ -116,7 +116,7 @@
 
       /* Recent Posts */
 
-      .pull-right.col-md-8.col-sm-12.col-xs-12
+      .pull-right.col-md-8.col-sm-8.col-xs-8
         .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
 
 

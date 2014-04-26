@@ -1,5 +1,5 @@
 doctype XML
-rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom"
   channel
     title= @post.title
     link= profile_url(@post.user)
@@ -12,15 +12,18 @@ rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
     itunes:owner
       itunes:name= @post.user.name
       itunes:email= @post.user.email
+    itunes:explicit no
     itunes:image href=@post.user.profile_picture_url.gsub('https', 'http') /
     itunes:category text="News & Politics"
-    - @uploads.each do |upload|
+    - @uploads.each_with_index do |upload|
       item
         title= upload.filename
         itunes:author= @post.user.name
         itunes:subtitle= @post.message
         itunes:summary= @post.message
         itunes:image href=@post.user.profile_picture_url.gsub('https', 'http') /
-        enclosure length="#{upload.transloadit_data[:results][':original'][0]['size']}" type="#{upload.mime_type}" url="http://#{upload.original_url}" /
+        enclosure length="#{upload.transloadit_data[:results][':original'][0]['size']}" type="#{upload.mime_type}" url="#{upload.original_url.gsub('https', 'http')}" /
+        link= upload.original_url.gsub('https', 'http')
+        guid= upload.original_url.gsub('https', 'http')
         pubDate= @post.created_at.rfc2822
         itunes:duration= upload.duration.to_i

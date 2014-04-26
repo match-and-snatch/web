@@ -571,7 +571,10 @@ CREATE TABLE users (
     password_reset_token character varying(255),
     has_public_profile boolean DEFAULT false,
     company_name character varying(255),
-    small_profile_picture_url text
+    small_profile_picture_url text,
+    account_picture_url text,
+    small_account_picture_url text,
+    original_account_picture_url text
 );
 
 
@@ -910,3 +913,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140421153513');
 INSERT INTO schema_migrations (version) VALUES ('20140423124726');
 
 INSERT INTO schema_migrations (version) VALUES ('20140423174402');
+
+INSERT INTO schema_migrations (version) VALUES ('20140425163510');

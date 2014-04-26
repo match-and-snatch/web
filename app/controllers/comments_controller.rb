@@ -7,8 +7,8 @@ class CommentsController < ApplicationController
   protect(:destroy) { can? :delete, @comment }
 
   def index
-    @comments = @post.comments
-    json_render
+    @query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id])
+    json_replace
   end
 
   def create

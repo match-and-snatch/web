@@ -262,7 +262,7 @@
 
 #create_post_nav
   @include linear-gradient(#FFFFFF, #F7F7F7)
-  border-radius: $border_radius $border_radius 0 0
+  @include border-radius($border_radius $border_radius 0 0)
   border-left: 1px solid $color_border
   border-top: 1px solid $color_border
   border-right: 1px solid $color_border
@@ -305,7 +305,7 @@
 /* Create Post */
 
 #create_post
-  border-radius: 0 0 $border_radius $border_radius
+  @include border-radius(0 0 $border_radius $border_radius)
 
   /* Status Post Textarea */
 
@@ -385,7 +385,7 @@
             height: 100px
           .delete_photo
             background-color: $color_pink
-            border-radius: 0 $border_radius 0 0
+            @include border-radius(0 $border_radius 0 0)
             color: #FFFFFF
             font-size: 11px
             padding: 5px 10px
@@ -628,7 +628,7 @@
         margin-right: 15px
         position: relative
         .edit_container
-          border-radius: 5px
+          @include border-radius(5px)
           background-color: $color_background
           border: 1px solid $color_border
           cursor: default !important
@@ -674,8 +674,9 @@
         font-size: 12px
         font-weight: 600
         padding: 10px 15px 5px
-        width: 540px
+        width: 445px
       a.file_download 
+        color: $color_blue
         cursor: pointer
         display: inline-block
         font-size: 12px
@@ -775,6 +776,22 @@
       border-top: 1px solid $color_border
       padding-top: 15px
       position: relative
+      .load_more_comments
+        width: 100%
+        display: block
+        text-align: center
+        background: rgb(240, 240, 240)
+        color: #428bca
+        margin-top: -15px
+        margin-bottom: 20px
+        border-bottom: 1px solid white
+        padding-top: 7px
+        padding-bottom: 7px
+        font-size: 11px
+        &:hover
+          background: rgb(243, 243, 243)
+          color: #428bca
+          text-decoration: none
       .deleted
         margin-top: 0
         padding: 15px
@@ -803,7 +820,7 @@
                 &:before
                   color: $color_pink
           .edit_container
-            border-radius: 5px
+            @include border-radius(5px)
             background-color: #FFFFFF
             border: 1px solid $color_border
             cursor: default !important

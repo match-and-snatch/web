@@ -18,6 +18,10 @@ class Post < ActiveRecord::Base
     raise NotImplementedError
   end
 
+  def comments_query
+    @comments_query ||= Queries::Comments.new(post: self, limit: 3)
+  end
+
   # @todo move to decorator
   def likers_text
     likes_count = likes.count
