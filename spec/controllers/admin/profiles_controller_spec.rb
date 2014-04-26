@@ -32,7 +32,7 @@ describe Admin::ProfilesController do
     subject(:perform_request) { get 'profile_owners' }
 
     before { perform_request  }
-    it { expect(assigns(:users)).to eq([profile, profile1]) }
+    it { expect(assigns(:users)).to match_array([profile, profile1]) }
 
     its(:body) { should match_regex /success/ }
     its(:status) { should == 200}

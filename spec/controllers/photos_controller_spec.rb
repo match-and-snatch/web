@@ -30,7 +30,7 @@ describe PhotosController do
   end
 
   describe 'POST #create' do
-    subject { post 'create', transloadit_audio_data_params }
+    subject { post 'create', transloadit_photo_data_params }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }
@@ -38,6 +38,7 @@ describe PhotosController do
 
     context 'authorized access' do
       before { sign_in owner }
+      its(:body) { should match_regex /replace/ }
       its(:status) { should == 200 }
     end
   end
