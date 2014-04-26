@@ -539,7 +539,7 @@ footer
             list-style: none
             position: absolute
             top: 30px
-            right: -10px
+            right: -5px
             li
               display: inline-block
               padding-right: 5px
@@ -559,11 +559,37 @@ footer
           .fa
             cursor: pointer
             padding-top: 8px
+            position: relative
             &:before
               color: $color_text_light
             &:hover
               &:before
                 color: $color_text_dark
+              .cvc_example
+                display: block
+            .cvc_example
+              @include border-radius(5px)
+              background-color: $color_pink
+              border: 1px solid #cd233b
+              color: #FFFFFF
+              display: none
+              padding: 10px
+              position: absolute
+              top: -90px
+              right: 0
+              width: 260px
+              img
+                margin-right: 5px
+              span 
+                display: block
+                font-weight: bold
+                margin-bottom: 5px
+              span
+                font-size: 12px
+              p
+                font-size: 11px
+                margin-bottom: 0
+                width: 170px
 
     .pricing_table
       color: $color_text_light 
@@ -926,20 +952,3 @@ input.file
             left: -5px
             height: 73px
             width: 81px
-            
-.load_more_comments
-  width: 100%
-  display: block
-  text-align: center
-  background: rgb(240, 240, 240)
-  color: #428bca
-  margin-top: -15px
-  margin-bottom: 20px
-  border-bottom: 1px solid white
-  padding-top: 3px
-  padding-bottom: 3px
-  font-size: 12px
-  &:hover
-    background: rgb(243, 243, 243)
-    color: #428bca
-
