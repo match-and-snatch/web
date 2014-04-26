@@ -33,9 +33,6 @@ def create_profile(_params = {})
                                                      holder_name:       params[:holder_name],
                                                      profile_name:      params[:profile_name],
                                                      routing_number:    params[:routing_number]
-
-
-
 end
 
 # @param _params [Hash]
