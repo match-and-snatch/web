@@ -17,7 +17,7 @@
             ' Next Billing Cycle:
             span= subscription.created_at.to_date.next_month.to_s(:long)
           .actions
-            a.pull-right.AjaxFormLink data-_method='delete' href=subscription_path(subscription.id)
+            a.pull-right.AjaxLink href=cancel_subscription_path(subscription.id)
               i.fa.fa-times-circle-o.pink Cancel Subscription
             a.pull-right href=profile_path(subscription.target_user)
               i.fa.fa-eye.blue View Profile
