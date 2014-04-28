@@ -38,7 +38,7 @@ class bud.widgets.Notice extends bud.Widget
     @countdown = @timeout
 
     @$counter.html(@countdown)
-    @$target.html(text)
+    bud.replace_html(@$target, text)
 
     @$container.removeClass('hidden')
     @$container.css('display', 'none')

@@ -10,7 +10,11 @@ class Owner::SecondStepsController < Owner::BaseController
                                          holder_name:    params[:holder_name],
                                          routing_number: params[:routing_number],
                                          account_number: params[:account_number]
-    notice(:congrats)
-    json_redirect profile_path(@user.reload.slug)
+    if @user.has_full_account?
+      notice(:congrats)
+      json_redirect profile_path(@user.reload.slug)
+    else
+      json_success notice: render_to_string(partial: 'notice')
+    end
   end
 end

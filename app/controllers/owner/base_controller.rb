@@ -6,6 +6,6 @@ class Owner::BaseController < ApplicationController
 
   def load_user
     @user = current_user.object
-    redirect_to profile_path(@user) if @user.complete_profile?
+    redirect_to profile_path(@user) if @user.has_full_account?
   end
 end

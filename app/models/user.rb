@@ -85,6 +85,11 @@ class User < ActiveRecord::Base
     [profile_name, slug, cost].all?(&:present?)
   end
 
+  # Checks if user filled all the necessary information
+  def has_full_account?
+    [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
+  end
+
   # Returns true if user has passed Stripe registration
   def has_cc_payment_account?
     [last_four_cc_numbers, stripe_card_id, stripe_user_id].all?(&:present?)
