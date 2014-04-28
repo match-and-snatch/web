@@ -44,6 +44,7 @@ BuddyPlatform::Application.routes.draw do
   end
 
   resource :session
+  resource :sitemap, only: :show
 
   resources :subscribers, only: [:index, :destroy]
   resources :subscriptions, only: [:index, :create, :destroy] do
