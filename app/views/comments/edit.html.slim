@@ -2,5 +2,5 @@
   form.Commenter data-target='comment-#{@comment.id}' action=comment_path(@comment.id) method='POST'
     input type='hidden' name='_method' value='PUT'
 
-    textarea name='message'
+    textarea.Autofocus name='message'
       = @comment.message
