@@ -25,7 +25,7 @@
 
       .form-group
         label Email Address
-        input.form-control type='text' name='email'
+        input.form-control type='text' name='email' autocorrect='off' autocapitalize='off'
         p.text-danger data-field='email'
 
       .form-group
@@ -67,7 +67,7 @@
     form.Form action=session_path method='post'
       .form-group
         label Email Address
-        input.form-control type='text' name='email'
+        input.form-control type='text' name='email' autocorrect='off' autocapitalize='off'
       .form-group
         label Password
         input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
@@ -107,7 +107,7 @@
     form.Form action=restore_password_path method='post'
       .form-group style="margin-bottom: 15px"
         .pull-left
-          input.form-control type='text' name='email' placeholder='Email Address' style="width: 287px"
+          input.form-control type='text' name='email' autocorrect='off' autocapitalize='off' placeholder='Email Address' style="width: 287px"
           p.text-danger data-field='email'
         input.pull-right.btn.blue type='submit' value='Send'
         .clearfix

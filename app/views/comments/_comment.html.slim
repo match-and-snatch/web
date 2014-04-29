@@ -2,16 +2,85 @@
   .photo.pull-left
     img src=comment.user.comment_picture_url width=50 height=50
   .content.pull-right
-    /* Display Delete Only if Owner or if it your comment */
+
+    /* Display Delete & Edit Only if profile owner or if it the subscribers comment. */
+
     - if can?(:delete, comment)
-      .delete.fa.fa-times.Toggler data-target='edit-comment-#{comment.id}'
+      .delete.fa.fa-gear.Toggler data-target='edit-comment-#{comment.id}'
       .edit_container data-identifier='edit-comment-#{comment.id}' style='display: none'
-        span Delete comment?
-        a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}' Yes
-        a.Toggler data-target='edit-comment-#{comment.id}' href="#" Cancel
+
+        /* Delete Comment */
+
+        div
+          span Delete comment?
+          a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}' Yes
+          a.Toggler data-target='edit-comment-#{comment.id}' href="#" Cancel
+          .clearfix
+
+        /* Delete Reply */
+
+        div style="margin-left: 11px;"
+          a href='' Edit comment?
+          a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}' Yes
+          a.Toggler data-target='edit-comment-#{comment.id}' href="#" Cancel
+          .clearfix
         .clearfix
+
     .profile_name data-identifier='profile-name'
       = link_to_user comment.user
     .comment_text= comment.message
+    .cleaffix
+    .post_date.pull-left Posted #{time_ago_in_words comment.created_at} ago
+
+    /* Change text Add Reply to Cancel Reply when user clicks on this link and reply container appears. */
+
+    .reply_comment.pull-right
+      a href='' Add Reply
+    .clearfix
+
+    /* Reply Container. Show when user clicks on reply link above. */
+
+    .reply_post
+      textarea.comment_reply name='message' placeholder="Write your reply..."
+      .clearfix
+
+  .clearfix
+
+/* Nested Reply */
+
+.nested_row
+  .photo.pull-left
+    img src=comment.user.comment_picture_url width=50 height=50
+  .nested_content.pull-right
+
+    /* Display Delete & Edit Only if profile owner or if it the subscribers reply. */
+
+    - if can?(:delete, comment)
+      .delete.fa.fa-gear.Toggler data-target='edit-comment-#{comment.id}'
+      .edit_container data-identifier='edit-comment-#{comment.id}' style='display: none'
+
+        /* Delete Reply */
+
+        div
+          span Delete reply?
+          a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}' Yes
+          a.Toggler data-target='edit-comment-#{comment.id}' href="#" Cancel
+          .clearfix
+        .clearfix
+
+        /* Edit Reply */
+
+        div style="margin-left: 11px;"
+          a href='' Edit reply?
+          a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}' Yes
+          a.Toggler data-target='edit-comment-#{comment.id}' href="#" Cancel
+          .clearfix
+        .clearfix
+
+
+    .profile_name data-identifier='profile-name'
+      = link_to_user comment.user
+    .comment_text= comment.message
+    .cleaffix
     .post_date Posted #{time_ago_in_words comment.created_at} ago
   .clearfix

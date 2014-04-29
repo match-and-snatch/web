@@ -158,7 +158,7 @@ nav
     li
       font-size: 13px
       display: inline-block
-      a
+      a, .my_sub_parent
         color: #FFFFFF
         margin: 0
         padding: 12px 15px
@@ -172,6 +172,12 @@ nav
       &.active
         background-color: #277aa3  
 
+      .my_sub_parent
+        cursor: default !important
+        padding: 16px 15px
+        &.fa
+          &:before
+            padding-right: 5px
 
       &.homepage_search
         .form-control
