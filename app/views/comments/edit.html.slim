@@ -1,6 +1,8 @@
-.comment_row data-identifier='comment-#{@comment.id}'
+.comment_row.edit_row data-identifier='comment-#{@comment.id}'
   form.Commenter data-target='comment-#{@comment.id}' action=comment_path(@comment.id) method='POST'
     input type='hidden' name='_method' value='PUT'
-
-    textarea.Autofocus name='message'
-      = @comment.message
+ 	  .content.pull-right
+	    textarea.Autofocus name='message'
+	      = @comment.message
+	  .clearfix
+.cleafix
