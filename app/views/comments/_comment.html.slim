@@ -20,8 +20,8 @@
         /* Delete Reply */
 
         div style="margin-left: 11px;"
-          a href='' Edit comment?
-          a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}' Yes
+          span Edit comment?
+          a.AjaxLink.delete_btn href=edit_comment_path(comment.id) data-target='comment-#{comment.id}' Yes
           a.Toggler data-target='edit-comment-#{comment.id}' href="#" Cancel
           .clearfix
         .clearfix

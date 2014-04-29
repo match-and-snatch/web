@@ -1,10 +1,10 @@
 class CommentsController < ApplicationController
   before_filter :authenticate!
   before_filter :load_post!, only: [:index, :create]
-  before_filter :load_comment!, only: :destroy
+  before_filter :load_comment!, only: [:edit, :update, :destroy]
 
   protect(:index, :create) { can? :see, @post }
-  protect(:destroy) { can? :delete, @comment }
+  protect(:edit, :update, :destroy) { can? :delete, @comment }
 
   def index
     @query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id])
@@ -14,6 +14,15 @@ class CommentsController < ApplicationController
   def create
     @comment = CommentManager.new(user: current_user.object, post: @post).create(params[:message])
     json_render
+  end
+
+  def edit
+    json_replace
+  end
+
+  def update
+    @comment.update_attributes(message: params[:message])
+    json_replace html: render_to_string(partial: 'comment', locals: {comment: @comment})
   end
 
   def destroy

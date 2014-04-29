@@ -21,3 +21,6 @@ class bud.widgets.Commenter extends bud.widgets.Form
     super
     bud.append_html(@$target, response['html'])
     @$container[0].reset()
+
+  on_replace: (response) =>
+    bud.replace_container(@$target, response['html'])
