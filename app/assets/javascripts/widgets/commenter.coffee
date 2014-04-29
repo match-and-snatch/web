@@ -11,9 +11,11 @@ class bud.widgets.Commenter extends bud.widgets.Form
     @$container.find('textarea').on 'keyup', @on_keyup
 
   on_keyup: (e) =>
-    if e.which == 13
+    if e.which == 13 && !e.shiftKey
       @$container.submit()
       return false
+    else
+      return true
 
   on_success: (response) =>
     super

@@ -7,4 +7,5 @@ class bud.widgets.Focuser extends bud.Widget
     
   on_click: =>
     @$target.focus()
-    return !@$target.is('a')
+    console.log @$container
+    return false #!@$container.is('a')

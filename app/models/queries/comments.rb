@@ -29,6 +29,7 @@ module Queries
 
     def basic_scope
       comments = @post.comments.order('id DESC').limit(@limit).includes(:user)
+      comments = comments.where(parent_id: nil)
       comments = comments.where(['id < ?', @start_id]) if @start_id.present?
       comments
     end

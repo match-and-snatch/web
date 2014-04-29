@@ -124,7 +124,8 @@ CREATE TABLE comments (
     message text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    post_user_id integer
+    post_user_id integer,
+    parent_id integer
 );
 
 
@@ -915,3 +916,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140423124726');
 INSERT INTO schema_migrations (version) VALUES ('20140423174402');
 
 INSERT INTO schema_migrations (version) VALUES ('20140425163510');
+
+INSERT INTO schema_migrations (version) VALUES ('20140429091410');

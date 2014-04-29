@@ -1,0 +1,36 @@
+.nested_row data-identifier='comment-#{reply.id}'
+  .photo.pull-left
+    img src=reply.user.comment_picture_url width=50 height=50
+  .nested_content.pull-right
+
+    /* Display Delete & Edit Only if profile owner or if it the subscribers reply. */
+
+    - if can?(:delete, reply)
+      .delete.fa.fa-gear.Toggler data-target='edit-comment-#{reply.id}'
+      .edit_container data-identifier='edit-comment-#{reply.id}' style='display: none'
+
+        /* Delete Reply */
+
+        div
+          span Delete reply?
+          a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}' Yes
+          a.Toggler data-target='edit-comment-#{reply.id}' href="#" Cancel
+          .clearfix
+        .clearfix
+
+        /* Edit Reply */
+
+        div style="margin-left: 11px;"
+          a href='' Edit reply?
+          a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}' Yes
+          a.Toggler data-target='edit-comment-#{reply.id}' href="#" Cancel
+          .clearfix
+        .clearfix
+
+
+    .profile_name data-identifier='profile-name'
+      = link_to_user reply.user
+    .comment_text= reply.message
+    .cleaffix
+    .post_date Posted #{time_ago_in_words reply.created_at} ago
+  .clearfix
