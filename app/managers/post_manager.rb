@@ -83,22 +83,22 @@ class PostManager < BaseManager
 
   def cancel_pending_audios
     @user.pending_post_uploads.audios.destroy_all
-    make_panding_blank
+    make_pending_blank
   end
 
   def cancel_pending_videos
     @user.pending_post_uploads.videos.destroy_all
-    make_panding_blank
+    make_pending_blank
   end
 
   def cancel_pending_photos
     @user.pending_post_uploads.photos.destroy_all
-   make_panding_blank
+    make_pending_blank
   end
 
   def cancel_pending_documents
     @user.pending_post_uploads.documents.destroy_all
-    make_panding_blank
+    make_pending_blank
   end
 
   def delete(post)
@@ -108,7 +108,7 @@ class PostManager < BaseManager
 
   private
 
-  def make_panding_blank
+  def make_pending_blank
     update_pending message: "", title: "", keywords: ""
   end
 

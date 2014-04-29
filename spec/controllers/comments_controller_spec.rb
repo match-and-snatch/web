@@ -48,4 +48,25 @@ describe CommentsController do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    let(:comment){ _post.comments.create(message: 'hello', user_id: commenter.id) }
+    subject { delete 'destroy', post_id: _post.id, id: comment.id }
+
+    context 'unauthorized access' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized access' do
+      context 'as comment owner' do
+        before { sign_in commenter }
+        its(:status) { should == 200 }
+      end
+
+      context 'as not comment owner' do
+        before { sign_in poster }
+        its(:status) { should == 401 }
+      end
+    end
+  end
 end

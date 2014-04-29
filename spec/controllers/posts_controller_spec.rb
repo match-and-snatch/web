@@ -29,6 +29,30 @@ describe PostsController do
     end
   end
 
+  describe 'GET #show' do
+    let(:post) { PostManager.new(user: poster).create_status_post(message: 'test') }
+
+    context 'when not audio post' do
+      subject { get 'show', id: post.id}
+      its(:status) { should == 404 }
+    end
+
+    let(:audio_post) do
+      create_audios_upload poster
+      PostManager.new(user: poster).create_audio_post(message: 'test', title: 'test')
+    end
+
+    context 'when requests html' do
+      subject { get 'show', id: audio_post.id }
+      its(:status) { should == 404 }
+    end
+
+    context 'when requests xml' do
+      subject { get 'show',  id: audio_post.id , format: 'xml' }
+      its(:status) { should == 200 }
+    end
+  end
+
   describe 'DELETE #destroy' do
     before { sign_in poster }
     let(:post) { PostManager.new(user: poster).create_status_post(message: 'test') }
