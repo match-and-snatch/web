@@ -8,6 +8,12 @@ class bud.widgets.Commenter extends bud.widgets.Form
   initialize: ->
     super
     @$target = bud.get(@$container.data('target'))
+    @$container.find('textarea').on 'keyup', @on_keyup
+
+  on_keyup: (e) =>
+    if e.which == 13
+      @$container.submit()
+      return false
 
   on_success: (response) =>
     super
