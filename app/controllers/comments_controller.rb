@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
 
   def update
     @comment.update_attributes(message: params[:message])
-    json_replace html: render_to_string(partial: 'comment', locals: {comment: @comment})
+    json_replace html: render_to_string(partial: 'comment_row', locals: {comment: @comment})
   end
 
   def destroy
