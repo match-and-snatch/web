@@ -9,6 +9,7 @@ class bud.widgets.Commenter extends bud.widgets.Form
     super
     @$target = bud.get(@$container.data('target'))
     @$container.find('textarea').on 'keydown', @on_keyup
+    @$mentions_source = bud.get(@$container.data('mentions_source'))
 
   on_keyup: (e) =>
     if e.which == 13 && !e.shiftKey
@@ -24,3 +25,9 @@ class bud.widgets.Commenter extends bud.widgets.Form
 
   on_replace: (response) =>
     bud.replace_container(@$target, response['html'])
+
+  params: ->
+    result = super()
+    if @$mentions_source
+      result['mentions'] = @$mentions_source.data('jsWidget').mentions_data
+    result

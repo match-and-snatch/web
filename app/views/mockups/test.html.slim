@@ -13,8 +13,6 @@
             .post_title Post Title
             .date Posted (time) ago
 
-            .audio_player
-
             .message my message text will display here
             .action_bar
               /* Add .liked_post (a.fa.fa-heart.liked_post.pull-left) to display solid pink heart after subscriber clicks the heart */
@@ -42,9 +40,11 @@
               .reply_container
                 .photo.pull-left
                   img
-                .reply.btn.black.pull-right Reply
-                textarea.reply_input.pull-right placeholder="Write your reply..."
+                .pull-right style='position: relative; width: 500px; background: white;'
+                  .Highlighter data-target='textarea' data-target_list='autocomplete-users'
+                  textarea.reply_input.pull-right data-identifier='textarea' placeholder="Write your reply..." style='background: transparent'
                 .clearfix
+              div data-identifier='autocomplete-users'
 
           /* Video Post */
 

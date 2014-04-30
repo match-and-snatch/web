@@ -10,12 +10,12 @@ class CommentManager < BaseManager
 
   # @param message [String]
   # @return [Comment]
-  def create(message)
+  def create(message: message, mentions: nil)
     if !(@user.subscribed_to?(@post.user) || @user == @post.user)
       raise ArgumentError, "Can't comment on non subscribed user posts"
     end
 
-    comment = Comment.new(post: @post, user: @user, post_user: @post.user, parent: @parent, message: message)
+    comment = Comment.new(post: @post, user: @user, post_user: @post.user, parent: @parent, message: message, mentions: mentions)
     comment.save or fail_with!(comment.errors)
     comment
   end

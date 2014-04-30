@@ -24,18 +24,13 @@
     = render partial: 'comments/comment', collection: post.comments_query.results
     .new_comments data-identifier="comments_section-#{post.id}"
 
-    form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}"
+    form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}" data-mentions_source='post-comment-mentions-#{post.id}'
       .photo.pull-left
         img src=current_user.comment_picture_url width=50 height=50
 
-      /* Remove if we don't need it */
-
-      / - if current_user.can?(:comment, post)
-      /   input.reply.btn.black.pull-right type='submit' value='Reply'
-      / - else
-      /   .reply.btn.black.pull-right.PopupTrigger data-target='subscription' Reply
-
-      /* Textarea for reply */
-
-      textarea.reply_input.pull-left name='message' placeholder="Write your comment..."
+      .comment_section
+        .Highlighter data-identifier='post-comment-mentions-#{post.id}' data-target='post-comment-textarea-#{post.id}' data-target_list='post-comment-autocomplete-users-#{post.id}'
+        textarea.transparent.reply_input.pull-left data-identifier='post-comment-textarea-#{post.id}' name='message' placeholder="Write your comment..."
+      .clearfix
+      .mentioner data-identifier='post-comment-autocomplete-users-#{post.id}'
       .clearfix

@@ -138,6 +138,7 @@ BuddyPlatform::Application.routes.draw do
   get '/privacy_policy' => 'pages#privacy_policy', as: :privacy_policy
   get '/faq' => 'pages#faq', as: :faq
   get '/sampleprofile' => 'pages#sampleprofile', as: :sampleprofile
+  get '/mentions' => 'users#mentions', as: :mentions
 
   if Rails.env.development?
     get 'mockups/*mockup' => 'mockups#show'

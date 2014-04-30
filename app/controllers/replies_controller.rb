@@ -9,7 +9,8 @@ class RepliesController < ApplicationController
   def create
     @reply = CommentManager.new(user: current_user.object,
                                 post: @comment.post,
-                                parent: @comment).create(params[:message])
+                                parent: @comment).create(message: params[:message],
+                                                         mentions: params[:mentions])
     json_render notice: 'Thanks for the comment'
   end
 

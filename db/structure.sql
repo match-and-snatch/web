@@ -125,7 +125,8 @@ CREATE TABLE comments (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     post_user_id integer,
-    parent_id integer
+    parent_id integer,
+    mentions text
 );
 
 
@@ -569,8 +570,8 @@ CREATE TABLE users (
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees double precision,
     cost integer,
-    has_public_profile boolean DEFAULT false,
     password_reset_token character varying(255),
+    has_public_profile boolean DEFAULT false,
     company_name character varying(255),
     small_profile_picture_url text,
     account_picture_url text,
@@ -918,3 +919,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140423174402');
 INSERT INTO schema_migrations (version) VALUES ('20140425163510');
 
 INSERT INTO schema_migrations (version) VALUES ('20140429091410');
+
+INSERT INTO schema_migrations (version) VALUES ('20140430181853');

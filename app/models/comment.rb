@@ -1,4 +1,6 @@
 class Comment < ActiveRecord::Base
+  serialize :mentions, Hash
+
   belongs_to :post
   belongs_to :user
   belongs_to :post_user, class_name: 'User', foreign_key: :post_user_id
