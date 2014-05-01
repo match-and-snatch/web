@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def mentions
-    @users = User.where.not(id: current_user.id).search_by_full_name(params[:q]).limit(10)
+    @users = User.where.not(id: current_user.id).search_by_full_name(params[:q]).limit(5)
     json_replace
   end
 
