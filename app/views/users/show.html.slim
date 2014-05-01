@@ -47,6 +47,9 @@
             a.subscribe.PopupTrigger data-target='subscription' Subscribe
           / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
 
+    / RSS
+    a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
+
     /* Subscriber Benefits */
 
     .benefits_container.row

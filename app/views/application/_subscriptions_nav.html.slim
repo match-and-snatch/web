@@ -5,12 +5,11 @@ li.my_sub
 
   ul.my_sub_cont
     - current_user.idols.each do |user|
-	    a href=profile_path(user)
-	      li
-	        .picture 
-	        	img src=user.small_profile_picture_url
-	        .details
-		        .name= user.full_name
-		        /* Profile Type */
-		        .type Profile Type
-	      	.clearfix
+	  a href=profile_path(user)
+	    li
+	      .picture
+            img src=user.small_profile_picture_url
+	      .details
+		    .name= user.full_name
+		    /.type Profile Type
+	      .clearfix

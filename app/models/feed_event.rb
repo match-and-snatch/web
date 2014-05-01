@@ -21,6 +21,12 @@ class FeedEvent < ActiveRecord::Base
     self.class.message
   end
 
+  def title
+    if target.respond_to?(:title)
+      target.title
+    end
+  end
+
   def label
     self.class.label
   end

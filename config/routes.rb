@@ -83,7 +83,7 @@ BuddyPlatform::Application.routes.draw do
         post :via_update_cc_data
       end
     end
-    resource :rss_feed, only: :show
+    resource :rss_feed, only: :show, defaults: {format: :atom}
   end
 
   resources :profile_types, only: [:index, :create, :destroy]
