@@ -51,7 +51,7 @@ class UserProfileManager < BaseManager
   # @param account_number [String]
   # @return [User]
   def update(cost: nil, profile_name: nil, holder_name: nil, routing_number: nil, account_number: nil)
-    profile_name   = profile_name.try(:strip).to_s
+    profile_name   = profile_name.try(:strip).to_s.squeeze(' ')
     holder_name    = holder_name.to_s.strip
     routing_number = routing_number.to_s.strip
     account_number = account_number.to_s.strip
@@ -61,6 +61,8 @@ class UserProfileManager < BaseManager
         fail_with profile_name: :empty
       elsif profile_name.length > 140
         fail_with profile_name: :too_long
+      else
+        fail_with! profile_name: :taken if (/connect.?pal/i).match(profile_name)
       end
 
       if cost.blank?
@@ -148,8 +150,11 @@ class UserProfileManager < BaseManager
   # @param profile_name [String]
   # @return [User]
   def update_profile_name(profile_name)
-    fail_with! profile_name: :empty if profile_name.blank?
+    profile_name = profile_name.try(:to_s).squeeze(' ')
+
+    fail_with! profile_name: :empty    if profile_name.blank?
     fail_with! profile_name: :too_long if profile_name.length > 140
+    fail_with! profile_name: :taken    if (/connect.?pal/i).match(profile_name)
 
     user.profile_name = profile_name
     user.save or fail_with! user.errors
