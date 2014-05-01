@@ -8,7 +8,6 @@
     - if can?(:delete, comment)
       .delete.fa.fa-gear.Toggler data-target='edit-comment-#{comment.id}'
       .edit_container data-identifier='edit-comment-#{comment.id}' style='display: none'
-
         ul
           a.AjaxLink.delete_btn href=edit_comment_path(comment.id) data-target='comment-#{comment.id}'
             li Edit

@@ -781,7 +781,7 @@
         width: 100%
         display: block
         text-align: center
-        background: rgb(240, 240, 240)
+        background: $color_gray_back
         color: #428bca
         margin-top: -15px
         margin-bottom: 20px
@@ -939,12 +939,14 @@
             margin: 0
             li.list-group-item
               @include border-radius (0)
-              background-color: $color_border
+              background-color: $color_gray_back
               border-top: 1px solid #FFFFFF
               border-left: 1px solid $color_border
               border-bottom: 1px solid $color_border
               border-right: 1px solid $color_border
               padding: 5px
+              &:last-child
+                border-radius: 0 0 5px 5px
               &:first-child
                 border-top: none
               img

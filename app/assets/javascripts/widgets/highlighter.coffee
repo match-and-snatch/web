@@ -22,7 +22,7 @@ class bud.widgets.Highlighter extends bud.Widget
     bud.pub('highlighter.changed', [@])
 
   highlighter_changed: (e, highlighter) =>
-    bud.unsub('mention.clicked')
+    bud.unsub('mention.clicked', @on_mention_selected)
     if highlighter == @
       bud.sub('mention.clicked', @on_mention_selected)
 
