@@ -24,7 +24,7 @@
     = render partial: 'comments/comment', collection: post.comments_query.results
     .new_comments data-identifier="comments_section-#{post.id}"
 
-    form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}" data-mentions_source='post-comment-mentions-#{post.id}'
+    form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}" data-highlighter='post-comment-mentions-#{post.id}'
       .photo.pull-left
         img src=current_user.comment_picture_url width=50 height=50
 

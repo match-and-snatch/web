@@ -7,14 +7,14 @@ class bud.widgets.Commenter extends bud.widgets.Form
 
   initialize: ->
     super
-    @$target = bud.get(@$container.data('target'))
+    @$target      = bud.get(@$container.data('target'))
+    @$highlighter = bud.get(@$container.data('highlighter'))
+
     @$container.find('textarea').on 'keydown', @on_keyup
-    @$mentions_source = bud.get(@$container.data('mentions_source'))
-    @highlighter = @$mentions_source.data('jsWidget')
 
   on_after: =>
     super
-    @highlighter.$container.empty() if @highlighter
+    @highlighter().$container.empty() if @highlighter()
 
   on_keyup: (e) =>
     if e.which == 13 && !e.shiftKey
@@ -33,6 +33,9 @@ class bud.widgets.Commenter extends bud.widgets.Form
 
   params: ->
     result = super()
-    if @$mentions_source
-      result['mentions'] = @highlighter.mentions_data
+    if @highlighter()
+      result['mentions'] = @highlighter().mentions_data
     result
+
+  highlighter: ->
+    @__highlighter ||= @$highlighter.data('jsWidget')

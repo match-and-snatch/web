@@ -35,7 +35,7 @@ class bud.Widget
     @initialize()
 
     @$container.addClass('js-widget').data('js-widget', @)
-    bud.Logger.message("Widget: #{@class_name()} initialized")
+    # bud.Logger.message("Widget: #{@class_name()} initialized")
 
     bud.Widget.instances.push(@)
 

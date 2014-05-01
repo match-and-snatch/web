@@ -20,7 +20,7 @@
 
     .profile_name data-identifier='profile-name'
       = link_to_user reply.user
-    .comment_text= reply.message
+    .comment_text= format_comment_message(reply)
     .cleaffix
     .post_date Posted #{time_ago_in_words reply.created_at} ago
   .clearfix
