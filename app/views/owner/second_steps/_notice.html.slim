@@ -1,4 +1,9 @@
-a.pull-right href=current_profile_path Continue to profile
+.pull-left style='margin-top: 2px' You haven't filled your bank account information. What do you want to do next?
+
+a.pull-right.notice_button href=current_profile_path
+  span.fa.fa-arrow-circle-o-right &nbsp;
+  span Continue to profile&nbsp;
 
 a.Toggler data-target='notification-bar' href='#'
-  span.pull-right.Focuser data-target='holder-name-input' Close and Add
+  span.notice_button.pull-right.Focuser data-target='holder-name-input'
+    span.fa.fa-pencil &nbsp;Add bank info
