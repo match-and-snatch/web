@@ -44,4 +44,4 @@ class bud.widgets.Commenter extends bud.widgets.Form
     result
 
   highlighter: ->
-    @__highlighter ||= @$highlighter.data('jsWidget')
+    @__highlighter ||= @$highlighter.data('jsWidget') if @$highlighter
