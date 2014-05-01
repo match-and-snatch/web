@@ -25,3 +25,8 @@ en:
     account_updated: Your account information has been updated.
     updated_password: Successfully updated your password.
     unsubscribed: You have been unsubscribed
+  feed:
+    audios: Just added a new audio file to their profile.
+    videos: Just posted a new video to their profile.
+    documents: Just posted some documents.
+    photos: Just posted %{count} %{label} to their profile.

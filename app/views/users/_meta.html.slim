@@ -4,5 +4,8 @@ meta property="og:description" content="Subscribe on #{@profile.name}"
 meta property="og:type"        content="profile"
 meta property="og:url"         content=url_for(only_path: false)
 
+= auto_discovery_link_tag :atom, user_rss_feed_path(@profile.id)
+= auto_discovery_link_tag :rss, user_rss_feed_path(@profile.id, format: :rss)
+
 - if @profile.profile_picture_url
   meta property="og:image" content=@profile.profile_picture_url
