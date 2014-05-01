@@ -54,7 +54,7 @@ BuddyPlatform::Application.routes.draw do
       get :cancel
     end
   end
-  resources :audios, only: [:create, :destroy]
+  resources :audios, only: [:show, :create, :destroy]
   resources :videos, only: [:create, :destroy]
   resources :photos, only: [:create, :destroy]
   resources :documents, only: [:create, :destroy]
