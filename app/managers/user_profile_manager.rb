@@ -167,13 +167,31 @@ class UserProfileManager < BaseManager
     fail_with! cost: :zero if cost.to_f <= 0.0
     fail_with! cost: :reached_maximum if cost.to_f > 9999
 
+    if user.cost_changed_at && user.cost_changed_at.today?
+      fail_with! cost: :already_changed_today
+    end
+
     unless cost.to_s.strip.match ONLY_DIGITS
       fail_with! cost: :not_an_integer
     end
 
-    user.cost = cost
-    user.save or fail_with! user.errors
+    cost = cost.to_f
+
+    if (cost - user.cost) / user.cost > 0.3
+      ProfilesMailer.changed_cost(user).deliver
+      @unable_to_change_cost = true
+    else
+      user.cost = cost
+      user.cost_changed_at = Time.zone.now
+      user.save or fail_with! user.errors
+      @unable_to_change_cost = false
+    end
+
     user
+  end
+
+  def unable_to_change_cost?
+    !!@unable_to_change_cost
   end
 
   # @param contacts_info [Hash]

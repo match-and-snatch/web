@@ -576,7 +576,8 @@ CREATE TABLE users (
     small_profile_picture_url text,
     account_picture_url text,
     small_account_picture_url text,
-    original_account_picture_url text
+    original_account_picture_url text,
+    cost_changed_at timestamp without time zone
 );
 
 
@@ -921,3 +922,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140425163510');
 INSERT INTO schema_migrations (version) VALUES ('20140429091410');
 
 INSERT INTO schema_migrations (version) VALUES ('20140430181853');
+
+INSERT INTO schema_migrations (version) VALUES ('20140501143033');

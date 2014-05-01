@@ -50,7 +50,13 @@ class UsersController < ApplicationController
   end
 
   def update_cost
-    UserProfileManager.new(current_user.object).update_cost(params[:cost])
+    manager = UserProfileManager.new(current_user.object)
+    manager.update_cost(params[:cost])
+
+    if manager.unable_to_change_cost?
+      notice(:unable_to_change_cost)
+    end
+
     json_reload
   end
 
