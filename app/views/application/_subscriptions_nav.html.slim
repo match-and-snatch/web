@@ -5,8 +5,12 @@ li.my_sub
 
   ul.my_sub_cont
     - current_user.idols.each do |user|
-      li
-        a.row href=profile_path(user)
-          img.picture.pull-left src=user.small_profile_picture_url
-          .name.pull-left= user.full_name
-        .clearfix
+	    a href=profile_path(user)
+	      li
+	        .picture 
+	        	img src=user.small_profile_picture_url
+	        .details
+		        .name= user.full_name
+		        /* Profile Type */
+		        .type Profile Type
+	      	.clearfix

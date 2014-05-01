@@ -9,24 +9,14 @@
       .delete.fa.fa-gear.Toggler data-target='edit-comment-#{reply.id}'
       .edit_container data-identifier='edit-comment-#{reply.id}' style='display: none'
 
-        /* Edit Reply */
-
-        div style="margin-left: 11px;"
-          span Edit comment?
-          a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}' Yes
-          a.Toggler data-target='edit-comment-#{reply.id}' href="#" Cancel
-          .clearfix
-        .clearfix
-
-        /* Delete Reply */
-
-        div
-          span Delete reply?
-          a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}' Yes
-          a.Toggler data-target='edit-comment-#{reply.id}' href="#" Cancel
-          .clearfix
-        .clearfix
-
+        ul
+          a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}'
+            li Edit
+          a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}'
+            li Delete
+          a.Toggler data-target='edit-comment-#{reply.id}' href="#"
+            li.last
+              i.fa.fa-times
 
     .profile_name data-identifier='profile-name'
       = link_to_user reply.user

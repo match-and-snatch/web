@@ -1,7 +1,7 @@
 .modal-header
   i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
   .modal-title Cancel Subscription
-  span Are you sure you want to remote subscription to #{link_to @subscription.target_user.name, profile_path(@subscription.target_user.slug)}?
+  span Are you sure you want to cancel your subscription to #{link_to @subscription.target_user.name, profile_path(@subscription.target_user.slug)}?
 
 .modal-body style="padding-bottom: 15px;"
   a.btn.pink.pull-left.AjaxFormLink style="margin-left: 35px" data-_method='delete' href=subscription_path(@subscription.id) Yes, cancel my subscription

@@ -1,6 +1,6 @@
 .comment_row.edit_row data-identifier='comment-#{@comment.id}'
   .photo.pull-left
-    img src=@comment.user.comment_picture_url width=50 height=50
+    img src=@comment.user.comment_picture_url width=50 height=50 border=0
 
   form.Commenter data-target='comment-#{@comment.id}' action=comment_path(@comment.id) method='POST'
     input type='hidden' name='_method' value='PUT'
