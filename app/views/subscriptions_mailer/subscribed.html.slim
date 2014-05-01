@@ -1,52 +1,11 @@
-doctype html
-html
-  head
-    title Congratulations, you just subscribed to a profile!
-
-
-  body style="background-color: #f7f7f7; margin: 0; padding: 0;"
-    table style="background-color: #f7f7f7; font-family: Arial, Helvetica, sans-serif; font-size: 13px; margin: 0; padding: 0; width: 100%; height: 100%" align="center"
-      tr
-        td align="center"
-          table border="0" cellspacing="0" cellpadding="0" style="width: 600px;font-family: Arial, Helvetica, sans-serif; font-size: 13px; margin: 0; padding: 0;"
-            tr
-              td colspan="3" height="20px"
-            tr
-              td colspan="3" bgcolor="#3b9fd1" style="height: 5px;"
-                img src="http://connectpal-assets.s3.amazonaws.com/images/clear-5x5.gif" style="display: block;"
-            tr
-              td bgcolor="#3b9fd1" width="5px" 
-                img src="http://connectpal-assets.s3.amazonaws.com/images/clear-5x5.gif" style="display: block;"
-              td bgcolor="#3b9fd1" style="background: #FFFFFF; background-color: #3b9fd1;"
-                a href="https://www.connectpal.com" border="0" taget="_blank"
-                  img src="http://connectpal-assets.s3.amazonaws.com/images/logo.png" title="ConnectPal.com" alt="ConnectPal.com" width="150px" style="display: block;"
-              td bgcolor="#3b9fd1" width="5px"
-                img src="http://connectpal-assets.s3.amazonaws.com/images/clear-5x5.gif" style="display: block;"
-            tr
-              td colspan="3" bgcolor="#3b9fd1" style="height: 5px;"
-                img src="http://connectpal-assets.s3.amazonaws.com/images/clear-5x5.gif" style="display: block;"
-            tr
-              td colspan="3" bgcolor="#FFFFFF" style="height: 15px;"
-                img src="http://connectpal-assets.s3.amazonaws.com/images/clear-5x5.gif" style="display: block;"
-            tr
-              td bgcolor="#FFFFFF" style="width: 10px;"
-                img src="http://connectpal-assets.s3.amazonaws.com/images/clear-5x5.gif" style="display: block;"
-              td bgcolor="#FFFFFF" width="580px" style="background: #FFFFFF;" 
-              
-                div style="color: #ea2e49; font-size: 24px;" Congratulations
-                p style="color: #464646;" 
-                  |You subscribed to 
-                  a href=profile_url(@owner) style="color: #ea2e49;"= @owner.name
-                  |&nbsp;
-                  |on 
-                  b= @subscription.created_at.to_date.to_s(:long)
-                  |&nbsp;at&nbsp;
-                  b style="color: $ea2e49;"= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
-                  |&nbsp;
-                  |per month.
-
-              td bgcolor="#FFFFFF" style="width: 10px;"
-                img src="http://connectpal-assets.s3.amazonaws.com/images/clear-5x5.gif" style="display: block;"
-            tr
-              td colspan="3" bgcolor="#FFFFFF" style="height: 10px;"
-                img src="http://connectpal-assets.s3.amazonaws.com/images/clear-5x5.gif" style="display: block;"
+div style="color: #ea2e49; font-size: 24px;" Congratulations
+p style="color: #464646;"
+  |You subscribed to
+  a href=profile_url(@owner) style="color: #ea2e49;"= @owner.name
+  |&nbsp;
+  |on
+  b= @subscription.created_at.to_date.to_s(:long)
+  |&nbsp;at&nbsp;
+  b style="color: $ea2e49;"= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
+  |&nbsp;
+  |per month.

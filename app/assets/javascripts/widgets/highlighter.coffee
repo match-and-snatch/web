@@ -18,6 +18,11 @@ class bud.widgets.Highlighter extends bud.Widget
 
     bud.sub('highlighter.changed', @highlighter_changed)
 
+  cleanup: ->
+    @$container.empty()
+    @mentions = []
+    @mentions_data = {}
+
   on_focus: =>
     bud.pub('highlighter.changed', [@])
 

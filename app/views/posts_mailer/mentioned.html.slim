@@ -1,0 +1,11 @@
+div style="color: #ea2e49; font-size: 24px;" #{@mentioned_user.name}, you got a new mention
+p style="color: #464646;"
+  a href=profile_url(@mentioner) style="color: #ea2e49;"= @mentioner.name
+  |&nbsp;
+  |mentioned you in the comment on&nbsp;
+  a href=profile_url(@post_user) style="color: #ea2e49;" #{@post_user.name}'s profile page
+  br
+p
+  - if @post.title
+    | > #{@post.title}
+  | > #{@comment.message}

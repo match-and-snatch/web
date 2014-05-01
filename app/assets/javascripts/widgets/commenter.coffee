@@ -9,12 +9,18 @@ class bud.widgets.Commenter extends bud.widgets.Form
     super
     @$target      = bud.get(@$container.data('target'))
     @$highlighter = bud.get(@$container.data('highlighter'))
+    @$textarea    = @$container.find('textarea')
 
-    @$container.find('textarea').on 'keydown', @on_keyup
+    @$textarea.on 'keydown', @on_keyup
+
+  on_submit: =>
+    return false if _.isEmpty(@$textarea.val())
+    super()
 
   on_after: =>
     super
-    @highlighter().$container.empty() if @highlighter()
+    if @highlighter()
+      @highlighter().cleanup()
 
   on_keyup: (e) =>
     if e.which == 13 && !e.shiftKey

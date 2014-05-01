@@ -8,4 +8,8 @@ class Comment < ActiveRecord::Base
   belongs_to :parent, class_name: 'Comment', foreign_key: :parent_id
 
   validates :message, presence: true
+
+  def mentioned_users
+    User.where(id: mentions.keys)
+  end
 end
