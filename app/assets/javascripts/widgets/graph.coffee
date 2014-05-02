@@ -25,9 +25,35 @@ class bud.widgets.Graph extends bud.Widget
       element: @$container[0],
       width: 600,
       height: 180,
+      renderer: 'area',
+      stroke: true,
+      interpolation: 'linear',
       series: [{
-        color: 'steelblue',
-        data: @data
+        color: 'rgba(59,159,209,0.3)',
+        stroke: '#3b9fd1',
+        data: @data,
+        name: 'Subscriptions'
       }]
     })
+    hoverDetail = new Rickshaw.Graph.HoverDetail( {
+      graph: graph,
+      xFormatter: (x) ->
+        new Date(x * 1000).toDateString();
+      yFormatter: (y) ->
+        y
+    })
     graph.render()
+
+    format = (d) ->
+      d = new Date(d)
+      return d3.time.format("%c")(d)
+
+    axes_x = new Rickshaw.Graph.Axis.Time( {
+      graph: graph,
+      tickFormat: format
+    })
+    axes_x.render()
+    axes_y = new Rickshaw.Graph.Axis.Y( {
+      graph: graph
+    })
+    axes_y.render()
