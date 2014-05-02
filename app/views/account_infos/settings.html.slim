@@ -1,5 +1,8 @@
 .col-md-12
   h2 General Information
+
+  div data-identifier='account-picture'= render 'account_picture'
+
   form.Form action=update_general_information_account_info_path method='post'
     input type='hidden' name='_method' value='put'
 

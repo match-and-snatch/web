@@ -25,12 +25,12 @@
 
       .form-group
         label Email Address
-        input.form-control type='text' name='email'
+        input.form-control type='text' name='email' autocorrect='off' autocapitalize='off'
         p.text-danger data-field='email'
 
       .form-group
         label Password
-        input.form-control.password type='password' name='password' 
+        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
         p.text-danger data-field='password'
 
       .form-group
@@ -39,7 +39,11 @@
         p.text-danger data-field='password_confirmation'
 
       .form-group style="margin: 15px 0"
-        .terms_text.pull-left By proceeding, you agree to our Terms of Use and Privacy Policy.
+        .terms_text.pull-left 
+          |By proceeding, you agree to our 
+          a href=terms_of_use_path target='_blank' Terms of Use 
+          |and 
+          a href=privacy_policy_path target='_blank' Privacy Policy.
         input.btn.blue.pull-right type='submit' value='Continue to Profile' style="padding: 10px 0; width: 170px;"
         .clearfix
   
@@ -47,7 +51,7 @@
 
   .modal-footer
     span Already have an account? &nbsp;
-    a.PopupTrigger href='#' data-target='login' Click here to login.
+    a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
 
 
 /* Login Popup */
@@ -59,7 +63,7 @@
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="login" aria-hidden="true"
     .modal-title Existing Account?
-    span If you already have an account, please login below.
+    span If you already have an account, please login below. 
 
   /* Body Area */
 
@@ -67,11 +71,11 @@
     form.Form action=session_path method='post'
       .form-group
         label Email Address
-        input.form-control type='text' name='email'
+        input.form-control type='text' name='email' autocorrect='off' autocapitalize='off'
       .form-group
         label Password
-        input.form-control.password type='password' name='password' 
-
+        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
+        .mobile_message.alert.alert-warning Passwords are case sensitve, please make sure you enter your correct password.
       .form-group style="margin-top: 15px"
         .pull-left
           .checkbox
@@ -85,9 +89,9 @@
 
   .modal-footer
     span Not registered yet?&nbsp;
-    a.PopupTrigger href='#' data-target='registration' Click here to register!
+    a.PopupTrigger style='text-decoration: underline' href='#' data-target='registration' Click here to register!
     .clearfix
-    a.PopupTrigger href='#' data-target='forgot-password' Forgot Password
+    a.PopupTrigger style='text-decoration: underline' href='#' data-target='forgot-password' Forgot Password
 
 
 /* Restore Password Popup */
@@ -107,7 +111,7 @@
     form.Form action=restore_password_path method='post'
       .form-group style="margin-bottom: 15px"
         .pull-left
-          input.form-control type='text' name='email' placeholder='Email Address' style="width: 287px"
+          input.form-control type='text' name='email' autocorrect='off' autocapitalize='off' placeholder='Email Address' style="width: 287px"
           p.text-danger data-field='email'
         input.pull-right.btn.blue type='submit' value='Send'
         .clearfix
@@ -116,6 +120,7 @@
 
   .modal-footer
     span Not registered yet?&nbsp;
-    a.PopupTrigger href='#' data-target='registration' Click here to register!
+    a.PopupTrigger style='text-decoration: underline' href='#' data-target='registration' Click here to register!
     .clearfix
-    a.PopupTrigger href='#' data-target='login' Login
+    span Already have an account? &nbsp;
+    a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.

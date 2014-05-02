@@ -24,7 +24,11 @@ module ApplicationHelper
     q = params[:q]
     if q.present?
       highlights = q.split(/\W+/).reject { |token| token.length < 3} << q
+      begin
       highlight(text, highlights)
+      rescue
+        raise text.inspect
+      end
     else
       text
     end

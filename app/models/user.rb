@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
     is_admin? || APP_CONFIG['admins'].include?(email)
   end
 
+  def comment_picture_url
+    small_account_picture_url || small_profile_picture_url
+  end
+
   # @param new_password [String]
   def set_new_password(new_password)
     self.password_salt = BCrypt::Engine.generate_salt
@@ -79,6 +83,11 @@ class User < ActiveRecord::Base
   def passed_profile_steps?
     # [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
     [profile_name, slug, cost].all?(&:present?)
+  end
+
+  # Checks if user filled all the necessary information
+  def has_full_account?
+    [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
   end
 
   # Returns true if user has passed Stripe registration

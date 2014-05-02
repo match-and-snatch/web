@@ -4,6 +4,8 @@ class UserDecorator < BaseDecorator
            :complete_profile?, :profile_disabled?,
            :has_cc_payment_account?, :subscribed_to?,
            :original_profile_picture_url, :profile_picture_url, :small_profile_picture_url,
+           :original_account_picture_url, :account_picture_url, :small_account_picture_url,
+           :comment_picture_url,
            :cover_picture_url, :original_cover_picture_url, :id,
            :contacts_info,
            :cover_picture_position,

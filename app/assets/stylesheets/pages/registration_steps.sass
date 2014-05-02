@@ -79,82 +79,14 @@
   /* Step 1 */
 
   .step_one
-    overflow: visible
-    .sample_profile
-      margin: 15px 0
-      position: relative
-      img
-        border-radius: $border_radius
-        width: 600px
+    overflow: visible    
+    @media screen and (min-width: 992px)
       .note
-        font-size: 12px
-        position: absolute
-        top: 0
-        &.n1
-          top: 35px
-          left: -15px
-          width: 135px
-        &.n2
-          top: 345px
-          left: -15px
-          width: 135px
-        &.n3
-          top: 681px
-          left: -15px
-          width: 145px
         &.n4
-          top: -25px
-          right: -15px
-          width: 142px
-          a
-            color: $color_pink
-        &.n5
-          top: 420px
-          right: -15px
-          width: 135px
-        &.n6
-          top: 685px
-          right: -15px
-          width: 135px
+          top: -65px !important
         .arrow
-          background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
-          position: absolute
-          &.n1
-            background-position: 0 0
-            top: 50px
-            left: 55px
-            height: 68px
-            width: 81px
-          &.n2
-            background-position: 0 138px
-            top: -55px
-            left: 75px
-            height: 44px
-            width: 57px
-          &.n3
-            background-position: 0 95px
-            top: -105px
-            left: 75px
-            height: 95px
-            width: 66px
           &.n4
-            background-position: 99px 0
-            top: 260px
-            left: -85px
-            height: 54px
-            width: 99px
-          &.n5
-            background-position: 99px 138px
-            top: -45px
-            left: -8px
-            height: 37px
-            width: 69px
-          &.n6
-            background-position: 99px 94px
-            top: 45px
-            left: 5px
-            height: 73px
-            width: 81px
+            top: 290px !important
 
 
   /* Step 2 */
@@ -195,6 +127,21 @@
     .profile_name
       margin-bottom: 15px
 
+    /* USD */
+
+    @media screen and (min-width: 992px)
+      .usd
+        text-align: right
+        width: 80px
+
+    @media screen and (max-width: 991px)
+      .usd
+        width: 60px
+      .breakdown
+        font-size: 11px
+        text-align: right
+        margin-right: 0
+
     /* Check Design */
 
     .check 
@@ -204,7 +151,7 @@
       text-shadow: none
       width: 100%
       .inside_cont
-        background: asset-url('https://buddy-assets.s3.amazonaws.com/images/greyzz_@2X.png') repeat
+        background: asset-url('https://connectpal-assets.s3.amazonaws.com/images/greyzz_@2X.png') repeat
         border: 1px solid #277aa3
         display: block
         padding: 20px 0

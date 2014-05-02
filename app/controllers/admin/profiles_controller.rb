@@ -6,6 +6,11 @@ class Admin::ProfilesController < Admin::BaseController
     json_replace
   end
 
+  def profile_owners
+    @users = User.profile_owners.limit(200)
+    json_render
+  end
+
   def new
     json_render
   end

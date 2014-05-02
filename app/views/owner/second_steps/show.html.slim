@@ -48,7 +48,8 @@
       .col-md-6.col-sm-6.col-xs-6
 
         .row_label
-          | Profile Type
+          | Profile Type 
+          span style="display: inline-block; padding: 0; margin: 0; color: #c2c2c2;" (optional)
           span Please classify your profile type or types. This info helps our search function find more potential subscribers who might like your content.
         div
           input.AutocompleteField.form-control data-url=profile_types_path data-target='profile-types' type='text' placeholder='Band, Photographer, Organization, etc.'
@@ -70,8 +71,9 @@
           .input-group
             span.input-group-addon
               i.fa.fa-usd.fa-fw.fa-lg
-            input.form-control type='text' name='cost' style="width: 80px; text-align: right;" value=(@user.cost || 5)
-            a.pull-right.breakdown href="#" Check out our pricing breakdown here
+            input.form-control.usd type='text' name='cost' value=(@user.cost || 5)
+            a.pull-right.breakdown.PopupTrigger style='color: #8dc63f; text-decoration: underline' data-target='pricing-popup' href="#" Check out our pricing breakdown here
+            .clearfix
           .error data-field='cost'
           p.bg-warning * Please note, to keep subscribers happy and billing cycles consistent, you can only change your subscription cost once every 30 days.
       .clearfix
@@ -90,7 +92,7 @@
             .col-md-12.col-sm-12.col-xs-12
               .pay_to_name
                 label Pay to the order of:
-                input.form-control type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
+                input.form-control data-identifier='holder-name-input' type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
             .clearfix
             .col-md-12.col-sm-12.col-xs-12.payout_numbers
               label.pull-left Routing Number
@@ -113,3 +115,42 @@
       .col-md-12.col-sm-12.col-xs-12.finish_registration
         input type='hidden' name='authenticity_token' value=form_authenticity_token
         input.btn.pink type='submit' value='Finish Registration'
+
+  .Popup.popup.modal-content data-identifier='pricing-popup' style="width: 610px"
+    .modal-header
+      .modal-title Pricing Breakdown
+      span
+        | Please note, to keep subscribers happy and billing cycles consistent,
+        br
+        | you can only change your subscription cost once every 30 days.
+
+    .modal-body
+      .pricing_table
+        table.table.table-striped.table-bordered
+          tr
+            td
+              b Subscription Price
+            td
+              |
+              b ConnectPal Service Fee
+              span style="font-size: 11px;"(includes all fees & credit card processing)
+          tr
+            td $4 or less
+            td $0.79
+          tr
+            td $5 - $9
+            td $0.95
+          tr
+            td $10 - $20
+            td $1.79
+          tr
+            td $21 & above
+            td 9% of subscription price
+        p
+          |For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout,
+          br
+          |subscribers will pay $4.79 monthly – which includes our 79 cent service fee.
+          br
+          |The profile owner will receive $4 per subscriber per month.
+          br
+          |And ConnectPal will receive 79 cents per subscriber per month.

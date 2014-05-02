@@ -8,5 +8,10 @@ class bud.widgets.Toggler extends bud.Widget
 
   on_click: =>
     @$target.toggle()
+    if @$target.is(':visible')
+      @$container.addClass('shows')
+      @$target.find('textarea,input:first').focus()
+    else
+      @$container.addClass('hides')
     return false if @$container.is('a')
     return true

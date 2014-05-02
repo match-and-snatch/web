@@ -1,8 +1,6 @@
 defaults: &defaults
   media_host: buddy-video-assets.s3.amazonaws.com
-  http_access:
-    name: buddy
-    password: staging
+  http_access: false
   javascript:
     log_level: 0
   admins:

@@ -1,6 +1,7 @@
 $deepest_depth: 1000 // Z-Index start for elements displaying on top of others
 $border_radius: 10px
 $color_background: #f7f7f7
+$color_gray_back: #f0f0f0
 $color_border: #d7d7d7
 $color_blue: #3b9fd1
 $color_pink: #ea2e49
@@ -18,6 +19,33 @@ $nav_height: 45px
 @import "bootstrap"
 
 /* General */
+
+.notice_button
+  border-radius: 5px
+  padding: 2px 5px 2px 5px
+  border: 1px solid #F7D859
+  margin: 0 3px 0 3px
+
+.rss
+  opacity: 0.7
+  color: $color_blue
+  z-index: 100
+  cursor: pointer
+  background: $color_background
+  position: absolute
+  right: -2px
+  top: -2px
+  padding: 5px 10px 5px 10px
+  border-radius: 0 10px 0 10px
+  border-bottom: 1px solid $color_border
+  border-left: 1px solid $color_border
+  &:hover
+    opacity: 1
+    color: $color_pink
+    text-decoration: none
+
+html
+  max-height: 1000000px
 
 body
   background-color: $color_background
@@ -95,86 +123,6 @@ input
       list-style: decimal
       margin-left: 15px
 
-    /* Sample Profile */
-
-    .sample_profile
-      margin: 15px 0
-      position: relative
-      text-align: center
-      img
-        border-radius: $border_radius
-        margin: 0 auto
-        width: 600px
-      .note
-        font-size: 12px
-        position: absolute
-        top: 0
-        &.n1
-          top: 35px
-          left: -15px
-          width: 135px
-        &.n2
-          top: 3$nav_height
-          left: -15px
-          width: 135px
-        &.n3
-          top: 681px
-          left: -15px
-          width: 1$nav_height
-        &.n4
-          top: -5px
-          right: -15px
-          width: 142px
-          a
-            color: $color_pink
-        &.n5
-          top: 420px
-          right: -15px
-          width: 135px
-        &.n6
-          top: 685px
-          right: -15px
-          width: 135px
-        .arrow
-          background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
-          position: absolute
-          &.n1
-            background-position: 0 0
-            top: 50px
-            left: 55px
-            height: 68px
-            width: 81px
-          &.n2
-            background-position: 0 138px
-            top: -55px
-            left: 75px
-            height: 44px
-            width: 57px
-          &.n3
-            background-position: 0 95px
-            top: -105px
-            left: 75px
-            height: 95px
-            width: 66px
-          &.n4
-            background-position: 99px 0
-            top: 230px
-            left: -85px
-            height: 54px
-            width: 99px
-          &.n5
-            background-position: 99px 138px
-            top: -$nav_height
-            left: -8px
-            height: 37px
-            width: 69px
-          &.n6
-            background-position: 99px 94px
-            top: $nav_height
-            left: 5px
-            height: 73px
-            width: 81px
-
 textarea
   color: #898989
   border: none
@@ -235,7 +183,7 @@ nav
     li
       font-size: 13px
       display: inline-block
-      a
+      a, .my_sub_parent
         color: #FFFFFF
         margin: 0
         padding: 12px 15px
@@ -249,6 +197,12 @@ nav
       &.active
         background-color: #277aa3  
 
+      .my_sub_parent
+        cursor: default !important
+        padding: 16px 15px
+        &.fa
+          &:before
+            padding-right: 5px
 
       &.homepage_search
         .form-control
@@ -262,7 +216,7 @@ nav
           position: absolute
           width: 200px
           .bg-danger
-            border-radius: 0 0 5px 5px
+            @include border-radius(0 0 5px 5px)
             padding: 5px 10px
             position: absolute
             top: -7px
@@ -282,7 +236,7 @@ nav
             font-size: 11px
             width: 202px
           .list-group
-            border-radius: 0 0 5px 5px
+            @include border-radius(0 0 5px 5px)
             border-left: 1px solid $color_border
             border-bottom: 1px solid $color_border
             border-right: 1px solid $color_border
@@ -305,45 +259,70 @@ nav
               img 
                 display: none
             
-            
-
       /* My Subscriptions CSS */
 
       &.my_sub
         position: relative
         .my_sub_cont
+          @include border-radius (0 0 5px 5px)
           background-color: $color_background
           border-left: 1px solid $color_border
           border-bottom: 1px solid $color_border
           border-right: 1px solid $color_border
-          border-top: 1px solid $color_border
-          border-radius: 0 0 $border_radius $border_radius
+          border-top: none
           display: none
-          font-size: 13px
-          padding: 15px
           position: absolute
+          overflow: hidden
           top: $nav_height
           left: 0
-          width: 200px
           a
-            background: none
-            display: block
-            margin: 10px 0 0 0
-            padding: 0
-            text-decoration: none
-            &:first-child
-              margin-top: 0
-            .picture
-              background-color: #FFFFFF
-              border: 1px solid $color_border
-              height: 40px
-              width: 40px
-            .name
-              color: $color_text_light
-              margin-top: 10px
-              margin-left: 10px
-              padding: 0
-              width: 118px
+            margin: 0 !important
+            padding: 0 !important
+            &:hover
+              text-decoration: none
+            li
+              background-color: $color_background
+              border-top: 1px solid $color_border
+              display: block
+              min-height: 50px
+              padding: 5px
+              width: 177px
+              &:first-child
+                border-top: none !important
+                margin-top: 0
+              .picture
+                background: asset-url('https://connectpal-assets.s3.amazonaws.com/images/profile_comment_default.png') no-repeat
+                background-size: 100%
+                background-color: #FFFFFF
+                border: 1px solid $color_border
+                float: left
+                height: 40px
+                width: 40px
+                margin-right: 10px
+                img
+                  height: 40px
+                  width: 40px
+              .details
+                float: left
+                width: 117px
+                .name
+                  color: $color_text_dark
+                  font-size: 12px
+                  font-weight: 600
+                  padding: 0
+                  padding-top: 3px
+                  text-decoration: none
+                .type
+                  color: $color_text_light
+                  font-size: 11px
+                  padding: 0
+              &:hover
+                background-color: $color_pink
+                .name, .type
+                  color: #FFFFFF
+                  text-decoration: none
+                .type
+                  color: #9e1528
         &:hover
           .my_sub_cont
             display: block
@@ -409,12 +388,16 @@ footer
   z-index: $deepest_depth + 10000
   background: black
   display: none
-  opacity: 0.5
   position: fixed
   bottom: 0
   left: 0
   right: 0
   top: 0
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"
+  filter: alpha(opacity=50)
+  -moz-opacity: 0.5
+  -khtml-opacity: 0.5
+  opacity: 0.5
 
 /* Popup */
 
@@ -455,8 +438,9 @@ footer
   .modal-body
     display: block
     padding: 5px 20px 0
+    .mobile_message
+      display: none
     .form-group
-      margin-bottom: 5px
       label
         color: $color_text_dark
         font-size: 12px
@@ -485,7 +469,12 @@ footer
     .terms_text
       color: #cccccc
       font-size: 11px
+      margin-top: 5px
       width: 180px
+      a
+        color: #cccccc
+        &:hover
+          color: $color_text_light
     .remember_me
       color: $color_text_light
       font-size: 12px
@@ -493,7 +482,7 @@ footer
       margin-bottom: 15px
     .user_list
       .bg-danger
-        border-radius: $border_radius
+        @include border-radius($border_radius)
         padding: 10px 15px
         margin-bottom: 15px
         font-size: 12px
@@ -514,7 +503,7 @@ footer
             margin-right: 15px
           small
             @include pink-area
-            border-radius: 5px
+            @include border-radius(5px)
             color: #FFFFFF
             font-size: 11px
             margin-top: 10px
@@ -587,7 +576,7 @@ footer
           .cost
             color: $color_blue
         .note
-          border-radius: $border_radius
+          @include border-radius($border_radius)
           font-size: 12px
           padding: 10px
           margin-top: 28px
@@ -612,7 +601,7 @@ footer
             list-style: none
             position: absolute
             top: 30px
-            right: -10px
+            right: -5px
             li
               display: inline-block
               padding-right: 5px
@@ -632,11 +621,37 @@ footer
           .fa
             cursor: pointer
             padding-top: 8px
+            position: relative
             &:before
               color: $color_text_light
             &:hover
               &:before
                 color: $color_text_dark
+              .cvc_example
+                display: block
+            .cvc_example
+              @include border-radius(5px)
+              background-color: $color_pink
+              border: 1px solid #cd233b
+              color: #FFFFFF
+              display: none
+              padding: 10px
+              position: absolute
+              top: -90px
+              right: 0
+              width: 260px
+              img
+                margin-right: 5px
+              span 
+                display: block
+                font-weight: bold
+                margin-bottom: 5px
+              span
+                font-size: 12px
+              p
+                font-size: 11px
+                margin-bottom: 0
+                width: 170px
 
     .pricing_table
       color: $color_text_light 
@@ -727,6 +742,9 @@ footer
 .authentication_popup
   .modal-header
     padding: 15px 20px
+  .modal-body
+    .form-group
+      margin-bottom: 5px
   
 
 /** REQUIRED BY JS (Modifiable, not deletable) **/
@@ -784,6 +802,17 @@ input.file
     width: 80px
     height: 80px
 
+.Notice
+  z-index: $deepest_depth + 10100
+  position: fixed
+  top: 45px
+  width: 100%
+
+.notice_counter
+  position: absolute
+  top: 17px
+  right: 40px
+
 /* Admin Settings */
 
 .admin_settings
@@ -810,13 +839,200 @@ input.file
       display: inline-block
       padding-right: 15px
 
-.Notice
-  z-index: $deepest_depth + 10001
-  position: fixed
-  top: 45px
-  width: 100%
 
-.notice_counter
-  position: absolute
-  top: 17px
-  right: 40px
+/* Sample Profile */
+@media screen and (min-width: 992px)
+  .box    
+    .sample_profile
+      margin: 15px 0
+      position: relative
+      text-align: center
+      img
+        @include border-radius($border_radius)
+        margin: 0 auto
+        width: 600px
+      .note
+        font-size: 12px
+        position: absolute
+        top: 0
+        &.n1
+          top: 35px
+          left: -15px
+          width: 135px
+        &.n2
+          top: 345px
+          left: -15px
+          width: 135px
+        &.n3
+          top: 681px
+          left: -15px
+          width: 135px
+        &.n4
+          top: -35px
+          right: -15px
+          width: 142px
+          a
+            color: $color_pink
+        &.n5
+          top: 420px
+          right: -15px
+          width: 135px
+        &.n6
+          top: 685px
+          right: -15px
+          width: 135px
+        .arrow
+          background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
+          position: absolute
+          &.n1
+            background-position: 0 0
+            top: 60px
+            left: 55px
+            height: 68px
+            width: 81px
+          &.n2
+            background-position: 0 138px
+            top: -55px
+            left: 75px
+            height: 44px
+            width: 57px
+          &.n3
+            background-position: 0 95px
+            top: -105px
+            left: 75px
+            height: 95px
+            width: 66px
+          &.n4
+            background-position: 99px 0
+            top: 260px
+            left: -85px
+            height: 54px
+            width: 99px
+          &.n5
+            background-position: 99px 138px
+            top: -45px
+            left: -8px
+            height: 37px
+            width: 69px
+          &.n6
+            background-position: 99px 94px
+            top: 45px
+            left: 5px
+            height: 73px
+            width: 81px
+
+/* Tablet */  
+
+@media screen and (max-width: 991px)
+  nav
+    .navbar-nav
+      li
+        font-size: 11px !important
+        a
+          padding: 12px 10px !important
+        &.my_sub
+          .my_sub_parent
+            padding: 16px 10px !important
+        ul.my_sub_cont
+          padding: 0 !important
+
+  .modal-body
+    .mobile_message
+      display: block !important
+      font-size: 12px
+      margin-top: 10px
+      padding: 5px 10px
+      width: 300px
+  .box    
+    overflow: visible
+    .sample_profile
+      margin: 15px 0
+      position: relative
+      text-align: center
+      img
+        @include border-radius($border_radius)
+        margin: 0 auto
+        width: 600px
+      .note
+        font-size: 12px
+        position: absolute
+        top: 0
+        p
+          @include border-radius($border_radius)
+          background-color: #FFFFFF
+          border: 1px solid $color_border
+          font-size: 11px
+          line-height: 16px
+          padding: 10px
+        &.n1
+          top: 35px
+          left: -135px
+          width: 150px
+        &.n2
+          top: 345px
+          left: -125px
+          width: 145px
+        &.n3
+          top: 681px
+          left: -135px
+          width: 155px
+        &.n4
+          top: -20px
+          right: -140px
+          width: 160px
+          a
+            color: $color_pink
+        &.n5
+          top: 420px
+          right: -135px
+          width: 155px
+        &.n6
+          top: 685px
+          right: -125px
+          width: 135px
+        .arrow
+          background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
+          position: absolute
+          &.n1
+            background-position: 0 0
+            top: 60px
+            left: 55px
+            height: 68px
+            width: 81px
+          &.n2
+            background-position: 0 138px
+            top: -55px
+            left: 75px
+            height: 44px
+            width: 57px
+          &.n3
+            background-position: 0 95px
+            top: -105px
+            left: 65px
+            height: 95px
+            width: 66px
+          &.n4
+            background-position: 99px 0
+            top: 245px
+            left: -85px
+            height: 54px
+            width: 99px
+          &.n5
+            background-position: 99px 138px
+            top: -45px
+            left: -20px
+            height: 37px
+            width: 69px
+          &.n6
+            background-position: 99px 94px
+            top: 62px
+            left: -5px
+            height: 73px
+            width: 81px
+
+.Mention
+  cursor: pointer
+  border-radius: 0 5px 5px 0
+  &:hover
+    color: black
+    font-weight: bold

@@ -2,13 +2,14 @@
 
 #header
   margin-top: 20px
+  overflow: hidden
   position: relative
 
   /* Photo Cover */
 
   .photo_cover
     background-color: $color_background
-    background: asset-url('https://buddy-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
+    background: asset-url('https://connectpal-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
     background-size: 100%
     border-bottom: 1px solid $color_border
     display: block
@@ -28,6 +29,8 @@
   /* Photo Profile */
 
   .photo_profile
+    background: asset-url('https://connectpal-assets.s3.amazonaws.com/images/default_profile_pic.png') no-repeat
+    background-size: 100%
     background-color: $color_background
     border: 1px solid $color_border
     position: absolute
@@ -262,7 +265,7 @@
 
 #create_post_nav
   @include linear-gradient(#FFFFFF, #F7F7F7)
-  border-radius: $border_radius $border_radius 0 0
+  @include border-radius($border_radius $border_radius 0 0)
   border-left: 1px solid $color_border
   border-top: 1px solid $color_border
   border-right: 1px solid $color_border
@@ -305,7 +308,7 @@
 /* Create Post */
 
 #create_post
-  border-radius: 0 0 $border_radius $border_radius
+  @include border-radius(0 0 $border_radius $border_radius)
 
   /* Status Post Textarea */
 
@@ -385,7 +388,7 @@
             height: 100px
           .delete_photo
             background-color: $color_pink
-            border-radius: 0 $border_radius 0 0
+            @include border-radius(0 $border_radius 0 0)
             color: #FFFFFF
             font-size: 11px
             padding: 5px 10px
@@ -619,6 +622,7 @@
       margin-top: $box_margin
       padding-top: 15px
       position: relative
+      overflow: hidden
       z-index: 1
       &:first-child
         margin-top: 0 !important
@@ -627,7 +631,7 @@
         margin-right: 15px
         position: relative
         .edit_container
-          border-radius: 5px
+          @include border-radius(5px)
           background-color: $color_background
           border: 1px solid $color_border
           cursor: default !important
@@ -673,8 +677,9 @@
         font-size: 12px
         font-weight: 600
         padding: 10px 15px 5px
-        width: 540px
+        width: 445px
       a.file_download 
+        color: $color_blue
         cursor: pointer
         display: inline-block
         font-size: 12px
@@ -690,8 +695,8 @@
         height: 30px
         border: none
       .video_player
-        height: 330px
-        width: 585px
+        height: 332px
+        width: 587px
         img.poster
           width: inherit
       .photo_display
@@ -713,7 +718,7 @@
           img
             height: 100%
             width: 585px
-          &:nth-of-type(1n+4)
+          &:nth-of-type(1n+2)
             display: none
       .doc_view
         color: $color_text_dark
@@ -733,7 +738,6 @@
           background: #FFFFFF
           .icon
             background-color: $color_background
-
       .message
         font-size: 13px
         line-height: 20px
@@ -761,7 +765,6 @@
           &.fa
             &:before
               color: $color_blue
-
         .users_liked
           color: $color_text_light
           font-size: 12px
@@ -774,22 +777,57 @@
       border-top: 1px solid $color_border
       padding-top: 15px
       position: relative
+      .load_more_comments
+        width: 100%
+        display: block
+        text-align: center
+        background: $color_gray_back
+        color: #428bca
+        margin-top: -15px
+        margin-bottom: 20px
+        border-bottom: 1px solid white
+        padding: 10px 0
+        font-size: 11px
+        &:hover
+          background: rgb(243, 243, 243)
+          color: #428bca
+          text-decoration: none
       .deleted
         margin-top: 0
         padding: 15px
       .photo
+        background: asset-url('https://connectpal-assets.s3.amazonaws.com/images/profile_comment_default.png') no-repeat
+        background-size: 100%
         background-color: #FFFFFF
         border: 1px solid $color_border
         height: 52px
         width: 52px
-      .comment_row
+        img 
+          border: none
+      .comment_row, .nested_row
         padding: 0 15px 15px 15px
         position: relative
-        .content
+        &.edit_row
+          textarea
+            border: 1px solid $color_border
+            font-size: 13px
+            min-height: 52px
+            padding: 5px 10px
+            position: relative
+            width: 100%
+        .content, .nested_content
           font-size: 13px
           line-height: 20px
           position: relative
           width: 520px
+          .comment_reply
+            border: 1px solid $color_border
+            font-size: 13px
+            min-height: 52px
+            margin-top: 5px
+            padding: 5px 10px
+            position: relative
+            width: 520px
           .delete
             cursor: pointer
             position: absolute
@@ -802,56 +840,120 @@
                 &:before
                   color: $color_pink
           .edit_container
-            border-radius: 5px
+            @include border-radius(5px)
             background-color: #FFFFFF
             border: 1px solid $color_border
             cursor: default !important
-            font-size: 12px !important
+            font-size: 11px !important
+            padding: 0
             position: absolute
-            top: 0
-            right: 0
-            padding: 7px 10px
-            width: 190px
-            span
-              color: $color_text_dark
-              display: inline-block
-              padding-top: 3px
-            a
-              color: $color_text_dark 
-              cursor: pointer
-              display: inline-block
-              text-decoration: none
-              margin-left: 5px
-              &.delete_btn
-                color: $color_pink !important
-              &:hover
-                color: $color_text_dark
-                text-decoration: underline
+            overflow: hidden
+            top: -10px
+            right: -5px
+            ul
+              margin: 0
+              padding: 0
+              a
+                color: $color_text_light
+                text-decoration: none
+                &:hover
+                  color: #FFFFFF
+                li
+                  background-color: #FFFFFF
+                  border-right: 1px solid $color_border
+                  display: inline-block
+                  padding: 5px 10px
+                  text-align: left
+                  &.last
+                    border-right: none
+                    background-color: $color-border
+                    &:hover
+                      background-color: $color_pink
+                  &:hover
+                    background-color: $color_blue
+
           .profile_name
             color: $color_blue
             font-weight: 600
+            margin-top: -4px
           .post_date
             color: #CCCCCC
-            display: none
-            font-size: 12px
+            font-size: 11px
             line-height: 100%
             margin-top: 5px
+          .reply_comment
+            font-size: 11px
+            a
+              color: $color_text_light
         &:hover
           .delete
             display: block
+
+      /* Nested Comments */
+
+      .nested_row
+        padding-left: 80px
+        .nested_content
+          width: 454px
+
+      /* Reply Container */
+
       .reply_container
         padding: 0 15px 15px 15px
+        @media screen and (min-width: 992px)
+          .reply_input, .Highlighter
+            width: 520px !important
         .reply_input
           border: 1px solid $color_border
           font-size: 13px
           min-height: 52px
-          margin-right: 15px
           padding: 5px 10px
           position: relative
-          width: 445px
-        .reply
+        .Highlighter
+          background: transparent
+          color: transparent
+          right: 0
+          position: absolute
+          border: 1px solid #d7d7d7
           font-size: 13px
-          font-weight: 400
+          min-height: 52px
+          padding: 5px 10px
+          b
+            box-shadow: 0 0 0 1px #a5c6ea inset
+            font-weight: normal
+            color: transparent
+            background: #d9eaff
+            border-radius: 3px
+        .comment_section
+          float: right
+          background: white
+          position: relative
+        .transparent
+          background: transparent
+        .mentioner
+          margin-top: 0
+          width: 520px
+          background: white
+          float: right
+          ul
+            margin: 0
+            li.list-group-item
+              @include border-radius (0)
+              background-color: $color_gray_back
+              border-top: 1px solid #FFFFFF
+              border-left: 1px solid $color_border
+              border-bottom: 1px solid $color_border
+              border-right: 1px solid $color_border
+              padding: 5px
+              &:last-child
+                border-radius: 0 0 5px 5px
+              &:first-child
+                border-top: none
+              img
+                background-color: #FFFFFF
+              .mention_name
+                font-size: 11px
+                margin: 7px 0 0 5px
 
 /* Visitor View */
 
@@ -900,3 +1002,144 @@
       color: $color_text_light
       &:hover
         color: $color_text_dark
+
+/* Tablet */
+
+@media screen and (max-width: 991px)
+  #header
+    .photo_cover
+      height: 208px
+    .photo_profile
+      top: 13px
+    .benefits_container
+      ul
+        font-size: 12px
+        -webkit-text-size-adjust: none
+        li
+          font-size: 12px
+          -webkit-text-size-adjust: none
+    .details_container
+      .subscribe_cont
+        font-size: 30px
+        .cost_visitor, .cost_owner
+          .amount
+            height: 47px
+          .fa
+            height: 47px
+            width: 40px
+            padding-top: 9px
+            &:before
+              font-size: 20px
+        .cost_owner
+          .fa-gear
+            width: 30px
+            &:before
+              padding-right: 0
+        .subscribe, .subscribed
+          height: 47px !important
+          font-size: 24px !important
+          padding-top: 5px !important
+          width: 203px !important
+  #create_post_nav
+    li
+      font-size: 14px
+      padding: 15px 19px
+  #create_post
+    #post
+      .error
+        padding-bottom: 5px
+      .status_btn
+        width: 100%
+    #uploading
+      .file_status
+        width: 718px
+        margin: 20px 0 0 0
+      .upload_details
+        .detail_field
+          margin-bottom: 15px
+  #subscriber_display
+    .sidebar
+      .share_url
+        .heading
+          font-size: 16px
+          padding-left: 50px
+        span
+          font-size: 11px
+        .fa-share-square-o
+          &:before
+            font-size: 40px
+      .archive_cloud
+        display: none
+      .contact
+        ul
+          columns: 1
+          -webkit-columns: 1
+          -moz-columns: 1
+          li
+            display: block
+            margin-right: 15px
+    .recent_posts
+      .comment_container
+        .comment_row
+          .content
+            width: 371px
+            .comment_reply
+              width: 371px
+            .comment_text
+              font-size: 12px
+              line-height: 18px
+        .nested_row
+          .nested_content
+            width: 306px
+            .comment_text
+              font-size: 12px
+              line-height: 18px
+        .reply_container
+          .reply_input
+            width: 371px !important
+          .Highlighter
+            width: 371px !important
+          .mentioner
+            width: 371px !important
+      .post
+        .post_title
+          width: 435px
+        .file_name
+          width: 300px !important
+        .video_player
+          margin: 0 auto
+          margin-top: 10px
+          height: 243px
+          width: 440px
+          .jwplayer
+            height: 243px !important
+            width: 438px !important
+        .audio_player
+          .jwplayer
+            width: 438px !important
+        ul.photo_view
+          li
+            width: 440px !important
+            img
+              width: 438px !important
+  #visitor
+    margin-bottom: 20px
+    .title
+      font-size: 24px
+    .tagline
+      font-size: 13px
+    .sub_heading
+      font-size: 14px
+    ul
+      li
+        font-size: 12px
+    .already_user
+      font-size: 12px
+
+
+
+.comment_text
+  b
+    border: 1px solid #a5c6ea
+    background: #d9eaff
+    border-radius: 3px

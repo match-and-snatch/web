@@ -16,12 +16,15 @@ BuddyPlatform::Application.routes.draw do
       put :update_cc_data
       put :create_profile_page
       put :delete_profile_page
+      put :update_account_picture
     end
   end
 
-  resources :comments, only: [:destroy]
+  resources :comments, only: [:edit, :update, :destroy] do
+    resources :replies, only: [:create, :edit, :update]
+  end
 
-  resources :posts, only: [:destroy] do
+  resources :posts, only: [:destroy, :show] do
     resources :comments, only: [:create, :index]
     resources :likes, only: :create
   end
@@ -43,10 +46,15 @@ BuddyPlatform::Application.routes.draw do
   end
 
   resource :session
+  resource :sitemap, only: :show
 
   resources :subscribers, only: [:index, :destroy]
-  resources :subscriptions, only: [:index, :create, :destroy]
-  resources :audios, only: [:create, :destroy]
+  resources :subscriptions, only: [:index, :create, :destroy] do
+    member do
+      get :cancel
+    end
+  end
+  resources :audios, only: [:show, :create, :destroy]
   resources :videos, only: [:create, :destroy]
   resources :photos, only: [:create, :destroy]
   resources :documents, only: [:create, :destroy]
@@ -75,6 +83,7 @@ BuddyPlatform::Application.routes.draw do
         post :via_update_cc_data
       end
     end
+    resource :rss_feed, only: :show, defaults: {format: :atom}
   end
 
   resources :profile_types, only: [:index, :create, :destroy]
@@ -83,6 +92,10 @@ BuddyPlatform::Application.routes.draw do
     resources :payments, only: :index
     resources :staffs, only: :index
     resources :profiles, only: [:index, :new] do
+      collection do
+        get :profile_owners
+      end
+
       member do
         put :make_public
         put :make_private
@@ -126,6 +139,7 @@ BuddyPlatform::Application.routes.draw do
   get '/privacy_policy' => 'pages#privacy_policy', as: :privacy_policy
   get '/faq' => 'pages#faq', as: :faq
   get '/sampleprofile' => 'pages#sampleprofile', as: :sampleprofile
+  get '/mentions' => 'users#mentions', as: :mentions
 
   if Rails.env.development?
     get 'mockups/*mockup' => 'mockups#show'

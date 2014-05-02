@@ -87,7 +87,7 @@ class AuthenticationManager < BaseManager
   end
 
   def user
-    @user ||= User.where(email: email).first || User.new(email: email)
+    @user ||= User.where(['email ILIKE ?', email]).first || User.new(email: email)
   end
 
   def validate_input

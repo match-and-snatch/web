@@ -1,9 +1,14 @@
 class UploadsController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-  before_filter :authenticate!
-  before_filter :load_upload, only: :destroy
+  before_filter :authenticate!, except: [:show]
+  before_filter :load_upload, only: [:show, :destroy]
+
   protect(:destroy) { can? :manage, @upload }
+
+  def show
+    @post = @upload.uploadable or error(404)
+  end
 
   def create
     raise NotImplementedError

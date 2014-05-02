@@ -3,12 +3,13 @@ meta name='description' content="Welcome to the World's #1 Most Popular Content 
 
 = content_for :head
 
+link rel="icon" type="image/x-icon" href="https://connectpal-assets.s3.amazonaws.com/images/favicon.ico"
 link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"
 = stylesheet_link_tag '//fonts.googleapis.com/css?family=Open+Sans:300,400,600|Dosis:400,600,700'
 = stylesheet_link_tag 'application', media: 'all'
 
 <!--[if lt IE 9]>
-  link rel="stylesheet" type="text/css" href="/assets/ie8-and-down.css"
+  link rel="stylesheet" type="text/css" href="/assets/ie.css"
 <![endif]-->
 
 - if Rails.application.config.assets.use_cdn
@@ -20,8 +21,8 @@ link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" re
 
 = javascript_include_tag 'application'
 <!--[if IE]>
-script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js'
-script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.js'
+  script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js'
+  script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.js'
 <![endif]-->
 = csrf_meta_tags
 

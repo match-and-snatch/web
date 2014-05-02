@@ -130,4 +130,65 @@ describe AccountInfosController do
       its(:status) { should == 200 }
     end
   end
+
+  describe 'GET #details' do
+    subject(:perform_request) { get 'details' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      before { perform_request }
+      it{ expect(assigns(:user)).to be_a_kind_of(UserStatsDecorator) }
+      its(:status) { should == 200 }
+    end
+  end
+
+  describe 'GET #show' do
+    let(:user){ create_user }
+    subject(:perform_request) { get 'show' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in user }
+      before { perform_request }
+
+      it { expect(assigns('user')).to eq user }
+      its(:status) { should == 200 }
+    end
+  end
+
+  describe 'PUT #update_account_picture' do
+    subject { put 'update_account_picture', profile_picture_data_params }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /replace/ }
+    end
+  end
+
+  describe 'PUT #update_slug' do
+    subject { put 'update_slug', slug: 'anotherSlug' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /notice/ }
+      its(:body) { should match_regex /reload/ }
+    end
+  end
 end

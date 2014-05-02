@@ -1,13 +1,15 @@
 li.my_sub
-  a href=account_info_path(anchor: subscriptions_path)
-    i.fa.fa-plus-square My Subscriptions
+  i.fa.fa-plus-square.my_sub_parent My Subscriptions
 
   /* My Sub Container */
 
   ul.my_sub_cont
     - current_user.idols.each do |user|
-      li
-        a.row href=profile_path(user)
-          img.picture.pull-left src=user.small_profile_picture_url
-          .name.pull-left= user.full_name
-        .clearfix
+	  a href=profile_path(user)
+	    li
+	      .picture
+            img src=user.small_profile_picture_url
+	      .details
+		    .name= user.full_name
+		    /.type Profile Type
+	      .clearfix

@@ -1,10 +1,15 @@
 class UsersController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-  before_filter :authenticate!, except: %i(index create show)
+  before_filter :authenticate!, except: %i(index mentions create show)
 
   def index
     @users = User.profile_owners.with_complete_profile.search_by_full_name(params[:q]).limit(10)
+    json_replace
+  end
+
+  def mentions
+    @users = User.where.not(id: current_user.id).search_by_full_name(params[:q]).limit(5)
     json_replace
   end
 
@@ -45,7 +50,13 @@ class UsersController < ApplicationController
   end
 
   def update_cost
-    UserProfileManager.new(current_user.object).update_cost(params[:cost])
+    manager = UserProfileManager.new(current_user.object)
+    manager.update_cost(params[:cost])
+
+    if manager.unable_to_change_cost?
+      notice(:unable_to_change_cost)
+    end
+
     json_reload
   end
 

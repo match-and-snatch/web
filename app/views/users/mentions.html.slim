@@ -1,0 +1,9 @@
+- if @users.any?
+  ul.list-group
+    - @users.each do |user|
+      li.list-group-item.Mention data-name=user.name data-id=user.id
+        .pull-left
+          img src=user.small_profile_picture_url width=30 height=30
+        .pull-left.mention_name
+          = user.name
+        .clearfix

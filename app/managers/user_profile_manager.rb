@@ -51,7 +51,7 @@ class UserProfileManager < BaseManager
   # @param account_number [String]
   # @return [User]
   def update(cost: nil, profile_name: nil, holder_name: nil, routing_number: nil, account_number: nil)
-    profile_name   = profile_name.try(:strip).to_s
+    profile_name   = profile_name.try(:strip).to_s.squeeze(' ')
     holder_name    = holder_name.to_s.strip
     routing_number = routing_number.to_s.strip
     account_number = account_number.to_s.strip
@@ -61,6 +61,8 @@ class UserProfileManager < BaseManager
         fail_with profile_name: :empty
       elsif profile_name.length > 140
         fail_with profile_name: :too_long
+      else
+        fail_with! profile_name: :taken if (/connect.?pal/i).match(profile_name)
       end
 
       if cost.blank?
@@ -148,8 +150,11 @@ class UserProfileManager < BaseManager
   # @param profile_name [String]
   # @return [User]
   def update_profile_name(profile_name)
-    fail_with! profile_name: :empty if profile_name.blank?
+    profile_name = profile_name.try(:to_s).squeeze(' ')
+
+    fail_with! profile_name: :empty    if profile_name.blank?
     fail_with! profile_name: :too_long if profile_name.length > 140
+    fail_with! profile_name: :taken    if (/connect.?pal/i).match(profile_name)
 
     user.profile_name = profile_name
     user.save or fail_with! user.errors
@@ -162,13 +167,31 @@ class UserProfileManager < BaseManager
     fail_with! cost: :zero if cost.to_f <= 0.0
     fail_with! cost: :reached_maximum if cost.to_f > 9999
 
+    if user.cost_changed_at && user.cost_changed_at.today?
+      fail_with! cost: :already_changed_today
+    end
+
     unless cost.to_s.strip.match ONLY_DIGITS
       fail_with! cost: :not_an_integer
     end
 
-    user.cost = cost
-    user.save or fail_with! user.errors
+    cost = cost.to_f
+
+    if (cost - user.cost) / user.cost > 0.3
+      ProfilesMailer.changed_cost(user).deliver
+      @unable_to_change_cost = true
+    else
+      user.cost = cost
+      user.cost_changed_at = Time.zone.now
+      user.save or fail_with! user.errors
+      @unable_to_change_cost = false
+    end
+
     user
+  end
+
+  def unable_to_change_cost?
+    !!@unable_to_change_cost
   end
 
   # @param contacts_info [Hash]
@@ -279,6 +302,22 @@ class UserProfileManager < BaseManager
 
     user.slug = slug
     user.save or fail_with! user.errors
+    user
+  end
+
+  # @param transloadit_data [Hash]
+  # @return [User]
+  def update_account_picture(transloadit_data)
+    upload = UploadManager.new(user).create_photo(transloadit_data)
+
+    user.account_picture_url = upload.url_on_step('thumb_180x180')
+    user.small_account_picture_url = upload.url_on_step('thumb_50x50')
+    user.original_account_picture_url = upload.url_on_step(':original')
+
+    if user.changes.any?
+      user.save or fail_with! user.errors
+    end
+
     user
   end
 

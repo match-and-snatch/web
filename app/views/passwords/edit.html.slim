@@ -1,20 +1,30 @@
-h2 Change Password
+.container
+  .row.box.general_page
+    .col-md-12
 
-form.Form action=password_path method='post'
-  input type='hidden' name='_method' value='put'
-  input type='hidden' name='token' value=params[:token]
+      h1 Change Password
 
-  .form-group
-    label.pull-left New Password
-    input.form-control.pull-right.password type='password' name='password' value=''
-    .clearfix
-    .error data-field='password'
+      form.Form action=password_path method='post'
+        input type='hidden' name='_method' value='put'
+        input type='hidden' name='token' value=params[:token]
 
-  .form-group
-    label.pull-left Re-type Password
-    input.form-control.pull-right.password type='password' name='password_confirmation' value=''
-    .clearfix
-    .error data-field='password_confirmation'
+        .form-group
+          label.pull-left New Password
+          input.form-control.pull-right.password type='password' name='password' value=''
+          .clearfix
+          .error data-field='password'
 
-  input.btn.pink.pull-right type='submit' value='Change Your Password' style="margin-bottom: 15px"
-  .clearfix
+        .form-group
+          label.pull-left Re-type Password
+          input.form-control.pull-right.password type='password' name='password_confirmation' value=''
+          .clearfix
+          .error data-field='password_confirmation'
+
+        input.btn.pink.pull-right type='submit' value='Change Your Password' style="margin-bottom: 15px"
+        .clearfix
+
+div style='position: fixed; bottom: 0; width: 100%' 
+  = render 'footer'
+
+
+

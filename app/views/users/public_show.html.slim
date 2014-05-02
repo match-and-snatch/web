@@ -15,7 +15,7 @@
 
         /* Profile Name */
         span.profile_name.visitor = @profile.profile_name
-        - if can?(:login_as, @profile.object).inspect
+        - if can? :login_as, @profile.object
           a.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this user
         .clearfix
 
@@ -40,6 +40,9 @@
           /* Subscribe Button */
           a.subscribe.PopupTrigger data-target='subscription' Subscribe
           / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
+
+    / RSS
+    a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
     /* Subscriber Benefits */
 
