@@ -28,6 +28,7 @@ class UploadManager < BaseManager
                          duration:         upload_data['meta']['duration'],
                          mime_type:        upload_data['mime'],
                          filename:         upload_data['name'],
+                         filesize:         upload_data['size'],
                          basename:         upload_data['basename'],
                          url:              original['ssl_url']
       upload.attributes = attributes
@@ -70,6 +71,7 @@ class UploadManager < BaseManager
                          duration:         upload_data['meta']['duration'],
                          mime_type:        upload_data['mime'],
                          filename:         upload_data['name'],
+                         filesize:         upload_data['size'],
                          width:            upload_data['meta']['width'],
                          height:           upload_data['meta']['height'],
                          url:              original['ssl_url']
@@ -96,6 +98,7 @@ class UploadManager < BaseManager
                             duration:         upload_data['meta']['duration'],
                             mime_type:        upload_data['mime'],
                             filename:         upload_data['name'],
+                            filesize:         upload_data['size'],
                             basename:         upload_data['basename'],
                             width:            upload_data['meta']['width'],
                             height:           upload_data['meta']['height'],
@@ -117,6 +120,7 @@ class UploadManager < BaseManager
                        duration: transloadit_data["uploads"][0]["meta"]["duration"],
                        mime_type: transloadit_data["uploads"][0]["mime"],
                        filename: transloadit_data["uploads"][0]['name'],
+                       filesize: transloadit_data["uploads"][0]['size'],
                        basename: transloadit_data["uploads"][0]['basename'],
                        width: transloadit_data["uploads"][0]["meta"]["width"],
                        height: transloadit_data["uploads"][0]["meta"]["height"],
@@ -140,6 +144,7 @@ class UploadManager < BaseManager
                        duration: transloadit_data["uploads"][0]["meta"]["duration"],
                        mime_type: transloadit_data["uploads"][0]["mime"],
                        filename: transloadit_data["uploads"][0]['name'],
+                       filesize: transloadit_data["uploads"][0]['size'],
                        basename: transloadit_data["uploads"][0]['basename'],
                        width: transloadit_data["uploads"][0]["meta"]["width"],
                        height: transloadit_data["uploads"][0]["meta"]["height"],
