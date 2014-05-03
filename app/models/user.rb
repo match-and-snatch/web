@@ -148,6 +148,13 @@ class User < ActiveRecord::Base
     true
   end
 
+  def generate_registration_token
+    begin
+      self.registration_token = SecureRandom.urlsafe_base64
+    end while User.exists?(registration_token: self.registration_token)
+    true
+  end
+
   def generate_password_reset_token!
     self.password_reset_token = SecureRandom.urlsafe_base64
     self.save!

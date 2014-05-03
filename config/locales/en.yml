@@ -17,7 +17,9 @@ en:
     reached_maximum: This is too much
     no_such_email: There is no user registered with this email
     already_changed_today: You are allowed to change it only once a day
+    invalid_token: This token is no longer valid. Please request a new one.
   messages:
+    activated: Congratulations, your account has been activated. You are now ready to use our service.
     congrats: Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!
     password_sent: We sent you an email on <strong>%{email}</strong> with futher steps to restore your password.
     invalid_email_token: Sorry, this link is no longer valid. Please request another one.
@@ -27,6 +29,7 @@ en:
     updated_password: Successfully updated your password.
     unsubscribed: You have been unsubscribed
     unable_to_change_cost: You can't change cost on more than 30% of your current set. We will contact with you soon to confirm the change.
+    invalid_token: This token is no longer valid. Please request a new one.
   feed:
     audios: Just added a new audio file to their profile.
     videos: Just posted a new video to their profile.
