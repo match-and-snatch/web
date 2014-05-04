@@ -25,6 +25,15 @@ html
         .notice_counter data-identifier='notice-counter'
         .fa.fa-times-circle.close.Toggler data-target='notification-bar'
       .RemotePopup.popup.modal-content data-identifier='remote-popup'
+      .ConfirmationPopup.popup.modal-content data-identifier='confirmation-popup'
+        .modal-header
+          i.PopupTrigger.fa.fa-times-circle.close data-target="confirmation-popup"
+          .modal-title.Question Are you sure?
+
+        .modal-body
+          .btn.blue.pull-right.Ok Yes
+          .btn.blue.pull-right.PopupTrigger data-target="confirmation-popup" No
+
       = yield
     #overlay.Overlay
     = render 'search_users_popup'
