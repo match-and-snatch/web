@@ -8,6 +8,6 @@ module Concerns::EmailValidator
   end
 
   def email_taken?(email = nil)
-    User.where(['email ILIKE ?', email]).any?
+    User.by_email(email).where(activated: true).any?
   end
 end

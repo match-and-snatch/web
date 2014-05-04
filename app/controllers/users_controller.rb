@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-  before_filter :authenticate!, except: %i(index mentions create show)
+  before_filter :authenticate!, except: %i(index mentions create show activate)
 
   def index
     @users = User.profile_owners.with_complete_profile.search_by_full_name(params[:q]).limit(10)
@@ -23,6 +23,16 @@ class UsersController < ApplicationController
                                      password_confirmation: params[:password_confirmation]).register
     session_manager.login(user.email, params[:password])
     json_redirect create_profile_path
+  end
+
+  # Approves user's email address
+  def activate
+    AuthenticationManager.new.activate(params[:token])
+    notice(:activated)
+  rescue ManagerError
+    notice(:invalid_token)
+  ensure
+    redirect_to root_path
   end
 
   # Profile page

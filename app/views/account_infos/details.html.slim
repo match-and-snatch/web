@@ -11,8 +11,8 @@
   h2 Subscriber Monthly Growth
 
   - if @user.subscriptions_count > 0
-    .YAxis
-    .graph.Graph data-data=@user.graph_data.to_json Please wait...
+    div style='padding: 15px'
+      .graph.Graph#chart style='padding: 0px' data-data=@user.graph_data.to_json Please wait...
 
   hr
 

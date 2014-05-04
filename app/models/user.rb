@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :source_subscriptions, class_name: 'Subscription', foreign_key: 'target_user_id'
   has_many :uploads, as: :uploadable
+  has_many :source_uploads, class_name: 'Upload'
   has_many :likes
   has_many :source_likes, class_name: 'Like', foreign_key: 'target_user_id'
   has_many :pending_post_uploads, -> { pending.posts }, class_name: 'Upload'
@@ -28,6 +29,7 @@ class User < ActiveRecord::Base
   scope :profile_owners, -> { where(is_profile_owner: true) }
   scope :subscribers, -> { where(is_profile_owner: false) }
   scope :with_complete_profile, -> { where(has_complete_profile: true) }
+  scope :by_email, -> (email) { where(['email ILIKE ?', email]) }
 
   pg_search_scope :search_by_full_name, against: [:full_name, :profile_name],
                                         using: [:tsearch, :dmetaphone, :trigram],
@@ -145,6 +147,13 @@ class User < ActiveRecord::Base
     begin
       self.auth_token = SecureRandom.urlsafe_base64
     end while User.exists?(auth_token: self.auth_token)
+    true
+  end
+
+  def generate_registration_token
+    begin
+      self.registration_token = SecureRandom.urlsafe_base64
+    end while User.exists?(registration_token: self.registration_token)
     true
   end
 

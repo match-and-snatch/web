@@ -12,8 +12,8 @@ class UserStatsDecorator < UserDecorator
     @graph_data ||= [].tap do |result|
       count = nil
       period.each_with_index do |date, day|
-        count ||= events[date]
-        result << {x: date.to_time.to_i, y: count || 0}
+        count = events[date]
+        result << {x: date.to_time.utc.beginning_of_day.to_i, y: count || 0}
       end
     end
   end
@@ -25,11 +25,11 @@ class UserStatsDecorator < UserDecorator
   end
 
   def start_date
-    [Time.zone.now.beginning_of_month.to_date, object.created_at.to_date].max - 1.day
+    [Time.zone.now.to_date - 30.days, SubscriptionDailyCountChangeEvent.order(:created_on).first.try(:created_on), object.created_at.to_date].compact.max - 1.day
   end
 
   def end_date
-    Time.zone.now.to_date + 1.day
+    Time.zone.now.to_date
   end
 
   def events

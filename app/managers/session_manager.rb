@@ -40,6 +40,13 @@ class SessionManager < BaseManager
   def current_user
     if needs_authorization?
       user = User.where(auth_token: @auth_token).first if @auth_token = @session['auth_token']
+
+      if user && !user.activated?
+        if User.by_email(user.email).where(activated: true).any?
+          logout
+          fail_with! 'Your session is invalid'
+        end
+      end
       @current_user = CurrentUserDecorator.new(user)
     end
     @current_user

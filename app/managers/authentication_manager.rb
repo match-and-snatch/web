@@ -25,13 +25,29 @@ class AuthenticationManager < BaseManager
     @full_name             = full_name || "#@first_name #@last_name"
   end
 
+  # @param token [String]
+  # @return [User]
+  def activate(token)
+    user = User.where(registration_token: token).first or fail_with!(:invalid_token)
+    user.activated = true
+    user.save!
+    user
+  end
+
   # @return [User]
   def authenticate
-    fail_with! :email    unless email_taken?(email)
-    fail_with! :password unless user.password_hash == user.generate_password_hash(password)
-    user
-  rescue ManagerError
-    raise AuthenticationError.new(message: t(:invalid_login))
+    _user = nil
+
+    User.by_email(email).find_each do |user|
+      begin
+        _user = User.by_email(email).where(password_hash: user.generate_password_hash(password)).first
+      rescue BCrypt::Errors::InvalidSalt
+        next
+      end
+    end
+
+    _user or raise AuthenticationError.new(message: t(:invalid_login))
+    _user
   end
 
   # @return [User]
@@ -43,6 +59,7 @@ class AuthenticationManager < BaseManager
     user.email = email
     user.set_new_password(password)
     user.generate_auth_token
+    user.generate_registration_token
 
     user.save or fail_with! user.errors
     AuthMailer.registered(user).deliver
@@ -87,7 +104,7 @@ class AuthenticationManager < BaseManager
   end
 
   def user
-    @user ||= User.where(['email ILIKE ?', email]).first || User.new(email: email)
+    @user ||= User.by_email(email).where(activated: true).first || User.new(email: email)
   end
 
   def validate_input

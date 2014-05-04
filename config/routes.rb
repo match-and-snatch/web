@@ -91,6 +91,7 @@ BuddyPlatform::Application.routes.draw do
   namespace :admin do
     resources :payments, only: :index
     resources :staffs, only: :index
+    resources :uploads, only: :index
     resources :profiles, only: [:index, :new] do
       collection do
         get :profile_owners
@@ -140,6 +141,7 @@ BuddyPlatform::Application.routes.draw do
   get '/faq' => 'pages#faq', as: :faq
   get '/sampleprofile' => 'pages#sampleprofile', as: :sampleprofile
   get '/mentions' => 'users#mentions', as: :mentions
+  get '/activate' => 'users#activate', as: :activate
 
   if Rails.env.development?
     get 'mockups/*mockup' => 'mockups#show'

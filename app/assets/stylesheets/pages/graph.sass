@@ -1,0 +1,215 @@
+.rickshaw_graph
+  position: relative
+  svg
+    display: block
+    overflow: hidden
+  .x_tick
+    position: absolute
+    top: 0
+    bottom: 0
+    width: 0px
+    border-left: 1px dotted rgba(0, 0, 0, 0.2)
+    pointer-events: none
+    .title
+      position: absolute
+      font-size: 12px
+      font-family: Arial, sans-serif
+      opacity: 0.5
+      white-space: nowrap
+      margin-left: 3px
+      bottom: 1px
+
+.rickshaw_annotation_timeline
+  height: 1px
+  border-top: 1px solid #e0e0e0
+  margin-top: 10px
+  position: relative
+  .annotation
+    position: absolute
+    height: 6px
+    width: 6px
+    margin-left: -2px
+    top: -3px
+    border-radius: 5px
+    background-color: rgba(0, 0, 0, 0.25)
+
+.rickshaw_graph
+  .annotation_line
+    position: absolute
+    top: 0
+    bottom: -6px
+    width: 0px
+    border-left: 2px solid rgba(0, 0, 0, 0.3)
+    display: none
+    &.active
+      display: block
+  .annotation_range
+    background: rgba(0, 0, 0, 0.1)
+    display: none
+    position: absolute
+    top: 0
+    bottom: -6px
+    &.active
+      display: block
+      &.offscreen
+        display: none
+
+.rickshaw_annotation_timeline .annotation
+  .content
+    background: white
+    color: black
+    opacity: 0.9
+    padding: 5px 5px
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.8)
+    border-radius: 3px
+    position: relative
+    z-index: 20
+    font-size: 12px
+    padding: 6px 8px 8px
+    top: 18px
+    left: -11px
+    width: 160px
+    display: none
+    cursor: pointer
+    &:before
+      content: "\25b2"
+      position: absolute
+      top: -11px
+      color: white
+      text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.8)
+  &.active, &:hover
+    background-color: rgba(0, 0, 0, 0.8)
+    cursor: none
+  .content:hover
+    z-index: 50
+  &.active .content
+    display: block
+  &:hover .content
+    display: block
+    z-index: 50
+
+.rickshaw_graph
+  .y_axis, .x_axis_d3
+    fill: none
+  .y_ticks .tick line, .x_ticks_d3 .tick
+    stroke: rgba(0, 0, 0, 0.16)
+    stroke-width: 2px
+    shape-rendering: crisp-edges
+    pointer-events: none
+  .y_grid .tick, .x_grid_d3 .tick
+    z-index: -1
+    stroke: rgba(0, 0, 0, 0.2)
+    stroke-width: 1px
+    stroke-dasharray: 1 1
+  .y_grid
+    .tick[data-y-value="0"]
+      stroke-dasharray: 1 0
+    path
+      fill: none
+      stroke: none
+  .x_grid_d3 path
+    fill: none
+    stroke: none
+  .y_ticks path, .x_ticks_d3 path
+    fill: none
+    stroke: #808080
+  .y_ticks text, .x_ticks_d3 text
+    opacity: 0.5
+    font-size: 12px
+    pointer-events: none
+  .x_tick.glow .title, .y_ticks.glow text
+    fill: black
+    color: black
+    text-shadow: -1px 1px 0 rgba(255, 255, 255, 0.1), 1px -1px 0 rgba(255, 255, 255, 0.1), 1px 1px 0 rgba(255, 255, 255, 0.1), 0px 1px 0 rgba(255, 255, 255, 0.1), 0px -1px 0 rgba(255, 255, 255, 0.1), 1px 0px 0 rgba(255, 255, 255, 0.1), -1px 0px 0 rgba(255, 255, 255, 0.1), -1px -1px 0 rgba(255, 255, 255, 0.1)
+  .x_tick.inverse .title, .y_ticks.inverse text
+    fill: white
+    color: white
+    text-shadow: -1px 1px 0 rgba(0, 0, 0, 0.8), 1px -1px 0 rgba(0, 0, 0, 0.8), 1px 1px 0 rgba(0, 0, 0, 0.8), 0px 1px 0 rgba(0, 0, 0, 0.8), 0px -1px 0 rgba(0, 0, 0, 0.8), 1px 0px 0 rgba(0, 0, 0, 0.8), -1px 0px 0 rgba(0, 0, 0, 0.8), -1px -1px 0 rgba(0, 0, 0, 0.8)
+  .detail
+    pointer-events: none
+    position: absolute
+    top: 0
+    z-index: 2
+    background: rgba(0, 0, 0, 0.1)
+    bottom: 0
+    width: 1px
+    transition: opacity 0.25s linear
+    -moz-transition: opacity 0.25s linear
+    -o-transition: opacity 0.25s linear
+    -webkit-transition: opacity 0.25s linear
+    &.inactive
+      opacity: 0
+    .item.active
+      opacity: 1
+    .x_label
+      font-family: Arial, sans-serif
+      border-radius: 3px
+      padding: 6px
+      opacity: 0.5
+      border: 1px solid #e0e0e0
+      font-size: 12px
+      position: absolute
+      background: white
+      white-space: nowrap
+      &.left
+        left: 0
+      &.right
+        right: 0
+    .item
+      position: absolute
+      z-index: 2
+      border-radius: 3px
+      padding: 0.25em
+      font-size: 12px
+      font-family: Arial, sans-serif
+      opacity: 0
+      background: rgba(0, 0, 0, 0.4)
+      color: white
+      border: 1px solid rgba(0, 0, 0, 0.4)
+      margin-left: 1em
+      margin-right: 1em
+      margin-top: -1em
+      white-space: nowrap
+      &.left
+        left: 0
+      &.right
+        right: 0
+      &.active
+        opacity: 1
+        background: rgba(0, 0, 0, 0.8)
+      &:after
+        position: absolute
+        display: block
+        width: 0
+        height: 0
+        content: ""
+        border: 5px solid transparent
+      &.left:after
+        top: 1em
+        left: -5px
+        margin-top: -5px
+        border-right-color: rgba(0, 0, 0, 0.8)
+        border-left-width: 0
+      &.right:after
+        top: 1em
+        right: -5px
+        margin-top: -5px
+        border-left-color: rgba(0, 0, 0, 0.8)
+        border-right-width: 0
+    .dot
+      width: 4px
+      height: 4px
+      margin-left: -3px
+      margin-top: -3.5px
+      border-radius: 5px
+      position: absolute
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.6)
+      box-sizing: content-box
+      -moz-box-sizing: content-box
+      background: white
+      border-width: 2px
+      border-style: solid
+      display: none
+      background-clip: padding-box
+      &.active
+        display: block

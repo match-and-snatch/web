@@ -1,0 +1,22 @@
+h2 Uploads stats
+
+p
+  | Uploaded total:
+  b  #{number_to_human_size(@total_uploaded)}
+
+- if @users.any?
+  table.table
+    tr.active
+      th Name
+      th Uploaded bytes
+      th
+
+    - @users.each do |user|
+      tr
+        td= link_to_user(user)
+        td= number_to_human_size(user.uploaded_bytes)
+        td
+          - if can? :login_as, user
+            a.AjaxFormLink href=login_as_admin_user_path(user.id) data-_method='post' Login as this user
+- else
+  strong No uploads so far
