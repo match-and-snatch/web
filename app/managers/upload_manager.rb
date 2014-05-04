@@ -6,6 +6,12 @@ class UploadManager < BaseManager
     @user = user
   end
 
+  def reorder(ids)
+    ids.each_with_index do |id, index|
+      user.source_uploads.where(id: id).update_all(ordering: index)
+    end
+  end
+
   # @param transloadit_data [Hash]
   # @return [Array<Upload>]
   def create_pending_audios(transloadit_data)

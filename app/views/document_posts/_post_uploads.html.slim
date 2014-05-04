@@ -1,5 +1,5 @@
 ul
-  - post.uploads.each do |upload|
+  - post.uploads.ordered.each do |upload|
     li
       a.doc_view href=upload.url target='_blank'
         i.fa.fa-paperclip.icon.pull-left

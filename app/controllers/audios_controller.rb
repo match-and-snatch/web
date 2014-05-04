@@ -9,4 +9,9 @@ class AudiosController < UploadsController
     super
     json_render html: render_to_string(partial: 'audio_posts/pending_uploads')
   end
+
+  def reorder
+    manager.reorder(params[:ids])
+    json_success
+  end
 end

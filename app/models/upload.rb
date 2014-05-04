@@ -8,6 +8,7 @@ class Upload < ActiveRecord::Base
   scope :audios,    -> { where type: 'Audio' }
   scope :videos,    -> { where type: 'Video' }
   scope :documents, -> { where type: 'Document' }
+  scope :ordered,   -> { order('ordering, id') }
 
   # @param step_name [String, Symbol] See transloadit.yml
   # @return [String, nil]
