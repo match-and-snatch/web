@@ -32,8 +32,12 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         @$container.find('.select_file_container').addClass('hidden')
         $('#uploading > .file_status').removeClass('hidden')
         bud.pub('attachment.uploading')
-      onError: (error) ->
+      onError: (error) =>
         console.log(error) if console
+        $('#uploading > .file_status').addClass('hidden')
+        @change_progress '0%'
+        bud.pub('attachment.uploaded')
+        @$container.find('.select_file_container').removeClass('hidden')
         alert('Sorry, but file you are trying to upload is invalid')
     )
 
