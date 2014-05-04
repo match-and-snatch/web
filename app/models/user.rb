@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   scope :profile_owners, -> { where(is_profile_owner: true) }
   scope :subscribers, -> { where(is_profile_owner: false) }
   scope :with_complete_profile, -> { where(has_complete_profile: true) }
+  scope :by_email, -> (email) { where(['email ILIKE ?', email]) }
 
   pg_search_scope :search_by_full_name, against: [:full_name, :profile_name],
                                         using: [:tsearch, :dmetaphone, :trigram],

@@ -42,7 +42,7 @@ class SessionManager < BaseManager
       user = User.where(auth_token: @auth_token).first if @auth_token = @session['auth_token']
 
       if user && !user.activated?
-        if User.where(email: user.email, activated: true).any?
+        if User.by_email(user.email).where(activated: true).any?
           logout
           fail_with! 'Your session is invalid'
         end
