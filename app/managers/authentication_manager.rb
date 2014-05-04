@@ -38,9 +38,9 @@ class AuthenticationManager < BaseManager
   def authenticate
     _user = nil
 
-    User.where(email: email).find_each do |user|
+    User.by_email(email).find_each do |user|
       begin
-        _user = User.where(email: email, password_hash: user.generate_password_hash(password)).first
+        _user = User.by_email(email).where(password_hash: user.generate_password_hash(password)).first
       rescue BCrypt::Errors::InvalidSalt
         next
       end
@@ -104,7 +104,7 @@ class AuthenticationManager < BaseManager
   end
 
   def user
-    @user ||= User.where(['email ILIKE ?', email]).where(activated: true).first || User.new(email: email)
+    @user ||= User.by_email(email).where(activated: true).first || User.new(email: email)
   end
 
   def validate_input
