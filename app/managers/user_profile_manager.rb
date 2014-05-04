@@ -177,7 +177,7 @@ class UserProfileManager < BaseManager
 
     cost = cost.to_f
 
-    if (cost - user.cost) / user.cost > 0.3
+    if (cost - user.cost) > 3
       ProfilesMailer.changed_cost(user).deliver
       @unable_to_change_cost = true
     else
