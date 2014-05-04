@@ -57,7 +57,7 @@ class bud.widgets.Sorter extends bud.Widget
   on_mouse_move: (e) =>
     if @dragging
       @$target.offset(top: e.pageY, left: e.pageX)
-      @highlight_nearest_cell(e.pageX, e.pageY + 20)
+      @highlight_nearest_cell(e.pageX, e.pageY + @$target.height())
 
   cells: ->
     @$container.children('.Cell')
