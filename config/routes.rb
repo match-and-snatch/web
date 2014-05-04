@@ -91,6 +91,7 @@ BuddyPlatform::Application.routes.draw do
   namespace :admin do
     resources :payments, only: :index
     resources :staffs, only: :index
+    resources :uploads, only: :index
     resources :profiles, only: [:index, :new] do
       collection do
         get :profile_owners

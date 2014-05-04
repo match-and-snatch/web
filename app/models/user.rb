@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :source_subscriptions, class_name: 'Subscription', foreign_key: 'target_user_id'
   has_many :uploads, as: :uploadable
+  has_many :source_uploads, class_name: 'Upload'
   has_many :likes
   has_many :source_likes, class_name: 'Like', foreign_key: 'target_user_id'
   has_many :pending_post_uploads, -> { pending.posts }, class_name: 'Upload'

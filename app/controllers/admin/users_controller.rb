@@ -8,7 +8,7 @@ class Admin::UsersController < Admin::BaseController
 
   def login_as
     session_manager.login_as(current_user.object, @user)
-    json_reload
+    json_redirect profile_path(@user)
   end
 
   def make_admin
