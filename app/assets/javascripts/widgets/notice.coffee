@@ -44,4 +44,7 @@ class bud.widgets.Notice extends bud.Widget
     @$container.css('display', 'none')
     @$container.stop(true, true).fadeIn({queue: false}).css('display', 'none').slideDown()
 
-    @start()
+    if @$target.find('a').length > 0
+      @$counter.html('')
+    else
+      @start()
