@@ -20,12 +20,6 @@ $nav_height: 45px
 
 /* General */
 
-.notice_button
-  border-radius: 5px
-  padding: 2px 5px 2px 5px
-  border: 1px solid #F7D859
-  margin: 0 3px 0 3px
-
 html
   max-height: 1000000px
 
@@ -38,7 +32,7 @@ body
   font-family: 'Dosis', 'Open Sans', Arial !important
 
 a
-  color: $color_blue
+  color: $color_pink
   text-decoration: underline
   &:hover
     color: $color_text_dark
@@ -82,6 +76,13 @@ input
 
 #content
   margin-top: $nav_height
+  .notice_button
+    @include pink-area
+    border-radius: 5px
+    color: #FFFFFF
+    font-size: 13px
+    padding: 5px 10px
+    text-decoration: none
 
 .container 
   max-width: 970px
@@ -122,6 +123,7 @@ textarea
 .btn
   @include border-radius($border_radius)
   color: #FFFFFF
+  text-decoration: none
   &.black
     @include black-area
   &.blue
