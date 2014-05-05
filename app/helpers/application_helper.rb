@@ -13,6 +13,17 @@ module ApplicationHelper
     end
   end
 
+  def checker_tag(object, field_name, resource_name)
+    data = {}
+    data[:checked_url]   = polymorphic_path(["enable_#{field_name}", resource_name])
+    data[:unchecked_url] = polymorphic_path(["disable_#{field_name}", resource_name])
+
+    html_options = {id: "#{field_name}_checker", data: data, class: 'form-control Checker', type: 'checkbox'}
+    html_options['checked'] = 'checked' if object["#{field_name}_enabled"]
+
+    tag :input, html_options
+  end
+
   # @return [String]
   def current_profile_path
     profile_path(current_user.object)
