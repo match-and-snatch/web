@@ -392,6 +392,6 @@
       span class='st_twitter_large' displayText='Tweet'
       span class='st_googleplus_large' displayText='Google +'
       span class='st_pinterest_large' displayText='Pinterest'
-      a.email_share href='mailto:?subject=PROFILE NAME on ConnectPal&body=FullName shared a profile with you on ConnectPal.com%0D%0A%0D%0ACheck it out here (url).%0D%0A%0D%0AThank You.'
+      = mail_to '', {subject: "#{@profile.name} on ConnectPal", body: "#{@profile.full_name} shared a profile with you on Connectpal.com\nCheck it out here #{profile_url(@profile.object)}\n\nThank You."} do
         img src=image_path('https://connectpal-assets.s3.amazonaws.com/images/email_32.png')
       .clearfix
