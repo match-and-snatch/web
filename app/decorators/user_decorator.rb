@@ -25,4 +25,8 @@ class UserDecorator < BaseDecorator
   def types
     @types ||= object.profile_types.pluck(:title).join('&nbsp;/&nbsp;').html_safe
   end
+
+  def types_text
+    types.blank? ? 'Add Profile Type' : types
+  end
 end

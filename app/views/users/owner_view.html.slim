@@ -21,7 +21,7 @@
         .profile_type
           i.fa.fa-gear.PopupTrigger data-target='type-editor'
           span Add Profile Type
-          span= @profile.types
+          span= @profile.types_text
 
       .col-md-5.col-sm-5.col-xs-5
 
@@ -257,7 +257,6 @@
       /* PLEASE FIX THIS AREA */
 
       form.Form action=update_name_user_path(@profile.object) method='post'
-
         input.AutocompleteField.form-control data-url=profile_types_path data-target='profile-types' type='text' placeholder='Band, Photographer, Organization, etc.'
         .error data-field='profile_type'
         div data-identifier='profile-types' style="padding-top: 10px"
