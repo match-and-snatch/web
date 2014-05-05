@@ -29,4 +29,8 @@ class UserDecorator < BaseDecorator
   def types_text
     types.blank? ? 'Add Profile Type' : types
   end
+
+  def to_param
+    object.slug
+  end
 end
