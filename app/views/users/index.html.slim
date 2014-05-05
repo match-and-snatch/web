@@ -6,11 +6,11 @@
       |"
     ul.list-group
       - @users.each do |user|
-        li.list-group-item
-          a href=profile_path(user.slug)
+        a href=profile_path(user.slug)
+          li.list-group-item          
             .pull-left
               img src=user.small_profile_picture_url width=50 height=50
-            .pull-left= super_highlight(user.profile_name)
+            .pull-left style='padding-top: 15px'= super_highlight(user.profile_name)
             - if current_user == user
               small.pull-right.text-muted You
             .clearfix

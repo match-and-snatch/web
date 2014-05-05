@@ -20,7 +20,6 @@
         /* Profile Type */
         .profile_type
           i.fa.fa-gear.PopupTrigger data-target='type-editor'
-          span Add Profile Type
           span= @profile.types_text
 
       .col-md-5.col-sm-5.col-xs-5
@@ -392,6 +391,7 @@
       span class='st_twitter_large' displayText='Tweet'
       span class='st_googleplus_large' displayText='Google +'
       span class='st_pinterest_large' displayText='Pinterest'
-      = mail_to '', {subject: "#{@profile.name} on ConnectPal", body: "#{@profile.full_name} shared a profile with you on Connectpal.com\nCheck it out here #{profile_url(@profile.object)}\n\nThank You."} do
-        img src=image_path('https://connectpal-assets.s3.amazonaws.com/images/email_32.png')
+      .email_share
+        = mail_to '', {subject: "#{@profile.name} on ConnectPal", body: "#{@profile.full_name} shared a profile with you on Connectpal.com\nCheck it out here #{profile_url(@profile.object)}\n\nThank You."} do
+          img src=image_path('https://connectpal-assets.s3.amazonaws.com/images/email_32.png')
       .clearfix

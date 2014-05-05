@@ -80,7 +80,7 @@ input
     @include pink-area
     border-radius: 5px
     color: #FFFFFF
-    font-size: 13px
+    font-size: 20px
     padding: 5px 10px
     text-decoration: none
 
@@ -264,6 +264,7 @@ nav
           a
             margin: 0 !important
             padding: 0 !important
+            text-decoration: none
             &:hover
               text-decoration: none
             li
@@ -302,11 +303,11 @@ nav
                   color: $color_text_light
                   font-size: 11px
                   padding: 0
+                  text-decoration: none
               &:hover
                 background-color: $color_pink
                 .name, .type
-                  color: #FFFFFF
-                  text-decoration: none
+                  color: #FFFFFF 
                 .type
                   color: #9e1528
         &:hover
@@ -425,13 +426,10 @@ footer
   .modal-body
     display: block
     padding: 5px 20px 0
-    
-    a.email_share
+    .email_share
       display: inline-block
       img
         margin: -25px 0 0 3px
-
-
     .mobile_message
       display: none
     .form-group
@@ -667,11 +665,16 @@ footer
       .list-group
         margin-bottom: 0
         .list-group-item
+          @include border-radius (0)
+          color: $color_text_dark
           border-top: 1px solid $color_border !important
           padding: 10px 15px !important
           width: 348px
+          img 
+            background-color: #FFFFFF
           &:hover
-            background-color: $color_background
+            background-color: $color_pink
+            color: #FFFFFF
 
   /* Footer Area */
 
