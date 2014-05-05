@@ -28,12 +28,6 @@ class ProfileDecorator < UserDecorator
     'pending' if object.contacts_info[whatever].blank?
   end
 
-  # Returns profile types string
-  # @return [String]
-  def types
-    @types ||= object.profile_types.pluck(:title).join('&nbsp;/&nbsp;').html_safe
-  end
-
   # @return [Integer, Float]
   def subscription_cost
     @subscription_cost ||= begin

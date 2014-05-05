@@ -19,4 +19,10 @@ class UserDecorator < BaseDecorator
   def initialize(object)
     @object = object
   end
+
+  # Returns profile types string
+  # @return [String]
+  def types
+    @types ||= object.profile_types.pluck(:title).join('&nbsp;/&nbsp;').html_safe
+  end
 end
