@@ -3,7 +3,8 @@
     .col-md-11.col-sm-12.col-xs-12
       textarea name='message' placeholder='Keep your subscribers in the know...'
         = pending_post.message
-    .col-md-1.col-sm-12.col-xs-12
+      .clearfix
       .error data-field='message'
+    .col-md-1.col-sm-12.col-xs-12
       input.btn.blue.status_btn.pull-right type='Submit' value='Post'
       .clearfix

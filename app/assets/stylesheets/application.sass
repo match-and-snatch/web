@@ -18,18 +18,6 @@ $nav_height: 45px
 @import "pages/**/*"
 @import "bootstrap"
 
-.dragger
-  color: $color_text_light
-  border-radius: 10px 0 0 10px
-  background: #f0f0f0
-  padding: 2px 10px
-  cursor: move
-
-li.Cell
-  border: 1px solid blue
-  width: 100%
-  height: 25px
-
 /* General */
 
 .notice_button
@@ -37,24 +25,6 @@ li.Cell
   padding: 2px 5px 2px 5px
   border: 1px solid #F7D859
   margin: 0 3px 0 3px
-
-.rss
-  opacity: 0.7
-  color: $color_blue
-  z-index: 100
-  cursor: pointer
-  background: $color_background
-  position: absolute
-  right: -2px
-  top: -2px
-  padding: 5px 10px 5px 10px
-  border-radius: 0 10px 0 10px
-  border-bottom: 1px solid $color_border
-  border-left: 1px solid $color_border
-  &:hover
-    opacity: 1
-    color: $color_pink
-    text-decoration: none
 
 html
   max-height: 1000000px
@@ -68,9 +38,11 @@ body
   font-family: 'Dosis', 'Open Sans', Arial !important
 
 a
-  color: $color_pink
+  color: $color_blue
+  text-decoration: underline
   &:hover
     color: $color_text_dark
+    text-decoration: none
 
 img 
   border: none
@@ -296,9 +268,9 @@ nav
               background-color: $color_background
               border-top: 1px solid $color_border
               display: block
-              min-height: 50px
-              padding: 5px
-              width: 177px
+              min-height: 60px
+              padding: 10px
+              width: 197px
               &:first-child
                 border-top: none !important
                 margin-top: 0
@@ -316,7 +288,7 @@ nav
                   width: 40px
               .details
                 float: left
-                width: 117px
+                width: 127px
                 .name
                   color: $color_text_dark
                   font-size: 12px
@@ -388,6 +360,7 @@ footer
       padding-right: 15px
       a
         color: #FFFFFF
+        text-decoration: none
         &:hover
           color: #FFFFFF
           text-decoration: underline
@@ -450,6 +423,13 @@ footer
   .modal-body
     display: block
     padding: 5px 20px 0
+    
+    a.email_share
+      display: inline-block
+      img
+        margin: -25px 0 0 3px
+
+
     .mobile_message
       display: none
     .form-group
@@ -491,12 +471,13 @@ footer
       color: $color_text_light
       font-size: 12px
     .search_user
-      margin-bottom: 15px
+      margin: 0 15px 15px
+      width: 318px
     .user_list
       .bg-danger
         @include border-radius($border_radius)
         padding: 10px 15px
-        margin-bottom: 15px
+        margin: 0 15px 15px
         font-size: 12px
       .list-group-item-heading
         font-size: 12px
@@ -675,6 +656,21 @@ footer
       p
         text-align: center
 
+    /* Search Results */
+
+    .search_user_results
+      .list-group-item-heading  
+        padding: 0 15px !important
+        margin-bottom: 10px
+      .list-group
+        margin-bottom: 0
+        .list-group-item
+          border-top: 1px solid $color_border !important
+          padding: 10px 15px !important
+          width: 348px
+          &:hover
+            background-color: $color_background
+
   /* Footer Area */
 
   .modal-footer
@@ -705,6 +701,7 @@ footer
         margin-left: 20px
       a
         color: $color_text_light
+        text-decoration: none
         &:hover
           color: $color_text_dark
           background-color: #FFFFFF

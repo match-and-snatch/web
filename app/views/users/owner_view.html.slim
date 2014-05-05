@@ -303,7 +303,7 @@
           .form-group.pull-right style="margin-bottom: 0;"
             input.btn.pink type='submit' value='Update Price'
           .clearfix
-          .error data-field='cost' style="text-align: center; padding-top: 5px"
+        .error data-field='cost' style="text-align: center; padding-top: 5px"
 
       hr
 
@@ -378,7 +378,6 @@
           input.btn.pink.pull-right type='submit' value='Update Benefits'
           .clearfix
 
-
   /* Share popup */
 
   .Popup.popup.modal-content data-identifier='share' style="width: 350px"
@@ -392,5 +391,6 @@
       span class='st_twitter_large' displayText='Tweet'
       span class='st_googleplus_large' displayText='Google +'
       span class='st_pinterest_large' displayText='Pinterest'
-      span class='st_email_large' displayText='Email'
+      a.email_share href='mailto:?subject=PROFILE NAME on ConnectPal&body=FullName shared a profile with you on ConnectPal.com%0D%0A%0D%0ACheck it out here (url).%0D%0A%0D%0AThank You.'
+        img src=image_path('https://connectpal-assets.s3.amazonaws.com/images/email_32.png')
       .clearfix
