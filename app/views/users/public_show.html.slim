@@ -42,8 +42,9 @@
           / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
 
     / RSS
-    - if current_user.can? :see, @profile.object
-      a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
+    - if @profile.rss_enabled?
+      - if current_user.can? :see, @profile.object
+        a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
     /* Subscriber Benefits */
 
