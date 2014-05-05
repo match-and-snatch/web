@@ -18,6 +18,6 @@ class RssFeedsController < ApplicationController
   private
 
   def load_user!
-    @user = User.where(id: params[:user_id]).first or error(404)
+    @user = User.where(id: params[:user_id], rss_enabled: true).first or error(404)
   end
 end

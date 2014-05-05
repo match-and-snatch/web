@@ -400,6 +400,48 @@ class UserProfileManager < BaseManager
     user
   end
 
+  def enable_rss
+    fail_with! 'RSS is already enabled' if @user.rss_enabled?
+    @user.rss_enabled = true
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def disable_rss
+    fail_with! 'RSS is not enabled' unless @user.rss_enabled?
+    @user.rss_enabled = false
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def enable_downloads
+    fail_with! 'Downloads feature is already enabled' if @user.downloads_enabled?
+    @user.downloads_enabled = true
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def disable_downloads
+    fail_with! 'Downloads feature is not enabled' unless @user.downloads_enabled?
+    @user.downloads_enabled = false
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def enable_itunes
+    fail_with! 'iTunes feature is already enabled' if @user.itunes_enabled?
+    @user.itunes_enabled = true
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def disable_itunes
+    fail_with! 'iTunes feature is not enabled' unless @user.itunes_enabled?
+    @user.itunes_enabled = false
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
   private
 
   # @param slug [String]

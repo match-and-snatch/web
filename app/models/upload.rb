@@ -1,6 +1,7 @@
 class Upload < ActiveRecord::Base
   serialize :transloadit_data, Hash
   belongs_to :uploadable, polymorphic: true
+  belongs_to :user
 
   scope :pending,   -> { where uploadable_id: nil }
   scope :posts,     -> { where uploadable_type: 'Post' }

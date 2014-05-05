@@ -17,6 +17,12 @@ BuddyPlatform::Application.routes.draw do
       put :create_profile_page
       put :delete_profile_page
       put :update_account_picture
+      put :enable_rss
+      put :disable_rss
+      put :enable_downloads
+      put :disable_downloads
+      put :enable_itunes
+      put :disable_itunes
     end
   end
 

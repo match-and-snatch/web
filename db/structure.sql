@@ -595,7 +595,10 @@ CREATE TABLE users (
     original_account_picture_url text,
     cost_changed_at timestamp without time zone,
     activated boolean DEFAULT false NOT NULL,
-    registration_token character varying(255)
+    registration_token character varying(255),
+    rss_enabled boolean DEFAULT false NOT NULL,
+    downloads_enabled boolean DEFAULT false NOT NULL,
+    itunes_enabled boolean DEFAULT false NOT NULL
 );
 
 
@@ -954,3 +957,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140503161433');
 INSERT INTO schema_migrations (version) VALUES ('20140503161952');
 
 INSERT INTO schema_migrations (version) VALUES ('20140504180126');
+
+INSERT INTO schema_migrations (version) VALUES ('20140505163806');

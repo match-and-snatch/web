@@ -40,7 +40,8 @@
             .clearfix
 
     / RSS
-    a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
+    - if @profile.rss_enabled?
+      a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
     /* Subscriber Benefits */
 
