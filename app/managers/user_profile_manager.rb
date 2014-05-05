@@ -167,8 +167,10 @@ class UserProfileManager < BaseManager
     fail_with! cost: :zero if cost.to_f <= 0.0
     fail_with! cost: :reached_maximum if cost.to_f > 9999
 
-    if user.cost_changed_at && user.cost_changed_at.today?
-      fail_with! cost: :already_changed_today
+    if user.source_subscriptions.any?
+      if user.cost_changed_at && user.cost_changed_at.today?
+        fail_with! cost: :already_changed_today
+      end
     end
 
     unless cost.to_s.strip.match ONLY_DIGITS
@@ -177,8 +179,8 @@ class UserProfileManager < BaseManager
 
     cost = cost.to_f
 
-    if (cost - user.cost) > 3
-      ProfilesMailer.changed_cost(user).deliver
+    if user.source_subscriptions.any? && (cost - user.cost) > 3
+      ProfilesMailer.changed_cost(user, cost).deliver
       @unable_to_change_cost = true
     else
       user.cost = cost
