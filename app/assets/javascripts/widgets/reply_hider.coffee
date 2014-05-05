@@ -9,4 +9,5 @@ class bud.widgets.ReplyHider extends bud.widgets.Toggler
 
   hide: =>
     @$target.hide()
+    $('.Replier').show()
     @$container.addClass('hides')
