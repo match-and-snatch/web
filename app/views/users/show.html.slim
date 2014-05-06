@@ -21,8 +21,9 @@
 
         /* Profile Name */
         span.profile_name= @profile.profile_name
+        .clearfix
         - if can? :login_as, @profile.object
-          a.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this user
+          a.admin_login.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this User
         .clearfix
 
         /* Profile Type */

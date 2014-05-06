@@ -1,4 +1,4 @@
-div style="color: #ea2e49; font-size: 24px;" #{@user.name}, Welcome to ConnectPal.com
-p style="color: #464646;" Thanks for registering your account! Follow this link to activate your account:&nbsp;
+div style="color: #ea2e49; font-size: 24px; -webkit-text-size-adjust: none;" #{@user.name}, Welcome to ConnectPal.com
+p style="color: #464646; -webkit-text-size-adjust: none;" Thanks for registering your account! Follow this link to activate your account:&nbsp;
 br
 a href=activate_url(token: @user.registration_token) = activate_url(token: @user.registration_token)

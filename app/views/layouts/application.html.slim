@@ -30,9 +30,10 @@ html
           i.PopupTrigger.fa.fa-times-circle.close data-target="confirmation-popup"
           .modal-title.Question Are you sure?
 
-        .modal-body
+        .modal-body style="padding-bottom: 15px;"
+          .btn.blue.pull-right.PopupTrigger style="margin-left: 15px;" data-target="confirmation-popup" No
           .btn.blue.pull-right.Ok Yes
-          .btn.blue.pull-right.PopupTrigger data-target="confirmation-popup" No
+          .clearfix
 
       = yield
     #overlay.Overlay

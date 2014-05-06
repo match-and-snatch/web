@@ -1,12 +1,12 @@
-div style="color: #ea2e49; font-size: 24px;" Congratulations!
-p style="color: #464646; font-size: 14px;"
+div style="color: #ea2e49; font-size: 24px; -webkit-text-size-adjust: none;" Congratulations!
+p style="color: #464646; font-size: 14px; -webkit-text-size-adjust: none;"
   |You have subscribed to&nbsp;
-  a href=profile_url(@owner) style="color: #ea2e49;"= @owner.name
+  a href=profile_url(@owner) style="color: #ea2e49; -webkit-text-size-adjust: none;"= @owner.name
   |&nbsp;
   |on&nbsp;
   b= @subscription.created_at.to_date.to_s(:long)
   |&nbsp;at&nbsp;
-  b style="color: $ea2e49;"= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
+  b style="color: $ea2e49; -webkit-text-size-adjust: none;"= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
   |&nbsp;
   |per month.
-p style="color: #464646; font-size: 14px;" Thank you for subscribing!
+p style="color: #464646; font-size: 14px; -webkit-text-size-adjust: none;" Thank you for subscribing!
