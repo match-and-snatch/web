@@ -32,5 +32,5 @@ BuddyPlatform::Application.configure do
   config.assets.debug = false
 
   config.assets.use_cdn = false
-  config.stripe.api_key = 'sk_test_onN61JMWKmncifVcCx8tsmGA'
+  config.stripe.secret_key = 'sk_test_onN61JMWKmncifVcCx8tsmGA'
 end

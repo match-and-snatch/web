@@ -124,7 +124,7 @@ class SubscriptionManager < BaseManager
       subscription.save or fail_with!(subscription.errors)
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
       SubscribedFeedEvent.create! target_user: target, target: @subscriber
-      SubscriptionsMailer.subscribed(subscription).deliver
+      SubscriptionsMailer.delay.subscribed(subscription)
     end
   end
 
@@ -133,6 +133,6 @@ class SubscriptionManager < BaseManager
     subscription.destroy
     UserStatsManager.new(subscription.target_user).log_subscriptions_count
     UnsubscribedFeedEvent.create! target_user: subscription.target_user, target: @subscriber
-    SubscriptionsMailer.unsubscribed(subscription).deliver
+    SubscriptionsMailer.delay.unsubscribed(subscription)
   end
 end

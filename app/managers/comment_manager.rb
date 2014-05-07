@@ -19,7 +19,7 @@ class CommentManager < BaseManager
     comment.save or fail_with!(comment.errors)
 
     comment.mentioned_users.find_each do |user|
-      PostsMailer.mentioned(comment, user).deliver
+      PostsMailer.delay.mentioned(comment, user)
     end
 
     comment

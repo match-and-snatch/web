@@ -2,6 +2,22 @@ class ApplicationMailer < ActionMailer::Base
   layout 'mail'
   default from: 'Connectpal <noreply@connectpal.com>'
 
+  def self.delay
+    delayer
+  end
+
+  def self.delayer
+    @delayer ||= Delayer.new(self)
+  end
+
+  def self.perform(method_name, *args)
+    public_send(method_name, *delayer.decode_args(args)).deliver
+  end
+
+  def self.queue
+    :mail
+  end
+
   def mail(*args)
     super(*args) do |format|
       format.text(content_transfer_encoding: 'base64') do
