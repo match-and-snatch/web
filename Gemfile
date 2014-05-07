@@ -40,6 +40,7 @@ gem 'foreman', group: :development
 gem 'slim-rails'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'bootstrap-sass'
+gem 'resque', "~> 1.22.0" # background jobs
 
 # Credit cards, billing, charges, payments
 gem 'stripe-rails'
