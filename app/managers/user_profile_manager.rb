@@ -85,7 +85,7 @@ class UserProfileManager < BaseManager
         end
 
         if account_number.match ONLY_DIGITS
-          fail_with account_number: :not_an_account_number unless [6, 8, 12, 15].include?(account_number.try(:length))
+          fail_with account_number: :not_an_account_number unless [6, 7, 8, 9, 10, 11, 12, 13, 14, 15].include?(account_number.try(:length))
         else
           fail_with account_number: :not_an_integer
         end
@@ -133,7 +133,7 @@ class UserProfileManager < BaseManager
       end
 
       if account_number.match ONLY_DIGITS
-        fail_with account_number: :not_an_account_number unless [6, 8, 12, 15].include?(account_number.try(:length))
+        fail_with account_number: :not_an_account_number unless [6, 7, 8, 9, 10, 11, 12, 13, 14, 15].include?(account_number.try(:length))
       else
         fail_with account_number: :not_an_integer
       end
