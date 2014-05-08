@@ -1,7 +1,10 @@
 class Admin::PaymentsController < Admin::BaseController
 
   def index
-    @users = User.joins(:source_payments).select('users.*, SUM(payments.amount) as amount').group('users.id, payments.amount').order('amount DESC')
+    @users = User.joins(:source_payments).
+      select('users.*, SUM(payments.amount) as amount').
+      group('users.id, payments.amount').
+      order('amount DESC')
     json_render
   end
 

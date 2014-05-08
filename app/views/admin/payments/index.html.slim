@@ -4,6 +4,7 @@ h2 Payments by user
   table.table
     th Name
     th Amount
+    th Subscriptions
     th Holder name
     th Routing number
     th Account number
@@ -12,6 +13,7 @@ h2 Payments by user
       tr
         td= link_to_user(user)
         td= super_number_to_currency(user.amount / 100.0)
+        td= user.source_subscriptions.count
         td= user.holder_name
         td= user.routing_number
         td= user.account_number
