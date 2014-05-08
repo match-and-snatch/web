@@ -12,6 +12,7 @@ class Admin::ProfilesController < Admin::BaseController
   end
 
   def new
+    @users = User.where(has_public_profile: true).order(:full_name).limit(200).to_a
     json_render
   end
 

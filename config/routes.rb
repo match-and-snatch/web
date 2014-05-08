@@ -100,7 +100,11 @@ BuddyPlatform::Application.routes.draw do
 
   namespace :admin do
     resources :payments, only: :index
-    resources :staffs, only: :index
+    resources :staffs, only: :index do
+      collection do
+        get :search
+      end
+    end
     resources :uploads, only: :index
     resources :profiles, only: [:index, :new] do
       collection do
@@ -114,6 +118,9 @@ BuddyPlatform::Application.routes.draw do
     end
 
     resources :users, only: :index do
+      collection do
+        get :search
+      end
       member do
         put :make_admin
         put :drop_admin

@@ -2,13 +2,17 @@ class Admin::UsersController < Admin::BaseController
   before_filter :load_user!, only: %i(make_admin drop_admin login_as)
 
   def index
-    @users = Queries::Users.new(user: current_user.object, query: params[:q]).results
+    json_render
+  end
+
+  def search
+    @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_name
     json_replace
   end
 
   def login_as
     session_manager.login_as(current_user.object, @user)
-    json_redirect profile_path(@user)
+    json_redirect @user.has_profile_page? ? profile_path(@user) : account_info_path
   end
 
   def make_admin

@@ -1,4 +1,18 @@
 h2 Public Profiles
+- if @users.any?
+  br
+  ul.list-group
+    - @users.each do |user|
+      li.list-group-item
+        .pull-left
+          span= link_to_user(user)
+        - if user.has_public_profile?
+          button.AjaxFormLink.btn.pink.pull-right data-_method='put' href=make_private_admin_profile_path(user.id) Make profile private
+        - else
+          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=make_public_admin_profile_path(user.id) Make profile public
+        .clearfix
+  .clearfix
+
 p Find profiles and make them public or private
 
 form.Form action=admin_profiles_path method='get' data-target='users'
