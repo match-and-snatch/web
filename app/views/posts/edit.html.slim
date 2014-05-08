@@ -1,0 +1,16 @@
+p edit popup here
+
+form.form.PopupForm action=post_path(@post.id) data-target='post-#{@post.id}' method='post'
+  input type='hidden' name='_method' value='PUT'
+  .col-md-6
+    input.detail_field name='title' placeholder="Post Title" value=@post.title
+    .error data-field='title'
+    .clearfix
+  .col-md-11.col-sm-12.col-xs-12
+    textarea name='message' placeholder='Keep your subscribers in the know...'
+      = @post.message
+    .clearfix
+    .error data-field='message'
+  .form-group
+    input.btn.blue.status_btn.pull-right type='Submit' value='Post'
+    .clearfix

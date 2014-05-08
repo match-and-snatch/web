@@ -30,6 +30,7 @@ en:
     unsubscribed: You have been unsubscribed
     unable_to_change_cost: You can't change cost on more than $3 of your current set. We will contact with you soon to confirm the change.
     invalid_token: This token is no longer valid. Please request a new one.
+    post_updated: The post has been updated
   feed:
     audios: Just added a new audio file to their profile.
     videos: Just posted a new video to their profile.
