@@ -12,6 +12,8 @@ class ApplicationMailer < ActionMailer::Base
 
   def self.perform(method_name, *args)
     public_send(method_name, *delayer.decode_args(args)).deliver
+  rescue Resque::TermException
+    Resque.enqueue(self, method_name, *args)
   end
 
   def self.queue
