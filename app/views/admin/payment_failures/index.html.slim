@@ -11,7 +11,7 @@ h2 Payment Failures
 
     - @failures.each do |failure|
       tr
-        td -
+        td= failure.created_at || '-'
         td= link_to_user failure.user
         td= failure.target.inspect
         td= failure.stripe_charge_data.inspect

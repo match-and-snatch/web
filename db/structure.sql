@@ -245,7 +245,9 @@ CREATE TABLE payment_failures (
     target_type character varying(255),
     exception_data text,
     stripe_charge_data text,
-    description text
+    description text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -959,3 +961,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140503161952');
 INSERT INTO schema_migrations (version) VALUES ('20140504180126');
 
 INSERT INTO schema_migrations (version) VALUES ('20140505163806');
+
+INSERT INTO schema_migrations (version) VALUES ('20140508084847');
