@@ -4,12 +4,12 @@ class UsersController < ApplicationController
   before_filter :authenticate!, except: %i(index mentions create show activate)
 
   def index
-    @users = User.profile_owners.with_complete_profile.search_by_full_name(params[:q]).limit(10)
+    @users = User.profile_owners.with_complete_profile.search_by_text_fields(params[:q]).limit(10)
     json_replace
   end
 
   def mentions
-    @users = User.where.not(id: current_user.id).search_by_full_name(params[:q]).limit(5)
+    @users = User.where.not(id: current_user.id).search_by_text_fields(params[:q]).limit(5)
     json_replace
   end
 

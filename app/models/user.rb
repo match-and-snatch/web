@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   scope :with_complete_profile, -> { where(has_complete_profile: true) }
   scope :by_email, -> (email) { where(['email ILIKE ?', email]) }
 
-  pg_search_scope :search_by_full_name, against: [:full_name, :profile_name],
+  pg_search_scope :search_by_text_fields, against: [:full_name, :profile_name, :profile_types_text],
                                         using: [:tsearch, :dmetaphone, :trigram],
                                         ignoring: :accents
 
