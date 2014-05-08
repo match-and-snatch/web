@@ -10,10 +10,19 @@ module Queries
     end
 
     # @return [Array<ActiveRecord::Base>]
+    def by_name
+      User.search_by_full_name(@query).limit(20).to_a
+    end
+
+    # @return [Array<ActiveRecord::Base>]
     def results
       @results ||= begin
-        User.where(email: emails).limit(200).order(:full_name).to_a
+        User.by_email(emails).limit(200).order(:full_name).to_a
       end
+    end
+
+    def by_email
+      results
     end
 
     def emails

@@ -15,14 +15,15 @@ class bud.widgets.Notice extends bud.Widget
     @$container.mouseleave @start
 
   start: =>
-    @interval = setInterval =>
-      @countdown -= 1
+    unless @has_links()
+      @interval = setInterval =>
+        @countdown -= 1
 
-      if @countdown >= 0
-        @$counter.html(@countdown)
-      else
-        bud.pub('notice.hide')
-    , 1000
+        if @countdown >= 0
+          @$counter.html(@countdown)
+        else
+          bud.pub('notice.hide')
+      , 1000
 
   pause: =>
     clearInterval(@interval) if @interval
@@ -44,4 +45,10 @@ class bud.widgets.Notice extends bud.Widget
     @$container.css('display', 'none')
     @$container.stop(true, true).fadeIn({queue: false}).css('display', 'none').slideDown()
 
-    @start()
+    if @has_links()
+      @$counter.html('')
+    else
+      @start()
+
+  has_links: ->
+    @$target.find('a').length > 0

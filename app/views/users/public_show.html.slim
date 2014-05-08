@@ -15,8 +15,9 @@
 
         /* Profile Name */
         span.profile_name.visitor = @profile.profile_name
+        .clearfix
         - if can? :login_as, @profile.object
-          a.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this user
+          a.admin_login.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this User
         .clearfix
 
         /* Profile Type */
@@ -42,8 +43,9 @@
           / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
 
     / RSS
-    - if current_user.can? :see, @profile.object
-      a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
+    - if @profile.rss_enabled?
+      - if current_user.can? :see, @profile.object
+        a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
     /* Subscriber Benefits */
 

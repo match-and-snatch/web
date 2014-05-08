@@ -1,6 +1,7 @@
 class Upload < ActiveRecord::Base
   serialize :transloadit_data, Hash
   belongs_to :uploadable, polymorphic: true
+  belongs_to :user
 
   scope :pending,   -> { where uploadable_id: nil }
   scope :posts,     -> { where uploadable_type: 'Post' }
@@ -8,6 +9,7 @@ class Upload < ActiveRecord::Base
   scope :audios,    -> { where type: 'Audio' }
   scope :videos,    -> { where type: 'Video' }
   scope :documents, -> { where type: 'Document' }
+  scope :ordered,   -> { order('ordering, id') }
 
   # @param step_name [String, Symbol] See transloadit.yml
   # @return [String, nil]

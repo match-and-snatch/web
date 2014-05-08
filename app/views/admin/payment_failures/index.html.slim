@@ -1,0 +1,21 @@
+h2 Payment Failures
+
+- if @failures.any?
+  table.table
+    th time
+    th user
+    th target
+    th stripe data
+    th exception data
+    th description
+
+    - @failures.each do |failure|
+      tr
+        td= failure.created_at || '-'
+        td= link_to_user failure.user
+        td= failure.target.inspect
+        td= failure.stripe_charge_data.inspect
+        td= failure.exception_data.inspect
+        td= failure.description
+- else
+  p No failures

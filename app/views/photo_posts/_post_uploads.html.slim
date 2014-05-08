@@ -1,6 +1,6 @@
 - if post.uploads.any?
   ul.photo_view
-    - post.uploads.each do |upload|
+    - post.uploads.ordered.each do |upload|
       li.photo
         a href=upload.url target='_blank'
           img src=upload.url

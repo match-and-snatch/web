@@ -5,6 +5,8 @@
     .clearfix
     .col-md-12
       ul.admin_nav
+        a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_users_path
+          li All Users
         a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_staffs_path
           li Staff Members
         a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=profile_owners_admin_profiles_path
@@ -15,6 +17,8 @@
           li Profile Types
         a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_payments_path
           li Money
+        a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_payment_failures_path
+          li Payment Failures
         a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_uploads_path
           li Upload stats
     .clearfix

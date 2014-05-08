@@ -14,7 +14,7 @@ document_filter: &document_filter
   files:
     robot: '/file/filter'
     accepts:
-      - ["${file.name}", "regex", '.+[^\.(exe|bin|dll|js|sh|bash|rb|py)]$']
+      - ["${file.name}", "regex", '^.+\.(doc|docx|rtf|txt|odt|csv|pps|ppt|pptx|indd|pdf|xlr|xls|xlsx)$']
     error_on_decline: true
 
 image_filter: &image_filter

@@ -245,7 +245,9 @@ CREATE TABLE payment_failures (
     target_type character varying(255),
     exception_data text,
     stripe_charge_data text,
-    description text
+    description text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -528,7 +530,8 @@ CREATE TABLE uploads (
     url character varying(255),
     filename text,
     basename text,
-    filesize integer
+    filesize integer,
+    ordering integer DEFAULT 0 NOT NULL
 );
 
 
@@ -594,7 +597,10 @@ CREATE TABLE users (
     original_account_picture_url text,
     cost_changed_at timestamp without time zone,
     activated boolean DEFAULT false NOT NULL,
-    registration_token character varying(255)
+    registration_token character varying(255),
+    rss_enabled boolean DEFAULT false NOT NULL,
+    downloads_enabled boolean DEFAULT false NOT NULL,
+    itunes_enabled boolean DEFAULT false NOT NULL
 );
 
 
@@ -951,3 +957,9 @@ INSERT INTO schema_migrations (version) VALUES ('20140503111909');
 INSERT INTO schema_migrations (version) VALUES ('20140503161433');
 
 INSERT INTO schema_migrations (version) VALUES ('20140503161952');
+
+INSERT INTO schema_migrations (version) VALUES ('20140504180126');
+
+INSERT INTO schema_migrations (version) VALUES ('20140505163806');
+
+INSERT INTO schema_migrations (version) VALUES ('20140508084847');

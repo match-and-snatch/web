@@ -35,6 +35,23 @@
     input.btn.pink.pull-right type='submit' value='Update Profile URL' style="margin-bottom: 15px"
     .clearfix
 
+  .item_block
+    h2 Profile Display Settings
+    p Specify which features will be shown/hidden for users on your profile page.
+    .form-group.profile_display_settings
+      label.pull-left for='rss_checker' Enable RSS
+      = checker_tag(current_user.object, :rss, :account_info)
+      .clearfix
+    .form-group.profile_display_settings
+      label.pull-left for='downloads_checker' Enable Audio Download
+      = checker_tag(current_user.object, :downloads, :account_info)
+      .clearfix
+    .form-group.profile_display_settings
+      label.pull-left for='itunes_checker' Enable iTunes Download
+      = checker_tag(current_user.object, :itunes, :account_info)
+      .clearfix
+
+
   .item_block.hidden
     h2 Vacation Mode
     p You can put your account into vacation mode. This will notify your subscribers about your action and not bill them on their upcoming billing cycle. Please note that existing subscribers will still be able to view your profile.

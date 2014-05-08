@@ -20,30 +20,6 @@ $nav_height: 45px
 
 /* General */
 
-.notice_button
-  border-radius: 5px
-  padding: 2px 5px 2px 5px
-  border: 1px solid #F7D859
-  margin: 0 3px 0 3px
-
-.rss
-  opacity: 0.7
-  color: $color_blue
-  z-index: 100
-  cursor: pointer
-  background: $color_background
-  position: absolute
-  right: -2px
-  top: -2px
-  padding: 5px 10px 5px 10px
-  border-radius: 0 10px 0 10px
-  border-bottom: 1px solid $color_border
-  border-left: 1px solid $color_border
-  &:hover
-    opacity: 1
-    color: $color_pink
-    text-decoration: none
-
 html
   max-height: 1000000px
 
@@ -57,8 +33,10 @@ body
 
 a
   color: $color_pink
+  text-decoration: underline
   &:hover
     color: $color_text_dark
+    text-decoration: none
 
 img 
   border: none
@@ -98,6 +76,13 @@ input
 
 #content
   margin-top: $nav_height
+  .notice_button
+    @include pink-area
+    border-radius: 5px
+    color: #FFFFFF
+    font-size: 20px
+    padding: 5px 10px
+    text-decoration: none
 
 .container 
   max-width: 970px
@@ -138,6 +123,7 @@ textarea
 .btn
   @include border-radius($border_radius)
   color: #FFFFFF
+  text-decoration: none
   &.black
     @include black-area
   &.blue
@@ -278,15 +264,16 @@ nav
           a
             margin: 0 !important
             padding: 0 !important
+            text-decoration: none
             &:hover
               text-decoration: none
             li
               background-color: $color_background
               border-top: 1px solid $color_border
               display: block
-              min-height: 50px
-              padding: 5px
-              width: 177px
+              min-height: 60px
+              padding: 10px
+              width: 197px
               &:first-child
                 border-top: none !important
                 margin-top: 0
@@ -296,15 +283,15 @@ nav
                 background-color: #FFFFFF
                 border: 1px solid $color_border
                 float: left
-                height: 40px
-                width: 40px
+                height: 42px
+                width: 42px
                 margin-right: 10px
                 img
                   height: 40px
                   width: 40px
               .details
                 float: left
-                width: 117px
+                width: 125px
                 .name
                   color: $color_text_dark
                   font-size: 12px
@@ -316,11 +303,11 @@ nav
                   color: $color_text_light
                   font-size: 11px
                   padding: 0
+                  text-decoration: none
               &:hover
                 background-color: $color_pink
                 .name, .type
-                  color: #FFFFFF
-                  text-decoration: none
+                  color: #FFFFFF 
                 .type
                   color: #9e1528
         &:hover
@@ -376,6 +363,7 @@ footer
       padding-right: 15px
       a
         color: #FFFFFF
+        text-decoration: none
         &:hover
           color: #FFFFFF
           text-decoration: underline
@@ -427,6 +415,10 @@ footer
       color: $color_blue
       font-size: 32px
       line-height: 100%
+      &.Question
+        color: $color_text_dark !important
+        font-size: 14px !important
+        padding: 0 15px
     span 
       color: $color_text_light
       display: block
@@ -438,6 +430,10 @@ footer
   .modal-body
     display: block
     padding: 5px 20px 0
+    .email_share
+      display: inline-block
+      img
+        margin: -25px 0 0 3px
     .mobile_message
       display: none
     .form-group
@@ -479,12 +475,13 @@ footer
       color: $color_text_light
       font-size: 12px
     .search_user
-      margin-bottom: 15px
+      margin: 0 15px 15px
+      width: 318px
     .user_list
       .bg-danger
         @include border-radius($border_radius)
         padding: 10px 15px
-        margin-bottom: 15px
+        margin: 0 15px 15px
         font-size: 12px
       .list-group-item-heading
         font-size: 12px
@@ -663,6 +660,26 @@ footer
       p
         text-align: center
 
+    /* Search Results */
+
+    .search_user_results
+      .list-group-item-heading  
+        padding: 0 15px !important
+        margin-bottom: 10px
+      .list-group
+        margin-bottom: 0
+        .list-group-item
+          @include border-radius (0)
+          color: $color_text_dark
+          border-top: 1px solid $color_border !important
+          padding: 10px 15px !important
+          width: 348px
+          img 
+            background-color: #FFFFFF
+          &:hover
+            background-color: $color_pink
+            color: #FFFFFF
+
   /* Footer Area */
 
   .modal-footer
@@ -693,6 +710,7 @@ footer
         margin-left: 20px
       a
         color: $color_text_light
+        text-decoration: none
         &:hover
           color: $color_text_dark
           background-color: #FFFFFF

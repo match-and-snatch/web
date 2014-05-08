@@ -34,6 +34,9 @@ window.bud.clear_html = (container) ->
   bud.Core.destroy_widgets($(container))
   $(container).empty()
 
+window.bud.confirm = (string, callback) ->
+  bud.widgets.ConfirmationPopup.ask(string, callback)
+
 window.bud.get = (identifier) ->
   elem = $("[data-identifier=#{identifier}]")
   if elem.length > 0

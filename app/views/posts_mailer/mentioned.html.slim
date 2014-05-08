@@ -1,11 +1,26 @@
-div style="color: #ea2e49; font-size: 24px;" #{@mentioned_user.name}, you got a new mention
-p style="color: #464646;"
-  a href=profile_url(@mentioner) style="color: #ea2e49;"= @mentioner.name
+div style="color: #ea2e49; font-size: 24px; -webkit-text-size-adjust: none;" #{@mentioned_user.name}, you have a new mention!
+p style="color: #464646; font-size: 14px; -webkit-text-size-adjust: none;"
+  a href=profile_url(@mentioner) style="color: #ea2e49; -webkit-text-size-adjust: none;"= @mentioner.name
   |&nbsp;
-  |mentioned you in the comment on&nbsp;
-  a href=profile_url(@post_user) style="color: #ea2e49;" #{@post_user.name}'s profile page
+  |has mentioned you in the comment on&nbsp;
+  a href=profile_url(@post_user) style="color: #ea2e49; -webkit-text-size-adjust: none;" #{@post_user.name}'s profile page
+  |.
   br
-p
-  - if @post.title
-    | > #{@post.title}
-  | > #{@comment.message}
+
+div style="border-top: 1px dashed #464646; color: #464646; font-size: 14px; -webkit-text-size-adjust: none;"
+	- if @post.title
+		p style="color: #3b9fd1; font-size: 14px; -webkit-text-size-adjust: none; text-align: left;"
+			|Post Title: #{@post.title}
+	table cellspacing="0" cellpadding="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; margin: 0; padding: 0; -webkit-text-size-adjust: none;"
+		tr
+			td colspan="5" height="10px"
+		tr
+			td style="width: 48px; -webkit-text-size-adjust: none;" valign="top"
+				<img src="https://connectpal-assets.s3.amazonaws.com/images/quote-top.png" valign="top" border="0" height="41px" width="48px" style="border: none;" />
+			td width="10px"
+			td width="456px" style="display: block; text-align: left;" 
+				p style="color: #464646; font-size: 14px; width: 456px; -webkit-text-size-adjust: none;"#{@comment.message}
+			td width="10px"	
+			td style="width: 48px; -webkit-text-size-adjust: none;" valign="bottom"
+				<img src="https://connectpal-assets.s3.amazonaws.com/images/quote-bottom.png" valign="top" border="0" height="41px" width="48px" style="border: none;" />
+

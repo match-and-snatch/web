@@ -95,5 +95,5 @@ BuddyPlatform::Application.configure do
 
   # Redirect to www.connectpal.com any invalid request
   config.middleware.use Redirector
-  config.stripe.api_key = 'sk_live_4MV1tr0ikLzw9ZdYO9HbErpH'
+  config.stripe.secret_key = 'sk_live_4MV1tr0ikLzw9ZdYO9HbErpH'
 end

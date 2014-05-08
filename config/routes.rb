@@ -17,6 +17,12 @@ BuddyPlatform::Application.routes.draw do
       put :create_profile_page
       put :delete_profile_page
       put :update_account_picture
+      put :enable_rss
+      put :disable_rss
+      put :enable_downloads
+      put :disable_downloads
+      put :enable_itunes
+      put :disable_itunes
     end
   end
 
@@ -24,7 +30,7 @@ BuddyPlatform::Application.routes.draw do
     resources :replies, only: [:create, :edit, :update]
   end
 
-  resources :posts, only: [:destroy, :show] do
+  resources :posts, only: [:show, :edit, :destroy] do
     resources :comments, only: [:create, :index]
     resources :likes, only: :create
   end
@@ -54,7 +60,11 @@ BuddyPlatform::Application.routes.draw do
       get :cancel
     end
   end
-  resources :audios, only: [:show, :create, :destroy]
+  resources :audios, only: [:show, :create, :destroy] do
+    collection do
+      post :reorder
+    end
+  end
   resources :videos, only: [:create, :destroy]
   resources :photos, only: [:create, :destroy]
   resources :documents, only: [:create, :destroy]
@@ -89,8 +99,13 @@ BuddyPlatform::Application.routes.draw do
   resources :profile_types, only: [:index, :create, :destroy]
 
   namespace :admin do
+    resources :payment_failures , only: :index
     resources :payments, only: :index
-    resources :staffs, only: :index
+    resources :staffs, only: :index do
+      collection do
+        get :search
+      end
+    end
     resources :uploads, only: :index
     resources :profiles, only: [:index, :new] do
       collection do
@@ -104,6 +119,9 @@ BuddyPlatform::Application.routes.draw do
     end
 
     resources :users, only: :index do
+      collection do
+        get :search
+      end
       member do
         put :make_admin
         put :drop_admin

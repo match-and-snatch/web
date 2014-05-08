@@ -62,7 +62,7 @@ class AuthenticationManager < BaseManager
     user.generate_registration_token
 
     user.save or fail_with! user.errors
-    AuthMailer.registered(user).deliver
+    AuthMailer.delay.registered(user)
     user
   end
 
@@ -74,7 +74,7 @@ class AuthenticationManager < BaseManager
     fail_with! email: :no_such_email unless email_taken?
 
     user.generate_password_reset_token!
-    AuthMailer.forgot_password(user).deliver
+    AuthMailer.delay.forgot_password(user)
   end
 
   # @return [User]

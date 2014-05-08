@@ -21,8 +21,9 @@
 
         /* Profile Name */
         span.profile_name= @profile.profile_name
+        .clearfix
         - if can? :login_as, @profile.object
-          a.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this user
+          a.admin_login.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this User
         .clearfix
 
         /* Profile Type */
@@ -48,7 +49,8 @@
           / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
 
     / RSS
-    a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
+    - if @profile.rss_enabled?
+      a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
     /* Subscriber Benefits */
 
@@ -127,6 +129,13 @@
               li
                 a.fa.fa-vimeo-square  href=url target="_blank" Vimeo
 
+        /* Profile Action */
+
+        .share_url.btn.pink.PopupTrigger data-target='share' style='margin-bottom: 30px;'
+          i.fa.fa-share-square-o
+          .heading Share This Profile
+          span Help expand the audience!
+
         span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
       /* Recent Posts */
@@ -139,3 +148,20 @@
 .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(@profile.object)
 .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
 
+/* Share popup */
+
+.Popup.popup.modal-content data-identifier='share' style="width: 350px"
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="share" aria-hidden="true"
+    .modal-title Share This Profile
+    span Share this profile with your social networks!
+
+  .modal-body style="text-align: center; margin-bottom: 15px"
+    span class='st_facebook_large' displayText='Facebook'
+    span class='st_twitter_large' displayText='Tweet'
+    span class='st_googleplus_large' displayText='Google +'
+    span class='st_pinterest_large' displayText='Pinterest'
+    .email_share
+      = mail_to '', {subject: "#{@profile.name} on ConnectPal", body: "#{@profile.full_name} shared a profile with you on Connectpal.com\nCheck it out here #{profile_url(@profile.object)}\n\nThank You."} do
+        img src=image_path('https://connectpal-assets.s3.amazonaws.com/images/email_32.png')
+    .clearfix

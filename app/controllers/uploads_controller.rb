@@ -7,6 +7,7 @@ class UploadsController < ApplicationController
   protect(:destroy) { can? :manage, @upload }
 
   def show
+    @upload.user.itunes_enabled? or error(404)
     @post = @upload.uploadable or error(404)
   end
 

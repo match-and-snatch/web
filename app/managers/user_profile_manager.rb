@@ -85,7 +85,7 @@ class UserProfileManager < BaseManager
         end
 
         if account_number.match ONLY_DIGITS
-          fail_with account_number: :not_an_account_number if account_number.try(:length) != 12
+          fail_with account_number: :not_an_account_number unless [6, 8, 12, 15].include?(account_number.try(:length))
         else
           fail_with account_number: :not_an_integer
         end
@@ -133,7 +133,7 @@ class UserProfileManager < BaseManager
       end
 
       if account_number.match ONLY_DIGITS
-        fail_with account_number: :not_an_account_number if account_number.try(:length) != 12
+        fail_with account_number: :not_an_account_number unless [6, 8, 12, 15].include?(account_number.try(:length))
       else
         fail_with account_number: :not_an_integer
       end
@@ -167,8 +167,10 @@ class UserProfileManager < BaseManager
     fail_with! cost: :zero if cost.to_f <= 0.0
     fail_with! cost: :reached_maximum if cost.to_f > 9999
 
-    if user.cost_changed_at && user.cost_changed_at.today?
-      fail_with! cost: :already_changed_today
+    if user.source_subscriptions.any?
+      if user.cost_changed_at && user.cost_changed_at.today?
+        fail_with! cost: :already_changed_today
+      end
     end
 
     unless cost.to_s.strip.match ONLY_DIGITS
@@ -177,8 +179,8 @@ class UserProfileManager < BaseManager
 
     cost = cost.to_f
 
-    if (cost - user.cost) > 3
-      ProfilesMailer.changed_cost(user).deliver
+    if user.source_subscriptions.any? && (cost - user.cost) > 3
+      ProfilesMailer.delay.changed_cost(user, cost)
       @unable_to_change_cost = true
     else
       user.cost = cost
@@ -398,6 +400,48 @@ class UserProfileManager < BaseManager
     user.has_public_profile = false
     user.save or fail_with!(@user.errors)
     user
+  end
+
+  def enable_rss
+    fail_with! 'RSS is already enabled' if @user.rss_enabled?
+    @user.rss_enabled = true
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def disable_rss
+    fail_with! 'RSS is not enabled' unless @user.rss_enabled?
+    @user.rss_enabled = false
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def enable_downloads
+    fail_with! 'Downloads feature is already enabled' if @user.downloads_enabled?
+    @user.downloads_enabled = true
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def disable_downloads
+    fail_with! 'Downloads feature is not enabled' unless @user.downloads_enabled?
+    @user.downloads_enabled = false
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def enable_itunes
+    fail_with! 'iTunes feature is already enabled' if @user.itunes_enabled?
+    @user.itunes_enabled = true
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def disable_itunes
+    fail_with! 'iTunes feature is not enabled' unless @user.itunes_enabled?
+    @user.itunes_enabled = false
+    @user.save or fail_with!(@user.errors)
+    @user
   end
 
   private

@@ -16,6 +16,9 @@ module PostsHelper
   end
 
   def format_message(message)
-    message.gsub("\n", '<br />').html_safe
+    result = message.gsub("\n", '<br />')
+    auto_link(result, html: {target: '_blank'}) do |text|
+      truncate(text, length: 45)
+    end
   end
 end

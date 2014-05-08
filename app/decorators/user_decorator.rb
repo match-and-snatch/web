@@ -8,6 +8,9 @@ class UserDecorator < BaseDecorator
            :comment_picture_url,
            :cover_picture_url, :original_cover_picture_url, :id,
            :contacts_info,
+           :rss_enabled?,
+           :itunes_enabled?,
+           :downloads_enabled?,
            :cover_picture_position,
            :cost, :name, :has_profile_page?,
            to: :object
@@ -15,5 +18,19 @@ class UserDecorator < BaseDecorator
   # @param object [User]
   def initialize(object)
     @object = object
+  end
+
+  # Returns profile types string
+  # @return [String]
+  def types
+    @types ||= object.profile_types.pluck(:title).join('&nbsp;/&nbsp;').html_safe
+  end
+
+  def types_text
+    types.blank? ? 'Add Profile Type' : types
+  end
+
+  def to_param
+    object.slug
   end
 end
