@@ -1,22 +1,6 @@
-- if @users.any?
-  br
-  .list-group-item-heading Search results
-  ul.list-group
-    - @users.each do |user|
-      li.list-group-item
-        .pull-left
-          span= user.full_name
-          | &nbsp;
-          strong= user.email
-        - if user.admin?
-          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_admin_admin_user_path(user.id) Drop Admin
-        - else
-          button.AjaxFormLink.btn.pink.pull-right data-_method='put' href=make_admin_admin_user_path(user.id) Make Admin
-        .clearfix
-  .clearfix
-- else
-  - if params[:q].present?
-    p.bg-danger
-      |No results for "
-      strong=params[:q]
-      |"
+h2 Search users
+
+form.Form action=search_admin_users_path method='get' data-target='users'
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search profiles by email"
+
+div data-identifier='users'

@@ -1,0 +1,24 @@
+- if @users.any?
+  br
+  .list-group-item-heading Search results
+  ul.list-group
+    - @users.each do |user|
+      li.list-group-item
+        .pull-left
+          span= user.full_name
+          | &nbsp;
+          strong= user.email
+        - if user.admin?
+          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_admin_admin_user_path(user.id) Drop Admin
+        - else
+          button.AjaxFormLink.btn.pink.pull-right data-_method='put' href=make_admin_admin_user_path(user.id) Make Admin
+        - if can? :login_as, user
+          a.pull-right.admin_login.AjaxFormLink href=login_as_admin_user_path(user.id) data-_method='post' Login as this User
+        .clearfix
+  .clearfix
+- else
+  - if params[:q].present?
+    p.bg-danger
+      |No results for "
+      strong=params[:q]
+      |"
