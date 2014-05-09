@@ -244,19 +244,19 @@
     .modal-header
       i.fa.fa-times-circle.close type="button" data-target="type-editor" aria-hidden="true" onclick='window.location.reload()'
       .modal-title Edit Profile Type
-      span 
-        |Please classify your profile type or types. This info helps our search 
+      span
+        |Please classify your profile type or types. This info helps our search
         br
         |function find more potential subscribers who might like your content.
 
     /* Body Area */
 
     .modal-body
-
-      /* PLEASE FIX THIS AREA */
-
-      form.Form action=update_name_user_path(@profile.object) method='post'
-        input.AutocompleteField.form-control data-url=profile_types_path data-target='profile-types' type='text' placeholder='Band, Photographer, Organization, etc.'
+      div
+        input.StaticAutocomplete.form-control data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.'
+        .btn.pink.Toggler data-target='types-dropdown' V
+        .btn.blue data-identifier='types-submit' Add
+        ul data-identifier='types-dropdown'
         .error data-field='profile_type'
         div data-identifier='profile-types' style="padding-top: 10px"
           = render 'profile_types/list_assigned', profile_types: current_user.profile_types
@@ -282,9 +282,9 @@
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="cost-editor" aria-hidden="true"
       .modal-title Edit Subscription Cost
-      span 
+      span
         | Please note, to keep subscribers happy and billing cycles consistent,
-        br 
+        br
         | you can only change your subscription cost once every 30 days.
 
     /* Body Area */
@@ -310,12 +310,12 @@
       .pricing_table
         p The pricing table is below...
         table.table.table-striped.table-bordered
-          tr 
-            td 
+          tr
+            td
               b Subscription Price
-            td 
+            td
               |
-              b ConnectPal Service Fee 
+              b ConnectPal Service Fee
               span style="font-size: 11px;"(includes all fees & credit card processing)
           tr
             td $4 or less
@@ -329,7 +329,7 @@
           tr
             td $21 & above
             td 9% of subscription price
-        p 
+        p
           |For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout,
           br
           |subscribers will pay $4.79 monthly – which includes our 79 cent service fee.
@@ -359,8 +359,8 @@
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="benefits-editor" aria-hidden="true"
       .modal-title Edit Subscriber Benefits
-      span style="padding: 0 15px;" 
-        | Tell your subscribers what they are getting by subscribing to you. 
+      span style="padding: 0 15px;"
+        | Tell your subscribers what they are getting by subscribing to you.
         br
         | When marketing your profile to potential subscribers,
         br

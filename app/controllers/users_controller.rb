@@ -43,6 +43,7 @@ class UsersController < ApplicationController
     layout.title = "#{@profile.name} - ConnectPal.com"
 
     if current_user.can?(:manage, user)
+      @profile_types = ProfileType.where(user_id: nil).order(:title).pluck(:title)
       template = 'owner_view'
     elsif can?(:see, user)
       template = 'show'
