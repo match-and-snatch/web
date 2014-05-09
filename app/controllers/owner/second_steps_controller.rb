@@ -1,6 +1,7 @@
 class Owner::SecondStepsController < Owner::BaseController
 
   def show
+    @profile_types = ProfileType.where(user_id: nil).pluck(:title).sort
     json_render
   end
 

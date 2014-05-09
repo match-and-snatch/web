@@ -381,7 +381,8 @@ ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
 CREATE TABLE profile_types (
     id integer NOT NULL,
     title character varying(255),
-    ordering integer DEFAULT 0 NOT NULL
+    ordering integer DEFAULT 0 NOT NULL,
+    user_id integer
 );
 
 
@@ -968,3 +969,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140508084847');
 INSERT INTO schema_migrations (version) VALUES ('20140508115848');
 
 INSERT INTO schema_migrations (version) VALUES ('20140508115947');
+
+INSERT INTO schema_migrations (version) VALUES ('20140509182958');

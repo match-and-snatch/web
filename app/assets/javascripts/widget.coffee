@@ -44,6 +44,12 @@ class bud.Widget
   initialize: ->
     # To be redeclared in inherited classes
 
+  data: ->
+    @$container.data.apply(@$container, arguments)
+
+  get_target: (data_target_field = 'target') ->
+    bud.get(@data(data_target_field))
+
   destroy: ->
     @$container.unbind()
     @$container.removeClass('js-widget')
