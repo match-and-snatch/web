@@ -66,7 +66,7 @@ input
 
 .error
   color: $color_pink
-  font-size: 12px
+  font-size: 11px
   display: none
 
 .btn
@@ -152,8 +152,6 @@ textarea
 
 nav
   @include blue-area
-  // border-top: 1px solid #c5ecff
-  // border-bottom: 1px solid #277aa3
   height: $nav_height
   text-shadow: none
   -webkit-box-shadow: 0 0 10px 0 #155270
@@ -182,14 +180,12 @@ nav
           text-shadow: none
       &.active
         background-color: #277aa3  
-
       .my_sub_parent
         cursor: default !important
         padding: 16px 15px
         &.fa
           &:before
             padding-right: 5px
-
       &.homepage_search
         .form-control
           border: 1px solid #3b9fd1
@@ -251,7 +247,7 @@ nav
         position: relative
         .my_sub_cont
           @include border-radius (0 0 5px 5px)
-          background-color: $color_background
+          background: $color_background
           border-left: 1px solid $color_border
           border-bottom: 1px solid $color_border
           border-right: 1px solid $color_border
@@ -261,64 +257,62 @@ nav
           overflow: hidden
           top: $nav_height
           left: 0
+          z-index: auto
           a
-            margin: 0 !important
-            padding: 0 !important
-            text-decoration: none
+            background-color: $color_background
+            border-top: 1px solid $color_border
+            display: block
+            min-height: 60px
+            padding: 10px
+            width: 255px
+            z-index: auto
+            &:first-child
+              border-top: none
+            .picture
+              background: asset-url('https://connectpal-assets.s3.amazonaws.com/images/profile_comment_default.png') no-repeat
+              background-size: 100%
+              background-color: #FFFFFF
+              border: 1px solid $color_border
+              float: left
+              height: 42px
+              width: 42px
+              margin-right: 10px
+              img
+                height: 40px
+                width: 40px
+            .details
+              float: left
+              min-height: 42px
+              width: 183px
+              .name
+                color: $color_text_dark
+                font-size: 12px
+                font-weight: 600
+                padding: 0
+                padding-top: 3px
+                text-decoration: none
+              .type
+                color: $color_text_light
+                font-size: 11px
+                padding: 0
+                text-decoration: none
             &:hover
-              text-decoration: none
-            li
-              background-color: $color_background
-              border-top: 1px solid $color_border
-              display: block
-              min-height: 60px
-              padding: 10px
-              width: 197px
-              &:first-child
-                border-top: none !important
-                margin-top: 0
-              .picture
-                background: asset-url('https://connectpal-assets.s3.amazonaws.com/images/profile_comment_default.png') no-repeat
-                background-size: 100%
-                background-color: #FFFFFF
-                border: 1px solid $color_border
-                float: left
-                height: 42px
-                width: 42px
-                margin-right: 10px
-                img
-                  height: 40px
-                  width: 40px
-              .details
-                float: left
-                width: 125px
-                .name
-                  color: $color_text_dark
-                  font-size: 12px
-                  font-weight: 600
-                  padding: 0
-                  padding-top: 3px
-                  text-decoration: none
-                .type
-                  color: $color_text_light
-                  font-size: 11px
-                  padding: 0
-                  text-decoration: none
-              &:hover
-                background-color: $color_pink
-                .name, .type
-                  color: #FFFFFF 
-                .type
-                  color: #9e1528
+              background-color: $color_pink
+              .name, .type
+                color: #FFFFFF 
+              .type
+                color: #9e1528
+
         &:hover
           .my_sub_cont
             display: block
             a
-              background: none !important
+              background: $color_background
               color: $color_text_dark
-          a
-            background-color: #277aa3  
-            text-shadow: none
+              text-shadow: none
+              &:hover
+                background: $color_pink
+                color: #FFFFFF
 
 /* Notifcation Bar */
 
@@ -452,10 +446,10 @@ footer
         color: #FFFFFF
         outline: none
     .text-danger
-      color: red
+      color: $color_pink
       font-size: 11px
       margin: 0
-      padding: 0
+      padding: 5px 0 0 0
     .margin-left, .margin-right
       width: 165px
     .margin-right
@@ -476,7 +470,7 @@ footer
       font-size: 12px
     .search_user
       margin: 0 15px 15px
-      width: 318px
+      width: 467px
     .user_list
       .bg-danger
         @include border-radius($border_radius)
@@ -673,7 +667,7 @@ footer
           color: $color_text_dark
           border-top: 1px solid $color_border !important
           padding: 10px 15px !important
-          width: 348px
+          width: 498px
           img 
             background-color: #FFFFFF
           &:hover

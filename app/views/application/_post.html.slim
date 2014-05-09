@@ -2,11 +2,15 @@
   - if can?(:delete, post)
     i.fa.fa-gear.edit_post.pull-right.Toggler data-target='edit-post-#{post.id}'
       .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
-        span Delete post?
-        a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}' Yes
-        /a.AjaxLink.delete_btn data-target='' href=edit_post_path(post.id) Edit
-        a.Toggler data-target='edit-post-#{post.id}' href="#" Cancel
-        .clearfix
+        ul
+          a.AjaxLink.delete_btn data-target='' href=edit_post_path(post.id)
+            li Edit
+          a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}'
+            li Delete
+          a.Toggler data-target='edit-post-#{post.id}' href="#" 
+            li.last
+              i.fa.fa-times
+
   - if post.title
     .post_title= post.title
   .date Posted #{time_ago_in_words(post.created_at)} ago

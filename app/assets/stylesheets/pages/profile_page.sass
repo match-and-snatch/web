@@ -676,36 +676,43 @@
       z-index: 1
       &:first-child
         margin-top: 0 !important
+      .edit_container
+        @include border-radius(5px)
+        background-color: #FFFFFF
+        border: 1px solid $color_border
+        cursor: default !important
+        font-size: 11px !important
+        padding: 0
+        position: absolute
+        overflow: hidden
+        top: -5px
+        right: -5px
+        width: 126px
+        ul
+          margin: 0
+          padding: 0
+          a
+            color: $color_text_light
+            text-decoration: none
+            &:hover
+              color: #FFFFFF
+            li
+              background-color: #FFFFFF
+              border-right: 1px solid $color_border
+              display: inline-block
+              padding: 5px 10px
+              text-align: left
+              &.last
+                border-right: none
+                background-color: $color-border
+                &:hover
+                  background-color: $color_pink
+              &:hover
+                background-color: $color_blue
       .edit_post
         cursor: pointer
         margin-right: 15px
         position: relative
-        .edit_container
-          @include border-radius(5px)
-          background-color: $color_background
-          border: 1px solid $color_border
-          cursor: default !important
-          font-size: 12px !important
-          position: absolute
-          top: 0
-          right: 0
-          padding: 7px 10px
-          width: 165px
-          span
-            color: $color_text_dark
-            display: inline-block
-            padding-top: 3px
-          a
-            color: $color_text_dark 
-            cursor: pointer
-            display: inline-block
-            text-decoration: none
-            margin-left: 5px
-            &.delete_btn
-              color: $color_pink !important
-            &:hover
-              color: $color_text_dark
-              text-decoration: underline
         &.fa
           &:before
             color: $color_gear
@@ -926,7 +933,6 @@
                       background-color: $color_pink
                   &:hover
                     background-color: $color_blue
-
           .profile_name
             color: $color_blue
             font-weight: 600
@@ -1196,6 +1202,16 @@
       font-size: 12px
 
 
+.edit_post_popup
+  padding: 10px 15px 15px 15px
+  width: 400px
+  label 
+    color: $color_text_dark
+    font-size: 13px
+  .edit_field
+    font-size: 13px
+  textarea.edit_field
+    height: 100px
 
 .comment_text
   b
