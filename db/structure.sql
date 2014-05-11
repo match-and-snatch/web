@@ -38,20 +38,6 @@ COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance betwe
 
 
 --
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
-
-
---
 -- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -172,7 +158,9 @@ CREATE TABLE dialogues (
     id integer NOT NULL,
     user_id integer,
     target_user_id integer,
-    recent_message_id integer
+    recent_message_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -274,7 +262,9 @@ CREATE TABLE messages (
     id integer NOT NULL,
     user_id integer,
     target_user_id integer,
-    message text
+    message text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -660,8 +650,8 @@ CREATE TABLE users (
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees double precision,
     cost integer,
-    password_reset_token character varying(255),
     has_public_profile boolean DEFAULT false,
+    password_reset_token character varying(255),
     company_name character varying(255),
     small_profile_picture_url text,
     account_picture_url text,

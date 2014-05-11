@@ -4,14 +4,14 @@ class CreateMessages < ActiveRecord::Migration
       t.references :user
       t.references :target_user
       t.text :message
-      t.timestamp
+      t.timestamps
     end
 
     create_table :dialogues do |t|
       t.references :user
       t.references :target_user
       t.references :recent_message
-      t.timestamp
+      t.timestamps
     end
   end
 end
