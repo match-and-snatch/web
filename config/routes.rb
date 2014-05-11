@@ -95,6 +95,8 @@ BuddyPlatform::Application.routes.draw do
       put :update_cover_picture_position
     end
 
+    resources :messages, only: [:new, :create]
+
     resources :photos, only: [] do
       collection do
         get :profile_picture

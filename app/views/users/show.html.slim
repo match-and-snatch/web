@@ -94,7 +94,7 @@
           span Contact
           ul
             li
-              a.fa.fa-envelope href="mailto:#{@profile.email}" Message
+              a.fa.fa-envelope.AjaxLink href=new_user_message_path(@profile.slug) Message
             - if url = @profile.contacts_info['website'].presence
               li
                 a.fa.fa-globe href=url target="_blank" Website

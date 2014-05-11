@@ -1,0 +1,9 @@
+.edit_post_popup
+  form.form.PopupForm action=user_messages_path(@target_user.slug) method='post'
+    label style="margin-top: 15px" Send a message
+    textarea.form-control.edit_field name='message' placeholder='Your message for #{@target_user.name}'
+    .clearfix
+    .error data-field='message'
+
+    input.btn.blue.pull-right type='Submit' value='Send' style="margin-top: 15px"
+    .clearfix
