@@ -2,7 +2,7 @@ class AccountInfo::DialoguesController < AccountInfo::BaseController
   before_filter :load_dialogue!, only: [:mark_as_read]
 
   def index
-    @dialogues = Dialogue.includes(recent_message: :user).order('recent_message_at DESC').limit(200).to_a
+    @dialogues = Dialogue.by_user(current_user.object).includes(recent_message: :user).order('recent_message_at DESC').limit(200).to_a
     json_render
   end
 

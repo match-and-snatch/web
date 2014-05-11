@@ -1,13 +1,13 @@
 class MessagesManager < BaseManager
   attr_reader :user
 
-  # @param user [User]
+  # @param user [User] Who is sending the message
   def initialize(user: user)
     @user = user
   end
 
-  # @param user [User]
-  # @param text [String]
+  # @param target_user [User]
+  # @param message [String]
   # @return [Message]
   def create(target_user: target_user, message: text)
     fail_with! message: :empty if message.blank?
@@ -23,6 +23,8 @@ class MessagesManager < BaseManager
     end
   end
 
+  # @param dialogue [Dialogue]
+  # @return [Dialogue]
   def mark_as_read(dialogue)
     dialogue.unread = false
     dialogue.save!
