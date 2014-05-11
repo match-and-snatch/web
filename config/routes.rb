@@ -24,6 +24,15 @@ BuddyPlatform::Application.routes.draw do
       put :enable_itunes
       put :disable_itunes
     end
+
+    scope module: :account_info do
+      resources :messages
+      resources :dialogues, only: [:index] do
+        member do
+          put :mark_as_read
+        end
+      end
+    end
   end
 
   resources :comments, only: [:edit, :update, :destroy] do

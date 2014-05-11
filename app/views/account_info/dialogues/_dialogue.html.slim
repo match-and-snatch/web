@@ -1,0 +1,9 @@
+li.list-group-item class="#{'unread' if dialogue.unread?}" data-identifier='dialogue-#{dialogue.id}'
+  i= dialogue.user.name
+  br
+  small= dialogue.recent_message.message
+  br
+  b= dialogue.created_at.to_s(:long)
+  br
+  - if dialogue.unread?
+    a.AjaxFormLink data-target='dialogue-#{dialogue.id}' data-_method='PUT' href=mark_as_read_account_info_dialogue_path(dialogue.id) Mark as read
