@@ -1,6 +1,5 @@
 class UserDecorator < BaseDecorator
   delegate :slug, :email, :full_name, :profile_name,
-           :profile_types,
            :complete_profile?, :profile_disabled?,
            :has_cc_payment_account?, :subscribed_to?,
            :original_profile_picture_url, :profile_picture_url, :small_profile_picture_url,
@@ -20,10 +19,14 @@ class UserDecorator < BaseDecorator
     @object = object
   end
 
+  def profile_types
+    object.profile_types.order('profile_types_users.ordering')
+  end
+
   # Returns profile types string
   # @return [String]
   def types
-    @types ||= object.profile_types.pluck(:title).join('&nbsp;/&nbsp;').html_safe
+    @types ||= profile_types.pluck(:title).join('&nbsp;/&nbsp;').html_safe
   end
 
   def types_text

@@ -14,7 +14,11 @@ class bud.widgets.StaticAutocomplete extends bud.Widget
 
     @$container.keyup @on_keyup
 
-  on_keyup: =>
+  on_keyup: (e) =>
+    if e.which == 13
+      @on_submit()
+      return true
+
     @$dropdown.show()
     regex = new RegExp(@val(), 'i')
 
@@ -51,6 +55,7 @@ class bud.widgets.StaticAutocomplete extends bud.Widget
     text = li.text()
     @$container.val(text)
     @$dropdown.hide()
+    @on_submit()
 
 
 

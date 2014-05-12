@@ -16,7 +16,8 @@ class UserProfileManager < BaseManager
 
   # @param type [String]
   def add_profile_type(type)
-    type = type.squish
+    return if type.blank?
+    type = type.squish.titleize
     return if type.blank?
     profile_type = ProfileType.where(['title ILIKE ?', type]).where(user_id: nil).first
     profile_type ||= ProfileType.where(['title ILIKE ?', type]).where(user_id: @user.id).first

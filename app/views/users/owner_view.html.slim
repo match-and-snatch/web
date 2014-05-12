@@ -261,7 +261,7 @@
       .error data-field='profile_type'
 
       .profile-type-list.profile-type-list-show
-        ul data-identifier='types-dropdown'
+        ul style='overflow: scroll; max-height: 100px' data-identifier='types-dropdown'
 
       .profile-type-list.profile-type-list-owner data-identifier='profile-types' style="padding-top: 10px"
         = render 'profile_types/list_assigned', profile_types: current_user.profile_types
