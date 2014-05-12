@@ -18,11 +18,14 @@ class UserProfileManager < BaseManager
   def add_profile_type(type)
     type = type.squish
     profile_type = ProfileType.where(['title ILIKE ?', type]).where(user_id: nil).first
+    profile_type ||= ProfileType.where(['title ILIKE ?', type]).where(user_id: @user.id).first
     profile_type ||= ProfileType.create!(title: type, user_id: user.id)
 
     if @user.profile_types.where(id: profile_type.id).empty?
       @user.profile_types << profile_type
     end
+
+    profile_type
   end
 
   # @param profile_type [ProfileType]
