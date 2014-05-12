@@ -8,8 +8,7 @@ class ProfileTypesController < ApplicationController
   end
 
   def create
-    profile_type = ProfileType.where(id: params[:profile_type_id]).first or error(404)
-    UserProfileManager.new(current_user.object).add_profile_type(profile_type)
+    UserProfileManager.new(current_user.object).add_profile_type(params['type'])
     json_replace html: render_to_string(partial: 'list_assigned', locals: {profile_types: current_user.profile_types})
   end
 

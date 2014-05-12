@@ -35,6 +35,7 @@ end
 gem 'rails_12factor', group: :production
 gem 'unicorn'
 gem 'foreman', group: :development
+gem 'newrelic_rpm'
 
 # Application Specific
 gem 'slim-rails'

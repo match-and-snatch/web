@@ -14,19 +14,26 @@ class UserProfileManager < BaseManager
     @user = user
   end
 
-  # @param profile_type [ProfileType]
-  def add_profile_type(profile_type)
-    raise ArgumentError unless profile_type.is_a?(ProfileType)
-    fail_with! profile_type: :already_set if @user.profile_types.where(id: profile_type.id).any?
+  # @param type [String]
+  def add_profile_type(type)
+    return if type.blank?
+    type = type.squish.titleize
+    return if type.blank?
+    profile_type = ProfileType.where(['title ILIKE ?', type]).where(user_id: nil).first
+    profile_type ||= ProfileType.where(['title ILIKE ?', type]).where(user_id: @user.id).first
+    profile_type ||= ProfileType.create!(title: type, user_id: user.id)
 
-    @user.profile_types << profile_type
+    if @user.profile_types.where(id: profile_type.id).empty?
+      @user.profile_types << profile_type
+    end
+
+    profile_type
   end
 
   # @param profile_type [ProfileType]
   def remove_profile_type(profile_type)
     raise ArgumentError unless profile_type.is_a?(ProfileType)
     fail_with! profile_type: :not_set unless @user.profile_types.where(id: profile_type.id).any?
-
     @user.profile_types.delete(profile_type)
   end
 
@@ -85,7 +92,7 @@ class UserProfileManager < BaseManager
         end
 
         if account_number.match ONLY_DIGITS
-          fail_with account_number: :not_an_account_number unless [6, 8, 12, 15].include?(account_number.try(:length))
+          fail_with account_number: :not_an_account_number unless (6..15).include?(account_number.try(:length))
         else
           fail_with account_number: :not_an_integer
         end
@@ -133,7 +140,7 @@ class UserProfileManager < BaseManager
       end
 
       if account_number.match ONLY_DIGITS
-        fail_with account_number: :not_an_account_number unless [6, 8, 12, 15].include?(account_number.try(:length))
+        fail_with account_number: :not_an_account_number unless (6..15).include?(account_number.try(:length))
       else
         fail_with account_number: :not_an_integer
       end

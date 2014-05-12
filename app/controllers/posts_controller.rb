@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_filter :authenticate!, except: [:index, :show]
   before_filter :load_user!, only: :index
-  before_filter :load_post!, only: [:destroy, :show]
+  before_filter :load_post!, only: [:destroy, :show, :edit, :update]
 
   protect(:index) { can? :see, @user }
   protect(:destroy) { can? :delete, @post }
@@ -14,6 +14,10 @@ class PostsController < ApplicationController
     query.user_input? ? json_replace(resp) : json_append(resp)
   end
 
+  def edit
+    json_success popup: render_to_string(action: :edit, layout: false)
+  end
+
   def show
     if @post.is_a? AudioPost
       respond_to do |wants|
@@ -23,12 +27,17 @@ class PostsController < ApplicationController
         wants.xml do
           @uploads = @post.uploads.to_a
           render :layout => false;
-          response.headers["Content-Type"] = "application/xml; charset=utf-8"
+          response.headers['Content-Type'] = 'application/xml; charset=utf-8'
         end
       end
     else
       error(404)
     end
+  end
+
+  def update
+    PostManager.new(user: current_user.object, post: @post).update(title: params[:title], message: params[:message])
+    json_replace html: render_to_string(partial: 'post', locals: {post: @post}), notice: :post_updated
   end
 
   def create

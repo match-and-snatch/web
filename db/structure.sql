@@ -381,7 +381,8 @@ ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
 CREATE TABLE profile_types (
     id integer NOT NULL,
     title character varying(255),
-    ordering integer DEFAULT 0 NOT NULL
+    ordering integer DEFAULT 0 NOT NULL,
+    user_id integer
 );
 
 
@@ -600,7 +601,8 @@ CREATE TABLE users (
     registration_token character varying(255),
     rss_enabled boolean DEFAULT false NOT NULL,
     downloads_enabled boolean DEFAULT false NOT NULL,
-    itunes_enabled boolean DEFAULT false NOT NULL
+    itunes_enabled boolean DEFAULT false NOT NULL,
+    profile_types_text text
 );
 
 
@@ -963,3 +965,9 @@ INSERT INTO schema_migrations (version) VALUES ('20140504180126');
 INSERT INTO schema_migrations (version) VALUES ('20140505163806');
 
 INSERT INTO schema_migrations (version) VALUES ('20140508084847');
+
+INSERT INTO schema_migrations (version) VALUES ('20140508115848');
+
+INSERT INTO schema_migrations (version) VALUES ('20140508115947');
+
+INSERT INTO schema_migrations (version) VALUES ('20140509182958');

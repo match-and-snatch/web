@@ -1,4 +1,15 @@
+nav {
+  background-color: #359acd !important;
+  background-image: none !important;
+  zoom: 1px;
+  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffff', endColorstr = '#e5e6ec', GradientType = 0);*/  
+}
+
 ul.navbar-nav {
+  margin-top: 0 !important;
+}
+
+.navbar-nav {
   margin-top: 0 !important;
 }
 

@@ -11,7 +11,7 @@ module Queries
 
     # @return [Array<ActiveRecord::Base>]
     def by_name
-      User.search_by_full_name(@query).limit(20).to_a
+      User.search_by_text_fields(@query).limit(20).to_a
     end
 
     # @return [Array<ActiveRecord::Base>]

@@ -2,9 +2,20 @@ class PostManager < BaseManager
   attr_reader :user
 
   # @param user [User]
-  def initialize(user: user)
+  def initialize(user: user, post: nil)
     raise ArgumentError unless user.is_a?(User)
+    @post = post
     @user = user
+  end
+
+  def update(title: title, message: message)
+    fail_with! message: :empty if message.blank?
+
+    @post.title = title
+    @post.message = message
+    @post.save or fail_with!(@post.errors)
+
+    @post
   end
 
   # @param message [String]

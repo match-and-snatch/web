@@ -30,7 +30,7 @@ BuddyPlatform::Application.routes.draw do
     resources :replies, only: [:create, :edit, :update]
   end
 
-  resources :posts, only: [:show, :edit, :destroy] do
+  resources :posts, only: [:show, :edit, :update, :destroy] do
     resources :comments, only: [:create, :index]
     resources :likes, only: :create
   end

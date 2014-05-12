@@ -7,7 +7,7 @@
       .col-md-12.col-sm-12.col-xs-12.reg_head
         .reg_title Your profile is almost complete!
         .reg_text In order to take your profile live, just 2 more quick things!
-    
+
     /* Steps 1 - 3 row */
 
     .row.steps_row
@@ -30,12 +30,12 @@
       input type='hidden' name='_method' value='put'
 
       .col-md-12.col-sm-12.col-xs-12
-        h1 Profile Details 
+        h1 Profile Details
 
       /* Profile Page Name */
       .profile_name
         .col-md-12.col-sm-12.col-xs-12
-          .row_label 
+          .row_label
             | Profile Name
             span Your profile name will be displayed at the top of your profile.
         .col-md-12.col-sm-12.col-xs-12
@@ -48,24 +48,32 @@
       .col-md-6.col-sm-6.col-xs-6
 
         .row_label
-          | Profile Type 
+          | Profile Type
           span style="display: inline-block; padding: 0; margin: 0; color: #464646; font-weight: bold" (optional)
           span Please classify your profile type or types. This info helps our search function find more potential subscribers who might like your content.
-        div
-          input.AutocompleteField.form-control data-url=profile_types_path data-target='profile-types' type='text' placeholder='Band, Photographer, Organization, etc.'
+       
+          .profile-type-input
+            input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.' style='width: 304px;'
+            i.fa.fa-plus.pull-left data-identifier='types-submit' Add
+            i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
+            .clearfix
+
           .error data-field='profile_type'
-          div data-identifier='profile-types' style="padding-top: 10px"
+
+          .profile-type-list.profile-type-list-show
+            ul data-identifier='types-dropdown'
+
+          .profile-type-list data-identifier='profile-types' style="padding-top: 10px"
             = render 'profile_types/list_assigned', profile_types: current_user.profile_types
-        .clearfix
 
       /* Subscription Cost */
 
       .col-md-6.col-sm-6.col-xs-6
         .row_label
           | Subscription Cost
-          span 
-            | Set your monthly price for people to access your profile. You keep 
-            b 100% 
+          span
+            | Set your monthly price for people to access your profile. You keep
+            b 100%
             | of the price you set. ConnectPal adds a service fee on top of your subscription price.
         div
           .input-group
@@ -82,10 +90,10 @@
 
       .col-md-12.col-sm-12.col-xs-12
         h1 style="padding-top: 0" Payout Information
-        p 
-          | This is where we will send your money. You can add/update this information at any time. Payments will be electronically transferred to your account on the 1st of the month and they will appear within 7 days on your bank statement. 
+        p
+          | This is where we will send your money. You can add/update this information at any time. Payments will be electronically transferred to your account on the 1st of the month and they will appear within 7 days on your bank statement.
           span.bg-warning * Direct deposit is available for US ONLY at this time.
-      
+
       .col-md-12.col-sm-12.col-xs-12
         .check
           .inside_cont
@@ -100,7 +108,7 @@
               label.pull-left Account Number
               input.form-control.pull-left type='text' name='account_number' placeholder='000123456789' value=@user.account_number style="width: 115px"
             .clearfix
-        .clearfix            
+        .clearfix
 
         /* I think we can remove this */
         / NO WE CAN't
@@ -110,7 +118,7 @@
           .error data-field='routing_number'
           .error data-field='account_number'
 
-      /* Continue to Profile */ 
+      /* Continue to Profile */
 
       .col-md-12.col-sm-12.col-xs-12.finish_registration
         input type='hidden' name='authenticity_token' value=form_authenticity_token

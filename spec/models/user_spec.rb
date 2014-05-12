@@ -81,7 +81,7 @@ describe User do
     end
   end
 
-  describe '.search_by_full_name' do
+  describe '.search_by_text_fields' do
     let!(:matching_by_full_name) { create_user first_name: 'sergei', last_name: 'zinin' }
     let!(:matching_by_profile_name) do
       create_user(first_name: 'another', last_name: 'one', email: 'another@email.com').tap do |user|
@@ -91,7 +91,7 @@ describe User do
     let!(:not_mathing) { create_user first_name: 'slava', last_name: 'popov', email: 'slava@gmail.com' }
 
     specify do
-      expect(described_class.search_by_full_name('sergei')).to eq [matching_by_full_name, matching_by_profile_name]
+      expect(described_class.search_by_text_fields('sergei')).to eq [matching_by_full_name, matching_by_profile_name]
     end
   end
 end

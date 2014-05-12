@@ -2,12 +2,12 @@ class Admin::ProfilesController < Admin::BaseController
   before_filter :load_user!, only: %i(make_public make_private)
 
   def index
-    @users = User.profile_owners.search_by_full_name(params[:q]).limit(10)
+    @users = User.profile_owners.search_by_text_fields(params[:q]).limit(10)
     json_replace
   end
 
   def profile_owners
-    @users = User.profile_owners.limit(200)
+    @users = User.profile_owners.order('created_at DESC').limit(200)
     json_render
   end
 

@@ -18,7 +18,7 @@ $nav_height: 45px
 @import "pages/**/*"
 @import "bootstrap"
 
-/* General */
+// General
 
 html
   max-height: 1000000px
@@ -66,7 +66,7 @@ input
 
 .error
   color: $color_pink
-  font-size: 12px
+  font-size: 11px
   display: none
 
 .btn
@@ -118,7 +118,7 @@ textarea
   &:focus
     outline: none
 
-/* Buttons */
+// Buttons
 
 .btn
   @include border-radius($border_radius)
@@ -139,7 +139,7 @@ textarea
     &.pink
       @include linear-gradient(#ea2f49, #ea4e65)
 
-/* Font Awesome Styles */
+// Font Awesome Styles
 
 .fa
   font-family: 'Open Sans', Arial, sans-serif !important
@@ -148,12 +148,10 @@ textarea
     font-family: 'FontAwesome' !important
     font-weight: 400
 
-/* Navigation */
+// Navigation
 
 nav
   @include blue-area
-  // border-top: 1px solid #c5ecff
-  // border-bottom: 1px solid #277aa3
   height: $nav_height
   text-shadow: none
   -webkit-box-shadow: 0 0 10px 0 #155270
@@ -166,6 +164,11 @@ nav
       height: 31px
       width: 128px
   .navbar-nav
+    .dropdown
+      &:hover
+        display: block
+    .dropdown-menu
+      display: block
     li
       font-size: 13px
       display: inline-block
@@ -182,14 +185,12 @@ nav
           text-shadow: none
       &.active
         background-color: #277aa3  
-
       .my_sub_parent
         cursor: default !important
         padding: 16px 15px
         &.fa
           &:before
             padding-right: 5px
-
       &.homepage_search
         .form-control
           border: 1px solid #3b9fd1
@@ -245,13 +246,13 @@ nav
               img 
                 display: none
             
-      /* My Subscriptions CSS */
+      // My Subscriptions CSS
 
       &.my_sub
         position: relative
         .my_sub_cont
           @include border-radius (0 0 5px 5px)
-          background-color: $color_background
+          background: $color_background
           border-left: 1px solid $color_border
           border-bottom: 1px solid $color_border
           border-right: 1px solid $color_border
@@ -262,65 +263,62 @@ nav
           top: $nav_height
           left: 0
           a
-            margin: 0 !important
-            padding: 0 !important
-            text-decoration: none
+            background-color: $color_background
+            border-top: 1px solid $color_border
+            display: block
+            min-height: 60px
+            padding: 10px
+            width: 255px
+            z-index: auto
+            &:first-child
+              border-top: none
+            .picture
+              background: asset-url('//connectpal-assets.s3.amazonaws.com/images/profile_comment_default.png') no-repeat
+              background-size: 100%
+              background-color: #FFFFFF
+              border: 1px solid $color_border
+              float: left
+              height: 42px
+              width: 42px
+              margin-right: 10px
+              img
+                height: 40px
+                width: 40px
+            .details
+              float: left
+              min-height: 42px
+              width: 183px
+              .name
+                color: $color_text_dark
+                font-size: 12px
+                font-weight: 600
+                padding: 0
+                padding-top: 3px
+                text-decoration: none
+              .type
+                color: $color_text_light
+                font-size: 11px
+                padding: 0
+                text-decoration: none
             &:hover
-              text-decoration: none
-            li
-              background-color: $color_background
-              border-top: 1px solid $color_border
-              display: block
-              min-height: 60px
-              padding: 10px
-              width: 197px
-              &:first-child
-                border-top: none !important
-                margin-top: 0
-              .picture
-                background: asset-url('https://connectpal-assets.s3.amazonaws.com/images/profile_comment_default.png') no-repeat
-                background-size: 100%
-                background-color: #FFFFFF
-                border: 1px solid $color_border
-                float: left
-                height: 42px
-                width: 42px
-                margin-right: 10px
-                img
-                  height: 40px
-                  width: 40px
-              .details
-                float: left
-                width: 125px
-                .name
-                  color: $color_text_dark
-                  font-size: 12px
-                  font-weight: 600
-                  padding: 0
-                  padding-top: 3px
-                  text-decoration: none
-                .type
-                  color: $color_text_light
-                  font-size: 11px
-                  padding: 0
-                  text-decoration: none
-              &:hover
-                background-color: $color_pink
-                .name, .type
-                  color: #FFFFFF 
-                .type
-                  color: #9e1528
+              background-color: $color_pink
+              .name, .type
+                color: #FFFFFF 
+              .type
+                color: #9e1528
+
         &:hover
           .my_sub_cont
             display: block
             a
-              background: none !important
+              background: $color_background
               color: $color_text_dark
-          a
-            background-color: #277aa3  
-            text-shadow: none
+              text-shadow: none
+              &:hover
+                background: $color_pink
+                color: #FFFFFF
 
-/* Notifcation Bar */
+// Notifcation Bar
 
 .notification_bar
   background-color: #faf258
@@ -346,7 +344,77 @@ nav
       &:before
         color: #b29525
 
-/* Footer */
+// Custom Profile Type
+
+.profile-type-input
+  .search-type
+    font-weight: 400
+    margin-bottom: 10px
+    width: 430px
+  .fa
+    color: $color_text_light
+    cursor: pointer
+    font-size: 13px
+    margin: 10px 0 0 10px
+    &:before
+      color: $color_blue
+      padding: 2px 5px 0 0
+    &.fa-plus
+      &:before
+        color: $color_green
+.profile-type-list
+  ul
+    @include border-radius ($border_radius)
+    background-color: $color_background
+    border: 1px solid $color_border
+    padding: 10px 10px 0 10px
+    span.assigned
+      display: inline-block !important
+      font-size: 12px !important
+      margin: 0 !important
+      padding: 0 10px 10px 0 !important
+    li
+      @include border-radius ($border_radius)
+      background-color: $color_blue
+      border: 1px solid #277aa3
+      color: #FFFFFF !important
+      display: inline-block
+      font-size: 12px
+      margin: 0 10px 10px 0
+      padding: 5px 10px
+      .title
+        display: inline-block
+        padding: 0
+        font-weight: 400
+        line-height: 100%
+      .fa-times
+        cursor: pointer
+        padding: 4px 2px 0 0
+      &:first-child
+        margin-left: 0
+      &:hover
+        background-color: $color_pink
+        border: 1px solid #cd233b
+.profile-type-list-show
+  ul
+    background: none !important
+    border: none
+    padding: 0
+    li
+      background-color: $color_green !important
+      border-color: #87bf3b
+      cursor: pointer
+      &:hover
+        background-color: $color_blue !important
+        border-color: #277aa3
+        color: #FFFFFF
+.profile-type-list-owner
+  ul
+    li
+      .fa-times
+        padding-top: 2px
+
+// Footer
 
 footer
   background-color: $color_text_dark
@@ -370,7 +438,7 @@ footer
   .copyright
     font-size: 11px
 
-/* Popup Overlay */
+// Popup Overlay
 
 #overlay
   z-index: $deepest_depth + 10000
@@ -387,7 +455,7 @@ footer
   -khtml-opacity: 0.5
   opacity: 0.5
 
-/* Popup */
+// Popup
 
 .popup
   @include border-radius($border_radius)
@@ -401,7 +469,7 @@ footer
   top: 50%
   z-index: $deepest_depth + 10001
   
-  /* Header Area */
+  // Popup Header
 
   .modal-header
     border: none
@@ -425,7 +493,7 @@ footer
       font-size: 13px
       margin-top: 5px
 
-  /* Body Area */
+  // Popup Body
 
   .modal-body
     display: block
@@ -452,10 +520,10 @@ footer
         color: #FFFFFF
         outline: none
     .text-danger
-      color: red
+      color: $color_pink
       font-size: 11px
       margin: 0
-      padding: 0
+      padding: 5px 0 0 0
     .margin-left, .margin-right
       width: 165px
     .margin-right
@@ -476,7 +544,7 @@ footer
       font-size: 12px
     .search_user
       margin: 0 15px 15px
-      width: 318px
+      width: 467px
     .user_list
       .bg-danger
         @include border-radius($border_radius)
@@ -518,7 +586,7 @@ footer
           &:last-child
             padding-bottom: 0
 
-    /* Photo Display */
+    // Popup Photo Display
 
     &.photo 
       padding: 0 !important
@@ -537,7 +605,7 @@ footer
       img
         max-width: 500px
 
-    /* Subscriber Container */
+    // Popup Subscriber Container
 
     &.subscribe_container
       color: $color_text_dark
@@ -552,7 +620,7 @@ footer
         font-size: 18px !important
         padding: 10px 15px
 
-      /* Order Summary */
+      // Popup Order Summary
 
       .order_summary
         background-color: #FFFFFF
@@ -582,7 +650,7 @@ footer
           font-size: 12px
           font-weight: normal
 
-      /* Account Payment */
+      // Popup Account Payment
 
       .account_payment
         padding: 15px 15px 0 15px
@@ -650,6 +718,8 @@ footer
                 margin-bottom: 0
                 width: 170px
 
+    // Popup Pricing Table
+
     .pricing_table
       color: $color_text_light 
       table
@@ -660,7 +730,7 @@ footer
       p
         text-align: center
 
-    /* Search Results */
+    // Popup Search Results
 
     .search_user_results
       .list-group-item-heading  
@@ -673,14 +743,14 @@ footer
           color: $color_text_dark
           border-top: 1px solid $color_border !important
           padding: 10px 15px !important
-          width: 348px
+          width: 498px
           img 
             background-color: #FFFFFF
           &:hover
             background-color: $color_pink
             color: #FFFFFF
 
-  /* Footer Area */
+  // Popup Footer Area
 
   .modal-footer
     font-size: 12px
@@ -693,12 +763,12 @@ footer
       &:hover
         color: $color_text_dark 
 
-/* Header Edit Popup */
+// Popup Profile Header Edit
 
 .header_edit, .contacts_edit
   overflow: hidden
 
-  /* Nav Tabs */
+  // Popup Tab Navigation
 
   .nav
     @include border_radius (10px 10px 0 0)
@@ -720,7 +790,7 @@ footer
           color: $color_text_dark
           font-weight: 600
 
-  /* Header Area */
+  // Popup Header
 
   .modal-header
     padding: 0
@@ -734,11 +804,10 @@ footer
       font-size: 13px
       margin-top: 5px
 
-  /* Body Area */
+  // Popup Body
 
   .modal-body
     padding-top: 15px
-
     .input-group-addon
       @include black-area
       @include border-radius($border_radius 0 0 $border_radius)
@@ -749,13 +818,13 @@ footer
       color: #cccccc
       font-size: 11px
 
-/* Contacts Edit */
+// Popup Contacts Edit
 
 .contacts_edit
   .input-group
     margin-bottom: 15px
 
-/* Authentication Popup */
+// Popup Authentication
 
 .authentication_popup
   .modal-header
@@ -765,7 +834,7 @@ footer
       margin-bottom: 5px
   
 
-/** REQUIRED BY JS (Modifiable, not deletable) **/
+// Required by JS
 
 #ClickBlocker
   z-index: $deepest_depth + 10002
@@ -804,14 +873,20 @@ input.file
     content: asset-url("//connectpal-assets.s3.amazonaws.com/images/preloader.gif")
 
 .TopJumper
-  color: $color-blue
-  position: fixed
+  @include border-radius ($border-radius)
+  background-color: $color_green
+  border: 1px solid #87bf3b
   bottom: 0
-  padding: 10px
+  color: #FFFFFF
   cursor: pointer
-
+  font-size: 12px
+  margin-left: 198px
+  margin-bottom: 10px
+  padding: 10px
+  position: fixed
+  text-shadow: -1px -1px 0 #8ec245
   &:hover
-    color: #7dd3f3
+    background-color: #87bf3b
 
 .pending_photos
   margin: 5px
@@ -831,7 +906,14 @@ input.file
   top: 17px
   right: 40px
 
-/* Admin Settings */
+.Mention
+  cursor: pointer
+  border-radius: 0 5px 5px 0
+  &:hover
+    color: black
+    font-weight: bold
+
+// Admin Dashboard
 
 .admin_settings
   font-size: 13px !important
@@ -857,8 +939,8 @@ input.file
       display: inline-block
       padding-right: 15px
 
+// Sample Profile Viewport
 
-/* Sample Profile */
 @media screen and (min-width: 992px)
   .box    
     .sample_profile
@@ -939,7 +1021,7 @@ input.file
             height: 73px
             width: 81px
 
-/* Tablet */  
+// Tablet
 
 @media screen and (max-width: 991px)
   nav
@@ -1047,10 +1129,3 @@ input.file
             left: -5px
             height: 73px
             width: 81px
-
-.Mention
-  cursor: pointer
-  border-radius: 0 5px 5px 0
-  &:hover
-    color: black
-    font-weight: bold
