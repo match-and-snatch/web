@@ -7,7 +7,7 @@ class Admin::ProfilesController < Admin::BaseController
   end
 
   def profile_owners
-    @users = User.profile_owners.limit(200)
+    @users = User.profile_owners.order('created_at DESC').limit(200)
     json_render
   end
 
