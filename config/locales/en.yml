@@ -3,20 +3,20 @@ en:
     default: This is not valid.
     empty: This cannot be empty.
     taken: This is already taken by someone else.
-    too_short: Please enter at least %{minimum} characters
-    too_long: Seems to be too long
-    does_not_match_password: Does not match password
-    zero: Must be greater than zero
-    not_a_slug: Must contain only a-z characters and dashes
-    not_a_routing_number: Must contain 9 digits
-    not_an_integer: Must contain only digits
-    not_an_account_number: Must contain between 6-15 digits
-    invalid_login: Email or password is invalid
-    already_set: Already set
-    not_set: Not set
-    reached_maximum: This is too much
-    no_such_email: There is no user registered with this email
-    already_changed_today: You are allowed to change it only once a day
+    too_short: Please enter at least %{minimum} characters.
+    too_long: Seems to be too long.
+    does_not_match_password: Does not match password.
+    zero: Must be greater than zero.
+    not_a_slug: Must contain only a-z characters and dashes.
+    not_a_routing_number: Must contain 9 digits.
+    not_an_integer: Must contain only digits.
+    not_an_account_number: Must contain between 6-15 digits.
+    invalid_login: Email or password is invalid.
+    already_set: Already set.
+    not_set: Not set.
+    reached_maximum: This is too much.
+    no_such_email: There is no user registered with this email.
+    already_changed_today: You are allowed to change it only once a day.
     invalid_token: This token is no longer valid. Please request a new one.
   messages:
     activated: Congratulations, your account has been activated. You are now ready to use our service.

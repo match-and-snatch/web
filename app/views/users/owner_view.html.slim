@@ -251,14 +251,20 @@
     /* Body Area */
 
     .modal-body
-      div
-        input.StaticAutocomplete.form-control data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.'
-        .btn.pink.Toggler data-target='types-dropdown' V
-        .btn.blue data-identifier='types-submit' Add
+
+      .profile-type-input
+        input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.'
+        i.fa.fa-plus.pull-left data-identifier='types-submit' Add
+        i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
+        .clearfix
+
+      .error data-field='profile_type'
+
+      .profile-type-list.profile-type-list-show
         ul data-identifier='types-dropdown'
-        .error data-field='profile_type'
-        div data-identifier='profile-types' style="padding-top: 10px"
-          = render 'profile_types/list_assigned', profile_types: current_user.profile_types
+
+      .profile-type-list.profile-type-list-owner data-identifier='profile-types' style="padding-top: 10px"
+        = render 'profile_types/list_assigned', profile_types: current_user.profile_types
 
   /* Profile Cost Popup */
 

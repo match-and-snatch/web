@@ -1,7 +1,8 @@
 div data-identifier='user-profile-types' style="text-align: left"
-  ul.list-group
+  ul
+  	span.assigned Added Type(s):
     - profile_types.each do |profile_type|
-      li.list-group-item
-        .pull-left= profile_type.title
-        a.pull-right.AjaxFormLink data-_method='DELETE' data-target='user-profile-types' href=profile_type_path(profile_type.id) Remove
+      li
+        i.fa.fa-times.pull-left.AjaxFormLink data-_method='DELETE' data-target='user-profile-types' href=profile_type_path(profile_type.id)
+        .title= profile_type.title
         .clearfix
