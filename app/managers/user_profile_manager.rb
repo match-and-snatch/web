@@ -16,7 +16,7 @@ class UserProfileManager < BaseManager
 
   # @param type [String]
   def add_profile_type(type)
-    type.gsub!(/\s+/, '')
+    type = type.squish
     profile_type = ProfileType.where(['title ILIKE ?', type]).where(user_id: nil).first
     profile_type ||= ProfileType.create!(title: type, user_id: user.id)
 
