@@ -8,6 +8,18 @@ class PostManager < BaseManager
     @user = user
   end
 
+  def show
+    @post.hidden = false
+    @post.save or fail_with! @post.errors
+    @post
+  end
+
+  def hide
+    @post.hidden = true
+    @post.save or fail_with! @post.errors
+    @post
+  end
+
   def update(title: title, message: message)
     fail_with! message: :empty if message.blank?
 

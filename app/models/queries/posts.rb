@@ -4,8 +4,9 @@ module Queries
     # @param user [User]
     # @param query [String, nil]
     # @param start_id [Integer, nil]
-    def initialize(user: nil, query: nil, start_id: nil)
+    def initialize(user: nil, current_user: user, query: nil, start_id: nil)
       @user = user
+      @current_user = current_user
       @query = query
       @start_id = start_id
     end
@@ -15,6 +16,11 @@ module Queries
       @results ||= begin
         posts = @query.present? ? matching_posts : recent_posts
         posts = posts.where(['id < ?', @start_id]) if @start_id.present?
+
+        if @user != @current_user
+          posts = posts.where(hidden: false)
+        end
+
         posts
       end.to_a
     end

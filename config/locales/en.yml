@@ -31,6 +31,8 @@ en:
     unable_to_change_cost: You can't change cost on more than $3 of your current set. We will contact with you soon to confirm the change.
     invalid_token: This token is no longer valid. Please request a new one.
     post_updated: The post has been updated
+    post_hidden: The post has been hidden from users
+    post_shown: The post has been made visible to other users
   feed:
     audios: Just added a new audio file to their profile.
     videos: Just posted a new video to their profile.

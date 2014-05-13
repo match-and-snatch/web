@@ -164,6 +164,41 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
+-- Name: dialogues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE dialogues (
+    id integer NOT NULL,
+    user_id integer,
+    target_user_id integer,
+    recent_message_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    recent_message_at timestamp without time zone,
+    unread boolean DEFAULT true NOT NULL
+);
+
+
+--
+-- Name: dialogues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE dialogues_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: dialogues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE dialogues_id_seq OWNED BY dialogues.id;
+
+
+--
 -- Name: feed_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -232,6 +267,39 @@ CREATE SEQUENCE likes_id_seq
 --
 
 ALTER SEQUENCE likes_id_seq OWNED BY likes.id;
+
+
+--
+-- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE messages (
+    id integer NOT NULL,
+    user_id integer,
+    target_user_id integer,
+    message text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 
 
 --
@@ -351,7 +419,8 @@ CREATE TABLE posts (
     updated_at timestamp without time zone,
     title character varying(512),
     keywords_text character varying(512),
-    type character varying(255)
+    type character varying(255),
+    hidden boolean DEFAULT false NOT NULL
 );
 
 
@@ -643,6 +712,13 @@ ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY dialogues ALTER COLUMN id SET DEFAULT nextval('dialogues_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY feed_events ALTER COLUMN id SET DEFAULT nextval('feed_events_id_seq'::regclass);
 
 
@@ -651,6 +727,13 @@ ALTER TABLE ONLY feed_events ALTER COLUMN id SET DEFAULT nextval('feed_events_id
 --
 
 ALTER TABLE ONLY likes ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
 
 
 --
@@ -740,6 +823,14 @@ ALTER TABLE ONLY comments
 
 
 --
+-- Name: dialogues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY dialogues
+    ADD CONSTRAINT dialogues_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: feed_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -753,6 +844,14 @@ ALTER TABLE ONLY feed_events
 
 ALTER TABLE ONLY likes
     ADD CONSTRAINT likes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
 
 
 --
@@ -971,3 +1070,11 @@ INSERT INTO schema_migrations (version) VALUES ('20140508115848');
 INSERT INTO schema_migrations (version) VALUES ('20140508115947');
 
 INSERT INTO schema_migrations (version) VALUES ('20140509182958');
+
+INSERT INTO schema_migrations (version) VALUES ('20140511101640');
+
+INSERT INTO schema_migrations (version) VALUES ('20140511120444');
+
+INSERT INTO schema_migrations (version) VALUES ('20140511121316');
+
+INSERT INTO schema_migrations (version) VALUES ('20140513204040');

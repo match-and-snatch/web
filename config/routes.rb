@@ -31,6 +31,10 @@ BuddyPlatform::Application.routes.draw do
   end
 
   resources :posts, only: [:show, :edit, :update, :destroy] do
+    member do
+      put :make_visible
+      put :hide
+    end
     resources :comments, only: [:create, :index]
     resources :likes, only: :create
   end
