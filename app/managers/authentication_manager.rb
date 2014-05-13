@@ -67,11 +67,13 @@ class AuthenticationManager < BaseManager
   end
 
   def restore_password
+    user = User.by_email(email).first
+
     validate! do
       fail_with email: :empty if email.blank?
       fail_with :email unless email.match(EMAIL_REGEXP)
     end
-    fail_with! email: :no_such_email unless email_taken?
+    fail_with! email: :no_such_email unless user
 
     user.generate_password_reset_token!
     AuthMailer.delay.forgot_password(user)
