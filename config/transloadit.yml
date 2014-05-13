@@ -151,16 +151,9 @@ development:
     post_document:
       steps:
         <<: *document_filter
-        preview:
-          robot: "/document/thumbs"
-          page: 1
-          height: 75
-          resize_strategy: "fit"
         store:
           <<: *s3
-          use:
-            - ':original'
-            - 'preview'
+          use: ':original'
           bucket: 'buddy-private-assets'
           path: 'uploads/post_documents/${fields.slug}/${assembly.id}/${file.url_name}'
 
@@ -292,16 +285,8 @@ staging:
     post_document:
       steps:
         <<: *document_filter
-        preview:
-          robot: "/document/thumbs"
-          page: 1
-          height: 75
-          resize_strategy: "fit"
         store:
           <<: *attachment
-          use:
-            - ':original'
-            - 'preview'
           path: 'documents/${fields.slug}/${assembly.id}__${file.url_name}'
 
 
@@ -429,14 +414,6 @@ production:
     post_document:
       steps:
         <<: *document_filter
-        preview:
-          robot: "/document/thumbs"
-          page: 1
-          height: 75
-          resize_strategy: "fit"
         store:
           <<: *attachment
-          use:
-            - ':original'
-            - 'preview'
           path: 'documents/${fields.slug}/${assembly.id}__${file.url_name}'

@@ -1,7 +1,6 @@
 ul
   - post.uploads.ordered.each do |upload|
     li
-      img src=upload.preview_url
       a.doc_view href=upload.url target='_blank'
         i.fa.fa-paperclip.icon.pull-left
         .doc_title.pull-left= upload.filename
