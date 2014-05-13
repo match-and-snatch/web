@@ -1,9 +1,9 @@
 li.dropdown.my_sub
-  i.fa.fa-plus-square.my_sub_parent.dropdown-toggle data-toggle='dropdown' My Subscriptions
+  i.fa.fa-plus-square.my_sub_parent.dropdown-toggle.Toggler data-target='subscriptions-dropdown' My Subscriptions
 
   /* My Sub Container */
 
-  ul.my_sub_cont.dropdown-menu
+  ul.my_sub_cont.dropdown-menu data-identifier='subscriptions-dropdown'
     - current_user.idols.each do |user|
       a href=profile_path(user)
         li
