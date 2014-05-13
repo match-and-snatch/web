@@ -3,6 +3,7 @@ div data-identifier='pending-documents'
     ul
       - current_user.pending_documents.each do |upload|
         li
+          img src=upload.preview_url
           i.fa.fa-paperclip.icon.pull-left
           .doc_title.pull-left= upload.filename
           a.pull-right.AjaxFormLink href=document_path(upload) data-_method='DELETE' data-target='pending-documents' Delete

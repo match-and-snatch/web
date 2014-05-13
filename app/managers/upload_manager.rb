@@ -98,6 +98,7 @@ class UploadManager < BaseManager
 
     transloadit_data['uploads'].each_with_index.map do |upload_data, index|
       original = transloadit_data['results'][':original'][index]
+      preview  = transloadit_data['results']['preview'][index]
       upload = Document.new transloadit_data: transloadit_data,
                             user_id:          user.id,
                             type:             'Document',
@@ -109,7 +110,7 @@ class UploadManager < BaseManager
                             width:            upload_data['meta']['width'],
                             height:           upload_data['meta']['height'],
                             url:              original['ssl_url']
-      upload.attributes = attributes
+      upload.attributes = attributes.merge(preview_url: preview['ssl_url'])
       upload.save or fail_with! upload.errors
       upload
     end
