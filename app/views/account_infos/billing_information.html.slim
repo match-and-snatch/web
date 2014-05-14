@@ -11,26 +11,22 @@
 
   h2 style='margin-top: 30px;' Cancel Subscription
 
-  / show if no subscriptions 
+  - if @user.source_subscriptions.empty?
+    .well style='text-align:center;' Sorry you have no subscriptions.
+  - else
+    table.table.table-hover
+      thead
+        tr
+          th
+            b Subscription Name
+          th style='width: 150px;'
+            b Billing Date
+          th style='width: 150px;'
+      tbody
 
-  .well style='text-align:center;' Sorry you have no subscriptions.
-
-  / show if subscriptions
-
-  table.table.table-hover
-    thead
-      tr
-        th 
-          b Subscription Name
-        th style='width: 150px;' 
-          b Billing Date
-        th style='width: 150px;'
-    tbody
-
-      / row
-
-      tr
-        td ProfileName
-        td BillDate
-        td style='text-align: right;'
-          a.fa.fa-close href="#" Cancel Subscription
+        - @user.source_subscriptions.order('created_at DESC').preload(:user).find_each do |subscription|
+          tr
+            td= link_to_user subscription.user
+            td= subscription.created_at.to_s(:long)
+            td style='text-align: right;'
+              a.fa.fa-close.AjaxFormLink href=subscriber_path(subscription.user.id) data-_method='DELETE' Cancel Subscription

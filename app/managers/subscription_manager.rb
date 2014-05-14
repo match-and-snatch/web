@@ -133,6 +133,6 @@ class SubscriptionManager < BaseManager
     subscription.destroy
     UserStatsManager.new(subscription.target_user).log_subscriptions_count
     UnsubscribedFeedEvent.create! target_user: subscription.target_user, target: @subscriber
-    SubscriptionsMailer.delay.unsubscribed(subscription)
+    #SubscriptionsMailer.delay.unsubscribed(subscription)
   end
 end
