@@ -18,6 +18,7 @@
         input.detail_field name='title' placeholder="Post Title" value=pending_post.title
         .error data-field='title'
         .clearfix
+
         input.hidden.detail_field name='keywords' placeholder="Keywords" value=pending_post.keywords style="margin-top: 18px;"
         .error data-field='keywords'
       .col-md-6
@@ -26,6 +27,13 @@
         .error data-field='message'
     .row
       .col-md-12.foot
+
+        / this will notify the subscribers who have the checkbox still checked under View Subscriptions
+
+        .checkbox.pull-left
+          label
+            input type='checkbox' value='' 
+            | Notify subscribers about this post
 
         /* Disabled until all uploads are 100% */
 

@@ -5,7 +5,32 @@
       | Card on file is 
       strong= @user.card_type
       | &nbsp;ending with <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
-      br
-      a href=edit_cc_data_account_info_path Click here to edit
+      a href=edit_cc_data_account_info_path style='margin-top: 5px; display: block;' Click here to edit
   - else
     .AjaxContainer data-url=edit_cc_data_account_info_path
+
+  h2 style='margin-top: 30px;' Cancel Subscription
+
+  / show if no subscriptions 
+
+  .well style='text-align:center;' Sorry you have no subscriptions.
+
+  / show if subscriptions
+
+  table.table.table-hover
+    thead
+      tr
+        th 
+          b Subscription Name
+        th style='width: 150px;' 
+          b Billing Date
+        th style='width: 150px;'
+    tbody
+
+      / row
+
+      tr
+        td ProfileName
+        td BillDate
+        td style='text-align: right;'
+          a.fa.fa-close href="#" Cancel Subscription

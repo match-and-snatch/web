@@ -1,5 +1,5 @@
 .col-md-12
-  h2 View/Cancel Subscriptions
+  h2 View Subscriptions
 
   - if @subscriptions.any?
     ul
@@ -13,15 +13,24 @@
           p
             ' Subscribe Date:
             span= subscription.created_at.to_date.to_s(:long)
-          p
+          /p
             ' Next Billing Cycle:
             span= subscription.created_at.to_date.next_month.to_s(:long)
           .actions
-            a.pull-right.AjaxLink href=cancel_subscription_path(subscription.id)
+            / a.pull-right.AjaxLink href=cancel_subscription_path(subscription.id)
               i.fa.fa-times-circle-o.pink Cancel Subscription
-            a.pull-right href=profile_path(subscription.target_user)
-              i.fa.fa-eye.blue View Profile
+
+            a.pull-left href=profile_path(subscription.target_user)
+              i.fa.fa-eye View Profile
+
+            / this will be where the subscriber can pick to not recieve emails. Checked by default.
+            
+            .checkbox.pull-right
+              label
+                input type='checkbox' value='' 
+                | Receive profile notifications via email
             .clearfix
+    
   - else
     strong You do not have any subscriptions.
     '

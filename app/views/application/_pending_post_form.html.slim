@@ -5,6 +5,14 @@
         = pending_post.message
       .clearfix
       .error data-field='message'
-    .col-md-1.col-sm-12.col-xs-12
+      
+    .col-md-12.col-sm-12.col-xs-12
       input.btn.blue.status_btn.pull-right type='Submit' value='Post'
+      
+      / this will notify the subscribers who have the checkbox still checked under View Subscriptions
+
+      .checkbox.pull-right
+        label
+          input type='checkbox' value='' 
+          | Notify subscribers about this post
       .clearfix

@@ -8,10 +8,10 @@
       - @subscribers.find_each do |subscriber|
         tr
           td.name= link_to_user subscriber
-          td.message.pending
+          /td.message.pending
             i.fa.fa-envelope
               span Message
-          td.hide_activity.pending
+          /td.hide_activity.pending
             i.fa.fa-warning
               span Hide Activity
           td.remove

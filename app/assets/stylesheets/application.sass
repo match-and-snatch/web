@@ -874,20 +874,22 @@ input.file
     content: asset-url("//connectpal-assets.s3.amazonaws.com/images/preloader.gif")
 
 .TopJumper
-  @include border-radius ($border-radius)
-  background-color: $color_green
-  border: 1px solid #87bf3b
   bottom: 0
-  color: #FFFFFF
+  color: $color_text_light
   cursor: pointer
-  font-size: 12px
-  margin-left: 198px
+  font-size: 13px
   margin-bottom: 10px
-  padding: 10px
   position: fixed
-  text-shadow: -1px -1px 0 #8ec245
   &:hover
-    background-color: #87bf3b
+    color: $color_text_dark
+
+  // Tablet
+  @media screen and (max-width: 991px)
+    margin-left: 130px
+
+  // Desktop 
+  @media screen and (min-width: 992px)
+    margin-left: 205px
 
 .pending_photos
   margin: 5px

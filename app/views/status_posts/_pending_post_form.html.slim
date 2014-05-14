@@ -1,9 +1,16 @@
 #post
   form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
-    .col-md-11
+    .col-md-12.col-sm-12.col-xs-12
       textarea name='message' placeholder='Keep your subscribers in the know...'
         = pending_post.message
-    .col-md-1
       .error data-field='message'
+    .col-md-12.col-sm-12.col-xs-12
       input.btn.blue.pull-right type='Submit' value='Post'
+
+      / this will notify the subscribers who have the checkbox still checked under View Subscriptions
+
+      .checkbox.pull-right
+        label
+          input type='checkbox' value='' 
+          | Receive profile notifications via email
       .clearfix
