@@ -70,6 +70,6 @@ module ApplicationHelper
   # @param user [User]
   # @return [String]
   def link_to_user(user)
-    link_to_if user.has_profile_page?, user.name, profile_path(user)
+    link_to_if user.has_profile_page?, user.name.first(40).gsub(/ /, '&nbsp;').html_safe, profile_path(user)
   end
 end
