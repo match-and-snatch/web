@@ -52,7 +52,7 @@
 
 
   /* Create Post (Owner View Only) */
-  div.PostForm data-identifier='post-form' data-default_post_tab='default-post-tab' data-target='post-fields' data-url=pending_post_path
+  div.hidden-xs.PostForm data-identifier='post-form' data-default_post_tab='default-post-tab' data-target='post-fields' data-url=pending_post_path
     ul#create_post_nav
       li.PostTab data-identifier='default-post-tab' data-url=new_status_post_path
         a.fa.fa-pencil href='javascript: void(0)'
@@ -78,7 +78,7 @@
   #subscriber_display
     .row
 
-      .sidebar.col-md-4.col-sm-4.col-xs-4.pull-left
+      .sidebar.col-md-4.col-sm-4.hidden-xs.pull-left
 
         /* Profile Action */
 
@@ -120,7 +120,7 @@
 
       /* Recent Posts */
 
-      .pull-right.col-md-8.col-sm-8.col-xs-8
+      .pull-right.col-md-8.col-sm-8
         .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
 
   .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(current_user.object)

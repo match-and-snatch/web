@@ -679,13 +679,11 @@
     /* Single Post */
 
     .post
-      margin-top: $box_margin
+      margin-bottom: $box_margin
       padding-top: 15px
       position: relative
       overflow: hidden
       z-index: 1
-      &:first-child
-        margin-top: 0 !important
       .edit_container
         @include border-radius(5px)
         background-color: #FFFFFF
@@ -1108,7 +1106,7 @@
       &:hover
         color: $color_text_dark
 
-/* Tablet */
+// Tablet
 
 @media screen and (max-width: 991px)
   #header
@@ -1153,8 +1151,6 @@
     #post
       .error
         padding-bottom: 5px
-      .status_btn
-        width: 100%
     #uploading
       .file_status
         width: 718px
@@ -1170,6 +1166,7 @@
           padding-left: 50px
         span
           font-size: 11px
+          margin-left: -10px
         .fa-share-square-o
           &:before
             font-size: 40px
@@ -1241,6 +1238,13 @@
     .already_user
       font-size: 12px
 
+// Mobile
+
+// @media screen and (max-width: 768px)
+  .recent_posts
+    width: 100% !important
+
+// Randoms
 
 .edit_post_popup
   padding: 10px 15px 15px 15px
