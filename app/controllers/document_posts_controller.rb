@@ -10,6 +10,7 @@ class DocumentPostsController < PendingPostsController
   def create_post
     PostManager.new(user: current_user.object).create_document_post title:         params[:title],
                                                                     keywords_text: params[:keywords_text],
+                                                                    notify:        params[:notify],
                                                                     message:       params[:message]
   end
 

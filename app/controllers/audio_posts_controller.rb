@@ -10,7 +10,8 @@ class AudioPostsController < MediaPostsController
   def create_post
     PostManager.new(user: current_user.object).create_audio_post title:         params[:title],
                                                                  keywords_text: params[:keywords_text],
-                                                                 message:       params[:message]
+                                                                 message:       params[:message],
+                                                                 notify:        params[:notify]
   end
 
   def cancel_media_posts_path

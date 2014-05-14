@@ -1,6 +1,12 @@
 class PostsMailer < ApplicationMailer
   add_template_helper ApplicationHelper
 
+  def created(post, user)
+    @user = user
+    @post = post
+    mail to: @user.email, subject: "New post by #{post.user.name}!"
+  end
+
   def mentioned(comment, mentioned_user)
     @comment        = comment
     @mentioned_user = mentioned_user

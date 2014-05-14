@@ -52,7 +52,7 @@ class PostsController < ApplicationController
 
   def create
     has_posts = current_user.has_posts?
-    @post = PostManager.new(user: current_user.object).create_status_post(message: params[:message])
+    @post = PostManager.new(user: current_user.object).create_status_post(message: params[:message], notify: params[:notify])
     has_posts ? json_prepend : json_replace
   end
 
