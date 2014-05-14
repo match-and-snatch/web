@@ -789,24 +789,51 @@
             width: 585px
           &:nth-of-type(1n+2)
             display: none
+
+      // Doc View
+
       .doc_view
+        @include border-radius ($border_radius)
+        background: $color_background
         color: $color_text_dark
-        .icon
-          background-color: #FFFFFF
+        overflow: hidden
+        .preview
           border-right: 1px solid $color_border
-          padding: 7px 15px
-          &.fa
+          height: 100px
+          overflow: hidden
+          position: relative
+          width: 200px
+          .fa-search
+            position: absolute
+            display: none
+            top: 25px
+            left: 75px
             &:before
-              font-size: 26px
-        .doc_title
-          display: block
-          font-size: 13px
-          padding: 10px 0 0 10px
+              color: $color_text_dark
+              font-size: 50px
+        .doc_details
+          span
+            color: $color_blue
+            display: block
+            font-size: 20px
+            margin: 20px 0 5px 15px
+          .doc_title
+            font-size: 14px
+            margin-left: 15px
         &:hover
           text-decoration: none
-          background: #FFFFFF
-          .icon
-            background-color: $color_background
+          background: $color_blue
+          color: #FFFFFF
+          .preview
+            background: #FFFFFF
+            img
+              opacity: 0.5
+            .fa-search
+              display: block
+          .doc_details
+            span, .doc_title
+              color: #FFFFFF
+          
       .message
         font-size: 13px
         line-height: 20px

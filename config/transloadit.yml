@@ -154,7 +154,7 @@ development:
         preview:
           robot: "/document/thumbs"
           page: 1
-          height: 75
+          width: 200
           resize_strategy: "fit"
         store:
           <<: *s3
@@ -295,7 +295,7 @@ staging:
         preview:
           robot: "/document/thumbs"
           page: 1
-          height: 75
+          width: 200
           resize_strategy: "fit"
         store:
           <<: *attachment
@@ -432,7 +432,7 @@ production:
         preview:
           robot: "/document/thumbs"
           page: 1
-          height: 75
+          width: 200
           resize_strategy: "fit"
         store:
           <<: *attachment
