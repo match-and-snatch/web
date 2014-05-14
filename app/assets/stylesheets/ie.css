@@ -13,6 +13,10 @@ ul.navbar-nav {
   margin-top: 0 !important;
 }
 
+nav .navbar-nav li.my_sub .my_sub_cont a {
+  height: 60px;
+}
+
 #overlay {
   opacity: 0.5 !important;
 }
@@ -34,3 +38,6 @@ ul.navbar-nav {
 	border-right: none;
 }
 
+.my_account .content ul li.item_sub .actions .checkbox {
+  width: 300px
+}

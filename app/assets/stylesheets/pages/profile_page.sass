@@ -352,8 +352,9 @@
       width: 100%
     .checkbox
       color: $color_text_light
-      font-size: 13px
-      margin: 8px 15px 0 0
+      font-size: 12px
+      margin: 8px 0 0
+      width: 300px
     input[type="submit"]
       &:focus
         color: #FFFFFF
@@ -515,8 +516,8 @@
         position: relative
         .checkbox
           color: $color_text_light
-          font-size: 13px
-          margin: 0
+          font-size: 12px
+          margin: 8px 0 0
         .cancel_post
           color: #959595
           cursor: pointer
@@ -948,6 +949,7 @@
             overflow: hidden
             top: -10px
             right: -5px
+            width: 197px
             ul
               margin: 0
               padding: 0
@@ -959,12 +961,14 @@
                 li
                   background-color: #FFFFFF
                   border-right: 1px solid $color_border
-                  display: inline-block
-                  padding: 5px 10px
-                  text-align: left
+                  float: left
+                  padding: 5px 0
+                  text-align: center
+                  width: 55px
                   &.last
                     border-right: none
                     background-color: $color-border
+                    width: 30px
                     &:hover
                       background-color: $color_pink
                   &:hover

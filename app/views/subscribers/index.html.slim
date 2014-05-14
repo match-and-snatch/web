@@ -4,7 +4,19 @@
   - if @subscribers.empty?
     .well style="text-align: center;" No subscribers at this moment. Share and promote your profile to gain more subscribers.
   - else
-    table.table.table-striped.table-bordered.subscriber_table
+    table.table.table-hover
+      thead
+        tr
+          th colspan='2'
+            b Subscriber Name
+      tbody
+        - @subscribers.find_each do |subscriber|
+          tr
+            td= link_to_user subscriber
+            td style='text-align: right;'
+              a.AjaxFormLink href=subscriber_path(subscriber.id) data-_method='DELETE' Remove
+
+    / table.table.table-striped.table-bordered.subscriber_table
       - @subscribers.find_each do |subscriber|
         tr
           td.name= link_to_user subscriber

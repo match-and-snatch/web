@@ -5,10 +5,10 @@
         ul
           a.AjaxLink.delete_btn data-target='' href=edit_post_path(post.id)
             li Edit
-          - if post.hidden?
+          /- if post.hidden?
             a.AjaxFormLink.delete_btn href=make_visible_post_path(post.id) data-_method='put' data-target='post-#{post.id}'
               li Show
-          - else
+          /- else
             a.AjaxFormLink.delete_btn href=hide_post_path(post.id) data-_method='put' data-target='post-#{post.id}'
               li Hide
           a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}'

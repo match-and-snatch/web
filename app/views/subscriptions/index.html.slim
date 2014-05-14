@@ -20,12 +20,12 @@
             / a.pull-right.AjaxLink href=cancel_subscription_path(subscription.id)
               i.fa.fa-times-circle-o.pink Cancel Subscription
 
-            a.pull-left href=profile_path(subscription.target_user)
+            a.pull-right href=profile_path(subscription.target_user)
               i.fa.fa-eye View Profile
 
             / this will be where the subscriber can pick to not recieve emails. Checked by default.
             
-            .checkbox.pull-right
+            .checkbox.pull-left
               label
                 input type='checkbox' value='' 
                 | Receive profile notifications via email
