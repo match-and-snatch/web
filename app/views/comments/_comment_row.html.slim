@@ -1,4 +1,4 @@
-.comment_row data-identifier='comment-#{comment.id}' style='#{"opacity: 0.5" if comment.hidden?}'
+.comment_row data-identifier='comment-#{comment.id}' style='#{"opacity: 0.5" if (comment.hidden? && comment.user_id != current_user.id) || (comment.hidden? && comment.post_user_id == current_user.id)}'
   .photo.pull-left
     img src=comment.user.comment_picture_url width=50 height=50 border=0
   .content.pull-right
@@ -11,12 +11,13 @@
         ul
           a.AjaxLink.delete_btn href=edit_comment_path(comment.id) data-target='comment-#{comment.id}'
             li Edit
-          - if comment.hidden?
-            a.AjaxFormLink.delete_btn href=make_visible_comment_path(comment.id) data-_method='put' data-target='comment-#{comment.id}'
-              li Show
-          - else
-            a.AjaxFormLink.delete_btn href=hide_comment_path(comment.id) data-_method='put' data-target='comment-#{comment.id}'
-              li Hide
+          - if current_user.id == comment.post_user_id
+            - if comment.hidden?
+              a.AjaxFormLink.delete_btn href=make_visible_comment_path(comment.id) data-_method='put' data-target='comment-#{comment.id}'
+                li Show
+            - else
+              a.AjaxFormLink.delete_btn href=hide_comment_path(comment.id) data-_method='put' data-target='comment-#{comment.id}'
+                li Hide
           a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}'
             li Delete
           a.Toggler data-target='edit-comment-#{comment.id}' href="#"

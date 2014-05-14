@@ -1,5 +1,5 @@
-- if !reply.hidden? || current_user.id == reply.post_user_id
-  .nested_row data-identifier='comment-#{reply.id}' style='#{"opacity: 0.5" if reply.hidden?}'
+- if (!reply.hidden? || current_user.id == reply.post_user_id) || current_user.id == reply.user_id
+  .nested_row data-identifier='comment-#{reply.id}' style='#{"opacity: 0.5" if (reply.hidden? && reply.user_id != current_user.id) || (reply.hidden? && reply.post_user_id == current_user.id)}'
     .photo.pull-left
       img src=reply.user.comment_picture_url width=50 height=50
     .nested_content.pull-right
@@ -13,12 +13,13 @@
           ul
             a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}'
               li Edit
-            - if reply.hidden?
-              a.AjaxFormLink.delete_btn href=make_visible_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
-                li Show
-            - else
-              a.AjaxFormLink.delete_btn href=hide_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
-                li Hide
+            - if current_user.id == reply.post_user_id
+              - if reply.hidden?
+                a.AjaxFormLink.delete_btn href=make_visible_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
+                  li Show
+              - else
+                a.AjaxFormLink.delete_btn href=hide_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
+                  li Hide
             a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}'
               li Delete
             a.Toggler data-target='edit-comment-#{reply.id}' href="#"
