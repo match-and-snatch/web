@@ -25,7 +25,7 @@
       tbody
         - @user.subscriptions.each do |s|
           tr
-            td= link_to_user s.user
+            td= link_to_user s.target_user
             - date2 = Time.zone.now
             - date1 = s.created_at
             - months = (date2.year * 12 + date2.month) - (date1.year * 12 + date1.month)
