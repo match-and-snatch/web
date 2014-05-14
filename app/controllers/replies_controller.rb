@@ -1,7 +1,7 @@
 class RepliesController < ApplicationController
   before_filter :authenticate!
   before_filter :load_comment!, only: [:create, :edit, :update]
-  before_filter :load_reply!, only: [:edit, :update]
+  before_filter :load_reply!, only: [:edit, :update, :make_visible, :hide]
 
   protect(:create) { can? :see, @comment.post }
   protect(:edit, :update) { can? :delete, @reply }
@@ -20,6 +20,16 @@ class RepliesController < ApplicationController
 
   def update
     @reply.update_attributes(message: params[:message])
+    json_replace html: render_to_string(partial: 'reply', locals: {reply: @reply})
+  end
+
+  def make_visible
+    CommentManager.new(user: current_user.object, comment: @reply).show
+    json_replace html: render_to_string(partial: 'reply', locals: {reply: @reply})
+  end
+
+  def hide
+    CommentManager.new(user: current_user.object, comment: @reply).hide
     json_replace html: render_to_string(partial: 'reply', locals: {reply: @reply})
   end
 

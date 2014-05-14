@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_filter :authenticate!
   before_filter :load_post!, only: [:index, :create]
-  before_filter :load_comment!, only: [:edit, :update, :destroy]
+  before_filter :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide]
 
   protect(:index, :create) { can? :see, @post }
   protect(:edit, :update, :destroy) { can? :delete, @comment }
@@ -23,6 +23,16 @@ class CommentsController < ApplicationController
 
   def update
     @comment.update_attributes(message: params[:message])
+    json_replace html: render_to_string(partial: 'comment_row', locals: {comment: @comment})
+  end
+
+  def make_visible
+    CommentManager.new(user: current_user.object, comment: @comment).show
+    json_replace html: render_to_string(partial: 'comment_row', locals: {comment: @comment})
+  end
+
+  def hide
+    CommentManager.new(user: current_user.object, comment: @comment).hide
     json_replace html: render_to_string(partial: 'comment_row', locals: {comment: @comment})
   end
 

@@ -140,7 +140,8 @@ CREATE TABLE comments (
     updated_at timestamp without time zone,
     post_user_id integer,
     parent_id integer,
-    mentions text
+    mentions text,
+    hidden boolean DEFAULT false NOT NULL
 );
 
 
@@ -1078,3 +1079,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140511120444');
 INSERT INTO schema_migrations (version) VALUES ('20140511121316');
 
 INSERT INTO schema_migrations (version) VALUES ('20140513204040');
+
+INSERT INTO schema_migrations (version) VALUES ('20140513212757');
