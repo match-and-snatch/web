@@ -8,7 +8,7 @@ class UsersController < ApplicationController
       with_complete_profile.
       search_by_text_fields(params[:q]).
       where.not(profile_picture_url: nil).
-      limit(10)
+      limit(5)
 
     json_replace
   end
