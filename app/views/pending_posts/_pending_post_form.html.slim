@@ -31,9 +31,15 @@
         / this will notify the subscribers who have the checkbox still checked under View Subscriptions
 
         .checkbox.pull-left
-          label
-            input type='checkbox' name='notify' value='1' checked='checked'
+          .pull-left
+            input type='radio' name='notify' value='1' id='notify_yes'
+            label for='notify_yes' Yes
+          .pull-left
+            input type='radio' name='notify' checked='checked' id='notify_no'
+            label for='notify_yes' No
+          label.pull-left
             | Notify subscribers about this post
+          .clearfix
 
         /* Disabled until all uploads are 100% */
 
