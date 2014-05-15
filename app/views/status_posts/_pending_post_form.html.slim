@@ -6,17 +6,15 @@
       .error data-field='message'
     .col-md-12.col-sm-12.col-xs-12
       input.btn.blue.pull-right type='Submit' value='Post'
-
-      / this will notify the subscribers who have the checkbox still checked under View Subscriptions
-
-      .checkbox.pull-left
-        .pull-left
+      /.notify.pull-left
+        label.pull-left style='margin: 2px 10px 0 0;' Do you want to notify your subscribers of this post via email?
+        .pull-right style='margin-right: 10px'
+          input type='radio' name='notify' value='' checked='checked' id='notify_no'
+          label for='notify_no' 
+            |&nbsp;No        
+        .pull-right style='margin-right: 10px'
           input type='radio' name='notify' value='1' id='notify_yes'
-          label for='notify_yes' Yes
-        .pull-left
-          input type='radio' name='notify' checked='checked' id='notify_no'
-          label for='notify_yes' No
-        label.pull-left
-          | Notify subscribers about this post
+          label for='notify_yes' 
+            |&nbsp;Yes
         .clearfix
       .clearfix
