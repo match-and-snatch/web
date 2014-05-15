@@ -43,7 +43,7 @@ class PostManager < BaseManager
       StatusFeedEvent.create! subscription_target_user: user, target: post, data: {message: message}
       user.pending_post.try(:destroy!)
 
-      if notify == '1'
+      if notify == 'on'
         post.user.source_subscriptions.preload(:user).find_each do |s|
           PostsMailer.delay.created(post, s.user)
         end
@@ -166,7 +166,7 @@ class PostManager < BaseManager
       uploads.each { |upload| post.uploads << upload }
       user.pending_post.try(:destroy!)
 
-      if notify == '1'
+      if notify == 'on'
         post.user.source_subscriptions.preload(:user).find_each do |s|
           PostsMailer.delay.created(post, s.user)
         end
