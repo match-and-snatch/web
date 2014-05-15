@@ -672,7 +672,7 @@
     /* Deleted */
 
     .deleted
-      margin-top: 30px
+      margin-bottom: 30px
       font-weight: bold
       text-align: center
 
@@ -695,7 +695,8 @@
         overflow: hidden
         top: -5px
         right: -5px
-        width: 126px
+        width: 70px
+        z-index: 1
         ul
           margin: 0
           padding: 0
@@ -706,12 +707,11 @@
               color: #FFFFFF
             li
               background-color: #FFFFFF
-              border-right: 1px solid $color_border
-              display: inline-block
+              border-bottom: 1px solid $color_border
               padding: 5px 10px
               text-align: left
               &.last
-                border-right: none
+                border-bottom: none
                 background-color: $color-border
                 &:hover
                   background-color: $color_pink
@@ -930,6 +930,7 @@
             position: absolute
             top: 0
             right: 0
+            z-index: 0
             &.fa
               &:before
                 color: $color_text_light
@@ -945,9 +946,10 @@
             padding: 0
             position: absolute
             overflow: hidden
-            top: -10px
+            top: -5px
             right: -5px
-            width: 197px
+            width: 62px
+            z-index: 1
             ul
               margin: 0
               padding: 0
@@ -958,15 +960,14 @@
                   color: #FFFFFF
                 li
                   background-color: #FFFFFF
-                  border-right: 1px solid $color_border
-                  float: left
-                  padding: 5px 0
+                  border: none
+                  border-top: 1px solid $color_border
+                  padding: 5px 10px
                   text-align: center
-                  width: 55px
-                  &.last
-                    border-right: none
+                  &.first
+                    border: none
+                    border-top: none
                     background-color: $color-border
-                    width: 30px
                     &:hover
                       background-color: $color_pink
                   &:hover
@@ -1006,6 +1007,7 @@
         @media screen and (min-width: 992px)
           .reply_input, .Highlighter
             width: 520px !important
+        
         .reply_input
           border: 1px solid $color_border
           font-size: 13px

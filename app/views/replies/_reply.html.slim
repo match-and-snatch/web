@@ -11,8 +11,10 @@
         .edit_container data-identifier='edit-comment-#{reply.id}' style='display: none'
 
           ul
-            a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}'
-              li Edit
+            a.Toggler data-target='edit-comment-#{reply.id}' href="#"
+              li.first
+                i.fa.fa-times
+                  |&nbsp;Close
             - if current_user.id == reply.post_user_id
               - if reply.hidden?
                 a.AjaxFormLink.delete_btn href=make_visible_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
@@ -20,11 +22,10 @@
               - else
                 a.AjaxFormLink.delete_btn href=hide_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
                   li Hide
+            a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}'
+              li Edit
             a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}'
               li Delete
-            a.Toggler data-target='edit-comment-#{reply.id}' href="#"
-              li.last
-                i.fa.fa-times
 
       .profile_name data-identifier='profile-name'
         = link_to_user reply.user
