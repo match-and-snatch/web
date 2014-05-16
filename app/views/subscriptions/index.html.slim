@@ -24,9 +24,9 @@
               i.fa.fa-eye View Profile
 
             
-            .checkbox.pull-left
+            .checkbox.pull-left style='display: block'
               label
-                input type='checkbox' checked='checked'
+                = object_checker_tag(subscription, :notifications)
                 | Receive email notifications from this profile.
             .clearfix
     

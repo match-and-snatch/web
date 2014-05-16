@@ -1,7 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_filter :authenticate!, except: [:new, :via_register]
   before_filter :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
-  before_filter :load_subscription!, only: [:cancel, :destroy]
+  before_filter :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications]
 
   protect(:destroy) { can? :delete, @subscription }
 
@@ -50,6 +50,16 @@ class SubscriptionsController < ApplicationController
 
   def cancel
     json_success popup: render_to_string(action: 'cancel', layout: false)
+  end
+
+  def enable_notifications
+    SubscriptionManager.new(current_user.object).enable_notifications(@subscription)
+    json_success
+  end
+
+  def disable_notifications
+    SubscriptionManager.new(current_user.object).disable_notifications(@subscription)
+    json_success
   end
 
   def destroy

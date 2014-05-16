@@ -71,6 +71,8 @@ BuddyPlatform::Application.routes.draw do
   resources :subscriptions, only: [:index, :create, :destroy] do
     member do
       get :cancel
+      put :enable_notifications
+      put :disable_notifications
     end
   end
   resources :audios, only: [:show, :create, :destroy] do

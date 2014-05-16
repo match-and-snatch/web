@@ -135,4 +135,14 @@ class SubscriptionManager < BaseManager
     UnsubscribedFeedEvent.create! target_user: subscription.target_user, target: @subscriber
     #SubscriptionsMailer.delay.unsubscribed(subscription)
   end
+
+  def enable_notifications(subscription)
+    subscription.notifications_enabled = true
+    subscription.save or fail_with!(subscription.errors)
+  end
+
+  def disable_notifications(subscription)
+    subscription.notifications_enabled = false
+    subscription.save or fail_with!(subscription.errors)
+  end
 end
