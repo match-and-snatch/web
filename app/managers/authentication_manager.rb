@@ -81,6 +81,8 @@ class AuthenticationManager < BaseManager
 
   # @return [User]
   def change_password
+    user = User.by_email(email).first
+
     fail_with! token: :empty if user.password_reset_token.blank?
 
     validate! do
