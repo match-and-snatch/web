@@ -11,7 +11,7 @@ class SessionManager < BaseManager
   # @return [User, nil]
   def login(email, password, remember_me = false)
     AuthenticationManager.new(email: email, password: password).authenticate.tap do |user|
-      if remember_me
+      if remember_me == '1'
         @session.permanent[:auth_token] = user.auth_token
       else
         @session[:auth_token] = user.auth_token
