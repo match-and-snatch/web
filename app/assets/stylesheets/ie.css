@@ -5,6 +5,11 @@ nav {
   /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffff', endColorstr = '#e5e6ec', GradientType = 0);*/  
 }
 
+a {
+  border: none !important;
+  outline: none !important;
+}
+
 img {
   border: none !important;
 }
