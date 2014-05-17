@@ -5,6 +5,10 @@ nav {
   /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffff', endColorstr = '#e5e6ec', GradientType = 0);*/  
 }
 
+img {
+  border: none !important;
+}
+
 ul.navbar-nav {
   margin-top: 0 !important;
 }
@@ -21,6 +25,11 @@ nav .navbar-nav li.my_sub .my_sub_cont a {
   opacity: 0.5 !important;
 }
 
+input.file, input.hide_btn {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+
 .btn {
   -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
@@ -32,6 +41,14 @@ nav .navbar-nav li.my_sub .my_sub_cont a {
 #create_post_nav li {
 	font-size: 14px;
   padding: 15px 41px;
+}
+
+#create_post #post .notify, #create_post #uploading .upload_details .foot .notify {
+  width: 480px;
+}
+
+#create_post #post .notify .notify_label, #create_post #uploading .upload_details .foot .notify .notify_label {
+  width: 40px;
 }
 
 #create_post_nav .ie_last_tab {

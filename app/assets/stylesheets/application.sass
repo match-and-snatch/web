@@ -831,6 +831,8 @@ footer
   .modal-header
     padding: 15px 20px
   .modal-body
+    .checkbox
+      width: 150px
     .form-group
       margin-bottom: 5px
   
@@ -945,76 +947,57 @@ input.file
       img
         @include border-radius($border_radius)
         margin: 0 auto
-        width: 600px
+        width: 575px
       .note
-        font-size: 12px
-        position: absolute
-        top: 0
-        &.n1
-          top: 35px
-          left: -15px
-          width: 135px
-        &.n2
-          top: 345px
-          left: -15px
-          width: 135px
-        &.n3
-          top: 681px
-          left: -15px
-          width: 135px
-        &.n4
-          top: -35px
-          right: -15px
-          width: 142px
-          a
-            color: $color_pink
-        &.n5
-          top: 420px
-          right: -15px
-          width: 135px
-        &.n6
-          top: 685px
-          right: -15px
-          width: 135px
+        p
+          font-size: 12px
+      .n1
+        margin-top: 30px
+      .n2
+        margin-top: 140px
+      .n3
+        margin-top: 140px
+      .n4
+        margin-top: 0
+        a
+          color: $color_pink
+      .n5
+        margin-top: 65px
+      .n6
+        margin-top: 140px
+      .note
         .arrow
           background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
-          position: absolute
           &.n1
             background-position: 0 0
-            top: 60px
-            left: 55px
             height: 68px
             width: 81px
+            margin: 0 0 0 75px
           &.n2
             background-position: 0 138px
-            top: -55px
-            left: 75px
             height: 44px
             width: 57px
+            margin: 0 0 10px 99px
           &.n3
             background-position: 0 95px
-            top: -105px
-            left: 75px
             height: 95px
             width: 66px
+            margin: 0 0 10px 90px
           &.n4
             background-position: 99px 0
-            top: 260px
-            left: -85px
             height: 54px
             width: 99px
+            margin: 0
           &.n5
             background-position: 99px 138px
-            top: -45px
-            left: -8px
             height: 37px
             width: 69px
+            margin: 0 0 10px 0
           &.n6
             background-position: 99px 94px
-            top: 45px
-            left: 5px
             height: 73px
             width: 81px
+            margin: 0
 
 // Tablet
 
@@ -1039,7 +1022,6 @@ input.file
       padding: 5px 10px
       width: 300px
   .box    
-    overflow: visible
     .sample_profile
       margin: 15px 0
       position: relative
@@ -1047,80 +1029,54 @@ input.file
       img
         @include border-radius($border_radius)
         margin: 0 auto
-        width: 600px
+        width: 430px
       .note
-        font-size: 12px
-        position: absolute
-        top: 0
         p
-          @include border-radius($border_radius)
-          background-color: #FFFFFF
-          border: 1px solid $color_border
           font-size: 11px
-          line-height: 16px
-          padding: 10px
-        &.n1
-          top: 35px
-          left: -135px
-          width: 150px
-        &.n2
-          top: 345px
-          left: -125px
-          width: 145px
-        &.n3
-          top: 681px
-          left: -135px
-          width: 155px
-        &.n4
-          top: -20px
-          right: -140px
-          width: 160px
-          a
-            color: $color_pink
-        &.n5
-          top: 420px
-          right: -135px
-          width: 155px
-        &.n6
-          top: 685px
-          right: -125px
-          width: 135px
+      .n1
+        margin-top: 0
+      .n2
+        margin-top: 80px
+      .n3
+        margin-top: 60px
+      .n4
+        margin-top: -47px
+        a
+          color: $color_pink
+      .n5
+        margin-top: 15px
+      .n6
+        margin-top: 85px
+      .note
         .arrow
           background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
-          position: absolute
           &.n1
             background-position: 0 0
-            top: 60px
-            left: 55px
             height: 68px
             width: 81px
+            margin: 0 0 0 35px
           &.n2
             background-position: 0 138px
-            top: -55px
-            left: 75px
             height: 44px
             width: 57px
+            margin: 0 0 10px 60px
           &.n3
             background-position: 0 95px
-            top: -105px
-            left: 65px
             height: 95px
             width: 66px
+            margin: 0 0 10px 53px
           &.n4
             background-position: 99px 0
-            top: 245px
-            left: -85px
             height: 54px
             width: 99px
+            margin: 0
           &.n5
             background-position: 99px 138px
-            top: -45px
-            left: -20px
             height: 37px
             width: 69px
+            margin: 0 0 10px 0
           &.n6
             background-position: 99px 94px
-            top: 62px
-            left: -5px
             height: 73px
             width: 81px
+            margin: 0
