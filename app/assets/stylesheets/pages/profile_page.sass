@@ -350,6 +350,11 @@
       display: block
       min-height: 60px
       width: 100%
+    .notify
+      color: $color_text_light
+      font-size: 12px
+      margin: 8px 0 0
+      width: 445px
     input[type="submit"]
       &:focus
         color: #FFFFFF
@@ -507,7 +512,13 @@
         margin: 0
         overflow: auto
       .foot
+        margin-top: 10px
         position: relative
+        .notify
+          color: $color_text_light
+          font-size: 12px
+          margin: 8px 0 0
+          width: 445px
         .cancel_post
           color: #959595
           cursor: pointer
@@ -662,20 +673,17 @@
     /* Deleted */
 
     .deleted
-      margin-top: 30px
+      margin-bottom: 30px
       font-weight: bold
       text-align: center
 
     /* Single Post */
 
     .post
-      margin-top: $box_margin
+      margin-bottom: $box_margin
       padding-top: 15px
       position: relative
-      overflow: hidden
       z-index: 1
-      &:first-child
-        margin-top: 0 !important
       .edit_container
         @include border-radius(5px)
         background-color: #FFFFFF
@@ -687,7 +695,8 @@
         overflow: hidden
         top: -5px
         right: -5px
-        width: 126px
+        width: 70px
+        z-index: 1
         ul
           margin: 0
           padding: 0
@@ -698,12 +707,11 @@
               color: #FFFFFF
             li
               background-color: #FFFFFF
-              border-right: 1px solid $color_border
-              display: inline-block
+              border-bottom: 1px solid $color_border
               padding: 5px 10px
               text-align: left
               &.last
-                border-right: none
+                border-bottom: none
                 background-color: $color-border
                 &:hover
                   background-color: $color_pink
@@ -780,24 +788,51 @@
             width: 585px
           &:nth-of-type(1n+2)
             display: none
+
+      // Doc View
+
       .doc_view
+        @include border-radius ($border_radius)
+        background: $color_background
         color: $color_text_dark
-        .icon
-          background-color: #FFFFFF
+        overflow: hidden
+        .preview
           border-right: 1px solid $color_border
-          padding: 7px 15px
-          &.fa
+          height: 100px
+          overflow: hidden
+          position: relative
+          width: 200px
+          .fa-search
+            position: absolute
+            display: none
+            top: 25px
+            left: 75px
             &:before
-              font-size: 26px
-        .doc_title
-          display: block
-          font-size: 13px
-          padding: 10px 0 0 10px
+              color: $color_text_dark
+              font-size: 50px
+        .doc_details
+          span
+            color: $color_blue
+            display: block
+            font-size: 20px
+            margin: 20px 0 5px 15px
+          .doc_title
+            font-size: 14px
+            margin-left: 15px
         &:hover
           text-decoration: none
-          background: #FFFFFF
-          .icon
-            background-color: $color_background
+          background: $color_blue
+          color: #FFFFFF
+          .preview
+            background: #FFFFFF
+            img
+              opacity: 0.5
+            .fa-search
+              display: block
+          .doc_details
+            span, .doc_title
+              color: #FFFFFF
+          
       .message
         font-size: 13px
         line-height: 20px
@@ -895,6 +930,7 @@
             position: absolute
             top: 0
             right: 0
+            z-index: 0
             &.fa
               &:before
                 color: $color_text_light
@@ -910,8 +946,10 @@
             padding: 0
             position: absolute
             overflow: hidden
-            top: -10px
+            top: -5px
             right: -5px
+            width: 62px
+            z-index: 1
             ul
               margin: 0
               padding: 0
@@ -922,12 +960,13 @@
                   color: #FFFFFF
                 li
                   background-color: #FFFFFF
-                  border-right: 1px solid $color_border
-                  display: inline-block
+                  border: none
+                  border-top: 1px solid $color_border
                   padding: 5px 10px
-                  text-align: left
-                  &.last
-                    border-right: none
+                  text-align: center
+                  &.first
+                    border: none
+                    border-top: none
                     background-color: $color-border
                     &:hover
                       background-color: $color_pink
@@ -968,6 +1007,7 @@
         @media screen and (min-width: 992px)
           .reply_input, .Highlighter
             width: 520px !important
+        
         .reply_input
           border: 1px solid $color_border
           font-size: 13px
@@ -1068,7 +1108,7 @@
       &:hover
         color: $color_text_dark
 
-/* Tablet */
+// Tablet
 
 @media screen and (max-width: 991px)
   #header
@@ -1113,8 +1153,6 @@
     #post
       .error
         padding-bottom: 5px
-      .status_btn
-        width: 100%
     #uploading
       .file_status
         width: 718px
@@ -1130,6 +1168,7 @@
           padding-left: 50px
         span
           font-size: 11px
+          margin-left: -10px
         .fa-share-square-o
           &:before
             font-size: 40px
@@ -1201,6 +1240,13 @@
     .already_user
       font-size: 12px
 
+// Mobile
+
+// @media screen and (max-width: 768px)
+  .recent_posts
+    width: 100% !important
+
+// Randoms
 
 .edit_post_popup
   padding: 10px 15px 15px 15px

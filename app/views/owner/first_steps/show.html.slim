@@ -26,38 +26,48 @@
           .clearfix
 
   .container.steps_container
-    .step_one.row.box
+    .step_one.row.box style="padding: 15px 0;"
       .col-md-12.col-sm-12.col-xs-12
         a.btn.pink href=second_step_path style="font-size: 16px; padding: 10px 30px;" I’m ready to continue to step 2
         .clearfix
 
-        /* Sample Profile */
-
+        / Sample Profile
         .sample_profile
-          img src="//connectpal-assets.s3.amazonaws.com/images/mozart-sample-profile.jpg" height="852px"
-          .note.n1 
-            p Add custom cover photo and profile picture
-            .arrow.n1
-          .note.n2 
-            p Tell your subscribers what benefits they get by subscribing to you.
-            .arrow.n2
-          .note.n3 
-            p Connect with your subscribers via direct message or social media
-            .arrow.n3
-          .note.n4 
-            p 
-              |Set your monthly price for people to access your profile. You keep 
-              b 100% 
-              | of the price you set. At ConnectPal, there are no startup or hosting fees, and you can cancel anytime. ConnectPal adds a service fee on top of your subscription price to keep our platform running. Check out the fee breakdown 
-              a.PopupTrigger data-target='pricing-breakdown' href="#" here.
-            .arrow.n4
-          .note.n5 
-            p Post updates, add audio or video files, photos, and documents.
-            .arrow.n5
-          .note.n6 
-            p Engage in discussions with your audience.
-            .arrow.n6
+
+          / left arrows
+          .col-md-2.col-sm-2.col-xs-2 style="padding: 0;"
+            .note.n1 
+              p Add custom cover photo and profile picture
+              .arrow.n1
+            .note.n2 
+              .arrow.n2
+              p Tell your subscribers what benefits they get by subscribing to you.
+            .note.n3 
+              .arrow.n3
+              p Connect with your subscribers via direct message or social media
+
+          / img
+          .col-md-8.col-sm-8.col-xs-8
+            img src="//connectpal-assets.s3.amazonaws.com/images/mozart-sample-profile.jpg"
+
+          / right arrow
+          .col-md-2.col-sm-2.col-xs-2 style="padding: 0;"
+            .note.n4 
+              p 
+                |Set your monthly price for people to access your profile. You keep 
+                b 100% 
+                |of the price you set. At ConnectPal, there are no startup or hosting fees, and you can cancel anytime. ConnectPal adds a service fee on top of your subscription price to keep our platform running. 
+                a.PopupTrigger data-target='pricing-breakdown' href="#" Check out the fee breakdown here.
+              .arrow.n4
+            .note.n5 
+              .arrow.n5
+              p Post updates, add audio or video files, photos, and documents.
+            .note.n6 
+              p Engage in discussions with your audience.
+              .arrow.n6
+          .clearfix
         .clearfix
+
         a.btn.pink href=second_step_path style="font-size: 16px; padding: 10px 30px;" I’m ready to continue to step 2
 
 .Popup.popup.modal-content data-identifier='pricing-breakdown' style='width: 600px'

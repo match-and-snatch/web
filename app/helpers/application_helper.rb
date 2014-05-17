@@ -13,7 +13,18 @@ module ApplicationHelper
     end
   end
 
-  def checker_tag(object, field_name, resource_name)
+  def object_checker_tag(object, field_name)
+    data = {}
+    data[:checked_url]   = polymorphic_path(["enable_#{field_name}", object])
+    data[:unchecked_url] = polymorphic_path(["disable_#{field_name}", object])
+
+    html_options = {id: "#{field_name}_#{object.id}_#{object.class.name}_checker", data: data, class: 'Checker', type: 'checkbox'}
+    html_options['checked'] = 'checked' if object["#{field_name}_enabled"]
+
+    tag :input, html_options
+  end
+
+  def checker_tag(object, field_name, resource_name = object.class.table_name)
     data = {}
     data[:checked_url]   = polymorphic_path(["enable_#{field_name}", resource_name])
     data[:unchecked_url] = polymorphic_path(["disable_#{field_name}", resource_name])
@@ -70,6 +81,6 @@ module ApplicationHelper
   # @param user [User]
   # @return [String]
   def link_to_user(user)
-    link_to_if user.has_profile_page?, user.name, profile_path(user)
+    link_to_if user.has_profile_page?, user.name.first(40).gsub(/ /, '&nbsp;').html_safe, profile_url(user)
   end
 end

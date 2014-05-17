@@ -5,6 +5,15 @@ nav {
   /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffff', endColorstr = '#e5e6ec', GradientType = 0);*/  
 }
 
+a {
+  border: none !important;
+  outline: none !important;
+}
+
+img {
+  border: none !important;
+}
+
 ul.navbar-nav {
   margin-top: 0 !important;
 }
@@ -13,8 +22,17 @@ ul.navbar-nav {
   margin-top: 0 !important;
 }
 
+nav .navbar-nav li.my_sub .my_sub_cont a {
+  height: 60px;
+}
+
 #overlay {
   opacity: 0.5 !important;
+}
+
+input.file, input.hide_btn {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 }
 
 .btn {
@@ -30,7 +48,18 @@ ul.navbar-nav {
   padding: 15px 41px;
 }
 
+#create_post #post .notify, #create_post #uploading .upload_details .foot .notify {
+  width: 480px;
+}
+
+#create_post #post .notify .notify_label, #create_post #uploading .upload_details .foot .notify .notify_label {
+  width: 40px;
+}
+
 #create_post_nav .ie_last_tab {
 	border-right: none;
 }
 
+.my_account .content ul li.item_sub .actions .checkbox {
+  width: 300px
+}

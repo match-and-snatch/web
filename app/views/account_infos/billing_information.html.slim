@@ -5,7 +5,57 @@
       | Card on file is 
       strong= @user.card_type
       | &nbsp;ending with <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
-      br
-      a href=edit_cc_data_account_info_path Click here to edit
+      a href=edit_cc_data_account_info_path style='margin-top: 5px; display: block;' Click here to edit
   - else
     .AjaxContainer data-url=edit_cc_data_account_info_path
+
+  hr
+
+  h2 Cancel Subscriptions
+
+  - if @user.subscriptions.any?
+    table.table.table-hover
+      thead
+        tr
+          th
+            b Subscription Name
+          th style='width: 150px;'
+            b Billing Date
+          th style='width: 150px;'
+      tbody
+        - @user.subscriptions.each do |s|
+          tr
+            td= link_to_user s.target_user
+            - date2 = Time.zone.now
+            - date1 = s.created_at
+            - months = (date2.year * 12 + date2.month) - (date1.year * 12 + date1.month)
+            td= (s.created_at + months.months).to_date.to_s(:long)
+            td style='text-align: right;'
+              a.fa.fa-close.AjaxLink href=cancel_subscription_path(s.id) Cancel Subscription
+  - else
+    .well style='text-align:center; margin-bottom: 0'
+      |You do not have any subscriptions.
+      '
+      a.PopupTrigger data-target='search-users' href='#' Click here to search for subscriptions
+      '.
+
+
+  / - if @user.source_subscriptions.empty?
+  /   .well style='text-align:center;' Sorry you have no subscriptions.
+  / - else
+  /   table.table.table-hover
+  /     thead
+  /       tr
+  /         th
+  /           b Subscription Name
+  /         th style='width: 150px;'
+  /           b Billing Date
+  /         th style='width: 150px;'
+  /     tbody
+
+  /       - @user.source_subscriptions.order('created_at DESC').preload(:user).find_each do |subscription|
+  /         tr
+  /           td= link_to_user subscription.user
+  /           td= subscription.created_at.to_s(:long)
+  /           td style='text-align: right;'
+  /             a.fa.fa-close.AjaxFormLink href=subscriber_path(subscription.user.id) data-_method='DELETE' Cancel Subscription

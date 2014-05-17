@@ -146,8 +146,11 @@ class ApplicationController < ActionController::Base
 
   # @param message [Symbol] i18n Identifier
   def notice(message, opts = {})
-    if message
+    if message.is_a?(Symbol)
       message = translate_message(message, opts)
+      @notice = message
+      flash.notice = message
+    elsif message.is_a?(String)
       @notice = message
       flash.notice = message
     end

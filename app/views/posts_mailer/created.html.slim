@@ -1,0 +1,10 @@
+div style="color: #ea2e49; font-size: 24px; -webkit-text-size-adjust: none;" #{@post.user.name} has a new post available!
+
+p style="color: #464646; font-size: 16px; -webkit-text-size-adjust: none;" Check out this post on #{link_to_user @post.user}'s page.
+
+hr
+
+p style="color: #464646; font-size: 11px; -webkit-text-size-adjust: none; line-height: 18px"
+	| If you do not want to receive email notifications from this profile, you can disable them by going to 
+	a href="#{account_info_url(anchor: 'subscriptions')}" View Subscriptions
+	|.

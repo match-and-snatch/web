@@ -1,13 +1,13 @@
 class PostsController < ApplicationController
   before_filter :authenticate!, except: [:index, :show]
   before_filter :load_user!, only: :index
-  before_filter :load_post!, only: [:destroy, :show, :edit, :update]
+  before_filter :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide]
 
   protect(:index) { can? :see, @user }
   protect(:destroy) { can? :delete, @post }
 
   def index
-    query = Queries::Posts.new(user: @user, query: params[:q], start_id: params[:last_post_id])
+    query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], start_id: params[:last_post_id])
     resp = {last_post_id: query.last_post_id}
     @posts = query.results
 
@@ -40,9 +40,19 @@ class PostsController < ApplicationController
     json_replace html: render_to_string(partial: 'post', locals: {post: @post}), notice: :post_updated
   end
 
+  def make_visible
+    PostManager.new(user: current_user.object, post: @post).show
+    json_replace html: render_to_string(partial: 'post', locals: {post: @post}), notice: :post_shown
+  end
+
+  def hide
+    PostManager.new(user: current_user.object, post: @post).hide
+    json_replace html: render_to_string(partial: 'post', locals: {post: @post}), notice: :post_hidden
+  end
+
   def create
     has_posts = current_user.has_posts?
-    @post = PostManager.new(user: current_user.object).create_status_post(message: params[:message])
+    @post = PostManager.new(user: current_user.object).create_status_post(message: params[:message], notify: params[:notify])
     has_posts ? json_prepend : json_replace
   end
 

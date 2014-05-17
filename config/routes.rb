@@ -27,10 +27,23 @@ BuddyPlatform::Application.routes.draw do
   end
 
   resources :comments, only: [:edit, :update, :destroy] do
-    resources :replies, only: [:create, :edit, :update]
+    member do
+      put :make_visible
+      put :hide
+    end
+    resources :replies, only: [:create, :edit, :update] do
+      member do
+        put :make_visible
+        put :hide
+      end
+    end
   end
 
   resources :posts, only: [:show, :edit, :update, :destroy] do
+    member do
+      put :make_visible
+      put :hide
+    end
     resources :comments, only: [:create, :index]
     resources :likes, only: :create
   end
@@ -58,6 +71,8 @@ BuddyPlatform::Application.routes.draw do
   resources :subscriptions, only: [:index, :create, :destroy] do
     member do
       get :cancel
+      put :enable_notifications
+      put :disable_notifications
     end
   end
   resources :audios, only: [:show, :create, :destroy] do

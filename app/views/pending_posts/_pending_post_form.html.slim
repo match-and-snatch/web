@@ -18,6 +18,7 @@
         input.detail_field name='title' placeholder="Post Title" value=pending_post.title
         .error data-field='title'
         .clearfix
+
         input.hidden.detail_field name='keywords' placeholder="Keywords" value=pending_post.keywords style="margin-top: 18px;"
         .error data-field='keywords'
       .col-md-6
@@ -26,6 +27,17 @@
         .error data-field='message'
     .row
       .col-md-12.foot
+        .notify.pull-left
+          label.pull-left style='margin: 2px 10px 0 0;' Do you want to notify your subscribers of this post via email?
+          .pull-right.notify_label style='margin-right: 10px'
+            input type='radio' name='notify' value='' checked='checked' id='notify_no'
+            label for='notify_no' 
+              |&nbsp;No        
+          .pull-right.notify_label style='margin-right: 10px'
+            input type='radio' name='notify' value='1' id='notify_yes'
+            label for='notify_yes' 
+              |&nbsp;Yes
+          .clearfix
 
         /* Disabled until all uploads are 100% */
 

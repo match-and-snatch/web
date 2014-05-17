@@ -8,6 +8,18 @@ class PostManager < BaseManager
     @user = user
   end
 
+  def show
+    @post.hidden = false
+    @post.save or fail_with! @post.errors
+    @post
+  end
+
+  def hide
+    @post.hidden = true
+    @post.save or fail_with! @post.errors
+    @post
+  end
+
   def update(title: title, message: message)
     fail_with! message: :empty if message.blank?
 
@@ -19,8 +31,9 @@ class PostManager < BaseManager
   end
 
   # @param message [String]
+  # @param notify [String, nil]
   # @return [Post]
-  def create_status_post(message: message)
+  def create_status_post(message: message, notify: false)
     fail_with! message: :empty if message.blank?
 
     message = CGI.escapeHTML(message)
@@ -29,6 +42,12 @@ class PostManager < BaseManager
       post.save or fail_with! post.errors
       StatusFeedEvent.create! subscription_target_user: user, target: post, data: {message: message}
       user.pending_post.try(:destroy!)
+
+      if notify == '1'
+        post.user.source_subscriptions.where(notifications_enabled: true).preload(:user).find_each do |s|
+          PostsMailer.delay.created(post, s.user)
+        end
+      end
     end
   end
 
@@ -127,7 +146,7 @@ class PostManager < BaseManager
   # @param title [String]
   # @param keywords_text [String]
   # @param message [String]
-  def create_media_post(post_class, title: nil, keywords_text: nil, message: nil)
+  def create_media_post(post_class, title: nil, keywords_text: nil, message: nil, notify: nil)
     uploads = post_class.pending_uploads_for(user)
 
     fail_with! 'Please upload files' if uploads.empty?
@@ -146,6 +165,12 @@ class PostManager < BaseManager
       post.save or fail_with! post.errors
       uploads.each { |upload| post.uploads << upload }
       user.pending_post.try(:destroy!)
+
+      if notify == '1'
+        post.user.source_subscriptions.where(notifications_enabled: true).preload(:user).find_each do |s|
+          PostsMailer.delay.created(post, s.user)
+        end
+      end
     end
   end
 end

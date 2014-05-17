@@ -1,26 +1,35 @@
-.nested_row data-identifier='comment-#{reply.id}'
-  .photo.pull-left
-    img src=reply.user.comment_picture_url width=50 height=50
-  .nested_content.pull-right
+- if (!reply.hidden? || current_user.id == reply.post_user_id) || current_user.id == reply.user_id
+  .nested_row data-identifier='comment-#{reply.id}' style='#{"opacity: 0.5" if (reply.hidden? && reply.user_id != current_user.id) || (reply.hidden? && reply.post_user_id == current_user.id)}'
+    .photo.pull-left
+      img src=reply.user.comment_picture_url width=50 height=50
+    .nested_content.pull-right
 
-    /* Display Delete & Edit Only if profile owner or if it the subscribers reply. */
+      /* Display Delete & Edit Only if profile owner or if it the subscribers reply. */
 
-    - if can?(:delete, reply)
-      .delete.fa.fa-gear.Toggler data-target='edit-comment-#{reply.id}'
-      .edit_container data-identifier='edit-comment-#{reply.id}' style='display: none'
+      - if can?(:delete, reply)
+        .delete.fa.fa-gear.Toggler data-target='edit-comment-#{reply.id}'
+        .edit_container data-identifier='edit-comment-#{reply.id}' style='display: none'
 
-        ul
-          a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}'
-            li Edit
-          a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}'
-            li Delete
-          a.Toggler data-target='edit-comment-#{reply.id}' href="#"
-            li.last
-              i.fa.fa-times
+          ul
+            a.Toggler data-target='edit-comment-#{reply.id}' href="#"
+              li.first
+                i.fa.fa-times
+                  |&nbsp;Close
+            - if current_user.id == reply.post_user_id
+              - if reply.hidden?
+                a.AjaxFormLink.delete_btn href=make_visible_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
+                  li Show
+              - else
+                a.AjaxFormLink.delete_btn href=hide_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
+                  li Hide
+            a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}'
+              li Edit
+            a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}'
+              li Delete
 
-    .profile_name data-identifier='profile-name'
-      = link_to_user reply.user
-    .comment_text= format_comment_message(reply)
-    .cleaffix
-    .post_date Posted #{time_ago_in_words reply.created_at} ago
-  .clearfix
+      .profile_name data-identifier='profile-name'
+        = link_to_user reply.user
+      .comment_text= format_comment_message(reply)
+      .cleaffix
+      .post_date Posted #{time_ago_in_words reply.created_at} ago
+    .clearfix

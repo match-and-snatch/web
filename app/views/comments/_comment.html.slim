@@ -1,4 +1,5 @@
-= render 'comments/comment_row', comment: comment
+- if (!comment.hidden? || current_user.id == comment.post_user_id) || current_user.id == comment.user_id
+  = render 'comments/comment_row', comment: comment
 
-.replies data-identifier='replies-#{comment.id}'
-  = render partial: 'replies/reply', collection: comment.replies.order('id')
+  .replies data-identifier='replies-#{comment.id}'
+    = render partial: 'replies/reply', collection: comment.replies.order('id')

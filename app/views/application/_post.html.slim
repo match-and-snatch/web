@@ -1,15 +1,22 @@
-.post.box data-identifier='post-#{post.id}'
+.post.box data-identifier='post-#{post.id}' style='#{"opacity: 0.5" if post.hidden?}'
   - if can?(:delete, post)
     i.fa.fa-gear.edit_post.pull-right.Toggler data-target='edit-post-#{post.id}'
       .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
         ul
           a.AjaxLink.delete_btn data-target='' href=edit_post_path(post.id)
-            li Edit
+            li Edit Post
+          /- if post.hidden?
+            a.AjaxFormLink.delete_btn href=make_visible_post_path(post.id) data-_method='put' data-target='post-#{post.id}'
+              li Show
+          /- else
+            a.AjaxFormLink.delete_btn href=hide_post_path(post.id) data-_method='put' data-target='post-#{post.id}'
+              li Hide
           a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}'
             li Delete
           a.Toggler data-target='edit-post-#{post.id}' href="#" 
             li.last
-              i.fa.fa-times
+              i.fa.fa-times 
+                |&nbsp; Close
 
   - if post.title
     .post_title= post.title
