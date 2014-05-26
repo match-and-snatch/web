@@ -114,7 +114,7 @@ development:
           use:
             - 'encode'
             - ':original'
-          url_prefix: 's1y5uslj4plb.cloudfront.net/'
+          url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
           bucket: 'buddy-video-assets'
           path: '${assembly.id}__${file.id}____${file.url_name}'
 
@@ -126,7 +126,7 @@ development:
           use: ':original'
           bucket: 'buddy-video-assets'
           path: '${assembly.id}____${file.url_name}'
-          url_prefix: 's1y5uslj4plb.cloudfront.net/'
+          url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
           headers:
             'Content-Type': "${file.mime}"
             'Content-Disposition': "attachment; filename=${file.url_name}"
@@ -173,7 +173,7 @@ staging:
   media: &media
     <<: *s3
     bucket: 'buddy-video-assets'
-    url_prefix: 's1y5uslj4plb.cloudfront.net/'
+    url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
     path: '${assembly.id}__${file.id}____${file.url_name}'
 
   user_picture: &user_picture
@@ -313,7 +313,7 @@ production:
 
   media: &media
     <<: *s3
-    url_prefix: 's3kch7itxilxuh.cloudfront.net/'
+    url_prefix: 'https://s3kch7itxilxuh.cloudfront.net/'
     bucket: 'connectpal-media'
     path: '${assembly.id}__${file.id}____${file.url_name}'
 
