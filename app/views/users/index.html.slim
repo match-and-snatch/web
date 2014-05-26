@@ -7,14 +7,14 @@
     ul.list-group
       - @users.each do |user|
         a href=profile_path(user.slug)
-          li.list-group-item          
+          li.list-group-item
             .pull-left
               img src=user.small_profile_picture_url width=50 height=50
             .pull-left style='padding-top: 15px'= super_highlight(user.profile_name)
             - if current_user == user
               small.pull-right.text-muted You
             .clearfix
-        
+
 - else
   - if params[:q].present?
     p.bg-danger

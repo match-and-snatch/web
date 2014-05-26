@@ -4,12 +4,7 @@ class UsersController < ApplicationController
   before_filter :authenticate!, except: %i(index mentions create show activate)
 
   def index
-    @users = User.profile_owners.
-      with_complete_profile.
-      search_by_text_fields(params[:q]).
-      where.not(profile_picture_url: nil).
-      limit(5)
-
+    @users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text
     json_replace
   end
 

@@ -1,19 +1,29 @@
 class UserStatsManager < BaseManager
   attr_reader :user
 
+  # @param user [User]
   def initialize(user)
     @user = user
   end
 
+  # Tracks changes in subscriptions count
+  # Denormalizes into users table, saves stats in events
+  # @return [SubscriptionDailyCountChangeEvent]
   def log_subscriptions_count
+    count = user.source_subscriptions.count
+    user.subscribers_count = count
+    save_or_die! user
+
     stat_entry = SubscriptionDailyCountChangeEvent.where(created_on: current_date, user_id: user.id).first
 
     if stat_entry
-      stat_entry.update_attribute(:subscriptions_count, user.source_subscriptions.count)
+      stat_entry.subscriptions_count = count
+      save_or_die! stat_entry
+      stat_entry
     else
-      SubscriptionDailyCountChangeEvent.create! created_on:          current_date,
-                                                user:                user,
-                                                subscriptions_count: user.source_subscriptions.count
+      SubscriptionDailyCountChangeEvent.create! created_on: current_date,
+                                                user: user,
+                                                subscriptions_count: count
     end
   end
 
