@@ -13,11 +13,16 @@ class bud.widgets.StaticAutocomplete extends bud.Widget
     @$submit_button.click @on_submit
 
     @$container.keyup @on_keyup
+    @$container.keydown @on_keydown
+
+  on_keydown: (e) =>
+    if e.which == 13
+      @on_submit()
+      return false
 
   on_keyup: (e) =>
     if e.which == 13
-      @on_submit()
-      return true
+      return false
 
     @$dropdown.show()
     regex = new RegExp(@val(), 'i')
@@ -38,7 +43,7 @@ class bud.widgets.StaticAutocomplete extends bud.Widget
     @$container.val('')
     @$container.removeAttr('disabled')
     @$container.removeClass('pending')
-    bud.replace_html(@$target, response['html'])
+    bud.replace_html(@$target, response['html']) if response['html']
 
   val: -> @$container.val()
 
@@ -56,6 +61,4 @@ class bud.widgets.StaticAutocomplete extends bud.Widget
     @$container.val(text)
     @$dropdown.hide()
     @on_submit()
-
-
 
