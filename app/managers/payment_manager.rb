@@ -22,6 +22,9 @@ class PaymentManager < BaseManager
                     amount:             charge['amount'],
                     stripe_charge_data: charge.as_json,
                     description:        description
+
+    target.charged_at = Time.zone.now
+    save_or_die! target
   rescue Stripe::StripeError => e
     PaymentFailure.create! exception_data:     "#{e.inspect} | http_body:#{e.http_body} | json_body:#{e.json_body}",
                            target:             target,

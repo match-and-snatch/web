@@ -4,10 +4,17 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   belongs_to :target, polymorphic: true
   belongs_to :target_user, class_name: 'User'
+  has_many :payments, as: :target
 
   validates :user, :target, :target_user, presence: true
 
   scope :by_target, -> (target) { where(target_type: target.class.name, target_id: target.id) }
+
+  # Returns upcoming billing date
+  # @return [Date]
+  def billing_date
+    (charged_at || created_at).next_month.to_date
+  end
 
   # @return [Integer] Amount in cents
   def cost

@@ -492,7 +492,8 @@ CREATE TABLE subscriptions (
     target_user_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    notifications_enabled boolean DEFAULT true NOT NULL
+    notifications_enabled boolean DEFAULT true NOT NULL,
+    charged_at timestamp without time zone
 );
 
 
@@ -983,3 +984,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140513212757');
 INSERT INTO schema_migrations (version) VALUES ('20140516193258');
 
 INSERT INTO schema_migrations (version) VALUES ('20140526173934');
+
+INSERT INTO schema_migrations (version) VALUES ('20140526202726');
