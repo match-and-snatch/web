@@ -33,7 +33,8 @@ class User < ActiveRecord::Base
 
   pg_search_scope :search_by_text_fields, against: [:full_name, :profile_name, :profile_types_text],
                                         using: [:tsearch, :dmetaphone, :trigram],
-                                        ignoring: :accents
+                                        ignoring: :accents,
+                                        ranked_by: ":dmetaphone + (0.25 * :trigram) + (0.25 * users.subscribers_count)"
 
   def self.random_public_profile
     where(has_public_profile: true).order("random()").first

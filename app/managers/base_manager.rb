@@ -18,6 +18,15 @@ class BaseManager
     !failed?
   end
 
+  protected
+
+  # Saves record, fails with manager error if record is invalid
+  # @raise [ManagerError]
+  # @param record [ActiveRecord::Base] model
+  def save_or_die!(record)
+    record.save or fail_with! record.errors
+  end
+
   private
 
   # @param message [String, Symbol]

@@ -1,4 +1,9 @@
 module Concerns::Payable
+  extend ActiveSupport::Concern
+
+  included do
+    scope :on_charge, -> { where(['charged_at <= ?', 1.month.ago]) }
+  end
 
   # @return [Integer] Amount in cents
   def cost

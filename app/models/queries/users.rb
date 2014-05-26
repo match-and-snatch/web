@@ -14,6 +14,26 @@ module Queries
       User.search_by_text_fields(@query).limit(20).to_a
     end
 
+    def profile_owners_by_text
+      case @query.length
+      when 0, 1
+        User.none
+      when 2
+        User.profile_owners.
+          with_complete_profile.
+          where(['users.profile_name ILIKE ?', "%#@query%"]).
+          where.not(profile_picture_url: nil).
+          limit(5).
+          order('subscribers_count DESC')
+      else
+        User.profile_owners.
+          with_complete_profile.
+          search_by_text_fields(@query).
+          where.not(profile_picture_url: nil).
+          limit(5)
+      end
+    end
+
     # @return [Array<ActiveRecord::Base>]
     def results
       @results ||= begin

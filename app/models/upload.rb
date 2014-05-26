@@ -11,6 +11,11 @@ class Upload < ActiveRecord::Base
   scope :documents, -> { where type: 'Document' }
   scope :ordered,   -> { order('ordering, id') }
 
+  # @return [String]
+  def file_type
+    mime_type.split('/').last
+  end
+
   # @param step_name [String, Symbol] See transloadit.yml
   # @return [String, nil]
   def url_on_step(step_name)

@@ -7,14 +7,11 @@ class bud.widgets.Hover extends bud.Widget
   initialize: ->
     @$target = bud.get(@$container.data('target')) || @$container
     @$container.click @on_hover
-    $('body').on 'touchstart', @on_leave
 
   on_hover: (e) =>
     e.stopPropagation()
     @$target.show()
     @toggle_classes()
-
-  on_leave: =>
 
   toggle_classes: ->
     if @$target.is(':visible')
