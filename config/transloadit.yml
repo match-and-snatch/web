@@ -93,7 +93,7 @@ development:
         thumbs:
           use: ":original"
           robot: "/video/thumbs"
-          count: 1
+          offsets: ['43%']
         s3_thumb:
           <<: *s3
           use: 'thumbs'
@@ -240,7 +240,7 @@ staging:
         thumbs:
           use: ":original"
           robot: "/video/thumbs"
-          count: 1
+          offsets: ['43%']
         s3_thumb:
           <<: *s3
           use: 'thumbs'
@@ -378,7 +378,7 @@ production:
         thumbs:
           use: ":original"
           robot: "/video/thumbs"
-          count: 1
+          offsets: ['43%']
         s3_thumb:
           <<: *s3
           use: 'thumbs'
