@@ -2,7 +2,7 @@ div data-identifier='pending-documents'
   .pending_document
     ul
       - current_user.pending_documents.each do |upload|
-        li
+        li class=upload.file_type
           img src=upload.preview_url
           i.fa.fa-paperclip.icon.pull-left
           .doc_title.pull-left= upload.filename
