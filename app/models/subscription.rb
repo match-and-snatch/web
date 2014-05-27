@@ -9,6 +9,7 @@ class Subscription < ActiveRecord::Base
   validates :user, :target, :target_user, presence: true
 
   scope :by_target, -> (target) { where(target_type: target.class.name, target_id: target.id) }
+  scope :not_removed, -> { where(removed: false) }
 
   # Returns upcoming billing date
   # @return [Date]
@@ -26,9 +27,29 @@ class Subscription < ActiveRecord::Base
     user
   end
 
+  def expired?
+    removed? && billing_date < Time.zone.today
+  end
+
+  def paid?
+    payments.any? && payments.maximum(:created_at).next_month.to_date >= Time.zone.today # billing_date > Time.zone.today
+  end
+
   # @return [User]
   def recipient
     target_user
+  end
+
+  def remove!
+    self.removed = true
+    self.removed_at = Time.zone.now
+    self.save!
+  end
+
+  def restore!
+    self.removed = false
+    self.removed_at = nil
+    self.save!
   end
 
   def statement_description

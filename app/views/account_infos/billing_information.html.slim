@@ -28,7 +28,10 @@
             td= link_to_user s.target_user
             td= s.billing_date.to_s(:long)
             td style='text-align: right;'
-              a.fa.fa-close.AjaxLink href=cancel_subscription_path(s.id) Cancel Subscription
+              - if s.removed?
+                a.fa.fa-refresh.AjaxFormLink data-_method='PUT' href=restore_subscription_path(s.id)  Restore Subscription
+              - else
+                a.fa.fa-close.AjaxLink href=cancel_subscription_path(s.id) Cancel Subscription
   - else
     .well style='text-align:center; margin-bottom: 0'
       |You do not have any subscriptions.
