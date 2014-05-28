@@ -117,6 +117,7 @@ BuddyPlatform::Application.routes.draw do
   namespace :admin do
     resources :payment_failures , only: :index
     resources :payments, only: :index
+    resources :payout_details, only: :index
     resources :staffs, only: :index do
       collection do
         get :search

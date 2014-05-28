@@ -1,0 +1,21 @@
+h2 Payout Details
+
+- if @users.any?
+  table.table
+    th Profile Name
+    th Total Gross
+    th Total Paid Out
+    th ConnectPal Fee
+    th Stripe Fee
+    th Current Balance
+
+    - @users.each do |user|
+      tr
+        td= link_to_user(user)
+        td= super_number_to_currency user.amount, use_ceil: false
+        td unknown
+        td= super_number_to_currency user.connectpal_fees, use_ceil: false
+        td unknown
+        td= super_number_to_currency user.payout_amount, use_ceil: false
+- else
+  strong No payments so far
