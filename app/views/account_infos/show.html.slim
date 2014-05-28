@@ -1,15 +1,14 @@
 .container.my_account
 
-  /* Sidebar */
+  / Sidebar
 
   .sidebar.box
-
     .header
-      | Welcome 
+      | Welcome
       span.name #{@user.full_name}
 
     ul.general
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=feed_path
+      a.AjaxLink data-use_anchor='true' data-default='true' data-target='account-info' href=feed_path
         li My Feed
       a.AjaxLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
         li Account Settings
@@ -20,14 +19,12 @@
     ul
       a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
         li View Subscriptions
-      / a.AjaxLink data-use_anchor='true' data-target='account-info' href="/mockups/search_subscriptions.json"
-      /   li Search Subscriptions
       a.AjaxLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
         li Billing Information
 
     h2.profile My Profile
     ul style="margin-bottom: 0"
-      - if (!@user.passed_profile_steps? && @user.is_profile_owner?) || (!@user.is_profile_owner?)
+      - unless @user.created_profile_page?
         a.AjaxFormLink data-_method='put' href=create_profile_path
           li Create Profile Page
       - if @user.has_profile_page?
@@ -41,7 +38,7 @@
         a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscribers_path
           li style="border-bottom: none;" View Subscribers
 
-  /* Content */
+  / Content
 
   .content.box.pull-right
     .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=feed_path

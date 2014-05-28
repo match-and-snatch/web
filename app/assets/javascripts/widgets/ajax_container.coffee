@@ -11,9 +11,7 @@ class bud.widgets.AjaxContainer extends bud.Widget
     @use_anchor = @$container.data('use_anchor')
     @$container.find('a').click @link_clicked
 
-    if @use_anchor && _.isEmpty(window.location.hash)
-      window.location.hash = @url
-    else
+    unless @use_anchor
       @render()
 
   render: ->
