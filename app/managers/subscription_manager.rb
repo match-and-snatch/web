@@ -102,7 +102,7 @@ class SubscriptionManager < BaseManager
     end
 
     subscribe_to(target).tap do |subscription|
-      PaymentManager.new.pay_for(subscription, 'Payment for subscription')
+      PaymentManager.new.pay_for(subscription, 'Payment for subscription') unless subscription.paid?
     end
   end
 
@@ -114,35 +114,52 @@ class SubscriptionManager < BaseManager
     end
 
     fail_with! "Can't subscribe to self" if @subscriber == target
-    fail_with! 'Already subscribed' if @subscriber.subscribed_to?(target)
 
-    Subscription.new do |subscription|
-      subscription.user        = @subscriber
-      subscription.target      = target
-      subscription.target_user = target.subscription_source_user
+    removed_subscription = @subscriber.subscriptions.by_target(target).where(removed: true).first
 
-      subscription.save or fail_with!(subscription.errors)
-      UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
-      SubscribedFeedEvent.create! target_user: target, target: @subscriber
-      SubscriptionsMailer.delay.subscribed(subscription)
+    if removed_subscription
+      restore(removed_subscription)
+    else
+      fail_with! 'Already subscribed' if @subscriber.subscribed_to?(target)
+
+      Subscription.new do |subscription|
+        subscription.user        = @subscriber
+        subscription.target      = target
+        subscription.target_user = target.subscription_source_user
+
+        save_or_die! subscription
+        UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
+        SubscribedFeedEvent.create! target_user: target, target: @subscriber
+        SubscriptionsMailer.delay.subscribed(subscription)
+      end
     end
+  end
+
+  def restore(subscription)
+    PaymentManager.new.pay_for(subscription, 'Payment for subscription') unless subscription.paid?
+    subscription.restore!
+
+    target_user = subscription.target_user
+    UserStatsManager.new(target_user).log_subscriptions_count
+    SubscribedFeedEvent.create! target_user: target_user, target: @subscriber
   end
 
   # @param subscription [Subscription]
   def unsubscribe(subscription)
-    subscription.destroy
-    UserStatsManager.new(subscription.target_user).log_subscriptions_count
-    UnsubscribedFeedEvent.create! target_user: subscription.target_user, target: @subscriber
-    #SubscriptionsMailer.delay.unsubscribed(subscription)
+    subscription.remove!
+
+    target_user = subscription.target_user
+    UserStatsManager.new(target_user).log_subscriptions_count
+    UnsubscribedFeedEvent.create! target_user: target_user, target: @subscriber
   end
 
   def enable_notifications(subscription)
     subscription.notifications_enabled = true
-    subscription.save or fail_with!(subscription.errors)
+    save_or_die! subscription
   end
 
   def disable_notifications(subscription)
     subscription.notifications_enabled = false
-    subscription.save or fail_with!(subscription.errors)
+    save_or_die! subscription
   end
 end

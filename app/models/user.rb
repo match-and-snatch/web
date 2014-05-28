@@ -100,11 +100,12 @@ class User < ActiveRecord::Base
 
   def subscribed_to?(target)
     return false if new_record?
-    subscriptions.by_target(target).any?
+    subscription = subscriptions.by_target(target).first
+    subscription ? !subscription.expired? : false
   end
 
   def subscribers
-    User.joins(:subscriptions).where(subscriptions: {target_user_id: id})
+    User.joins(:subscriptions).where(subscriptions: {target_user_id: id, removed: false})
   end
 
   # @see Concerns::Subscribable#subscription_source_user

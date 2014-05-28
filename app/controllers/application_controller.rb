@@ -13,7 +13,16 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from HttpCodeError do |error|
-    render status: error.code, template: "errors/#{error.code}", layout: 'application'
+    respond_to do |wants|
+      wants.json do
+        json_response error.code, {}, error.code
+      end
+
+      wants.any do
+        response.headers["Content-Type"] = "text/html"
+        render status: error.code, template: "errors/#{error.code}", layout: 'application', formats: [:html]
+      end
+    end
   end
 
   # @param action [Symbol]
@@ -64,7 +73,7 @@ class ApplicationController < ActionController::Base
   end
   helper_method :set_layout
 
-  def json_response(status, data = {})
+  def json_response(status, data = {}, response_status = 200)
     resp = {status: status, token: form_authenticity_token}.reverse_merge(data)
 
     if resp[:notice].is_a? Symbol
@@ -72,7 +81,7 @@ class ApplicationController < ActionController::Base
     end
     resp[:notice] ||= @notice if @notice
 
-    render json: resp
+    render json: resp, status: response_status
   end
 
   # Redirects page on response via JS
