@@ -194,6 +194,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def created_profile_page?
+    !((!passed_profile_steps? && is_profile_owner?) || (!is_profile_owner?))
+  end
+
   private
 
   def set_profile_completion_status

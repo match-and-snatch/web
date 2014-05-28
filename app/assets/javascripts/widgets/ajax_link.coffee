@@ -8,7 +8,8 @@ class bud.widgets.AjaxLink extends bud.Widget
     @href       = @$container.attr('href')
     @hash       = @href #.replace(/^\//, '')
     @$target    = bud.get(@$container.data('target')) || @$container
-    @use_anchor = @$container.data('use_anchor')
+    @use_anchor = @data('use_anchor')
+    @default    = @data('default')
 
     @location_changed()
     bud.sub('window.hashchange', @location_changed) if @use_anchor
@@ -19,6 +20,8 @@ class bud.widgets.AjaxLink extends bud.Widget
     if @use_anchor
       if "##{@hash}" == window.location.hash
         @render_path(@href)
+      else if _.isEmpty(window.location.hash) && @default
+        window.location.hash = @hash
       else
         @$container.removeClass('active pending')
 

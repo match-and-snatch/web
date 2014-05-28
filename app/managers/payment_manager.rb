@@ -12,7 +12,7 @@ class PaymentManager < BaseManager
                                    customer:    target.customer.stripe_user_id,
                                    currency:    'usd',
                                    description: description,
-                                   statement_description: 'ConnectPal.com',
+                                   statement_description: target.target_user.profile_name.first(14),
                                    metadata:    {target_id:   target.id,
                                                  target_type: target.class.name,
                                                  user_id:     target.customer.id}
@@ -21,7 +21,10 @@ class PaymentManager < BaseManager
                     target_user:        target.recipient,
                     amount:             charge['amount'],
                     stripe_charge_data: charge.as_json,
-                    description:        description
+                    description:        description,
+                    user_cost:              target.target_user.cost,
+                    user_subscription_fees: target.target_user.subscription_fees,
+                    user_subscription_cost: target.target_user.subscription_cost
 
     target.charged_at = Time.zone.now
     save_or_die! target
