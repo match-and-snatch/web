@@ -1,20 +1,22 @@
 div data-identifier='pending-audios'
   .pending_audio
-    ul.Sorter data-url=reorder_audios_path
-      - current_user.pending_audios.each do |upload|
-        li data-oid=upload.id
-          i.fa.fa-arrows-v.icon.pull-left.dragger
-          i.fa.fa-music.icon.pull-left
-          .file_name.pull-left= upload.filename
-          a.pull-right.AjaxFormLink href=audio_path(upload) data-_method='DELETE' data-target='pending-audios' Delete
-          .clearfix
+    .added_audio
+      ul.Sorter data-url=reorder_audios_path
+        - current_user.pending_audios.each do |upload|
+          li data-oid=upload.id
+            i.fa.fa-arrows-v.icon.pull-left.dragger
+            i.fa.fa-music.icon.pull-left
+            .file_name.pull-left= upload.filename
+            a.delete_button.fa.fa-times.AjaxFormLink href=audio_path(upload) data-_method='DELETE' data-target='pending-audios'
+            .clearfix
 
     .clearfix
     - if current_user.pending_audios.count < 16
       form.UploadForm action=audios_path method='post' data-target='pending-audios'
         = transloadit :post_audio
         .select_file_container
-          .btn.blue.multi Add Audio Files
+          .btn.black.multi.fa.fa-plus
+            |&nbsp;Add Audio Files
           input.hide_btn type='file' name='post_audios' multiple='multiple'
           input type='hidden' name='slug' value=current_user.slug
     - else
