@@ -12,7 +12,13 @@ class Admin::UsersController < Admin::BaseController
 
   def login_as
     session_manager.login_as(current_user.object, @user)
-    json_redirect @user.has_profile_page? ? profile_path(@user) : account_info_path
+
+    if @user.billing_failed?
+      notice :billing_failed
+      json_redirect account_info_url(anchor: '/account_info/billing_information')
+    else
+      json_redirect @user.has_profile_page? ? profile_path(@user) : account_info_path
+    end
   end
 
   def make_admin

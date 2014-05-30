@@ -20,8 +20,18 @@ class UserManager < BaseManager
     fail_with! 'User is not an admin' unless @user.admin?
 
     @user.is_admin = false
-    @user.save or fail_with!(@user.errors)
+    save_or_die! @user
 
     @user
+  end
+
+  def mark_billing_failed
+    @user.billing_failed = true
+    save_or_die! @user
+  end
+
+  def remove_mark_billing_failed
+    @user.billing_failed = false
+    save_or_die! @user
   end
 end

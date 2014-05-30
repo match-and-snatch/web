@@ -258,7 +258,8 @@ class UserProfileManager < BaseManager
     user.last_four_cc_numbers = customer['cards']['data'][0]['last4']
     user.card_type            = customer['cards']['data'][0]['type']
 
-    user.save or fail_with! user.errors
+    save_or_die! user
+    UserManager.new(user).remove_mark_billing_failed
     user
   rescue Stripe::CardError => e
     err = e.json_body[:error]
