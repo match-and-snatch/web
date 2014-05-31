@@ -34,7 +34,7 @@ en:
     post_updated: The post has been updated
     post_hidden: The post has been hidden from users
     post_shown: The post has been made visible to other users
-    billing_failed: Your last payment didn't came through, please make sure to enter correct billing details
+    billing_failed: Your last payment failed. Please update your card on file under billing infromation.
   feed:
     audios: Just added a new audio file to their profile.
     videos: Just posted a new video to their profile.
