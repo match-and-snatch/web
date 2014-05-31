@@ -8,8 +8,13 @@ class SessionsController < ApplicationController
   def create
     reset_session
     user = session_manager.login(params[:email], params[:password], params[:remember_me])
-    # user.profile_disabled? ? json_redirect(account_path) : json_reload
-    json_reload
+
+    if user.billing_failed?
+      notice :billing_failed
+      json_redirect account_info_url(anchor: '/account_info/billing_information')
+    else
+      json_reload
+    end
   end
 
   # Logs user out

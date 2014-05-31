@@ -612,7 +612,8 @@ CREATE TABLE users (
     downloads_enabled boolean DEFAULT false NOT NULL,
     itunes_enabled boolean DEFAULT false NOT NULL,
     profile_types_text text,
-    subscribers_count integer DEFAULT 0 NOT NULL
+    subscribers_count integer DEFAULT 0 NOT NULL,
+    billing_failed boolean DEFAULT false NOT NULL
 );
 
 
@@ -995,3 +996,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140526202726');
 INSERT INTO schema_migrations (version) VALUES ('20140527070103');
 
 INSERT INTO schema_migrations (version) VALUES ('20140528162312');
+
+INSERT INTO schema_migrations (version) VALUES ('20140530170944');

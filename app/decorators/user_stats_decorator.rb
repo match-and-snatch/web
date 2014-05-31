@@ -41,6 +41,6 @@ class UserStatsDecorator < UserDecorator
   end
 
   def subscriptions
-    Subscription.where(target_user_id: object.id)
+    Subscription.not_removed.where(target_user_id: object.id)
   end
 end
