@@ -1,0 +1,62 @@
+- content_for :head do
+  = render 'meta'
+
+.container style="margin-bottom: 73px;"
+  #header.box
+    .photo_cover
+      - if @profile.cover_picture_url.present?
+        div style='background: url(#{@profile.cover_picture_url}); background-position-y: #{@profile.cover_picture_position}px; width: 100%; height: 100%'
+    .photo_profile
+      img src=@profile.profile_picture_url
+
+    /* Details Container */
+    .details_container.row
+      .col-md-7.col-sm-7.col-xs-7.profile_details
+
+        /* Profile Name */
+        span.profile_name.visitor = @profile.profile_name
+        .clearfix
+        - if can? :login_as, @profile.object
+          a.admin_login.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this User
+        .clearfix
+
+        /* Profile Type */
+        span.profile_type= @profile.types
+
+      .col-md-5.col-sm-5.col-xs-5
+
+        /* Subscribe Container */
+        .subscribe_cont
+
+          /* Cost Button Visitor (Show Logged User/Visitor) */
+          a.cost_visitor
+            .amount
+              span Disabled
+            .btn.pink.fa.fa-usd.fa-2x
+            .clearfix
+
+    /* Subscriber Benefits */
+
+    .benefits_container.row
+      .col-md-12.col-sm-12.col-xs-12
+        - if @profile.benefits.any?
+          .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
+          div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
+
+  /* Visitor View */
+
+  #visitor.box
+    .row
+      .col-md-12.col-sm-12.col-xs-12
+        .title You are no longer subscribed to #{@profile.profile_name}'s profile page
+        span.tagline We encountered a problem with your credit card account
+
+        span.sub_heading
+          ' In order to fix this, please go to
+          a href="#{account_info_url(anchor: '/account_info/billing_information')}" billing information section
+          '  and update your details
+
+/* Footer */
+
+div style='position: fixed; bottom: 0; width: 100%'
+  = render 'footer'
