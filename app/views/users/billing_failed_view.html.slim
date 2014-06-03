@@ -49,12 +49,12 @@
     .row
       .col-md-12.col-sm-12.col-xs-12
         .title Please fix your billing details to see #{@profile.profile_name}'s profile page
-        span.tagline We encountered a problem with your credit card account
+        span.tagline We encountered a problem with your credit card.
 
         span.sub_heading
-          ' In order to fix this, please go to
-          a href="#{account_info_url(anchor: '/account_info/billing_information')}" billing information section
-          '  and update your details
+          ' In order to fix this, please update your credit card information
+          a href="#{account_info_url(anchor: '/account_info/billing_information')}" here
+          '  .
 
 /* Footer */
 
