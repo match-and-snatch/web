@@ -7,15 +7,20 @@
       .error data-field='message'
       
     .col-md-12.col-sm-12.col-xs-12
-      input.btn.blue.status_btn.pull-right type='Submit' value='Post'
+      input.btn.blue.pull-right type='Submit' value='Post'
       .notify.pull-left
-        label.pull-left style='margin: 2px 10px 0 0;' Do you want to notify your subscribers of this post via email?
-        .pull-right.notify_label style='margin-right: 10px'
-          input type='radio' name='notify' value='' checked='checked' id='notify_no'
-          label for='notify_no' 
-            |&nbsp;No        
-        .pull-right.notify_label style='margin-right: 10px'
+
+        label.pull-left style='margin-top: 2px;' Do you want to notify your subscribers of this post via email?    
+
+        .pull-left.yes_width
           input type='radio' name='notify' value='1' id='notify_yes'
           label for='notify_yes' 
             |&nbsp;Yes
+
+        .pull-left.no_width
+          input type='radio' name='notify' value='' checked='checked' id='notify_no'
+          label for='notify_no' 
+            |&nbsp;No   
+
         .clearfix
+      .clearfix
