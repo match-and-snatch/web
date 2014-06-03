@@ -1,19 +1,19 @@
 div data-identifier='pending-photos'
   .pending_photo
-    - current_user.pending_photos.any?
+    .added_photo
       ul
-        - current_user.pending_photos.each do |upload|
-          li
-            img src=upload.preview_url
-            a.delete_photo.AjaxFormLink href=photo_path(upload) data-_method='DELETE' data-target='pending-photos' Delete
+        - current_user.pending_photos.any?
+          - current_user.pending_photos.each do |upload|
+            li
+              img src=upload.preview_url
+              a.delete_photo.fa.fa-times.AjaxFormLink href=photo_path(upload) data-_method='DELETE' data-target='pending-photos'
+      .clearfix
 
+      form.UploadForm action=photos_path method='post' data-target='pending-photos'
+        = transloadit :post_photo
+        .select_file_container
+          .btn.green.multi.fa.fa-plus
+            |&nbsp;Add Photo Files
+          input.hide_btn type='file' name='post_photos' multiple='multiple'
+          input type='hidden' name='slug' value=current_user.slug
     .clearfix
-    form.UploadForm action=photos_path method='post' data-target='pending-photos'
-      = transloadit :post_photo
-      .select_file_container
-        br
-        .btn.blue.multi Add Photo Files
-        input.hide_btn type='file' name='post_photos' multiple='multiple'
-        input type='hidden' name='slug' value=current_user.slug
-        input type='hidden' name='max_size' value=1048576*50
-  .clearfix

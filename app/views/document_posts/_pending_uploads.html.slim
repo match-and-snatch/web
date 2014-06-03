@@ -1,22 +1,23 @@
 div data-identifier='pending-documents'
   .pending_document
-    ul
-      - current_user.pending_documents.each do |upload|
-        li class=upload.file_type
-          img src=upload.preview_url
-          i.fa.fa-paperclip.icon.pull-left
-          .doc_title.pull-left= upload.filename
-          a.pull-right.AjaxFormLink href=document_path(upload) data-_method='DELETE' data-target='pending-documents' Delete
-          .clearfix
+    .added_document
+      ul
+        - current_user.pending_documents.each do |upload|
+          li class=upload.file_type
+            // img src=upload.preview_url
+            i.fa.fa-paperclip.icon.pull-left
+            .file_name.pull-left= upload.filename
+            a.delete_button.fa.fa-times.AjaxFormLink href=document_path(upload) data-_method='DELETE' data-target='pending-documents'
+            .clearfix
+      .clearfix
+      - if current_user.pending_documents.count < 5
+        form.UploadForm action=documents_path method='post' data-target='pending-documents'
+          = transloadit :post_document
+          .select_file_container
+            .btn.green.multi.fa.fa-plus
+              |&nbsp;Add Document Files
+            input.hide_btn type='file' name='post_documents' multiple='multiple'
+            input type='hidden' name='slug' value=current_user.slug
+      - else
+        p You can only upload 5 files per post.
     .clearfix
-    - if current_user.pending_documents.count < 5
-      form.UploadForm action=documents_path method='post' data-target='pending-documents'
-        = transloadit :post_document
-        .select_file_container
-          .btn.blue.multi Add Document File
-          input.hide_btn type='file' name='post_documents' multiple='multiple'
-          input type='hidden' name='slug' value=current_user.slug
-          input type='hidden' name='max_size' value=1048576*500
-    - else
-      p You can't upload more than 5 documents
-  .clearfix
