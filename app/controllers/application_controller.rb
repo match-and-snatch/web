@@ -36,6 +36,12 @@ class ApplicationController < ActionController::Base
     before_filter(*filter_options) { instance_eval(&block) or error(401) }
   end
 
+  before_filter do
+    if current_user.billing_failed? && referrer_host != request.host
+      notice(:billing_failed)
+    end
+  end
+
   protected
 
   # Restricts public access
@@ -170,5 +176,9 @@ class ApplicationController < ActionController::Base
   def translate_message(message, opts = {})
     raise ArgumentError unless message.is_a? Symbol
     I18n.t(message, opts.reverse_merge(scope: :messages, default: [:default, message])).html_safe
+  end
+
+  def referrer_host
+    URI.parse(request.referrer).try(:host) if request.referrer
   end
 end

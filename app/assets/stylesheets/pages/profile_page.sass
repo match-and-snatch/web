@@ -1,4 +1,4 @@
-/* Header */
+// Header
 
 #header
   margin-top: 20px
@@ -25,7 +25,7 @@
       color: $color_pink
       text-decoration: none
 
-  /* Photo Cover */
+  // Photo Cover
 
   .photo_cover
     background-color: $color_background
@@ -46,7 +46,7 @@
     #change_possition
       right: 160px
 
-  /* Photo Profile */
+  // Photo Profile
 
   .photo_profile
     background: asset-url('//connectpal-assets.s3.amazonaws.com/images/default_profile_pic.png') no-repeat
@@ -78,13 +78,13 @@
       .btn
         display: block
 
-  /* Details Container */
+  // Details Container
 
   .details_container
     padding: 0 15px
     position: relative
 
-    /* Profile Name */
+    // Profile Name
 
     .profile_details
       color: $color_text_dark
@@ -147,14 +147,14 @@
         text-decoration: none
 
 
-    /* Cost Button/Subscribe Button */
+    // Cost Button/Subscribe Button
 
     .subscribe_cont
       font-size: 36px
       font-weight: 600
       text-align: center
 
-      /* Cost Owner/Visitor */
+      // Cost Owner/Visitor
 
       .cost_owner, .cost_visitor
         display: block
@@ -188,7 +188,7 @@
           .btn
             @include pink-area
 
-      /* Cost Owner */
+      // Cost Owner
 
       .cost_owner
         cursor: pointer
@@ -206,12 +206,12 @@
             &:before
               color: $color_gear_hover
 
-      /* Cost Visitor */
+      // Cost Visitor
 
       .subscribe
         display: none
 
-      /* Cost Visitor Hover */
+      // Cost Visitor Hover
 
       &:hover
         .cost_visitor
@@ -230,7 +230,7 @@
           text-decoration: none
           width: 247px
 
-      /* Subscribed */
+      // Subscribed
 
       .subscribed
         @include border-radius($border_radius)
@@ -246,7 +246,7 @@
         text-decoration: none
         width: 247px
 
-  /* Details Container */
+  // Details Container
 
   .benefits_container
     padding: 0 15px
@@ -268,9 +268,6 @@
       line-height: 20px
       margin-top: 46px
       margin-left: 20px !important
-      // columns: 2
-      // -webkit-columns: 2
-      // -moz-columns: 2
       li
         color: $color_text_dark
         font-size: 13px
@@ -292,7 +289,7 @@
           &:before
             color: $color_gear_hover
 
-/* Create Post (Owner View) */
+// Create Post (Owner View)
 
 #create_post_nav
   @include linear-gradient(#FFFFFF, #F7F7F7)
@@ -316,12 +313,13 @@
     &.active
       a
         color: $color_blue
-
     a
       border-bottom: none
       color: #464646
       text-decoration: none
       text-shadow: -1px -1px 0 #FFFFFF
+      &:focus
+        outline: none
       input
         cursor: pointer !important
         height: 15px
@@ -336,12 +334,12 @@
           &:before
             color: $color_blue
 
-/* Create Post */
+// Create Post
 
 #create_post
   @include border-radius(0 0 $border_radius $border_radius)
 
-  /* Status Post Textarea */
+  // Status Post Textarea
 
   #post
     padding: 15px
@@ -351,127 +349,28 @@
       min-height: 60px
       width: 100%
     .notify
-      color: $color_text_light
-      font-size: 12px
-      margin: 8px 0 0
-      width: 465px
+      margin: 10px 0 0 0
+      label
+        color: $color_text_light
+        font-size: 12px
+        font-weight: 400 !important
+      .no_width
+        width: 40px
+      .yes_width
+        margin-left: 10px
+        width: 45px
     input[type="submit"]
       &:focus
         color: #FFFFFF
         outline: none
 
-  /* Uploading Container */
+  // Uploading Container
 
   #uploading
+    margin: 15px 0
     position: relative
 
-    /* Pending Files */
-
-    .pending_audio, .pending_video, .pending_photo, .pending_document
-      padding: 0 15px 15px 15px
-      position: relative
-      ul
-        font-size: 13px
-        margin: 15px 0
-        li
-          padding-top: 5px
-          .file_name, .doc_title
-            font-size: 13px
-            padding-top: 2px
-          .dragger
-            color: $color_text_light
-            border: 1px solid $color_border
-            border-radius: 10px
-            background: #f0f0f0
-            padding: 5px 10px
-            cursor: move
-          &.Cell
-            border: 1px dashed $color_pink
-            width: 100%
-            height: 30px
-            margin: 5px 0
-          .fa-music, .fa-paperclip
-            &:before
-              color: $color_blue
-              font-size: 13px
-              padding-right: 3px
-              position: relative
-              top: 5px
-              margin-left: 3px
-          .fa-paperclip
-            &:before
-              font-size: 15px
-          &:first-child
-            padding-top: 0
-          a
-            padding-left: 10px
-      p
-        font-size: 13px
-        margin: 0
-        padding: 0
-
-      .select_file_container
-        .multi
-          width: 100%
-        .hide_btn
-          opacity: 0
-          cursor: pointer
-          position: absolute
-          bottom: 15px
-          left: 15px
-          height: 34px
-          width: 908px
-
-    /* Pending Photo */
-
-    .pending_photo
-      ul
-        border-bottom: 1px solid $color_border
-        padding-bottom: 15px
-        overflow-x: auto
-        white-space: nowrap
-        li
-          float: none
-          display: inline-block
-          margin-left: 15px
-          position: relative
-          &:first-child
-            margin-left: 0
-
-          img
-            border: 1px solid $color_border 
-            height: 100px
-          .delete_photo
-            background-color: $color_pink
-            @include border-radius(0 $border_radius 0 0)
-            color: #FFFFFF
-            font-size: 11px
-            padding: 5px 10px
-            position: absolute
-            left: 1px
-            bottom: 1px
-            text-decoration: none
-            &:hover
-              background-color: $color_blue
-
-
-    /* Pending Video */
-
-    .pending_video
-      img
-        width: 100px
-
-    /* New Boxes */
-
-    .post_button
-      background-color: $color_background
-      border: 1px solid $color_border
-      padding: 30px 0
-      text-align: center
-      margin-top: 15px
-      width: 445px
-
-    /* Progress Bar */
+    // Progress Bar
 
     .progress_title
       color: $color_blue
@@ -479,65 +378,216 @@
       font-weight: 600
       padding: 10px 15px 15px
 
-    /* File Status */
+    // File Status
 
     .file_status
-      padding: 0 15px
       border-bottom: 1px solid $color_border
+      font-size: 13px
+      height: 36px
+      margin-bottom: 15px
       .progress
-        margin-bottom: 15px
+        margin-bottom: 0
       .file_name
         color: $color_text_dark
       .percentage
         text-align: right
 
-    /* Upload Details */
+    // Pending Files
+
+    .pending_audio, .pending_video, .pending_photo, .pending_document
+      overflow: hidden
+      position: relative
+      
+      // Listed Files
+
+      .added_audio, .added_video, .added_photo, .added_document
+        overflow: hidden
+        height: 234px
+        ul
+          @include border-radius (5px)
+          background-color: #FFFFFF
+          border: 1px solid $color_border
+          height: 180px
+          margin: 0
+          padding: 0
+          overflow: hidden
+          overflow-y: scroll
+          li
+            background-color: $color_background
+            border-bottom: 1px solid $color_border
+            height: 30px
+            padding: 0 10px
+
+            // Sort Related
+
+            .dragger
+              cursor: move
+              margin: 8px 5px 0 0
+              padding: 0
+            &.Cell
+              border: 1px dashed $color_pink
+              height: 30px
+              width: 100%
+
+            // Details
+
+            .file_name
+              font-size: 12px
+              margin-top: 6px
+            .fa-music, .fa-paperclip
+              &:before
+                color: $color_blue
+                font-size: 12px
+                padding-right: 3px
+                position: relative
+                top: 7px
+                margin-left: 3px
+            .fa-paperclip
+              &:before
+                font-size: 15px
+            &:first-child
+              padding-top: 0
+
+            // Delete X icon
+
+            a.delete_button
+              float: right
+              margin: 8px 0 0 10px
+              text-decoration: none
+              &:hover
+                text-decoration: none
+                &:before
+                  color: $color_text_dark
+        p
+          color: $color_pink
+          font-size: 12px
+          margin: 0
+          padding: 20px 0 0
+          text-align: center
+
+      // Listed Video 
+
+      .added_video
+        ul
+          overflow-y: hidden !important
+          li
+            background-color: #FFFFFF
+            border-bottom: none
+            height: auto
+            padding: 0
+            position: relative
+            img
+              margin-top: -30px
+              width: 437px
+            a.delete_button
+              @include border-radius (50%)
+              background-color: $color_background
+              padding: 4px 5px
+              position: absolute
+              top: -3px
+              right: 5px
+
+      // Listed Photo
+
+      .added_photo
+        ul
+          padding: 5px
+          white-space: nowrap
+          li
+            background-color: #FFFFFF
+            border-bottom: none
+            height: 100px
+            float: left
+            margin: 0 5px 5px 0
+            overflow: hidden
+            padding: 0 !important
+            position: relative
+            &:last-child
+              margin-right: 0
+            img
+              border: 1px solid $color_border 
+              height: 98px
+            .delete_photo
+              background-color: $color_pink
+              @include border-radius(0 0 0 $border_radius)
+              color: #FFFFFF
+              font-size: 11px
+              padding: 5px 10px
+              position: absolute
+              top: 1px
+              right: 1px
+              text-decoration: none
+              &:hover
+                background-color: $color_blue
+
+      // Select Files Container
+
+      .select_file_container
+        .multi
+          @include border-radius (5px)
+          bottom: 0
+          color: #FFFFFF
+          margin: 0 auto
+          padding: 6px 0
+          position: absolute
+          text-align: center
+          width: 100%
+        .hide_btn
+          opacity: 0
+          cursor: pointer
+          position: absolute
+          bottom: 0
+          left: 0
+          height: 34px
+          width: 439px
+
+    // Upload Details
 
     .upload_details
-      border-top: 1px solid $color_border
-      padding: 15px
-      .error
-        padding: 5px 0
-      .detail_field
-        @include border-radius($border_radius)
-        background-color: $color_background
-        border: 1px solid $color_border
-        padding: 8px 10px
-        width: 100%
+      .form-control
+        color: $color_text_dark !important
+        &.bg-color
+          background-color: $color_background
+        font-size: 13px
+        margin-bottom: 15px
         &:focus
           outline: none
       textarea
-        color: $color_text_dark
-        height: 91px
-        margin: 0
         overflow: auto
-      .foot
-        margin-top: 10px
-        position: relative
-        .notify
+      .error
+        padding: 5px 0
+      .notify
+        margin-bottom: 10px
+        label
           color: $color_text_light
           font-size: 12px
-          margin: 8px 0 0
-          width: 465px
-        .cancel_post
-          color: #959595
-          cursor: pointer
-          font-size: 12px
-          margin-top: 9px
-          margin-right: 15px
-          &:hover
-            text-decoration: underline
+          font-weight: 400 !important
+        .no_width
+          width: 40px
+        .yes_width
+          margin-left: 10px
+          width: 45px
+      .btn.blue
+        @include border-radius (5px)
+      .cancel_post
+        color: #959595
+        cursor: pointer
+        font-size: 12px
+        margin-top: 9px
+        margin-left: 15px
+        &:hover
+          text-decoration: underline
 
-/* Subscriber Display */
+// Subscriber Display
 
 #subscriber_display
   margin-top: $box_margin
 
-  /* Sidebar */
+  // Sidebar
 
   .sidebar
 
-    /* Profile Action */
+    // Profile Action
 
     .share_url
       padding: 15px
@@ -560,7 +610,7 @@
       span
         font-size: 13px
 
-    /* Search Profile Content */
+    // Search Profile Content
 
     .search
       margin-top: $box_margin
@@ -574,7 +624,7 @@
         @include border-radius(0 $border_radius $border_radius 0)
         height: 47px !important
 
-    /* Cat Cloud & Contact Info */
+    // Cat Cloud & Contact Info
 
     .archive_cloud, .contact
       margin-top: 30px
@@ -588,7 +638,7 @@
         line-height: 100%
         padding-bottom: 10px
 
-    /* Category Cloud */
+    // Category Cloud
 
     .archive_cloud
       ul
@@ -600,7 +650,7 @@
           a
             color: $color_text_dark
 
-    /* Contact Info */
+    // Contact Info
 
     .contact
       padding-bottom: 0
@@ -643,11 +693,11 @@
                 &:before
                   color: $color_blue
 
-  /* Recent Posts */
+  // Recent Posts
 
   .recent_posts
 
-    /* Search Posts */
+    // Search Posts
 
     .show_results
       @include border-radius($border_radius)
@@ -655,7 +705,7 @@
       color: #b7a549
       padding: 15px
 
-    /* No Posts */
+    // No Posts
 
     .no_post_yet
       color: #e1e1e1
@@ -670,14 +720,14 @@
         display: block
         margin-top: 15px
 
-    /* Deleted */
+    // Deleted
 
     .deleted
       margin-bottom: 30px
       font-weight: bold
       text-align: center
 
-    /* Single Post */
+    // Single Post
 
     .post
       margin-bottom: $box_margin
@@ -791,53 +841,60 @@
 
       // Doc View
 
-      .doc_view
-        @include border-radius ($border_radius)
-        background: $color_background
-        color: $color_text_dark
-        overflow: hidden
-        .preview
-          border-right: 1px solid $color_border
-          height: 100px
-          overflow: hidden
-          position: relative
-          width: 200px
-          .fa-search
-            position: absolute
-            display: none
-            top: 25px
-            left: 75px
-            &:before
-              color: $color_text_dark
-              font-size: 50px
-        .doc_details
-          span
-            color: $color_blue
-            display: block
-            font-size: 20px
-            margin: 20px 0 5px 15px
-          .doc_title
-            font-size: 14px
-            margin-left: 15px
-        &:hover
-          text-decoration: none
-          background: $color_blue
-          color: #FFFFFF
-          .preview
-            background: #FFFFFF
-            img
-              opacity: 0.5
-            .fa-search
-              display: block
-          .doc_details
-            span, .doc_title
+      .doc_list
+        li
+          .doc_view
+            @include border-radius ($border_radius)
+            color: $color_text_dark
+            overflow: hidden
+            .preview
+              background: #FFFFFF
+              border-right: 1px solid $color_border
+              height: 100px
+              overflow: hidden
+              position: relative
+              width: 200px
+              .fa-search
+                position: absolute
+                display: none
+                top: 25px
+                left: 75px
+                &:before
+                  color: $color_text_dark
+                  font-size: 50px
+            .doc_details
+              span
+                color: $color_blue
+                display: block
+                font-size: 20px
+                margin: 20px 0 5px 15px
+              .doc_title
+                font-size: 14px
+                margin-left: 15px
+            &:hover
+              text-decoration: none
+              background: $color_blue
               color: #FFFFFF
-          
+              .preview
+                background: #FFFFFF
+                img
+                  opacity: 0.5
+                .fa-search
+                  display: block
+              .doc_details
+                span, .doc_title
+                  color: #FFFFFF
+
+      // Message
+
       .message
         font-size: 13px
         line-height: 20px
         padding: 15px
         word-wrap: break-word
+
+      // Action Bar
+
       .action_bar
         @include white-area
         border-top: 1px solid $color_border
@@ -867,7 +924,7 @@
           font-size: 12px
           padding-left: 5px
 
-    /* Discussion Dropdown */
+    // Discussion Dropdown
 
     .comment_container
       background-color: $color_background
@@ -993,14 +1050,14 @@
           .delete
             display: block
 
-      /* Nested Comments */
+      // Nested Comments
 
       .nested_row
         padding-left: 80px
         .nested_content
           width: 454px
 
-      /* Reply Container */
+      // Reply Container
 
       .reply_container
         padding: 0 15px 15px 15px
@@ -1060,7 +1117,7 @@
                 font-size: 11px
                 margin: 7px 0 0 5px
 
-/* Visitor View */
+// Visitor View
 
 #visitor
   color: $color_text_light
@@ -1154,12 +1211,20 @@
       .error
         padding-bottom: 5px
     #uploading
+      .pending_photo
+        .added_photo
+          ul
+            li
+              img 
+                width: 95px
       .file_status
-        width: 718px
-        margin: 20px 0 0 0
+        font-size: 12px
       .upload_details
-        .detail_field
-          margin-bottom: 15px
+        .notify
+          label
+            font-size: 11px
+          .yes_width
+            margin-left: 0
   #subscriber_display
     .sidebar
       .share_url

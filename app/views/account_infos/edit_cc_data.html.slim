@@ -12,7 +12,7 @@ form.Form action=update_cc_data_account_info_path method='post'
           img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
         li
           img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-    input.form-control.pull-right type='text' name='number' placeholder='1234 5678 9012 3456'
+    input.form-control.pull-right type='text' name='number' placeholder=current_user.cc_placeholder
     .clearfix
     .error data-field='number'
 

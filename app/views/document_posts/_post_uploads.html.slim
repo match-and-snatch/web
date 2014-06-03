@@ -1,8 +1,8 @@
-ul
+ul.doc_list
   - post.uploads.ordered.each do |upload|
-    li class=upload.file_type
+    li
       a.doc_view href=upload.url target='_blank'
-        .preview.pull-left
+        .preview.pull-left class=upload.file_type
         	i.fa.fa-search
         	img src=upload.preview_url
         .doc_details.pull-left

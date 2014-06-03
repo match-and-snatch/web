@@ -36,4 +36,8 @@ class UserDecorator < BaseDecorator
   def to_param
     object.slug
   end
+
+  def cc_placeholder
+    "XXXX-XXXX-XXXX-#{object.last_four_cc_numbers}"
+  end
 end

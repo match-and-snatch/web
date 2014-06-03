@@ -6,8 +6,10 @@ s3: &s3
 audio_filter: &audio_filter
   files:
     robot: '/file/filter'
+    condition_type: 'and'
     accepts:
       - ["${file.mime}", "regex", "audio"]
+      - ["${file.ext}", "regex", '^(aac|m4a|mp3|ogg|oga)$']
     error_on_decline: true
 
 document_filter: &document_filter
@@ -27,8 +29,10 @@ image_filter: &image_filter
 video_filter: &video_filter
   files:
     robot: '/file/filter'
+    condition_type: 'and'
     accepts:
       - ["${file.mime}", "regex", "video"]
+      - ["${file.ext}", "regex", '^(mp4|m4v|f4v|mov|flv)$']
     error_on_decline: true
 
 development:
