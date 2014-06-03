@@ -5,7 +5,7 @@
       | Card on file is 
       strong= @user.card_type
       | &nbsp;ending with <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
-      a href=edit_cc_data_account_info_path style='margin-top: 5px; display: block;' Click here to edit
+      a.btn.pink href=edit_cc_data_account_info_path style='margin-top: 15px; display: block;' Update Payment Information
   - else
     .AjaxContainer data-url=edit_cc_data_account_info_path
 

@@ -1,4 +1,4 @@
-/* Header */
+// Header
 
 #header
   margin-top: 20px
@@ -25,7 +25,7 @@
       color: $color_pink
       text-decoration: none
 
-  /* Photo Cover */
+  // Photo Cover
 
   .photo_cover
     background-color: $color_background
@@ -46,7 +46,7 @@
     #change_possition
       right: 160px
 
-  /* Photo Profile */
+  // Photo Profile
 
   .photo_profile
     background: asset-url('//connectpal-assets.s3.amazonaws.com/images/default_profile_pic.png') no-repeat
@@ -78,13 +78,13 @@
       .btn
         display: block
 
-  /* Details Container */
+  // Details Container
 
   .details_container
     padding: 0 15px
     position: relative
 
-    /* Profile Name */
+    // Profile Name
 
     .profile_details
       color: $color_text_dark
@@ -147,14 +147,14 @@
         text-decoration: none
 
 
-    /* Cost Button/Subscribe Button */
+    // Cost Button/Subscribe Button
 
     .subscribe_cont
       font-size: 36px
       font-weight: 600
       text-align: center
 
-      /* Cost Owner/Visitor */
+      // Cost Owner/Visitor
 
       .cost_owner, .cost_visitor
         display: block
@@ -188,7 +188,7 @@
           .btn
             @include pink-area
 
-      /* Cost Owner */
+      // Cost Owner
 
       .cost_owner
         cursor: pointer
@@ -206,12 +206,12 @@
             &:before
               color: $color_gear_hover
 
-      /* Cost Visitor */
+      // Cost Visitor
 
       .subscribe
         display: none
 
-      /* Cost Visitor Hover */
+      // Cost Visitor Hover
 
       &:hover
         .cost_visitor
@@ -230,7 +230,7 @@
           text-decoration: none
           width: 247px
 
-      /* Subscribed */
+      // Subscribed
 
       .subscribed
         @include border-radius($border_radius)
@@ -246,7 +246,7 @@
         text-decoration: none
         width: 247px
 
-  /* Details Container */
+  // Details Container
 
   .benefits_container
     padding: 0 15px
@@ -268,9 +268,6 @@
       line-height: 20px
       margin-top: 46px
       margin-left: 20px !important
-      // columns: 2
-      // -webkit-columns: 2
-      // -moz-columns: 2
       li
         color: $color_text_dark
         font-size: 13px
@@ -292,7 +289,7 @@
           &:before
             color: $color_gear_hover
 
-/* Create Post (Owner View) */
+// Create Post (Owner View)
 
 #create_post_nav
   @include linear-gradient(#FFFFFF, #F7F7F7)
@@ -316,12 +313,13 @@
     &.active
       a
         color: $color_blue
-
     a
       border-bottom: none
       color: #464646
       text-decoration: none
       text-shadow: -1px -1px 0 #FFFFFF
+      &:focus
+        outline: none
       input
         cursor: pointer !important
         height: 15px
@@ -336,12 +334,12 @@
           &:before
             color: $color_blue
 
-/* Create Post */
+// Create Post
 
 #create_post
   @include border-radius(0 0 $border_radius $border_radius)
 
-  /* Status Post Textarea */
+  // Status Post Textarea
 
   #post
     padding: 15px
@@ -391,16 +389,12 @@
     // Pending Files
 
     .pending_audio, .pending_video, .pending_photo, .pending_document
-      position: relative
-
-    // Pending Audio
-
-    .pending_audio
       overflow: hidden
+      position: relative
       
-      // Listed Audio Files
+      // Listed Files
 
-      .added_audio
+      .added_audio, .added_video, .added_photo, .added_document
         overflow: hidden
         height: 234px
         ul
@@ -459,9 +453,66 @@
                 &:before
                   color: $color_text_dark
         p
+          color: $color_pink
           font-size: 12px
           margin: 0
-          padding: 0
+          padding: 20px 0 0
+          text-align: center
+
+      // Listed Video 
+
+      .added_video
+        ul
+          overflow-y: hidden !important
+          li
+            background-color: #FFFFFF
+            border-bottom: none
+            height: auto
+            padding: 0
+            position: relative
+            img
+              margin-top: -30px
+              width: 437px
+            a.delete_button
+              @include border-radius (50%)
+              background-color: $color_background
+              padding: 4px 5px
+              position: absolute
+              top: -3px
+              right: 5px
+
+      // Listed Photo
+
+      .added_photo
+        ul
+          padding: 5px
+          white-space: nowrap
+          li
+            background-color: #FFFFFF
+            border-bottom: none
+            height: 100px
+            float: left
+            margin: 0 5px 5px 0
+            overflow: hidden
+            padding: 0 !important
+            position: relative
+            &:last-child
+              margin-right: 0
+            img
+              border: 1px solid $color_border 
+              height: 98px
+            .delete_photo
+              background-color: $color_pink
+              @include border-radius(0 0 0 $border_radius)
+              color: #FFFFFF
+              font-size: 11px
+              padding: 5px 10px
+              position: absolute
+              top: 1px
+              right: 1px
+              text-decoration: none
+              &:hover
+                background-color: $color_blue
 
       // Select Files Container
 
@@ -481,7 +532,7 @@
           position: absolute
           bottom: 0
           left: 0
-          height: 42px
+          height: 34px
           width: 439px
 
     // Upload Details
@@ -506,11 +557,11 @@
           font-size: 12px
           font-weight: 400 !important
         .no_width
-          margin-left: 10px
           width: 40px
         .yes_width
+          margin-left: 10px
           width: 45px
-      .btn.black
+      .btn.blue
         @include border-radius (5px)
       .cancel_post
         color: #959595
@@ -521,64 +572,16 @@
         &:hover
           text-decoration: underline
 
-    /* Pending Photo */
-
-    // .pending_photo
-    //   ul
-    //     border-bottom: 1px solid $color_border
-    //     padding-bottom: 15px
-    //     overflow-x: auto
-    //     white-space: nowrap
-    //     li
-    //       float: none
-    //       display: inline-block
-    //       margin-left: 15px
-    //       position: relative
-    //       &:first-child
-    //         margin-left: 0
-
-    //       img
-    //         border: 1px solid $color_border 
-    //         height: 100px
-    //       .delete_photo
-    //         background-color: $color_pink
-    //         @include border-radius(0 $border_radius 0 0)
-    //         color: #FFFFFF
-    //         font-size: 11px
-    //         padding: 5px 10px
-    //         position: absolute
-    //         left: 1px
-    //         bottom: 1px
-    //         text-decoration: none
-    //         &:hover
-    //           background-color: $color_blue
-
-    /* Pending Video */
-
-    // .pending_video
-    //   img
-    //     width: 100px
-
-    /* New Boxes */
-
-    // .post_button
-    //   background-color: $color_background
-    //   border: 1px solid $color_border
-    //   padding: 30px 0
-    //   text-align: center
-    //   margin-top: 15px
-    //   width: 445px
-
-/* Subscriber Display */
+// Subscriber Display
 
 #subscriber_display
   margin-top: $box_margin
 
-  /* Sidebar */
+  // Sidebar
 
   .sidebar
 
-    /* Profile Action */
+    // Profile Action
 
     .share_url
       padding: 15px
@@ -601,7 +604,7 @@
       span
         font-size: 13px
 
-    /* Search Profile Content */
+    // Search Profile Content
 
     .search
       margin-top: $box_margin
@@ -615,7 +618,7 @@
         @include border-radius(0 $border_radius $border_radius 0)
         height: 47px !important
 
-    /* Cat Cloud & Contact Info */
+    // Cat Cloud & Contact Info
 
     .archive_cloud, .contact
       margin-top: 30px
@@ -629,7 +632,7 @@
         line-height: 100%
         padding-bottom: 10px
 
-    /* Category Cloud */
+    // Category Cloud
 
     .archive_cloud
       ul
@@ -641,7 +644,7 @@
           a
             color: $color_text_dark
 
-    /* Contact Info */
+    // Contact Info
 
     .contact
       padding-bottom: 0
@@ -684,11 +687,11 @@
                 &:before
                   color: $color_blue
 
-  /* Recent Posts */
+  // Recent Posts
 
   .recent_posts
 
-    /* Search Posts */
+    // Search Posts
 
     .show_results
       @include border-radius($border_radius)
@@ -696,7 +699,7 @@
       color: #b7a549
       padding: 15px
 
-    /* No Posts */
+    // No Posts
 
     .no_post_yet
       color: #e1e1e1
@@ -711,14 +714,14 @@
         display: block
         margin-top: 15px
 
-    /* Deleted */
+    // Deleted
 
     .deleted
       margin-bottom: 30px
       font-weight: bold
       text-align: center
 
-    /* Single Post */
+    // Single Post
 
     .post
       margin-bottom: $box_margin
@@ -832,53 +835,60 @@
 
       // Doc View
 
-      .doc_view
-        @include border-radius ($border_radius)
-        background: $color_background
-        color: $color_text_dark
-        overflow: hidden
-        .preview
-          border-right: 1px solid $color_border
-          height: 100px
-          overflow: hidden
-          position: relative
-          width: 200px
-          .fa-search
-            position: absolute
-            display: none
-            top: 25px
-            left: 75px
-            &:before
-              color: $color_text_dark
-              font-size: 50px
-        .doc_details
-          span
-            color: $color_blue
-            display: block
-            font-size: 20px
-            margin: 20px 0 5px 15px
-          .doc_title
-            font-size: 14px
-            margin-left: 15px
-        &:hover
-          text-decoration: none
-          background: $color_blue
-          color: #FFFFFF
-          .preview
-            background: #FFFFFF
-            img
-              opacity: 0.5
-            .fa-search
-              display: block
-          .doc_details
-            span, .doc_title
+      .doc_list
+        li
+          .doc_view
+            @include border-radius ($border_radius)
+            color: $color_text_dark
+            overflow: hidden
+            .preview
+              background: #FFFFFF
+              border-right: 1px solid $color_border
+              height: 100px
+              overflow: hidden
+              position: relative
+              width: 200px
+              .fa-search
+                position: absolute
+                display: none
+                top: 25px
+                left: 75px
+                &:before
+                  color: $color_text_dark
+                  font-size: 50px
+            .doc_details
+              span
+                color: $color_blue
+                display: block
+                font-size: 20px
+                margin: 20px 0 5px 15px
+              .doc_title
+                font-size: 14px
+                margin-left: 15px
+            &:hover
+              text-decoration: none
+              background: $color_blue
               color: #FFFFFF
-          
+              .preview
+                background: #FFFFFF
+                img
+                  opacity: 0.5
+                .fa-search
+                  display: block
+              .doc_details
+                span, .doc_title
+                  color: #FFFFFF
+
+      // Message
+
       .message
         font-size: 13px
         line-height: 20px
         padding: 15px
         word-wrap: break-word
+
+      // Action Bar
+
       .action_bar
         @include white-area
         border-top: 1px solid $color_border
@@ -908,7 +918,7 @@
           font-size: 12px
           padding-left: 5px
 
-    /* Discussion Dropdown */
+    // Discussion Dropdown
 
     .comment_container
       background-color: $color_background
@@ -1034,14 +1044,14 @@
           .delete
             display: block
 
-      /* Nested Comments */
+      // Nested Comments
 
       .nested_row
         padding-left: 80px
         .nested_content
           width: 454px
 
-      /* Reply Container */
+      // Reply Container
 
       .reply_container
         padding: 0 15px 15px 15px
@@ -1101,7 +1111,7 @@
                 font-size: 11px
                 margin: 7px 0 0 5px
 
-/* Visitor View */
+// Visitor View
 
 #visitor
   color: $color_text_light

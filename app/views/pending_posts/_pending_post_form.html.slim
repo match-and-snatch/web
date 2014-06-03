@@ -2,7 +2,7 @@
 
   / Progress bar. Add in hidden class.
   .row-fluid.file_status.hidden
-    .col-md-2.col-sm-2.col-xs-2.file_name Uploading...
+    .col-md-2.col-sm-2.col-xs-2.file_name Upload in progress...
     .col-md-9.col-sm-9.col-xs-9
       .progress.progress-striped.active
         .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
@@ -25,19 +25,19 @@
       .error data-field='message'
       / Post notification
       .notify
-        label.pull-left style='margin-top: 2px' Do you want to notify your subscribers of this post via email?
-        .pull-left.no_width
-          input type='radio' name='notify' value='' checked='checked' id='notify_no'
-          label for='notify_no' 
-            |&nbsp;No        
+        label.pull-left style='margin-top: 2px' Do you want to notify your subscribers of this post via email?     
         .pull-left.yes_width
           input type='radio' name='notify' value='1' id='notify_yes'
           label for='notify_yes' 
             |&nbsp;Yes
+        .pull-left.no_width
+          input type='radio' name='notify' value='' checked='checked' id='notify_no'
+          label for='notify_no' 
+            |&nbsp;No   
         .clearfix
 
       / Disabled until all uploads are 100%
-      input.btn.black.pull-left type='Submit' value='Submit Post'
+      input.btn.blue.pull-left type='Submit' value='Submit Post'
       .cancel_post.pull-left.AjaxFormLink href=cancel_media_posts_path data-_method='DELETE' data-target='post-fields' data-event='attachment.cancel' Cancel Post
 
     / File selection, progress bar, and file listing.
