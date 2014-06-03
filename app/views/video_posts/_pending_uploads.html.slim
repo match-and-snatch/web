@@ -13,6 +13,7 @@ div data-identifier='pending-videos'
           .btn.blue.multi Add Video File
           input.hide_btn type='file' name='post_videos'
           input type='hidden' name='slug' value=current_user.slug
+          input type='hidden' name='max_size' value=1048576*1000
     - else
       p You can upload only one video file.
   .clearfix

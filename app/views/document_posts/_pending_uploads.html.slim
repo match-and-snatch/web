@@ -16,6 +16,7 @@ div data-identifier='pending-documents'
           .btn.blue.multi Add Document File
           input.hide_btn type='file' name='post_documents' multiple='multiple'
           input type='hidden' name='slug' value=current_user.slug
+          input type='hidden' name='max_size' value=1048576*500
     - else
       p You can't upload more than 5 documents
   .clearfix

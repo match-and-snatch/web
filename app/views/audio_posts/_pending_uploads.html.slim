@@ -17,6 +17,7 @@ div data-identifier='pending-audios'
           .btn.blue.multi Add Audio Files
           input.hide_btn type='file' name='post_audios' multiple='multiple'
           input type='hidden' name='slug' value=current_user.slug
+          input type='hidden' name='max_size' value=1048576*500
     - else
       p You can upload only upload 15 files.
   .clearfix
