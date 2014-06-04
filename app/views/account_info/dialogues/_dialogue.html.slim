@@ -1,9 +1,19 @@
-li.list-group-item class="#{'unread' if dialogue.unread?}" data-identifier='dialogue-#{dialogue.id}'
-  i= dialogue.user.name
-  br
-  small= dialogue.recent_message.message
-  br
-  b= dialogue.created_at.to_s(:long)
-  br
-  - if dialogue.unread?
+li.list-group-item.message_dialogue data-identifier='dialogue-#{dialogue.id}' style='border-bottom: 4px solid #ddd; margin-bottom: 10px'
+  .photo.pull-left style='margin-right: 10px;'
+    img src=dialogue.antiuser(current_user.object).comment_picture_url width=50 height=50 border=0
+  .pull-left
+    strong= dialogue.antiuser(current_user.object).name
+    br
+    small style='color: #bbb' #{time_ago_in_words(dialogue.recent_message_at)} ago
+  .pull-right style='width: 400px; min-height: 50px; padding: 5px' class="#{'unread' if dialogue.unread?}"
+    .photo.pull-left style='margin-right: 10px;'
+      img src=dialogue.user.comment_picture_url width=32 height=32 border=0
+    .pull-left
+      - user = dialogue.recent_message.user
+      - if current_user.object != user 
+        strong= user.name 
+        br
+      small style='color: #67829E'= dialogue.recent_message.message
+  .clearfix
+  /- if dialogue.unread?
     a.AjaxFormLink data-target='dialogue-#{dialogue.id}' data-_method='PUT' href=mark_as_read_account_info_dialogue_path(dialogue.id) Mark as read

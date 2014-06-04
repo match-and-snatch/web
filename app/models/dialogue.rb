@@ -13,5 +13,9 @@ class Dialogue < ActiveRecord::Base
     dialogue = by_user(user).by_user(target_user).first
     dialogue || Dialogue.create!(user: user, target_user: target_user)
   end
+
+  def antiuser(user)
+    user == self.user ? target_user : self.user
+  end
 end
 

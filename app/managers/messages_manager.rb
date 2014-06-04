@@ -17,6 +17,7 @@ class MessagesManager < BaseManager
       dialogue = Dialogue.pick(user, target_user)
       dialogue.recent_message = _message
       dialogue.recent_message_at = _message.created_at
+      dialogue.unread = true
       dialogue.save!
 
       MessagesMailer.delay.new_message(_message)
@@ -26,8 +27,10 @@ class MessagesManager < BaseManager
   # @param dialogue [Dialogue]
   # @return [Dialogue]
   def mark_as_read(dialogue)
-    dialogue.unread = false
-    dialogue.save!
+    if user != dialogue.recent_message.user
+      dialogue.unread = false
+      dialogue.save!
+    end
     dialogue
   end
 end
