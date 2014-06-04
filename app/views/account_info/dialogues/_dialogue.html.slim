@@ -6,14 +6,18 @@ li.list-group-item.message_dialogue data-identifier='dialogue-#{dialogue.id}' st
     br
     small style='color: #bbb' #{time_ago_in_words(dialogue.recent_message_at)} ago
   .pull-right style='width: 400px; min-height: 50px; padding: 5px' class="#{'unread' if dialogue.unread?}"
-    .photo.pull-left style='margin-right: 10px;'
-      img src=dialogue.user.comment_picture_url width=32 height=32 border=0
-    .pull-left
-      - user = dialogue.recent_message.user
-      - if current_user.object != user 
-        strong= user.name 
-        br
-      small style='color: #67829E'= dialogue.recent_message.message
+    - if dialogue.recent_message.user == current_user.object
+      .photo.pull-left style='margin-right: 10px; margin-top: 4px'
+        img src=dialogue.recent_message.user.comment_picture_url width=32 height=32 border=0
+      .pull-left
+        - user = dialogue.recent_message.user
+        - if current_user.object != user 
+          strong= user.name 
+          br
+        small style='color: #67829E'= dialogue.recent_message.message
+    - else
+      div style='margin-top: 9px'
+        small style='color: #67829E;'= dialogue.recent_message.message
   .clearfix
   /- if dialogue.unread?
     a.AjaxFormLink data-target='dialogue-#{dialogue.id}' data-_method='PUT' href=mark_as_read_account_info_dialogue_path(dialogue.id) Mark as read
