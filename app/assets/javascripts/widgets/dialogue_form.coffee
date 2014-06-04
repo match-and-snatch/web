@@ -5,10 +5,13 @@ class bud.widgets.DialogueForm extends bud.widgets.Form
 
   initialize: ->
     super
+    @$target = @get_target()
+    @$menu_item = @get_target('menu_link')
+    @$menu_item.addClass('active')
     @scroll_to_bottom()
 
   scroll_to_bottom: ->
-    @get_target().scrollTop(@get_target().prop("scrollHeight"))
+    @$target.scrollTop(@$target.prop("scrollHeight"))
 
   on_after: =>
     super

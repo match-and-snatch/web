@@ -1,12 +1,12 @@
 .col-md-12
   h2 Chat with #{link_to_user @dialogue.antiuser(current_user.object)}
 
-  ul.list-group data-identifier='dialogue' style='overflow: scroll; overflow-x: hidden; overflow-y: auto; max-height: 200px'
+  ul.list-group data-identifier='dialogue' style='overflow: scroll; overflow-x: hidden; overflow-y: auto; max-height: 200px' class='#{'unread' if @dialogue.unread?}'
     - @dialogue.messages.order(:created_at).limit(30).each do |message|
       li.list-group-item
         .photo.pull-left style='margin-right: 10px; margin-top: 4px'
           img src=message.user.comment_picture_url width=32 height=32 border=0
-        .pull-left
+        .pull-left style='width: 420px'
           strong= message.user.name 
           br
           small style='color: #67829E'= message.message
@@ -18,7 +18,7 @@
   .clearfix
   br
   div style='border-top: 1px solid gray'
-    form.form.DialogueForm action=account_info_messages_path method='post' data-target='dialogue'
+    form.form.DialogueForm action=account_info_messages_path method='post' data-target='dialogue' data-menu_link='mailbox-menu-item'
       input type='hidden' name='user_id' value=@dialogue.antiuser(current_user.object).id
       label style="margin-top: 15px" Send a message
       textarea.form-control.edit_field name='message' placeholder='Your message for #{@dialogue.antiuser(current_user.object).name}'

@@ -12,7 +12,7 @@
         li My Feed
       a.AjaxLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
         li Account Settings
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=account_info_dialogues_path
+      a.AjaxLink data-use_anchor='true' data-target='account-info' href=account_info_dialogues_path data-identifier='mailbox-menu-item'
         li Mailbox (#{@user.dialogues.unread.count})
 
     h2.subscriptions My Subscriptions
