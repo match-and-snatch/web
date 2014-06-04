@@ -26,16 +26,16 @@
       / Post notification
       .notify
         label.pull-left style='margin-top: 2px' Do you want to notify your subscribers of this post via email?     
+        .pull-left.no_width
+          input type='radio' name='notify' value='' checked='checked' id='notify_no'
+          label for='notify_no' 
+            |&nbsp;No
         .pull-left.yes_width
           input type='radio' name='notify' value='1' id='notify_yes'
           label for='notify_yes' 
             |&nbsp;Yes
-        .pull-left.no_width
-          input type='radio' name='notify' value='' checked='checked' id='notify_no'
-          label for='notify_no' 
-            |&nbsp;No   
         .clearfix
-
+        
       / Disabled until all uploads are 100%
       input.btn.blue.pull-left type='Submit' value='Submit Post'
       .cancel_post.pull-left.AjaxFormLink href=cancel_media_posts_path data-_method='DELETE' data-target='post-fields' data-event='attachment.cancel' Cancel Post
