@@ -3,7 +3,10 @@ class Dialogue < ActiveRecord::Base
   belongs_to :target_user, class_name: 'User'
   belongs_to :recent_message, class_name: 'Message'
 
+  has_many :messages
+
   scope :by_user, -> (user) { where(['user_id = ? OR target_user_id = ?', user.id, user.id]) }
+  scope :unread, -> { where(unread: true) }
 
   # Finds or creates dialogue between users
   # @param user [User]

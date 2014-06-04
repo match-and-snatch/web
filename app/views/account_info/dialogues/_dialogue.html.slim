@@ -1,4 +1,4 @@
-li.list-group-item.message_dialogue data-identifier='dialogue-#{dialogue.id}' style='border-bottom: 4px solid #ddd; margin-bottom: 10px'
+li.list-group-item.message_dialogue.AjaxLink data-target='account-info' href=account_info_dialogue_path(dialogue.id) data-identifier='dialogue-#{dialogue.id}' style='border-bottom: 4px solid #ddd; margin-bottom: 10px'
   .photo.pull-left style='margin-right: 10px;'
     img src=dialogue.antiuser(current_user.object).comment_picture_url width=50 height=50 border=0
   .pull-left

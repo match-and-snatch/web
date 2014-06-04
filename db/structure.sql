@@ -280,7 +280,8 @@ CREATE TABLE messages (
     target_user_id integer,
     message text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    dialogue_id integer
 );
 
 
@@ -1102,3 +1103,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140527070103');
 INSERT INTO schema_migrations (version) VALUES ('20140528162312');
 
 INSERT INTO schema_migrations (version) VALUES ('20140530170944');
+
+INSERT INTO schema_migrations (version) VALUES ('20140604041646');

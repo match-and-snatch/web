@@ -1,5 +1,8 @@
 .col-md-12
   h2 Messages
 
-  ul.list-group
-    = render partial: 'dialogue', collection: @dialogues
+  - if @dialogues.any?
+    ul.list-group
+      = render partial: 'dialogue', collection: @dialogues
+  - else
+    strong Sorry, but you do not have any dialogues open

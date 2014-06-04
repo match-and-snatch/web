@@ -1,8 +1,16 @@
 class AccountInfo::DialoguesController < AccountInfo::BaseController
-  before_filter :load_dialogue!, only: [:mark_as_read]
+  before_filter :load_dialogue!, only: [:show, :mark_as_read]
+
+  protect :show, :mark_as_read do
+    can? :see, @dialogue
+  end
 
   def index
     @dialogues = Dialogue.by_user(current_user.object).includes(recent_message: :user).order('recent_message_at DESC').limit(200).to_a
+    json_render
+  end
+
+  def show
     json_render
   end
 

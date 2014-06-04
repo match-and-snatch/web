@@ -13,15 +13,17 @@ class MessagesManager < BaseManager
     fail_with! message: :empty if message.blank?
     fail_with! message: :too_long if message.length > 1000
 
-    Message.create!(user: user, target_user: target_user, message: message).tap do |_message|
-      dialogue = Dialogue.pick(user, target_user)
-      dialogue.recent_message = _message
-      dialogue.recent_message_at = _message.created_at
-      dialogue.unread = true
-      dialogue.save!
+    dialogue = Dialogue.pick(user, target_user)
 
-      MessagesMailer.delay.new_message(_message)
-    end
+    _message = Message.new(user: user, target_user: target_user, message: message, dialogue: dialogue)
+    _message.save!
+    dialogue.recent_message = _message
+    dialogue.recent_message_at = _message.created_at
+    dialogue.unread = true
+    dialogue.save!
+
+    MessagesMailer.delay.new_message(_message)
+    _message
   end
 
   # @param dialogue [Dialogue]
