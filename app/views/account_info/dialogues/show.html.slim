@@ -1,5 +1,30 @@
 .col-md-12
-  h2
-    | Chat with&nbsp;
-    span.name style='color: magenta' #{@dialogue.antiuser(current_user.object).name}
-  
+  h2 Chat with #{link_to_user @dialogue.antiuser(current_user.object)}
+
+  ul.list-group data-identifier='dialogue' style='overflow: scroll; overflow-x: hidden; overflow-y: auto; max-height: 200px'
+    - @dialogue.messages.order(:created_at).limit(30).each do |message|
+      li.list-group-item
+        .photo.pull-left style='margin-right: 10px; margin-top: 4px'
+          img src=message.user.comment_picture_url width=32 height=32 border=0
+        .pull-left
+          strong= message.user.name 
+          br
+          small style='color: #67829E'= message.message
+        .pull-right
+          small style='color: #bbb' #{time_ago_in_words(message.created_at)} ago
+        .clearfix
+
+  br
+  .clearfix
+  br
+  div style='border-top: 1px solid gray'
+    form.form.DialogueForm action=account_info_messages_path method='post' data-target='dialogue'
+      input type='hidden' name='user_id' value=@dialogue.antiuser(current_user.object).id
+      label style="margin-top: 15px" Send a message
+      textarea.form-control.edit_field name='message' placeholder='Your message for #{@dialogue.antiuser(current_user.object).name}'
+      .clearfix
+      .error data-field='message'
+
+      input.btn.blue.pull-right type='Submit' value='Send' style="margin-top: 15px"
+      .clearfix
+  br

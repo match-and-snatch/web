@@ -11,13 +11,14 @@ class AccountInfo::DialoguesController < AccountInfo::BaseController
   end
 
   def show
+    MessagesManager.new(user: current_user.object).mark_as_read(@dialogue)
     json_render
   end
 
-  def mark_as_read
-    MessagesManager.new(user: current_user.object).mark_as_read(@dialogue)
-    json_replace html: render_to_string(partial: 'dialogue', locals: {dialogue: @dialogue})
-  end
+  #def mark_as_read
+  #  MessagesManager.new(user: current_user.object).mark_as_read(@dialogue)
+  #  json_replace html: render_to_string(partial: 'dialogue', locals: {dialogue: @dialogue})
+  #end
 
   private
 

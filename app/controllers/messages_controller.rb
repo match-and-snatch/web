@@ -14,6 +14,6 @@ class MessagesController < ApplicationController
   private
 
   def load_target_user!
-    @target_user = User.where(slug: params[:user_id]).first or error(404)
+    @target_user = User.where(id: params[:user_id]).first or error(404)
   end
 end

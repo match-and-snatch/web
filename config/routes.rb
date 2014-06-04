@@ -26,7 +26,7 @@ BuddyPlatform::Application.routes.draw do
     end
 
     scope module: :account_info do
-      resources :messages
+      resources :messages, only: [:create]
       resources :dialogues, only: [:index, :show] do
         member do
           put :mark_as_read
