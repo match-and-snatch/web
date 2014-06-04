@@ -31,6 +31,7 @@ class MessagesManager < BaseManager
   def mark_as_read(dialogue)
     if user != dialogue.recent_message.user
       dialogue.unread = false
+      dialogue.read_at = Time.zone.now
       dialogue.save!
     end
     dialogue
