@@ -3,24 +3,30 @@
   / Progress bar. Add in hidden class.
   .row-fluid.file_status.hidden
     .col-md-2.col-sm-2.col-xs-2.file_name Uploading...
-    .col-md-9.col-sm-8.col-xs-8
+    .col-md-8.col-sm-8.col-xs-8
       .progress.progress-striped.active
         .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
           span.sr-only 0% Complete
-    .col-md-1.col-sm-2.col-xs-2.percentage 0%
+    .col-md-2.col-sm-2.col-xs-2.percentage 0%
     .clearfix
 
   .row-fluid
+    / File selection, progress bar, and file listing.
+    .col-md-6.col-sm-6.col-xs-6
+      / Uploaded files.
+      .uploaded data-identifier='pending-uploads'
+        = render 'pending_uploads'
+
     / Input fields for post title, description, keywords, and post notification
     form.col-md-6.col-sm-6.col-xs-6.upload_details.Poster action=media_posts_path method='POST' data-target='posts'
       / Post title
-      input.bg-color.form-control name='title' placeholder='Title' value=pending_post.title
+      input.bg-color.form-control name='title' placeholder='Title' value=pending_post.title style='margin-top: 0;'
       .error data-field='title'
       / Post keywords, hidden for now.
       / input.form-control name='keywords' placeholder='Keywords/Category' value=pending_post.keywords
       / .error data-field='keywords'
       / Post description
-      textarea.bg-color.form-control name='message' rows='5' placeholder='Description'
+      textarea.bg-color.form-control name='message' placeholder='Description' style='margin-bottom: 8px'
         = pending_post.message
       .error data-field='message'
       / Post notification
@@ -37,64 +43,6 @@
         .clearfix
         
       / Disabled until all uploads are 100%
-      input.btn.blue.pull-left type='Submit' value='Submit Post'
-      .cancel_post.pull-left.AjaxFormLink href=cancel_media_posts_path data-_method='DELETE' data-target='post-fields' data-event='attachment.cancel' Cancel Post
-
-    / File selection, progress bar, and file listing.
-    .col-md-6.col-sm-6.col-xs-6
-      / Uploaded files.
-      .uploaded data-identifier='pending-uploads'
-        = render 'pending_uploads'
+      input.btn.blue.pull-right type='Submit' value='Submit Post'
+      .cancel_post.pull-right.AjaxFormLink href=cancel_media_posts_path data-_method='DELETE' data-target='post-fields' data-event='attachment.cancel' Cancel Post
     .clearfix
-
-
-
-
-
-
-
-  /* Single File Line */
-  .hidden
-
-    .row.file_status.hidden style='margin-top: 20px'
-      .col-md-2.col-sm-2.col-xs-2.file_name Uploading...
-      .col-md-9.col-sm-9.col-xs-9
-        .progress.progress-striped.active
-          .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
-            span.sr-only 0% Complete
-      .col-md-1.col-sm-1.col-xs-1.percentage 0%
-
-    .uploaded data-identifier='pending-uploads'
-      = render 'pending_uploads'
-
-    form.Poster.upload_details action=media_posts_path method='POST' data-target='posts'
-      .row
-        .col-md-6
-          input.detail_field name='title' placeholder="Post Title" value=pending_post.title
-          .error data-field='title'
-          .clearfix
-
-          input.hidden.detail_field name='keywords' placeholder="Keywords" value=pending_post.keywords style="margin-top: 18px;"
-          .error data-field='keywords'
-        .col-md-6
-          textarea.detail_field name='message' placeholder="Description"
-            = pending_post.message
-          .error data-field='message'
-      .row
-        .col-md-12.foot
-          .notify.pull-left
-            label.pull-left style='margin: 2px 10px 0 0;' Do you want to notify your subscribers of this post via email?
-            .pull-right.notify_label style='margin-right: 10px'
-              input type='radio' name='notify' value='' checked='checked' id='notify_no'
-              label for='notify_no' 
-                |&nbsp;No        
-            .pull-right.notify_label style='margin-right: 10px'
-              input type='radio' name='notify' value='1' id='notify_yes'
-              label for='notify_yes' 
-                |&nbsp;Yes
-            .clearfix
-
-          /* Disabled until all uploads are 100% */
-
-          input.btn.blue.pull-right type='Submit' value='Post'
-          .cancel_post.pull-right.AjaxFormLink href=cancel_media_posts_path data-_method='DELETE' data-target='post-fields' data-event='attachment.cancel' Cancel Post

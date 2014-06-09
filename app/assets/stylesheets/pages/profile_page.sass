@@ -402,16 +402,23 @@
 
       .added_audio, .added_video, .added_photo, .added_document
         overflow: hidden
-        height: 234px
+        height: 251px
         ul
           @include border-radius (5px)
-          background-color: #FFFFFF
           border: 1px solid $color_border
           height: 180px
           margin: 0
           padding: 0
           overflow: hidden
           overflow-y: scroll
+          &.audio_bg
+            background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_audio.png') no-repeat
+          &.video_bg
+            background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
+          &.photo_bg
+            background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_photo.png') no-repeat
+          &.document_bg
+            background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_document.png') no-repeat
           li
             background-color: $color_background
             border-bottom: 1px solid $color_border
@@ -464,6 +471,34 @@
           margin: 0
           padding: 20px 0 0
           text-align: center
+
+      // Supported File Type
+
+      span.supported_files
+        color: $color_text_light
+        cursor: pointer
+        display: inline-block
+        font-size: 12px
+        margin: 10px 0
+        text-decoration: underline
+        position: relative
+        .file_types
+          @include border-radius(5px)
+          background-color: $color_pink
+          border: 1px solid #cd233b
+          color: #FFFFFF
+          display: none
+          font-size: 12px
+          padding: 7px 10px 8px
+          position: absolute
+          top: 27px
+          left: 0
+          width: 439px
+          z-index: 1
+        &:hover
+          text-decoration: none
+          .file_types
+            display: block
 
       // Listed Video 
 
@@ -549,15 +584,17 @@
         &.bg-color
           background-color: $color_background
         font-size: 13px
-        margin-bottom: 15px
+        margin-top: 15px
+        margin-bottom: 0
         &:focus
           outline: none
       textarea
+        height: 131px
         overflow: auto
       .error
         padding: 5px 0
       .notify
-        margin-bottom: 10px
+        margin-bottom: 6px
         label
           color: $color_text_light
           font-size: 12px
@@ -569,12 +606,13 @@
           width: 45px
       .btn.blue
         @include border-radius (5px)
+        padding: 6px 10px
       .cancel_post
         color: #959595
         cursor: pointer
         font-size: 12px
         margin-top: 9px
-        margin-left: 15px
+        margin-right: 15px
         &:hover
           text-decoration: underline
 
