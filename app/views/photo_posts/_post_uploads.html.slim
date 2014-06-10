@@ -24,7 +24,6 @@
       .photo_display.one
         a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank'
           img src=uploads.first.url
-          .photo_hover
 
 - uploads.each do |upload|
-  .AjaxPopup.popup.modal-content data-identifier='photo-#{upload.id}' data-url=photo_path(upload.id)
+  .AjaxPopup.photo_popup.popup.modal-content data-identifier='photo-#{upload.id}' data-url=photo_path(upload.id)
