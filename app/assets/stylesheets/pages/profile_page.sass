@@ -859,42 +859,38 @@
         background-color: #FFFFFF
         border: none
         position: relative
-        overflow: hidden
+        overflow: hidden 
         img
           background-color: $color_background
-          border: 1px solid $color_border
-        &.single
+          -webkit-transition: opacity 250ms ease
+          -moz-transition: opacity 250ms ease
+          -o-transition: opacity 250ms ease
+          transition: opacity 250ms ease
+          &:hover
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"
+            filter: alpha(opacity=80)
+            -moz-opacity: 0.8
+            -khtml-opacity: 0.8
+            opacity: 0.8
+        &.one
           max-height: 585px
           width: 585px 
-
         &.two
-          // max-height: 284px
-          // .img_left, .img_right
-          //   display: inline-block
-          //   overflow: hidden
-          //   margin-right: 15px
-          //   width: 284px !important
-          // .img_right
-          //   margin-right: 0
-
-        
-      ul.photo_view
-        display: block
-        margin-left: 15px
-        margin-top: 15px
-        list-style-type: none
-        li
-          display: inline-block
-          background-color: $color_background
-          border: 1px solid $color_border
-          padding: 0
-          margin: 0
-          width: 585px
-          img
-            height: 100%
-            width: 585px
-          &:nth-of-type(1n+2)
-            display: none
+          a
+            float: left
+            width: 284px
+            height: 284px
+            overflow: hidden
+        &.three
+          .three_left, .three_stacked
+            a
+              float: left
+              height: 284px
+              width: 284px
+              overflow: hidden
+          .three_stacked
+            a
+              height: 134px !important
 
       // Doc View
 
