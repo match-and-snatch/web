@@ -5,23 +5,26 @@
     - if uploads.many?
       - if uploads.count == 2
         .photo_display.two
-          a href=uploads.first.url target='_blank' style='margin-right: 15px'
+          a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank' style='margin-right: 15px'
             img src=uploads.first.url
-          a href=uploads.last.url target='_blank'
+          a.PopupTrigger data-target='photo-#{uploads.last.id}' href=uploads.last.url target='_blank'
             img src=uploads.last.url
           .clearfix
       - elsif uploads.count == 3
         .photo_display.three
           .three_left
-            a href=uploads.first.url target='_blank' style='margin-right: 15px'
+            a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank' style='margin-right: 15px'
               img src=uploads.first.url
           .three_stacked
             - uploads.last(2).each do |upload|
-              a href=upload.url target='_blank' style='margin-bottom: 15px'
+              a.PopupTrigger data-target='photo-#{upload.id}' href=upload.url target='_blank' style='margin-bottom: 15px'
                 img src=upload.url
             .clearfix
     - else
       .photo_display.one
-        a href=uploads.first.url target='_blank'
+        a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank'
           img src=uploads.first.url
           .photo_hover
+
+- uploads.each do |upload|
+  .AjaxPopup.popup.modal-content data-identifier='photo-#{upload.id}' data-url=photo_path(upload.id)

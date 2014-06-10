@@ -91,7 +91,7 @@ BuddyPlatform::Application.routes.draw do
     end
   end
   resources :videos, only: [:create, :destroy]
-  resources :photos, only: [:create, :destroy]
+  resources :photos, only: [:show, :create, :destroy]
   resources :documents, only: [:create, :destroy]
 
   resources :users, only: [:index, :create, :edit, :update] do
