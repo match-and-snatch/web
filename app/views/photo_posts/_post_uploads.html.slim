@@ -20,6 +20,16 @@
               a.PopupTrigger data-target='photo-#{upload.id}' href=upload.url target='_blank' style='margin-bottom: 15px'
                 img src=upload.url
             .clearfix
+      - else
+        .photo_display.three
+          .three_left
+            a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank' style='margin-right: 15px'
+              img src=uploads.first.url
+          .three_stacked
+            - uploads.drop(1).each do |upload|
+              a.PopupTrigger data-target='photo-#{upload.id}' href=upload.url target='_blank' style='margin-bottom: 15px'
+                img src=upload.url
+            .clearfix
     - else
       .photo_display.one
         a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank'
