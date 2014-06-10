@@ -860,6 +860,8 @@
         border: none
         position: relative
         overflow: hidden 
+        a
+          border: 1px solid $color_border
         img
           background-color: $color_background
           -webkit-transition: opacity 250ms ease
@@ -1386,7 +1388,44 @@
   textarea
     height: 100px !important
     font-size: 12px !important
-  
+
+// Photo Popup
+
+.photo_popup
+  .modal-body
+    position: relative
+    padding: 0 !important
+    .close
+      display: none
+  .fa.fa-chevron-left, .fa.fa-chevron-right
+    position: absolute
+    color: #FFFFFF
+    font-size: 40px
+    text-decoration: none
+    top: 50%
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"
+    filter: alpha(opacity=50)
+    -moz-opacity: 0.5
+    -khtml-opacity: 0.5
+    opacity: 0.5
+    -webkit-transition: opacity 250ms ease
+    -moz-transition: opacity 250ms ease
+    -o-transition: opacity 250ms ease
+    transition: opacity 250ms ease
+    &:hover
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"
+      filter: alpha(opacity=100)
+      -moz-opacity: 1
+      -khtml-opacity: 1
+      opacity: 1
+  .fa.fa-chevron-left
+    left: 15px
+  .fa.fa-chevron-right
+    right: 15px
+
+
+
+
 // Random
 
 .comment_text
