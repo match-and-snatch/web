@@ -4,3 +4,6 @@ p style="color: #464646; font-size: 14px; -webkit-text-size-adjust: none;"
   a href=profile_url(@owner) style="color: #ea2e49; -webkit-text-size-adjust: none;"= @owner.name
   |&nbsp;on&nbsp;
   b= Time.zone.now.to_s(:long)
+
+  - unless @owner.is_profile_owner?
+    b &nbsp; (user has deleted his profile page)
