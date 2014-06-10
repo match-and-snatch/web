@@ -1,0 +1,13 @@
+.modal-body
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target='photo-#{@photo.id}'
+
+  - if @next_photo
+    a.PopupTrigger data-target='photo-#{@next_photo.id}' href=photo_path(@next_photo)
+      img style='max-height: 500px' src=@photo.url
+  - else
+    img style='max-height: 500px' src=@photo.url
+
+  - if @prev_photo
+    a.fa.fa-chevron-left.PopupTrigger data-target='photo-#{@prev_photo.id}' href=photo_path(@prev_photo)
+  - if @next_photo
+    a.fa.fa-chevron-right.PopupTrigger data-target='photo-#{@next_photo.id}' href=photo_path(@next_photo)
