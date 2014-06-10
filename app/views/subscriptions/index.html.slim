@@ -20,8 +20,9 @@
             / a.pull-right.AjaxLink href=cancel_subscription_path(subscription.id)
               i.fa.fa-times-circle-o.pink Cancel Subscription
 
-            a.pull-right href=profile_path(subscription.target_user)
-              i.fa.fa-eye View Profile
+            - if subscription.target_user.is_profile_owner?
+              a.pull-right href=profile_path(subscription.target_user)
+                i.fa.fa-eye View Profile
 
             .checkbox.pull-left style='display: block'
               label
