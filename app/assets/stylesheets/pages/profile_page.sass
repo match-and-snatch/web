@@ -856,9 +856,28 @@
         img.poster
           width: inherit
       .photo_display
-        width: 585px
+        background-color: #FFFFFF
+        border: none
+        position: relative
+        overflow: hidden
         img
-          width: 583px
+          background-color: $color_background
+          border: 1px solid $color_border
+        &.single
+          max-height: 585px
+          width: 585px 
+
+        &.two
+          // max-height: 284px
+          // .img_left, .img_right
+          //   display: inline-block
+          //   overflow: hidden
+          //   margin-right: 15px
+          //   width: 284px !important
+          // .img_right
+          //   margin-right: 0
+
+        
       ul.photo_view
         display: block
         margin-left: 15px
