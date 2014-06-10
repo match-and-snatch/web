@@ -2,7 +2,7 @@
   h2 Messages
 
   - if @dialogues.any?
-    ul.list-group
+    ul.mailbox
       = render partial: 'dialogue', collection: @dialogues
   - else
-    strong Sorry, but you do not have any dialogues open
+    .well style='text-align: center;' You do not have any messages at this time.

@@ -1,12 +1,9 @@
-li.list-group-item.unread
-  .photo.pull-left style='margin-right: 10px; margin-top: 4px'
-    img src=@message.user.comment_picture_url width=32 height=32 border=0
-  .pull-left style='width: 410px'
-    strong= @message.user.name 
-    br
-    small style='color: #67829E'= @message.message
-  .pull-right
-    small style='color: #bbb' #{time_ago_in_words(@message.created_at)} ago
+li.unread
+  .photo.pull-left
+    img src=@message.user.comment_picture_url width=50 height=50 border=0
+  .pull-left.details
+    span.name= @message.user.name 
+    span.timestamp#{time_ago_in_words(@message.created_at)} ago
+    .clearfix
+    .message= @message.message
   .clearfix
-
-

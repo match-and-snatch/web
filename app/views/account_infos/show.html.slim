@@ -13,7 +13,10 @@
       a.AjaxLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
         li Account Settings
       a.AjaxLink data-use_anchor='true' data-target='account-info' href=account_info_dialogues_path data-identifier='mailbox-menu-item'
-        li Mailbox (#{@user.dialogues.unread.count})
+        li 
+          | Messages 
+          span.badge.pull-right #{@user.dialogues.unread.count}
+          .clearfix
 
     h2.subscriptions My Subscriptions
     ul

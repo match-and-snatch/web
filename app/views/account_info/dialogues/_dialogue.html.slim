@@ -1,23 +1,35 @@
-li.list-group-item.message_dialogue.AjaxLink data-target='account-info' href=account_info_dialogue_path(dialogue.id) data-identifier='dialogue-#{dialogue.id}' style='border-bottom: 4px solid #ddd; margin-bottom: 10px'
-  .photo.pull-left style='margin-right: 10px;'
+li.AjaxLink data-target='account-info' href=account_info_dialogue_path(dialogue.id) data-identifier='dialogue-#{dialogue.id}'
+
+  // Sender Photo
+
+  .photo.pull-left
     img src=dialogue.antiuser(current_user.object).comment_picture_url width=50 height=50 border=0
-  .pull-left
-    strong= dialogue.antiuser(current_user.object).name
-    br
-    small style='color: #bbb' #{time_ago_in_words(dialogue.recent_message_at)} ago
-  .pull-right style='width: 400px; min-height: 50px; padding: 5px' class="#{'unread' if dialogue.unread?}"
-    - if dialogue.recent_message.user == current_user.object
-      .photo.pull-left style='margin-right: 10px; margin-top: 4px'
-        img src=dialogue.recent_message.user.comment_picture_url width=32 height=32 border=0
-      .pull-left style='width: 320px'
+
+  // Sender Name & Timestamp
+
+  .pull-left.message_container
+    span.name= dialogue.antiuser(current_user.object).name
+    span.timestamp#{time_ago_in_words(dialogue.recent_message_at)} ago
+    .clearfix
+    // Message
+
+    .message_preview class="#{'unread' if dialogue.unread?}"
+      - if dialogue.recent_message.user == current_user.object
+        /.photo.pull-left style='margin-right: 10px; margin-top: 4px'
+          img src=dialogue.recent_message.user.comment_picture_url width=32 height=32 border=0
+        
+        
         - user = dialogue.recent_message.user
         - if current_user.object != user 
           strong= user.name 
           br
-        small style='color: #67829E'= dialogue.recent_message.message
-    - else
-      div style='margin-top: 9px'
-        small style='color: #67829E;'= dialogue.recent_message.message
+        span= dialogue.recent_message.message
+      
+      - else
+        .sender_color= dialogue.recent_message.message
+
+      .clearfix
+    
+    /- if dialogue.unread?
+      a.btn.pink.AjaxFormLink data-target='dialogue-#{dialogue.id}' data-_method='PUT' href=mark_as_read_account_info_dialogue_path(dialogue.id) Mark as read
   .clearfix
-  /- if dialogue.unread?
-    a.AjaxFormLink data-target='dialogue-#{dialogue.id}' data-_method='PUT' href=mark_as_read_account_info_dialogue_path(dialogue.id) Mark as read
