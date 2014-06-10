@@ -1,11 +1,15 @@
 div data-identifier='pending-videos'
   .pending_video
     .added_video
-      ul
+      ul.video_bg
         - current_user.pending_videos.each do |upload|
           li
             img src=upload.preview_url
             a.delete_button.fa.fa-times.AjaxFormLink href=video_path(upload) data-_method='DELETE' data-target='pending-videos'
+      .clearfix
+      span.supported_files
+        | What file extensions are supported?
+        .file_types .mp4, .m4v, .f4v, .mov, .flv
       .clearfix
       - if current_user.pending_videos.empty?
         form.UploadForm action=videos_path method='post' data-target='pending-videos'

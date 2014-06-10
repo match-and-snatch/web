@@ -1,0 +1,9 @@
+.compose_message_popup
+  form.form.PopupForm action=user_messages_path(@target_user.id) method='post'
+    label Compose New Message
+    textarea.form-control name='message'placeholder='Your message for #{@target_user.name}'
+    .clearfix
+    .error data-field='message' style='margin-top: 5px'
+
+    input.btn.blue.pull-right type='Submit' value='Send Message' style="margin-top: 15px"
+    .clearfix

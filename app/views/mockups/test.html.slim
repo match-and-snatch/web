@@ -5,13 +5,21 @@
       .pull-right.col-md-8.col-sm-12
         .recent_posts
 
-          /* IGNORE TOP AREA */        
+          // Single Photo
 
-          /* Audio Post */
-
-          .post.media_post.box
+          .post.box
             .post_title Post Title
             .date Posted (time) ago
+
+            // Photo Area Single
+
+            .photo_display.one
+              a href='#'
+                img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/246eb100f05411e39e0f91d9b8fa9c48____612x1222____acid_picdump_146.jpg'
+                .photo_hover
+                  
+
+            // End Photo Area Single
 
             .message my message text will display here
             .action_bar
@@ -20,39 +28,25 @@
               .users_liked.pull-left Slava Popov, John Smith & 2 more
               .clearfix
 
-            .comment_container
+          .clearfix
 
-              /* Comment Row */
+          // Two Photos
 
-              .comment_row
-                .photo.pull-left
-                  img
-                .content.pull-right
-                  /* Display Delete Only if Owner or if it your comment */
-                  .delete.fa.fa-times
-                  .profile_name Slava Popov
-                  .comment_text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque. 
-                  .post_date Posted 15 minutes ago
-                .clearfix
-
-              /* Show this container be default. Comments or no comment this div shows up below the .action_bar */
-
-              .reply_container
-                .photo.pull-left
-                  img
-                .pull-right style='position: relative; width: 500px; background: white;'
-                  .Highlighter data-target='textarea' data-target_list='autocomplete-users'
-                  textarea.reply_input.pull-right data-identifier='textarea' placeholder="Write your reply..." style='background: transparent'
-                .clearfix
-              div data-identifier='autocomplete-users'
-
-          /* Video Post */
-
-          .post.media_post.box
+          .post.box
             .post_title Post Title
             .date Posted (time) ago
 
-            .video_player
+            // Photo Area Single
+
+            .photo_display.two
+              a href='#' style='margin-right: 15px;'
+                img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/246eb100f05411e39e0f91d9b8fa9c48____612x1222____acid_picdump_146.jpg'
+       
+              a href='#'
+                img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/939e70f0f06e11e39c001f42863ebd67____400x300____rocket.jpg'
+              .clearfix
+
+            // End Photo Area Single
 
             .message my message text will display here
             .action_bar
@@ -61,40 +55,29 @@
               .users_liked.pull-left Slava Popov, John Smith & 2 more
               .clearfix
 
-            .comment_container
+          .clearfix
 
-              /* Comment Row */
 
-              .comment_row
-                .photo.pull-left
-                  img
-                .content.pull-right
-                  /* Display Delete Only if Owner or if it your comment */
-                  .delete.fa.fa-times
-                  .profile_name Slava Popov
-                  .comment_text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque. 
-                  .post_date Posted 15 minutes ago
-                .clearfix
+          // Three or more
 
-              /* Show this container be default. Comments or no comment this div shows up below the .action_bar */
-
-              .reply_container
-                .photo.pull-left
-                  img
-                .reply.btn.black.pull-right Reply
-                textarea.reply_input.pull-right placeholder="Write your reply..."
-                .clearfix
-
-          /* Document Post */
-
-          .post.media_post.box
+          .post.box
             .post_title Post Title
             .date Posted (time) ago
 
-            a.doc_view href="#"
-              i.fa.fa-paperclip.icon.pull-left
-              .doc_title.pull-left Document File Name.pdf
+            // Photo Area Single
+
+            .photo_display.three
+              .three_left
+                a href='#' style='margin-right: 15px;'
+                  img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/246eb100f05411e39e0f91d9b8fa9c48____612x1222____acid_picdump_146.jpg'
+              .three_stacked
+                a href='#' style='margin-bottom: 15px'
+                  img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/939e70f0f06e11e39c001f42863ebd67____400x300____rocket.jpg'
+                a href='#'
+                  img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/939e70f0f06e11e39c001f42863ebd67____400x300____rocket.jpg'
               .clearfix
+
+            // End Photo Area Single
 
             .message my message text will display here
             .action_bar
@@ -103,74 +86,4 @@
               .users_liked.pull-left Slava Popov, John Smith & 2 more
               .clearfix
 
-            .comment_container
-
-              /* Comment Row */
-
-              .comment_row
-                .photo.pull-left
-                  img
-                .content.pull-right
-                  /* Display Delete Only if Owner or if it your comment */
-                  .delete.fa.fa-times
-                  .profile_name Slava Popov
-                  .comment_text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque. 
-                  .post_date Posted 15 minutes ago
-                .clearfix
-
-              /* Show this container be default. Comments or no comment this div shows up below the .action_bar */
-
-              .reply_container
-                .photo.pull-left
-                  img
-                .reply.btn.black.pull-right Reply
-                textarea.reply_input.pull-right placeholder="Write your reply..."
-                .clearfix
-
-
-          /* Photo Post */
-
-          .post.media_post.box
-            .post_title Post Title
-            .date Posted (time) ago
-
-            ul.photo_view
-              a.photo href="#"
-                li Photo 1
-              a.photo href="#"
-                li Photo 2
-              a.photo href="#"
-                li Photo 3
-              a.photo href="#"
-                li Photo 4
-
-            .message my message text will display here
-            .action_bar
-              /* Add .liked_post (a.fa.fa-heart.liked_post.pull-left) to display solid pink heart after subscriber clicks the heart */
-              a.fa.fa-heart.pull-left href="#"
-              .users_liked.pull-left Slava Popov, John Smith & 2 more
-              .clearfix
-
-            .comment_container
-
-              /* Comment Row */
-
-              .comment_row
-                .photo.pull-left
-                  img
-                .content.pull-right
-                  /* Display Delete Only if Owner or if it your comment */
-                  .delete.fa.fa-times
-                  .profile_name Slava Popov
-                  .comment_text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent interdum posuere ligula in scelerisque. 
-                  .post_date Posted 15 minutes ago
-                .clearfix
-
-              /* Show this container be default. Comments or no comment this div shows up below the .action_bar */
-
-              .reply_container
-                .photo.pull-left
-                  img
-                .reply.btn.black.pull-right Reply
-                textarea.reply_input.pull-right placeholder="Write your reply..."
-                .clearfix
+          .clearfix

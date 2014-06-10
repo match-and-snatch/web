@@ -1,7 +1,7 @@
 div data-identifier='pending-documents'
   .pending_document
     .added_document
-      ul
+      ul.document_bg
         - current_user.pending_documents.each do |upload|
           li class=upload.file_type
             // img src=upload.preview_url
@@ -9,6 +9,10 @@ div data-identifier='pending-documents'
             .file_name.pull-left= upload.filename
             a.delete_button.fa.fa-times.AjaxFormLink href=document_path(upload) data-_method='DELETE' data-target='pending-documents'
             .clearfix
+      .clearfix
+      span.supported_files
+        | What file extensions are supported?
+        .file_types .doc, .docx, .rtf, .txt, .odt, .csv, .pps, .ppt, .pptx, .indd, .pdf, .xlr, .xls, .xlsx
       .clearfix
       - if current_user.pending_documents.count < 5
         form.UploadForm action=documents_path method='post' data-target='pending-documents'

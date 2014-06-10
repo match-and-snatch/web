@@ -31,7 +31,10 @@
             td= s.billing_date.to_s(:long)
             td style='text-align: right;'
               - if s.removed?
-                a.fa.fa-refresh.AjaxFormLink data-_method='PUT' href=restore_subscription_path(s.id)  Restore Subscription
+                - if s.target_user.is_profile_owner?
+                  a.fa.fa-refresh.AjaxFormLink data-_method='PUT' href=restore_subscription_path(s.id)  Restore Subscription
+                - else
+                  span Deleted Profile
               - else
                 a.fa.fa-close.AjaxLink href=cancel_subscription_path(s.id) Cancel Subscription
   - else

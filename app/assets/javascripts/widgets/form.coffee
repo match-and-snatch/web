@@ -24,6 +24,7 @@ class bud.widgets.Form extends bud.Widget
       before:  @on_before,
       after:   @on_after,
       prepend: @on_prepend,
+      append:  @on_append,
       failed:  @on_fail
     }
     method = @$container.attr('method')
@@ -47,6 +48,9 @@ class bud.widgets.Form extends bud.Widget
 
   on_prepend: (response) =>
     bud.prepend_html(@$target, response['html'])
+
+  on_append: (response) =>
+    bud.append_html(@$target, response['html'])
 
   on_before: =>
     @$submit_button.val(@wait_text)

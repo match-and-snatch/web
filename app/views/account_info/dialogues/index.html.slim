@@ -1,0 +1,8 @@
+.col-md-12
+  h2 Messages
+
+  - if @dialogues.any?
+    ul.mailbox
+      = render partial: 'dialogue', collection: @dialogues
+  - else
+    .well style='text-align: center;' You do not have any messages at this time.

@@ -1,0 +1,4 @@
+p You just received a new message from #{link_to_user @message.user}
+b > "#{@message.message}"
+br
+small= @message.created_at.to_s(:long)

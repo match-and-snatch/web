@@ -16,6 +16,8 @@ class CurrentUserDecorator < UserDecorator
   # @return [true, false]
   def can?(action, subject)
     case subject
+    when Dialogue
+      subject.user == object || subject.target_user = object
     when User
       case action
       when :login_as             then object.admin?
@@ -57,7 +59,7 @@ class CurrentUserDecorator < UserDecorator
 
   def idols
     User.joins(source_subscriptions: :target_user).
-      where(subscriptions: {user_id: object.id}).
+      where(subscriptions: {user_id: object.id, removed: false}).
       order('subscriptions.created_at DESC').
       limit(10).map do |user|
       ProfileDecorator.new(user)
@@ -73,7 +75,7 @@ class CurrentUserDecorator < UserDecorator
   end
 
   def has_subscriptions?
-    object.subscriptions.any?
+    object.subscriptions.not_removed.any?
   end
 
   def ==(other)

@@ -24,6 +24,15 @@ BuddyPlatform::Application.routes.draw do
       put :enable_itunes
       put :disable_itunes
     end
+
+    scope module: :account_info do
+      resources :messages, only: [:create]
+      resources :dialogues, only: [:index, :show] do
+        member do
+          put :mark_as_read
+        end
+      end
+    end
   end
 
   resources :comments, only: [:edit, :update, :destroy] do
@@ -82,7 +91,7 @@ BuddyPlatform::Application.routes.draw do
     end
   end
   resources :videos, only: [:create, :destroy]
-  resources :photos, only: [:create, :destroy]
+  resources :photos, only: [:show, :create, :destroy]
   resources :documents, only: [:create, :destroy]
 
   resources :users, only: [:index, :create, :edit, :update] do
@@ -94,6 +103,8 @@ BuddyPlatform::Application.routes.draw do
       put :update_contacts_info
       put :update_cover_picture_position
     end
+
+    resources :messages, only: [:new, :create]
 
     resources :photos, only: [] do
       collection do
