@@ -10,7 +10,7 @@
           a.PopupTrigger data-target='photo-#{uploads.last.id}' href=uploads.last.url target='_blank'
             img src=uploads.last.url
           .clearfix
-      - elsif uploads.count == 3
+      - elsif uploads.count >= 3
         .photo_display.three
           .three_left
             a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank' style='margin-right: 15px'
