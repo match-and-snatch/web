@@ -30,7 +30,10 @@ class bud.widgets.AjaxLink extends bud.Widget
       $(bud.widgets.AjaxLink.SELECTOR).removeClass('active pending')
 
     if @use_anchor
-      window.location.hash = @hash
+      if "##{@hash}" != window.location.hash
+        window.location.hash = @hash
+      else
+        @render_path(@href)
     else
       @render_path(@href)
 

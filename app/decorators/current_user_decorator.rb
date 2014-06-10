@@ -16,6 +16,8 @@ class CurrentUserDecorator < UserDecorator
   # @return [true, false]
   def can?(action, subject)
     case subject
+    when Dialogue
+      subject.user == object || subject.target_user = object
     when User
       case action
       when :login_as             then object.admin?

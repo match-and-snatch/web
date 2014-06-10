@@ -48,6 +48,10 @@ class User < ActiveRecord::Base
     small_account_picture_url || small_profile_picture_url
   end
 
+  def dialogues
+    Dialogue.by_user(self)
+  end
+
   # @param new_password [String]
   def set_new_password(new_password)
     self.password_salt = BCrypt::Engine.generate_salt
