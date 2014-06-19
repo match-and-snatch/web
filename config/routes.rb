@@ -15,6 +15,7 @@ BuddyPlatform::Application.routes.draw do
       get :details
       put :update_cc_data
       put :create_profile_page
+      get :confirm_profile_page_removal
       put :delete_profile_page
       put :update_account_picture
       put :enable_rss
