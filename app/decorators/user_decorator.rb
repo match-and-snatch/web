@@ -33,6 +33,10 @@ class UserDecorator < BaseDecorator
     types.blank? ? 'Add Profile Type' : types
   end
 
+  def created_at
+    object.created_at
+  end
+
   def to_param
     object.slug
   end

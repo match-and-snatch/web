@@ -1,12 +1,18 @@
 h2 Profile Owners
-ul.list-group
+table.table
+  th
+  th #ID
+  th Name
+  th Type
+  th Created Date
+  th Cost
   - @users.each do |user|
-    li.list-group-item
-      .pull-left
+    tr
+      td
         img src=user.small_profile_picture_url width=50 height=50
-      .pull-left style='padding-top: 15px; padding-left: 10px'
-        span= link_to_user(user)
-        small.pending
-          '  (#{user.created_at.to_s(:long)})
-      .clearfix
+      td ##{user.id}
+      td= link_to_user(user)
+      td style='max-width: 200px; overflow: hidden'= user.types
+      td style='min-width: 100px'= user.created_at.to_date.to_s(:full)
+      td= super_number_to_currency user.subscription_cost
 .clearfix
