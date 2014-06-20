@@ -1,18 +1,24 @@
 h2 Profile Owners
-table.table
-  th
-  th #ID
-  th Name
-  th Type
-  th Created Date
-  th Cost
-  - @users.each do |user|
-    tr
-      td
-        img src=user.small_profile_picture_url width=50 height=50
-      td ##{user.id}
-      td= link_to_user(user)
-      td style='max-width: 200px; overflow: hidden'= user.types
-      td style='min-width: 100px'= user.created_at.to_date.to_s(:full)
-      td= super_number_to_currency user.subscription_cost
-.clearfix
+.table-responsive
+  table.table.table-striped
+    th 
+      strong #ID
+    th
+    th 
+      strong Profile Name
+    th 
+      strong Profile Type
+    th 
+      strong Created Date
+    th 
+      strong Subscription Cost
+    - @users.each do |user|
+      tr
+        td ##{user.id}
+        td
+          img src=user.small_profile_picture_url width=50 height=50
+        td= link_to_user(user)
+        td style='max-width: 200px; overflow: hidden'= user.types
+        td style='min-width: 100px'= user.created_at.to_date.to_s(:full)
+        td= super_number_to_currency user.subscription_cost
+  .clearfix

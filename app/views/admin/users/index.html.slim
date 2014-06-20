@@ -1,20 +1,25 @@
-h1 Search All Users
+h2 Search All Users
 
 form.Form action=search_admin_users_path method='get' data-target='users'
   input.Autocomplete.form-control type="text" name='q' placeholder="Search profiles by email"
 
 div data-identifier='users'
 
-h1 Recent Subscribers
+h2 Recent Subscribers
 
 .table-responsive
 	table.table.table-striped
 		tr
-			th ID #
-			th Name
-			th Date/Time Created
-			th Subscription Name
-			th Total Paid
+			th 
+				strong ID #
+			th 
+				strong Name
+			th 
+				strong Date/Time Created
+			th 
+				strong Subscription Name
+			th 
+				strong Total Paid
 		tr
 			td 2
 			td 
