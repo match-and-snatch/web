@@ -8,13 +8,13 @@
   .clearfix
 
 .col-md-12
-  h2 Subscriber Monthly Growth
 
   - if @user.subscriptions_count > 0
+
+    h2 Subscriber Monthly Growth
     div style='padding: 15px'
       .graph.Graph#chart style='padding: 0px' data-data=@user.graph_data.to_json Please wait...
-
-  hr
+    hr
 
   h2 Change Profile Page URL
 
