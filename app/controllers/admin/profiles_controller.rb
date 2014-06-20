@@ -1,5 +1,5 @@
 class Admin::ProfilesController < Admin::BaseController
-  before_filter :load_user!, only: %i(make_public make_private)
+  before_filter :load_user!, only: %i(make_public make_private show)
 
   def index
     @users = User.profile_owners.search_by_text_fields(params[:q]).limit(10)
@@ -9,6 +9,15 @@ class Admin::ProfilesController < Admin::BaseController
   def profile_owners
     @users = User.profile_owners.order('created_at DESC').includes(:profile_types).limit(200).map { |user| ProfileDecorator.new(user) }
     json_render
+  end
+
+  def show
+    @user = UserStatsDecorator.new(@user)
+    begin
+    @payments = Stripe::Transfer.all(recipient: @user.object.stripe_user_id)
+    rescue
+      @payments = []
+    end
   end
 
   def new

@@ -1,11 +1,29 @@
 class UserStatsDecorator < UserDecorator
 
+  delegate :full_name, to: :object
+
   def subscriptions_count
     @subscriptions_count ||= subscriptions.count
   end
 
+  def total_paid_out
+    0
+  end
+
+  def total_and_tos
+    0
+  end
+
   def monthly_earnings
     @monthly_earnings ||= subscriptions_count * object.cost
+  end
+
+  def subscribed_ever_count
+    SubscribedFeedEvent.where(target_user_id: object.id).count
+  end
+
+  def unsubscribed_ever_count
+    UnsubscribedFeedEvent.where(target_user_id: object.id).count
   end
 
   def graph_data

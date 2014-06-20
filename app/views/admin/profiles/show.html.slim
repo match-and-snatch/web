@@ -1,0 +1,53 @@
+h1= @user.full_name
+img src=@user.profile_picture_url
+strong profile created #{@user.created_at.to_date.to_s(:long)}
+br
+strong profile type #{@user.profile_types.map(&:title).join(' / ')}
+br
+strong subscription cost #{super_number_to_currency @user.cost}
+br
+strong posts count #{@user.posts.count}
+br
+strong upload stats #{number_to_human_size(@user.source_uploads.sum(:filesize))}
+br
+strong total subscribers all time #{@user.subscribed_ever_count}
+br
+strong total unsubscribers all time #{@user.unsubscribed_ever_count}
+br
+strong currently subscribed #{@user.subscriptions_count}
+br
+strong total gross #{@user.monthly_earnings}
+br
+strong total paid out #{@user.total_paid_out}
+br
+strong connectpal + ToS #{@user.total_and_tos}
+
+h2 Finance details
+
+table.table
+  th Month
+  th Total Gross
+  th Connectpal Fee
+  th String Fee
+  th ToS Fee
+  th Payout
+
+  - @payments.each do |payment|
+    tr
+      td= payment.inspect
+      td= payment.inspect
+      td= payment.inspect
+      td= payment.inspect
+      td= payment.inspect
+      td= payment.inspect
+
+br
+strong total users subscribed subscribed #{@user.subscribed_ever_count}
+br
+strong total users unsubscribed #{@user.unsubscribed_ever_count}
+br
+strong account name #{@user.holder_name}
+br
+strong account number #{@user.account_number}
+br
+strong routing number #{@user.routing_number}

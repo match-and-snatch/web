@@ -12,6 +12,7 @@ class UserDecorator < BaseDecorator
            :downloads_enabled?,
            :cover_picture_position,
            :cost, :name, :has_profile_page?,
+           :posts, :source_uploads, :account_number, :holder_name, :routing_number,
            to: :object
 
   # @param object [User]

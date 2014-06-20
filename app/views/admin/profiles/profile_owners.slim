@@ -17,7 +17,9 @@ h2 Profile Owners
         td ##{user.id}
         td
           img src=user.small_profile_picture_url width=50 height=50
-        td= link_to_user(user)
+        td
+          / a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_profile_path(user.id) = user.name
+          a href=admin_profile_path(user.id) = user.name
         td style='max-width: 200px; overflow: hidden'= user.object.profile_types.map(&:title).join(' / ').html_safe
         td style='min-width: 100px'= user.created_at.to_date.to_s(:full)
         td= super_number_to_currency user.subscription_cost

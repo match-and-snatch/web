@@ -136,7 +136,7 @@ BuddyPlatform::Application.routes.draw do
       end
     end
     resources :uploads, only: :index
-    resources :profiles, only: [:index, :new] do
+    resources :profiles, only: [:index, :new, :show] do
       collection do
         get :profile_owners
       end
