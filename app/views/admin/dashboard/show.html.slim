@@ -3,28 +3,32 @@
     .sidebar.col-md-2
       ul.nav.nav-sidebar
         li
-          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_users_path All Users
-        li
-          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_staffs_path Staff Members
+          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_users_path Overview
         li
           a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=profile_owners_admin_profiles_path Profile Owners
         li
-          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=new_admin_profile_path Public Profiles
+          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_payment_failures_path Failed Transactions
         li
           a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_profile_types_path Profile Types
+        li
+          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_staffs_path Staff Members
+        li
+          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=new_admin_profile_path Public Profiles
+        li
+          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_uploads_path Storage Statistics
+        li
+          a href="#" Site Analytics        
+        
+      hr
+
+      ul.nav.nav-sidebar
         li
           a.AjaxLink data-default='true' data-use_anchor='true' data-target='admin-panel' href=admin_payments_path Money
         li
           a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_payout_details_path Payout Details
-        li
-          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_payment_failures_path Payment Failures
-        li
-          a.AjaxLink data-use_anchor='true' data-target='admin-panel' href=admin_uploads_path Upload Stats
-
-
 
     .content.col-md-10
-      h1.page-header Welcome #{current_user.full_name}
+      //h1.page-header Welcome #{current_user.full_name}
       .AjaxContainer data-use_anchor='true' data-identifier='admin-panel' data-url=admin_staffs_path
 
   //.row.box.admin_settings style="margin-top: 15px; margin-bottom: 15px;"
