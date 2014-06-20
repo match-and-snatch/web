@@ -14,7 +14,7 @@ class Admin::ProfilesController < Admin::BaseController
   def show
     @user = UserStatsDecorator.new(@user)
     begin
-    @payments = Stripe::Transfer.all(recipient: @user.object.stripe_user_id)
+    @payments = Stripe::Transfer.all(limit: 3)
     rescue
       @payments = []
     end
