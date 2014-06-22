@@ -1,0 +1,114 @@
+.row
+  .content.col-md-10
+    h1= @user.full_name
+    hr
+
+    .row
+      .col-md-12
+        .pull-left style="margin-right: 30px"
+          a href="#"
+            img src=@user.profile_picture_url height='180px' width='180px' style="border: 1px solid #d7d7d7;"
+        ul.profile_detail_list.pull-left style="margin-right: 60px; width: 190px" 
+          li 
+            strong Profile Created: 
+            span#{@user.created_at.to_date.to_s(:long)}
+          li
+            strong Profile Type: 
+            span#{@user.profile_types.map(&:title).join(' / ')}
+          li
+            strong Subscription Cost: 
+            span style="color: #ea2e49;"#{super_number_to_currency @user.cost}
+          li
+            strong Posts Count: 
+            span#{@user.posts.count}
+          li 
+            strong Upload Stats: 
+            span#{number_to_human_size(@user.source_uploads.sum(:filesize))}
+        ul.profile_detail_list.pull-left style="margin-right: 60px"
+          li
+            strong Total Subscribers (all time): 
+            span style="color: #ea2e49;"#{@user.subscribed_ever_count}
+          li
+            strong Total Unsubscribers (all time): 
+            span style="color: #ea2e49;"#{@user.unsubscribed_ever_count}
+          li
+            strong Currently Subscribed: 
+            span style="color: #ea2e49;"#{@user.subscriptions_count}
+        ul.profile_detail_list.pull-left
+          li
+            strong Total Gross: 
+            span style="color: #ea2e49;"#{@user.monthly_earnings}
+          li
+            strong Total Paid Out: 
+            span style="color: #ea2e49;"#{@user.total_paid_out}
+          li
+            strong Connectpal + ToS: 
+            span style="color: #ea2e49;"#{@user.total_and_tos}
+        .clearfix
+
+
+    h2 Finance Details
+
+    .table-responsive
+      table.table.table-striped
+        tr
+          th 
+            strong Month
+          th
+            strong Total Gross
+          th 
+            strong Connectpal Fee
+          th 
+            strong String Fee
+          th 
+            strong ToS Fee
+          th 
+            strong Payout
+
+        - @payments.each do |payment|
+          tr
+            / Month Name
+            td
+              = payment.inspect
+            td
+              = payment.inspect
+            td
+              = payment.inspect
+            td
+              = payment.inspect
+            td
+              = payment.inspect
+            td
+              span style="color:#ea2e49;"= payment.inspect
+          / Show this row when user clicks on month name
+          tr
+            td colspan="6"
+              .row
+                .col-md-4
+                  ul.payout_detail_list
+                    li
+                      strong Total Users Subscribed: 
+                      span#{@user.subscribed_ever_count}
+                    li
+                      strong Total Users Unsubscribed: 
+                      span#{@user.unsubscribed_ever_count}
+                .col-md-4
+                  ul.payout_detail_list
+                    li
+                      strong Account Name: 
+                      span#{@user.holder_name}
+                    li
+                      strong Account Number: 
+                      span#{@user.account_number}
+                    li
+                      strong Routing Number:
+                      span#{@user.routing_number}
+                .col-md-4
+                  ul.payout_detail_list
+                    li
+                      strong Payout Status:
+                      span Paid/In Progress/Failed
+                    li
+                      strong
+                        a href="#" Download Invoice
+    

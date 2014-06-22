@@ -6,21 +6,7 @@ class Admin::ProfilesController < Admin::BaseController
     json_replace
   end
 
-  def profile_owners
-    @users = User.profile_owners.order('created_at DESC').includes(:profile_types).limit(200).map { |user| ProfileDecorator.new(user) }
-    json_render
-  end
-
-  def show
-    @user = UserStatsDecorator.new(@user)
-    begin
-    @payments = Stripe::Transfer.all(limit: 3)
-    rescue
-      @payments = []
-    end
-  end
-
-  def new
+  def public
     @users = User.where(has_public_profile: true).order(:full_name).limit(200).to_a
     json_render
   end

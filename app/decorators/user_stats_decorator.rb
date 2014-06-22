@@ -15,7 +15,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def monthly_earnings
-    @monthly_earnings ||= subscriptions_count * object.cost
+    @monthly_earnings ||= subscriptions_count * (object.cost || 0)
   end
 
   def subscribed_ever_count
