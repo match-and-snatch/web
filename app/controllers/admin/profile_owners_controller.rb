@@ -8,13 +8,11 @@ class Admin::ProfileOwnersController < Admin::BaseController
 
   def show
     @user = UserStatsDecorator.new(@user)
+    json_render
+  end
 
-    begin
-      @payments = []
-    #@payments = Stripe::Transfer.all(limit: 3)
-    rescue
-      @payments = []
-    end
+  def finance_details
+    @payments = []
     json_render
   end
 
