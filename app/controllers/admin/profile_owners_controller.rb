@@ -10,7 +10,8 @@ class Admin::ProfileOwnersController < Admin::BaseController
     @user = UserStatsDecorator.new(@user)
 
     begin
-    @payments = Stripe::Transfer.all(limit: 3)
+      @payments = []
+    #@payments = Stripe::Transfer.all(limit: 3)
     rescue
       @payments = []
     end

@@ -11,10 +11,10 @@
         ul.profile_detail_list.pull-left style="margin-right: 60px; width: 190px" 
           li 
             strong Profile Created: 
-            span#{@user.created_at.to_date.to_s(:long)}
+            span#{@user.profile_created}
           li
             strong Profile Type: 
-            span#{@user.profile_types.map(&:title).join(' / ')}
+            span#{@user.profile_types}
           li
             strong Subscription Cost: 
             span style="color: #ea2e49;"#{super_number_to_currency @user.cost}
@@ -23,7 +23,7 @@
             span#{@user.posts.count}
           li 
             strong Upload Stats: 
-            span#{number_to_human_size(@user.source_uploads.sum(:filesize))}
+            span#{number_to_human_size(@user.uploaded_bytes)}
         ul.profile_detail_list.pull-left style="margin-right: 60px"
           li
             strong Total Subscribers (all time): 
