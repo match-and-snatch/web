@@ -41,4 +41,12 @@ class ProfileDecorator < UserDecorator
   def pending_post
     @pending_post ||= object.pending_post || PendingPost.new
   end
+
+  def plain_profile_types
+    object.profile_types.map(&:title).join(' / ').html_safe
+  end
+
+  def created_at
+    object.created_at.to_date.to_s(:full)
+  end
 end

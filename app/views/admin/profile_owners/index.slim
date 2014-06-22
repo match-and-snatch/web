@@ -19,7 +19,7 @@ h2 Profile Owners
           img src=user.small_profile_picture_url width=50 height=50
         td
           a.HashLink href=admin_profile_owner_path(user.id) = user.name
-        td style='max-width: 200px; overflow: hidden'= user.object.profile_types.map(&:title).join(' / ').html_safe
-        td style='min-width: 100px'= user.created_at.to_date.to_s(:full)
+        td style='max-width: 200px; overflow: hidden'= user.plain_profile_types
+        td style='min-width: 100px'= user.created_at
         td= super_number_to_currency user.subscription_cost
   .clearfix

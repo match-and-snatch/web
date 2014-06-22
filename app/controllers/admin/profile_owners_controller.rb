@@ -2,7 +2,7 @@ class Admin::ProfileOwnersController < Admin::BaseController
   before_filter :load_user!, only: :show
 
   def index
-    @users = User.profile_owners.order('created_at DESC').includes(:profile_types).limit(200).map { |user| ProfileDecorator.new(user) }
+    @users = User.profile_owners.order('created_at DESC').includes(:profile_types).limit(1000).map { |user| ProfileDecorator.new(user) }
     json_render
   end
 
