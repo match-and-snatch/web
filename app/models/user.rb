@@ -202,6 +202,14 @@ class User < ActiveRecord::Base
     !((!passed_profile_steps? && is_profile_owner?) || (!is_profile_owner?))
   end
 
+  def bank_account_data
+    {
+      country: 'US',
+      routing_number: routing_number,
+      account_number: account_number,
+    }
+  end
+
   private
 
   def set_profile_completion_status

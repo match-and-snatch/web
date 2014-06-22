@@ -110,6 +110,8 @@ class UserProfileManager < BaseManager
     user.generate_slug
 
     user.save or fail_with! user.errors
+
+    sync_stripe_recipient! if user.stripe_recipient_id
     user
   end
 
@@ -154,6 +156,8 @@ class UserProfileManager < BaseManager
     user.account_number = account_number
 
     user.save or fail_with! user.errors
+
+    sync_stripe_recipient! if user.stripe_recipient_id
     user
   end
 
@@ -456,6 +460,16 @@ class UserProfileManager < BaseManager
   end
 
   private
+
+  def sync_stripe_recipient!
+    stripe_recipient = Stripe::Recipient.retrieve(recipient.stripe_id)
+    stripe_recipient.name = @user.holder_name
+    stripe_recipient.type = 'individual'
+    stripe_recipient.bank_account = @user.bank_account_data
+    stripe_recipient.email = @user.email
+    stripe_recipient.description = @user.description
+    stripe_recipient.save
+  end
 
   # @param slug [String]
   # @return [true, false]
