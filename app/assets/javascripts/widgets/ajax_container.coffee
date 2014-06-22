@@ -10,14 +10,18 @@ class bud.widgets.AjaxContainer extends bud.Widget
     @url = @$container.data('url')
     @use_anchor = @$container.data('use_anchor')
     @$container.find('a').click @link_clicked
-    bud.sub('window.hashchange', @location_changed) if @use_anchor
 
-    unless @use_anchor
+    if @use_anchor
+      bud.sub('window.hashchange', @location_changed)
+      @location_changed()
+    else
       @render()
 
   location_changed: =>
-    @url = window.location.hash.substr(1)
-    @render()
+    hash = window.location.hash.substr(1)
+    if hash.match(/^\//)
+      @url = hash
+      @render()
 
   render: ->
     @render_path(@url) if @url
