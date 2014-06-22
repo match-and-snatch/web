@@ -11,26 +11,26 @@
         ul.profile_detail_list.pull-left style="margin-right: 60px; width: 190px" 
           li 
             strong Profile Created: 
-            span#{@user.profile_created}
+            span= @user.profile_created
           li
             strong Profile Type: 
-            span#{@user.profile_types}
+            span= @user.profile_types
           li
             strong Subscription Cost: 
-            span style="color: #ea2e49;"#{super_number_to_currency @user.cost}
+            span style="color: #ea2e49;" $#{super_number_to_currency @user.cost}
           li
             strong Posts Count: 
-            span#{@user.posts.count}
+            span= @user.posts.count
           li 
             strong Upload Stats: 
-            span#{number_to_human_size(@user.uploaded_bytes)}
+            span= number_to_human_size(@user.uploaded_bytes)
         ul.profile_detail_list.pull-left style="margin-right: 60px"
           li
             strong Total Subscribers (all time): 
-            span style="color: #ea2e49;"#{@user.subscribed_ever_count}
+            span style="color: #ea2e49;"= @user.subscribed_ever_count
           li
             strong Total Unsubscribers (all time): 
-            span style="color: #ea2e49;"#{@user.unsubscribed_ever_count}
+            span style="color: #ea2e49;"= @user.unsubscribed_ever_count
           li
             strong Currently Subscribed: 
             span style="color: #ea2e49;"#{@user.subscriptions_count}
