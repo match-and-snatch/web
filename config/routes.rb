@@ -137,9 +137,7 @@ BuddyPlatform::Application.routes.draw do
     end
     resources :uploads, only: :index
     resources :profile_owners, only: [:index, :show] do
-      member do
-        get :finance_details
-      end
+      resources :transfers, only: [:index, :create]
     end
     resources :profiles, only: [:index, :show] do
       collection do
