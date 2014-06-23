@@ -32,11 +32,11 @@ class UserStatsDecorator < UserDecorator
   end
 
   def total_paid_out
-    0
+    StripeTransfer.where(user_id: object.id).sum(:amount) / 100
   end
 
-  def total_and_tos
-    0
+  def connectpal_and_tos
+    (Payment.where(target_user_id: object.id).sum(:user_subscription_fees) + unsubscribed_ever_count * object.subscription_cost)
   end
 
   def unsubscribed_ever_count
@@ -45,6 +45,10 @@ class UserStatsDecorator < UserDecorator
 
   def uploaded_bytes
     object.source_uploads.sum(:filesize)
+  end
+
+  def total_gross
+    Payment.where(target_user_id: object.id).sum(:amount) / 100
   end
 
   private

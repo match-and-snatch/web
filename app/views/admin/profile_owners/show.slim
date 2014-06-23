@@ -37,13 +37,13 @@
         ul.profile_detail_list.pull-left
           li
             strong Total Gross: 
-            span style="color: #ea2e49;"#{@user.monthly_earnings}
+            span style="color: #ea2e49;"#{number_to_currency @user.total_gross}
           li
             strong Total Paid Out: 
-            span style="color: #ea2e49;"#{@user.total_paid_out}
+            span style="color: #ea2e49;"#{number_to_currency @user.total_paid_out}
           li
             strong Connectpal + ToS: 
-            span style="color: #ea2e49;"#{@user.total_and_tos}
+            span style="color: #ea2e49;"#{number_to_currency @user.connectpal_and_tos}
         .clearfix
 
 
