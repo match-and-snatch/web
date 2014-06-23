@@ -11,11 +11,6 @@ class Admin::ProfileOwnersController < Admin::BaseController
     json_render
   end
 
-  def finance_details
-    @payments = []
-    json_render
-  end
-
   private
 
   def load_user!

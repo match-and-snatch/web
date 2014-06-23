@@ -1,7 +1,7 @@
 class TransferManager < BaseManager
   attr_reader :recipient
 
-  # @param [Recipient, nil] recipient
+  # @param [User] recipient
   def initialize(recipient: nil)
     raise ArgumentError unless recipient.is_a?(User)
     @recipient = recipient
@@ -13,19 +13,20 @@ class TransferManager < BaseManager
     validate! do
       fail_with amount: :blank if amount.blank?
       fail_with descriptor: :blank if descriptor.blank?
+      fail_with descriptor: :too_long if descriptor.length > 100
 
       amount = (amount.to_f * 100).to_i
       fail_with amount: :zero if amount.zero?
     end
 
-    transfer = Stripe::Transfer.create amount: amount,
-                                       currency: 'usd',
-                                       recipient: stripe_recipient_id,
-                                       statement_descriptor: descriptor,
-                                       description: descriptor
+    _transfer = Stripe::Transfer.create amount: amount,
+                                        currency: 'usd',
+                                        recipient: stripe_recipient_id,
+                                        statement_descriptor: descriptor,
+                                        description: descriptor
 
     log_entry = StripeTransfer.create user: @recipient,
-                                      stripe_response: transfer.as_json,
+                                      stripe_response: _transfer.as_json,
                                       amount: amount,
                                       description: descriptor
 
@@ -41,8 +42,7 @@ class TransferManager < BaseManager
       name: @recipient.holder_name,
       type: 'individual',
       bank_account: @recipient.bank_account_data,
-      email: @recipient.email,
-      description: @recipient.description)
+      email: @recipient.email)
 
     @recipient.stripe_recipient_id = _stripe_recipient['id']
     @recipient.save!
@@ -50,9 +50,7 @@ class TransferManager < BaseManager
 
   def stripe_recipient_id
     @stripe_recipient_id ||= begin
-      unless @recipient.stripe_recipient_id
-        authorize!
-      end
+      authorize! unless @recipient.stripe_recipient_id
       @recipient.stripe_recipient_id
     end
   end

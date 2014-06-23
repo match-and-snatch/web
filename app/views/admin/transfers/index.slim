@@ -16,21 +16,18 @@ h2 Finance Details
       th
         strong Payout
 
-    - @payments.each do |payment|
+    - @transfers.each do |transfer|
       tr
         / Month Name
         td
-          = payment.inspect
+          = transfer.created_at.to_s(:long)
         td
-          = payment.inspect
+          span= number_to_currency transfer.amount / 100.0
         td
-          = payment.inspect
         td
-          = payment.inspect
         td
-          = payment.inspect
         td
-          span style="color:#ea2e49;"= payment.inspect
+          span style="color:#ea2e49;"= transfer.inspect
       / Show this row when user clicks on month name
       tr
         td colspan="6"
@@ -39,21 +36,21 @@ h2 Finance Details
               ul.payout_detail_list
                 li
                   strong Total Users Subscribed:
-                  span#{@user.subscribed_ever_count}
+                  span
                 li
                   strong Total Users Unsubscribed:
-                  span#{@user.unsubscribed_ever_count}
+                  span
             .col-md-4
               ul.payout_detail_list
                 li
                   strong Account Name:
-                  span#{@user.holder_name}
+                  span
                 li
                   strong Account Number:
-                  span#{@user.account_number}
+                  span
                 li
                   strong Routing Number:
-                  span#{@user.routing_number}
+                  span
             .col-md-4
               ul.payout_detail_list
                 li

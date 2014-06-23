@@ -47,5 +47,14 @@
         .clearfix
 
 
-    .AjaxContainer data-url=finance_details_admin_profile_owner_path(@user.id)
+    .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
+
+    div
+      h2 Send money
+      form.Form data-target='payments' action=admin_profile_owner_transfers_path(@user.id) method='POST'
+        label Amount
+        input type='text' name='amount'
+        label Descriptor
+        input type='text' name='descriptor'
+        input type='submit' value='Transfer'
 
