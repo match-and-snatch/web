@@ -35,22 +35,22 @@ h2 Finance Details
               ul.payout_detail_list
                 li
                   strong Total Users Subscribed:
-                  span
+                  span= month.subscribed_count
                 li
                   strong Total Users Unsubscribed:
-                  span
+                  span= month.unsubscribed_count
             .col-md-4
               ul.payout_detail_list
                 li
                   strong Account Name:
-                  span
+                  span= @user.holder_name
                 li
                   strong Account Number:
-                  span
+                  span= @user.account_number
                 li
                   strong Routing Number:
-                  span
-            .col-md-4
+                  span= @user.routing_number
+            / .col-md-4
               ul.payout_detail_list
                 li
                   strong Payout Status:

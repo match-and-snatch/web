@@ -62,6 +62,14 @@ class BillingPeriodsPresenter
       end
     end
 
+    def subscribed_count
+      SubscribedFeedEvent.where(target_user_id: @user.id, created_at: @period).count
+    end
+
+    def unsubscribed_count
+      UnsubscribedFeedEvent.where(target_user_id: @user.id, created_at: @period).count
+    end
+
     def payout
       @payout ||= transfers.sum(:amount) / 100.0
     end
