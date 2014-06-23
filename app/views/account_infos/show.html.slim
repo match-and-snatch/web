@@ -8,11 +8,11 @@
       span.name #{@user.full_name}
 
     ul.general
-      a.AjaxLink data-use_anchor='true' data-default='true' data-target='account-info' href=feed_path
+      a.HashLink data-use_anchor='true' data-default='true' data-target='account-info' href=feed_path
         li My Feed
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
+      a.HashLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
         li Account Settings
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=account_info_dialogues_path data-identifier='mailbox-menu-item'
+      a.HashLink data-use_anchor='true' data-target='account-info' href=account_info_dialogues_path data-identifier='mailbox-menu-item'
         li 
           | Messages 
           span.badge.pull-right #{@user.dialogues.unread.count}
@@ -20,9 +20,9 @@
 
     h2.subscriptions My Subscriptions
     ul
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
+      a.HashLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
         li View Subscriptions
-      a.AjaxLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
+      a.HashLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
         li Billing Information
 
     h2.profile My Profile
@@ -34,11 +34,11 @@
         a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
           li Delete Profile Page
       - if @user.complete_profile?
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
+        a.HashLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
           li Profile Details
-        a.AjaxLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
+        a.HashLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
           li style='border-bottom: none;' Payout Information
-        / a.AjaxLink data-use_anchor='true' data-target='account-info' href=subscribers_path
+        / a.HashLink data-use_anchor='true' data-target='account-info' href=subscribers_path
           li style="border-bottom: none;" View Subscribers
 
   / Content
