@@ -2,7 +2,11 @@ class Admin::ProfileOwnersController < Admin::BaseController
   before_filter :load_user!, only: :show
 
   def index
-    @users = User.profile_owners.order('created_at DESC').includes(:profile_types).limit(1000).map { |user| ProfileDecorator.new(user) }
+    query = User.profile_owners.includes(:profile_types).where('subscription_cost IS NOT NULL').limit(1000)
+    if params[:sort_by]
+      query = query.order("#{params[:sort_by]} #{params[:sort_direction]}")
+    end
+    @users = query.map { |user| ProfileDecorator.new(user) }
     json_render
   end
 

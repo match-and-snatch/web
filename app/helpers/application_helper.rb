@@ -78,6 +78,11 @@ module ApplicationHelper
     render '/benefits/list', benefits: profile.benefits
   end
 
+  def sort_direction_params(field_name)
+    direction = params[:sort_direction] == 'desc' ? 'asc' : 'desc'
+    {sort_by: field_name, sort_direction: direction}
+  end
+
   # @param user [User]
   # @return [String]
   def link_to_user(user)

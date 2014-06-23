@@ -4,14 +4,17 @@ h2 Profile Owners
     th 
       strong #ID
     th
-    th 
-      strong Profile Name
+    th
+      strong
+        a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:profile_name)) data-target='admin-panel' Profile Name
     th 
       strong Profile Type
     th 
-      strong Created Date
-    th 
-      strong Subscription Cost
+      strong
+        a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:created_at)) data-target='admin-panel' Created Date
+    th
+      strong
+        a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:subscription_cost)) data-target='admin-panel' Subscription Cost
     - @users.each do |user|
       tr
         td ##{user.id}
@@ -21,5 +24,6 @@ h2 Profile Owners
           a.HashLink href=admin_profile_owner_path(user.id) = user.name
         td style='max-width: 200px; overflow: hidden'= user.plain_profile_types
         td style='min-width: 100px'= user.created_at
-        td= super_number_to_currency user.subscription_cost
+        td
+          = number_to_currency user.subscription_cost
   .clearfix
