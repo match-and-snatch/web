@@ -15,7 +15,7 @@ class Admin::TransfersController < Admin::BaseController
   private
 
    def load_transfers
-     @transfers = StripeTransfer.where(user_id: @user.id)
+     @months = BillingPeriodsPresenter.new(user: @user)
    end
 
   def load_user!

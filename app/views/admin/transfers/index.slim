@@ -10,26 +10,25 @@ h2 Finance Details
       th
         strong Connectpal Fee
       th
-        strong String Fee
-      th
-        strong ToS Fee
+        strong Stripe Fee
       th
         strong Payout
 
-    - @transfers.each do |transfer|
+    - @months.each do |month|
       tr
-        / Month Name
         td
-          = transfer.created_at.to_s(:long)
+          a.Toggler href='#' data-target="#{month.name}-details"
+            = month.name
         td
-          span= number_to_currency transfer.amount / 100.0
+          = number_to_currency month.total_gross
         td
+          = number_to_currency month.connectpal_fee
         td
+          = number_to_currency month.stripe_fee
         td
-        td
-          span style="color:#ea2e49;"= transfer.inspect
-      / Show this row when user clicks on month name
-      tr
+          = number_to_currency month.payout
+
+      tr style='display: none' data-identifier="#{month.name}-details"
         td colspan="6"
           .row
             .col-md-4
