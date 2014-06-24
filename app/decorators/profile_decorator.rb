@@ -1,4 +1,5 @@
 class ProfileDecorator < UserDecorator
+  delegate :transfer, to: :object
 
   # @param user [User]
   def initialize(user)

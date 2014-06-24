@@ -15,6 +15,9 @@ h2 Profile Owners
     th
       strong
         a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:subscription_cost)) data-target='admin-panel' Subscription Cost
+    th
+      strong
+        a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:transfer)) data-target='admin-panel' Transfer
     - @users.each do |user|
       tr
         td ##{user.id}
@@ -26,4 +29,6 @@ h2 Profile Owners
         td style='min-width: 100px'= user.created_at
         td
           = number_to_currency user.subscription_cost
+        td
+          = number_to_currency user.transfer / 100.0
   .clearfix
