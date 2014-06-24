@@ -1,60 +1,69 @@
+h1= @user.full_name
+hr
+
 .row
-  .content.col-md-10
-    h1= @user.full_name
+  .col-md-2 style='margin-right: 10px'
+    a href=profile_path(@user.slug)
+      img src=@user.profile_picture_url height='180px' width='180px' style="border: 1px solid #d7d7d7;"
+  .col-md-4  
+    ul.profile_detail_list
+      li 
+        strong Profile Created: 
+        span= @user.profile_created
+      li
+        strong Profile Type: 
+        span= @user.profile_types
+      li
+        strong Subscription Cost: 
+        span style="color: #ea2e49;" $#{super_number_to_currency @user.cost}
+      li
+        strong Posts Count: 
+        span= @user.posts.count
+      li 
+        strong Upload Stats: 
+        span= number_to_human_size(@user.uploaded_bytes)
+  .col-md-3  
+    ul.profile_detail_list
+      li
+        strong Currently Subscribed: 
+        span style="color: #ea2e49;"#{@user.subscriptions_count}
+      li
+        strong Total Subscribers (all time): 
+        span style="color: #ea2e49;"= @user.subscribed_ever_count
+      li
+        strong Total Unsubscribers (all time): 
+        span style="color: #ea2e49;"= @user.unsubscribed_ever_count
+      li
+        strong
+          ' Subscribers with failed billing:
+        span style="color: #ea2e49;"= @user.failed_billing_users_count
+  .col-md-3
+    ul.profile_detail_list
+      li
+        strong Total Gross: 
+        span style="color: #ea2e49;"#{number_to_currency @user.total_gross}
+      li
+        strong Total Paid Out: 
+        span style="color: #ea2e49;"#{number_to_currency @user.total_paid_out}
+      li
+        strong ConnectPal + ToS: 
+        span style="color: #ea2e49;"#{number_to_currency @user.connectpal_and_tos}
+    .clearfix
+
+
+.AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
+
+.row
+  .col-md-12
     hr
-
-    .row
-      .col-md-12
-        .pull-left style="margin-right: 30px"
-          a href="#"
-            img src=@user.profile_picture_url height='180px' width='180px' style="border: 1px solid #d7d7d7;"
-        ul.profile_detail_list.pull-left style="margin-right: 60px; width: 190px" 
-          li 
-            strong Profile Created: 
-            span= @user.profile_created
-          li
-            strong Profile Type: 
-            span= @user.profile_types
-          li
-            strong Subscription Cost: 
-            span style="color: #ea2e49;" $#{super_number_to_currency @user.cost}
-          li
-            strong Posts Count: 
-            span= @user.posts.count
-          li 
-            strong Upload Stats: 
-            span= number_to_human_size(@user.uploaded_bytes)
-        ul.profile_detail_list.pull-left style="margin-right: 60px"
-          li
-            strong Total Subscribers (all time): 
-            span style="color: #ea2e49;"= @user.subscribed_ever_count
-          li
-            strong Total Unsubscribers (all time): 
-            span style="color: #ea2e49;"= @user.unsubscribed_ever_count
-          li
-            strong Currently Subscribed: 
-            span style="color: #ea2e49;"#{@user.subscriptions_count}
-        ul.profile_detail_list.pull-left
-          li
-            strong Total Gross: 
-            span style="color: #ea2e49;"#{number_to_currency @user.total_gross}
-          li
-            strong Total Paid Out: 
-            span style="color: #ea2e49;"#{number_to_currency @user.total_paid_out}
-          li
-            strong Connectpal + ToS: 
-            span style="color: #ea2e49;"#{number_to_currency @user.connectpal_and_tos}
-        .clearfix
-
-
-    .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
-
-    div
-      h2 Send money
-      form.Form data-target='payments' action=admin_profile_owner_transfers_path(@user.id) method='POST'
-        label Amount
-        input type='text' name='amount'
-        label Descriptor
-        input type='text' name='descriptor'
-        input type='submit' value='Transfer'
-
+    h2 Send Payout Transfer
+    form.form-inline.Form data-target='payments' action=admin_profile_owner_transfers_path(@user.id) method='POST'
+      .form-group
+        label style='margin-right: 5px' Amount 
+        input.form-control type='text' name='amount' style='margin-right: 15px; width: 100px'
+      .form-group
+        label style='margin-right: 5px' Description 
+        input.form-control type='text' name='descriptor' style='margin-right: 15px'
+      input.btn.pink type='submit' value='Transfer'
+  .clearfix
+  br

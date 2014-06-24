@@ -1,6 +1,10 @@
 class UserStatsDecorator < UserDecorator
   delegate :full_name, to: :object
 
+  def failed_billing_users_count
+    object.subscribers.where(billing_failed: true).count
+  end
+
   def graph_data
     @graph_data ||= [].tap do |result|
       count = nil
@@ -23,24 +27,16 @@ class UserStatsDecorator < UserDecorator
     object.profile_types.map(&:title).join(' / ')
   end
 
-  def subscribed_ever_count
-    SubscribedFeedEvent.where(target_user_id: object.id).count
-  end
-
   def subscriptions_count
     @subscriptions_count ||= subscriptions.count
   end
 
-  def total_paid_out
-    StripeTransfer.where(user_id: object.id).sum(:amount) / 100
-  end
-
-  def connectpal_and_tos
-    (Payment.where(target_user_id: object.id).sum(:user_subscription_fees) + unsubscribed_ever_count * object.subscription_cost)
+  def subscribed_ever_count
+    Subscription.where(target_user_id: object.id).count
   end
 
   def unsubscribed_ever_count
-    UnsubscribedFeedEvent.where(target_user_id: object.id).count
+    Subscription.where(target_user_id: object.id, removed: true).count
   end
 
   def uploaded_bytes
@@ -48,7 +44,15 @@ class UserStatsDecorator < UserDecorator
   end
 
   def total_gross
-    Payment.where(target_user_id: object.id).sum(:amount) / 100
+    payments.sum(:amount) / 100.0 - stripe_fee
+  end
+
+  def total_paid_out
+    StripeTransfer.where(user_id: object.id).sum(:amount) / 100.0
+  end
+
+  def connectpal_and_tos
+    (Payment.where(target_user_id: object.id).sum(:user_subscription_fees) + unsubscribed_ever_count * object.subscription_cost)
   end
 
   private
@@ -75,5 +79,13 @@ class UserStatsDecorator < UserDecorator
 
   def subscriptions
     Subscription.not_removed.joins(:user).where({users: {billing_failed: false}}).where(target_user_id: object.id)
+  end
+
+  def payments
+    @payments ||= Payment.where(target_user_id: object.id)
+  end
+
+  def stripe_fee
+    payments.count * 0.30 + (payments.sum(:amount) * 0.029) / 100.0
   end
 end

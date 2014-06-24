@@ -3,6 +3,9 @@ class Admin::ProfileOwnersController < Admin::BaseController
 
   def index
     query = User.profile_owners.includes(:profile_types).where('subscription_cost IS NOT NULL').limit(1000)
+    query = query.joins(:source_payments).
+      select('users.*, SUM(payments.amount) as transfer').
+      group('users.id, payments.amount')
     if params[:sort_by]
       query = query.order("#{params[:sort_by]} #{params[:sort_direction]}")
     end

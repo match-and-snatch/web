@@ -318,7 +318,8 @@ CREATE TABLE payment_failures (
     stripe_charge_data text,
     description text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    target_user_id integer
 );
 
 
@@ -718,7 +719,8 @@ CREATE TABLE users (
     profile_types_text text,
     subscribers_count integer DEFAULT 0 NOT NULL,
     billing_failed boolean DEFAULT false NOT NULL,
-    stripe_recipient_id character varying(255)
+    stripe_recipient_id character varying(255),
+    billing_failed_at timestamp without time zone
 );
 
 
@@ -1162,3 +1164,9 @@ INSERT INTO schema_migrations (version) VALUES ('20140604125434');
 INSERT INTO schema_migrations (version) VALUES ('20140623040355');
 
 INSERT INTO schema_migrations (version) VALUES ('20140623041205');
+
+INSERT INTO schema_migrations (version) VALUES ('20140624125826');
+
+INSERT INTO schema_migrations (version) VALUES ('20140624130009');
+
+INSERT INTO schema_migrations (version) VALUES ('20140624130659');

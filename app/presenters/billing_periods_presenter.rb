@@ -47,31 +47,46 @@ class BillingPeriodsPresenter
     end
 
     def total_gross
-      payments.sum(:amount) / 100.0
+      payments.sum(:amount) / 100.0 - stripe_fee
     end
 
     def connectpal_fee
-      payments.sum(:user_subscription_fees) / 100.0
+      payments.sum(:user_subscription_fees) - stripe_fee
     end
 
     def stripe_fee
-      if payout.zero?
-        0
-      else
-        (payout * 0.029 + 0.30)
-      end
+      payments.count * 0.30 + (payments.sum(:amount) * 0.029) / 100.0
+    end
+
+    def tos_fee
+      unsubscribed_count * @user.cost
+    end
+
+    def total_subscribed_count
+      Subscription.
+        where(target_user_id: @user.id).
+        where(["removed_at > ? OR removed = 'f'", @period.end]).
+        where(['subscriptions.created_at <= ?', @period.end]).count - billing_failed_count
     end
 
     def subscribed_count
-      SubscribedFeedEvent.where(target_user_id: @user.id, created_at: @period).count
+      Subscription.where(target_user_id: @user.id, created_at: @period).count
     end
 
     def unsubscribed_count
-      UnsubscribedFeedEvent.where(target_user_id: @user.id, created_at: @period).count
+      Subscription.where(target_user_id: @user.id, removed_at: @period, removed: true).count
     end
 
     def payout
       @payout ||= transfers.sum(:amount) / 100.0
+    end
+
+    def billing_failed_count
+      @bfc ||= begin
+         Subscription.
+           joins(:user).
+           where(users: {billing_failed_at: @period}, target_user_id: @user.id).count
+      end
     end
 
     private
