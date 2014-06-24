@@ -44,11 +44,11 @@ class UserStatsDecorator < UserDecorator
   end
 
   def total_gross
-    Payment.where(target_user_id: object.id).sum(:amount) / 100
+    Payment.where(target_user_id: object.id).sum(:amount) / 100.0
   end
 
   def total_paid_out
-    StripeTransfer.where(user_id: object.id).sum(:amount) / 100
+    StripeTransfer.where(user_id: object.id).sum(:amount) / 100.0
   end
 
   def connectpal_and_tos
