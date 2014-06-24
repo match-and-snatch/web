@@ -1,10 +1,9 @@
-
 h1= @user.full_name
 hr
 
 .row
-  .col-md-2
-    a href="#"
+  .col-md-2 style='margin-right: 10px'
+    a href=profile_path(@user.slug)
       img src=@user.profile_picture_url height='180px' width='180px' style="border: 1px solid #d7d7d7;"
   .col-md-4  
     ul.profile_detail_list
