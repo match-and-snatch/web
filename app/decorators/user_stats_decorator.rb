@@ -1,6 +1,10 @@
 class UserStatsDecorator < UserDecorator
   delegate :full_name, to: :object
 
+  def failed_billing_users_count
+    object.subscribers.where(billing_failed: true).count
+  end
+
   def graph_data
     @graph_data ||= [].tap do |result|
       count = nil
