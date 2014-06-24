@@ -1,4 +1,5 @@
 class ProfileDecorator < UserDecorator
+  delegate :transfer, to: :object
 
   # @param user [User]
   def initialize(user)
@@ -40,5 +41,13 @@ class ProfileDecorator < UserDecorator
   # @return [PendingPost]
   def pending_post
     @pending_post ||= object.pending_post || PendingPost.new
+  end
+
+  def plain_profile_types
+    object.profile_types.map(&:title).join(' / ').html_safe
+  end
+
+  def created_at
+    object.created_at.to_date.to_s(:full)
   end
 end

@@ -1,6 +1,42 @@
-h2 Search users
+h2 Search All Users
 
 form.Form action=search_admin_users_path method='get' data-target='users'
   input.Autocomplete.form-control type="text" name='q' placeholder="Search profiles by email"
 
 div data-identifier='users'
+
+h2 Recent Subscribers
+
+.table-responsive
+	table.table.table-striped
+		tr
+			th 
+				strong ID #
+			th 
+				strong Name
+			th 
+				strong Date/Time Created
+			th 
+				strong Subscription Name
+			th 
+				strong Total Paid
+		tr
+			td 2
+			td 
+				// Link to subscriber page
+				a href="#" Slava Popov
+			td May 1, 2014 4:40 PM
+			td 
+				// link to profile
+				a href="#" Andy Dean Radio
+			td $1.79
+		tr
+			td 1
+			td 
+				// Link to subscriber page
+				a href="#" Slava Popov
+			td May 1, 2014 4:40 PM
+			td 
+				// link to profile
+				a href="#" Andy Dean Radio
+			td $1.79

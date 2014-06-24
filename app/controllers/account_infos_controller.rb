@@ -74,6 +74,10 @@ class AccountInfosController < ApplicationController
     json_redirect(@user.passed_profile_steps? ? profile_path(@user) : create_profile_path)
   end
 
+  def confirm_profile_page_removal
+    json_success popup: render_to_string(action: 'confirm_profile_page_removal', layout: false)
+  end
+
   def delete_profile_page
     manager.delete_profile_page
     json_reload

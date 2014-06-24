@@ -1,11 +1,8 @@
 class UserStatsDecorator < UserDecorator
+  delegate :full_name, to: :object
 
-  def subscriptions_count
-    @subscriptions_count ||= subscriptions.count
-  end
-
-  def monthly_earnings
-    @monthly_earnings ||= subscriptions_count * object.cost
+  def failed_billing_users_count
+    object.subscribers.where(billing_failed: true).count
   end
 
   def graph_data
@@ -18,15 +15,47 @@ class UserStatsDecorator < UserDecorator
     end
   end
 
+  def monthly_earnings
+    @monthly_earnings ||= subscriptions_count * (object.cost || 0)
+  end
+
+  def profile_created
+    object.created_at.to_date.to_s(:long)
+  end
+
+  def profile_types
+    object.profile_types.map(&:title).join(' / ')
+  end
+
+  def subscriptions_count
+    @subscriptions_count ||= subscriptions.count
+  end
+
+  def subscribed_ever_count
+    Subscription.where(target_user_id: object.id).count
+  end
+
+  def unsubscribed_ever_count
+    Subscription.where(target_user_id: object.id, removed: true).count
+  end
+
+  def uploaded_bytes
+    object.source_uploads.sum(:filesize)
+  end
+
+  def total_gross
+    payments.sum(:amount) / 100.0 - stripe_fee
+  end
+
+  def total_paid_out
+    StripeTransfer.where(user_id: object.id).sum(:amount) / 100.0
+  end
+
+  def connectpal_and_tos
+    (Payment.where(target_user_id: object.id).sum(:user_subscription_fees) + unsubscribed_ever_count * object.subscription_cost)
+  end
+
   private
-
-  def period
-    (start_date..end_date)
-  end
-
-  def start_date
-    [Time.zone.now.to_date - 30.days, SubscriptionDailyCountChangeEvent.order(:created_on).first.try(:created_on), object.created_at.to_date].compact.max - 1.day
-  end
 
   def end_date
     Time.zone.now.to_date
@@ -40,7 +69,23 @@ class UserStatsDecorator < UserDecorator
     end
   end
 
+  def period
+    (start_date..end_date)
+  end
+
+  def start_date
+    [Time.zone.now.to_date - 30.days, SubscriptionDailyCountChangeEvent.order(:created_on).first.try(:created_on), object.created_at.to_date].compact.max - 1.day
+  end
+
   def subscriptions
     Subscription.not_removed.joins(:user).where({users: {billing_failed: false}}).where(target_user_id: object.id)
+  end
+
+  def payments
+    @payments ||= Payment.where(target_user_id: object.id)
+  end
+
+  def stripe_fee
+    payments.count * 0.30 + (payments.sum(:amount) * 0.029) / 100.0
   end
 end

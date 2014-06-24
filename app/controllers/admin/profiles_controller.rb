@@ -1,17 +1,12 @@
 class Admin::ProfilesController < Admin::BaseController
-  before_filter :load_user!, only: %i(make_public make_private)
+  before_filter :load_user!, only: %i(make_public make_private show)
 
   def index
     @users = User.profile_owners.search_by_text_fields(params[:q]).limit(10)
     json_replace
   end
 
-  def profile_owners
-    @users = User.profile_owners.order('created_at DESC').limit(200)
-    json_render
-  end
-
-  def new
+  def public
     @users = User.where(has_public_profile: true).order(:full_name).limit(200).to_a
     json_render
   end

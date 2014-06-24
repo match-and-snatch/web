@@ -318,7 +318,8 @@ CREATE TABLE payment_failures (
     stripe_charge_data text,
     description text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    target_user_id integer
 );
 
 
@@ -521,6 +522,40 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: stripe_transfers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE stripe_transfers (
+    id integer NOT NULL,
+    user_id integer,
+    stripe_response text,
+    amount integer,
+    description character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: stripe_transfers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE stripe_transfers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: stripe_transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE stripe_transfers_id_seq OWNED BY stripe_transfers.id;
+
+
+--
 -- Name: subscription_daily_count_change_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -683,7 +718,9 @@ CREATE TABLE users (
     itunes_enabled boolean DEFAULT false NOT NULL,
     profile_types_text text,
     subscribers_count integer DEFAULT 0 NOT NULL,
-    billing_failed boolean DEFAULT false NOT NULL
+    billing_failed boolean DEFAULT false NOT NULL,
+    stripe_recipient_id character varying(255),
+    billing_failed_at timestamp without time zone
 );
 
 
@@ -788,6 +825,13 @@ ALTER TABLE ONLY profile_types ALTER COLUMN id SET DEFAULT nextval('profile_type
 --
 
 ALTER TABLE ONLY profile_types_users ALTER COLUMN id SET DEFAULT nextval('profile_types_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY stripe_transfers ALTER COLUMN id SET DEFAULT nextval('stripe_transfers_id_seq'::regclass);
 
 
 --
@@ -912,6 +956,14 @@ ALTER TABLE ONLY profile_types
 
 ALTER TABLE ONLY profile_types_users
     ADD CONSTRAINT profile_types_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stripe_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY stripe_transfers
+    ADD CONSTRAINT stripe_transfers_pkey PRIMARY KEY (id);
 
 
 --
@@ -1108,3 +1160,13 @@ INSERT INTO schema_migrations (version) VALUES ('20140530170944');
 INSERT INTO schema_migrations (version) VALUES ('20140604041646');
 
 INSERT INTO schema_migrations (version) VALUES ('20140604125434');
+
+INSERT INTO schema_migrations (version) VALUES ('20140623040355');
+
+INSERT INTO schema_migrations (version) VALUES ('20140623041205');
+
+INSERT INTO schema_migrations (version) VALUES ('20140624125826');
+
+INSERT INTO schema_migrations (version) VALUES ('20140624130009');
+
+INSERT INTO schema_migrations (version) VALUES ('20140624130659');

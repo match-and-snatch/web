@@ -1,0 +1,34 @@
+h2 Profile Owners
+.table-responsive
+  table.table.table-striped
+    th 
+      strong #ID
+    th
+    th
+      strong
+        a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:profile_name)) data-target='admin-panel' Profile Name
+    th
+      strong Profile Type
+    th 
+      strong
+        a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:created_at)) data-target='admin-panel' Created Date
+    th
+      strong
+        a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:subscription_cost)) data-target='admin-panel' Subscription Cost
+    th
+      strong
+        a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:transfer)) data-target='admin-panel' Transfer
+    - @users.each do |user|
+      tr
+        td ##{user.id}
+        td
+          img src=user.small_profile_picture_url width=50 height=50
+        td
+          a.HashLink href=admin_profile_owner_path(user.id) = user.name
+        td style='max-width: 200px; overflow: hidden'= user.plain_profile_types
+        td style='min-width: 100px'= user.created_at
+        td
+          = number_to_currency user.subscription_cost
+        td
+          = number_to_currency user.transfer / 100.0
+  .clearfix

@@ -1,13 +1,11 @@
 .col-md-12
   h2 
     | Chat with #{link_to_user @dialogue.antiuser(current_user.object)}
-    a.go_back.pull-right href='#' Back to all messages
+    a.AjaxLink.go_back.pull-right data-use_anchor='true' href=account_info_dialogues_path Back to all messages
 
   ul.detail_message data-identifier='dialogue'
     - @dialogue.messages.order(:created_at).limit(30).each do |message|
-      
       li class='#{'unread' if @dialogue.unread? && (!@dialogue.read_at || (@dialogue.read_at < message.created_at))}'
-        
         .photo.pull-left
           img src=message.user.comment_picture_url width=50 height=50 border=0
 
@@ -17,11 +15,9 @@
           .clearfix
           .message= message.message
         .clearfix
-
   .clearfix
- 
-  // Reply Container
 
+  // Reply Container
   form.message_reply.form.DialogueForm action=account_info_messages_path method='post' data-target='dialogue' data-menu_link='mailbox-menu-item'
     input type='hidden' name='user_id' value=@dialogue.antiuser(current_user.object).id
     textarea.form-control name='message' placeholder='Write your reply to #{@dialogue.antiuser(current_user.object).name}'
@@ -29,4 +25,4 @@
     .clearfix
     .error data-field='message'
   .clearfix
-  
+
