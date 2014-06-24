@@ -44,7 +44,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def total_gross
-    Payment.where(target_user_id: object.id).sum(:amount) / 100.0
+    payments.sum(:amount) / 100.0 - stripe_fee
   end
 
   def total_paid_out
@@ -79,5 +79,13 @@ class UserStatsDecorator < UserDecorator
 
   def subscriptions
     Subscription.not_removed.joins(:user).where({users: {billing_failed: false}}).where(target_user_id: object.id)
+  end
+
+  def payments
+    @payments ||= Payment.where(target_user_id: object.id)
+  end
+
+  def stripe_fee
+    payments.count * 0.30 + (payments.sum(:amount) * 0.029) / 100.0
   end
 end
