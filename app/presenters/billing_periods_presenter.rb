@@ -63,7 +63,10 @@ class BillingPeriodsPresenter
     end
 
     def total_subscribed_count
-      Subscription.where(target_user_id: @user.id).where(["removed_at > ? OR removed = 'f'", @period.end]).where(['created_at <= ?', @period.end]).count
+      Subscription.
+        where(target_user_id: @user.id).
+        where(["removed_at > ? OR removed = 'f'", @period.end]).
+        where(['subscriptions.created_at <= ?', @period.end]).count - billing_failed_count
     end
 
     def subscribed_count
@@ -79,7 +82,11 @@ class BillingPeriodsPresenter
     end
 
     def billing_failed_count
-      Subscription.joins(:user).where(users: {billing_failed: true}).where(target_user_id: @user.id).where(["removed_at > ? OR removed_at is NULL OR removed = 'f'", @period.end]).where(['subscriptions.created_at <= ?', @period.end]).count
+      @bfc ||= begin
+         Subscription.
+           joins(:user).
+           where(users: {billing_failed_at: @period}, target_user_id: @user.id).count
+      end
     end
 
     private

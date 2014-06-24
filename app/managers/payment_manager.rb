@@ -31,6 +31,7 @@ class PaymentManager < BaseManager
   rescue Stripe::StripeError => e
     failure = PaymentFailure.create! exception_data:     "#{e.inspect} | http_body:#{e.http_body} | json_body:#{e.json_body}",
                                      target:             target,
+                                     target_user:        target.recipient,
                                      user:               target.customer,
                                      stripe_charge_data: charge.try(:as_json),
                                      description:        description

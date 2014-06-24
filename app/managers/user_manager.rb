@@ -27,6 +27,7 @@ class UserManager < BaseManager
 
   def mark_billing_failed
     @user.billing_failed = true
+    @user.billing_failed_at = Time.zone.now
     save_or_die! @user
   end
 
