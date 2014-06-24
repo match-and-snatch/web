@@ -78,6 +78,10 @@ class BillingPeriodsPresenter
       @payout ||= transfers.sum(:amount) / 100.0
     end
 
+    def billing_failed_count
+      Subscription.joins(:user).where(users: {billing_failed: true}).where(target_user_id: @user.id).where(["removed_at > ? OR removed_at is NULL OR removed = 'f'", @period.end]).where(['subscriptions.created_at <= ?', @period.end]).count
+    end
+
     private
 
     def transfers

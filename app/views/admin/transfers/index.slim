@@ -46,6 +46,10 @@ h2 Finance Details
                 li
                   strong Total Unsubscribed (this month): 
                   span= month.unsubscribed_count
+                li
+                  strong
+                    ' Total Failed Recurring Billing Subscribers:
+                  span= month.billing_failed_count
             .col-md-4
               ul.payout_detail_list
                 li
