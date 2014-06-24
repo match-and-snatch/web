@@ -25,7 +25,8 @@ h2 Finance Details
           = number_to_currency month.total_gross
         td
           = number_to_currency month.connectpal_fee
-        td $x.xx
+        td
+          = number_to_currency month.tos_fee
         td
           = number_to_currency month.stripe_fee
         td
@@ -38,7 +39,7 @@ h2 Finance Details
               ul.payout_detail_list
                 li
                   strong Total Subscribed (end of month): 
-                  span XXX
+                  span= month.total_subscribed_count
                 li
                   strong Total New Subscribers (this month): 
                   span= month.subscribed_count

@@ -62,12 +62,20 @@ class BillingPeriodsPresenter
       end
     end
 
+    def tos_fee
+      unsubscribed_count * @user.cost
+    end
+
+    def total_subscribed_count
+      Subscription.where(target_user_id: @user.id).where(["removed_at > ? OR removed = 'f'", @period.end]).where(['created_at <= ?', @period.end]).count
+    end
+
     def subscribed_count
-      SubscribedFeedEvent.where(target_user_id: @user.id, created_at: @period).count
+      Subscription.where(target_user_id: @user.id, created_at: @period).count
     end
 
     def unsubscribed_count
-      UnsubscribedFeedEvent.where(target_user_id: @user.id, created_at: @period).count
+      Subscription.where(target_user_id: @user.id, removed_at: @period, removed: true).count
     end
 
     def payout
