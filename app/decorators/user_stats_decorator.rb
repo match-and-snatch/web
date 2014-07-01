@@ -1,6 +1,22 @@
 class UserStatsDecorator < UserDecorator
   delegate :full_name, to: :object
 
+  def target_subscriptions_count
+    object.subscriptions.count
+  end
+
+  def removed_target_subscriptions_count
+    object.subscriptions.where(removed: true).count
+  end
+
+  def target_subscriptions
+    object.subscriptions
+  end
+
+  def target_sales
+    object.payments.sum(:amount)
+  end
+
   def failed_billing_users_count
     object.subscribers.where(billing_failed: true).count
   end
