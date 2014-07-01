@@ -47,7 +47,7 @@ class BillingPeriodsPresenter
     end
 
     def total_gross
-      payments.sum(:amount) / 100.0 - stripe_fee
+      payments.sum(:amount) / 100.0 #- stripe_fee
     end
 
     def connectpal_fee
