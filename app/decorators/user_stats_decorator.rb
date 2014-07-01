@@ -60,7 +60,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def total_gross
-    payments.sum(:amount) / 100.0 - stripe_fee
+    payments.sum(:amount) / 100.0 #- stripe_fee
   end
 
   def total_paid_out
