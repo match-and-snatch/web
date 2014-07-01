@@ -8,6 +8,8 @@ class Admin::ProfileOwnersController < Admin::BaseController
       group('users.id, payments.amount')
     if params[:sort_by]
       query = query.order("#{params[:sort_by]} #{params[:sort_direction]}")
+    else
+      query = query.order('transfer DESC')
     end
     @users = query.map { |user| ProfileDecorator.new(user) }
     json_render
