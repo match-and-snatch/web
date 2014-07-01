@@ -1,10 +1,14 @@
-h1= @user.full_name
+h1 
+  strong style="color: #3b9fd1;" Profile Name:
+  '
+  = @user.full_name
+
 hr
 
 .row
-  .col-md-2 style='margin-right: 10px'
+  .col-md-2
     a href=profile_path(@user.slug)
-      img src=@user.profile_picture_url height='180px' width='180px' style="border: 1px solid #d7d7d7;"
+      img src=@user.profile_picture_url height='150px' width='150px' style="border: 1px solid #d7d7d7;"
   .col-md-4  
     ul.profile_detail_list
       li 
@@ -50,13 +54,13 @@ hr
         span style="color: #ea2e49;"#{number_to_currency @user.connectpal_and_tos}
     .clearfix
 
-
 .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
 
 .row
   .col-md-12
     hr
-    h2 Send Payout Transfer
+    h2
+      strong Send Payout Transfer
     form.form-inline.Form data-target='payments' action=admin_profile_owner_transfers_path(@user.id) method='POST'
       .form-group
         label style='margin-right: 5px' Amount 
@@ -66,4 +70,79 @@ hr
         input.form-control type='text' name='descriptor' style='margin-right: 15px'
       input.btn.pink type='submit' value='Transfer'
   .clearfix
-  br
+
+// Subscriber Information
+
+hr
+
+h1
+  strong style="color: #3b9fd1;" Subscriber Name:
+  '
+  = @user.full_name
+
+hr
+
+.row
+  .col-md-2
+    a href=profile_path(@user.slug)
+      img src=@user.profile_picture_url height='150px' width='150px' style="border: 1px solid #d7d7d7;"
+  .col-md-4  
+    ul.profile_detail_list
+      li 
+        strong Account Created: 
+        span April 20, 2014
+      li
+        strong Last Activity: 
+        span June 27, 2014
+      li
+        strong Total Subscriptions: 
+        span style="color: #ea2e49;" 5
+      li
+        strong Total Unsubscriptions: 
+        span style="color: #ea2e49;" 1
+  .col-md-6  
+    ul.profile_detail_list
+      li
+        strong Total Sales (to date): 
+        span style="color: #ea2e49;"$25
+      li
+        strong Total Refunded: 
+        span style="color: #ea2e49;"$0
+    .clearfix
+
+.row
+  .col-md-12
+    h2 
+      strong Subscription Details
+
+    .table-responsive
+      table.table.table-striped
+        tr
+          th
+            strong Profile Name
+          th
+            strong Subscription Date
+          th
+            strong Monthly Cost
+          th
+            strong Recurring/New
+          th
+            strong Cancellation Date
+
+        tr
+          td
+            a href="#" style="font-weight: bold; color: #3b9fd1" Andy Dean
+          td April 20, 2014
+          td 
+            strong style="color: #ea2e49;"$5
+          td Recurring
+          td N/A
+        tr
+          td
+            a href="#" style="font-weight: bold; color: #3b9fd1" Spadea Network
+          td June 27, 2014
+          td 
+            strong style="color: #ea2e49;"$5
+          td New
+          td June 16, 2014
+

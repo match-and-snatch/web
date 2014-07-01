@@ -1,7 +1,9 @@
 .col-md-12
-  h2 
+  h2 style="color: #464646; margin-bottom: 10px;"
     | Chat with #{link_to_user @dialogue.antiuser(current_user.object)}
     a.AjaxLink.go_back.pull-right data-use_anchor='true' href=account_info_dialogues_path Back to all messages
+
+  .unread-legend Unread Messages
 
   ul.detail_message data-identifier='dialogue'
     - @dialogue.messages.order(:created_at).limit(30).each do |message|
