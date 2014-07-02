@@ -210,6 +210,10 @@ class User < ActiveRecord::Base
     }
   end
 
+  def unread_messages_count
+    dialogues.unread.joins(:recent_message).where.not(messages: {user_id: id}).count
+  end
+
   private
 
   def set_profile_completion_status

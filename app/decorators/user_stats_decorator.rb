@@ -1,6 +1,22 @@
 class UserStatsDecorator < UserDecorator
   delegate :full_name, to: :object
 
+  def target_subscriptions_count
+    object.subscriptions.count
+  end
+
+  def removed_target_subscriptions_count
+    object.subscriptions.where(removed: true).count
+  end
+
+  def target_subscriptions
+    object.subscriptions
+  end
+
+  def target_sales
+    object.payments.sum(:amount)
+  end
+
   def failed_billing_users_count
     object.subscribers.where(billing_failed: true).count
   end
@@ -44,7 +60,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def total_gross
-    payments.sum(:amount) / 100.0 - stripe_fee
+    payments.sum(:amount) / 100.0 #- stripe_fee
   end
 
   def total_paid_out
@@ -86,6 +102,6 @@ class UserStatsDecorator < UserDecorator
   end
 
   def stripe_fee
-    payments.count * 0.30 + (payments.sum(:amount) * 0.029) / 100.0
+    payments.count * 0.30 + (payments.sum(:amount) * 0.027) / 100.0
   end
 end

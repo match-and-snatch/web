@@ -1,0 +1,26 @@
+.modal-header
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="total-failed" aria-hidden="true"
+  .modal-title
+    'Total Failed Recurring (this month):
+    span= @users.count
+
+.modal-body style="margin-bottom: 15px; overflow: scroll; height: 400px"
+  .table-responsive
+    table.table.table-striped
+      tr
+        th
+          strong ID #
+        th
+          strong Full Name
+        th
+          strong Failed Date
+        th
+          strong Reason
+      - @users.find_each do |user|
+        tr
+          td= user.id
+          td
+            = link_to_user user
+          td= user.billing_failed_at.to_s(:long)
+          td
+            small style='color: gray' coming soon

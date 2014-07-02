@@ -5,7 +5,7 @@ class Dialogue < ActiveRecord::Base
 
   has_many :messages
 
-  scope :by_user, -> (user) { where(['user_id = ? OR target_user_id = ?', user.id, user.id]) }
+  scope :by_user, -> (user) { where(['dialogues.user_id = ? OR dialogues.target_user_id = ?', user.id, user.id]) }
   scope :unread, -> { where(unread: true) }
 
   # Finds or creates dialogue between users

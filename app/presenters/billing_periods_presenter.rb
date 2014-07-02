@@ -42,12 +42,16 @@ class BillingPeriodsPresenter
       @period = period
     end
 
+    def end_date
+      @period.end.to_s(:db)
+    end
+
     def name
       Date::MONTHNAMES[@period.begin.month]
     end
 
     def total_gross
-      payments.sum(:amount) / 100.0 - stripe_fee
+      payments.sum(:amount) / 100.0 #- stripe_fee
     end
 
     def connectpal_fee
@@ -55,7 +59,7 @@ class BillingPeriodsPresenter
     end
 
     def stripe_fee
-      payments.count * 0.30 + (payments.sum(:amount) * 0.029) / 100.0
+      payments.count * 0.30 + (payments.sum(:amount) * 0.027) / 100.0
     end
 
     def tos_fee
@@ -63,10 +67,14 @@ class BillingPeriodsPresenter
     end
 
     def total_subscribed_count
+      failed_billing_count = Subscription.
+          joins(:user).
+          where(['users.billing_failed_at <= ?', @period.end]).
+          where(target_user_id: @user.id).count
       Subscription.
         where(target_user_id: @user.id).
         where(["removed_at > ? OR removed = 'f'", @period.end]).
-        where(['subscriptions.created_at <= ?', @period.end]).count - billing_failed_count
+        where(['subscriptions.created_at <= ?', @period.end]).count - failed_billing_count
     end
 
     def subscribed_count
