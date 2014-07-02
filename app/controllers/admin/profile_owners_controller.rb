@@ -21,7 +21,13 @@ class Admin::ProfileOwnersController < Admin::BaseController
 
   def total_subscribed
     date = Date.parse(params[:date])
-    @subscriptions = @user.object.source_subscriptions.includes(:user).where(['subscriptions.created_at <= ?', date]).where.not(user_id: nil).map { |s| SubscriptionDecorator.new(s, date) }
+    period = date.beginning_of_month..date
+    @subscriptions = Subscription.
+      includes(:user).
+      where(users: {billing_failed: false}).
+      where(target_user_id: @user.id).
+      where(["removed_at > ? OR removed = 'f'", period.end]).
+      where(['subscriptions.created_at <= ?', period.end]).map { |s| SubscriptionDecorator.new(s, date) }
     json_success popup: render_to_string(action: action_name, layout: false)
   end
 
