@@ -102,6 +102,6 @@ class UserStatsDecorator < UserDecorator
   end
 
   def stripe_fee
-    payments.count * 0.30 + (payments.sum(:amount) * 0.029) / 100.0
+    payments.count * 0.30 + (payments.sum(:amount) * 0.027) / 100.0
   end
 end
