@@ -1,0 +1,27 @@
+.modal-header
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
+  .modal-title
+    'Total Subscribed (end of month):
+    span= @subscriptions.count
+
+.modal-body style="margin-bottom: 15px; height: 400px; overflow: scroll"
+  .table-responsive
+    table.table.table-striped
+      tr
+        th
+          strong ID #
+        th
+          strong Full Name
+        th
+          strong Date of Payment
+        th
+          strong New Subscriber?
+      - @subscriptions.each do |subscription|
+        tr
+          td= subscription.id
+          td
+            = link_to_user subscription.user
+          td
+            = subscription.created_at.to_date.to_s(:long)
+          td
+            strong style="color: #ea2e49;"= subscription.new? ? 'YES' : 'no'

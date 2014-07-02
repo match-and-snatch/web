@@ -42,6 +42,10 @@ class BillingPeriodsPresenter
       @period = period
     end
 
+    def end_date
+      @period.end.to_s(:db)
+    end
+
     def name
       Date::MONTHNAMES[@period.begin.month]
     end

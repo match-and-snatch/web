@@ -41,12 +41,12 @@ h2
               ul.payout_detail_list
                 li
                   strong 
-                    a.PopupTrigger data-target='total-subscribed' href="#" style="text-decoration: none;" Total Subscribed (end of month):
+                    a.AjaxLink href=total_subscribed_admin_profile_owner_path(@user.id, date: month.end_date) style="text-decoration: underline;" Total Subscribed (end of month):
                   |&nbsp;
                   span= month.total_subscribed_count
                 li
                   strong 
-                    a.PopupTrigger data-target='total-new-subscribers' href="#" style="text-decoration: none;" Total New Subscribers (this month):
+                    a.AjaxLink href=total_new_subscribed_admin_profile_owner_path(@user.id, date: month.end_date) style="text-decoration: underline;" Total New Subscribers (end of month):
                   |&nbsp;
                   span= month.subscribed_count
                 li
@@ -78,69 +78,6 @@ h2
                 li
                   strong
                     a href="#" Download Invoice
-
-// Total Subscribed Popup
-
-.Popup.popup.modal-content.admin-popup data-identifier='total-subscribed' style="width: 600px"
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="total-subscribed" aria-hidden="true"
-    .modal-title 
-      'Total Subscribed (end of month):
-      span 4
-
-  .modal-body style="margin-bottom: 15px"
-    .table-responsive
-      table.table.table-striped
-        tr
-          th
-            strong ID #
-          th
-            strong Full Name
-          th
-            strong Date of Payment
-          th
-            strong New Subscriber?
-        tr
-          td 1
-          td 
-            a href="#" Slava Popov
-          td May 1, 2014 4:40 PM
-          td 
-            strong style="color: #ea2e49;" YES
-        tr
-          td 1
-          td 
-            a href="#" Slava Popov
-          td May 1, 2014 4:40 PM
-          td 
-            strong NO
-
-// Total New Subscribers Popup
-
-.Popup.popup.modal-content.admin-popup data-identifier='total-new-subscribers' style="width: 600px"
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="total-new-subscribers" aria-hidden="true"
-    .modal-title 
-      'Total New Subscribers (this month):
-      span 2
-
-  .modal-body style="margin-bottom: 15px"
-    .table-responsive
-      table.table.table-striped
-        tr
-          th
-            strong ID #
-          th
-            strong Full Name
-          th
-            strong Date of Payment
-        tr
-          td 1
-          td 
-            a href="#" Slava Popov
-          td May 1, 2014 4:40 PM
-
-// Total Unsubscribed Popup
 
 .Popup.popup.modal-content.admin-popup data-identifier='total-unsubscribed' style="width: 600px"
   .modal-header
