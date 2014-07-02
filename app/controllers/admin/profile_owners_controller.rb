@@ -1,5 +1,5 @@
 class Admin::ProfileOwnersController < Admin::BaseController
-  before_filter :load_user!, only: [:show, :total_subscribed, :total_new_subscribed, :total_unsubscribed]
+  before_filter :load_user!, only: [:show, :total_subscribed, :total_new_subscribed, :total_unsubscribed, :failed_billing_subscriptions]
 
   def index
     query = User.profile_owners.includes(:profile_types).where('subscription_cost IS NOT NULL').limit(1000)
@@ -35,6 +35,13 @@ class Admin::ProfileOwnersController < Admin::BaseController
     date = Date.parse(params[:date])
     period = date.beginning_of_month..date
     @subscriptions = Subscription.where(target_user_id: @user.id, removed_at: period, removed: true).map { |s| SubscriptionDecorator.new(s, date) }
+    json_success popup: render_to_string(action: action_name, layout: false)
+  end
+
+  def failed_billing_subscriptions
+    date = Date.parse(params[:date])
+    period = date.beginning_of_month..date
+    @users = User.joins(:subscriptions).where(subscriptions: {target_user_id: @user.id}, billing_failed_at: period)
     json_success popup: render_to_string(action: action_name, layout: false)
   end
 

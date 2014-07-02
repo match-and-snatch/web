@@ -56,7 +56,7 @@ h2
                   span= month.unsubscribed_count
                 li
                   strong 
-                    a.PopupTrigger data-target='total-failed' href="#" style="text-decoration: none;" Total Failed Recurring Billing Subscribers:
+                    a.AjaxLink href=failed_billing_subscriptions_admin_profile_owner_path(@user.id, date: month.end_date) style="text-decoration: underline;"  Total Failed Recurring Billing Subscribers:
                   |&nbsp;
                   span= month.billing_failed_count
             .col-md-4
@@ -79,31 +79,3 @@ h2
                   strong
                     a href="#" Download Invoice
 
-// Total Failed Recurring Popup
-
-.Popup.popup.modal-content.admin-popup data-identifier='total-failed' style="width: 600px"
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="total-failed" aria-hidden="true"
-    .modal-title 
-      'Total Failed Recurring (this month):
-      span 1
-
-  .modal-body style="margin-bottom: 15px"
-    .table-responsive
-      table.table.table-striped
-        tr
-          th
-            strong ID #
-          th
-            strong Full Name
-          th
-            strong Failed Date
-          th
-            strong Reason
-        tr
-          td 1
-          td 
-            a href="#" Slava Popov
-          td May 1, 2014 4:40 PM
-          td 
-            strong Expired Card
