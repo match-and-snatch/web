@@ -142,6 +142,7 @@ BuddyPlatform::Application.routes.draw do
       member do
         get :total_subscribed
         get :total_new_subscribed
+        get :total_unsubscribed
       end
     end
     resources :profiles, only: [:index, :show] do

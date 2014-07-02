@@ -51,7 +51,7 @@ h2
                   span= month.subscribed_count
                 li
                   strong 
-                    a.PopupTrigger data-target='total-unsubscribed' href="#" style="text-decoration: none;" Total Unsubscribed (this month):
+                    a.AjaxLink href=total_unsubscribed_admin_profile_owner_path(@user.id, date: month.end_date) style="text-decoration: underline;" Total Unsubscribeda (this month):
                   |&nbsp;
                   span= month.unsubscribed_count
                 li
@@ -78,33 +78,6 @@ h2
                 li
                   strong
                     a href="#" Download Invoice
-
-.Popup.popup.modal-content.admin-popup data-identifier='total-unsubscribed' style="width: 600px"
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="total-unsubscribed" aria-hidden="true"
-    .modal-title 
-      'Total Unsubscribed (this month):
-      span 2
-
-  .modal-body style="margin-bottom: 15px"
-    .table-responsive
-      table.table.table-striped
-        tr
-          th
-            strong ID #
-          th
-            strong Full Name
-          th
-            strong Date of Cancellation
-          th
-            strong Next Billing Cycle
-        tr
-          td 1
-          td 
-            a href="#" Slava Popov
-          td May 1, 2014 4:40 PM
-          td 
-            strong June 1, 2014
 
 // Total Failed Recurring Popup
 
