@@ -5,15 +5,15 @@
 
   .unread-legend Unread Messages
 
-  ul.detail_message data-identifier='dialogue'
+  ul.detail_message data-identifier='dialogue' data-target='messages-counter' class="#{'UnreadMessage' if @dialogue.unread? && @dialogue.recent_message.user != current_user.object}"
     - @dialogue.messages.order(:created_at).limit(30).each do |message|
-      li class='#{'unread' if @dialogue.unread? && (!@dialogue.read_at || (@dialogue.read_at < message.created_at))}'
+      li class="#{'unread' if @dialogue.unread? && (!@dialogue.read_at || (@dialogue.read_at < message.created_at))}"
         .photo.pull-left
           img src=message.user.comment_picture_url width=50 height=50 border=0
 
         .pull-left.details
           span.name= message.user.name 
-          span.timestamp#{time_ago_in_words(message.created_at)} ago
+          span.timestamp #{time_ago_in_words(message.created_at)} ago
           .clearfix
           .message= message.message
         .clearfix
