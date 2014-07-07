@@ -127,6 +127,7 @@ BuddyPlatform::Application.routes.draw do
   resources :profile_types, only: [:index, :create, :destroy]
 
   namespace :admin do
+    resources :duplicates, only: :index
     resources :payment_failures , only: :index
     resources :payments, only: :index
     resources :payout_details, only: :index
