@@ -8,4 +8,4 @@ class bud.widgets.UnreadMessage extends bud.Widget
         @count = parseInt(@target.html()) - 1
         @target.html(@count)
         @$container.addClass('read')
-      , 2000
+      , 100
