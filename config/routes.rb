@@ -192,6 +192,7 @@ BuddyPlatform::Application.routes.draw do
   end
 
   get '/about' => 'pages#about', as: :about
+  get '/directory' => 'pages#directory', as: :directory
   get '/pricing' => 'pages#pricing', as: :pricing
   get '/contact_us' => 'pages#contact_us', as: :contact_us
   get '/terms_of_use' => 'pages#terms_of_use', as: :terms_of_use

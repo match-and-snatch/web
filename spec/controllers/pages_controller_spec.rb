@@ -6,6 +6,11 @@ describe PagesController do
     it { should be_success }
   end
 
+  describe 'GET #directory' do
+    subject { get 'directory' }
+    it { should be_success }
+  end
+
   describe 'GET #pricing' do
     subject { get 'pricing' }
     it { should be_success }
