@@ -4,9 +4,6 @@ class PagesController < ApplicationController
     layout.title = 'ConnectPal.com - About'
   end
 
-  def directory
-  end
-
   def pricing
     layout.title = 'ConnectPal.com - Pricing'
   end
