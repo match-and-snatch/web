@@ -22,14 +22,14 @@ module Queries
         User.profile_owners.
           with_complete_profile.
           where(['users.profile_name ILIKE ?', "%#@query%"]).
-          where.not(profile_picture_url: nil).
+          where('users.subscribers_count > 0 OR users.profile_picture_url IS NOT NULL').
           limit(5).
           order('subscribers_count DESC')
       else
         User.profile_owners.
           with_complete_profile.
           search_by_text_fields(@query).
-          where.not(profile_picture_url: nil).
+          where('users.subscribers_count > 0 OR users.profile_picture_url IS NOT NULL').
           limit(5)
       end
     end
