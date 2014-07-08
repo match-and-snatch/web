@@ -5,12 +5,7 @@ class UsersController < ApplicationController
 
   def index
     layout.title = 'ConnectPal.com - Profile Directory'
-    @users = Queries::Users.new(user: current_user, query: params[:q]).by_first_letter
-
-    respond_to do |format|
-      format.html
-      format.json { json_replace }
-    end
+    @users = Queries::Users.new(user: current_user).grouped_by_first_letter
   end
 
   def search

@@ -9,14 +9,31 @@ module Queries
       @user = user or raise ArgumentError, 'User is not set'
     end
 
+    def grouped_by_first_letter
+      {}.tap do |result|
+        ('A'..'Z').each do |letter|
+          result[letter] ||= []
+        end
+
+        result.merge!(base_query.order('LOWER(profile_name)').limit(1000).group_by { |user| user.name[0].upcase })
+        result['0-9'] = []
+
+        ('0'..'9').each do |number|
+          if number_group = result.delete(number)
+            result['0-9'].concat(number_group)
+          end
+        end
+      end
+    end
+
     def by_first_letter
       letter = @query[0] || 'A'
 
       if letter.include?('0')
-        base_query.where("users.profile_name SIMILAR TO '[0-9]%'").order(:profile_name).limit(300)
+        base_query.where("users.profile_name SIMILAR TO '[0-9]%'")
       else
-        base_query.where(['users.profile_name ILIKE ?', "#{letter}%"]).order(:profile_name).limit(300)
-      end
+        base_query.where(['users.profile_name ILIKE ?', "#{letter}%"])
+      end.order(:profile_name).limit(300)
     end
 
     # @return [Array<ActiveRecord::Base>]

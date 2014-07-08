@@ -6,77 +6,76 @@
       / Listing A-Z & 0-9, group any number profiles under same section.
       ul.search_directory
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'A') A
+          a href='#A' A
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'B') B
+          a href='#B' B
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'C') C
+          a href='#C' C
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'D') D
+          a href='#D' D
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'E') E
+          a href='#E' E
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'F') F
+          a href='#F' F
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'G') G
+          a href='#G' G
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'H') H
+          a href='#H' H
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'I') I
+          a href='#I' I
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'J') J
+          a href='#J' J
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'K') K
+          a href='#K' K
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'L') L
+          a href='#L' L
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'M') M
+          a href='#M' M
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'N') N
+          a href='#N' N
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'O') O
+          a href='#O' O
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'P') P
+          a href='#P' P
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'Q') Q
+          a href='#Q' Q
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'R') R
+          a href='#R' R
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'S') S
+          a href='#S' S
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'T') T
+          a href='#T' T
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'U') U
+          a href='#U' U
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'V') V
+          a href='#V' V
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'W') W
+          a href='#W' W
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'X') X
+          a href='#X' X
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'Y') Y
+          a href='#Y' Y
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'Z') Z
+          a href='#Z' Z
         li
-          a.AjaxLink data-target='directory' href=users_path(format: :json, q: '0-9') 0-9
+          a href='#0-9' 0-9
       .clearfix
 
-      h2.search_heading= params[:q]
+      - @users.each do |letter, users|
+        h2.search_heading id=letter = letter
 
-      - if @users.empty?
-        span.no_profile Sorry, there are no listing for this section.
-      - else
-        ul.profile_directory
-          - @users.each do |user|
-            li
-              a.pull-left href=profile_path(user) target='_blank'
-                img.pull-left src=user.small_profile_picture_url width=50 height=50
-                span= user.name
-              .clearfix
-
-      - if @users.count > 4
-        hr
-        a.search_top.TopJumper href="#top" Back to Top
+        - if users.empty?
+          span.no_profile Sorry, there are no listing for this section.
+        - else
+          ul.profile_directory
+            - users.each do |user|
+              li
+                a.pull-left href=profile_path(user) target='_blank'
+                  img.pull-left src=user.small_profile_picture_url width=50 height=50
+                  span= user.name
+                .clearfix
+      hr
+      a.search_top.TopJumper href="#top" Back to Top
 
 div style='position: fixed; bottom: 0; width: 100%'
   = render 'footer'
