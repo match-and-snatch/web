@@ -96,6 +96,10 @@ BuddyPlatform::Application.routes.draw do
   resources :documents, only: [:create, :destroy]
 
   resources :users, only: [:index, :create, :edit, :update] do
+    collection do
+      get :search
+    end
+
     member do
       put :update_name
       put :update_cost

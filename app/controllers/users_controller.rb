@@ -4,6 +4,16 @@ class UsersController < ApplicationController
   before_filter :authenticate!, except: %i(index mentions create show activate)
 
   def index
+    layout.title = 'ConnectPal.com - Profile Directory'
+    @users = Queries::Users.new(user: current_user, query: params[:q]).by_first_letter
+
+    respond_to do |format|
+      format.html
+      format.json { json_replace }
+    end
+  end
+
+  def search
     @users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text
     json_replace
   end

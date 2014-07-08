@@ -5,7 +5,7 @@
     span Search for profiles or categories.
 
   .modal-body style="padding: 0"
-    form.Form action=users_path method='get' data-target='users-list'
+    form.Form action=search_users_path method='get' data-target='users-list'
       input.Autocomplete.search_user.form-control type='text' name='q' value='' placeholder='Search by name, category, topic, etc...'
       .clearfix
     .user_list data-identifier='users-list'

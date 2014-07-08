@@ -5,7 +5,6 @@ class PagesController < ApplicationController
   end
 
   def directory
-    layout.title = 'ConnectPal.com - Profile Directory'
   end
 
   def pricing

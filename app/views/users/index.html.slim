@@ -1,23 +1,82 @@
-- if @users.any?
-  .search_user_results
-    .list-group-item-heading
-      |Search results for "
-      strong=params[:q]
-      |"
-    ul.list-group
-      - @users.each do |user|
-        a href=profile_path(user.slug)
-          li.list-group-item
-            .pull-left
-              img src=user.small_profile_picture_url width=50 height=50
-            .pull-left style='padding-top: 15px'= super_highlight(user.profile_name)
-            - if current_user == user
-              small.pull-right.text-muted You
-            .clearfix
+.container data-identifier='directory'
+  .row.box.general_page
+    .col-md-12
+      h1 Profile Directory Listings
 
-- else
-  - if params[:q].present?
-    p.bg-danger
-      |No results for "
-      strong=params[:q]
-      |"
+      / Listing A-Z & 0-9, group any number profiles under same section.
+      ul.search_directory
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'A') A
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'B') B
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'C') C
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'D') D
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'E') E
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'F') F
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'G') G
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'H') H
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'I') I
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'J') J
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'K') K
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'L') L
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'M') M
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'N') N
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'O') O
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'P') P
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'Q') Q
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'R') R
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'S') S
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'T') T
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'U') U
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'V') V
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'W') W
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'X') X
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'Y') Y
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: 'Z') Z
+        li
+          a.AjaxLink data-target='directory' href=users_path(format: :json, q: '0-9') 0-9
+      .clearfix
+
+      h2.search_heading= params[:q]
+
+      - if @users.empty?
+        span.no_profile Sorry, there are no listing for this section.
+      - else
+        ul.profile_directory
+          - @users.each do |user|
+            li
+              a.pull-left href=profile_path(user) target='_blank'
+                img.pull-left src=user.small_profile_picture_url width=50 height=50
+                span= user.name
+              .clearfix
+
+      - if @users.count > 4
+        hr
+        a.search_top.TopJumper href="#top" Back to Top
+
+div style='position: fixed; bottom: 0; width: 100%'
+  = render 'footer'
