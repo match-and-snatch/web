@@ -3,9 +3,9 @@
     .sidebar.col-md-2
       ul.nav.nav-sidebar
         li
-          a.HashLink data-use_anchor='true' data-default='true' data-target='admin-panel' href=admin_users_path Overview
+          a.HashLink data-use_anchor='true' data-target='admin-panel' href=admin_users_path Overview
         li
-          a.HashLink data-use_anchor='true' data-target='admin-panel' href=admin_profile_owners_path Profile Owners
+          a.HashLink data-use_anchor='true' data-default='true' data-target='admin-panel' href=admin_profile_owners_path Profile Owners
         /li
           a.HashLink data-use_anchor='true' data-target='admin-panel' href='#' Subscriber Profiles
       hr style='margin: 10px 0'
@@ -30,4 +30,4 @@
           a.HashLink data-use_anchor='true' data-target='admin-panel' href=admin_payout_details_path Payout Details
 
     .content.col-md-10
-      .AjaxContainer data-use_anchor='true' data-identifier='admin-panel' data-url=admin_users_path
+      .AjaxContainer data-use_anchor='true' data-identifier='admin-panel' data-url=admin_profile_owners_path
