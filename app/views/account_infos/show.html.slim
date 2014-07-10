@@ -15,7 +15,7 @@
       a.HashLink data-use_anchor='true' data-target='account-info' href=account_info_dialogues_path data-identifier='mailbox-menu-item'
         li 
           | Messages 
-          span.badge.pull-right #{@user.unread_messages_count}
+          span.badge.pull-right data-identifier='messages-counter' #{@user.unread_messages_count}
           .clearfix
 
     h2.subscriptions My Subscriptions

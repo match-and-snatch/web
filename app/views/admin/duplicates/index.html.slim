@@ -1,0 +1,23 @@
+h2 User Duplicates
+
+- if @duplicates.any?
+  table.table
+    - @duplicates.each do |email, users|
+      tr.danger
+        td colspan=6
+          b= email
+      tr
+        th #ID
+        th Name
+        th Email
+        th Subscribers count
+        th Subscriptions count
+      - users.each do |user|
+        tr
+          td= user.id
+          td= link_to_user user
+          td= user.email
+          td= user.subscribers_count
+          td= user.subscriptions.count
+- else
+  strong No duplicates so far

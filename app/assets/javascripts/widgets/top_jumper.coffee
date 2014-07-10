@@ -12,14 +12,17 @@ class bud.widgets.TopJumper extends bud.Widget
   #                                      |              |
   # ------------------ 1 ~600px end      |  ------ 1    | 200 (gap)
   initialize: ->
-    @start = parseInt(@$container.data('start'))
-    @end   = parseInt(@$container.data('end'))
-    @gap   = @end - @start
+    if @$container.data('start')
+      @start = parseInt(@$container.data('start'))
+      @end   = parseInt(@$container.data('end'))
+      @gap   = @end - @start
 
-    $(window).scroll @on_scroll
-    @$container.click -> window.scrollTo(0, 0)
+      $(window).scroll @on_scroll
+      @on_scroll()
 
-    @on_scroll()
+    @$container.click ->
+      window.scrollTo(0, 0)
+      false
 
   on_scroll: =>
     top = $(window).scrollTop()

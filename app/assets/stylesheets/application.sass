@@ -124,6 +124,33 @@ input
       list-style: decimal
       margin-left: 15px
 
+    // Search Directory
+    .search_heading
+      text-decoration: none
+      font-weight: bold
+      padding-top: 24px
+    .search_directory
+      list-style: none
+      margin-top: 15px
+      li
+        display: inline-block
+        margin-right: 23px
+    .profile_directory
+      span 
+        display: inline-block
+        margin: 13px 0 0 10px
+      li
+        margin-bottom: 15px
+    .search_top
+      font-size: 12px
+      display: block
+      &:last-child
+        padding-bottom: 15px
+    .no_profile
+      display: block
+      font-size: 11px
+      
+
 textarea
   color: #898989
   border: none
@@ -891,7 +918,7 @@ input.file
     position: relative
     content: asset-url("//connectpal-assets.s3.amazonaws.com/images/preloader.gif")
 
-.TopJumper
+.top_jumper
   bottom: 0
   color: $color_text_light
   cursor: pointer

@@ -96,6 +96,10 @@ BuddyPlatform::Application.routes.draw do
   resources :documents, only: [:create, :destroy]
 
   resources :users, only: [:index, :create, :edit, :update] do
+    collection do
+      get :search
+    end
+
     member do
       put :update_name
       put :update_cost
@@ -127,6 +131,7 @@ BuddyPlatform::Application.routes.draw do
   resources :profile_types, only: [:index, :create, :destroy]
 
   namespace :admin do
+    resources :duplicates, only: :index
     resources :payment_failures , only: :index
     resources :payments, only: :index
     resources :payout_details, only: :index

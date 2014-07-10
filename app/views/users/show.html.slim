@@ -7,7 +7,7 @@
     .photo_cover
       - if @profile.cover_picture_url.present?
         a.PopupTrigger data-target='full-cover-photo' href=@profile.original_cover_picture_url
-          div style='background: url(#{@profile.cover_picture_url}); background-position-y: #{@profile.cover_picture_position}px; width: 100%; height: 100%'
+          div style='background: url(#{@profile.cover_picture_url}); background-position: 0 #{@profile.cover_picture_position}px; width: 100%; height: 100%'
 
     .photo_profile
       - if @profile.profile_picture_url.present?
@@ -136,7 +136,7 @@
           .heading Share This Profile
           span Help expand the audience!
 
-        span.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
+        span.top_jumper.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
       /* Recent Posts */
 

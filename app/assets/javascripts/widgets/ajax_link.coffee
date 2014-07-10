@@ -19,7 +19,10 @@ class bud.widgets.AjaxLink extends bud.Widget
   location_changed: =>
     if @use_anchor
       if "##{@hash}" == window.location.hash
-        @render_path(@href)
+        if @clicked
+          @clicked = false
+        else
+          @render_path(@href)
       else if _.isEmpty(window.location.hash) && @default
         window.location.hash = @hash
       else
@@ -31,6 +34,7 @@ class bud.widgets.AjaxLink extends bud.Widget
 
     if @use_anchor
       if "##{@hash}" != window.location.hash
+        @clicked = true
         window.location.hash = @hash
       else
         @render_path(@href)

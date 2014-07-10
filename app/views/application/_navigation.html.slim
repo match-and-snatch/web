@@ -1,9 +1,6 @@
 ul.nav.navbar-nav.pull-right
   - if current_user.authorized?
-    - if current_user.profile_disabled?
-      /li
-        a href=create_profile_path Finish Registration
-    - else
+    - unless current_user.profile_disabled?
       li
         a href=current_profile_path
           i.fa.fa-user My Profile
@@ -20,12 +17,6 @@ ul.nav.navbar-nav.pull-right
     li
       a.PopupTrigger data-target='search-users' href='#'
         i.fa.fa-search Search Users
-    / li.homepage_search
-    /   form.Form action=users_path method='get' data-target='users-list'
-    /     .form-group
-    /       input.Autocomplete.form-control type='text' name='q' value='' placeholder='Search users...'
-    /     .search_results data-identifier='users-list'
-
     li
       a.PopupTrigger href='#' data-target='login'
         i.fa.fa-lock Login
