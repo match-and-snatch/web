@@ -29,7 +29,7 @@ en:
     updated_password: Successfully updated your password.
     unsubscribed: You have been unsubscribed
     restored_subscription: Your subscription has been restored
-    unable_to_change_cost: You can't change cost on more than $3 of your current set. We will contact with you soon to confirm the change.
+    unable_to_change_cost: You have requested a price change that is greater than $3 from your current price.  For security purposes, we will contact you directly to confirm the change.
     invalid_token: This token is no longer valid. Please request a new one.
     post_updated: The post has been updated
     post_hidden: The post has been hidden from users
