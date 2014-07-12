@@ -12,8 +12,7 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = CommentManager.new(user: current_user.object, post: @post).create(message: params[:message],
-                                                                                 mentions: params[:mentions])
+    @comment = CommentManager.new(user: current_user.object, post: @post).create(params.slice(:message, :mentions))
     json_render
   end
 
