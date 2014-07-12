@@ -8,7 +8,7 @@ class AudioPostsController < MediaPostsController
   protected
 
   def create_post
-    PostManager.new(user: current_user.object).create_audio_post(params.slice(:title, :keyword_text, :message, :notify))
+    PostManager.new(user: current_user.object).create_audio_post(params.slice(%i(title keyword_text message notify)))
   end
 
   def cancel_media_posts_path

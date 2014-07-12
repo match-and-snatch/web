@@ -6,7 +6,7 @@ module ActionController
     #   Manager.new.perform_action(params.slice(:name, :title, :group))
     # @return [Hash]
     def slice(*keys)
-      super(*keys).symbolize_keys
+      super(*(keys.flatten)).symbolize_keys
     end
   end
 end

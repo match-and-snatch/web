@@ -13,9 +13,7 @@ class PendingPostsController < ApplicationController
   end
 
   def update
-    PostManager.new(user: current_user.object).update_pending message:  params[:message],
-                                                              title:    params[:title],
-                                                              keywords: params[:keywords]
+    PostManager.new(user: current_user.object).update_pending(params.slice(%i(message title keywords)))
     json_success
   end
 
