@@ -16,8 +16,7 @@ class PasswordsController < ApplicationController
                                         password: params[:password],
                                         password_confirmation: params[:password_confirmation]
     manager.change_password
-    notice :password_set
-    json_redirect root_path
+    json_redirect root_path, notice: :password_set
   end
 
   private

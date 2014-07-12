@@ -93,7 +93,9 @@ class ApplicationController < ActionController::Base
 
   # Redirects page on response via JS
   # @param url [String] to redirect to
-  def json_redirect(url)
+  # @param notice [String, Symbol]
+  def json_redirect(url, notice: nil)
+    self.notice(notice) if notice
     json_response 'redirect', url: url
   end
 
