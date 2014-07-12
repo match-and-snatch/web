@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-  before_filter :authenticate!, except: %i(index mentions create show activate)
+  before_filter :authenticate!, except: %i(index search mentions create show activate)
 
   def index
     layout.title = 'ConnectPal.com - Profile Directory'
