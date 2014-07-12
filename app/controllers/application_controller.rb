@@ -36,6 +36,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Returns a new kind of ActionController::Parameters object that
+  # has been instantiated with the <tt>request.parameters</tt>.
+  # @return [ActionController::ManagebleParameters]
+  def params
+    @_params ||= ActionController::ManagebleParameters.new(request.parameters)
+  end
+
   protected
 
   # Restricts public access

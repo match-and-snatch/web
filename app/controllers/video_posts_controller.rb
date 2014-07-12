@@ -8,10 +8,7 @@ class VideoPostsController < MediaPostsController
   protected
 
   def create_post
-    PostManager.new(user: current_user.object).create_video_post title:         params[:title],
-                                                                 keywords_text: params[:keywords_text],
-                                                                 notify:        params[:notify],
-                                                                 message:       params[:message]
+    PostManager.new(user: current_user.object).create_video_post(params.slice(:title, :keyword_text, :message, :notify))
   end
 
   def cancel_media_posts_path
