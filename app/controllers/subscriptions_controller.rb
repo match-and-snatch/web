@@ -49,7 +49,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def cancel
-    json_success popup: render_to_string(action: 'cancel', layout: false)
+    json_popup
   end
 
   def enable_notifications

@@ -75,7 +75,7 @@ class AccountInfosController < ApplicationController
   end
 
   def confirm_profile_page_removal
-    json_success popup: render_to_string(action: 'confirm_profile_page_removal', layout: false)
+    json_popup
   end
 
   def delete_profile_page

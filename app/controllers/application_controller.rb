@@ -25,12 +25,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # @param action [Symbol]
-  # @param callbacks [Array<Symbol>]
-  def self.before(action, *callbacks)
-    self.before_filter(*callbacks, only: action)
-  end
-
   def self.protect(*actions, &block)
     filter_options = actions.any? ? [{only: actions}] : []
     before_filter(*filter_options) { instance_eval(&block) or error(401) }
@@ -124,6 +118,15 @@ class ApplicationController < ActionController::Base
   # @param json [Hash]
   def json_append(json = {})
     json_render_html('append', json)
+  end
+
+  # @param [String, Sy]
+  def json_popup(json = {})
+    unless json[:html]
+      template = json.delete(:template) || action_name
+      json[:popup] = render_to_string(action: template, layout: false, formats: [:html])
+    end
+    json_response 'success', json
   end
 
   # Prepends html to container

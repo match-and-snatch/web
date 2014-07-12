@@ -15,7 +15,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-    json_success popup: render_to_string(action: :edit, layout: false)
+    json_popup
   end
 
   def show

@@ -1,25 +1,17 @@
 class AccountInfo::DialoguesController < AccountInfo::BaseController
-  before_filter :load_dialogue!, only: [:show, :mark_as_read]
+  before_filter :load_dialogue!, only: :show
 
-  protect :show, :mark_as_read do
-    can? :see, @dialogue
-  end
+  protect(:show) { can? :see, @dialogue }
 
   def index
-    @dialogues = Dialogue.by_user(current_user.object).includes(recent_message: :user).order('recent_message_at DESC').limit(200).to_a
+    @dialogues = Dialogue.by_user(current_user.object).
+      includes(recent_message: :user).order('recent_message_at DESC').limit(200).to_a
     json_render
   end
 
   def show
-    json_render.tap do
-      MessagesManager.new(user: current_user.object).mark_as_read(@dialogue)
-    end
+    json_render.tap { MessagesManager.new(user: current_user.object).mark_as_read(@dialogue) }
   end
-
-  #def mark_as_read
-  #  MessagesManager.new(user: current_user.object).mark_as_read(@dialogue)
-  #  json_replace html: render_to_string(partial: 'dialogue', locals: {dialogue: @dialogue})
-  #end
 
   private
 

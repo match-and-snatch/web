@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   before_filter :load_target_user!
 
   def new
-    json_success popup: render_to_string('new', layout: false)
+    json_popup
   end
 
   def create
