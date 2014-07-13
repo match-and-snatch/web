@@ -32,10 +32,6 @@
           | Set a monthly price for people to access your profile content. Tell your friends and followers… and we handle the rest!
           .cleafix
           a.btn.pink href="sampleprofile" target='_blank' style="font-size: 15px; color: #FFFFFF; width: 180px; display: inline-block; margin-top: 10px;" View Sample Profile
-
-          / - if @random_public_profile
-          /   a href=profile_path(@random_public_profile)
-          /     | View A Sample Profile
       .clearfix
 
 /* Blue Row & Action Buttons */
@@ -65,8 +61,6 @@
       .col-md-6.col-sm-6.col-xs-6
         a href="sampleprofile" target='_blank' 
           img src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
-          / - if @random_public_profile
-          /   a.btn.black.view_profile href=profile_path(@random_public_profile) View Sample Profile
 
       .col-md-6.col-sm-6.col-xs-6.description.dosis
         ul

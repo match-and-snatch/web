@@ -2,7 +2,7 @@ class VideoPostsController < MediaPostsController
 
   def cancel
     PostManager.new(user: current_user.object).cancel_pending_videos
-    json_render html: render_to_string('new', layout: false)
+    json_render template: 'new'
   end
 
   protected
