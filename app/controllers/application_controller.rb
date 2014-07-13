@@ -151,7 +151,9 @@ class ApplicationController < ActionController::Base
   end
 
   # Reloads page via JS
-  def json_reload
+  # @param notice [String, Symbol]
+  def json_reload(notice: nil)
+    self.notice(notice) if notice
     json_response 'reload'
   end
 

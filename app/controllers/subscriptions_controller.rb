@@ -12,11 +12,9 @@ class SubscriptionsController < ApplicationController
 
   def index
     @subscriptions = current_user.object.subscriptions
-    #@subscribed_on_me = Subscription.by_target(current_user.object)
     json_render
   end
 
-  # @todo fix
   def create
     SubscriptionManager.new(current_user.object).subscribe_and_pay_for(@owner)
     json_reload

@@ -45,6 +45,6 @@ class bud.widgets.BackgroundScroller extends bud.Widget
     bud.pub('popup.hide.overlay')
 
     $(document).unbind 'mousemove', @on_mouse_move
-    bud.Ajax.post(@url, {_method: 'PUT', cover_picture_possition: @y_position} )
+    bud.Ajax.post(@url, {_method: 'PUT', cover_picture_position: @y_position} )
 
     false

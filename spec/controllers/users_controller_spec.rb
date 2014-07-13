@@ -88,7 +88,7 @@ describe UsersController do
   end
 
   describe 'PUT #update_cover_picture_position' do
-    subject { put 'update_cover_picture_position', id: 'anything', cover_picture_possition: 100 }
+    subject { put 'update_cover_picture_position', id: 'anything', cover_picture_position: 100 }
 
     context 'authorized access' do
       before { sign_in profile }
