@@ -2,7 +2,7 @@ class AudioPostsController < MediaPostsController
 
   def cancel
     PostManager.new(user: current_user.object).cancel_pending_audios
-    json_render html: render_to_string('new', layout: false)
+    json_render template: 'new'
   end
 
   protected

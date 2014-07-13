@@ -162,8 +162,12 @@ class ApplicationController < ActionController::Base
   # @option json [String, nil] :template
   def json_render_html(status, json = {})
     unless json[:html]
-      template = json.delete(:template) || action_name
-      json[:html] = render_to_string(action: template, layout: false, formats: [:html])
+      if json[:partial]
+        json[:html] = render_to_string(partial: json[:partial], locals: json.delete(:locals) || {})
+      else
+        template = json.delete(:template) || action_name
+        json[:html] = render_to_string(action: template, layout: false, formats: [:html])
+      end
     end
     json_response status, json
   end

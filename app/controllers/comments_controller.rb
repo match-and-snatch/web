@@ -22,17 +22,17 @@ class CommentsController < ApplicationController
 
   def update
     @comment.update_attributes(message: params[:message])
-    json_replace html: render_to_string(partial: 'comment_row', locals: {comment: @comment})
+    render_comment_row
   end
 
   def make_visible
     CommentManager.new(user: current_user.object, comment: @comment).show
-    json_replace html: render_to_string(partial: 'comment_row', locals: {comment: @comment})
+    render_comment_row
   end
 
   def hide
     CommentManager.new(user: current_user.object, comment: @comment).hide
-    json_replace html: render_to_string(partial: 'comment_row', locals: {comment: @comment})
+    render_comment_row
   end
 
   def destroy
@@ -48,5 +48,9 @@ class CommentsController < ApplicationController
 
   def load_post!
     @post = Post.where(id: params[:post_id]).first or error(404)
+  end
+
+  def render_comment_row
+    json_replace partial: 'comment_row', locals: {comment: @comment}
   end
 end

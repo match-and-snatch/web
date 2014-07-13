@@ -19,7 +19,7 @@ class AccountInfosController < ApplicationController
 
   def update_account_picture
     manager.update_account_picture(params[:transloadit])
-    json_replace html: render_to_string(partial: 'account_picture')
+    json_replace partial: 'account_picture'
   end
 
   def update_general_information
