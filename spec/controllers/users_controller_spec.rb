@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UsersController do
+describe UsersController, type: :controller do
   describe 'POST #create' do
     context 'nothing passed' do
       subject { post 'create' }

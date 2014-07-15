@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AudioPostsController do
+describe AudioPostsController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'DELETE #cancel' do

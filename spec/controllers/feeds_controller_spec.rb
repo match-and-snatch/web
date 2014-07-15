@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe FeedsController do
+describe FeedsController, type: :controller do
   describe 'GET #show' do
     subject(:request_perform) { get 'show' }
 

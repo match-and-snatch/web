@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AccountInfosController do
+describe AccountInfosController, type: :controller do
   describe 'GET #settings' do
     subject { get 'settings' }
 

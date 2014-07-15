@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe VideoPostsController do
+describe VideoPostsController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'DELETE #cancel' do

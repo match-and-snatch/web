@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProfileTypesController do
+describe ProfileTypesController, type: :controller do
   before { sign_in }
 
   describe 'GET #index' do

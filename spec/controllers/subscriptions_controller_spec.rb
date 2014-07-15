@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SubscriptionsController do
+describe SubscriptionsController, type: :controller do
   let(:owner) {
     create_user.tap do |user|
       UserProfileManager.new(user).create_profile_page

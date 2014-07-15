@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PendingPostsController do
+describe PendingPostsController, type: :controller do
   before { sign_in }
 
   describe 'PUT #update' do

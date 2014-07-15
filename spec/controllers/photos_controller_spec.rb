@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PhotosController do
+describe PhotosController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'GET #profile_picture' do

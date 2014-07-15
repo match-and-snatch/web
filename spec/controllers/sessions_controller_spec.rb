@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SessionsController do
+describe SessionsController, type: :controller do
   describe 'GET #logout' do
     subject { get 'logout' }
     it { should be_redirect }
