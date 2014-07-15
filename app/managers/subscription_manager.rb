@@ -18,15 +18,14 @@ class SubscriptionManager < BaseManager
   # @param expiry_year [String]
   # @param expiry_month [String]
   # @return [Subscription]
-  def register_subscribe_and_pay email: nil,
+  def register_subscribe_and_pay(email: nil,
                                  full_name: nil,
                                  password: nil,
                                  number: nil,
                                  cvc: nil,
                                  expiry_month: nil,
                                  expiry_year: nil,
-                                target: (raise ArgumentError)
-
+                                 target: )
     unless target.is_a?(Concerns::Subscribable)
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"
     end

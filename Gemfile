@@ -54,6 +54,7 @@ gem 'mailcatcher', group: :development
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'rspec-its'
   gem 'guard-rspec', require: false
   gem 'awesome_print'
 end
