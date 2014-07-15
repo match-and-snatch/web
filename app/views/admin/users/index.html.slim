@@ -5,7 +5,52 @@ form.Form action=search_admin_users_path method='get' data-target='users'
 
 div data-identifier='users'
 
-h2 Recent Subscribers
+hr
+
+h2 Daily Statistics
+
+p 
+	'Total Sales (today):
+	strong 45
+p 
+	'Total Subscribers (today):
+	strong 5
+p 
+	'Total Unsubscribers (today):
+	strong 15
+p 
+	'Total Failed Payments (today):
+	strong 2
+
+hr
+
+h2 All-Time Statistics
+
+p 
+	'Total Sales:
+	strong 1,500
+p 
+	'Total Gross:
+	strong $9,000
+p 
+	'Total Stripe Fees:
+	strong $1,4000
+p 
+	'Total ToS Fees:
+	strong $400
+p 
+	'Total Subscribers:
+	strong 1,500
+p 
+	'Total Unsubscribers:
+	strong 200
+p 
+	'Total Failed Payments:
+	strong 25
+
+hr
+
+h2 Recently Created Users
 
 .table-responsive
 	table.table.table-striped
@@ -13,30 +58,21 @@ h2 Recent Subscribers
 			th 
 				strong ID #
 			th 
-				strong Name
+				strong Full Name
+			th 
+				strong Email Address
 			th 
 				strong Date/Time Created
 			th 
-				strong Subscription Name
-			th 
-				strong Total Paid
+				strong Subscriber (if applicable)
 		tr
 			td 2
 			td 
-				// Link to subscriber page
+				// Link to user details
 				a href="#" Slava Popov
+			td 
+				a href="mailto:" email@email.com
 			td May 1, 2014 4:40 PM
 			td 
-				// link to profile
-				a href="#" Andy Dean Radio
-			td $1.79
-		tr
-			td 1
-			td 
-				// Link to subscriber page
-				a href="#" Slava Popov
-			td May 1, 2014 4:40 PM
-			td 
-				// link to profile
-				a href="#" Andy Dean Radio
-			td $1.79
+				// Link to subscribed profile if there is one
+				a href="#" Profile Name
