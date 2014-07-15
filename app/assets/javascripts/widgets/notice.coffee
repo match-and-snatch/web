@@ -14,6 +14,10 @@ class bud.widgets.Notice extends bud.Widget
     @$container.mouseover @pause
     @$container.mouseleave @start
 
+  destroy: ->
+    bud.unsub('notice.show', @on_show)
+    bud.unsub('notice.hide', @on_hide)
+
   start: =>
     unless @has_links()
       @interval = setInterval =>

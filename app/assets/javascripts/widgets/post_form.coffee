@@ -10,6 +10,10 @@ class bud.widgets.PostForm extends bud.Widget
     bud.sub('PostTab.changed', @on_tab_changed)
     bud.sub('post', @reload_tab)
 
+  destroy: ->
+    bud.unsub('PostTab.changed', @on_tab_changed)
+    bud.unsub('post', @reload_tab)
+
   on_tab_changed: (e, $tab_element) =>
     if @$current_tab != $($tab_element)
       @$current_tab = $($tab_element)

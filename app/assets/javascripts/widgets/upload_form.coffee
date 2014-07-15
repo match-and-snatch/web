@@ -11,6 +11,10 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     bud.sub('attachment.cancel', @on_cancel)
     bud.Ajax.getScript(bud.widgets.UploadForm.TRANSLOADIT_SCRIPT_PATH).done(@on_script_loaded)
 
+  destroy: ->
+    bud.unsub('post', @on_post)
+    bud.unsub('attachment.cancel', @on_cancel)
+
   on_script_loaded: =>
     @$container.attr('enctype', 'multipart/form-data')
     @$container.transloadit(

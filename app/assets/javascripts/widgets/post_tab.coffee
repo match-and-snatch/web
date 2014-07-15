@@ -9,6 +9,10 @@ class bud.widgets.PostTab extends bud.Widget
     bud.sub('attachment.uploading', @halt)
     bud.sub('attachment.uploaded', @restore)
 
+  destroy: ->
+    bud.unsub('attachment.uploading', @halt)
+    bud.unsub('attachment.uploaded', @restore)
+
   restore: =>
     @uploading = false
 

@@ -17,6 +17,9 @@ class bud.widgets.AjaxContainer extends bud.Widget
     else
       @render()
 
+  destroy: ->
+    bud.unsub('window.hashchange', @location_changed)
+
   location_changed: =>
     hash = window.location.hash.substr(1)
     if hash.match(/^\//)

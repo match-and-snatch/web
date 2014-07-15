@@ -12,6 +12,10 @@ class bud.widgets.Overlay extends bud.Widget
       bud.sub('popup.hide.overlay', @hide)
     @$container.click @on_click
 
+  destroy: ->
+    bud.unsub('popup.show.overlay', @show)
+    bud.unsub('popup.hide.overlay', @hide)
+
   on_click: =>
     bud.pub("popup.show")
     @hide()

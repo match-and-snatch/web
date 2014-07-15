@@ -18,6 +18,10 @@ class bud.widgets.Highlighter extends bud.Widget
 
     bud.sub('highlighter.changed', @highlighter_changed)
 
+  destroy: ->
+    bud.unsub('highlighter.changed', @highlighter_changed)
+    bud.unsub('mention.clicked', @on_mention_selected)
+
   cleanup: ->
     @$container.empty()
     @mentions = []
