@@ -144,7 +144,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'GET #search' do
-    let(:profile1) { create_profile profile_name: 'serg' }
+    let!(:profile1) { create_profile profile_name: 'serg', profile_picture_url: 'set', is_profile_owner: true }
     subject(:perform_request) { get 'search', q: 'serg' }
 
     before { perform_request }
@@ -156,5 +156,4 @@ describe UsersController, type: :controller do
     its(:status){ should == 200 }
     its(:body){ should match_regex /replace/ }
   end
-
 end

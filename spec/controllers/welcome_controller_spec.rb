@@ -10,12 +10,18 @@ describe WelcomeController, type: :controller do
 
       context 'when has profile' do
         let(:user) { create_profile }
-        it{ response.should redirect_to profile_path(user) }
+
+        specify do
+          expect(response).to redirect_to profile_path(user)
+        end
       end
 
       context 'when has no profile' do
         let(:user) { create_user }
-        it{ response.should redirect_to account_info_path }
+
+        specify do
+          expect(response).to redirect_to account_info_path
+        end
       end
     end
 

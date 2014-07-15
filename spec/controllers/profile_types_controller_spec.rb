@@ -10,13 +10,13 @@ describe ProfileTypesController, type: :controller do
 
   describe 'POST #create' do
     context 'profile type does not exist' do
-      subject { post 'create', profile_type_id: 1 }
-      it { should_not be_success }
+      subject { post 'create', type: 'test' }
+      it { should be_success }
     end
 
     context 'profile type does exist' do
-      subject { post 'create', profile_type_id: profile_type.id }
-      let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
+      subject { post 'create', type: 'test' }
+      before { ProfileTypeManager.new.create(title: 'test') }
       it { should be_success }
     end
   end
