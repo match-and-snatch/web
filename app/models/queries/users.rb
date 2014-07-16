@@ -41,6 +41,11 @@ module Queries
       User.search_by_text_fields(@query).limit(20).to_a
     end
 
+    # @return [Array<ActiveRecord::Base>]
+    def by_admin_fields
+      User.search_by_admin_fields(@query).limit(20).to_a
+    end
+
     def profile_owners_by_text
       case @query.length
       when 0, 1

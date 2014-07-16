@@ -6,7 +6,7 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def search
-    @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_name
+    @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_admin_fields
     json_replace
   end
 
