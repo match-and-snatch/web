@@ -9,6 +9,10 @@ class bud.widgets.Poster extends bud.widgets.Form
     bud.sub('attachment.uploaded', @enable_submit)
     super
 
+  destroy: ->
+    bud.unsub('attachment.uploading', @disable_submit)
+    bud.unsub('attachment.uploaded', @enable_submit)
+
   on_prepend: (response) =>
     super(response)
     @after_render()

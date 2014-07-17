@@ -18,6 +18,9 @@ class bud.widgets.VideoPlayer extends bud.Widget
     bud.Ajax.getScript(window.bud.config.jwplayer.script_path).done(@on_script_loaded)
     bud.sub('player.play', @stop)
 
+  destroy: ->
+    bud.unsub('player.play', @stop)
+
   on_play: =>
     bud.pub('player.play', [@])
 

@@ -24,9 +24,9 @@ class UserStatsDecorator < UserDecorator
   def graph_data
     @graph_data ||= [].tap do |result|
       count = nil
-      period.each_with_index do |date, day|
-        count = events[date]
-        result << {x: date.to_time.utc.beginning_of_day.to_i, y: count || 0}
+      period.each do |date|
+        count = events[date] || count || 0
+        result << {x: date.to_time.utc.beginning_of_day.to_i, y: count}
       end
     end
   end

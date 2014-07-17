@@ -12,6 +12,9 @@ class bud.widgets.HashLink extends bud.Widget
 
     @$container.click @link_clicked
 
+  destroy: ->
+    bud.unsub('window.hashchange', @location_changed)
+
   location_changed: =>
     if window.location.hash.match("##{@hash}")
       @$container.addClass('active')

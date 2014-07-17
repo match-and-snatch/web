@@ -5,38 +5,76 @@ form.Form action=search_admin_users_path method='get' data-target='users'
 
 div data-identifier='users'
 
-h2 Recent Subscribers
+hr
+
+h2 Daily Statistics
+
+p 
+  'Total Sales (today):
+  strong= number_to_currency(Payment.where(created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).sum(:amount) / 100.0)
+p 
+  'Total Subscribers (today):
+  strong= Subscription.where(created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count
+p 
+  'Total Unsubscribers (today):
+  strong= Subscription.where(removed_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count
+p 
+  'Total Failed Payments (today):
+  strong= PaymentFailure.where(created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count
+
+hr
+
+h2 All-Time Statistics
+
+- stripe_fee = (Payment.count * 0.30 + (Payment.sum(:amount) * 0.027) / 100.0).round(2)
+
+p
+  'Total Sales:
+  strong= number_to_currency(Payment.sum(:amount) / 100.0)
+p
+  'Total Gross:
+  strong= number_to_currency(Payment.sum(:amount) / 100.0)
+p
+  'Total Stripe Fees:
+  strong $#{stripe_fee}
+p
+  'Total ToS Fees:
+  strong $#{(Payment.sum(:user_subscription_fees) - stripe_fee).round(2)}
+p
+  'Total Subscribers:
+  strong= Subscription.where(removed: false).count
+p
+  'Total Unsubscribers:
+  strong= Subscription.where(removed: true).count
+p
+  'Total Failed Payments:
+  strong= PaymentFailure.count
+
+hr
+
+h2 Recently Created Users
 
 .table-responsive
-	table.table.table-striped
-		tr
-			th 
-				strong ID #
-			th 
-				strong Name
-			th 
-				strong Date/Time Created
-			th 
-				strong Subscription Name
-			th 
-				strong Total Paid
-		tr
-			td 2
-			td 
-				// Link to subscriber page
-				a href="#" Slava Popov
-			td May 1, 2014 4:40 PM
-			td 
-				// link to profile
-				a href="#" Andy Dean Radio
-			td $1.79
-		tr
-			td 1
-			td 
-				// Link to subscriber page
-				a href="#" Slava Popov
-			td May 1, 2014 4:40 PM
-			td 
-				// link to profile
-				a href="#" Andy Dean Radio
-			td $1.79
+  table.table.table-striped
+    tr
+      th 
+        strong ID #
+      th 
+        strong Full Name
+      th 
+        strong Email Address
+      th 
+        strong Date/Time Created
+      th 
+        strong Subscriber (if applicable)
+    tr
+      td 2
+      td 
+        // Link to user details
+        a href="#" Slava Popov
+      td 
+        a href="mailto:" email@email.com
+      td May 1, 2014 4:40 PM
+      td 
+        // Link to subscribed profile if there is one
+        a href="#" Profile Name

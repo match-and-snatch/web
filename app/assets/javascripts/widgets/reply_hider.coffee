@@ -7,6 +7,9 @@ class bud.widgets.ReplyHider extends bud.widgets.Toggler
     super
     bud.sub('commenter.commented', @hide)
 
+  destroy: ->
+    bud.unsub('commenter.commented', @hide)
+
   hide: =>
     @$target.hide()
     $('.Replier').show()

@@ -12,6 +12,9 @@ class bud.widgets.Hover extends bud.Widget
     @$container.mouseleave @on_out
     bud.sub('document.touchstart', @on_body_touch)
 
+  destroy: ->
+    bud.unsub('document.touchstart', @on_body_touch)
+
   on_body_touch: (e, current_target) =>
     @on_out()
 

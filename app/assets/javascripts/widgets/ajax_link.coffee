@@ -16,6 +16,9 @@ class bud.widgets.AjaxLink extends bud.Widget
 
     @$container.click @link_clicked
 
+  destroy: ->
+    bud.unsub('window.hashchange', @location_changed)
+
   location_changed: =>
     if @use_anchor
       if "##{@hash}" == window.location.hash

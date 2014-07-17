@@ -3,9 +3,7 @@ class bud.widgets.UnreadMessage extends bud.Widget
 
   initialize: ->
     unless @$container.hasClass('read')
-      setTimeout =>
-        @target = @get_target()
-        @count = parseInt(@target.html()) - 1
-        @target.html(@count)
-        @$container.addClass('read')
-      , 100
+      @target = @get_target()
+      @count = parseInt(@target.html()) - 1
+      @target.html(@count)
+      @$container.addClass('read')

@@ -13,6 +13,10 @@ class bud.widgets.Popup extends bud.Widget
     # Move into proper HTML position
     @$container.appendTo($('body'))
 
+  destroy: ->
+    bud.unsub("popup.show", @autoclose)
+    bud.unsub("popup.toggle.#{@identifier}", @toggle)
+
   # Closes when other popup gets opened
   autoclose: (e, widget) => @hide() if widget != @
 

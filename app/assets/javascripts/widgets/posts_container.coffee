@@ -12,6 +12,9 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
     @disabled = false
     bud.sub('search.changed', @on_search_changed)
 
+  destroy: ->
+    bud.unsub('search.changed', @on_search_changed)
+
   on_search_changed: (e, q) =>
     @q = q
 
