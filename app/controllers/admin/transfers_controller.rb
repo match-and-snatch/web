@@ -7,7 +7,7 @@ class Admin::TransfersController < Admin::BaseController
   end
 
   def create
-    TransferManager.new(recipient: @user).transfer(amount: params[:amount], descriptor: params[:descriptor])
+    TransferManager.new(recipient: @user).transfer(amount: params[:amount], descriptor: params[:descriptor], month: params[:date]['month'])
     load_transfers
     json_replace(template: :index)
   end

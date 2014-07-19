@@ -9,7 +9,7 @@ class TransferManager < BaseManager
 
   # @param [String, Float] amount in dollars
   # @param [String] descriptor
-  def transfer(amount: nil, descriptor: nil)
+  def transfer(amount: nil, descriptor: nil, month: nil)
     validate! do
       fail_with amount: :blank if amount.blank?
       fail_with descriptor: :blank if descriptor.blank?
@@ -19,16 +19,20 @@ class TransferManager < BaseManager
       fail_with amount: :zero if amount.zero?
     end
 
-    _transfer = Stripe::Transfer.create amount: amount,
+    stripe_transfer = Stripe::Transfer.create amount: amount,
                                         currency: 'usd',
                                         recipient: stripe_recipient_id,
                                         statement_descriptor: descriptor,
                                         description: descriptor
 
+    month = month.present? ? month.to_i : Time.zone.now.month
+    current_time = Time.zone.now
+    created_at = current_time - (current_time.month - month).months
     log_entry = StripeTransfer.create user: @recipient,
-                                      stripe_response: _transfer.as_json,
+                                      stripe_response: stripe_transfer.as_json,
                                       amount: amount,
-                                      description: descriptor
+                                      description: descriptor,
+                                      created_at: created_at
 
     fail_with! log_entry.errors if log_entry.new_record?
     true
