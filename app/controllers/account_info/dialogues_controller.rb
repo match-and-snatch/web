@@ -16,6 +16,6 @@ class AccountInfo::DialoguesController < AccountInfo::BaseController
   private
 
   def load_dialogue!
-    @dialogue = Dialogue.find(params[:id])
+    @dialogue = Dialogue.where(id: params[:id]).first or error(404)
   end
 end

@@ -10,11 +10,11 @@ def create_user(_params = {})
                         is_profile_owner:      false
 
   u = AuthenticationManager.new(is_profile_owner:      params[:is_profile_owner],
-                            email:                 params[:email],
-                            password:              params[:password],
-                            password_confirmation: params[:password_confirmation],
-                            first_name:            params[:first_name],
-                            last_name:             params[:last_name]).register
+                                email:                 params[:email],
+                                password:              params[:password],
+                                password_confirmation: params[:password_confirmation],
+                                first_name:            params[:first_name],
+                                last_name:             params[:last_name]).register
 
   u.profile_picture_url = params[:profile_picture_url]
   if u.changed?
@@ -49,8 +49,8 @@ end
 
 # @param _params [Hash]
 # @return [User]
-def create_admin(_params = {})
-  create_user(_params).tap do |user|
+def create_admin(params = {})
+  create_user(params).tap do |user|
     UserManager.new(user).make_admin
   end
 end
