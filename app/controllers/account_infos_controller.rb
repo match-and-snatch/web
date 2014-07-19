@@ -23,22 +23,17 @@ class AccountInfosController < ApplicationController
   end
 
   def update_general_information
-    manager.update_general_information full_name:    params[:full_name],
-                                       company_name: params[:company_name],
-                                       email:        params[:email]
+    manager.update_general_information(params.slice(:full_name, :company_name, :email))
     json_success notice: :account_updated
   end
 
   def update_slug
     manager.update_slug params[:slug]
-    notice(:slug_updated)
-    json_reload
+    json_reload notice: :slug_updated
   end
 
   def change_password
-    manager.change_password current_password:          params[:current_password],
-                            new_password:              params[:new_password],
-                            new_password_confirmation: params[:new_password_confirmation]
+    manager.change_password(params.slice(:current_password, :new_password, :new_password_confirmation))
     json_success notice: :updated_password
   end
 
@@ -51,9 +46,7 @@ class AccountInfosController < ApplicationController
   end
 
   def update_bank_account_data
-    manager.update_payment_information holder_name:    params[:holder_name],
-                                       routing_number: params[:routing_number],
-                                       account_number: params[:account_number]
+    manager.update_payment_information(params.slice(:holder_name, :routing_number, :account_number))
     json_success
   end
 
@@ -62,10 +55,7 @@ class AccountInfosController < ApplicationController
   end
 
   def update_cc_data
-    manager.update_cc_data number:       params[:number],
-                           cvc:          params[:cvc],
-                           expiry_month: params[:expiry_month],
-                           expiry_year:  params[:expiry_year]
+    manager.update_cc_data(params.slice(:number, :cvc, :expiry_month, :expiry_year))
     json_success
   end
 
