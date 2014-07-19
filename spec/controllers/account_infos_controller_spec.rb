@@ -51,6 +51,20 @@ describe AccountInfosController, type: :controller do
     end
   end
 
+  describe 'PUT #update_account_picture' do
+    subject { put 'update_account_picture', profile_picture_data_params }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+      its(:body) { should match_regex /replace/ }
+    end
+  end
+
   describe 'PUT #update_general_information' do
     subject { put 'update_general_information' }
 
@@ -61,6 +75,21 @@ describe AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in }
       it { should be_success }
+    end
+  end
+
+  describe 'PUT #update_slug' do
+    subject { put 'update_slug', slug: 'anotherSlug' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+      its(:body) { should match_regex /notice/ }
+      its(:body) { should match_regex /reload/ }
     end
   end
 
@@ -155,6 +184,19 @@ describe AccountInfosController, type: :controller do
     end
   end
 
+  describe 'PUT #confirm_profile_page_removal' do
+    subject { get 'confirm_profile_page_removal' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
   describe 'PUT #delete_profile_page' do
     subject { put 'delete_profile_page' }
 
@@ -168,8 +210,8 @@ describe AccountInfosController, type: :controller do
     end
   end
 
-  describe 'PUT #update_account_picture' do
-    subject { put 'update_account_picture', profile_picture_data_params }
+  describe 'PUT #enable_rss' do
+    subject { put 'enable_rss' }
 
     context 'not authorized' do
       its(:status) { should == 401 }
@@ -178,12 +220,11 @@ describe AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in }
       it { should be_success }
-      its(:body) { should match_regex /replace/ }
     end
   end
 
-  describe 'PUT #update_slug' do
-    subject { put 'update_slug', slug: 'anotherSlug' }
+  describe 'PUT #disable_rss' do
+    subject { put 'disable_rss' }
 
     context 'not authorized' do
       its(:status) { should == 401 }
@@ -192,8 +233,58 @@ describe AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in }
       it { should be_success }
-      its(:body) { should match_regex /notice/ }
-      its(:body) { should match_regex /reload/ }
+    end
+  end
+
+  describe 'PUT #enable_downloads' do
+    subject { put 'enable_downloads' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_downloads' do
+    subject { put 'disable_downloads' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #enable_itunes' do
+    subject { put 'enable_itunes' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_itunes' do
+    subject { put 'disable_itunes' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
     end
   end
 end
