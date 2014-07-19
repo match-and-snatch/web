@@ -68,6 +68,9 @@ hr
       .form-group
         label style='margin-right: 5px' Description 
         input.form-control type='text' name='descriptor' style='margin-right: 15px'
+      .form-group style='margin-right: 5px'
+        label style='margin-right: 5px' Month
+        = select_month Time.zone.now.month, use_month_keys: true, field_name: 'month'
       input.btn.pink type='submit' value='Transfer'
   .clearfix
 
