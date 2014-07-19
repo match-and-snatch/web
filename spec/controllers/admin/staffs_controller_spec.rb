@@ -5,6 +5,6 @@ describe Admin::StaffsController, type: :controller do
 
   describe 'GET #index' do
     subject { get 'index' }
-    its(:status) { should == 200 }
+    it { should be_success }
   end
 end

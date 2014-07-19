@@ -7,12 +7,12 @@ describe PhotosController, type: :controller do
     subject { get 'profile_picture', user_id: owner.slug }
 
     context 'unauthorized access' do
-      its(:status) { should == 200 }
+      it { should be_success }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -20,12 +20,12 @@ describe PhotosController, type: :controller do
     subject { get 'cover_picture', user_id: owner.slug }
 
     context 'unauthorized access' do
-      its(:status) { should == 200 }
+      it { should be_success }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -39,7 +39,7 @@ describe PhotosController, type: :controller do
     context 'authorized access' do
       before { sign_in owner }
       its(:body) { should match_regex /replace/ }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -53,7 +53,7 @@ describe PhotosController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 end

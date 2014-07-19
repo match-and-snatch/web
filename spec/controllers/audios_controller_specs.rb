@@ -11,7 +11,7 @@ describe AudiosController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -25,7 +25,7 @@ describe AudiosController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 end

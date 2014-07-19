@@ -12,7 +12,7 @@ describe PostsController, type: :controller do
 
     context 'authorized access' do
       before { sign_in poster }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -25,7 +25,7 @@ describe PostsController, type: :controller do
 
     context 'authorized access' do
       before { sign_in poster }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -49,7 +49,7 @@ describe PostsController, type: :controller do
 
     context 'when requests xml' do
       subject { get 'show',  id: audio_post.id , format: 'xml' }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -58,7 +58,7 @@ describe PostsController, type: :controller do
     let(:post) { PostManager.new(user: poster).create_status_post(message: 'test') }
 
     subject { delete 'destroy', id: post.id }
-    its(:status) { should == 200 }
+    it { should be_success }
 
     context 'no post present' do
       subject { delete 'destroy', id: 0 }

@@ -16,13 +16,13 @@ describe CommentsController, type: :controller do
     context 'authorized access' do
       context 'as poster' do
         before { sign_in poster }
-        its(:status) { should == 200 }
+        it { should be_success }
       end
 
       context 'as subscriber' do
         before { SubscriptionManager.new(commenter).subscribe_to(poster) }
         before { sign_in commenter }
-        its(:status) { should == 200 }
+        it { should be_success }
       end
     end
   end
@@ -38,13 +38,13 @@ describe CommentsController, type: :controller do
     context 'authorized access' do
       context 'as poster' do
         before { sign_in poster }
-        its(:status) { should == 200 }
+        it { should be_success }
       end
 
       context 'as subscriber' do
         before { SubscriptionManager.new(commenter).subscribe_to(poster) }
         before { sign_in commenter }
-        its(:status) { should == 200 }
+        it { should be_success }
       end
     end
   end
@@ -60,7 +60,7 @@ describe CommentsController, type: :controller do
     context 'authorized access' do
       context 'as comment owner' do
         before { sign_in commenter }
-        its(:status) { should == 200 }
+        it { should be_success }
       end
 
       context 'as not comment owner' do

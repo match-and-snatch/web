@@ -18,13 +18,13 @@ describe SubscriptionsController, type: :controller do
 
     context 'authorized access' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
   describe 'GET #new' do
     subject { get 'new', user_id: owner.slug }
-    its(:status) { should == 200 }
+    it { should be_success }
   end
 
   describe 'POST #create' do
@@ -45,7 +45,7 @@ describe SubscriptionsController, type: :controller do
 
       before { sign_in subscriber }
 
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 

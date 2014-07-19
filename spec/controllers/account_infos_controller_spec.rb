@@ -1,6 +1,43 @@
 require 'spec_helper'
 
 describe AccountInfosController, type: :controller do
+  describe 'GET #show' do
+    let(:user){ create_user }
+    subject(:perform_request) { get 'show' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before do
+        sign_in user
+        perform_request
+      end
+
+      it { expect(assigns('user')).to eq user }
+      it { should be_success }
+    end
+  end
+
+  describe 'GET #details' do
+    subject(:perform_request) { get 'details' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before do
+        sign_in
+        perform_request
+      end
+
+      it{ expect(assigns(:user)).to be_a_kind_of(UserStatsDecorator) }
+      it { should be_success }
+    end
+  end
+
   describe 'GET #settings' do
     subject { get 'settings' }
 
@@ -10,7 +47,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -23,7 +60,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -36,7 +73,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -49,7 +86,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -62,7 +99,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -75,7 +112,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -88,7 +125,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -101,7 +138,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -114,7 +151,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -127,39 +164,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'GET #details' do
-    subject(:perform_request) { get 'details' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      before { perform_request }
-      it{ expect(assigns(:user)).to be_a_kind_of(UserStatsDecorator) }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'GET #show' do
-    let(:user){ create_user }
-    subject(:perform_request) { get 'show' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in user }
-      before { perform_request }
-
-      it { expect(assigns('user')).to eq user }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -172,7 +177,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /replace/ }
     end
   end
@@ -186,7 +191,7 @@ describe AccountInfosController, type: :controller do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /notice/ }
       its(:body) { should match_regex /reload/ }
     end

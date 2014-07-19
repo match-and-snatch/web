@@ -15,7 +15,7 @@ describe BenefitsController, type: :controller do
       before { sign_in user }
       before { perform_request }
 
-      its(:status) { should == 200 }
+      it { should be_success }
 
       specify do
         expect(assigns(:benefits)).to match_array(user.benefits(true))

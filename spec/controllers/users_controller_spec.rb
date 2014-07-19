@@ -28,18 +28,18 @@ describe UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
       it{ should render_template('owner_view') }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 200 }
+      it { should be_success }
       it{ should render_template('public_show') }
     end
 
     context 'when profile public' do
       let!(:owner) { create_public_profile email: 'owner_with_public@gmail.com' }
-      its(:status) { should == 200 }
+      it { should be_success }
       it{ should render_template('show') }
     end
   end

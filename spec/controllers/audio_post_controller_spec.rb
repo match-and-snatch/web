@@ -12,7 +12,7 @@ describe AudioPostsController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /success/ }
     end
   end
@@ -26,7 +26,7 @@ describe AudioPostsController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -37,7 +37,7 @@ describe AudioPostsController, type: :controller do
       before { sign_in owner }
       let!(:pending_audio) { create_audios_upload(owner).first }
 
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /replace/ }
     end
 

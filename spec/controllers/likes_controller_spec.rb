@@ -15,7 +15,7 @@ describe LikesController, type: :controller do
     context 'authorized access' do
         before { sign_in visitor }
         its(:body) { should match_regex /success/ }
-        its(:status) { should == 200 }
+        it { should be_success }
     end
   end
 end
