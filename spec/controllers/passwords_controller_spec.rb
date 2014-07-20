@@ -25,4 +25,7 @@ describe PasswordsController, type: :controller do
       end
     end
   end
+
+  pending '#restore'
+  pending '#edit'
 end
