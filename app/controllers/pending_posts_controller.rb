@@ -38,3 +38,4 @@ class PendingPostsController < ApplicationController
     @profile = ProfileDecorator.new(current_user.object)
   end
 end
+
