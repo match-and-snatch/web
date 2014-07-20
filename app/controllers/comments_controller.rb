@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   before_filter :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide]
 
   protect(:index, :create) { can? :see, @post }
-  protect(:edit, :update, :destroy) { can? :delete, @comment }
+  protect(:edit, :update, :make_visible, :hide, :destroy) { can? :manage, @comment }
 
   def index
     @query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id])
