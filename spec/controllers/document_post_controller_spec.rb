@@ -35,7 +35,7 @@ describe DocumentPostsController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      let!(:pending_document) { create_documents_upload(owner).first }
+      let!(:pending_document) { create_document_upload(owner).first }
 
       it { should be_success }
       its(:body) { should match_regex /replace/ }

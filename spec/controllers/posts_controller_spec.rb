@@ -38,7 +38,7 @@ describe PostsController, type: :controller do
     end
 
     let(:audio_post) do
-      create_audios_upload poster
+      create_audio_upload poster
       PostManager.new(user: poster).create_audio_post(message: 'test', title: 'test')
     end
 

@@ -88,11 +88,11 @@ def create_video_upload(user)
   UploadManager.new(user).create_pending_video(JSON.parse(transloadit_video_data_params['transloadit']))
 end
 
-def create_audios_upload(user)
+def create_audio_upload(user)
   UploadManager.new(user).create_pending_audios(JSON.parse(transloadit_audio_data_params['transloadit']))
 end
 
-def create_documents_upload(user, _params = {})
+def create_document_upload(user, _params = {})
   UploadManager.new(user).create_pending_documents(JSON.parse(transloadit_document_data_params['transloadit']))
 end
 
