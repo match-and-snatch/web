@@ -1,6 +1,8 @@
 class MessagesController < ApplicationController
   before_filter :load_target_user!
 
+  protect { can? :send_message_to, @target_user }
+
   def new
     json_popup
   end
@@ -17,3 +19,4 @@ class MessagesController < ApplicationController
     @target_user = User.where(id: params[:user_id]).first or error(404)
   end
 end
+

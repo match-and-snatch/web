@@ -25,6 +25,7 @@ class CurrentUserDecorator < UserDecorator
       when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject) && !billing_failed?
       when :see                  then subject.id == object.id ||                 subscribed_to?(subject) || subject.has_public_profile?
       when :manage               then subject.id == object.id
+      when :send_message_to      then subscribed_to?(subject) && !billing_failed?
       else
         raise ArgumentError, "No such action #{action}"
       end

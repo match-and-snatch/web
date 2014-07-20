@@ -1,6 +1,7 @@
 class FeedsController < ApplicationController
   before_filter :authenticate!
 
+  # TODO: refactor
   def show
     subscription_user_ids = User.joins(:source_subscriptions).
       where(subscriptions: {user_id: current_user.id}).pluck(:target_user_id)

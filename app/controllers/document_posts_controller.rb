@@ -20,3 +20,4 @@ class DocumentPostsController < PendingPostsController
   end
   helper_method :media_posts_path, :cancel_media_posts_path
 end
+

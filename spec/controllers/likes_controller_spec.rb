@@ -10,12 +10,14 @@ describe LikesController, type: :controller do
 
     context 'unauthorized access' do
       its(:status) { should == 401 }
+      pending 'when user is logged in, but not subscribed (security bug)'
     end
 
     context 'authorized access' do
-        before { sign_in visitor }
-        its(:body) { should match_regex /success/ }
-        it { should be_success }
+      before { sign_in visitor }
+      its(:body) { should match_regex /success/ }
+      it { should be_success }
     end
   end
 end
+
