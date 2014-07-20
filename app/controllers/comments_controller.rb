@@ -54,3 +54,4 @@ class CommentsController < ApplicationController
     json_replace partial: 'comment_row', locals: {comment: @comment}
   end
 end
+

@@ -3,6 +3,19 @@ require 'spec_helper'
 describe DocumentPostsController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
+  describe 'GET #new' do
+    subject { get :new }
+
+    context 'unauthorized access' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized access' do
+      before { sign_in owner }
+      it { should be_success }
+    end
+  end
+
   describe 'DELETE #cancel' do
     subject { delete :cancel }
 
@@ -14,19 +27,6 @@ describe DocumentPostsController, type: :controller do
       before { sign_in owner }
       it { should be_success }
       its(:body) { should match_regex /success/ }
-    end
-  end
-
-  describe 'GET #new' do
-    subject { get :new }
-
-    context 'unauthorized access' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized access' do
-      before { sign_in owner }
-      it { should be_success }
     end
   end
 
