@@ -33,7 +33,7 @@ describe AccountInfosController, type: :controller do
         perform_request
       end
 
-      it{ expect(assigns(:user)).to be_a_kind_of(UserStatsDecorator) }
+      it { expect(assigns(:user)).to be_a_kind_of(UserStatsDecorator) }
       it { should be_success }
     end
   end

@@ -4,7 +4,7 @@ class LikesController < ApplicationController
 
   def create
     LikesManager.new(current_user.object).toggle(@post)
-    json_success partial: 'like', locals: {post: @post}
+    json_render partial: 'like', locals: {post: @post}
   end
 
   private
