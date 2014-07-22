@@ -1,8 +1,9 @@
 nav {
+  display: none !important;
   background-color: #359acd !important;
   background-image: none !important;
   zoom: 1px;
-  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffff', endColorstr = '#e5e6ec', GradientType = 0);*/  
+  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffff', endColorstr = '#e5e6ec', GradientType = 0);*/
 }
 
 a {
