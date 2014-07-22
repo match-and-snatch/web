@@ -12,7 +12,7 @@ class PaymentManager < BaseManager
                                    customer:    target.customer.stripe_user_id,
                                    currency:    'usd',
                                    description: description,
-                                   statement_description: target.target_user.profile_name.first(14),
+                                   statement_description: target.target_user.profile_name.first(14).gsub("'", ''),
                                    metadata:    {target_id:   target.id,
                                                  target_type: target.class.name,
                                                  user_id:     target.customer.id}
