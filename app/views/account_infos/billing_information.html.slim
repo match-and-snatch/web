@@ -2,7 +2,7 @@
   h2 Subscription Billing Information
   - if @user.has_cc_payment_account?
     .AjaxContainer
-      | Card on file is 
+      | Card on file is
       strong= @user.card_type
       | &nbsp;ending with <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
       - if current_user.billing_failed?
@@ -13,7 +13,7 @@
 
   hr
 
-  h2 Cancel Subscriptions
+  h2 Active Subscriptions
 
   - if @user.subscriptions.any?
     table.table.table-hover
@@ -37,6 +37,27 @@
                   span Deleted Profile
               - else
                 a.fa.fa-close.AjaxLink href=cancel_subscription_path(s.id) Cancel Subscription
+
+    / This is the section for all canceled subscriptions and any profile that is deleted that once was a subscription.
+
+    h2 Canceled Subscriptions
+    table.table.table-hover
+      thead
+        tr
+          th
+            b Subscription Name
+          th style='width: 150px;'
+            b Cancelled Date
+          th style='width: 170px;'
+      tbody
+        tr
+          td
+            a href='#' Profile Name
+          td June 17, 2014
+          td style='text-align: right;'
+            a.fa.fa-refresh href='#'  Restore Subscription
+
+
   - else
     .well style='text-align:center; margin-bottom: 0'
       |You do not have any subscriptions.

@@ -91,7 +91,7 @@
       font-weight: 600
       font-size: 38px
       line-height: 100%
-      margin-bottom: 15px
+      margin-bottom: 5px
       .profile_name
         color: $color_text_dark
         cursor: pointer
@@ -397,7 +397,7 @@
     .pending_audio, .pending_video, .pending_photo, .pending_document
       overflow: hidden
       position: relative
-      
+
       // Listed Files
 
       .added_audio, .added_video, .added_photo, .added_document
@@ -500,7 +500,7 @@
           .file_types
             display: block
 
-      // Listed Video 
+      // Listed Video
 
       .added_video
         ul
@@ -540,7 +540,7 @@
             &:last-child
               margin-right: 0
             img
-              border: 1px solid $color_border 
+              border: 1px solid $color_border
               height: 98px
             .delete_photo
               background-color: $color_pink
@@ -831,7 +831,7 @@
         font-weight: 600
         padding: 10px 15px 5px
         width: 445px
-      a.file_download 
+      a.file_download
         color: $color_blue
         cursor: pointer
         display: inline-block
@@ -859,7 +859,7 @@
         background-color: #FFFFFF
         border: none
         position: relative
-        overflow: hidden 
+        overflow: hidden
         a
           border: 1px solid $color_border
         img
@@ -876,7 +876,7 @@
             opacity: 0.8
         &.one
           max-height: 585px
-          width: 585px 
+          width: 585px
         &.two
           a
             float: left
@@ -1011,7 +1011,7 @@
         border: 1px solid $color_border
         height: 52px
         width: 52px
-        img 
+        img
           border: none
       .comment_row, .nested_row
         padding: 0 15px 15px 15px
@@ -1119,7 +1119,7 @@
         @media screen and (min-width: 992px)
           .reply_input, .Highlighter
             width: 520px !important
-        
+
         .reply_input
           border: 1px solid $color_border
           font-size: 13px
@@ -1270,7 +1270,7 @@
         .added_photo
           ul
             li
-              img 
+              img
                 width: 95px
       .file_status
         font-size: 12px
@@ -1371,7 +1371,7 @@
 .edit_post_popup, .compose_message_popup
   padding: 10px 15px 15px 15px
   width: 400px
-  label 
+  label
     color: $color_text_dark
     font-size: 13px
   .edit_field
@@ -1392,39 +1392,40 @@
 // Photo Popup
 
 .photo_popup
+  overflow: visible !important
   .modal-body
     position: relative
     padding: 0 !important
     .close
       display: none
+    img
+      @include border_radius (8px)
   .fa.fa-chevron-left, .fa.fa-chevron-right
     position: absolute
     color: #FFFFFF
     font-size: 40px
     text-decoration: none
-    top: 50%
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"
-    filter: alpha(opacity=50)
-    -moz-opacity: 0.5
-    -khtml-opacity: 0.5
-    opacity: 0.5
-    -webkit-transition: opacity 250ms ease
-    -moz-transition: opacity 250ms ease
-    -o-transition: opacity 250ms ease
-    transition: opacity 250ms ease
+    top: 45%
+    // -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"
+    // filter: alpha(opacity=100)
+    // -moz-opacity: 1
+    // -khtml-opacity: 1
+    // opacity: 1
+    -webkit-transition: color 250ms ease
+    -moz-transition: color 250ms ease
+    -o-transition: color 250ms ease
+    transition: color 250ms ease
     &:hover
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"
-      filter: alpha(opacity=100)
-      -moz-opacity: 1
-      -khtml-opacity: 1
-      opacity: 1
+      color: $color_blue
+      // -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"
+      // filter: alpha(opacity=50)
+      // -moz-opacity: 0.5
+      // -khtml-opacity: 0.5
+      // opacity: 0.5
   .fa.fa-chevron-left
-    left: 15px
+    left: -35px
   .fa.fa-chevron-right
-    right: 15px
-
-
-
+    right: -35px
 
 // Random
 
