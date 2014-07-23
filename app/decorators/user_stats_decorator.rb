@@ -68,7 +68,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def connectpal_and_tos
-    (Payment.where(target_user_id: object.id).sum(:user_subscription_fees) + unsubscribed_ever_count * object.subscription_cost)
+    (Payment.where(target_user_id: object.id).sum(:user_subscription_fees) + unsubscribed_ever_count * object.subscription_cost.to_i)
   end
 
   private
