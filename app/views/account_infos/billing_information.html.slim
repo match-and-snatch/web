@@ -2,7 +2,7 @@
   h2 Subscription Billing Information
   - if @user.has_cc_payment_account?
     .AjaxContainer
-      | Card on file is
+      | Card on file is&nbsp;
       strong= @user.card_type
       | &nbsp;ending with <i>**** **** **** <b>#{@user.last_four_cc_numbers}</b></i>
       - if current_user.billing_failed?
@@ -40,8 +40,8 @@
 
     / This is the section for all canceled subscriptions and any profile that is deleted that once was a subscription.
 
-    h2 Canceled Subscriptions
-    table.table.table-hover
+    /h2 Canceled Subscriptions
+    /table.table.table-hover
       thead
         tr
           th

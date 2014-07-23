@@ -4,12 +4,12 @@
       th
         strong ID #
       th
-        strong Full Name
+        strong Profile Name
       th
         strong Email Address
       th
         strong Date/Time Created
-      th
+      /th
         strong Subscriber (if applicable)
     - @users.each do |user|
       tr
@@ -19,5 +19,5 @@
         td
           a href="mailto:#{user.email}"= user.email
         td= user.created_at.try(:to_s, :long)
-        td
+        /td
           = link_to_user(user)
