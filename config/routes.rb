@@ -144,6 +144,10 @@ BuddyPlatform::Application.routes.draw do
     resources :profile_owners, only: [:index, :show] do
       resources :transfers, only: [:index, :create]
 
+      collection do
+        get :recent
+      end
+
       member do
         get :total_subscribed
         get :total_new_subscribed

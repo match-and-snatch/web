@@ -15,6 +15,11 @@ class Admin::ProfileOwnersController < Admin::BaseController
     json_render
   end
 
+  def recent
+    @users = User.profile_owners.order('created_at DESC').limit(200)
+    json_render
+  end
+
   def show
     json_render
   end
