@@ -2,7 +2,7 @@ module Concerns::Payable
   extend ActiveSupport::Concern
 
   included do
-    scope :on_charge, -> { where(['charged_at <= ?', 1.month.ago]) }
+    scope :on_charge, -> { where(['charged_at <= ? OR charged_at IS NULL', 1.month.ago]) }
   end
 
   # @return [Integer] Amount in cents

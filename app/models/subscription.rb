@@ -5,6 +5,7 @@ class Subscription < ActiveRecord::Base
   belongs_to :target, polymorphic: true
   belongs_to :target_user, class_name: 'User'
   has_many :payments, as: :target
+  has_many :payment_failures, as: :target
 
   validates :user, :target, :target_user, presence: true
 
@@ -54,5 +55,20 @@ class Subscription < ActiveRecord::Base
 
   def statement_description
     target_user.name
+  end
+
+  def payment_attempts_expired?
+    day_of_payment_attempts == 8
+  end
+
+  def notify_about_payment_failure?
+    day_of_payment_attempts.in? [ 0, 1, 3, 8 ]
+  end
+
+  private
+
+  def day_of_payment_attempts
+    first_failure_date = payment_failures.where(['created_at >= ?', charged_at || created_at]).minimum(:created_at).try(:to_date)
+    ( Time.zone.today - (first_failure_date || Time.zone.today) ).to_i
   end
 end

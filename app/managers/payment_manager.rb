@@ -35,7 +35,10 @@ class PaymentManager < BaseManager
                                      user:               target.customer,
                                      stripe_charge_data: charge.try(:as_json),
                                      description:        description
-    PaymentsMailer.delay.failed(failure)
+
+    PaymentsMailer.delay.failed(failure) if target.notify_about_payment_failure?
+    SubscriptionManager.new(target.customer).unsubscribe(target) if target.payment_attempts_expired?
+
     UserManager.new(target.customer).mark_billing_failed
   end
 end
