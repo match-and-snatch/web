@@ -58,17 +58,18 @@ class Subscription < ActiveRecord::Base
   end
 
   def payment_attempts_expired?
-    day_of_payment_attempts == 8
+    day_of_payment_attempts >= 8
   end
 
   def notify_about_payment_failure?
-    day_of_payment_attempts.in? [ 0, 1, 3, 8 ]
+    current_day = day_of_payment_attempts
+    current_day.in?([0, 1, 3, 8]) || current_day > 8
   end
 
   private
 
   def day_of_payment_attempts
     first_failure_date = payment_failures.where(['created_at >= ?', charged_at || created_at]).minimum(:created_at).try(:to_date)
-    ( Time.zone.today - (first_failure_date || Time.zone.today) ).to_i
+    (Time.zone.today - (first_failure_date || Time.zone.today)).to_i
   end
 end

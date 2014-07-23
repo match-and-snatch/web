@@ -33,6 +33,7 @@ class UserManager < BaseManager
 
   def remove_mark_billing_failed
     @user.billing_failed = false
+    @user.billing_failed_at = nil
     save_or_die! @user
   end
 end

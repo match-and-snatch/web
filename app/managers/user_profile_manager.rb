@@ -267,14 +267,8 @@ class UserProfileManager < BaseManager
 
     save_or_die! user
 
-    subscription_for_charge = user.subscriptions.on_charge.not_removed.last
-    if subscription_for_charge
-      subscription_for_charge.charged_at = Time.zone.now
-      PaymentManager.new.pay_for(subscription_for_charge)
-      UserManager.new(user).remove_mark_billing_failed if subscription_for_charge.paid?
-    else
-      UserManager.new(user).remove_mark_billing_failed
-    end
+    UserManager.new(user).remove_mark_billing_failed
+    PaymentManager.new(user: user).perform_test_payment
 
     user
   rescue Stripe::CardError => e

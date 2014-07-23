@@ -36,6 +36,7 @@ GEM
     bcrypt (3.1.7)
     bcrypt-ruby (3.1.5)
       bcrypt (>= 3.1.3)
+    blankslate (3.1.3)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
     builder (3.1.4)
@@ -54,6 +55,7 @@ GEM
       execjs
     coffee-script-source (1.7.0)
     daemons (1.1.9)
+    dante (0.2.0)
     diff-lcs (1.2.5)
     dotenv (0.7.0)
     erubis (2.7.0)
@@ -80,6 +82,11 @@ GEM
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
+    jimson-temp (0.9.5)
+      blankslate (>= 3.1.2)
+      multi_json (~> 1.0)
+      rack (~> 1.4)
+      rest-client (~> 1.0)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -227,6 +234,10 @@ GEM
     stripe-rails (0.3.0)
       rails (>= 3)
       stripe
+    stripe-ruby-mock (1.10.1.7)
+      dante (>= 0.2.0)
+      jimson-temp
+      stripe (>= 1.10.1)
     temple (0.6.7)
     term-ansicolor (1.3.0)
       tins (~> 1.0)
@@ -237,6 +248,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.3)
     tilt (1.4.1)
+    timecop (0.7.1)
     timers (1.1.0)
     tins (1.3.0)
     transloadit (1.1.1)
@@ -286,6 +298,8 @@ DEPENDENCIES
   sdoc
   slim-rails
   stripe-rails
+  stripe-ruby-mock (~> 1.10.1.7)
+  timecop
   transloadit-rails
   uglifier (>= 1.3.0)
   unicorn

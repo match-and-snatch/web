@@ -4,6 +4,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'database_cleaner'
+require 'stripe_mock'
 require 'factories'
 
 # Requires supporting ruby files with custom matchers and macros, etc,

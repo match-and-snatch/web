@@ -141,6 +141,42 @@ describe UserProfileManager do
     end
   end
 
+  describe '#update_cc_data' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    before do
+      stub_const('Stripe::Customer', double('customer').as_null_object)
+      UserManager.new(user).mark_billing_failed
+    end
+
+    specify do
+      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.to change { user.reload.billing_failed? }.to(false)
+    end
+
+    context 'user has outstanding payments' do
+      let(:target_user) { create_profile }
+
+      before do
+        SubscriptionManager.new(user).subscribe_to(target_user)
+      end
+
+      it 'restores billing failed flag to false' do
+        expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.to change { user.reload.billing_failed? }.to(false)
+      end
+
+      context 'test payment failed' do
+        before do
+          StripeMock.prepare_card_error(:card_declined)
+        end
+
+        it 'keeps flag in the failed state' do
+          expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.not_to change { user.reload.billing_failed? }.from(false)
+        end
+      end
+    end
+  end
+
   describe '#update_payment_information' do
     specify do
       expect { manager.update_payment_information(holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :holder_name).to('holder')
