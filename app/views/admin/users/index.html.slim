@@ -35,7 +35,7 @@ h2
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-failed.png')
     p
       'Total Failed Payments
-      strong= PaymentFailure.count
+      strong= User.where(billing_failed: true).count
 
   .col-md-2.col-sm-2.col-xs-4.dashboard-overview
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
@@ -73,7 +73,7 @@ h2
   .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
     p
       'Total Failed Payments
-      strong= PaymentFailure.where(created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count
+      strong= User.joins(:payment_failures).where(payment_failures: {created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)}).select('users.id').uniq.count
 
   .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
     p

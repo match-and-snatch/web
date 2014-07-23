@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :profile_types_users
   has_many :profile_types, through: :profile_types_users
   has_many :payments
+  has_many :payment_failures
   has_many :source_payments, class_name: 'Payment', foreign_key: 'target_user_id'
 
   has_one :pending_post
