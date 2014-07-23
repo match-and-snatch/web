@@ -60,6 +60,8 @@ end
 
 group :test do
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
+  gem 'stripe-ruby-mock', '~> 1.10.1.7'
+  gem 'timecop'
 end
 
 # Use ActiveModel has_secure_password

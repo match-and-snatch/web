@@ -1,5 +1,12 @@
 class PaymentManager < BaseManager
 
+  attr_reader :user
+
+  # @param user [User, nil]
+  def initialize(user: nil)
+    @user = user
+  end
+
   # @param target [Concerns::Payable]
   # @param description [String, nil] optional notes on payment
   # @return [Payment, PaymentFailure]
@@ -27,7 +34,10 @@ class PaymentManager < BaseManager
                     user_subscription_cost: target.target_user.subscription_cost
 
     target.charged_at = Time.zone.now
-    save_or_die! target
+
+    save_or_die!(target).tap do
+      UserManager.new(target.customer).remove_mark_billing_failed
+    end
   rescue Stripe::StripeError => e
     failure = PaymentFailure.create! exception_data:     "#{e.inspect} | http_body:#{e.http_body} | json_body:#{e.json_body}",
                                      target:             target,
@@ -35,7 +45,17 @@ class PaymentManager < BaseManager
                                      user:               target.customer,
                                      stripe_charge_data: charge.try(:as_json),
                                      description:        description
-    PaymentsMailer.delay.failed(failure)
+
+    PaymentsMailer.delay.failed(failure) if target.notify_about_payment_failure?
+    SubscriptionManager.new(target.customer).unsubscribe(target) if target.payment_attempts_expired?
+
     UserManager.new(target.customer).mark_billing_failed
+  end
+
+  # Pays for any random subscription on charge to check if billing fails
+  # Changes billing status to "failed" if payment is not passed
+  def perform_test_payment
+    subscription = user.subscriptions.on_charge.not_removed.first
+    pay_for(subscription) if subscription
   end
 end
