@@ -6,10 +6,34 @@ describe Subscription do
 
   subject { SubscriptionManager.new(user).subscribe_to(target_user) }
 
-  before { StripeMock.start }
-  after { StripeMock.stop }
+  describe '.on_charge' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    before do
+      UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+      user.reload
+    end
+
+    let!(:unpaid_subscription) { SubscriptionManager.new(user).subscribe_to(target_user) }
+    let!(:paid_subscription) { SubscriptionManager.new(user).subscribe_and_pay_for(create_profile email: 'another@one.com') }
+    let!(:invalid_subscription) do
+      profile = create_profile email: 'invalid@one.com'
+
+      SubscriptionManager.new(user).subscribe_to(profile).tap do
+        UserProfileManager.new(profile).delete_profile_page
+      end
+    end
+
+    it 'returns unpaid subscriptions' do
+      expect(described_class.on_charge).to eq([unpaid_subscription])
+    end
+  end
 
   describe '#notify_about_payment_failure?' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
     context 'subscription is paid' do
       before do
         PaymentManager.new.pay_for(subject)
@@ -80,6 +104,9 @@ describe Subscription do
   end
 
   describe '#payment_attempts_expired?' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
     context 'no payment failures' do
       specify do
         expect(subject.payment_attempts_expired?).to eq(false)
@@ -122,3 +149,4 @@ describe Subscription do
     end
   end
 end
+
