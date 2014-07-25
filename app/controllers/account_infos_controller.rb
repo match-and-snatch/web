@@ -38,6 +38,7 @@ class AccountInfosController < ApplicationController
   end
 
   def billing_information
+    @subscriptions = SubscriptionsPresenter.new(user: @user)
     json_render
   end
 

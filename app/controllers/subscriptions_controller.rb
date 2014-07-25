@@ -1,7 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_filter :authenticate!, except: [:new, :via_register]
   before_filter :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
-  before_filter :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore]
+  before_filter :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore, :retry_payment]
 
   protect(:destroy) { can? :delete, @subscription }
 
@@ -69,6 +69,11 @@ class SubscriptionsController < ApplicationController
   def restore
     SubscriptionManager.new(current_user.object).restore(@subscription)
     notice(:restored_subscription)
+    json_reload
+  end
+
+  def retry_payment
+    PaymentManager.new.pay_for(@subscription)
     json_reload
   end
 

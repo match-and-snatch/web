@@ -84,6 +84,7 @@ BuddyPlatform::Application.routes.draw do
       put :enable_notifications
       put :disable_notifications
       put :restore
+      put :retry_payment
     end
   end
   resources :audios, only: [:show, :create, :destroy] do
