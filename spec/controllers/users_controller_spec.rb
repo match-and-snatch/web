@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UsersController do
+describe UsersController, type: :controller do
   describe 'POST #create' do
     context 'nothing passed' do
       subject { post 'create' }
@@ -28,18 +28,18 @@ describe UsersController do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
       it{ should render_template('owner_view') }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 200 }
+      it { should be_success }
       it{ should render_template('public_show') }
     end
 
     context 'when profile public' do
       let!(:owner) { create_public_profile email: 'owner_with_public@gmail.com' }
-      its(:status) { should == 200 }
+      it { should be_success }
       it{ should render_template('show') }
     end
   end
@@ -88,7 +88,7 @@ describe UsersController do
   end
 
   describe 'PUT #update_cover_picture_position' do
-    subject { put 'update_cover_picture_position', id: 'anything', cover_picture_possition: 100 }
+    subject { put 'update_cover_picture_position', id: 'anything', cover_picture_position: 100 }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -144,7 +144,7 @@ describe UsersController do
   end
 
   describe 'GET #search' do
-    let(:profile1) { create_profile profile_name: 'serg' }
+    let!(:profile1) { create_profile profile_name: 'serg', profile_picture_url: 'set', is_profile_owner: true }
     subject(:perform_request) { get 'search', q: 'serg' }
 
     before { perform_request }
@@ -156,5 +156,4 @@ describe UsersController do
     its(:status){ should == 200 }
     its(:body){ should match_regex /replace/ }
   end
-
 end

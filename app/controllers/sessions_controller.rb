@@ -1,8 +1,5 @@
 class SessionsController < ApplicationController
-
-  rescue_from AuthenticationError do |e|
-    json_fail message: e.message
-  end
+  rescue_from(AuthenticationError) { |e| json_fail message: e.message }
 
   # Logins user
   def create
@@ -10,8 +7,7 @@ class SessionsController < ApplicationController
     user = session_manager.login(params[:email], params[:password], params[:remember_me])
 
     if user.billing_failed?
-      notice :billing_failed
-      json_redirect account_info_url(anchor: '/account_info/billing_information')
+      json_redirect account_info_url(anchor: '/account_info/billing_information'), notice: :billing_failed
     else
       json_reload
     end

@@ -9,12 +9,19 @@ def create_user(_params = {})
                         last_name:             'zinin',
                         is_profile_owner:      false
 
-  AuthenticationManager.new(is_profile_owner:      params[:is_profile_owner],
-                            email:                 params[:email],
-                            password:              params[:password],
-                            password_confirmation: params[:password_confirmation],
-                            first_name:            params[:first_name],
-                            last_name:             params[:last_name]).register
+  AuthenticationManager.new(params.slice(:is_profile_owner, :email,
+                                         :password, :password_confirmation,
+                                         :first_name, :last_name)).register.tap do |user|
+    if params[:profile_picture_url]
+      user.profile_picture_url = params[:profile_picture_url]
+    end
+
+    if params[:itunes_enabled]
+      UserProfileManager.new(user).enable_itunes
+    end
+
+    user.save! if user.changed?
+  end
 end
 
 # @param _params [Hash]
@@ -43,8 +50,8 @@ end
 
 # @param _params [Hash]
 # @return [User]
-def create_admin(_params = {})
-  create_user(_params).tap do |user|
+def create_admin(params = {})
+  create_user(params).tap do |user|
     UserManager.new(user).make_admin
   end
 end
@@ -82,11 +89,13 @@ def create_video_upload(user)
   UploadManager.new(user).create_pending_video(JSON.parse(transloadit_video_data_params['transloadit']))
 end
 
-def create_audios_upload(user)
-  UploadManager.new(user).create_pending_audios(JSON.parse(transloadit_audio_data_params['transloadit']))
+def create_audio_upload(user, create_post: false)
+  UploadManager.new(user).create_pending_audios(JSON.parse(transloadit_audio_data_params['transloadit'])).tap do
+    PostManager.new(user: user).create_audio_post(title: 'test', message: 'test') if create_post
+  end
 end
 
-def create_documents_upload(user, _params = {})
+def create_document_upload(user, _params = {})
   UploadManager.new(user).create_pending_documents(JSON.parse(transloadit_document_data_params['transloadit']))
 end
 

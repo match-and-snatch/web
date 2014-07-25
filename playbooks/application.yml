@@ -1,6 +1,6 @@
 - hosts: all
   vars:
-    ruby: ruby-2.0.0-p247
+    ruby: ruby-2.1.2
     project_path: /vagrant
   user: vagrant
   sudo: no

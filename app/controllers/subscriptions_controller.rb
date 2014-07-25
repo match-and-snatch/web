@@ -1,7 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_filter :authenticate!, except: [:new, :via_register]
   before_filter :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
-  before_filter :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore]
+  before_filter :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore, :retry_payment]
 
   protect(:destroy) { can? :delete, @subscription }
 
@@ -12,11 +12,9 @@ class SubscriptionsController < ApplicationController
 
   def index
     @subscriptions = current_user.object.subscriptions
-    #@subscribed_on_me = Subscription.by_target(current_user.object)
     json_render
   end
 
-  # @todo fix
   def create
     SubscriptionManager.new(current_user.object).subscribe_and_pay_for(@owner)
     json_reload
@@ -49,7 +47,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def cancel
-    json_success popup: render_to_string(action: 'cancel', layout: false)
+    json_popup
   end
 
   def enable_notifications
@@ -70,8 +68,16 @@ class SubscriptionsController < ApplicationController
 
   def restore
     SubscriptionManager.new(current_user.object).restore(@subscription)
-    notice(:restored_subscription)
-    json_reload
+    json_reload notice: :restored_subscription
+  rescue ManagerError
+    json_reload notice: :failed_to_restore_subscription
+  end
+
+  def retry_payment
+    PaymentManager.new.pay_for!(@subscription)
+    json_reload notice: :restored_subscription
+  rescue ManagerError
+    json_reload notice: :failed_to_restore_subscription
   end
 
   private

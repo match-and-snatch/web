@@ -12,7 +12,7 @@ describe UserProfileManager do
     end
 
     specify do
-      expect { manager.add_profile_type(profile_type) }.to change(user.profile_types, :count).from(0).to(1)
+      expect { manager.add_profile_type(profile_type.title) }.to change(user.profile_types, :count).from(0).to(1)
       expect(user.profile_types).to include(profile_type)
     end
   end
@@ -20,7 +20,7 @@ describe UserProfileManager do
   describe '#remove_profile_type' do
     let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
 
-    before { manager.add_profile_type(profile_type) }
+    before { manager.add_profile_type(profile_type.title) }
 
     specify do
       expect { manager.remove_profile_type(profile_type) }.to change(user.profile_types, :count).from(1).to(0)
@@ -135,7 +135,42 @@ describe UserProfileManager do
         end
 
         specify do
-          expect { manager.update(account_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
+          expect { manager.update(account_number: '12') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
+        end
+      end
+    end
+  end
+
+  describe '#update_cc_data' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    before do
+      UserManager.new(user).mark_billing_failed
+    end
+
+    specify do
+      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.to change { user.reload.billing_failed? }.to(false)
+    end
+
+    context 'user has outstanding payments' do
+      let(:target_user) { create_profile }
+
+      before do
+        SubscriptionManager.new(user).subscribe_to(target_user)
+      end
+
+      it 'restores billing failed flag to false' do
+        expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.to change { user.reload.billing_failed? }.to(false)
+      end
+
+      context 'test payment failed' do
+        before do
+          StripeMock.prepare_card_error(:card_declined)
+        end
+
+        it 'keeps flag in the failed state' do
+          expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.not_to change { user.reload.billing_failed? }.from(true)
         end
       end
     end
@@ -174,7 +209,7 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.update_payment_information(account_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
+        expect { manager.update_payment_information(account_number: '12') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
       end
     end
   end

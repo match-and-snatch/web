@@ -13,9 +13,9 @@
 
   hr
 
-  h2 Active Subscriptions
+  - if @subscriptions.active.any?
+    h2 Active Subscriptions
 
-  - if @user.subscriptions.any?
     table.table.table-hover
       thead
         tr
@@ -25,43 +25,54 @@
             b Next Billing Date
           th style='width: 170px;'
       tbody
-        - @user.subscriptions.each do |s|
+        - @subscriptions.active.each do |subscription|
           tr
-            td= link_to_user s.target_user
-            td= s.billing_date.to_s(:long)
+            td= link_to_user subscription.target_user
+            td= subscription.billing_date.to_s(:long)
             td style='text-align: right;'
-              - if s.removed?
-                - if s.target_user.is_profile_owner?
-                  a.fa.fa-refresh.AjaxFormLink data-_method='PUT' href=restore_subscription_path(s.id)  Restore Subscription
-                - else
-                  span Deleted Profile
-              - else
-                a.fa.fa-close.AjaxLink href=cancel_subscription_path(s.id) Cancel Subscription
-
-    / This is the section for all canceled subscriptions and any profile that is deleted that once was a subscription.
-
-    /h2 Canceled Subscriptions
-    /table.table.table-hover
-      thead
-        tr
-          th
-            b Subscription Name
-          th style='width: 150px;'
-            b Cancelled Date
-          th style='width: 170px;'
-      tbody
-        tr
-          td
-            a href='#' Profile Name
-          td June 17, 2014
-          td style='text-align: right;'
-            a.fa.fa-refresh href='#'  Restore Subscription
-
-
+              a.fa.fa-close.AjaxLink href=cancel_subscription_path(subscription.id) Cancel Subscription
   - else
     .well style='text-align:center; margin-bottom: 0'
-      |You do not have any subscriptions.
+      |You do not have any active subscriptions.
       '
       a.PopupTrigger data-target='search-users' href='#' Click here to search for subscriptions
       '.
+
+    / This is the section for all canceled subscriptions and any profile that is deleted that once was a subscription.
+
+  - if @subscriptions.canceled.any?
+    h2 Canceled Subscriptions
+
+    table.table.table-hover
+      tr
+        th
+          b Subscription Name
+        th style='width: 150px;'
+          b Date
+        - if @subscriptions.show_failed_column?
+          th style='width: 150px;'
+            b Status
+        th style='width: 170px;'
+      - @subscriptions.canceled.each do |subscription|
+        tr
+          td= link_to_user subscription.target_user
+          td= subscription.canceled_at.to_s(:long)
+          - if @subscriptions.show_failed_column?
+            td
+              - if subscription.rejected?
+                span style='color: red' Payment failed
+              - else
+                span style='color: gray' Canceled
+          td style='text-align: right;'
+            - if subscription.target_user.is_profile_owner?
+              / TODO (DJ): move under one general action: 'restore'
+              span.fa.fa-refresh.pink style='color: #ea2e49' &nbsp;
+              - if subscription.rejected?
+                a.AjaxFormLink data-_method='PUT' href=retry_payment_subscription_path(subscription.id)
+                  ' Retry Payment
+              - else
+                a.AjaxFormLink data-_method='PUT' href=restore_subscription_path(subscription.id)
+                  ' Restore
+            - else
+              span Deleted Profile
 

@@ -2,7 +2,7 @@ class PostManager < BaseManager
   attr_reader :user
 
   # @param user [User]
-  def initialize(user: user, post: nil)
+  def initialize(user: , post: nil)
     raise ArgumentError unless user.is_a?(User)
     @post = post
     @user = user
@@ -20,7 +20,7 @@ class PostManager < BaseManager
     @post
   end
 
-  def update(title: title, message: message)
+  def update(title: , message: )
     fail_with! message: :empty if message.blank?
 
     @post.title = title
@@ -33,7 +33,7 @@ class PostManager < BaseManager
   # @param message [String]
   # @param notify [String, nil]
   # @return [Post]
-  def create_status_post(message: message, notify: false)
+  def create_status_post(message: , notify: false)
     fail_with! message: :empty if message.blank?
 
     message = CGI.escapeHTML(message)

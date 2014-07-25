@@ -29,3 +29,4 @@ class UploadsController < ApplicationController
     @manager ||= UploadManager.new(current_user.object)
   end
 end
+

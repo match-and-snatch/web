@@ -53,7 +53,7 @@ module Queries
       when 2
         base_query.where(['users.profile_name ILIKE ?', "%#@query%"]).order('subscribers_count DESC').limit(5)
       else
-        base_query.search_by_text_fields(@query).limit(5)
+        base_query.search_by_text_fields(@query).limit(5).to_a
       end
     end
 

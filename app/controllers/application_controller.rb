@@ -25,12 +25,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # @param action [Symbol]
-  # @param callbacks [Array<Symbol>]
-  def self.before(action, *callbacks)
-    self.before_filter(*callbacks, only: action)
-  end
-
   def self.protect(*actions, &block)
     filter_options = actions.any? ? [{only: actions}] : []
     before_filter(*filter_options) { instance_eval(&block) or error(401) }
@@ -40,6 +34,13 @@ class ApplicationController < ActionController::Base
     if current_user.billing_failed? && referrer_host != request.host
       notice(:billing_failed)
     end
+  end
+
+  # Returns a new kind of ActionController::Parameters object that
+  # has been instantiated with the <tt>request.parameters</tt>.
+  # @return [ActionController::ManagebleParameters]
+  def params
+    @_params ||= ActionController::ManagebleParameters.new(request.parameters)
   end
 
   protected
@@ -92,7 +93,9 @@ class ApplicationController < ActionController::Base
 
   # Redirects page on response via JS
   # @param url [String] to redirect to
-  def json_redirect(url)
+  # @param notice [String, Symbol]
+  def json_redirect(url, notice: nil)
+    self.notice(notice) if notice
     json_response 'redirect', url: url
   end
 
@@ -126,6 +129,15 @@ class ApplicationController < ActionController::Base
     json_render_html('append', json)
   end
 
+  # @param [String, Sy]
+  def json_popup(json = {})
+    unless json[:html]
+      template = json.delete(:template) || action_name
+      json[:popup] = render_to_string(action: template, layout: false, formats: [:html])
+    end
+    json_response 'success', json
+  end
+
   # Prepends html to container
   # @param json [Hash]
   def json_prepend(json = {})
@@ -139,7 +151,9 @@ class ApplicationController < ActionController::Base
   end
 
   # Reloads page via JS
-  def json_reload
+  # @param notice [String, Symbol]
+  def json_reload(notice: nil)
+    self.notice(notice) if notice
     json_response 'reload'
   end
 
@@ -148,8 +162,12 @@ class ApplicationController < ActionController::Base
   # @option json [String, nil] :template
   def json_render_html(status, json = {})
     unless json[:html]
-      template = json.delete(:template) || action_name
-      json[:html] = render_to_string(action: template, layout: false, formats: [:html])
+      if json[:partial]
+        json[:html] = render_to_string(partial: json[:partial], locals: json.delete(:locals) || {})
+      else
+        template = json.delete(:template) || action_name
+        json[:html] = render_to_string(action: template, layout: false, formats: [:html])
+      end
     end
     json_response status, json
   end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe WelcomeController do
+describe WelcomeController, type: :controller do
   describe 'GET #show' do
     subject(:perform_request) { get 'show' }
 
@@ -10,12 +10,18 @@ describe WelcomeController do
 
       context 'when has profile' do
         let(:user) { create_profile }
-        it{ response.should redirect_to profile_path(user) }
+
+        specify do
+          expect(response).to redirect_to profile_path(user)
+        end
       end
 
       context 'when has no profile' do
         let(:user) { create_user }
-        it{ response.should redirect_to account_info_path }
+
+        specify do
+          expect(response).to redirect_to account_info_path
+        end
       end
     end
 

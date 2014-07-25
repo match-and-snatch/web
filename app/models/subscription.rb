@@ -5,6 +5,7 @@ class Subscription < ActiveRecord::Base
   belongs_to :target, polymorphic: true
   belongs_to :target_user, class_name: 'User'
   has_many :payments, as: :target
+  has_many :payment_failures, as: :target
 
   validates :user, :target, :target_user, presence: true
 
@@ -28,7 +29,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def expired?
-    removed? && billing_date < Time.zone.today
+    removed? || billing_date < Time.zone.today
   end
 
   def paid?
@@ -54,5 +55,26 @@ class Subscription < ActiveRecord::Base
 
   def statement_description
     target_user.name
+  end
+
+  def payment_attempts_expired?
+    day_of_payment_attempts >= 8
+  end
+
+  def notify_about_payment_failure?
+    current_day = day_of_payment_attempts
+    current_day.in?([0, 1, 3, 8]) || current_day > 8
+  end
+
+  # @return [DateTime]
+  def canceled_at
+    (removed? ? removed_at : rejected_at)
+  end
+
+  private
+
+  # @return [Integer]
+  def day_of_payment_attempts
+    (Time.zone.today - (rejected_at.try(:to_date) || Time.zone.today)).to_i
   end
 end
