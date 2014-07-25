@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PostsController do
+describe PostsController, type: :controller do
   let(:poster) { create_user email: 'poster@gmail.com', is_profile_owner: true }
 
   describe 'GET #index' do
@@ -12,7 +12,7 @@ describe PostsController do
 
     context 'authorized access' do
       before { sign_in poster }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -25,7 +25,7 @@ describe PostsController do
 
     context 'authorized access' do
       before { sign_in poster }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -38,7 +38,7 @@ describe PostsController do
     end
 
     let(:audio_post) do
-      create_audios_upload poster
+      create_audio_upload poster
       PostManager.new(user: poster).create_audio_post(message: 'test', title: 'test')
     end
 
@@ -49,7 +49,7 @@ describe PostsController do
 
     context 'when requests xml' do
       subject { get 'show',  id: audio_post.id , format: 'xml' }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -58,7 +58,7 @@ describe PostsController do
     let(:post) { PostManager.new(user: poster).create_status_post(message: 'test') }
 
     subject { delete 'destroy', id: post.id }
-    its(:status) { should == 200 }
+    it { should be_success }
 
     context 'no post present' do
       subject { delete 'destroy', id: 0 }

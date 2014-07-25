@@ -15,7 +15,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-    json_success popup: render_to_string(action: :edit, layout: false)
+    json_popup
   end
 
   def show
@@ -26,7 +26,7 @@ class PostsController < ApplicationController
         end
         wants.xml do
           @uploads = @post.uploads.to_a
-          render :layout => false;
+          render layout: false
           response.headers['Content-Type'] = 'application/xml; charset=utf-8'
         end
       end
@@ -36,23 +36,23 @@ class PostsController < ApplicationController
   end
 
   def update
-    PostManager.new(user: current_user.object, post: @post).update(title: params[:title], message: params[:message])
-    json_replace html: render_to_string(partial: 'post', locals: {post: @post}), notice: :post_updated
+    PostManager.new(user: current_user.object, post: @post).update(params.slice(:title, :message))
+    json_replace html: post_html, notice: :post_updated
   end
 
   def make_visible
     PostManager.new(user: current_user.object, post: @post).show
-    json_replace html: render_to_string(partial: 'post', locals: {post: @post}), notice: :post_shown
+    json_replace html: post_html, notice: :post_shown
   end
 
   def hide
     PostManager.new(user: current_user.object, post: @post).hide
-    json_replace html: render_to_string(partial: 'post', locals: {post: @post}), notice: :post_hidden
+    json_replace html: post_html, notice: :post_hidden
   end
 
   def create
     has_posts = current_user.has_posts?
-    @post = PostManager.new(user: current_user.object).create_status_post(message: params[:message], notify: params[:notify])
+    @post = PostManager.new(user: current_user.object).create_status_post(params.slice(:message, :notify))
     has_posts ? json_prepend : json_replace
   end
 
@@ -69,5 +69,9 @@ class PostsController < ApplicationController
 
   def load_user!
     @user = User.where(slug: params[:user_id]).first or error(404)
+  end
+
+  def post_html
+    render_to_string(partial: 'post', locals: {post: @post})
   end
 end

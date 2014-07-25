@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::UsersController do
+describe Admin::UsersController, type: :controller do
   before { sign_in create_admin }
 
   describe 'GET #index' do
@@ -35,7 +35,7 @@ describe Admin::UsersController do
   describe 'POST #login_as' do
     let(:user) { create_user(email: 'another@gmail.com') }
     subject { post 'login_as', id: user.id }
-    its(:body) { should match_regex 'reload'}
+    its(:body) { should match_regex 'redirect'}
     its(:status) { should == 200}
   end
 end

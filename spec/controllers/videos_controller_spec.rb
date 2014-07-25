@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe VideosController do
+describe VideosController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'POST #create' do
@@ -12,7 +12,7 @@ describe VideosController do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -26,7 +26,7 @@ describe VideosController do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 end

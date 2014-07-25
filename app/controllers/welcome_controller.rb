@@ -8,8 +8,4 @@ class WelcomeController < ApplicationController
       end
     end
   end
-
-  def show
-    @random_public_profile = User.random_public_profile
-  end
 end

@@ -196,7 +196,6 @@ BuddyPlatform::Application.routes.draw do
 
   scope module: :owner do
     resource :second_step, only: %i(show update)
-    resource :third_step, only: %i(show update)
   end
 
   get '/about' => 'pages#about', as: :about

@@ -12,7 +12,7 @@ describe UserProfileManager do
     end
 
     specify do
-      expect { manager.add_profile_type(profile_type) }.to change(user.profile_types, :count).from(0).to(1)
+      expect { manager.add_profile_type(profile_type.title) }.to change(user.profile_types, :count).from(0).to(1)
       expect(user.profile_types).to include(profile_type)
     end
   end
@@ -20,7 +20,7 @@ describe UserProfileManager do
   describe '#remove_profile_type' do
     let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
 
-    before { manager.add_profile_type(profile_type) }
+    before { manager.add_profile_type(profile_type.title) }
 
     specify do
       expect { manager.remove_profile_type(profile_type) }.to change(user.profile_types, :count).from(1).to(0)
@@ -135,7 +135,7 @@ describe UserProfileManager do
         end
 
         specify do
-          expect { manager.update(account_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
+          expect { manager.update(account_number: '12') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
         end
       end
     end
@@ -209,7 +209,7 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.update_payment_information(account_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
+        expect { manager.update_payment_information(account_number: '12') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
       end
     end
   end

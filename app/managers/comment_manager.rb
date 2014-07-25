@@ -23,7 +23,7 @@ class CommentManager < BaseManager
 
   # @param message [String]
   # @return [Comment]
-  def create(message: message, mentions: nil)
+  def create(message: , mentions: nil)
     @post or fail_with! post: :empty
 
     unless @user.subscribed_to?(@post.user) || @user == @post.user

@@ -14,18 +14,16 @@ class UsersController < ApplicationController
   end
 
   def mentions
-    @users = User.where.not(id: current_user.id).search_by_text_fields(params[:q]).limit(5)
+    @users = User.where.not(id: current_user.id).search_by_text_fields(params[:q]).limit(5).to_a
     json_replace
   end
 
   # Registers new profile __owner__ (not just subscriber)
   def create
-    user = AuthenticationManager.new(is_profile_owner:      true,
-                                     email:                 params[:email],
-                                     first_name:            params[:first_name],
-                                     last_name:             params[:last_name],
-                                     password:              params[:password],
-                                     password_confirmation: params[:password_confirmation]).register
+    user = AuthenticationManager.new(
+      params.slice(%i(email first_name last_name password password_confirmation)).merge(is_profile_owner: true)
+    ).register
+
     session_manager.login(user.email, params[:password])
     json_redirect create_profile_path
   end
@@ -67,7 +65,6 @@ class UsersController < ApplicationController
   def update_name
     UserProfileManager.new(current_user.object).update_profile_name(params[:profile_name])
     json_success notice: 'Successfully updated your name.'
-    #json_reload
   end
 
   def update_cost
@@ -83,22 +80,22 @@ class UsersController < ApplicationController
 
   def update_profile_picture
     UserProfileManager.new(current_user.object).update_profile_picture(params[:transloadit])
-    json_replace html: render_to_string(partial: 'profile_picture')
+    json_replace partial: 'profile_picture'
   end
 
   def update_cover_picture
     UserProfileManager.new(current_user.object).update_cover_picture(params[:transloadit])
-    json_replace html: render_to_string(partial: 'cover_picture')
+    json_replace partial: 'cover_picture'
   end
 
   def update_contacts_info
     UserProfileManager.new(current_user.object).update_contacts_info(params[:contacts_info])
     profile = ProfileDecorator.new(current_user.object)
-    json_replace html: render_to_string(partial: 'user_contacts_info_links', locals: {profile: profile})
+    json_replace partial: 'user_contacts_info_links', locals: {profile: profile}
   end
 
   def update_cover_picture_position
-    UserProfileManager.new(current_user.object).update_cover_picture_position(params[:cover_picture_possition])
+    UserProfileManager.new(current_user.object).update_cover_picture_position(params[:cover_picture_position])
     json_success
   end
 end

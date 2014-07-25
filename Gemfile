@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+ruby '2.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.1.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -54,6 +54,7 @@ gem 'mailcatcher', group: :development
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'rspec-its'
   gem 'guard-rspec', require: false
   gem 'awesome_print'
 end

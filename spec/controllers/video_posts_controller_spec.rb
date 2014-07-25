@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe VideoPostsController do
+describe VideoPostsController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'DELETE #cancel' do
@@ -13,7 +13,7 @@ describe VideoPostsController do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /success/ }
     end
   end
@@ -27,7 +27,7 @@ describe VideoPostsController do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -37,7 +37,7 @@ describe VideoPostsController do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /replace/ }
     end
 
