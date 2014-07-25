@@ -4,16 +4,16 @@ class SubscriptionsPresenter
   attr_reader :user
 
   # @param user [User]
-  def initialize(user: nil)
+  def initialize(user: )
     @user = user
   end
 
   def canceled
-    @canceled_subscriptions ||= subscriptions.select { |s| s.expired? || s.rejected }
+    @canceled_subscriptions ||= subscriptions.select { |s| s.expired? || s.rejected? }
   end
 
   def active
-    @active_subscriptions ||= subscriptions.select { |s| not (s.expired? || s.rejected) }
+    @active_subscriptions ||= subscriptions.select { |s| not (s.expired? || s.rejected?) }
   end
 
   def show_failed_column?

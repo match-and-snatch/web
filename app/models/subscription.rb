@@ -66,6 +66,10 @@ class Subscription < ActiveRecord::Base
     current_day.in?([0, 1, 3, 8]) || current_day > 8
   end
 
+  def canceled_at
+    (removed? ? removed_at : rejected_at).to_s(:long)
+  end
+
   private
 
   def day_of_payment_attempts

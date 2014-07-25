@@ -47,7 +47,6 @@ class PaymentManager < BaseManager
                                      stripe_charge_data: charge.try(:as_json),
                                      description:        description
 
-    PaymentsMailer.delay.failed(failure) if target.notify_about_payment_failure?
 
     manager = SubscriptionManager.new(target.customer)
 
@@ -55,6 +54,8 @@ class PaymentManager < BaseManager
     manager.reject(target)
 
     UserManager.new(target.customer).mark_billing_failed
+
+    PaymentsMailer.delay.failed(failure) if target.notify_about_payment_failure?
   end
 
   # Pays for any random subscription on charge to check if billing fails

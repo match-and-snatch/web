@@ -40,7 +40,7 @@ describe PaymentManager do
           StripeMock.prepare_card_error(:card_declined)
         end
 
-        it 'mark as rejected and set rejected date' do
+        it 'marks as rejected and sets rejected date' do
           expect(subscription.rejected).to eq(true)
           expect(subscription.rejected_at.utc.to_s).to eq(Time.zone.now.to_s)
         end
