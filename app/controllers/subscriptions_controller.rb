@@ -68,13 +68,16 @@ class SubscriptionsController < ApplicationController
 
   def restore
     SubscriptionManager.new(current_user.object).restore(@subscription)
-    notice(:restored_subscription)
-    json_reload
+    json_reload notice: :restored_subscription
+  rescue ManagerError
+    json_reload notice: :failed_to_restore_subscription
   end
 
   def retry_payment
     PaymentManager.new.pay_for(@subscription)
-    json_reload
+    json_reload notice: :restored_subscription
+  rescue ManagerError
+    json_reload notice: :failed_to_restore_subscription
   end
 
   private

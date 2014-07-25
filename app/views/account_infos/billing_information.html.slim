@@ -60,16 +60,19 @@
           - if @subscriptions.show_failed_column?
             td
               - if subscription.rejected?
-                span style='color: red' Payment Failed
+                span style='color: red' Payment failed
               - else
                 span style='color: gray' Canceled
           td style='text-align: right;'
             - if subscription.target_user.is_profile_owner?
               / TODO (DJ): move under one general action: 'restore'
+              span.fa.fa-refresh.pink style='color: #ea2e49' &nbsp;
               - if subscription.rejected?
-                a.fa.fa-refresh.AjaxFormLink data-_method='PUT' href=retry_payment_subscription_path(subscription.id) Retry payment
+                a.AjaxFormLink data-_method='PUT' href=retry_payment_subscription_path(subscription.id)
+                  ' Retry Payment
               - else
-                a.fa.fa-refresh.AjaxFormLink data-_method='PUT' href=restore_subscription_path(subscription.id) Restore Subscription
+                a.AjaxFormLink data-_method='PUT' href=restore_subscription_path(subscription.id)
+                  ' Restore
             - else
               span Deleted Profile
 
