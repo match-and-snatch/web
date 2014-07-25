@@ -57,7 +57,7 @@ class AccountInfosController < ApplicationController
 
   def update_cc_data
     manager.update_cc_data(params.slice(:number, :cvc, :expiry_month, :expiry_year))
-    json_success notice: :updated_cc_data
+    json_reload notice: :updated_cc_data
   end
 
   def create_profile_page

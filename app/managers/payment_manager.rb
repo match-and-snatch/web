@@ -36,6 +36,7 @@ class PaymentManager < BaseManager
     target.charged_at = Time.zone.now
 
     save_or_die!(target).tap do
+      target.restore!
       SubscriptionManager.new(target.customer).accept(target)
       UserManager.new(target.customer).remove_mark_billing_failed
     end
