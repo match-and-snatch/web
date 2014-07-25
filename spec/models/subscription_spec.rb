@@ -174,5 +174,9 @@ describe Subscription do
       end
     end
   end
+
+  describe '#canceled_at' do
+    pending 'TODO(JD): missing specs'
+  end
 end
 

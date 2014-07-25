@@ -63,7 +63,7 @@
             td= link_to_user subscription.target_user
             - if @subscriptions.show_failed_column?
               td= subscription.rejected? ? 'Payment fail' : 'Cancelled by user'
-            td= subscription.canceled_at
+            td= subscription.canceled_at.to_s(:long)
             td style='text-align: right;'
               - if subscription.target_user.is_profile_owner?
                 - if subscription.rejected?
