@@ -109,9 +109,9 @@ class User < ActiveRecord::Base
   end
 
   def subscribed_to?(target)
-    return false if new_record? # || billing_failed?
-    subscription = subscriptions.not_removed.by_target(target).first
-    subscription ? !(subscription.expired? || subscription.rejected?) : false
+    return false if new_record?
+    subscription = subscriptions.by_target(target).not_removed.first
+    subscription && !(subscription.expired? || subscription.rejected?)
   end
 
   def subscribers
