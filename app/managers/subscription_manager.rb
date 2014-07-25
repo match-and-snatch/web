@@ -133,7 +133,7 @@ class SubscriptionManager < BaseManager
     end
   end
 
-  def restore(subscription)
+  def restore(subscription) # TODO (DJ): move to constructor
     PaymentManager.new.pay_for(subscription, 'Payment for subscription') unless subscription.paid?
     subscription.restore!
 
@@ -143,7 +143,7 @@ class SubscriptionManager < BaseManager
   end
 
   # @param subscription [Subscription]
-  def unsubscribe(subscription)
+  def unsubscribe(subscription) # TODO (DJ): move to constructor
     subscription.remove!
 
     target_user = subscription.target_user
@@ -151,23 +151,23 @@ class SubscriptionManager < BaseManager
     UnsubscribedFeedEvent.create! target_user: target_user, target: @subscriber
   end
 
-  def enable_notifications(subscription)
+  def enable_notifications(subscription) # TODO (DJ): move to constructor
     subscription.notifications_enabled = true
     save_or_die! subscription
   end
 
-  def disable_notifications(subscription)
+  def disable_notifications(subscription) # TODO (DJ): move to constructor
     subscription.notifications_enabled = false
     save_or_die! subscription
   end
 
-  def reject(subscription)
+  def reject(subscription) # TODO (DJ): move to constructor
     subscription.rejected = true
     subscription.rejected_at = Time.zone.now if subscription.rejected_at.nil?
     save_or_die! subscription
   end
 
-  def accept(subscription)
+  def accept(subscription) # TODO (DJ): move to constructor
     subscription.rejected = false
     subscription.rejected_at = nil
     save_or_die! subscription
