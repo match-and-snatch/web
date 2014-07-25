@@ -18,7 +18,7 @@
 
   = render 'post_uploads', post: post
 
-  .message= format_post_message(super_highlight(post.message))
+  .message= super_highlight(format_post_message(post.message))
   .action_bar= render 'like', post: post
 
   .comment_container

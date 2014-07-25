@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def mentions
-    @users = User.where.not(id: current_user.id).search_by_text_fields(params[:q]).limit(5)
+    @users = User.where.not(id: current_user.id).search_by_text_fields(params[:q]).limit(5).to_a
     json_replace
   end
 
