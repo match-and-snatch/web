@@ -160,4 +160,16 @@ class SubscriptionManager < BaseManager
     subscription.notifications_enabled = false
     save_or_die! subscription
   end
+
+  def reject(subscription)
+    subscription.rejected = true
+    subscription.rejected_at = Time.zone.now if subscription.rejected_at.nil?
+    save_or_die! subscription
+  end
+
+  def accept(subscription)
+    subscription.rejected = false
+    subscription.rejected_at = nil
+    save_or_die! subscription
+  end
 end

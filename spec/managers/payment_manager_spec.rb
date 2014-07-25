@@ -15,11 +15,20 @@ describe PaymentManager do
 
       before do
         UserManager.new(user).mark_billing_failed
+        SubscriptionManager.new(user).reject(subscription)
       end
 
       context 'payment passes' do
         it 'restores billing status to valid' do
           expect { subject.pay_for(subscription) }.to change { user.reload.billing_failed? }.to(false)
+        end
+
+        it 'restores rejected status to valid' do
+          expect { subject.pay_for(subscription) }.to change { subscription.rejected }.to(false)
+        end
+
+        it 'removes rejected date' do
+          expect { subject.pay_for(subscription) }.to change { subscription.rejected_at }.to(nil)
         end
       end
 
@@ -29,6 +38,11 @@ describe PaymentManager do
           StripeMock.prepare_card_error(:card_declined)
           subject.pay_for(subscription)
           StripeMock.prepare_card_error(:card_declined)
+        end
+
+        it 'mark as rejected and set rejected date' do
+          expect(subscription.rejected).to eq(true)
+          expect(subscription.rejected_at.utc.to_s).to eq(Time.zone.now.to_s)
         end
 
         context 'on a day when payment fails first time' do

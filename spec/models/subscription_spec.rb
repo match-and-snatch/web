@@ -148,5 +148,31 @@ describe Subscription do
       end
     end
   end
+
+  describe '#expired?' do
+    context 'when removed' do
+      before do
+        SubscriptionManager.new(user).unsubscribe(subject)
+      end
+
+      context 'and billing_date has passed' do
+        it
+      end
+
+      context 'and billing_date has not become' do
+        its(:expired?) { should eq(true) }
+      end
+    end
+
+    context 'when not removed' do
+      context 'and billing_date has passed' do
+        it
+      end
+
+      context 'and billing_date has not become' do
+        its(:expired?) { should eq(false) }
+      end
+    end
+  end
 end
 

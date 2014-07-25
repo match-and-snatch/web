@@ -81,6 +81,42 @@ describe User do
     end
   end
 
+  describe '#subscribed_to?' do
+    subject { user.subscribed_to?(target_user) }
+
+    let(:user) { create_user }
+    let(:target_user) { create_profile email: 'target@user.com' }
+
+    context 'with' do
+      let!(:subscription) { SubscriptionManager.new(user).subscribe_to(target_user) }
+
+      context 'active subscription' do
+        it { should eq(true) }
+      end
+
+      context 'rejected subscription' do
+        before do
+          StripeMock.start
+          StripeMock.prepare_card_error(:card_declined)
+          PaymentManager.new.pay_for(subscription)
+        end
+        after { StripeMock.stop }
+
+        it { should eq(false) }
+      end
+
+      context 'expired subscription' do
+        before { SubscriptionManager.new(user).unsubscribe(subscription) }
+
+        it { should eq(false) }
+      end
+    end
+
+    context 'without subscription' do
+      it { should eq(false) }
+    end
+  end
+
   describe '.search_by_text_fields' do
     let!(:matching_by_full_name) { create_user first_name: 'sergei', last_name: 'zinin' }
     let!(:matching_by_profile_name) do

@@ -29,7 +29,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def expired?
-    removed? && billing_date < Time.zone.today
+    removed? || billing_date < Time.zone.today
   end
 
   def paid?
@@ -69,7 +69,8 @@ class Subscription < ActiveRecord::Base
   private
 
   def day_of_payment_attempts
-    first_failure_date = payment_failures.where(['created_at >= ?', charged_at || created_at]).minimum(:created_at).try(:to_date)
-    (Time.zone.today - (first_failure_date || Time.zone.today)).to_i
+    #first_failure_date = payment_failures.where(['created_at >= ?', charged_at || created_at]).minimum(:created_at).try(:to_date)
+    #(Time.zone.today - (first_failure_date || Time.zone.today)).to_i
+    (Time.zone.today - (rejected_at.try(:to_date) || Time.zone.today)).to_i
   end
 end

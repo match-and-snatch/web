@@ -36,6 +36,7 @@ class PaymentManager < BaseManager
     target.charged_at = Time.zone.now
 
     save_or_die!(target).tap do
+      SubscriptionManager.new(target.customer).accept(target)
       UserManager.new(target.customer).remove_mark_billing_failed
     end
   rescue Stripe::StripeError => e
@@ -47,7 +48,11 @@ class PaymentManager < BaseManager
                                      description:        description
 
     PaymentsMailer.delay.failed(failure) if target.notify_about_payment_failure?
-    SubscriptionManager.new(target.customer).unsubscribe(target) if target.payment_attempts_expired?
+
+    manager = SubscriptionManager.new(target.customer)
+
+    manager.unsubscribe(target) if target.payment_attempts_expired?
+    manager.reject(target)
 
     UserManager.new(target.customer).mark_billing_failed
   end
