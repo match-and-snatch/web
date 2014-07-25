@@ -48,12 +48,18 @@ class PaymentManager < BaseManager
                                      description:        description
 
     SubscriptionManager.new(target.customer).tap do |subscription_manager|
-      subscription_manager.unsubscribe(target) if target.payment_attempts_expired?
       subscription_manager.reject(target)
+      subscription_manager.unsubscribe(target) if target.payment_attempts_expired?
     end
     UserManager.new(target.customer).mark_billing_failed
     PaymentsMailer.delay.failed(failure) if target.notify_about_payment_failure?
     failure
+  end
+
+  def pay_for!(*args)
+    pay_for(*args).tap do |result|
+      fail_with! 'Payment has been failed' if result.is_a? PaymentFailure
+    end
   end
 
   # Pays for any random subscription on charge to check if billing fails

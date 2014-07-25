@@ -74,7 +74,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def retry_payment
-    PaymentManager.new.pay_for(@subscription)
+    PaymentManager.new.pay_for!(@subscription)
     json_reload notice: :restored_subscription
   rescue ManagerError
     json_reload notice: :failed_to_restore_subscription

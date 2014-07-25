@@ -134,7 +134,7 @@ class SubscriptionManager < BaseManager
   end
 
   def restore(subscription) # TODO (DJ): move to constructor
-    PaymentManager.new.pay_for(subscription, 'Payment for subscription') unless subscription.paid?
+    PaymentManager.new.pay_for!(subscription, 'Payment for subscription') unless subscription.paid?
     subscription.restore!
 
     target_user = subscription.target_user
@@ -148,7 +148,12 @@ class SubscriptionManager < BaseManager
 
     target_user = subscription.target_user
     UserStatsManager.new(target_user).log_subscriptions_count
-    UnsubscribedFeedEvent.create! target_user: target_user, target: @subscriber
+
+    if subscription.rejected?
+      # TODO: create another type of event
+    else
+      UnsubscribedFeedEvent.create! target_user: target_user, target: @subscriber
+    end
   end
 
   def enable_notifications(subscription) # TODO (DJ): move to constructor
