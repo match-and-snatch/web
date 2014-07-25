@@ -3,14 +3,8 @@
     i.fa.fa-gear.edit_post.pull-right.Toggler data-target='edit-post-#{post.id}'
       .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
         ul
-          a.AjaxLink.delete_btn data-target='' href=edit_post_path(post.id)
+          a.AjaxLink.delete_btn href=edit_post_path(post.id)
             li Edit Post
-          /- if post.hidden?
-            a.AjaxFormLink.delete_btn href=make_visible_post_path(post.id) data-_method='put' data-target='post-#{post.id}'
-              li Show
-          /- else
-            a.AjaxFormLink.delete_btn href=hide_post_path(post.id) data-_method='put' data-target='post-#{post.id}'
-              li Hide
           a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}'
             li Delete
           a.Toggler data-target='edit-post-#{post.id}' href="#" 
@@ -31,7 +25,7 @@
     - if post.comments_query.has_more_comments?
       a.AjaxLink.load_more_comments.fa.fa-angle-double-up href=post_comments_path(post.id, last_comment_id: post.comments_query.last_comment_id)  Load Older Comments
 
-    /* Comment Row */
+    / Comment Row
 
     = render partial: 'comments/comment', collection: post.comments_query.results
     .new_comments data-identifier="comments_section-#{post.id}"

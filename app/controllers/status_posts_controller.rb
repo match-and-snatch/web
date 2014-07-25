@@ -1,0 +1,2 @@
+class StatusPostsController < PendingPostsController
+end
