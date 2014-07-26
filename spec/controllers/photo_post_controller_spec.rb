@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PhotoPostsController do
+describe PhotoPostsController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'DELETE #cancel' do
@@ -12,7 +12,7 @@ describe PhotoPostsController do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /success/ }
     end
   end
@@ -26,7 +26,7 @@ describe PhotoPostsController do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      it { should be_success }
     end
   end
 
@@ -37,7 +37,7 @@ describe PhotoPostsController do
       before { sign_in owner }
       let!(:pending_photo) { create_photo_upload(owner).first }
 
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /replace/ }
     end
 

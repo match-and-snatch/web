@@ -7,11 +7,9 @@ class RepliesController < ApplicationController
   protect(:edit, :update) { can? :delete, @reply }
 
   def create
-    @reply = CommentManager.new(user: current_user.object,
-                                post: @comment.post,
-                                parent: @comment).create(message: params[:message],
-                                                         mentions: params[:mentions])
-    json_render notice: 'Thanks for the comment'
+    @reply = CommentManager.new(user: current_user.object, post: @comment.post, parent: @comment).
+      create(params.slice(:message, :mentions))
+    json_render notice: :new_comment
   end
 
   def edit
@@ -20,17 +18,17 @@ class RepliesController < ApplicationController
 
   def update
     @reply.update_attributes(message: params[:message])
-    json_replace html: render_to_string(partial: 'reply', locals: {reply: @reply})
+    json_replace html: reply_html
   end
 
   def make_visible
     CommentManager.new(user: current_user.object, comment: @reply).show
-    json_replace html: render_to_string(partial: 'reply', locals: {reply: @reply})
+    json_replace html: reply_html
   end
 
   def hide
     CommentManager.new(user: current_user.object, comment: @reply).hide
-    json_replace html: render_to_string(partial: 'reply', locals: {reply: @reply})
+    json_replace html: reply_html
   end
 
   private
@@ -41,5 +39,9 @@ class RepliesController < ApplicationController
 
   def load_comment!
     @comment = Comment.where(id: params[:comment_id]).first or error(404)
+  end
+
+  def reply_html
+    render_to_string(partial: 'reply', locals: {reply: @reply})
   end
 end

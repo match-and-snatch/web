@@ -15,6 +15,11 @@ class Admin::ProfileOwnersController < Admin::BaseController
     json_render
   end
 
+  def recent
+    @users = User.profile_owners.order('created_at DESC').limit(200)
+    json_render
+  end
+
   def show
     json_render
   end
@@ -28,27 +33,27 @@ class Admin::ProfileOwnersController < Admin::BaseController
       where(target_user_id: @user.id).
       where(["removed_at > ? OR removed = 'f'", period.end]).
       where(['subscriptions.created_at <= ?', period.end]).map { |s| SubscriptionDecorator.new(s, date) }
-    json_success popup: render_to_string(action: action_name, layout: false)
+    json_popup
   end
 
   def total_new_subscribed
     date = Date.parse(params[:date])
     @subscriptions = @user.object.source_subscriptions.includes(:user).where(['subscriptions.created_at <= ? AND subscriptions.created_at >= ?', date, (date.beginning_of_month)]).where.not(user_id: nil).map { |s| SubscriptionDecorator.new(s, date) }
-    json_success popup: render_to_string(action: action_name, layout: false)
+    json_popup
   end
 
   def total_unsubscribed
     date = Date.parse(params[:date])
     period = date.beginning_of_month..date
     @subscriptions = Subscription.where(target_user_id: @user.id, removed_at: period, removed: true).where.not(user_id: nil).map { |s| SubscriptionDecorator.new(s, date) }
-    json_success popup: render_to_string(action: action_name, layout: false)
+    json_popup
   end
 
   def failed_billing_subscriptions
     date = Date.parse(params[:date])
     period = date.beginning_of_month..date
     @users = User.joins(:subscriptions).where(subscriptions: {target_user_id: @user.id}, billing_failed_at: period)
-    json_success popup: render_to_string(action: action_name, layout: false)
+    json_popup
   end
 
   private

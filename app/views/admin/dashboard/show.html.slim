@@ -1,13 +1,14 @@
 .container-fluid.admin_settings
   .row
-    .sidebar.col-md-2
+    .sidebar.col-lg-2.col-md-2.col-sm-2.col-xs-12
       ul.nav.nav-sidebar
         li
           a.HashLink data-use_anchor='true' data-target='admin-panel' href=admin_users_path Overview
         li
+          a.HashLink data-use_anchor='true' data-default='true' data-target='admin-panel' href=recent_admin_profile_owners_path Recent Profiles
+        li
           a.HashLink data-use_anchor='true' data-default='true' data-target='admin-panel' href=admin_profile_owners_path Profile Owners
-        /li
-          a.HashLink data-use_anchor='true' data-target='admin-panel' href='#' Subscriber Profiles
+
       hr style='margin: 10px 0'
       ul.nav.nav-sidebar
         li
@@ -29,5 +30,5 @@
         li
           a.HashLink data-use_anchor='true' data-target='admin-panel' href=admin_payout_details_path Payout Details
 
-    .content.col-md-10
+    .content.col-lg-10.col-md-10.col-sm-10.col-xs-12
       .AjaxContainer data-use_anchor='true' data-identifier='admin-panel' data-url=admin_profile_owners_path

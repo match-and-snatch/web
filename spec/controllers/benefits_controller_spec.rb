@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BenefitsController do
+describe BenefitsController, type: :controller do
   describe 'POST #create' do
     let(:user) { create_user }
     let(:benefits_params){  {"0"=>"benefit", "1"=>"other benefit", "2"=>"", "3"=>"", "4"=>"", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>""} }
@@ -15,7 +15,7 @@ describe BenefitsController do
       before { sign_in user }
       before { perform_request }
 
-      its(:status) { should == 200 }
+      it { should be_success }
 
       specify do
         expect(assigns(:benefits)).to match_array(user.benefits(true))

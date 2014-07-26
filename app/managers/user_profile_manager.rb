@@ -266,7 +266,10 @@ class UserProfileManager < BaseManager
     user.card_type            = customer['cards']['data'][0]['type']
 
     save_or_die! user
+
     UserManager.new(user).remove_mark_billing_failed
+    PaymentManager.new(user: user).perform_test_payment
+
     user
   rescue Stripe::CardError => e
     err = e.json_body[:error]

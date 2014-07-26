@@ -603,7 +603,9 @@ CREATE TABLE subscriptions (
     notifications_enabled boolean DEFAULT true NOT NULL,
     charged_at timestamp without time zone,
     removed boolean DEFAULT false NOT NULL,
-    removed_at timestamp without time zone
+    removed_at timestamp without time zone,
+    rejected boolean DEFAULT false NOT NULL,
+    rejected_at timestamp without time zone
 );
 
 
@@ -1170,3 +1172,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140624125826');
 INSERT INTO schema_migrations (version) VALUES ('20140624130009');
 
 INSERT INTO schema_migrations (version) VALUES ('20140624130659');
+
+INSERT INTO schema_migrations (version) VALUES ('20140724070838');
+
+INSERT INTO schema_migrations (version) VALUES ('20140725163435');
+

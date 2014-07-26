@@ -17,7 +17,7 @@ class CurrentUserDecorator < UserDecorator
   def can?(action, subject)
     case subject
     when Dialogue
-      subject.user == object || subject.target_user = object
+      subject.user == object || subject.target_user == object
     when User
       case action
       when :login_as             then object.admin?
@@ -25,6 +25,7 @@ class CurrentUserDecorator < UserDecorator
       when :see_subscribe_button then subject.id != object.id &&                !subscribed_to?(subject) && !billing_failed?
       when :see                  then subject.id == object.id ||                 subscribed_to?(subject) || subject.has_public_profile?
       when :manage               then subject.id == object.id
+      when :send_message_to      then subscribed_to?(subject) && !billing_failed?
       else
         raise ArgumentError, "No such action #{action}"
       end
@@ -34,7 +35,7 @@ class CurrentUserDecorator < UserDecorator
       end
       when Comment
       case action
-      when :delete then subject.user_id == object.id || subject.post_user_id == object.id
+      when :delete, :manage then subject.user_id == object.id || subject.post_user_id == object.id
       else
         raise ArgumentError, "No such action #{action}"
       end

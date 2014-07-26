@@ -23,8 +23,10 @@ class BaseManager
   # Saves record, fails with manager error if record is invalid
   # @raise [ManagerError]
   # @param record [ActiveRecord::Base] model
+  # @return [ActiveRecord::Base] same model instance
   def save_or_die!(record)
     record.save or fail_with! record.errors
+    record
   end
 
   private

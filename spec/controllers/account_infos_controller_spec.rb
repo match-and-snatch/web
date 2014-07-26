@@ -1,133 +1,22 @@
 require 'spec_helper'
 
-describe AccountInfosController do
-  describe 'GET #settings' do
-    subject { get 'settings' }
+describe AccountInfosController, type: :controller do
+  describe 'GET #show' do
+    let(:user){ create_user }
+    subject(:perform_request) { get 'show' }
 
     context 'not authorized' do
       its(:status) { should == 401 }
     end
 
     context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
+      before do
+        sign_in user
+        perform_request
+      end
 
-  describe 'PUT #update_general_information' do
-    subject { put 'update_general_information' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'PUT #change_password' do
-    subject { put 'change_password' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'GET #billing_information' do
-    subject { get 'billing_information' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'GET #edit_payment_information' do
-    subject { get 'edit_payment_information' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'PUT #update_bank_account_data' do
-    subject { put 'update_bank_account_data' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'GET #edit_cc_data' do
-    subject { get 'edit_cc_data' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'PUT #update_cc_data' do
-    subject { put 'update_cc_data' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'PUT #create_profile_page' do
-    subject { put 'create_profile_page' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
-    end
-  end
-
-  describe 'PUT #delete_profile_page' do
-    subject { put 'delete_profile_page' }
-
-    context 'not authorized' do
-      its(:status) { should == 401 }
-    end
-
-    context 'authorized' do
-      before { sign_in }
-      its(:status) { should == 200 }
+      it { expect(assigns('user')).to eq user }
+      it { should be_success }
     end
   end
 
@@ -139,27 +28,26 @@ describe AccountInfosController do
     end
 
     context 'authorized' do
-      before { sign_in }
-      before { perform_request }
-      it{ expect(assigns(:user)).to be_a_kind_of(UserStatsDecorator) }
-      its(:status) { should == 200 }
+      before do
+        sign_in
+        perform_request
+      end
+
+      it { expect(assigns(:user)).to be_a_kind_of(UserStatsDecorator) }
+      it { should be_success }
     end
   end
 
-  describe 'GET #show' do
-    let(:user){ create_user }
-    subject(:perform_request) { get 'show' }
+  describe 'GET #settings' do
+    subject { get 'settings' }
 
     context 'not authorized' do
       its(:status) { should == 401 }
     end
 
     context 'authorized' do
-      before { sign_in user }
-      before { perform_request }
-
-      it { expect(assigns('user')).to eq user }
-      its(:status) { should == 200 }
+      before { sign_in }
+      it { should be_success }
     end
   end
 
@@ -172,8 +60,21 @@ describe AccountInfosController do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /replace/ }
+    end
+  end
+
+  describe 'PUT #update_general_information' do
+    subject { put 'update_general_information' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
     end
   end
 
@@ -186,9 +87,204 @@ describe AccountInfosController do
 
     context 'authorized' do
       before { sign_in }
-      its(:status) { should == 200 }
+      it { should be_success }
       its(:body) { should match_regex /notice/ }
       its(:body) { should match_regex /reload/ }
+    end
+  end
+
+  describe 'PUT #change_password' do
+    subject { put 'change_password' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'GET #billing_information' do
+    subject { get 'billing_information' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'GET #edit_payment_information' do
+    subject { get 'edit_payment_information' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #update_bank_account_data' do
+    subject { put 'update_bank_account_data' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'GET #edit_cc_data' do
+    subject { get 'edit_cc_data' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #update_cc_data' do
+    subject { put 'update_cc_data' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #create_profile_page' do
+    subject { put 'create_profile_page' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #confirm_profile_page_removal' do
+    subject { get 'confirm_profile_page_removal' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #delete_profile_page' do
+    subject { put 'delete_profile_page' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #enable_rss' do
+    subject { put 'enable_rss' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_rss' do
+    subject { put 'disable_rss' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #enable_downloads' do
+    subject { put 'enable_downloads' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_downloads' do
+    subject { put 'disable_downloads' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #enable_itunes' do
+    subject { put 'enable_itunes' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_itunes' do
+    subject { put 'disable_itunes' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
     end
   end
 end

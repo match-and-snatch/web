@@ -1,1 +1,21 @@
-b 401.. you are not authorized man
+.container
+  #header.box.error_pages
+    h1 style='margin-bottom: 15px;'
+      strong To view this page, please login below. Thank you.
+
+    form.Form action=session_path method='post'
+      .form-group
+        label Email Address
+        input.form-control type='text' name='email' autocorrect='off' autocapitalize='off'
+      .form-group
+        label Password
+        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
+        .mobile_message.alert.alert-warning style='margin-top: 15px' Passwords are case sensitve, please make sure you enter your correct password.
+      .form-group style="margin-top: 15px"
+        input.pull-right.btn.blue type='submit' value='Login'
+        .pull-right style='margin-right: 15px;'
+          .checkbox
+            label.remember_me
+              input name='remember_me' type="checkbox" Remember Me
+        .clearfix
+      .text-danger.Error style="margin-bottom: 15px;"

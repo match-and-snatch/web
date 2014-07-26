@@ -1,80 +1,113 @@
-h2 Search All Users
+h2
+  strong Quick Search Users
 
 form.Form action=search_admin_users_path method='get' data-target='users'
-  input.Autocomplete.form-control type="text" name='q' placeholder="Search profiles by email"
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search by email, first name, or last name..." style='margin-bottom: 15px;'
 
-div data-identifier='users'
-
-hr
-
-h2 Daily Statistics
-
-p 
-  'Total Sales (today):
-  strong= number_to_currency(Payment.where(created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).sum(:amount) / 100.0)
-p 
-  'Total Subscribers (today):
-  strong= Subscription.where(created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count
-p 
-  'Total Unsubscribers (today):
-  strong= Subscription.where(removed_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count
-p 
-  'Total Failed Payments (today):
-  strong= PaymentFailure.where(created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count
+.search_users_results data-identifier='users'
 
 hr
 
-h2 All-Time Statistics
+h2
+  strong Company Overview
 
-- stripe_fee = (Payment.count * 0.30 + (Payment.sum(:amount) * 0.027) / 100.0).round(2)
+.row style="padding-top: 15px"
+  - stripe_fee = (Payment.count * 0.30 + (Payment.sum(:amount) * 0.027) / 100.0).round(2)
+  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-sales.png')
+    p
+      'Total Gross Sales
+      strong= number_to_currency(Payment.sum(:amount) / 100.0)
 
-p
-  'Total Sales:
-  strong= number_to_currency(Payment.sum(:amount) / 100.0)
-p
-  'Total Gross:
-  strong= number_to_currency(Payment.sum(:amount) / 100.0)
-p
-  'Total Stripe Fees:
-  strong $#{stripe_fee}
-p
-  'Total ToS Fees:
-  strong $#{(Payment.sum(:user_subscription_fees) - stripe_fee).round(2)}
-p
-  'Total Subscribers:
-  strong= Subscription.where(removed: false).count
-p
-  'Total Unsubscribers:
-  strong= Subscription.where(removed: true).count
-p
-  'Total Failed Payments:
-  strong= PaymentFailure.count
+  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-subscribers.png')
+    p
+      'Total Subscribers
+      strong= Subscription.where(removed: false).count
+
+  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-unsubscribers.png')
+    p
+      'Total Unsubscribers
+      strong= Subscription.where(removed: true).count
+
+  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-failed.png')
+    p
+      'Total Failed Payments
+      strong= User.where(billing_failed: true).count
+
+  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
+    p
+      'Total ToS Fees
+      strong $#{(Payment.sum(:user_subscription_fees) - stripe_fee).round(2)}
+
+  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-stripe.png')
+    p
+      'Total Stripe Fees
+      strong $#{stripe_fee}
 
 hr
 
-h2 Recently Created Users
+h2
+  strong Daily Snapshot
 
-.table-responsive
+.row
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Gross Sales
+      strong= number_to_currency(Payment.where(created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).sum(:amount) / 100.0)
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Subscribers
+      strong= Subscription.where(created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Unsubscribers
+      strong= Subscription.where(removed_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Failed Payments
+      strong= User.joins(:payment_failures).where(payment_failures: {created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)}).select('users.id').uniq.count
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total ToS Fees
+      strong $0.00
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Stripe Fees
+      strong $0.00
+
+.clearfix
+
+/.table-responsive
   table.table.table-striped
     tr
-      th 
+      th
         strong ID #
-      th 
+      th
         strong Full Name
-      th 
+      th
         strong Email Address
-      th 
+      th
         strong Date/Time Created
-      th 
+      th
         strong Subscriber (if applicable)
     tr
       td 2
-      td 
+      td
         // Link to user details
         a href="#" Slava Popov
-      td 
+      td
         a href="mailto:" email@email.com
       td May 1, 2014 4:40 PM
-      td 
+      td
         // Link to subscribed profile if there is one
         a href="#" Profile Name

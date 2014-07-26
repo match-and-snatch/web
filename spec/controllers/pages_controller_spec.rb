@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PagesController do
+describe PagesController, type: :controller do
   describe 'GET #about' do
     subject { get 'about' }
     it { should be_success }

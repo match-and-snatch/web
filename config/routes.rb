@@ -84,6 +84,7 @@ BuddyPlatform::Application.routes.draw do
       put :enable_notifications
       put :disable_notifications
       put :restore
+      put :retry_payment
     end
   end
   resources :audios, only: [:show, :create, :destroy] do
@@ -144,6 +145,10 @@ BuddyPlatform::Application.routes.draw do
     resources :profile_owners, only: [:index, :show] do
       resources :transfers, only: [:index, :create]
 
+      collection do
+        get :recent
+      end
+
       member do
         get :total_subscribed
         get :total_new_subscribed
@@ -192,7 +197,6 @@ BuddyPlatform::Application.routes.draw do
 
   scope module: :owner do
     resource :second_step, only: %i(show update)
-    resource :third_step, only: %i(show update)
   end
 
   get '/about' => 'pages#about', as: :about

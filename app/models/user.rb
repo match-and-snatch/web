@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :profile_types_users
   has_many :profile_types, through: :profile_types_users
   has_many :payments
+  has_many :payment_failures
   has_many :source_payments, class_name: 'Payment', foreign_key: 'target_user_id'
 
   has_one :pending_post
@@ -108,9 +109,10 @@ class User < ActiveRecord::Base
   end
 
   def subscribed_to?(target)
-    return false if new_record? || billing_failed?
-    subscription = subscriptions.by_target(target).first
-    subscription ? !subscription.expired? : false
+    return false if new_record?
+
+    subscription = subscriptions.by_target(target).not_removed.first
+    !!subscription && !subscription.rejected?
   end
 
   def subscribers
