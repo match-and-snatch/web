@@ -118,18 +118,18 @@ class SubscriptionManager < BaseManager
     if removed_subscription
       restore(removed_subscription)
     else
-      fail_with! 'Already subscribed' if @subscriber.subscribed_to?(target)
+      fail_with! 'Already subscribed' if @subscriber.subscriptions.by_target(target).not_removed.any?
 
-      Subscription.new do |subscription|
-        subscription.user        = @subscriber
-        subscription.target      = target
-        subscription.target_user = target.subscription_source_user
+      subscription = @subscriber.subscriptions.by_target(target).first || Subscription.new
+      subscription.user = @subscriber
+      subscription.target = target
+      subscription.target_user = target.subscription_source_user
+      save_or_die! subscription
 
-        save_or_die! subscription
-        UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
-        SubscribedFeedEvent.create! target_user: target, target: @subscriber
-        SubscriptionsMailer.delay.subscribed(subscription)
-      end
+      UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
+      SubscribedFeedEvent.create! target_user: target, target: @subscriber
+      SubscriptionsMailer.delay.subscribed(subscription)
+      subscription
     end
   end
 
