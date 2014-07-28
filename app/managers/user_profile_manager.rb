@@ -48,7 +48,7 @@ class UserProfileManager < BaseManager
   def delete_profile_page
     @user.is_profile_owner = false
     @user.source_subscriptions.find_each do |subscription|
-      SubscriptionManager.new(subscription.user).unsubscribe(subscription)
+      SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
     end
     @user.save!
     @user

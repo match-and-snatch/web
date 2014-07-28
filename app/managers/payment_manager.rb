@@ -37,7 +37,7 @@ class PaymentManager < BaseManager
 
     save_or_die!(target).tap do
       target.restore!
-      SubscriptionManager.new(target.customer).accept(target)
+      SubscriptionManager.new(subscriber: target.customer, subscription: target).accept
       UserManager.new(target.customer).remove_mark_billing_failed
     end
   rescue Stripe::StripeError => e
@@ -48,9 +48,9 @@ class PaymentManager < BaseManager
                                      stripe_charge_data: charge.try(:as_json),
                                      description:        description
 
-    SubscriptionManager.new(target.customer).tap do |subscription_manager|
-      subscription_manager.reject(target)
-      subscription_manager.unsubscribe(target) if target.payment_attempts_expired?
+    SubscriptionManager.new(subscriber: target.customer, subscription: target).tap do |subscription_manager|
+      subscription_manager.reject
+      subscription_manager.unsubscribe if target.payment_attempts_expired?
     end
     UserManager.new(target.customer).mark_billing_failed
     PaymentsMailer.delay.failed(failure) if target.notify_about_payment_failure?

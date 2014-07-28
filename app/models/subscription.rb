@@ -68,7 +68,7 @@ class Subscription < ActiveRecord::Base
 
   # @return [DateTime]
   def canceled_at
-    (removed? ? removed_at : rejected_at)
+    removed? ? removed_at : rejected_at
   end
 
   private
