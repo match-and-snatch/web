@@ -16,12 +16,12 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    SubscriptionManager.new(current_user.object).subscribe_and_pay_for(@owner)
+    SubscriptionManager.new(subscriber: current_user.object).subscribe_and_pay_for(@owner)
     json_reload
   end
 
   def via_register
-    SubscriptionManager.new(current_user.object).tap do |manager|
+    SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
       manager.register_subscribe_and_pay target:       @owner,
                                          email:        params[:email],
                                          password:     params[:password],
@@ -36,7 +36,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def via_update_cc_data
-    SubscriptionManager.new(current_user.object).tap do |manager|
+    SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
       manager.update_cc_subscribe_and_pay target:       @owner,
                                           number:       params[:number],
                                           cvc:          params[:cvc],
@@ -51,30 +51,23 @@ class SubscriptionsController < ApplicationController
   end
 
   def enable_notifications
-    SubscriptionManager.new(current_user.object).enable_notifications(@subscription)
+    SubscriptionManager.new(subscriber: current_user.object, subscription: @subscription).enable_notifications
     json_success
   end
 
   def disable_notifications
-    SubscriptionManager.new(current_user.object).disable_notifications(@subscription)
+    SubscriptionManager.new(subscriber: current_user.object, subscription: @subscription).disable_notifications
     json_success
   end
 
   def destroy
-    SubscriptionManager.new(current_user.object).unsubscribe(@subscription)
+    SubscriptionManager.new(subscriber: current_user.object, subscription: @subscription).unsubscribe
     notice(:unsubscribed)
     json_reload
   end
 
   def restore
-    SubscriptionManager.new(current_user.object).restore(@subscription)
-    json_reload notice: :restored_subscription
-  rescue ManagerError
-    json_reload notice: :failed_to_restore_subscription
-  end
-
-  def retry_payment
-    PaymentManager.new.pay_for!(@subscription)
+    SubscriptionManager.new(subscriber: current_user.object, subscription: @subscription).restore_or_retry_payment
     json_reload notice: :restored_subscription
   rescue ManagerError
     json_reload notice: :failed_to_restore_subscription

@@ -65,14 +65,9 @@
                 span style='color: gray' Canceled
           td style='text-align: right;'
             - if subscription.target_user.is_profile_owner?
-              / TODO (DJ): move under one general action: 'restore'
               span.fa.fa-refresh.pink style='color: #ea2e49' &nbsp;
-              - if subscription.rejected?
-                a.AjaxFormLink data-_method='PUT' href=retry_payment_subscription_path(subscription.id)
-                  ' Retry Payment
-              - else
-                a.AjaxFormLink data-_method='PUT' href=restore_subscription_path(subscription.id)
-                  ' Restore
+              a.AjaxFormLink data-_method='PUT' href=restore_subscription_path(subscription.id)
+                = subscription.rejected? ? 'Retry Payment' : 'Restore'
             - else
               span Deleted Profile
 
