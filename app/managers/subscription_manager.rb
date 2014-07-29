@@ -7,9 +7,9 @@ class SubscriptionManager < BaseManager
 
   # @param subscriber [User]
   # @param subscription [Subscription]
-  def initialize(subscriber: , subscription: nil)
-    @subscriber = subscriber
+  def initialize(subscriber: nil, subscription: nil)
     @subscription = subscription
+    @subscriber = subscriber || @subscription.try(:user) or raise ArgumentError
   end
 
   # @param email [String]
@@ -135,21 +135,16 @@ class SubscriptionManager < BaseManager
     @subscription
   end
 
-  def restore_or_retry_payment
-    if @subscription.rejected?
-      PaymentManager.new.pay_for!(@subscription)
-    elsif @subscription.removed?
-      restore
-    end
-  end
-
   def restore
     PaymentManager.new.pay_for!(@subscription, 'Payment for subscription') unless @subscription.paid?
-    @subscription.restore!
 
-    target_user = @subscription.target_user
-    UserStatsManager.new(target_user).log_subscriptions_count
-    SubscribedFeedEvent.create! target_user: target_user, target: @subscriber
+    if @subscription.removed?
+      @subscription.restore!
+
+      target_user = @subscription.target_user
+      UserStatsManager.new(target_user).log_subscriptions_count
+      SubscribedFeedEvent.create! target_user: target_user, target: @subscriber
+    end
   end
 
   def unsubscribe

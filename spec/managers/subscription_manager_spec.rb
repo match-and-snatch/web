@@ -71,7 +71,7 @@ describe SubscriptionManager do
     end
   end
 
-  describe '#restore_or_retry_payment' do
+  describe '#restore' do
     let!(:subscription) do
       manager.subscribe_to(another_user)
     end
@@ -84,7 +84,7 @@ describe SubscriptionManager do
       end
 
       it 'restores' do
-        expect { manager.restore_or_retry_payment }.to change { subscription.removed? }.from(true).to(false)
+        expect { manager.restore }.to change { subscription.removed? }.from(true).to(false)
       end
     end
 
@@ -94,7 +94,7 @@ describe SubscriptionManager do
       end
 
       it 'tries to retry payment' do
-        expect { manager.restore_or_retry_payment }.to change { subscription.rejected? }.from(true).to(false)
+        expect { manager.restore }.to change { subscription.rejected? }.from(true).to(false)
       end
     end
   end

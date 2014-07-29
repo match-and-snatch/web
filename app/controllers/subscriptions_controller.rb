@@ -51,23 +51,23 @@ class SubscriptionsController < ApplicationController
   end
 
   def enable_notifications
-    SubscriptionManager.new(subscriber: current_user.object, subscription: @subscription).enable_notifications
+    SubscriptionManager.new(subscription: @subscription).enable_notifications
     json_success
   end
 
   def disable_notifications
-    SubscriptionManager.new(subscriber: current_user.object, subscription: @subscription).disable_notifications
+    SubscriptionManager.new(subscription: @subscription).disable_notifications
     json_success
   end
 
   def destroy
-    SubscriptionManager.new(subscriber: current_user.object, subscription: @subscription).unsubscribe
+    SubscriptionManager.new(subscription: @subscription).unsubscribe
     notice(:unsubscribed)
     json_reload
   end
 
   def restore
-    SubscriptionManager.new(subscriber: current_user.object, subscription: @subscription).restore_or_retry_payment
+    SubscriptionManager.new(subscription: @subscription).restore
     json_reload notice: :restored_subscription
   rescue ManagerError
     json_reload notice: :failed_to_restore_subscription
