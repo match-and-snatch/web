@@ -50,8 +50,8 @@ describe UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status){ should == 200 }
-      its(:body){ should match_regex /success/ }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /success/ }
     end
 
     context 'unauthorized access' do
@@ -64,8 +64,8 @@ describe UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status){ should == 200 }
-      its(:body){ should match_regex /reload/ }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /reload/ }
     end
 
     context 'unauthorized access' do
@@ -78,8 +78,8 @@ describe UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status){ should == 200 }
-      its(:body){ should match_regex /replace/ }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /replace/ }
     end
 
     context 'unauthorized access' do
@@ -92,8 +92,8 @@ describe UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status){ should == 200 }
-      its(:body){ should match_regex /success/ }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /success/ }
     end
 
     context 'unauthorized access' do
@@ -106,8 +106,8 @@ describe UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status){ should == 200 }
-      its(:body){ should match_regex /replace/ }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /replace/ }
     end
 
     context 'unauthorized access' do
@@ -120,8 +120,8 @@ describe UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status){ should == 200 }
-      its(:body){ should match_regex /replace/ }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /replace/ }
     end
 
     context 'unauthorized access' do
@@ -134,8 +134,8 @@ describe UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status){ should == 200 }
-      its(:body){ should match_regex /replace/ }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /replace/ }
     end
 
     context 'unauthorized access' do
@@ -153,7 +153,7 @@ describe UsersController, type: :controller do
       expect(assigns('users')).to eq [profile1]
     end
 
-    its(:status){ should == 200 }
-    its(:body){ should match_regex /replace/ }
+    its(:status) { should == 200 }
+    its(:body) { should match_regex /replace/ }
   end
 end
