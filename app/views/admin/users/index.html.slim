@@ -16,7 +16,7 @@ h2
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-subscribers-all-time.png')
     p
       'Total All-Time Subscribers
-      strong= Subscription.where(removed: false).count
+      strong= Subscription.count
 
   .col-md-3.col-sm-3.col-xs-3.dashboard-overview
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-subscribers.png')
