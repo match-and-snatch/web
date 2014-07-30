@@ -1,51 +1,52 @@
-.container.my_account
+.container
+  .my_account
 
-  / Sidebar
+    / Sidebar
 
-  .sidebar.box
-    .header
-      | Welcome
-      span.name #{@user.full_name}
+    .sidebar.box
+      .header
+        | Welcome
+        span.name #{@user.full_name}
 
-    ul.general
-      a.HashLink data-use_anchor='true' data-default='true' data-target='account-info' href=feed_path
-        li My Feed
-      a.HashLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
-        li Account Settings
-      a.HashLink data-use_anchor='true' data-target='account-info' href=account_info_dialogues_path data-identifier='mailbox-menu-item'
-        li 
-          | Messages 
-          span.badge.pull-right data-identifier='messages-counter' #{@user.unread_messages_count}
-          .clearfix
+      ul.general
+        a.HashLink data-use_anchor='true' data-default='true' data-target='account-info' href=feed_path
+          li My Feed
+        a.HashLink data-use_anchor='true' data-target='account-info' href=settings_account_info_path
+          li Account Settings
+        a.HashLink data-use_anchor='true' data-target='account-info' href=account_info_dialogues_path data-identifier='mailbox-menu-item'
+          li
+            | Messages
+            span.badge.pull-right data-identifier='messages-counter' #{@user.unread_messages_count}
+            .clearfix
 
-    h2.subscriptions My Subscriptions
-    ul
-      a.HashLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
-        li View Subscriptions
-      a.HashLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
-        li Billing Information
+      h2.subscriptions My Subscriptions
+      ul
+        a.HashLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
+          li View Subscriptions
+        a.HashLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
+          li Billing Information
 
-    h2.profile My Profile
-    ul style="margin-bottom: 0"
-      - unless @user.created_profile_page?
-        a.AjaxFormLink data-_method='put' href=create_profile_path
-          li Create Profile Page
-      - if @user.has_profile_page?
-        a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
-          li Delete Profile Page
-      - if @user.complete_profile?
-        a.HashLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
-          li Profile Details
-        a.HashLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
-          li style='border-bottom: none;' Payout Information
-        / a.HashLink data-use_anchor='true' data-target='account-info' href=subscribers_path
-          li style="border-bottom: none;" View Subscribers
+      h2.profile My Profile
+      ul style="margin-bottom: 0"
+        - unless @user.created_profile_page?
+          a.AjaxFormLink data-_method='put' href=create_profile_path
+            li Create Profile Page
+        - if @user.has_profile_page?
+          a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
+            li Delete Profile Page
+        - if @user.complete_profile?
+          a.HashLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
+            li Profile Details
+          a.HashLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
+            li style='border-bottom: none;' Payout Information
+          / a.HashLink data-use_anchor='true' data-target='account-info' href=subscribers_path
+            li style="border-bottom: none;" View Subscribers
 
-  / Content
+    / Content
 
-  .content.box.pull-right
-    .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=feed_path
-  .clearfix
+    .content.box.pull-right
+      .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=feed_path
+    .clearfix
 
 
 div style='position: fixed; bottom: 0; width: 100%'

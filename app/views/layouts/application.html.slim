@@ -13,7 +13,7 @@ html
               li
                 a href=application_settings_path
                   i.fa.fa-gears Application Settings
-          = render 'navigation'
+          = render 'navigation' if layout.show_navigation?
 
     #content
       - if flash.notice.present?
