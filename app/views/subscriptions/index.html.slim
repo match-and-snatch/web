@@ -5,9 +5,8 @@
     ul
       - @subscriptions.each do |subscription|
         li.item_sub
-
-          a href="#"
-            img.pull-left src='' height='150px' width='150px'
+          a href=profile_path(subscription.target_user)
+            img.pull-left src=subscription.target_user.profile_picture_url height='150px' width='150px'
           .name.pull-left= subscription.target_user.name
           .cost.pull-right
             = super_number_to_currency(subscription.target_user.subscription_cost)
