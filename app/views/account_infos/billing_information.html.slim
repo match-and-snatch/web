@@ -27,7 +27,7 @@
       tbody
         - @subscriptions.active.each do |subscription|
           tr
-            td= link_to_user subscription.target_user
+            td width='300px'= link_to_user subscription.target_user
             td= subscription.billing_date.to_s(:long)
             td style='text-align: right;'
               a.fa.fa-close.AjaxLink href=cancel_subscription_path(subscription.id) Cancel Subscription
@@ -55,7 +55,7 @@
         th style='width: 170px;'
       - @subscriptions.canceled.each do |subscription|
         tr
-          td= link_to_user subscription.target_user
+          td width='300px'= link_to_user subscription.target_user
           td= subscription.canceled_at.to_s(:long)
           - if @subscriptions.show_failed_column?
             td

@@ -13,7 +13,7 @@
             = super_number_to_currency(subscription.target_user.subscription_cost)
             |/month
 
-          p.pull-left
+          p.pull-left style='width: 450px'
             ' Subscribe Date:
             span= subscription.created_at.to_date.to_s(:long)
           /p
@@ -31,7 +31,7 @@
 
             - if subscription.target_user.is_profile_owner?
               a href=profile_path(subscription.target_user)
-                i.fa.fa-eye style='margin-top: 30px' View Profile
+                i.fa.fa-eye style='margin-top: 15px' View Profile
           .clearfix
   - else
     strong You do not have any subscriptions.
