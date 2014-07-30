@@ -54,7 +54,7 @@ h2
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
     p
       'Total ToS Fees
-      strong $#{(Payment.sum(:user_subscription_fees) - stripe_fee).round(2)}
+      strong $#{(Subscription.where(removed: true).joins(:target_user).sum('users.subscription_cost')).round(2)}
 
   .col-md-3.col-sm-3.col-xs-3.dashboard-overview
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-stripe.png')
