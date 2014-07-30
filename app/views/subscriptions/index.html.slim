@@ -5,31 +5,34 @@
     ul
       - @subscriptions.each do |subscription|
         li.item_sub
+
+          a href="#"
+            img.pull-left src='' height='150px' width='150px'
           .name.pull-left= subscription.target_user.name
           .cost.pull-right
             = super_number_to_currency(subscription.target_user.subscription_cost)
             |/month
-          .clearfix
-          p
+
+          p.pull-left
             ' Subscribe Date:
             span= subscription.created_at.to_date.to_s(:long)
           /p
             ' Next Billing Cycle:
             span= subscription.created_at.to_date.next_month.to_s(:long)
-          .actions
+          .actions.pull-left
             / a.pull-right.AjaxLink href=cancel_subscription_path(subscription.id)
               i.fa.fa-times-circle-o.pink Cancel Subscription
-
-            - if subscription.target_user.is_profile_owner?
-              a.pull-right href=profile_path(subscription.target_user)
-                i.fa.fa-eye View Profile
 
             .checkbox.pull-left style='display: block'
               label
                 = object_checker_tag(subscription, :notifications)
                 | Receive email notifications from this profile.
             .clearfix
-    
+
+            - if subscription.target_user.is_profile_owner?
+              a href=profile_path(subscription.target_user)
+                i.fa.fa-eye style='margin-top: 30px' View Profile
+          .clearfix
   - else
     strong You do not have any subscriptions.
     '

@@ -12,38 +12,51 @@ h2
   strong Company Overview
 
 .row style="padding-top: 15px"
-  - stripe_fee = (Payment.count * 0.30 + (Payment.sum(:amount) * 0.027) / 100.0).round(2)
-  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
-    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-sales.png')
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-subscribers-all-time.png')
     p
-      'Total Gross Sales
-      strong= number_to_currency(Payment.sum(:amount) / 100.0)
+      'Total All-Time Subscribers
+      strong= Subscription.where(removed: false).count
 
-  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-subscribers.png')
     p
       'Total Subscribers
       strong= Subscription.where(removed: false).count
 
-  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-unsubscribers.png')
     p
       'Total Unsubscribers
       strong= Subscription.where(removed: true).count
 
-  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-failed.png')
     p
       'Total Failed Payments
       strong= User.where(billing_failed: true).count
 
-  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+.row style="padding-top: 15px"
+  - stripe_fee = (Payment.count * 0.30 + (Payment.sum(:amount) * 0.029) / 100.0).round(2)
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-sales.png')
+    p
+      'Total Gross Sales
+      strong= number_to_currency(Payment.sum(:amount) / 100.0)
+
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
+    p
+      'Total ConnectPal Fees
+      strong $#{(Payment.sum(:user_subscription_fees) - stripe_fee).round(2)}
+
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
     p
       'Total ToS Fees
       strong $#{(Payment.sum(:user_subscription_fees) - stripe_fee).round(2)}
 
-  .col-md-2.col-sm-2.col-xs-4.dashboard-overview
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-stripe.png')
     p
       'Total Stripe Fees
