@@ -10,7 +10,7 @@ module Queries
       @query = query
       @start_id = start_id
     end
-    
+
     # @return [Array<Post>]
     def results
       @results ||= begin
@@ -54,7 +54,7 @@ module Queries
 
     def matching_posts
       if tagged?
-        @user.posts.where(type: types).order('created_at DESC, id DESC')
+        @user.posts.where(type: types).order('created_at DESC, id DESC').limit(5)
       else
         @user.posts.search_by_message(@query).limit(10)
       end
