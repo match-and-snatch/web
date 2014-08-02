@@ -306,6 +306,40 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 
 
 --
+-- Name: oauth_providers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE oauth_providers (
+    id integer NOT NULL,
+    provider character varying(255),
+    uid character varying(255),
+    provider_data text,
+    user_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: oauth_providers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE oauth_providers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: oauth_providers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE oauth_providers_id_seq OWNED BY oauth_providers.id;
+
+
+--
 -- Name: payment_failures; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -722,7 +756,9 @@ CREATE TABLE users (
     subscribers_count integer DEFAULT 0 NOT NULL,
     billing_failed boolean DEFAULT false NOT NULL,
     stripe_recipient_id character varying(255),
-    billing_failed_at timestamp without time zone
+    billing_failed_at timestamp without time zone,
+    vacation_enabled boolean DEFAULT false NOT NULL,
+    vacation_reason text
 );
 
 
@@ -785,6 +821,13 @@ ALTER TABLE ONLY likes ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regcl
 --
 
 ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY oauth_providers ALTER COLUMN id SET DEFAULT nextval('oauth_providers_id_seq'::regclass);
 
 
 --
@@ -910,6 +953,14 @@ ALTER TABLE ONLY likes
 
 ALTER TABLE ONLY messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_providers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY oauth_providers
+    ADD CONSTRAINT oauth_providers_pkey PRIMARY KEY (id);
 
 
 --
@@ -1176,4 +1227,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140624130659');
 INSERT INTO schema_migrations (version) VALUES ('20140724070838');
 
 INSERT INTO schema_migrations (version) VALUES ('20140725163435');
+
+INSERT INTO schema_migrations (version) VALUES ('20140730070329');
+
+INSERT INTO schema_migrations (version) VALUES ('20140801083349');
 
