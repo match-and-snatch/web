@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AccountInfosController, type: :controller do
   describe 'GET #show' do
-    let(:user){ create_user }
+    let(:user) { create_user }
     subject(:perform_request) { get 'show' }
 
     context 'not authorized' do

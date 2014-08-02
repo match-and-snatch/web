@@ -4,7 +4,7 @@ describe Subscription do
   let(:user) { create_user }
   let(:target_user) { create_profile email: 'target@user.com' }
 
-  subject { SubscriptionManager.new(user).subscribe_to(target_user) }
+  subject { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
   describe '.on_charge' do
     before { StripeMock.start }
@@ -15,12 +15,12 @@ describe Subscription do
       user.reload
     end
 
-    let!(:unpaid_subscription) { SubscriptionManager.new(user).subscribe_to(target_user) }
-    let!(:paid_subscription) { SubscriptionManager.new(user).subscribe_and_pay_for(create_profile email: 'another@one.com') }
+    let!(:unpaid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
+    let!(:paid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'another@one.com') }
     let!(:invalid_subscription) do
       profile = create_profile email: 'invalid@one.com'
 
-      SubscriptionManager.new(user).subscribe_to(profile).tap do
+      SubscriptionManager.new(subscriber: user).subscribe_to(profile).tap do
         UserProfileManager.new(profile).delete_profile_page
       end
     end
@@ -152,31 +152,77 @@ describe Subscription do
   describe '#expired?' do
     context 'when removed' do
       before do
-        SubscriptionManager.new(user).unsubscribe(subject)
+        SubscriptionManager.new(subscriber: user, subscription: subject).unsubscribe
       end
 
       context 'and billing_date has passed' do
-        it
+        before do
+          subject.charged_at = DateTime.new(2014, 03, 03, 9, 8, 7)
+        end
+
+        it { expect(subject.expired?).to eq(true) }
       end
 
       context 'and billing_date has not become' do
-        its(:expired?) { should eq(true) }
+        it { expect(subject.expired?).to eq(true) }
       end
     end
 
     context 'when not removed' do
       context 'and billing_date has passed' do
-        it
+        before do
+          subject.charged_at = DateTime.new(2014, 03, 03, 9, 8, 7)
+        end
+
+        it { expect(subject.expired?).to eq(true) }
       end
 
       context 'and billing_date has not become' do
-        its(:expired?) { should eq(false) }
+        it { expect(subject.expired?).to eq(false) }
       end
     end
   end
 
   describe '#canceled_at' do
-    pending 'TODO(JD): missing specs'
+    let(:removed_date) { DateTime.new(2014, 03, 03, 9, 8, 33) }
+    let(:rejected_date) { DateTime.new(2014, 04, 13, 23, 58, 13) }
+
+    context 'not rejected' do
+      context 'and not removed' do
+        it { expect(subject.canceled_at).to be_nil }
+      end
+
+      context 'and removed' do
+        before do
+          subject.removed = true
+          subject.removed_at = removed_date
+        end
+
+        it { expect(subject.canceled_at).to eq(subject.removed_at) }
+      end
+    end
+
+    context 'when rejected' do
+      before do
+        subject.rejected = true
+        subject.rejected_at = rejected_date
+      end
+
+      context 'and not removed' do
+        specify do
+          expect(subject.canceled_at).to eq(subject.rejected_at)
+          expect(subject.canceled_at).not_to be_nil
+        end
+      end
+
+      context 'and removed' do
+        before do
+          subject.removed = true
+          subject.removed_at = removed_date
+        end
+
+        it { expect(subject.canceled_at).to eq(subject.removed_at) }
+      end
+    end
   end
 end
-

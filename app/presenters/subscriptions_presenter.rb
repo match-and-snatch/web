@@ -13,7 +13,7 @@ class SubscriptionsPresenter
   end
 
   def active
-    @active_subscriptions ||= subscriptions.select { |s| not (s.expired? || s.rejected?) }
+    @active_subscriptions ||= subscriptions.select { |s| !(s.expired? || s.rejected?) }
   end
 
   def show_failed_column?

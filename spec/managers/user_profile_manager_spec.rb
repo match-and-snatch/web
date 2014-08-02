@@ -157,7 +157,7 @@ describe UserProfileManager do
       let(:target_user) { create_profile }
 
       before do
-        SubscriptionManager.new(user).subscribe_to(target_user)
+        SubscriptionManager.new(subscriber: user).subscribe_to(target_user)
       end
 
       it 'restores billing failed flag to false' do

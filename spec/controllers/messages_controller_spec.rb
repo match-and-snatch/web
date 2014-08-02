@@ -12,7 +12,7 @@ describe MessagesController, type: :controller do
       its(:status) { should == 401 }
 
       context 'user is subscribed to target user' do
-        before { SubscriptionManager.new(user).subscribe_to(target_user) }
+        before { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
         its(:status) { should == 200 }
       end
     end
@@ -30,7 +30,7 @@ describe MessagesController, type: :controller do
       its(:status) { should == 401 }
 
       context 'user is subscribed to target user' do
-        before { SubscriptionManager.new(user).subscribe_to(target_user) }
+        before { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
         its(:status) { should == 200 }
       end
     end
