@@ -462,6 +462,21 @@ class UserProfileManager < BaseManager
     @user
   end
 
+  def enable_vacation_mode
+    fail_with! 'Vacation Mode is not enabled' if @user.vacation_enabled?
+    @user.vacation_enabled = true
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
+  def disable_vacation_mode
+    fail_with! 'Vacation Mode is not enabled' unless @user.vacation_enabled?
+    @user.vacation_enabled = false
+    @user.vacation_reason = ''
+    @user.save or fail_with!(@user.errors)
+    @user
+  end
+
   private
 
   def sync_stripe_recipient!
