@@ -113,11 +113,13 @@ class AccountInfosController < ApplicationController
   end
 
   def enable_vacation_mode
-    json_success
+    manager.enable_vacation_mode(params[:vacation_message])
+    json_reload
   end
 
   def disable_vacation_mode
-    json_success
+    manager.disable_vacation_mode
+    json_reload
   end
 
   private

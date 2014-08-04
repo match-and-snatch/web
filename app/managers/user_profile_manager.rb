@@ -109,7 +109,7 @@ class UserProfileManager < BaseManager
     user.account_number = account_number
     user.generate_slug
 
-    user.save or fail_with! user.errors
+    save_or_die! user
 
     sync_stripe_recipient! if user.stripe_recipient_id
     user
@@ -155,7 +155,7 @@ class UserProfileManager < BaseManager
     user.routing_number = routing_number
     user.account_number = account_number
 
-    user.save or fail_with! user.errors
+    save_or_die! user
 
     sync_stripe_recipient! if user.stripe_recipient_id
     user
@@ -171,8 +171,7 @@ class UserProfileManager < BaseManager
     fail_with! profile_name: :taken    if (/connect.?pal/i).match(profile_name)
 
     user.profile_name = profile_name
-    user.save or fail_with! user.errors
-    user
+    save_or_die! user
   end
 
   # @param cost [Integer, Float, String]
@@ -199,7 +198,7 @@ class UserProfileManager < BaseManager
     else
       user.cost = cost
       user.cost_changed_at = Time.zone.now
-      user.save or fail_with! user.errors
+      save_or_die! user
       @unable_to_change_cost = false
     end
 
@@ -223,8 +222,7 @@ class UserProfileManager < BaseManager
       end
     end
 
-    user.save or fail_with! user.errors
-    user
+    save_or_die! user
   end
 
   # @param number [String]
@@ -311,8 +309,7 @@ class UserProfileManager < BaseManager
     user.company_name = company_name
     user.email        = email
 
-    user.save or fail_with! user.errors
-    user
+    save_or_die! user
   end
 
   # @param slug [String]
@@ -321,8 +318,7 @@ class UserProfileManager < BaseManager
     validate! { validate_slug slug }
 
     user.slug = slug
-    user.save or fail_with! user.errors
-    user
+    save_or_die! user
   end
 
   # @param transloadit_data [Hash]
@@ -334,10 +330,7 @@ class UserProfileManager < BaseManager
     user.small_account_picture_url = upload.url_on_step('thumb_50x50')
     user.original_account_picture_url = upload.url_on_step(':original')
 
-    if user.changes.any?
-      user.save or fail_with! user.errors
-    end
-
+    save_or_die! user if user.changes.any?
     user
   end
 
@@ -350,20 +343,14 @@ class UserProfileManager < BaseManager
     user.small_profile_picture_url = upload.url_on_step('thumb_50x50')
     user.original_profile_picture_url = upload.url_on_step(':original')
 
-    if user.changes.any?
-      user.save or fail_with! user.errors
-    end
-
+    save_or_die! user if user.changes.any?
     user
   end
 
   def update_cover_picture_position(position)
     user.cover_picture_position = position
 
-    if user.changes.any?
-      user.save or fail_with! user.errors
-    end
-
+    save_or_die! user if user.changes.any?
     user
   end
 
@@ -375,10 +362,7 @@ class UserProfileManager < BaseManager
     user.cover_picture_url = upload.url_on_step('resized')
     user.original_cover_picture_url = upload.url_on_step(':original')
 
-    if user.changes.any?
-      user.save or fail_with! user.errors
-    end
-
+    save_or_die! user if user.changes.any?
     user
   end
 
@@ -398,8 +382,7 @@ class UserProfileManager < BaseManager
     end
 
     user.set_new_password(new_password)
-    user.save or fail_with! user.errors
-    user
+    save_or_die! user
   rescue AuthenticationError
     fail_with! :current_password
   end
@@ -408,73 +391,64 @@ class UserProfileManager < BaseManager
     fail_with! 'Profile is already public' if @user.has_public_profile
 
     user.has_public_profile = true
-    user.save or fail_with!(@user.errors)
-    user
+    save_or_die! user
   end
 
   def make_profile_private
     fail_with! 'Profile is already private' unless @user.has_public_profile
 
-    user.has_public_profile = false
-    user.save or fail_with!(@user.errors)
-    user
+    @user.has_public_profile = false
+    save_or_die! user
   end
 
   def enable_rss
     fail_with! 'RSS is already enabled' if @user.rss_enabled?
     @user.rss_enabled = true
-    @user.save or fail_with!(@user.errors)
-    @user
+    save_or_die! user
   end
 
   def disable_rss
     fail_with! 'RSS is not enabled' unless @user.rss_enabled?
     @user.rss_enabled = false
-    @user.save or fail_with!(@user.errors)
-    @user
+    save_or_die! user
   end
 
   def enable_downloads
     fail_with! 'Downloads feature is already enabled' if @user.downloads_enabled?
     @user.downloads_enabled = true
-    @user.save or fail_with!(@user.errors)
-    @user
+    save_or_die! user
   end
 
   def disable_downloads
     fail_with! 'Downloads feature is not enabled' unless @user.downloads_enabled?
     @user.downloads_enabled = false
-    @user.save or fail_with!(@user.errors)
-    @user
+    save_or_die! user
   end
 
   def enable_itunes
     fail_with! 'iTunes feature is already enabled' if @user.itunes_enabled?
     @user.itunes_enabled = true
-    @user.save or fail_with!(@user.errors)
-    @user
+    save_or_die! user
   end
 
   def disable_itunes
     fail_with! 'iTunes feature is not enabled' unless @user.itunes_enabled?
     @user.itunes_enabled = false
-    @user.save or fail_with!(@user.errors)
-    @user
+    save_or_die! user
   end
 
-  def enable_vacation_mode
-    fail_with! 'Vacation Mode is not enabled' if @user.vacation_enabled?
-    @user.vacation_enabled = true
-    @user.save or fail_with!(@user.errors)
-    @user
+  def enable_vacation_mode(reason = nil)
+    fail_with! 'Vacation Mode is not enabled' if user.vacation_enabled?
+    user.vacation_enabled = true
+    user.vacation_message = reason
+    save_or_die! user
   end
 
   def disable_vacation_mode
-    fail_with! 'Vacation Mode is not enabled' unless @user.vacation_enabled?
-    @user.vacation_enabled = false
-    @user.vacation_reason = ''
-    @user.save or fail_with!(@user.errors)
-    @user
+    fail_with! 'Vacation Mode is not enabled' unless user.vacation_enabled?
+    user.vacation_enabled = false
+    user.vacation_message = nil
+    save_or_die! user
   end
 
   private
