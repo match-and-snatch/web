@@ -18,7 +18,7 @@ describe PaymentManager do
       end
 
       specify do
-        expect { subject.pay_for(subscription) }.to raise_error(ArgumentError, /vacation/)
+        expect { subject.pay_for(subscription) }.not_to raise_error
       end
     end
 

@@ -10,17 +10,18 @@ describe Billing::ChargeJob do
       end
     end
 
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    let(:user) { create_user }
+    let(:target_user) { create_profile email: 'target@user.com' }
+
+    before do
+      UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+      user.reload
+    end
+
     context 'subscription on charge' do
-      before { StripeMock.start }
-      after { StripeMock.stop }
-
-      let(:user) { create_user }
-      let(:target_user) { create_profile email: 'target@user.com' }
-
-      before do
-        UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
-        user.reload
-      end
 
       let!(:unpaid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
       let!(:paid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'another@one.com') }
@@ -77,6 +78,74 @@ describe Billing::ChargeJob do
 
         specify do
           expect { perform }.not_to raise_error
+        end
+      end
+    end
+
+    describe 'vacation flow' do
+      after { Timecop.return }
+      context 'subscribed before vacation started' do
+        before do
+          Timecop.freeze(Date.new(2001, 01, 01)) do
+            SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user)
+          end
+
+          Timecop.freeze(Date.new(2001, 01, 15)) do
+            UserProfileManager.new(target_user).enable_vacation_mode(reason: 'Reason')
+          end
+        end
+
+        context 'vacation ended before next billing date' do
+          before { Timecop.freeze Date.new(2001, 01, 20) }
+
+          it 'does not charge subscriber' do
+            expect { perform }.not_to change { Payment.count }
+          end
+        end
+
+        context 'vacation ended after next billing date' do
+          before do
+            Timecop.freeze Date.new(2001, 03, 10)
+            UserProfileManager.new(target_user).disable_vacation_mode
+          end
+
+          it 'charges subscriber only once for 1 month' do
+            expect { perform }.to change { Payment.count }.by(1)
+          end
+        end
+      end
+
+      context 'subscribed within vacation period' do
+        before do
+          Timecop.freeze(Date.new(2001, 01, 01)) do
+            UserProfileManager.new(target_user).enable_vacation_mode(reason: 'Reason')
+          end
+
+          Timecop.freeze(Date.new(2001, 01, 15)) do
+            SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user)
+          end
+        end
+
+        context 'vacation ended before next billing date' do
+          before do
+            Timecop.freeze Date.new(2001, 02, 01)
+            UserProfileManager.new(target_user).disable_vacation_mode
+          end
+
+          it 'does not charge subscriber' do
+            expect { perform }.not_to change { Payment.count }
+          end
+        end
+
+        context 'vacation ended after next billing date' do
+          before do
+            Timecop.freeze Date.new(2001, 03, 25)
+            UserProfileManager.new(target_user).disable_vacation_mode
+          end
+
+          it 'charges subscriber only once for 1 month' do
+            expect { perform }.to change { Payment.count }.by(1)
+          end
         end
       end
     end
