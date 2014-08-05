@@ -17,6 +17,35 @@ describe UserProfileManager do
     end
   end
 
+  describe '#enable_vacation_mode' do
+    let(:reason) { 'because i can' }
+    let(:user) { create_profile }
+
+    subject(:enable_vacation_mode) { manager.enable_vacation_mode(reason: reason) }
+
+    it 'enables vacation mode' do
+      expect { enable_vacation_mode }.to change { user.reload.vacation_enabled? }.from(false).to(true)
+    end
+
+    context 'no reason specified' do
+      let(:reason) { '  ' }
+
+      specify do
+        expect { enable_vacation_mode }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(vacation_message: t_error(:empty)) }
+      end
+    end
+
+    context 'already on vacation' do
+      before do
+        manager.enable_vacation_mode(reason: reason)
+      end
+
+      specify do
+        expect { enable_vacation_mode }.to raise_error(ManagerError)
+      end
+    end
+  end
+
   describe '#remove_profile_type' do
     let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
 

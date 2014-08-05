@@ -437,8 +437,11 @@ class UserProfileManager < BaseManager
     save_or_die! user
   end
 
-  def enable_vacation_mode(reason = nil)
-    fail_with! 'Vacation Mode is not enabled' if user.vacation_enabled?
+  # @param reason [String]
+  def enable_vacation_mode(reason: )
+    fail_with! 'Vacation Mode is already enabled' if user.vacation_enabled?
+    fail_with! vacation_message: :empty if reason.blank?
+
     user.vacation_enabled = true
     user.vacation_message = reason
     save_or_die! user

@@ -210,6 +210,32 @@ describe AccountInfosController, type: :controller do
     end
   end
 
+  describe 'PUT #enable_vacation_mode' do
+    subject { put 'enable_vacation_mode', vacation_message: 'test' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_vacation_mode' do
+    subject { put 'disable_vacation_mode' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
   describe 'PUT #enable_rss' do
     subject { put 'enable_rss' }
 
