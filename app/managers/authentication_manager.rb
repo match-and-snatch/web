@@ -108,7 +108,8 @@ class AuthenticationManager < BaseManager
   end
 
   def user
-    @user ||= User.by_email(email).where(activated: true).first || User.new(email: email)
+    #@user ||= User.by_email(email).where(activated: true).first || User.new(email: email)
+    @user ||= User.by_email(email).first || User.new(email: email)
   end
 
   def validate_input
