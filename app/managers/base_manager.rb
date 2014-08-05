@@ -1,4 +1,5 @@
 class BaseManager
+  extend Delayable
 
   # @return [Hash]
   def errors

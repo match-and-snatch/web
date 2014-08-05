@@ -444,14 +444,35 @@ class UserProfileManager < BaseManager
 
     user.vacation_enabled = true
     user.vacation_message = reason
-    save_or_die! user
+
+    save_or_die!(user).tap do
+      self.class.delay.notify_vacation_enabled(user)
+    end
   end
 
   def disable_vacation_mode
     fail_with! 'Vacation Mode is not enabled' unless user.vacation_enabled?
+
     user.vacation_enabled = false
     user.vacation_message = nil
-    save_or_die! user
+
+    save_or_die!(user).tap do
+      self.class.delay.notify_vacation_disabled(user)
+    end
+  end
+
+  # @param profile_owner [User]
+  def self.notify_vacation_enabled(profile_owner)
+    profile_owner.source_subscriptions.not_removed.joins(:user).find_each do |subscription|
+      ProfilesMailer.vacation_enabled(subscription).deliver
+    end
+  end
+
+  # @param profile_owner [User]
+  def self.notify_vacation_disabled(profile_owner)
+    profile_owner.source_subscriptions.not_removed.joins(:user).find_each do |subscription|
+      ProfilesMailer.vacation_disabled(subscription).deliver
+    end
   end
 
   private
