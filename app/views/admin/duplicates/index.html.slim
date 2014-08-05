@@ -1,10 +1,10 @@
-h2 User Duplicates
+h2 User Duplicates (#{@duplicates.count})
 
 - if @duplicates.any?
   table.table
     - @duplicates.each do |email, users|
       tr.danger
-        td colspan=6
+        td colspan=7
           b= email
       tr
         th #ID
@@ -13,6 +13,7 @@ h2 User Duplicates
         th Email
         th Subscribers count
         th Subscriptions count
+        th Owner?
       - users.each do |user|
         tr
           td= user.id
@@ -21,5 +22,6 @@ h2 User Duplicates
           td= user.email
           td= user.subscribers_count
           td= user.subscriptions.count
+          td= user.is_profile_owner? ? 'Y' : ''
 - else
   strong No duplicates so far
