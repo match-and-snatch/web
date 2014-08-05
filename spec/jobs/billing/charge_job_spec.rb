@@ -47,6 +47,38 @@ describe Billing::ChargeJob do
       it 'changes charge date' do
         expect { perform }.to change { unpaid_subscription.reload.charged_at }
       end
+
+      context 'profile owner on vacation' do
+        before do
+          UserProfileManager.new(target_user).enable_vacation_mode(reason: 'No reason')
+        end
+
+        it 'does not create any payments' do
+          expect { perform }.not_to change { unpaid_subscription.payments.count }
+        end
+      end
+
+      context 'subscriber on vacation' do
+        before do
+          UserProfileManager.new(user).enable_vacation_mode(reason: 'No reason given')
+        end
+
+        it 'creates payment' do
+          expect { perform }.to change { unpaid_subscription.payments.count }.by(1)
+        end
+      end
+
+      context 'having invalid subscription without user set' do
+        before do
+          subscriber = create_user email: 'invalid@two.com'
+          subscription = SubscriptionManager.new(subscriber: subscriber).subscribe_to(target_user)
+          subscription.update_attribute(:user_id, nil)
+        end
+
+        specify do
+          expect { perform }.not_to raise_error
+        end
+      end
     end
   end
 end

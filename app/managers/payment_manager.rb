@@ -15,6 +15,8 @@ class PaymentManager < BaseManager
       raise ArgumentError, "Don't know how to pay for #{target.class.name}"
     end
 
+    raise ArgumentError, 'Owner is on vacation' if target.recipient.vacation_enabled?
+
     charge = Stripe::Charge.create amount:      target.cost,
                                    customer:    target.customer.stripe_user_id,
                                    currency:    'usd',
