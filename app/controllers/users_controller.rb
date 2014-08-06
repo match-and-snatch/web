@@ -45,8 +45,6 @@ class UsersController < ApplicationController
 
     layout.title = "#{@profile.name} - ConnectPal.com"
 
-    notice(:profile_on_vacation) if @profile.vacation_enabled
-
     if current_user.can?(:manage, user)
       @profile_types = ProfileType.where(user_id: nil).order(:title).pluck(:title)
       template = 'owner_view'

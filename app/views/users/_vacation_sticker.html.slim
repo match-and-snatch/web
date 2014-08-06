@@ -1,0 +1,4 @@
+.post.box.Sticker data-identifier='vacation-message-sticker' style='background:papayawhip;'
+  .post_title Vacation Message
+  .date Posted #{time_ago_in_words(profile.object.updated_at)} ago
+  .message= super_highlight(format_post_message(profile.object.vacation_message))
