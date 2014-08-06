@@ -77,6 +77,11 @@ h5
 input
   font-size: 13px !important
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+  -webkit-appearance: none
+  margin: 0
+
 .hidden
   display: none
 
@@ -351,7 +356,18 @@ nav
                 color: #FFFFFF
               .type
                 color: #9e1528
-
+          .add_subscription
+            background-color: $color_border !important
+            color: $color_text_dark !important
+            cursor: pointer
+            text-align: center
+            padding: 10px 0
+            margin: 0
+            min-height: 0
+            &:hover
+              background-color: $color_background !important
+              border-top: 1px solid $color_border !important
+              color: $color_pink !important
         &:hover
           .my_sub_cont
             a

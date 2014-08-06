@@ -1,7 +1,7 @@
 .stats.row-fluid
   .col-md-6.col-sm-6.col-xs-6
     .value= @user.subscriptions_count
-    span Total Subscriptions
+    span Active Subscriptions
   .col-md-6.col-sm-6.col-xs-6
     .value $#{@user.monthly_earnings}
     span Monthly Earnings
@@ -52,10 +52,11 @@
       .clearfix
 
 
-  .item_block.hidden
+  .item_block
     h2 Vacation Mode
     p You can put your account into vacation mode. This will notify your subscribers about your action and not bill them on their upcoming billing cycle. Please note that existing subscribers will still be able to view your profile.
-    .btn.pink onClick='javascript: alert("Coming soon")' Enable Vacation Mode
+    .btn.pink.pull-right onClick='javascript: alert("Coming soon")' Enable Vacation Mode
+    .clearfix
 
   - if @user.has_profile_page?
     .item_block
