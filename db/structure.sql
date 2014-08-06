@@ -201,6 +201,40 @@ ALTER SEQUENCE dialogues_id_seq OWNED BY dialogues.id;
 
 
 --
+-- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE events (
+    id integer NOT NULL,
+    type character varying(255),
+    target_id integer,
+    target_type character varying(255),
+    data text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE events_id_seq OWNED BY events.id;
+
+
+--
 -- Name: feed_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -770,6 +804,13 @@ ALTER TABLE ONLY dialogues ALTER COLUMN id SET DEFAULT nextval('dialogues_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY feed_events ALTER COLUMN id SET DEFAULT nextval('feed_events_id_seq'::regclass);
 
 
@@ -886,6 +927,14 @@ ALTER TABLE ONLY comments
 
 ALTER TABLE ONLY dialogues
     ADD CONSTRAINT dialogues_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (id);
 
 
 --
@@ -1176,4 +1225,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140624130659');
 INSERT INTO schema_migrations (version) VALUES ('20140724070838');
 
 INSERT INTO schema_migrations (version) VALUES ('20140725163435');
+
+INSERT INTO schema_migrations (version) VALUES ('20140806113538');
 
