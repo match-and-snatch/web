@@ -83,11 +83,13 @@ describe Billing::ChargeJob do
     end
 
     describe 'vacation flow' do
+      let(:create_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
       after { Timecop.return }
+
       context 'subscribed before vacation started' do
         before do
           Timecop.freeze(Date.new(2001, 01, 01)) do
-            SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user)
+            @subscription = create_subscription
           end
 
           Timecop.freeze(Date.new(2001, 01, 15)) do
@@ -101,6 +103,10 @@ describe Billing::ChargeJob do
           it 'does not charge subscriber' do
             expect { perform }.not_to change { Payment.count }
           end
+
+          specify do
+            expect { perform }.not_to change { @subscription.reload.charged_at }
+          end
         end
 
         context 'vacation ended after next billing date' do
@@ -112,6 +118,10 @@ describe Billing::ChargeJob do
           it 'charges subscriber only once for 1 month' do
             expect { perform }.to change { Payment.count }.by(1)
           end
+
+          specify do
+            expect { perform }.to change { @subscription.reload.charged_at }.to(Time.zone.now)
+          end
         end
       end
 
@@ -122,7 +132,7 @@ describe Billing::ChargeJob do
           end
 
           Timecop.freeze(Date.new(2001, 01, 15)) do
-            SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user)
+            @subscription = create_subscription
           end
         end
 
@@ -135,6 +145,10 @@ describe Billing::ChargeJob do
           it 'does not charge subscriber' do
             expect { perform }.not_to change { Payment.count }
           end
+
+          specify do
+            expect { perform }.not_to change { @subscription.reload.charged_at }
+          end
         end
 
         context 'vacation ended after next billing date' do
@@ -145,6 +159,10 @@ describe Billing::ChargeJob do
 
           it 'charges subscriber only once for 1 month' do
             expect { perform }.to change { Payment.count }.by(1)
+          end
+
+          specify do
+            expect { perform }.to change { @subscription.reload.charged_at }.to(Time.zone.now)
           end
         end
       end
