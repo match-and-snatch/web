@@ -1,5 +1,4 @@
 module Delayable
-
   def delay
     delayer
   end

@@ -13,7 +13,7 @@ class UserDecorator < BaseDecorator
            :cover_picture_position,
            :cost, :name, :has_profile_page?,
            :posts, :source_uploads, :account_number, :holder_name, :routing_number,
-           :vacation_enabled,
+           :vacation_enabled?,
            to: :object
 
   # @param object [User]
