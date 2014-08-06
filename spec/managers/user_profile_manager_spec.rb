@@ -17,6 +17,94 @@ describe UserProfileManager do
     end
   end
 
+  describe '#enable_vacation_mode' do
+    let(:reason) { 'because i can' }
+    let(:user) { create_profile }
+
+    subject(:enable_vacation_mode) { manager.enable_vacation_mode(reason: reason) }
+
+    it 'enables vacation mode' do
+      expect { enable_vacation_mode }.to change { user.reload.vacation_enabled? }.from(false).to(true)
+    end
+
+    context 'with subscribers' do
+      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+
+      let!(:subscription) do
+        SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
+      end
+
+      it 'sends notifications' do
+        expect { enable_vacation_mode }.not_to raise_error
+      end
+
+      specify do
+        stub_const('ProfilesMailer', double('mailer', vacation_enabled: double('mail', deliver: true)).as_null_object)
+        expect(ProfilesMailer).to receive(:vacation_enabled).with(subscription)
+        enable_vacation_mode
+      end
+    end
+
+    context 'no reason specified' do
+      let(:reason) { '  ' }
+
+      specify do
+        expect { enable_vacation_mode }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(vacation_message: t_error(:empty)) }
+      end
+    end
+
+    context 'already on vacation' do
+      before do
+        manager.enable_vacation_mode(reason: reason)
+      end
+
+      specify do
+        expect { enable_vacation_mode }.to raise_error(ManagerError)
+      end
+    end
+  end
+
+  describe '#disable_vacation_mode' do
+    let(:user) { create_profile }
+    before do
+      manager.enable_vacation_mode(reason: 'Yexa/| B DepeBH|-O')
+    end
+
+    subject(:disable_vacation_mode) { manager.disable_vacation_mode }
+
+    it 'disables vacation mode' do
+      expect { disable_vacation_mode }.to change { user.reload.vacation_enabled? }.from(true).to(false)
+    end
+
+    context 'with subscribers' do
+      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+
+      let!(:subscription) do
+        SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
+      end
+
+      it 'sends notifications' do
+        expect { disable_vacation_mode }.not_to raise_error
+      end
+
+      specify do
+        stub_const('ProfilesMailer', double('mailer', vacation_disabled: double('mail', deliver: true)).as_null_object)
+        expect(ProfilesMailer).to receive(:vacation_disabled).with(subscription)
+        disable_vacation_mode
+      end
+    end
+
+    context 'already disabled vacation' do
+      before do
+        manager.disable_vacation_mode
+      end
+
+      specify do
+        expect { disable_vacation_mode }.to raise_error(ManagerError)
+      end
+    end
+  end
+
   describe '#remove_profile_type' do
     let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
 

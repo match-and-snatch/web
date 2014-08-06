@@ -55,7 +55,10 @@
   .item_block
     h2 Vacation Mode
     p You can put your account into vacation mode. This will notify your subscribers about your action and not bill them on their upcoming billing cycle. Please note that existing subscribers will still be able to view your profile.
-    .btn.pink.pull-right onClick='javascript: alert("Coming soon")' Enable Vacation Mode
+    - if @user.vacation_enabled?
+      .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_deactivation_account_info_path Disable Vacation Mode
+    - else
+      .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_activation_account_info_path Enable Vacation Mode
     .clearfix
 
   - if @user.has_profile_page?

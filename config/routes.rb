@@ -24,6 +24,10 @@ BuddyPlatform::Application.routes.draw do
       put :disable_downloads
       put :enable_itunes
       put :disable_itunes
+      get :confirm_vacation_mode_activation
+      get :confirm_vacation_mode_deactivation
+      post :enable_vacation_mode
+      put :disable_vacation_mode
     end
 
     scope module: :account_info do

@@ -1,6 +1,13 @@
 - content_for :head do
   = render 'meta'
 
+- if @profile.object.vacation_enabled?
+  .notification_bar
+    .cont
+      |This profile on vacation.
+      |&nbsp;
+      a href='#' class='Focuser' data-target='vacation-message-sticker' Read message
+
 /* Header */
 .container
   #header.box
@@ -143,6 +150,7 @@
       .pull-right.col-md-8.col-sm-8.col-xs-8
         .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
 
+          = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
 
 .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(@profile.object)
 .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(@profile.object)

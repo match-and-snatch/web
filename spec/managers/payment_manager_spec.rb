@@ -10,9 +10,19 @@ describe PaymentManager do
   after { StripeMock.stop }
 
   describe '#pay_for' do
-    context 'billing failed' do
-      let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
+    let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
+    context 'profile owner is on vacation' do
+      before do
+        UserProfileManager.new(target_user).enable_vacation_mode(reason: 'Super reason')
+      end
+
+      specify do
+        expect { subject.pay_for(subscription) }.not_to raise_error
+      end
+    end
+
+    context 'billing failed' do
       before do
         UserManager.new(user).mark_billing_failed
         SubscriptionManager.new(subscriber: user, subscription: subscription).reject

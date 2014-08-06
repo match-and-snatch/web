@@ -104,6 +104,24 @@ class AccountInfosController < ApplicationController
     json_success
   end
 
+  def confirm_vacation_mode_activation
+    json_popup
+  end
+
+  def confirm_vacation_mode_deactivation
+    json_popup
+  end
+
+  def enable_vacation_mode
+    manager.enable_vacation_mode(reason: params[:vacation_message])
+    json_reload
+  end
+
+  def disable_vacation_mode
+    manager.disable_vacation_mode
+    json_reload
+  end
+
   private
 
   # @return [UserProfileManager]
