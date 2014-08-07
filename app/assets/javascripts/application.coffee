@@ -15,4 +15,6 @@
 #= require helpers
 #= require_tree .
 
-$(document).ready -> bud.Core.initialize()
+$(document).ready ->
+  bud.Core.initialize()
+  $('[data-toggle="offcanvas"]').click -> $('.row-offcanvas').toggleClass('active')
