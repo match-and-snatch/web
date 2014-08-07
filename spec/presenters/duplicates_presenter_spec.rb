@@ -19,7 +19,12 @@ describe DuplicatesPresenter do
     end
 
     let!(:first_duplicate) { create_user email: 'duplicate@gmail.com' }
-    let!(:second_duplicate) { create_user email: 'DUPLICATE@gmaiL.com' }
+    let!(:second_duplicate) { create_user email: 'DUPLICATE_@gmaiL.com' }
+
+    before do
+      second_duplicate.update_attribute(:email, 'duplicate@gmail.com')
+      second_duplicate.reload
+    end
 
     its(:collection) { should == {'duplicate@gmail.com' => [first_duplicate, second_duplicate]} }
   end

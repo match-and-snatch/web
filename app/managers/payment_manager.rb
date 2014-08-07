@@ -37,8 +37,10 @@ class PaymentManager < BaseManager
 
     save_or_die!(target).tap do
       target.restore!
-      SubscriptionManager.new(target.customer).accept(target)
-      UserManager.new(target.customer).remove_mark_billing_failed
+      SubscriptionManager.new(subscriber: target.customer, subscription: target).accept
+      user_manager = UserManager.new(target.customer)
+      user_manager.remove_mark_billing_failed
+      user_manager.activate # Anybody who paid us should be activated
     end
   rescue Stripe::StripeError => e
     failure = PaymentFailure.create! exception_data:     "#{e.inspect} | http_body:#{e.http_body} | json_body:#{e.json_body}",
@@ -48,9 +50,9 @@ class PaymentManager < BaseManager
                                      stripe_charge_data: charge.try(:as_json),
                                      description:        description
 
-    SubscriptionManager.new(target.customer).tap do |subscription_manager|
-      subscription_manager.reject(target)
-      subscription_manager.unsubscribe(target) if target.payment_attempts_expired?
+    SubscriptionManager.new(subscriber: target.customer, subscription: target).tap do |subscription_manager|
+      subscription_manager.reject
+      subscription_manager.unsubscribe if target.payment_attempts_expired?
     end
     UserManager.new(target.customer).mark_billing_failed
     PaymentsMailer.delay.failed(failure) if target.notify_about_payment_failure?

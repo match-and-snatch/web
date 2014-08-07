@@ -62,7 +62,7 @@ class AuthenticationManager < BaseManager
     user.generate_registration_token
 
     user.save or fail_with! user.errors
-    AuthMailer.delay.registered(user)
+    AuthMailer.delay.registered(user) if user.is_profile_owner?
     user
   end
 

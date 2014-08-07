@@ -24,6 +24,10 @@ BuddyPlatform::Application.routes.draw do
       put :disable_downloads
       put :enable_itunes
       put :disable_itunes
+      get :confirm_vacation_mode_activation
+      get :confirm_vacation_mode_deactivation
+      post :enable_vacation_mode
+      put :disable_vacation_mode
     end
 
     scope module: :account_info do
@@ -84,7 +88,6 @@ BuddyPlatform::Application.routes.draw do
       put :enable_notifications
       put :disable_notifications
       put :restore
-      put :retry_payment
     end
   end
   resources :audios, only: [:show, :create, :destroy] do

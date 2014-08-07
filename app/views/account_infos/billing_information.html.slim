@@ -28,7 +28,7 @@
         - @subscriptions.active.each do |subscription|
           tr
             td width='300px'= link_to_user subscription.target_user
-            td= subscription.billing_date.to_s(:long)
+            td= subscription.target_user.vacation_enabled? ? 'N/A' : subscription.billing_date.to_s(:long)
             td style='text-align: right;'
               a.fa.fa-close.AjaxLink href=cancel_subscription_path(subscription.id) Cancel Subscription
   - else
@@ -65,14 +65,9 @@
                 span style='color: gray' Canceled
           td style='text-align: right;'
             - if subscription.target_user.is_profile_owner?
-              / TODO (DJ): move under one general action: 'restore'
               span.fa.fa-refresh.pink style='color: #ea2e49' &nbsp;
-              - if subscription.rejected?
-                a.AjaxFormLink data-_method='PUT' href=retry_payment_subscription_path(subscription.id)
-                  ' Retry Payment
-              - else
-                a.AjaxFormLink data-_method='PUT' href=restore_subscription_path(subscription.id)
-                  ' Restore
+              a.AjaxFormLink data-_method='PUT' href=restore_subscription_path(subscription.id)
+                = subscription.rejected? ? 'Retry Payment' : 'Restore'
             - else
               span Deleted Profile
 

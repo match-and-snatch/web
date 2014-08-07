@@ -7,6 +7,14 @@ class UserManager < BaseManager
     @user = user
   end
 
+  # Activates user if needed
+  def activate
+    unless user.activated?
+      user.activated = true
+      user.save!
+    end
+  end
+
   def make_admin
     fail_with! 'User is already admin' if @user.admin?
 
