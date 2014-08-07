@@ -3,7 +3,7 @@
 
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 120%; padding: 0; margin: 0 0 15px 0; -webkit-text-size-adjust: none;'
   'Congratulations
-  strong SubscriberName
+  strong= @subscriber.full_name || @subscriber.holder_name || @subscriber.profile_name
 
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
   |You are now subscribed to&nbsp;
