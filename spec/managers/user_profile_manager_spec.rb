@@ -19,7 +19,7 @@ describe UserProfileManager do
 
   describe '#enable_vacation_mode' do
     let(:reason) { 'because i can' }
-    let(:user) { create_profile }
+    let(:user) { create_profile email: 'profiled@gmail.com' }
 
     subject(:enable_vacation_mode) { manager.enable_vacation_mode(reason: reason) }
 
@@ -65,7 +65,7 @@ describe UserProfileManager do
   end
 
   describe '#disable_vacation_mode' do
-    let(:user) { create_profile }
+    let(:user) { create_profile email: 'profiled@gmail.com' }
     before do
       manager.enable_vacation_mode(reason: 'Yexa/| B DepeBH|-O')
     end
@@ -242,7 +242,7 @@ describe UserProfileManager do
     end
 
     context 'user has outstanding payments' do
-      let(:target_user) { create_profile }
+      let(:target_user) { create_profile email: 'profiled@gmail.com' }
 
       before do
         SubscriptionManager.new(subscriber: user).subscribe_to(target_user)

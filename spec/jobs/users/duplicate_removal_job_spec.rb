@@ -36,7 +36,7 @@ describe Users::DuplicateRemovalJob do
         end
 
         before do
-          SubscriptionManager.new(duplicate).subscribe_to(user)
+          SubscriptionManager.new(subscriber: duplicate).subscribe_to(user)
         end
 
         specify do

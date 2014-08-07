@@ -38,7 +38,9 @@ class PaymentManager < BaseManager
     save_or_die!(target).tap do
       target.restore!
       SubscriptionManager.new(subscriber: target.customer, subscription: target).accept
-      UserManager.new(target.customer).remove_mark_billing_failed
+      user_manager = UserManager.new(target.customer)
+      user_manager.remove_mark_billing_failed
+      user_manager.activate # Anybody who paid us should be activated
     end
   rescue Stripe::StripeError => e
     failure = PaymentFailure.create! exception_data:     "#{e.inspect} | http_body:#{e.http_body} | json_body:#{e.json_body}",

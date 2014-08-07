@@ -132,6 +132,10 @@ class SubscriptionManager < BaseManager
       SubscribedFeedEvent.create! target_user: target, target: @subscriber
       SubscriptionsMailer.delay.subscribed(subscription)
     end
+
+    # Any subscriber should be activated
+    UserManager.new(@subscriber).activate
+
     @subscription
   end
 
