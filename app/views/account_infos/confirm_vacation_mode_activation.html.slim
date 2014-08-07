@@ -1,16 +1,16 @@
-.modal-header style='width: 400px;'
+.modal-header style='width: 480px;'
   i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
-  .modal-title Enable Vacation Mode
-  span Please specify the Vacation Message:
+  .modal-title Vacation Mode
+  p style="font-size: 13px; margin-top: 15px;" When enabled your subscribers will still have access to your profile, recurring billing is disabled, and your are still able to accept new subscribers. When you come back from vacation mode the recurring payments will run that same day for all affected subscribers.
 
   .modal-body style="padding-bottom: 15px;"
     form.Form action=enable_vacation_mode_account_info_path method='post'
       .form-group
-        label Vacation Message
-        input.form-control type='text' name='vacation_message' autocorrect='off' autocapitalize='off'
+        label style="padding-bottom: 5px;" You must write an away message that will be emailed to your subscribers and posted on your profile.
+        textarea.form-control type='text' name='vacation_message' autocorrect='off' autocapitalize='off' rows='5' style="font-size: 13px;"
         p.text-danger data-field='vacation_message'
 
-      .form-group style="margin: 15px 0"
-        input.btn.pink.pull-left type='submit' value='Enable Vacation Mode' style="margin-left: 35px; text-decoration: none;"
+      .form-group style="margin: 15px 0 0"
+        input.btn.pink.pull-left type='submit' value='Enable Vacation Mode' style="margin-left: 85px; text-decoration: none;"
         a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
         .clearfix
