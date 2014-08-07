@@ -4,9 +4,13 @@
 - if @profile.object.vacation_enabled?
   .notification_bar
     .cont
-      |This profile on vacation.
+      '
+      strong This profile is currently on Vacation Mode.
+      br
+      'You will have full access to this profile and recurring billing will not be charged in this timeframe.
       |&nbsp;
-      a href='#' class='Focuser' data-target='vacation-message-sticker' Read message
+      a href='#' class='Focuser' data-target='vacation-message-sticker' Read away message
+      |.
 
 /* Header */
 .container

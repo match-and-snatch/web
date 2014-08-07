@@ -1,10 +1,3 @@
-div style="color: #ea2e49; font-size: 24px; -webkit-text-size-adjust: none;" #{@profile_owner.name} has returned from vacation!
-
-p style="color: #464646; font-size: 16px; -webkit-text-size-adjust: none;" Check out #{link_to @profile_owner.name, profile_url(@profile_owner)}'s page.
-
-hr
-
-p style="color: #464646; font-size: 11px; -webkit-text-size-adjust: none; line-height: 18px"
-  | If you do not want to receive email notifications from this profile, you can disable them by going to 
-  a href="#{account_info_url(anchor: '/subscriptions')}" View Subscriptions
-  |.'
+p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
+  span style="color: #ea2e49;"#{@profile_owner.name}
+  '&nbsp;is now back from vacation.
