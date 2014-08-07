@@ -18,6 +18,10 @@ describe SubscriptionManager do
         expect { manager.subscribe_to(another_user) }.to change { Subscription.count }.by(1)
       end
 
+      it 'activates subscriber if he is not yet active' do
+        expect { manager.subscribe_to(another_user) }.to change { subscriber.reload.activated? }.to(true)
+      end
+
       context 'already subscribed' do
         let!(:subscription) do
           manager.subscribe_to(another_user)

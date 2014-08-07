@@ -12,6 +12,10 @@ describe PaymentManager do
   describe '#pay_for' do
     let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
+    it 'activates subscriber if he is not yet active' do
+      expect { subject.pay_for(subscription) }.to change { user.reload.activated? }.to(true)
+    end
+
     context 'profile owner is on vacation' do
       before do
         UserProfileManager.new(target_user).enable_vacation_mode(reason: 'Super reason')

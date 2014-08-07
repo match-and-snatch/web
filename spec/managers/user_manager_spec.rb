@@ -3,6 +3,22 @@ require 'spec_helper'
 describe UserManager do
   subject(:manager) { described_class.new(user) }
 
+  describe '#activate' do
+    let(:user) { create_user }
+
+    it 'activates user' do
+      expect { manager.activate }.to change { user.reload.activated? }.to(true)
+    end
+
+    context 'already activated' do
+      before { manager.activate }
+
+      it 'does nothing' do
+        expect { manager.activate }.not_to change { user.reload.activated? }.from(true)
+      end
+    end
+  end
+
   describe '#make_admin' do
     context 'non admin' do
       let(:user) { create_user }
