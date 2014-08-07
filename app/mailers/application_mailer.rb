@@ -8,7 +8,7 @@ class ApplicationMailer < ActionMailer::Base
     :mail
   end
 
-  def self.perform_without_delay(*args)
+  def self.perform(*args)
     super.deliver
   end
 
