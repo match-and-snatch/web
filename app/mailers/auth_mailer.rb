@@ -6,6 +6,7 @@ class AuthMailer < ApplicationMailer
     mail to: @user.email, subject: 'Requested password change'
   end
 
+  # Sent only when profile owner is registered
   # @param user [User]
   def registered(user)
     @user = user
