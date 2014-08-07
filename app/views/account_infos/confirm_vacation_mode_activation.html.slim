@@ -1,12 +1,12 @@
 .modal-header style='width: 480px;'
   i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
   .modal-title Vacation Mode
-  p style="font-size: 13px; margin-top: 15px;" When enabled your subscribers will still have access to your profile, recurring billing is disabled, and your are still able to accept new subscribers. When you come back from vacation mode the recurring payments will run that same day for all affected subscribers.
+  p style="font-size: 13px; margin-top: 15px;" While your profile is on vacation mode, monthly recurring billing will be turned off for your subscribers. Please note, existing subscribers will still be able to view your profile. When you come back from vacation, you can disenable vacation mode at this same location, and recurring billing will start again for your subscribers.
 
   .modal-body style="padding-bottom: 15px;"
     form.Form action=enable_vacation_mode_account_info_path method='post'
       .form-group
-        label style="padding-bottom: 5px;" You must write an away message that will be emailed to your subscribers and posted on your profile.
+        label style="padding-bottom: 5px;" Please write an away message for your subscribers. This away message will be emailed to your subscribers and posted on your profile page.
         textarea.form-control type='text' name='vacation_message' autocorrect='off' autocapitalize='off' rows='5' style="font-size: 13px;"
         p.text-danger data-field='vacation_message'
 

@@ -51,10 +51,9 @@
       = checker_tag(current_user.object, :itunes, :account_info)
       .clearfix
 
-
   .item_block
     h2 Vacation Mode
-    p You can put your account into vacation mode. This will notify your subscribers about your action and not bill them on their upcoming billing cycle. Please note that existing subscribers will still be able to view your profile.
+    p Click here to enable vacation mode for your profile. While your profile is on vacation mode, monthly recurring billing will be turned off for your subscribers. When you come back from vacation, you can disenable vacation mode at this same location.
     - if @user.vacation_enabled?
       .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_deactivation_account_info_path Disable Vacation Mode
     - else
