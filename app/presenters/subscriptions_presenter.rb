@@ -23,6 +23,6 @@ class SubscriptionsPresenter
   private
 
   def subscriptions
-    user.subscriptions.all
+    user.subscriptions.joins(:target_user).all
   end
 end
