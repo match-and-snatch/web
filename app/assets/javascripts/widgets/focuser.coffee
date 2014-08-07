@@ -6,5 +6,9 @@ class bud.widgets.Focuser extends bud.Widget
     @$container.click @on_click
     
   on_click: =>
+    $('html, body').animate
+      scrollTop: @$target.offset().top - 50
+    , 500
+
     @$target.focus()
     return !@$container.is('a')

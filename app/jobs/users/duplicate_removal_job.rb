@@ -20,7 +20,7 @@ module Users
       u_dark = User.where(id: 2458).first
 
       if u_andy && u_dark
-        SubscriptionManager.new(u_andy).subscribe_to(u_dark.subscriptions.first.target_user)
+        SubscriptionManager.new(subscriber: u_andy).subscribe_to(u_dark.subscriptions.first.target_user)
         u_dark.subscriptions.delete_all
         u_dark.delete
       end

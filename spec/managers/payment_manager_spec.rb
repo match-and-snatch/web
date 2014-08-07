@@ -10,12 +10,26 @@ describe PaymentManager do
   after { StripeMock.stop }
 
   describe '#pay_for' do
-    context 'billing failed' do
-      let(:subscription) { SubscriptionManager.new(user).subscribe_to(target_user) }
+    let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
+    it 'activates subscriber if he is not yet active' do
+      expect { subject.pay_for(subscription) }.to change { user.reload.activated? }.to(true)
+    end
+
+    context 'profile owner is on vacation' do
+      before do
+        UserProfileManager.new(target_user).enable_vacation_mode(reason: 'Super reason')
+      end
+
+      specify do
+        expect { subject.pay_for(subscription) }.not_to raise_error
+      end
+    end
+
+    context 'billing failed' do
       before do
         UserManager.new(user).mark_billing_failed
-        SubscriptionManager.new(user).reject(subscription)
+        SubscriptionManager.new(subscriber: user, subscription: subscription).reject
       end
 
       context 'payment passes' do
@@ -171,7 +185,7 @@ describe PaymentManager do
 
   describe '#perform_test_payment' do
     context 'subscription is not paid' do
-      let!(:subscription) { SubscriptionManager.new(user).subscribe_to(target_user) }
+      let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
       it 'pays for subscriptions on charge' do
         expect { subject.perform_test_payment }.to change { subscription.reload.charged_at }
@@ -185,7 +199,7 @@ describe PaymentManager do
         user.reload
       end
 
-      let!(:subscription) { SubscriptionManager.new(user).subscribe_and_pay_for(target_user) }
+      let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
 
       it 'does not pay for already paid subscriptions' do
         expect { subject.perform_test_payment }.not_to change { subscription.reload.charged_at }

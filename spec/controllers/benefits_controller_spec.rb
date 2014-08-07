@@ -3,7 +3,7 @@ require 'spec_helper'
 describe BenefitsController, type: :controller do
   describe 'POST #create' do
     let(:user) { create_user }
-    let(:benefits_params){  {"0"=>"benefit", "1"=>"other benefit", "2"=>"", "3"=>"", "4"=>"", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>""} }
+    let(:benefits_params) {  {"0"=>"benefit", "1"=>"other benefit", "2"=>"", "3"=>"", "4"=>"", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>""} }
 
     subject(:perform_request) { post 'create', user_id: user.id, benefits: benefits_params }
 

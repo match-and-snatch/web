@@ -88,7 +88,7 @@ describe User do
     let(:target_user) { create_profile email: 'target@user.com' }
 
     context 'with' do
-      let!(:subscription) { SubscriptionManager.new(user).subscribe_to(target_user) }
+      let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
       context 'active subscription' do
         it { should eq(true) }
@@ -106,7 +106,7 @@ describe User do
       end
 
       context 'expired subscription' do
-        before { SubscriptionManager.new(user).unsubscribe(subscription) }
+        before { SubscriptionManager.new(subscriber: user, subscription: subscription).unsubscribe }
 
         it { should eq(false) }
       end

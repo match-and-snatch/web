@@ -21,7 +21,7 @@ describe CommentsController, type: :controller do
       end
 
       context 'as subscriber' do
-        before { SubscriptionManager.new(commenter).subscribe_to(poster) }
+        before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
         before { sign_in commenter }
         it { should be_success }
       end
@@ -43,7 +43,7 @@ describe CommentsController, type: :controller do
       end
 
       context 'as subscriber' do
-        before { SubscriptionManager.new(commenter).subscribe_to(poster) }
+        before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
         before { sign_in commenter }
         it { should be_success }
       end
@@ -51,7 +51,7 @@ describe CommentsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { SubscriptionManager.new(commenter).subscribe_to(poster) }
+    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
     subject { get 'edit', post_id: _post.id, id: comment.id }
 
     context 'unauthorized access' do
@@ -77,7 +77,7 @@ describe CommentsController, type: :controller do
   end
 
   describe 'PUT #update' do
-    before { SubscriptionManager.new(commenter).subscribe_to(poster) }
+    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
     subject(:perform_request) { put 'update', post_id: _post.id, id: comment.id, message: 'updated' }
 
     context 'unauthorized access' do
@@ -108,7 +108,7 @@ describe CommentsController, type: :controller do
 
   describe 'PUT #make_visible' do
     before do
-      SubscriptionManager.new(commenter).subscribe_to(poster)
+      SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)
       CommentManager.new(comment: comment).hide
     end
 
@@ -142,7 +142,7 @@ describe CommentsController, type: :controller do
 
   describe 'PUT #hide' do
     before do
-      SubscriptionManager.new(commenter).subscribe_to(poster)
+      SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)
     end
 
     subject(:perform_request) { put 'hide', post_id: _post.id, id: comment.id }
@@ -174,7 +174,7 @@ describe CommentsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { SubscriptionManager.new(commenter).subscribe_to(poster) }
+    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
     let(:comment) { CommentManager.new(user: commenter, post: _post).create(message: 'test') }
     subject { delete 'destroy', post_id: _post.id, id: comment.id }
 

@@ -1,10 +1,15 @@
-div style="color: #ea2e49; font-size: 24px; -webkit-text-size-adjust: none;" #{@post.user.name} has a new post available!
+- content_for :custom_heading do
+  strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 28px; line-height: 100%;' New post available!
 
-p style="color: #464646; font-size: 16px; -webkit-text-size-adjust: none;" Check out this post on #{link_to_user @post.user}'s page.
+p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 120%; padding: 0; margin: 0 0 15px 0;' Check out this post on #{link_to_user @post.user}'s page.
 
-hr
+img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-hr.png' border='0' height='1px' width='458px' alt='divider' title='divider' style='display: block; border: none; padding: 0; margin: 0 0 15px 0;'
 
-p style="color: #464646; font-size: 11px; -webkit-text-size-adjust: none; line-height: 18px"
-	| If you do not want to receive email notifications from this profile, you can disable them by going to 
-	a href="#{account_info_url(anchor: '/subscriptions')}" View Subscriptions
-	|.
+p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 11px; line-height: 150%; padding: 0; margin: 0 0 15px 0;'
+  'If you do not want to receive email notifications from this profile,
+  br
+  'you can disable them by going to
+  a href="#{account_info_url(anchor: '/subscriptions')}" style="color: #ea2e49;" View Subscriptions
+  '.
+
+img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-noreply.png' border='0' height='26px' width='356px' alt='Please note that this is only a notification, please login to view content' title='Please note that this is only a notification, please login to view content' style='display: block; border: none; padding: 0; margin: 0 0 15px 0;'

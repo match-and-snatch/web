@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AccountInfosController, type: :controller do
   describe 'GET #show' do
-    let(:user){ create_user }
+    let(:user) { create_user }
     subject(:perform_request) { get 'show' }
 
     context 'not authorized' do
@@ -199,6 +199,32 @@ describe AccountInfosController, type: :controller do
 
   describe 'PUT #delete_profile_page' do
     subject { put 'delete_profile_page' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #enable_vacation_mode' do
+    subject { put 'enable_vacation_mode', vacation_message: 'test' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_vacation_mode' do
+    subject { put 'disable_vacation_mode' }
 
     context 'not authorized' do
       its(:status) { should == 401 }

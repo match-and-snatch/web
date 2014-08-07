@@ -4,15 +4,15 @@ describe FeedsController, type: :controller do
   describe 'GET #show' do
     subject(:request_perform) { get 'show' }
 
-    context 'authorized acesss' do
-      let(:user){ create_user }
-      let(:subsciber){ create_user email: 'subsciber@gmail.com' }
+    context 'authorized access' do
+      let(:user) { create_user }
+      let(:subscriber) { create_user email: 'subscriber@gmail.com' }
       let!(:_post) do
-        SubscriptionManager.new(subsciber).subscribe_to(user)
+        SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
         PostManager.new(user: user).create_status_post(message: 'aloha')
       end
 
-      before { sign_in subsciber }
+      before { sign_in subscriber }
       before { request_perform }
 
       it{ expect(assigns(:feed_events).count).to eq(1) }

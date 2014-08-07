@@ -1,7 +1,7 @@
 .stats.row-fluid
   .col-md-6.col-sm-6.col-xs-6
     .value= @user.subscriptions_count
-    span Total Subscriptions
+    span Active Subscriptions
   .col-md-6.col-sm-6.col-xs-6
     .value $#{@user.monthly_earnings}
     span Monthly Earnings
@@ -51,11 +51,14 @@
       = checker_tag(current_user.object, :itunes, :account_info)
       .clearfix
 
-
-  .item_block.hidden
+  .item_block
     h2 Vacation Mode
-    p You can put your account into vacation mode. This will notify your subscribers about your action and not bill them on their upcoming billing cycle. Please note that existing subscribers will still be able to view your profile.
-    .btn.pink onClick='javascript: alert("Coming soon")' Enable Vacation Mode
+    p Click here to enable vacation mode for your profile. While your profile is on vacation mode, monthly recurring billing will be turned off for your subscribers. When you come back from vacation, you can disenable vacation mode at this same location.
+    - if @user.vacation_enabled?
+      .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_deactivation_account_info_path Disable Vacation Mode
+    - else
+      .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_activation_account_info_path Enable Vacation Mode
+    .clearfix
 
   - if @user.has_profile_page?
     .item_block

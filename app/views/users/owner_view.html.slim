@@ -1,6 +1,8 @@
 - content_for :head do
   = render 'meta'
 
+= render 'account_infos/vacation_status_bar' if @profile.object.vacation_enabled?
+
 /* Header */
 .container
   #header.box
@@ -122,6 +124,8 @@
 
       .pull-right.col-md-8.col-sm-8.col-xs-8
         .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
+
+          = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
 
   .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(current_user.object)
   .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(current_user.object)
@@ -323,11 +327,11 @@
               b ConnectPal Service Fee
               span style="font-size: 11px;"(includes all fees & credit card processing)
           tr
-            td $4 or less
+            td $3 or less
             td $0.79
           tr
-            td $5 - $9
-            td $0.95
+            td $4 - $9
+            td $0.99
           tr
             td $10 - $20
             td $1.79
@@ -335,11 +339,11 @@
             td $21 & above
             td 9% of subscription price
         p
-          |For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout,
+          |For example, if a profile owner sets a monthly fee of $3 for subscribers, then at checkout,
           br
-          |subscribers will pay $4.79 monthly – which includes our 79 cent service fee.
+          |subscribers will pay $3.79 monthly – which includes our 79 cent service fee.
           br
-          |The profile owner will receive $4 per subscriber per month.
+          |The profile owner will receive $3 per subscriber per month.
           br
           |And ConnectPal will receive 79 cents per subscriber per month.
 
