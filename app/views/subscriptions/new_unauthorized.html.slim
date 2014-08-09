@@ -104,7 +104,7 @@
               img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
             li
               img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-          input.form-control type='number' pattern='[0-9]*' name='number' placeholder='1234 5678 9012 3456' style="width: 147px"
+          input.form-control type='text' name='number' placeholder='1234 5678 9012 3456' style="width: 147px"
           span.error data-field='number'
 
         .form-group.exp_date.pull-left
@@ -112,17 +112,17 @@
           .clearfix
           .pull-left style="width: 90px"
             label.small.pull-left Month
-            input.form-control type='number' pattern='[0-9]*' name='expiry_month' placeholder='01' style="width: 42px"
+            input.form-control type='text' name='expiry_month' placeholder='01' style="width: 42px"
           .pull-left style="margin-left: 5px; width: 90px"
             label.small.pull-left Year
-            input.form-control type='number' pattern='[0-9]*' name='expiry_year' placeholder='15' style="width: 45px"
+            input.form-control type='text' name='expiry_year' placeholder='15' style="width: 45px"
           .clearfix
           span.error data-field='expiry_date'
           .clearfix
         .form-group.cvc.pull-right
           label.control-label CVC
           .clearfix
-          input.form-control.pull-left type='number' pattern='[0-9]*' name='cvc' placeholder='123'
+          input.form-control.pull-left type='text' name='cvc' placeholder='123'
           .pull-right
             i.fa.fa-question
               .cvc_example
