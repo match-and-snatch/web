@@ -1,7 +1,7 @@
 .modal-header style='width: 480px;'
   i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
-  .modal-title Vacation Mode
-  p style="font-size: 13px; margin-top: 15px;" While your profile is on vacation mode, monthly recurring billing will be turned off for your subscribers. Please note, existing subscribers will still be able to view your profile. When you come back from vacation, you can disenable vacation mode at this same location, and recurring billing will start again for your subscribers.
+  .modal-title Away Mode
+  p style="font-size: 13px; margin-top: 15px;" While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. Please note, existing subscribers will still be able to view your profile. When you come back from vacation, you can disenable away mode at this same location, and recurring billing will start again for your subscribers.
 
   .modal-body style="padding-bottom: 15px;"
     form.Form action=enable_vacation_mode_account_info_path method='post'
@@ -11,6 +11,6 @@
         p.text-danger data-field='vacation_message'
 
       .form-group style="margin: 15px 0 0"
-        input.btn.pink.pull-left type='submit' value='Enable Vacation Mode' style="margin-left: 85px; text-decoration: none;"
+        input.btn.pink.pull-left type='submit' value='Enable Away Mode' style="margin-left: 85px; text-decoration: none;"
         a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
         .clearfix

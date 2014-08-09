@@ -37,8 +37,8 @@
         .col-md-12.col-sm-12.col-xs-12
           .row_label
             | Profile Name
-            span Your profile name will be displayed at the top of your profile.
-        .col-md-12.col-sm-12.col-xs-12
+            span Your profile name will be displayed at the top of your profile. You can edit this at anytime.
+        .col-md-12.col-sm-12.col-xs-12  style="margin-bottom: 15px;"
           input.form-control type='text' name='profile_name' placeholder='Enter your profile name here.'
           .error data-field='profile_name'
         .clearfix
@@ -48,9 +48,10 @@
       .col-md-6.col-sm-6.col-xs-6
 
         .row_label
-          | Profile Type
+          ' Profile Type
+          '
           span style="display: inline-block; padding: 0; margin: 0; color: #464646; font-weight: bold" (optional)
-          span Please classify your profile type or types. This info helps our search function find more potential subscribers who might like your content.
+          span Please classify your profile type(s). This info helps our search function find more potential subscribers who might like your content.
 
           .profile-type-input
             input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.' style='width: 304px;'
@@ -72,9 +73,10 @@
         .row_label
           | Subscription Cost
           span
-            | Set your monthly price for people to access your profile. You keep
+            ' Set your monthly price for people to access your profile. You keep
             b 100%
-            | of the price you set. ConnectPal adds a service fee on top of your subscription price.
+            '
+            ' of the price you set. ConnectPal adds a service fee on top of your subscription price.
         div
           .input-group
             span.input-group-addon
@@ -89,7 +91,9 @@
       hr
 
       .col-md-12.col-sm-12.col-xs-12
-        h1 style="padding-top: 0" Payout Information
+        .row_label style="margin-bottom: 10px;"
+          'Payout Information
+          span style="display: inline-block; padding: 0; margin: 0; color: #464646; font-weight: bold" (If you want, you can fill out your bank info later. To continue to your profile, click on finish registration.)
         p
           | This is where we will send your money. You can add/update this information at any time. Payments will be electronically transferred to your account on the 1st of the month and they will appear within 7 days on your bank statement.
           span.bg-warning * Direct deposit is available for US ONLY at this time.
