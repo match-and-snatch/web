@@ -53,7 +53,7 @@
 
   .item_block
     h2 Away Mode
-    p Click here to enable away mode for your profile. While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. When you come back from vacation, you can disable away mode at this same location.
+    p Click here to enable away mode for your profile. While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. When you come back from away mode, you can disable away mode at this same location.
     - if @user.vacation_enabled?
       .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_deactivation_account_info_path Disable Away Mode
     - else
