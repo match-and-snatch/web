@@ -149,40 +149,6 @@ describe Subscription do
     end
   end
 
-  describe '#expired?' do
-    context 'when removed' do
-      before do
-        SubscriptionManager.new(subscriber: user, subscription: subject).unsubscribe
-      end
-
-      context 'and billing_date has passed' do
-        before do
-          subject.charged_at = DateTime.new(2014, 03, 03, 9, 8, 7)
-        end
-
-        it { expect(subject.expired?).to eq(true) }
-      end
-
-      context 'and billing_date has not become' do
-        it { expect(subject.expired?).to eq(true) }
-      end
-    end
-
-    context 'when not removed' do
-      context 'and billing_date has passed' do
-        before do
-          subject.charged_at = DateTime.new(2014, 03, 03, 9, 8, 7)
-        end
-
-        it { expect(subject.expired?).to eq(true) }
-      end
-
-      context 'and billing_date has not become' do
-        it { expect(subject.expired?).to eq(false) }
-      end
-    end
-  end
-
   describe '#canceled_at' do
     let(:removed_date) { DateTime.new(2014, 03, 03, 9, 8, 33) }
     let(:rejected_date) { DateTime.new(2014, 04, 13, 23, 58, 13) }

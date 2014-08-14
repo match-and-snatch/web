@@ -9,15 +9,15 @@ class SubscriptionsPresenter
   end
 
   def canceled
-    @canceled_subscriptions ||= subscriptions.select { |s| s.expired? || s.rejected? }
+    @canceled_subscriptions ||= subscriptions.select { |s| s.removed? || s.rejected? }
   end
 
   def active
-    @active_subscriptions ||= subscriptions.select { |s| !(s.expired? || s.rejected?) }
+    @active_subscriptions ||= subscriptions - canceled
   end
 
   def show_failed_column?
-    @canceled_subscriptions.select(&:rejected).any?
+    canceled.select(&:rejected).any?
   end
 
   private

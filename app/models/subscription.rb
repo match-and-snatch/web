@@ -28,10 +28,6 @@ class Subscription < ActiveRecord::Base
     user
   end
 
-  def expired?
-    removed? || billing_date < Time.zone.today
-  end
-
   def paid?
     payments.any? && payments.maximum(:created_at).next_month.to_date >= Time.zone.today # billing_date > Time.zone.today
   end
