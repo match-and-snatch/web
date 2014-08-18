@@ -347,13 +347,6 @@ class UserProfileManager < BaseManager
     user
   end
 
-  def update_cover_picture_position(position)
-    user.cover_picture_position = position
-
-    save_or_die! user if user.changes.any?
-    user
-  end
-
   # @param transloadit_data [Hash]
   # @return [User]
   def update_cover_picture(transloadit_data)
@@ -363,6 +356,21 @@ class UserProfileManager < BaseManager
     user.original_cover_picture_url = upload.url_on_step(':original')
 
     save_or_die! user if user.changes.any?
+    user
+  end
+
+  # @param position [Integer] Y-offset
+  def update_cover_picture_position(position)
+    user.cover_picture_position = position
+
+    save_or_die! user if user.changes.any?
+    user
+  end
+
+  # @param transloadit_data [Hash]
+  # @return [User]
+  def update_welcome_video(transloadit_data)
+    UploadManager.new(user).create_video(transloadit_data)
     user
   end
 

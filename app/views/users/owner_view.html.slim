@@ -11,6 +11,10 @@
 
     /* Details Container */
     .details_container.row
+      - unless @profile.welcome_video
+        i.fa.fa-gear.PopupTrigger data-target='welcome-editor'
+          span Add welcome video
+
       .col-md-7.col-sm-7.col-xs-7.profile_details
 
         /* Profile Name */
@@ -190,13 +194,45 @@
           input.btn.blue.PopupTrigger type='submit' value='Update Contact Information' data-target="contacts-editor"
           .clearfix
 
-  /* Profile Name Popup */
+  / Welcome Video Popup
 
-  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 610px"
+  .Popup.popup.header_edit.modal-content data-identifier='welcome-editor' style="width: 810px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
+      li.active
+        a href='javascript: void(0)' Welcome Video
+      li
+        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      li
+        a.PopupTrigger data-target='type-editor' href='#' Profile Type
+      li
+        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      li
+        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+
+    /* Header Area */
+
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="welcome-editor" aria-hidden="true"
+      .modal-title Edit Your Intro
+      span Will appear for new subscribers
+
+    /* Body Area */
+
+    .modal-body
+      = render 'welcome_video'
+
+  / Profile Name Popup
+
+  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 810px"
+
+    /* Nav Tab Area */
+
+    ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
       li.active
         a href='javascript: void(0)' Profile Name
       li
@@ -228,11 +264,13 @@
 
   /* Profile Type Popup */
 
-  .Popup.popup.header_edit.modal-content data-identifier='type-editor' style="width: 610px"
+  .Popup.popup.header_edit.modal-content data-identifier='type-editor' style="width: 810px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
       li
         a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li.active
@@ -272,11 +310,13 @@
 
   /* Profile Cost Popup */
 
-  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 610px"
+  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 810px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
       li
         a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li
@@ -349,11 +389,13 @@
 
   /* Profile Benefits Popup */
 
-  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 610px"
+  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 810px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
+      li
+        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
       li
         a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li

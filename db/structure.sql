@@ -648,7 +648,9 @@ CREATE TABLE uploads (
     filename text,
     basename text,
     filesize integer,
-    ordering integer DEFAULT 0 NOT NULL
+    ordering integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -1184,3 +1186,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140801083349');
 INSERT INTO schema_migrations (version) VALUES ('20140806113538');
 
 INSERT INTO schema_migrations (version) VALUES ('20140806234854');
+
+INSERT INTO schema_migrations (version) VALUES ('20140818144156');
+
+INSERT INTO schema_migrations (version) VALUES ('20140818144636');
+

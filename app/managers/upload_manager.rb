@@ -54,10 +54,8 @@ class UploadManager < BaseManager
       fail_with! "You can't upload more than one video."
     end
 
-    thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
     create_video(transloadit_data, attributes: { uploadable_type: 'Post',
-                                                 uploadable_id: nil,
-                                                 preview_url: thumb['ssl_url'] })
+                                                 uploadable_id: nil })
   end
 
   # @param transloadit_data [Hash]
@@ -143,13 +141,13 @@ class UploadManager < BaseManager
     upload
   end
 
-  private
-
   # @param transloadit_data [Hash]
   # @param uploadable [ActiveRecord::Base]
   # @param attributes [Hash] upload attributes
   # @return [Upload]
   def create_video(transloadit_data, uploadable: user, attributes: {})
+    thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
+
     upload = Video.new transloadit_data: transloadit_data,
                        uploadable: uploadable,
                        user_id: user.id,
@@ -161,7 +159,8 @@ class UploadManager < BaseManager
                        basename: transloadit_data["uploads"][0]['basename'],
                        width: transloadit_data["uploads"][0]["meta"]["width"],
                        height: transloadit_data["uploads"][0]["meta"]["height"],
-                       url: transloadit_data["results"]["encode"][0]["ssl_url"]
+                       url: transloadit_data["results"]["encode"][0]["ssl_url"],
+                       preview_url: thumb['ssl_url']
     upload.attributes = attributes
     upload.save or fail_with! upload.errors
     upload

@@ -59,6 +59,8 @@
 
   #visitor.box
     .row
+      - if @profile.welcome_video.present?
+        .VideoPlayer id="Upload__#{@profile.welcome_video.id}" data-file=@profile.welcome_video.rtmp_path data-original=@profile.welcome_video.original_url data-image=@profile.welcome_video.preview_url data-primary='html5'
       .col-md-12.col-sm-12.col-xs-12
         .title Welcome to #{@profile.profile_name}'s profile page
         span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.

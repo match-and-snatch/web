@@ -88,6 +88,11 @@ class UsersController < ApplicationController
     json_replace partial: 'cover_picture'
   end
 
+  def update_welcome_video
+    UserProfileManager.new(current_user.object).update_welcome_video(params[:transloadit])
+    json_replace partial: 'welcome_video'
+  end
+
   def update_contacts_info
     UserProfileManager.new(current_user.object).update_contacts_info(params[:contacts_info])
     profile = ProfileDecorator.new(current_user.object)

@@ -91,6 +91,37 @@ development:
             - ":original"
           path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
+    welcome_video:
+      steps:
+        <<: *video_filter
+        thumbs:
+          use: ":original"
+          robot: "/video/thumbs"
+          offsets: ['43%']
+        s3_thumb:
+          <<: *s3
+          use: 'thumbs'
+          bucket: 'buddy-assets'
+          path: 'uploads/thumbs/${fields.slug}/${assembly.id}____${file.url_name}'
+        encode:
+          robot: "/video/encode"
+          use: ":original"
+          ffmpeg_stack: "v2.0.0"
+          preset: "ipad"
+          width: null
+          height: null
+          ffmpeg:
+            b: "700k"
+            vf: "scale='min(iw,1280)':-1"
+        store:
+          <<: *s3
+          use:
+            - 'encode'
+            - ':original'
+          url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
+          bucket: 'buddy-video-assets'
+          path: '${assembly.id}__${file.id}____${file.url_name}'
+
     post_video:
       steps:
         <<: *video_filter
@@ -238,6 +269,34 @@ staging:
             - ":original"
           path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
+    welcome_video:
+      steps:
+        <<: *video_filter
+        thumbs:
+          use: ":original"
+          robot: "/video/thumbs"
+          offsets: ['43%']
+        s3_thumb:
+          <<: *s3
+          use: 'thumbs'
+          bucket: 'buddy-video-assets'
+          path: 'video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
+        encode:
+          robot: "/video/encode"
+          use: ":original"
+          ffmpeg_stack: "v2.0.0"
+          preset: "ipad"
+          width: null
+          height: null
+          ffmpeg:
+            b: "700k"
+            vf: "scale='min(iw,1280)':-1"
+        store:
+          <<: *media
+          use:
+            - 'encode'
+            - ':original'
+
     post_video:
       steps:
         <<: *video_filter
@@ -375,6 +434,34 @@ production:
             - resized
             - ":original"
           path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+
+    welcome_video:
+      steps:
+        <<: *video_filter
+        thumbs:
+          use: ":original"
+          robot: "/video/thumbs"
+          offsets: ['43%']
+        s3_thumb:
+          <<: *s3
+          use: 'thumbs'
+          bucket: 'connectpal-uploads'
+          path: 'video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
+        encode:
+          robot: "/video/encode"
+          use: ":original"
+          ffmpeg_stack: "v2.0.0"
+          preset: "ipad"
+          width: null
+          height: null
+          ffmpeg:
+            b: "700k"
+            vf: "scale='min(iw,1280)':-1"
+        store:
+          <<: *media
+          use:
+            - 'encode'
+            - ':original'
 
     post_video:
       steps:

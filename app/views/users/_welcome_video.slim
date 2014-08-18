@@ -1,0 +1,14 @@
+.video_player data-identifier='welcome-video-container'
+  - if current_user.welcome_video.present?
+    .VideoPlayer id="Upload__#{current_user.welcome_video.id}" data-file=current_user.welcome_video.rtmp_path data-original=current_user.welcome_video.original_url data-image=current_user.welcome_video.preview_url data-primary='html5'
+  - else
+    span No video
+
+  form.PictureUploadForm action=update_welcome_video_user_path(current_user.object) method='post' data-target='welcome-video-container'
+    input type='hidden' name='_method' value='put'
+    = transloadit :welcome_video
+
+    .btn.blue.i.fa.fa-picture-o
+      |&nbsp;Upload Video
+    input type='file' name='welcome_video_file'
+    input type='hidden' name='slug' value=current_user.slug
