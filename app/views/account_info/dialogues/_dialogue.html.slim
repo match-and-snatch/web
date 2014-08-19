@@ -1,28 +1,31 @@
-li.AjaxLink data-target='account-info' data-use_anchor='true' href=account_info_dialogue_path(dialogue.id) data-identifier='dialogue-#{dialogue.id}'
+- antiuser = dialogue.antiuser(current_user.object)
 
-  // Sender Photo
-  .photo.pull-left
-    img src=dialogue.antiuser(current_user.object).comment_picture_url width=50 height=50 border=0
+- if antiuser
+  li.AjaxLink data-target='account-info' data-use_anchor='true' href=account_info_dialogue_path(dialogue.id) data-identifier='dialogue-#{dialogue.id}'
 
-  // Sender Name & Timestamp
-  .pull-left.message_container
-    span.name= dialogue.antiuser(current_user.object).name
-    span.timestamp #{time_ago_in_words(dialogue.recent_message_at)} ago
-    .clearfix
+    // Sender Photo
+    .photo.pull-left
+      img src=antiuser.comment_picture_url width=50 height=50 border=0
 
-    .message_preview class="#{'unread' if dialogue.unread? && dialogue.recent_message.user != current_user.object}"
-      - if dialogue.recent_message.user == current_user.object
-        /.photo.pull-left style='margin-right: 10px; margin-top: 4px'
-          img src=dialogue.recent_message.user.comment_picture_url width=32 height=32 border=0
-        - user = dialogue.recent_message.user
-        - if current_user.object != user 
-          strong= user.name 
-          br
-        span= dialogue.recent_message.message
-      - else
-        .sender_color= dialogue.recent_message.message
-
+    // Sender Name & Timestamp
+    .pull-left.message_container
+      span.name= antiuser.name
+      span.timestamp #{time_ago_in_words(dialogue.recent_message_at)} ago
       .clearfix
-    /- if dialogue.unread?
-      a.btn.pink.AjaxFormLink data-target='dialogue-#{dialogue.id}' data-_method='PUT' href=mark_as_read_account_info_dialogue_path(dialogue.id) Mark as read
-  .clearfix
+
+      .message_preview class="#{'unread' if dialogue.unread? && dialogue.recent_message.user != current_user.object}"
+        - if dialogue.recent_message.user == current_user.object
+          /.photo.pull-left style='margin-right: 10px; margin-top: 4px'
+            img src=dialogue.recent_message.user.comment_picture_url width=32 height=32 border=0
+          - user = dialogue.recent_message.user
+          - if current_user.object != user 
+            strong= user.name 
+            br
+          span= dialogue.recent_message.message
+        - else
+          .sender_color= dialogue.recent_message.message
+
+        .clearfix
+      /- if dialogue.unread?
+        a.btn.pink.AjaxFormLink data-target='dialogue-#{dialogue.id}' data-_method='PUT' href=mark_as_read_account_info_dialogue_path(dialogue.id) Mark as read
+    .clearfix
