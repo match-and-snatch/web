@@ -12,7 +12,7 @@ module Delayable
       if Rails.env.production?
         Resque.enqueue(delayable, method_name.to_s, *encode_args(args))
       else
-        delayable.perform_without_delay(method_name, *encode_args(args))
+        delayable.perform(method_name, *encode_args(args))
       end
     rescue Resque::TermException
       Resque.enqueue(self, method_name, *args)

@@ -446,7 +446,7 @@ class UserProfileManager < BaseManager
     user.vacation_message = reason
 
     save_or_die!(user).tap do
-      self.class.delay.notify_vacation_enabled(user)
+      self.class.delay(queue: :mail).notify_vacation_enabled(user)
     end
   end
 
@@ -457,7 +457,7 @@ class UserProfileManager < BaseManager
     user.vacation_message = nil
 
     save_or_die!(user).tap do
-      self.class.delay.notify_vacation_disabled(user)
+      self.class.delay(queue: :mail).notify_vacation_disabled(user)
     end
   end
 
