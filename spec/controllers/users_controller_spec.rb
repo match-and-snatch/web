@@ -115,6 +115,20 @@ describe UsersController, type: :controller do
     end
   end
 
+  describe 'PUT #update_welcome_video' do
+    subject { put 'update_welcome_video', welcome_video_data_params }
+
+    context 'authorized access' do
+      before { sign_in profile }
+      its(:status) { should == 200 }
+      its(:body) { should match_regex /replace/ }
+    end
+
+    context 'unauthorized access' do
+      its(:status) { should == 401 }
+    end
+  end
+
   describe 'PUT #update_profile_picture' do
     subject { put 'update_profile_picture', profile_picture_data_params }
 

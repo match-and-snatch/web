@@ -327,4 +327,28 @@ describe UserProfileManager do
       expect { manager.update_contacts_info(twitter: ' ') }.not_to change { user.reload.contacts_info[:twitter] }
     end
   end
+
+  describe '#update_cover_picture_position' do
+    specify do
+      expect { manager.update_cover_picture_position(10) }.to change { user.reload.cover_picture_position }.from(0).to(10)
+    end
+
+    context 'position parameter not specified' do
+      specify do
+        expect { manager.update_cover_picture_position }.to raise_error(ArgumentError)
+      end
+    end
+  end
+
+  describe '#update_welcome_video' do
+    let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }
+
+    specify do
+      expect(manager.update_welcome_video(welcome_video_data)).to eq(user)
+    end
+
+    specify do
+      expect { manager.update_welcome_video(welcome_video_data) }.to change { user.reload.welcome_video }.from(nil)
+    end
+  end
 end
