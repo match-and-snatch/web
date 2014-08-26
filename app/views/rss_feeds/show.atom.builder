@@ -11,7 +11,7 @@ xml.feed xmlns: 'http://www.w3.org/2005/Atom' do
       xml.link href: profile_url(@user)
 
       xml.id      post.id
-      xml.title   post.message
+      xml.title   restore_message_format(post.message)
       xml.updated post.updated_at.xmlschema
 
       xml.author do

@@ -9,7 +9,7 @@
 
       label style="margin-top: 15px" Edit Description
       textarea.form-control.edit_field name='message' placeholder='Description'
-        = @post.message
+        = restore_message_format(@post.message)
       .clearfix
       .error data-field='message'
 

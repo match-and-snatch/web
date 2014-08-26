@@ -8,7 +8,7 @@ xml.rss version: '2.0' do
     @feed_events.each do |post|
       xml.item do
         xml.link profile_url(@user)
-        xml.description post.message
+        xml.description restore_message_format(post.message)
         xml.title post.title
         xml.updated post.updated_at.xmlschema
       end

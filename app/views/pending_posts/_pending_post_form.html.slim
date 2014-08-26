@@ -27,7 +27,7 @@
       / .error data-field='keywords'
       / Post description
       textarea.bg-color.form-control name='message' placeholder='Description' style='margin-bottom: 8px'
-        = pending_post.message
+        = restore_message_format(pending_post.message)
       .error data-field='message'
       / Post notification
       .notify

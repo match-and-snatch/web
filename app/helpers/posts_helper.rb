@@ -21,4 +21,8 @@ module PostsHelper
       truncate(text, length: 45)
     end
   end
+
+  def restore_message_format(message)
+    CGI.unescapeHTML(message) unless message.blank?
+  end
 end
