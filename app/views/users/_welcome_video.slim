@@ -4,11 +4,25 @@
   - else
     span No video
 
-  form.PictureUploadForm action=update_welcome_video_user_path(current_user.object) method='post' data-target='welcome-video-container'
+  form.UploadForm action=update_welcome_video_user_path(current_user.object) method='post' data-target='welcome-video-container'
     input type='hidden' name='_method' value='put'
     = transloadit :welcome_video
 
-    .btn.blue.i.fa.fa-picture-o
-      |&nbsp;Upload Video
-    input type='file' name='welcome_video_file'
-    input type='hidden' name='slug' value=current_user.slug
+    .select_file_container
+      - if current_user.welcome_video.present?
+        .btn.blue.i.fa.fa-picture-o
+          |&nbsp;Change file
+      - else
+        .btn.green.multi.fa.fa-plus
+          |&nbsp;Select Media
+      input.hide_btn type='file' name='welcome_video_file'
+      input type='hidden' name='slug' value=current_user.slug
+
+    .row-fluid.file_status.hidden
+      .col-md-2.col-sm-2.col-xs-2.file_name Uploading...
+      .col-md-8.col-sm-8.col-xs-8
+        .progress.progress-striped.active
+          .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
+            span.sr-only 0% Complete
+      .col-md-2.col-sm-2.col-xs-2.percentage 0%
+      .clearfix
