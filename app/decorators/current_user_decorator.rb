@@ -60,7 +60,7 @@ class CurrentUserDecorator < UserDecorator
 
   def idols
     User.joins(source_subscriptions: :target_user).
-      where(subscriptions: {user_id: object.id}).
+      where(subscriptions: {user_id: object.id, removed: false}).
       order('subscriptions.created_at DESC').
       limit(10).map do |user|
       ProfileDecorator.new(user)
