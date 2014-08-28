@@ -85,9 +85,12 @@
     #visitor.box
       .row
         .col-md-12.col-sm-12.col-xs-12
-          = audio_player(@profile.welcome_audio) if @profile.welcome_audio.present?
 
           .title Welcome to #{@profile.profile_name}'s profile page
+
+          div style='margin: 15px auto; width: 585px;'
+            = audio_player(@profile.welcome_audio) if @profile.welcome_audio.present?
+
           span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
 
           = render 'welcome_benefits'

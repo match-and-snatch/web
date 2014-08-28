@@ -1,19 +1,16 @@
-.video_player
-
+.video_player data-identifier='welcome-video-container'
   - if current_user.welcome_video.present?
-    = video_player(current_user.welcome_video)
-  - elsif current_user.welcome_audio.present?
-    = audio_player(current_user.welcome_audio)
+    .VideoPlayer id="Upload__#{current_user.welcome_video.id}" data-file=current_user.welcome_video.rtmp_path data-original=current_user.welcome_video.original_url data-image=current_user.welcome_video.preview_url data-primary='html5'
   - else
     /span No Media Added
 
-  form.UploadForm action=update_welcome_media_user_path(current_user.object) method='post' data-target='welcome-media-container'
+  form.UploadForm action=update_welcome_video_user_path(current_user.object) method='post' data-target='welcome-video-container'
     input type='hidden' name='_method' value='put'
-    = transloadit :welcome_media
+    = transloadit :welcome_video
 
     .select_file_container
-      - if current_user.welcome_media.present?
-        .btn.blue.fa.fa-plus
+      - if current_user.welcome_video.present?
+        .btn.pink.fa.fa-plus
           |&nbsp;Update Welcome Media File
       - else
         .btn.green.fa.fa-plus
@@ -21,10 +18,9 @@
       input.hide_btn type='file' name='welcome_video_file'
       input type='hidden' name='slug' value=current_user.slug
 
-    .btn.pink style='margin-bottom: 15px; width: 100%;' Remove Welcome Media File
-
     .row-fluid.file_status.hidden style='width: 585px; margin: 15px auto 0;'
-      .col-md-2.col-sm-2.col-xs-2.file_name style='text-align: left;' Uploading...
+      .col-md-2.col-sm-2.col-xs-2.file_name style='text-align: left;'
+        i.fa.fa-spinner.fa-spin Uploading...
       .col-md-8.col-sm-8.col-xs-8
         .progress.progress-striped.active
           .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
