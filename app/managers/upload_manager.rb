@@ -127,7 +127,6 @@ class UploadManager < BaseManager
   # @param attributes [Hash] upload attributes
   # @return [Upload]
   def create_video(transloadit_data, uploadable: user, attributes: {})
-    Rails.logger.info "<<<<<<<<<<<<<<<<<< #{transloadit_data.inspect}"
     thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
 
     upload = Video.new transloadit_data: transloadit_data,

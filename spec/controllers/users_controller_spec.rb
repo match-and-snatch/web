@@ -116,16 +116,32 @@ describe UsersController, type: :controller do
   end
 
   describe 'PUT #update_welcome_media' do
-    subject { put 'update_welcome_media', welcome_video_data_params }
+    context 'with welcome video' do
+      subject { put 'update_welcome_media', welcome_video_data_params }
 
-    context 'authorized access' do
-      before { sign_in profile }
-      its(:status) { should == 200 }
-      its(:body) { should match_regex /replace/ }
+      context 'authorized access' do
+        before { sign_in profile }
+        its(:status) { should == 200 }
+        its(:body) { should match_regex /replace/ }
+      end
+
+      context 'unauthorized access' do
+        its(:status) { should == 401 }
+      end
     end
 
-    context 'unauthorized access' do
-      its(:status) { should == 401 }
+    context 'with welcome audio' do
+      subject { put 'update_welcome_media', welcome_audio_data_params }
+
+      context 'authorized access' do
+        before { sign_in profile }
+        its(:status) { should == 200 }
+        its(:body) { should match_regex /replace/ }
+      end
+
+      context 'unauthorized access' do
+        its(:status) { should == 401 }
+      end
     end
   end
 
