@@ -89,4 +89,27 @@ module ApplicationHelper
     user = user.object if user.kind_of? BaseDecorator
     link_to_if user.has_profile_page?, user.name.first(40).gsub(/ /, '&nbsp;').html_safe, profile_url(user)
   end
+
+  # @param video [Video]
+  # @return [String, nil]
+  def video_player(video)
+    content_tag(:div, nil,
+                id: "Upload__#{video.id}",
+                class: 'VideoPlayer',
+                data: { file:     video.rtmp_path,
+                        original: video.original_url,
+                        image:    video.preview_url,
+                        primary: 'html5' }) if video
+  end
+
+  # @param audio [Audio]
+  # @return [String, nil]
+  def audio_player(audio)
+    content_tag(:div, nil,
+                id: "Upload__#{audio.id}",
+                class: 'AudioPlayer',
+                data: { file:     audio.rtmp_path,
+                        original: audio.original_url,
+                        primary: 'html5' }) if audio
+  end
 end

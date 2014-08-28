@@ -233,6 +233,11 @@ class User < ActiveRecord::Base
     Video.users.where(uploadable_id: id).order('created_at DESC').first
   end
 
+  # @return [Audio, nil]
+  def welcome_audio
+    Audio.users.where(uploadable_id: id).order('created_at DESC').first
+  end
+
   private
 
   def set_profile_completion_status

@@ -35,6 +35,16 @@ video_filter: &video_filter
       - ["${file.ext}", "regex", '^(mp4|m4v|f4v|mov|flv)$']
     error_on_decline: true
 
+video_or_audio_filter: &video_or_audio_filter
+  files:
+    robot: '/file/filter'
+    condition_type: 'or'
+    accepts:
+      - ["${file.mime}", "regex", "video"]
+      - ["${file.mime}", "regex", "audio"]
+      - ["${file.ext}", "regex", '^(mp4|m4v|f4v|mov|flv|aac|m4a|mp3|ogg|oga)$']
+    error_on_decline: true
+
 development:
   profile_image: &profile_image
     <<: *s3
@@ -91,9 +101,9 @@ development:
             - ":original"
           path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
-    welcome_video:
+    welcome_media:
       steps:
-        <<: *video_filter
+        <<: *video_or_audio_filter
         thumbs:
           use: ":original"
           robot: "/video/thumbs"
@@ -269,9 +279,9 @@ staging:
             - ":original"
           path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
-    welcome_video:
+    welcome_media:
       steps:
-        <<: *video_filter
+        <<: *video_or_audio_filter
         thumbs:
           use: ":original"
           robot: "/video/thumbs"
@@ -435,9 +445,9 @@ production:
             - ":original"
           path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
-    welcome_video:
+    welcome_media:
       steps:
-        <<: *video_filter
+        <<: *video_or_audio_filter
         thumbs:
           use: ":original"
           robot: "/video/thumbs"

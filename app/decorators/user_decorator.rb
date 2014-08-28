@@ -51,4 +51,14 @@ class UserDecorator < BaseDecorator
   def welcome_video
     @welcome_video ||= object.welcome_video
   end
+
+  # @return [Audio, nil]
+  def welcome_audio
+    @welcome_audio ||= object.welcome_audio
+  end
+
+  # @return [Audio, Video, nil]
+  def welcome_media
+    @welcome_media ||= welcome_video || welcome_audio
+  end
 end

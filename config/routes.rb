@@ -111,7 +111,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_cover_picture
       put :update_contacts_info
       put :update_cover_picture_position
-      put :update_welcome_video
+      put :update_welcome_media
     end
 
     resources :messages, only: [:new, :create]
