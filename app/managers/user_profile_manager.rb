@@ -369,8 +369,15 @@ class UserProfileManager < BaseManager
 
   # @param transloadit_data [Hash]
   # @return [User]
-  def update_welcome_video(transloadit_data)
-    UploadManager.new(user).create_video(transloadit_data)
+  def update_welcome_media(transloadit_data)
+    mimetype = transloadit_data['uploads'][0]['type']
+    upload_manager = UploadManager.new(user)
+    upload = if mimetype == 'video'
+               upload_manager.create_video(transloadit_data)
+             elsif mimetype == 'audio'
+               upload_manager.create_audio(transloadit_data).first
+             end
+    upload_manager.clear_old_welcome_uploads!(current_upload: upload)
     user
   end
 
