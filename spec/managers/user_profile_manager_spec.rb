@@ -229,6 +229,35 @@ describe UserProfileManager do
     end
   end
 
+  describe '#update_benefits' do
+    let(:benefits_params) { { "0"=>"benefit", "1"=>"other benefit", "2"=>"", "3"=>"", "4"=>"", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>"" } }
+
+    specify do
+      expect { manager.update_benefits(nil) }.to raise_error(ManagerError)
+    end
+
+    specify do
+      expect(manager.update_benefits(benefits_params)).to eq(user)
+    end
+
+    it 'create benefits' do
+      expect { manager.update_benefits(benefits_params) }.to change { user.benefits.count }.from(0).to(2)
+    end
+
+    context 'with benefits' do
+      let(:new_benefits_params) { { "1"=>"other new benefit" } }
+
+      before do
+        manager.update_benefits(new_benefits_params)
+      end
+
+      it 'clear old and create new' do
+        expect(user.reload.benefits.count).to eq(1)
+        expect(user.reload.benefits.last.message).to eq(new_benefits_params.first.last)
+      end
+    end
+  end
+
   describe '#update_cc_data' do
     before { StripeMock.start }
     after { StripeMock.stop }

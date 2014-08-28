@@ -130,4 +130,34 @@ describe User do
       expect(described_class.search_by_text_fields('sergei')).to eq [matching_by_full_name, matching_by_profile_name]
     end
   end
+
+  describe '#welcome_audio' do
+    subject { user.welcome_audio }
+
+    let(:user) { create_user }
+    let(:welcome_audio_data) { JSON.parse(welcome_audio_data_params['transloadit']) }
+
+    it { should be_nil }
+
+    context 'with welcome audio' do
+      let(:welcome_audio) { UploadManager.new(user).create_audio(welcome_audio_data).first }
+
+      it { should eq(welcome_audio) }
+    end
+  end
+
+  describe 'welcome_video' do
+    subject { user.welcome_video }
+
+    let(:user) { create_user }
+    let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }
+
+    it { should be_nil }
+
+    context 'with welcome video' do
+      let(:welcome_video) { UploadManager.new(user).create_video(welcome_video_data) }
+
+      it { should eq(welcome_video) }
+    end
+  end
 end
