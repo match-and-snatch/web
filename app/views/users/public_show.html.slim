@@ -65,20 +65,11 @@
         .box style='padding: 15px; min-height: 352px;'
           .title Welcome to #{@profile.profile_name}'s profile page.
 
-          span.sub_heading By subscribing to this profile on ConnectPal, you get the following benefits.
-
-          ul
-            li.fa.fa-check-circle Full access to user’s profile content.
-            li.fa.fa-check-circle You can directly message the profile owner.
-            li.fa.fa-check-circle With ConnectPal, you can cancel anytime.
-
-          span.sub_heading ConnectPal is the World’s #1 Subscription Marketplace. Any person or group can create a subscription business in less than 3 minutes.
+          = render 'welcome_benefits'
 
       .col-md-8.col-sm-8.col-xs-8
         .box.no-radius
-          .VideoPlayer id="Upload__#{@profile.welcome_video.id}" data-file=@profile.welcome_video.rtmp_path data-original=@profile.welcome_video.original_url data-image=@profile.welcome_video.preview_url data-primary='html5'
-
-
+          = video_player(@profile.welcome_video)
 
       .col-md-8.col-sm-8.col-xs-8.pull-right style='margin-top: 15px'
         a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
@@ -94,18 +85,12 @@
     #visitor.box
       .row
         .col-md-12.col-sm-12.col-xs-12
+          = audio_player(@profile.welcome_audio) if @profile.welcome_audio.present?
+
           .title Welcome to #{@profile.profile_name}'s profile page
           span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
 
-          span.sub_heading By subscribing to this profile on ConnectPal, you get the following benefits.
-
-          ul
-            li.fa.fa-check-circle Full access to user’s profile content.
-            li.fa.fa-check-circle You can directly message the profile owner.
-            li.fa.fa-check-circle With ConnectPal, you can cancel anytime.
-
-          span.sub_heading ConnectPal is the World’s #1 Subscription Marketplace.
-          span.sub_heading Any person or group can create a subscription business in less than 3 minutes.
+          = render 'welcome_benefits'
 
           a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
           .clearfix
@@ -120,4 +105,4 @@
 /* Footer */
 
 div style='position: fixed; bottom: 0; width: 100%'
-  = render 'footer'
+  = render 'application/footer'

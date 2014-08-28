@@ -11,7 +11,6 @@
 
     /* Details Container */
     .details_container.row
-
       .col-md-7.col-sm-7.col-xs-7.profile_details
 
         /* Profile Name */
@@ -41,14 +40,14 @@
             i.fa.fa-gear
             .clearfix
 
-        - unless @profile.welcome_video
-          .btn.green.pull-right style='width: 238px; padding: 10px 0;'
-            i.fa.fa-plus.PopupTrigger data-target='welcome-editor'
-              '&nbsp;Add Welcome Media
-        - else @profile.welcome_video
+        - if @profile.welcome_media
           .btn.pink.pull-right style='width: 238px; padding: 10px 0;'
             i.fa.fa-plus.PopupTrigger data-target='welcome-editor'
               '&nbsp;Change Welcome Media
+        - else
+          .btn.green.pull-right style='width: 238px; padding: 10px 0;'
+            i.fa.fa-plus.PopupTrigger data-target='welcome-editor'
+              '&nbsp;Add Welcome Media
 
 
     / RSS
@@ -201,7 +200,7 @@
           input.btn.blue.PopupTrigger type='submit' value='Update Contact Information' data-target="contacts-editor"
           .clearfix
 
-  / Welcome Video Popup
+  / Welcome Media Popup
 
   .Popup.popup.header_edit.modal-content data-identifier='welcome-editor' style="width: 745px"
 
@@ -228,8 +227,8 @@
 
     /* Body Area */
 
-    .modal-body
-      = render 'welcome_video'
+    .modal-body data-identifier='welcome-media-container'
+      = render 'welcome_media'
 
   / Profile Name Popup
 
