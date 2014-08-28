@@ -1,9 +1,12 @@
+/ TODO: Rename this class
 .video_player
 
   - if current_user.welcome_video.present?
-    = video_player(current_user.welcome_video)
+    .video_player
+      = video_player(current_user.welcome_video)
   - elsif current_user.welcome_audio.present?
-    = audio_player(current_user.welcome_audio)
+    .audio_player
+      = audio_player(current_user.welcome_audio)
   - else
     span No Media Added
 
