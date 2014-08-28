@@ -2,20 +2,34 @@ class bud.widgets.BenefitToggler extends bud.Widget
   @SELECTOR: '.Benefits'
 
   initialize: ->
-    if @$container.children('div:not(.hidden)').length > 0
-      @show_next()
-    else
-      @show_next()
-      @show_next()
+    @$benefits = @get_target()
+    @$benefit_inputs = @$benefits.find('input[type=text]')
 
-    container = @$container
-    @$container.find('input[name*="benefit"]').on 'keyup', ->
-      currentInput = $(this)
-      nextInput = container.find("input[name='benefits[#{currentInput.data('index') + 1}]']")
-      if currentInput.val() == "" && nextInput.val() == ""
-        nextInput.parent().addClass('hidden')
+    @$benefit_inputs.keyup @on_keyup
+    @hide_inputs()
+
+  on_keyup: (e) =>
+    currentInput = $(e.currentTarget)
+    currentInputIndex = @$benefit_inputs.index(currentInput)
+    currentBenefit = $(@$benefits[currentInputIndex])
+
+    nextInputIndex = currentInputIndex + 1
+    nextInput   = $(@$benefit_inputs[nextInputIndex])
+    nextBenefit = $(@$benefits[nextInputIndex])
+
+    if _.isEmpty(currentInput.val())
+      if _.isEmpty(nextInput.val())
+        nextBenefit.hide()
       else
-        nextInput.parent().removeClass('hidden')
+        currentBenefit.hide()
+    else
+      nextBenefit.show()
 
-  show_next: =>
-    @$container.children('div.hidden:first').removeClass('hidden')
+    bud.pub('popup.autoplace.benefits-editor')
+
+  hide_inputs: ->
+    s = @$benefit_inputs.filter(->
+      !_.isEmpty $(this).val()
+    ).length
+    index = if s > 0 then s + 1 else 2
+    @$benefits.slice(index, @$benefits.length).hide()

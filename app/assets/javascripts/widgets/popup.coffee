@@ -10,12 +10,16 @@ class bud.widgets.Popup extends bud.Widget
     # Binds on button click
     bud.sub("popup.toggle.#{@identifier}", @toggle)
 
+    # Binds on refresh position
+    bud.sub("popup.autoplace.#{@identifier}", @autoplace)
+
     # Move into proper HTML position
     @$container.appendTo($('body'))
 
   destroy: ->
     bud.unsub("popup.show", @autoclose)
     bud.unsub("popup.toggle.#{@identifier}", @toggle)
+    bud.unsub("popup.autoplace.#{@identifier}", @autoplace)
 
   # Closes when other popup gets opened
   autoclose: (e, widget) => @hide() if widget != @
