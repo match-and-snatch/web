@@ -5,7 +5,7 @@
   - elsif current_user.welcome_audio.present?
     = audio_player(current_user.welcome_audio)
   - else
-    /span No Media Added
+    span No Media Added
 
   form.UploadForm action=update_welcome_media_user_path(current_user.object) method='post' data-target='welcome-media-container'
     input type='hidden' name='_method' value='put'
@@ -14,11 +14,11 @@
     .select_file_container
       - if current_user.welcome_media.present?
         .btn.blue.fa.fa-plus
-          |&nbsp;Update Welcome Media File
+          |   Update Welcome Media File
       - else
         .btn.green.fa.fa-plus
-          |&nbsp;Add Welcome Media File
-      input.hide_btn type='file' name='welcome_video_file'
+          |   Add Welcome Media File
+      input.hide_btn type='file' name='welcome_media_file'
       input type='hidden' name='slug' value=current_user.slug
 
     /.btn.pink style='margin-bottom: 15px; width: 100%;' Remove Welcome Media File

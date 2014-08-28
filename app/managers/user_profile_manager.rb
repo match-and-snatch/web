@@ -377,7 +377,7 @@ class UserProfileManager < BaseManager
              elsif mimetype == 'audio'
                upload_manager.create_audio(transloadit_data).first
              end
-    upload_manager.clear_old_welcome_uploads!(current_upload: upload)
+    clear_old_welcome_uploads!(current_upload: upload)
     user
   end
 
@@ -491,6 +491,17 @@ class UserProfileManager < BaseManager
   end
 
   private
+
+  # @param current_upload [Video, Audio]
+  def clear_old_welcome_uploads!(current_upload: nil)
+    if current_upload.is_a?(Video)
+      Video.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
+      Audio.users.where(uploadable_id: user.id).delete_all
+    elsif current_upload.is_a?(Audio)
+      Audio.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
+      Video.users.where(uploadable_id: user.id).delete_all
+    end
+  end
 
   def sync_stripe_recipient!
     stripe_recipient = Stripe::Recipient.retrieve(recipient.stripe_id)

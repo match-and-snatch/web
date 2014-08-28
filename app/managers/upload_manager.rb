@@ -169,15 +169,4 @@ class UploadManager < BaseManager
       save_or_die! upload
     end
   end
-
-  # @param current_upload [Video, Audio]
-  def clear_old_welcome_uploads!(current_upload: nil)
-    if current_upload.is_a?(Video)
-      Video.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
-      Audio.users.where(uploadable_id: user.id).delete_all
-    elsif current_upload.is_a?(Audio)
-      Audio.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
-      Video.users.where(uploadable_id: user.id).delete_all
-    end
-  end
 end

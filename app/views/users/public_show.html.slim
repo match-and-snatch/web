@@ -89,7 +89,7 @@
           .title Welcome to #{@profile.profile_name}'s profile page
 
           div style='margin: 15px auto; width: 585px;'
-            = audio_player(@profile.welcome_audio) if @profile.welcome_audio.present?
+            = audio_player(@profile.welcome_audio)
 
           span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
 
