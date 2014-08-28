@@ -2,7 +2,7 @@
   - if current_user.welcome_video.present?
     .VideoPlayer id="Upload__#{current_user.welcome_video.id}" data-file=current_user.welcome_video.rtmp_path data-original=current_user.welcome_video.original_url data-image=current_user.welcome_video.preview_url data-primary='html5'
   - else
-    span No video
+    /span No Media Added
 
   form.UploadForm action=update_welcome_video_user_path(current_user.object) method='post' data-target='welcome-video-container'
     input type='hidden' name='_method' value='put'
@@ -10,19 +10,19 @@
 
     .select_file_container
       - if current_user.welcome_video.present?
-        .btn.blue.i.fa.fa-picture-o
-          |&nbsp;Change file
+        .btn.pink.fa.fa-plus
+          |&nbsp;Update Welcome Media File
       - else
-        .btn.green.multi.fa.fa-plus
-          |&nbsp;Select Media
+        .btn.green.fa.fa-plus
+          |&nbsp;Add Welcome Media File
       input.hide_btn type='file' name='welcome_video_file'
       input type='hidden' name='slug' value=current_user.slug
 
-    .row-fluid.file_status.hidden
-      .col-md-2.col-sm-2.col-xs-2.file_name Uploading...
+    .row-fluid.file_status.hidden style='width: 615px; margin: 0 auto;'
+      .col-md-2.col-sm-2.col-xs-2.file_name style='text-align: left;' Uploading...
       .col-md-8.col-sm-8.col-xs-8
         .progress.progress-striped.active
           .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
             span.sr-only 0% Complete
-      .col-md-2.col-sm-2.col-xs-2.percentage 0%
+      .col-md-2.col-sm-2.col-xs-2.percentage style='text-align: right;' 0%
       .clearfix

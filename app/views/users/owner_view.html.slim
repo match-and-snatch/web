@@ -11,9 +11,6 @@
 
     /* Details Container */
     .details_container.row
-      - unless @profile.welcome_video
-        i.fa.fa-gear.PopupTrigger data-target='welcome-editor'
-          span Add welcome video
 
       .col-md-7.col-sm-7.col-xs-7.profile_details
 
@@ -43,6 +40,16 @@
             .btn.pink.fa.fa-usd.fa-2x
             i.fa.fa-gear
             .clearfix
+
+        - unless @profile.welcome_video
+          .btn.green.pull-right style='width: 238px; padding: 10px 0;'
+            i.fa.fa-plus.PopupTrigger data-target='welcome-editor'
+              '&nbsp;Add Welcome Media
+        - else @profile.welcome_video
+          .btn.pink.pull-right style='width: 238px; padding: 10px 0;'
+            i.fa.fa-plus.PopupTrigger data-target='welcome-editor'
+              '&nbsp;Change Welcome Media
+
 
     / RSS
     - if @profile.rss_enabled?
@@ -196,13 +203,13 @@
 
   / Welcome Video Popup
 
-  .Popup.popup.header_edit.modal-content data-identifier='welcome-editor' style="width: 810px"
+  .Popup.popup.header_edit.modal-content data-identifier='welcome-editor' style="width: 745px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
       li.active
-        a href='javascript: void(0)' Welcome Video
+        a href='javascript: void(0)' Welcome Media
       li
         a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li
@@ -216,8 +223,8 @@
 
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="welcome-editor" aria-hidden="true"
-      .modal-title Edit Your Intro
-      span Will appear for new subscribers
+      .modal-title Welcome Media
+      span style='padding: 0 15px' This video or audio message will appear only for visitors who have not yet subscribed to your profile. Please use this video or audio as your marketing message to let people know why they should subscribe to your profile.
 
     /* Body Area */
 
@@ -226,13 +233,13 @@
 
   / Profile Name Popup
 
-  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 810px"
+  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 745px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
       li
-        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
+        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Media
       li.active
         a href='javascript: void(0)' Profile Name
       li
@@ -264,13 +271,13 @@
 
   /* Profile Type Popup */
 
-  .Popup.popup.header_edit.modal-content data-identifier='type-editor' style="width: 810px"
+  .Popup.popup.header_edit.modal-content data-identifier='type-editor' style="width: 745px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
       li
-        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
+        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Media
       li
         a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li.active
@@ -295,7 +302,7 @@
     .modal-body
 
       .profile-type-input
-        input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.'
+        input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.' style='width: 567px'
         i.fa.fa-plus.pull-left data-identifier='types-submit' Add
         i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
         .clearfix
@@ -310,13 +317,13 @@
 
   /* Profile Cost Popup */
 
-  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 810px"
+  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 745px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
       li
-        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
+        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Media
       li
         a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li
@@ -389,13 +396,13 @@
 
   /* Profile Benefits Popup */
 
-  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 810px"
+  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 745px"
 
     /* Nav Tab Area */
 
     ul.nav.nav-tabs
       li
-        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
+        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Media
       li
         a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li
