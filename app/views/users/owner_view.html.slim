@@ -49,7 +49,6 @@
             i.fa.fa-plus
               '&nbsp;Add Welcome Media
 
-
     / RSS
     - if @profile.rss_enabled?
       a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
@@ -221,7 +220,7 @@
     /* Header Area */
 
     .modal-header
-      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="welcome-editor" aria-hidden="true"
+      i.fa.fa-times-circle.close type="button" aria-hidden="true" onclick='window.location.reload()'
       .modal-title Welcome Media
       span style='padding: 0 15px' This video or audio message will appear only for visitors who have not yet subscribed to your profile. Please use this video or audio as your marketing message to let people know why they should subscribe to your profile.
 
