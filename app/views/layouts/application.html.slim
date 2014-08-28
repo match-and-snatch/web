@@ -6,12 +6,6 @@ html
     nav.navbar-wrapper.navbar-fixed-top role="navigation"
       .navbar-inner
         .container
-
-          /button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" style="border-color: #FFFFFF; margin-top: 8px; padding: 6px;"
-            span.sr-only Toggle navigation
-            span.icon-bar style="background-color: #FFFFFF"
-            span.icon-bar style="background-color: #FFFFFF"
-
           a.brand.pull-left href=root_path
             img src=image_path('//connectpal-assets.s3.amazonaws.com/images/logo.png')
 
@@ -21,7 +15,6 @@ html
                 a href=application_settings_path
                   i.fa.fa-gears Application Settings
 
-          /.collapse.navbar-collapse
           = render 'navigation' if layout.show_navigation?
 
     #content
