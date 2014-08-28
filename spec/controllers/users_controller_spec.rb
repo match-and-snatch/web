@@ -115,8 +115,8 @@ describe UsersController, type: :controller do
     end
   end
 
-  describe 'PUT #update_welcome_video' do
-    subject { put 'update_welcome_video', welcome_video_data_params }
+  describe 'PUT #update_welcome_media' do
+    subject { put 'update_welcome_media', welcome_video_data_params }
 
     context 'authorized access' do
       before { sign_in profile }

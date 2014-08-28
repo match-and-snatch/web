@@ -344,11 +344,11 @@ describe UserProfileManager do
     let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }
 
     specify do
-      expect(manager.update_welcome_video(welcome_video_data)).to eq(user)
+      expect(manager.update_welcome_media(welcome_video_data)).to eq(user)
     end
 
     specify do
-      expect { manager.update_welcome_video(welcome_video_data) }.to change { user.reload.welcome_video }.from(nil)
+      expect { manager.update_welcome_media(welcome_video_data) }.to change { user.reload.welcome_video }.from(nil)
     end
   end
 end
