@@ -24,7 +24,7 @@ class PostManager < BaseManager
     fail_with! message: :empty if message.blank?
 
     @post.title = title
-    @post.message = message
+    @post.message = CGI.escapeHTML(message)
     @post.save or fail_with!(@post.errors)
 
     @post

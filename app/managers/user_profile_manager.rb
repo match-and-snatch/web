@@ -347,13 +347,6 @@ class UserProfileManager < BaseManager
     user
   end
 
-  def update_cover_picture_position(position)
-    user.cover_picture_position = position
-
-    save_or_die! user if user.changes.any?
-    user
-  end
-
   # @param transloadit_data [Hash]
   # @return [User]
   def update_cover_picture(transloadit_data)
@@ -363,6 +356,28 @@ class UserProfileManager < BaseManager
     user.original_cover_picture_url = upload.url_on_step(':original')
 
     save_or_die! user if user.changes.any?
+    user
+  end
+
+  # @param position [Integer] Y-offset
+  def update_cover_picture_position(position)
+    user.cover_picture_position = position
+
+    save_or_die! user if user.changes.any?
+    user
+  end
+
+  # @param transloadit_data [Hash]
+  # @return [User]
+  def update_welcome_media(transloadit_data)
+    mimetype = transloadit_data['uploads'][0]['type']
+    upload_manager = UploadManager.new(user)
+    upload = if mimetype == 'video'
+               upload_manager.create_video(transloadit_data)
+             elsif mimetype == 'audio'
+               upload_manager.create_audio(transloadit_data).first
+             end
+    clear_old_welcome_uploads!(current_upload: upload)
     user
   end
 
@@ -476,6 +491,17 @@ class UserProfileManager < BaseManager
   end
 
   private
+
+  # @param current_upload [Video, Audio]
+  def clear_old_welcome_uploads!(current_upload: nil)
+    if current_upload.is_a?(Video)
+      Video.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
+      Audio.users.where(uploadable_id: user.id).delete_all
+    elsif current_upload.is_a?(Audio)
+      Audio.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
+      Video.users.where(uploadable_id: user.id).delete_all
+    end
+  end
 
   def sync_stripe_recipient!
     stripe_recipient = Stripe::Recipient.retrieve(recipient.stripe_id)

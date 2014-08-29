@@ -2,7 +2,7 @@
   form.Poster.row action=user_posts_path(@profile.object) data-target='posts' method='post'
     .col-md-12.col-sm-12.col-xs-12
       textarea name='message' placeholder='Keep your subscribers in the know...'
-        = pending_post.message
+        = restore_message_format(pending_post.message)
       .clearfix
       .error data-field='message'
 

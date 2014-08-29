@@ -5,6 +5,7 @@ class Upload < ActiveRecord::Base
 
   scope :pending,   -> { where uploadable_id: nil }
   scope :posts,     -> { where uploadable_type: 'Post' }
+  scope :users,     -> { where uploadable_type: 'User' }
   scope :photos,    -> { where type: 'Photo' }
   scope :audios,    -> { where type: 'Audio' }
   scope :videos,    -> { where type: 'Video' }

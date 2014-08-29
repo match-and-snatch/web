@@ -4,7 +4,7 @@ p
   | Uploaded total:
   b  #{number_to_human_size(@total_uploaded)}
 
-- if @users.any?
+- if @users.length > 0
   
   .table-responsive
     table.table.table-striped

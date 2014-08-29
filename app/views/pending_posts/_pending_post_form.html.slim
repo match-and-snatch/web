@@ -1,7 +1,7 @@
 #uploading
 
   / Progress bar. Add in hidden class.
-  .row-fluid.file_status.hidden
+  .row-fluid.file_status.Progress.hidden
     .col-md-2.col-sm-2.col-xs-2.file_name Uploading...
     .col-md-8.col-sm-8.col-xs-8
       .progress.progress-striped.active
@@ -27,7 +27,7 @@
       / .error data-field='keywords'
       / Post description
       textarea.bg-color.form-control name='message' placeholder='Description' style='margin-bottom: 8px'
-        = pending_post.message
+        = restore_message_format(pending_post.message)
       .error data-field='message'
       / Post notification
       .notify

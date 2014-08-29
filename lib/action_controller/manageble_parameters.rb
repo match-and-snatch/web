@@ -8,5 +8,10 @@ module ActionController
     def slice(*keys)
       super(*(keys.flatten)).symbolize_keys
     end
+
+    # @return [String]
+    def to_yaml
+      to_hash.to_yaml
+    end
   end
 end

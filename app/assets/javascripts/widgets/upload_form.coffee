@@ -27,18 +27,18 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       onUpload: (upload, assembly) =>
         #@$target.prepend("<div>#{upload.name} is uploaded.</div>")
       onSuccess: (assembly) =>
-        $('#uploading > .file_status').addClass('hidden')
+        $('.Progress').addClass('hidden')
         @change_progress '0%'
         bud.pub('attachment.uploaded')
         @$container.find('.select_file_container').removeClass('hidden')
       onStart: (assembly) =>
         bud.pub('upload_form.set_uploading_state', [true])
         @$container.find('.select_file_container').addClass('hidden')
-        $('#uploading > .file_status').removeClass('hidden')
+        $('.Progress').removeClass('hidden')
         bud.pub('attachment.uploading')
       onError: (error) =>
         console.log(error) if console
-        $('#uploading > .file_status').addClass('hidden')
+        $('.Progress').addClass('hidden')
         @change_progress '0%'
         bud.pub('attachment.uploaded')
         @$container.find('.select_file_container').removeClass('hidden')
@@ -46,7 +46,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     )
 
   on_cancel: =>
-    $('#uploading > .file_status').addClass('hidden')
+    $('.Progress').addClass('hidden')
     @change_progress '0%'
     u = @$container.data('transloadit.uploader')
     if u && u.$files

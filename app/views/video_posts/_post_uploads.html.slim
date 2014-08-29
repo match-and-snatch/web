@@ -1,3 +1,3 @@
 - post.uploads.ordered.each do |upload|
   .video_player
-    .VideoPlayer id="Upload__#{upload.id}" data-file=upload.rtmp_path data-original=upload.original_url data-image=upload.preview_url data-primary='html5'
+    = video_player upload
