@@ -459,4 +459,35 @@ describe UserProfileManager do
       end
     end
   end
+
+  describe '#remove_welcome_media!' do
+    let(:welcome_audio_data) { JSON.parse(welcome_audio_data_params['transloadit']) }
+    let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }
+
+    specify do
+      expect(manager.remove_welcome_media!).to eq(user)
+    end
+
+    context 'welcome video exist' do
+      before do
+        manager.update_welcome_media(welcome_video_data)
+      end
+
+      it 'removes all welcome video' do
+        expect { manager.remove_welcome_media! }.to change { user.welcome_video.present? }.from(true).to(false)
+        expect(user.welcome_audio).to be_nil
+      end
+    end
+
+    context 'welcome audio exist' do
+      before do
+        manager.update_welcome_media(welcome_audio_data)
+      end
+
+      it 'removes all welcome audio' do
+        expect { manager.remove_welcome_media! }.to change { user.welcome_audio.present? }.from(true).to(false)
+        expect(user.welcome_video).to be_nil
+      end
+    end
+  end
 end
