@@ -229,6 +229,35 @@ describe UserProfileManager do
     end
   end
 
+  describe '#update_benefits' do
+    let(:benefits_params) { { "0"=>"benefit", "1"=>"other benefit", "2"=>"", "3"=>"", "4"=>"", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>"" } }
+
+    specify do
+      expect { manager.update_benefits(nil) }.to raise_error(ManagerError)
+    end
+
+    specify do
+      expect(manager.update_benefits(benefits_params)).to eq(user)
+    end
+
+    it 'create benefits' do
+      expect { manager.update_benefits(benefits_params) }.to change { user.benefits.count }.from(0).to(2)
+    end
+
+    context 'with benefits' do
+      let(:new_benefits_params) { { "1"=>"other new benefit" } }
+
+      before do
+        manager.update_benefits(new_benefits_params)
+      end
+
+      it 'clear old and create new' do
+        expect(user.reload.benefits.count).to eq(1)
+        expect(user.reload.benefits.last.message).to eq(new_benefits_params.first.last)
+      end
+    end
+  end
+
   describe '#update_cc_data' do
     before { StripeMock.start }
     after { StripeMock.stop }
@@ -325,6 +354,109 @@ describe UserProfileManager do
 
     specify do
       expect { manager.update_contacts_info(twitter: ' ') }.not_to change { user.reload.contacts_info[:twitter] }
+    end
+  end
+
+  describe '#update_cover_picture_position' do
+    specify do
+      expect { manager.update_cover_picture_position(10) }.to change { user.reload.cover_picture_position }.from(0).to(10)
+    end
+
+    context 'position parameter not specified' do
+      specify do
+        expect { manager.update_cover_picture_position }.to raise_error(ArgumentError)
+      end
+    end
+  end
+
+  describe '#update_welcome_media' do
+    let(:welcome_audio_data) { JSON.parse(welcome_audio_data_params['transloadit']) }
+    let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }
+
+    context 'with video file' do
+      specify do
+        expect(manager.update_welcome_media(welcome_video_data)).to eq(user)
+      end
+
+      specify do
+        expect { manager.update_welcome_media(welcome_video_data) }.to change { user.reload.welcome_video }.from(nil)
+      end
+
+      context 'welcome video exist' do
+        let!(:existing_video_id) { UploadManager.new(user).create_video(welcome_video_data).id }
+
+        before do
+          manager.update_welcome_media(welcome_video_data)
+        end
+
+        it 'removes existing welcome media' do
+          expect(Video.users.where(uploadable_id: user.id).where(id: existing_video_id).any?).to be_falsey
+          expect(user.reload.welcome_audio).to be_nil
+        end
+
+        specify do
+          expect(user.reload.welcome_video).to be
+        end
+      end
+
+      context 'welcome audio exist' do
+        let!(:existing_audio_id) { UploadManager.new(user).create_audio(welcome_audio_data).first.id }
+
+        before do
+          manager.update_welcome_media(welcome_video_data)
+        end
+
+        it 'removes existing welcome audio' do
+          expect(Audio.users.where(uploadable_id: user.id).where(id: existing_audio_id).any?).to be_falsey
+        end
+
+        specify do
+          expect(user.reload.welcome_video).to be
+        end
+      end
+    end
+
+    context 'with audio file' do
+      specify do
+        expect(manager.update_welcome_media(welcome_audio_data)).to eq(user)
+      end
+
+      specify do
+        expect { manager.update_welcome_media(welcome_audio_data) }.to change { user.reload.welcome_audio }.from(nil)
+      end
+
+      context 'welcome video exist' do
+        let!(:existing_video_id) { UploadManager.new(user).create_video(welcome_video_data).id }
+
+        before do
+          manager.update_welcome_media(welcome_audio_data)
+        end
+
+        it 'removes existing welcome video' do
+          expect(Video.users.where(uploadable_id: user.id).where(id: existing_video_id).any?).to be_falsey
+        end
+
+        specify do
+          expect(user.reload.welcome_audio).to be
+        end
+      end
+
+      context 'welcome audio exist' do
+        let!(:existing_audio_id) { UploadManager.new(user).create_audio(welcome_audio_data).first.id }
+
+        before do
+          manager.update_welcome_media(welcome_audio_data)
+        end
+
+        it 'removes existing welcome media' do
+          expect(Audio.users.where(uploadable_id: user.id).where(id: existing_audio_id).any?).to be_falsey
+          expect(user.reload.welcome_video).to be_nil
+        end
+
+        specify do
+          expect(user.reload.welcome_audio).to be
+        end
+      end
     end
   end
 end

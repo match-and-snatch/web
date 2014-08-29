@@ -1219,6 +1219,24 @@
       color: $color_text_light
       &:hover
         color: $color_text_dark
+  &.with_video
+    padding: 0 !important
+    overflow: hidden
+    .no-radius
+      @include border_radius (0)
+    .title
+      font-size: 22px
+      margin-bottom: 15px
+    .sub_heading
+      font-size: 14px
+      font-weight: normal
+    ul
+      li
+        font-size: 12px
+    .jwplayer
+      margin: 0 auto
+      width: 100%
+
 
 // Tablet
 
@@ -1423,6 +1441,35 @@
     right: -35px
 
 // Random
+
+.popup
+  .modal-body
+    .video_player
+      margin: 0 auto
+      width: 585px
+      .jwplayer
+        background-color: $color_background !important
+        border: 1px solid $color_border
+        margin: 0 auto
+        min-height: 330px !important
+      .select_file_container
+        height: 50px
+        width: 585px
+        position: relative
+        margin: 0 auto
+        margin-top: 15px
+        .btn, .hide_btn
+          position: absolute
+          top: 0
+          left: 0
+          height: 34px
+          width: 585px
+        .hide_btn
+          opacity: 0
+          cursor: pointer
+          position: absolute
+          bottom: 0
+          left: 0
 
 .comment_text
   b

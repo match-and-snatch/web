@@ -228,6 +228,16 @@ class User < ActiveRecord::Base
     dialogues.unread.joins(:recent_message).where.not(messages: {user_id: id}).count
   end
 
+  # @return [Video, nil]
+  def welcome_video
+    Video.users.where(uploadable_id: id).order('created_at DESC').first
+  end
+
+  # @return [Audio, nil]
+  def welcome_audio
+    Audio.users.where(uploadable_id: id).order('created_at DESC').first
+  end
+
   private
 
   def set_profile_completion_status
