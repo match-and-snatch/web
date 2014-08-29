@@ -4,14 +4,15 @@ class bud.widgets.BenefitToggler extends bud.Widget
   initialize: ->
     @$benefits = @get_target()
     @$benefit_inputs = @$benefits.find('input[type=text]')
+    @$hiddable_benefits = []
 
     @$benefit_inputs.keyup @on_keyup
+    @$benefit_inputs.focusout @on_focusout
     @hide_inputs()
 
   on_keyup: (e) =>
     currentInput = $(e.currentTarget)
     currentInputIndex = @$benefit_inputs.index(currentInput)
-    currentBenefit = $(@$benefits[currentInputIndex])
 
     nextInputIndex = currentInputIndex + 1
     nextInput   = $(@$benefit_inputs[nextInputIndex])
@@ -21,11 +22,18 @@ class bud.widgets.BenefitToggler extends bud.Widget
       if _.isEmpty(nextInput.val())
         nextBenefit.hide()
       else
-        currentBenefit.hide()
+        @$hiddable_benefits[currentInputIndex] = true if currentInputIndex != 0
     else
       nextBenefit.show()
 
     bud.pub('popup.autoplace.benefits-editor')
+
+  on_focusout: (e) =>
+    currentInput = $(e.currentTarget)
+    currentInputIndex = @$benefit_inputs.index(currentInput)
+    if @$hiddable_benefits[currentInputIndex]
+      $(@$benefits[currentInputIndex]).hide()
+      @$hiddable_benefits[currentInputIndex] = false
 
   hide_inputs: ->
     s = @$benefit_inputs.filter(->
