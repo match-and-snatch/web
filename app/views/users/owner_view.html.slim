@@ -426,9 +426,10 @@
 
     .modal-body
       form.Form action=user_benefits_path(@profile.object) method='post' data-target='benefits'
-        - @profile.benefit_messages.each_with_index do |benefit_message, i|
-          .form-group
-            input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit description...'
+        .Benefits data-target='benefit'
+          - @profile.benefit_messages.each_with_index do |benefit_message, i|
+            .form-group data-identifier='benefit'
+              input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit description...'
 
         .form-group
           input.btn.pink.pull-right type='submit' value='Update Benefits'
