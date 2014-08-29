@@ -4,13 +4,15 @@
   - if current_user.welcome_video.present?
     .video_player
       = video_player(current_user.welcome_video)
-      = current_user.welcome_video.filename
+      span.file_name
+        = current_user.welcome_video.filename
   - elsif current_user.welcome_audio.present?
     .audio_player
       = audio_player(current_user.welcome_audio)
-      = current_user.welcome_audio.filename
+      span.file_name
+        = current_user.welcome_audio.filename
   - else
-    span No Media Added
+    //span No Media Added
 
   form.UploadForm action=update_welcome_media_user_path(current_user.object) method='post' data-target='welcome-media-container'
     input type='hidden' name='_method' value='put'
