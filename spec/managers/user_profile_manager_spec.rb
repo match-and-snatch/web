@@ -474,7 +474,7 @@ describe UserProfileManager do
       end
 
       it 'removes all welcome video' do
-        expect { manager.remove_welcome_media! }.to change { user.welcome_video.present? }.from(true).to(false)
+        expect { manager.remove_welcome_media! }.to change { Video.users.where(uploadable_id: user.id).count }.from(1).to(0)
         expect(user.welcome_audio).to be_nil
       end
     end
@@ -485,7 +485,7 @@ describe UserProfileManager do
       end
 
       it 'removes all welcome audio' do
-        expect { manager.remove_welcome_media! }.to change { user.welcome_audio.present? }.from(true).to(false)
+        expect { manager.remove_welcome_media! }.to change { Audio.users.where(uploadable_id: user.id).count }.from(1).to(0)
         expect(user.welcome_video).to be_nil
       end
     end

@@ -501,18 +501,11 @@ class UserProfileManager < BaseManager
   # @param current_upload [Video, Audio]
   # @param clear_all [Boolean]
   def clear_old_welcome_uploads!(current_upload: nil, clear_all: false)
-    if current_upload.is_a?(Video)
-      Video.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
-      Audio.users.where(uploadable_id: user.id).delete_all
-    elsif current_upload.is_a?(Audio)
-      Audio.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
-      Video.users.where(uploadable_id: user.id).delete_all
+    if current_upload.present?
+      Upload.users.where(uploadable_id: user.id, type: current_upload.class.name).where.not(id: current_upload.id).delete_all
     end
-
-    if clear_all
-      Audio.users.where(uploadable_id: user.id).delete_all
-      Video.users.where(uploadable_id: user.id).delete_all
-    end
+    Audio.users.where(uploadable_id: user.id).delete_all if clear_all || current_upload.is_a?(Video)
+    Video.users.where(uploadable_id: user.id).delete_all if clear_all || current_upload.is_a?(Audio)
   end
 
   def sync_stripe_recipient!
