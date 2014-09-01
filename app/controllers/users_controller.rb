@@ -103,4 +103,9 @@ class UsersController < ApplicationController
     UserProfileManager.new(current_user.object).update_cover_picture_position(params[:cover_picture_position])
     json_success
   end
+
+  def remove_welcome_media
+    UserProfileManager.new(current_user.object).remove_welcome_media!
+    json_replace partial: 'welcome_media'
+  end
 end

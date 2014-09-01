@@ -381,6 +381,12 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @return [User]
+  def remove_welcome_media!
+    clear_old_welcome_uploads!(clear_all: true)
+    user
+  end
+
   # @param current_password [String]
   # @param new_password [String]
   # @param new_password_confirmation [String]
@@ -493,14 +499,13 @@ class UserProfileManager < BaseManager
   private
 
   # @param current_upload [Video, Audio]
-  def clear_old_welcome_uploads!(current_upload: nil)
-    if current_upload.is_a?(Video)
-      Video.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
-      Audio.users.where(uploadable_id: user.id).delete_all
-    elsif current_upload.is_a?(Audio)
-      Audio.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
-      Video.users.where(uploadable_id: user.id).delete_all
+  # @param clear_all [Boolean]
+  def clear_old_welcome_uploads!(current_upload: nil, clear_all: false)
+    if current_upload.present?
+      Upload.users.where(uploadable_id: user.id, type: current_upload.class.name).where.not(id: current_upload.id).delete_all
     end
+    Audio.users.where(uploadable_id: user.id).delete_all if clear_all || current_upload.is_a?(Video)
+    Video.users.where(uploadable_id: user.id).delete_all if clear_all || current_upload.is_a?(Audio)
   end
 
   def sync_stripe_recipient!
