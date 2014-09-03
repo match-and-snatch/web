@@ -1,0 +1,2 @@
+class SessionEvent < TrackingEvent
+end
