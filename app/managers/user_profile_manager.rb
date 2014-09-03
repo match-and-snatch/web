@@ -197,12 +197,13 @@ class UserProfileManager < BaseManager
       ProfilesMailer.delay.changed_cost(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
       @unable_to_change_cost = true
     else
+      previous_cost = user.cost
       user.cost = cost
       user.cost_changed_at = Time.zone.now
       save_or_die! user
 
       update_subscriptions_cost if update_existing_subscriptions
-
+      UserProfileEventManager.new(user: user).track_change_cost(from: previous_cost, to: cost)
       @unable_to_change_cost = false
     end
 

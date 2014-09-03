@@ -1,0 +1,2 @@
+class UserProfileEvent < TrackingEvent
+end
