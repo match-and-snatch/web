@@ -605,7 +605,10 @@ CREATE TABLE subscriptions (
     removed boolean DEFAULT false NOT NULL,
     removed_at timestamp without time zone,
     rejected boolean DEFAULT false NOT NULL,
-    rejected_at timestamp without time zone
+    rejected_at timestamp without time zone,
+    current_cost double precision,
+    current_fees double precision,
+    total_cost double precision
 );
 
 
@@ -1190,4 +1193,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140806234854');
 INSERT INTO schema_migrations (version) VALUES ('20140818144156');
 
 INSERT INTO schema_migrations (version) VALUES ('20140818144636');
+
+INSERT INTO schema_migrations (version) VALUES ('20140904174216');
 
