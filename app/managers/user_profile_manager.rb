@@ -175,8 +175,9 @@ class UserProfileManager < BaseManager
   end
 
   # @param cost [Integer, Float, String]
+  # @param keep_old [true, false, nil]
   # @return [User]
-  def update_cost(cost)
+  def update_cost(cost, keep_old = false)
     fail_with! cost: :zero if cost.to_f <= 0.0
     fail_with! cost: :reached_maximum if cost.to_f > 9999
 
@@ -199,6 +200,9 @@ class UserProfileManager < BaseManager
       user.cost = cost
       user.cost_changed_at = Time.zone.now
       save_or_die! user
+
+      update_source_subscriptions_cost if keep_old
+
       @unable_to_change_cost = false
     end
 
@@ -531,5 +535,11 @@ class UserProfileManager < BaseManager
     return fail_with slug: :empty          if slug.blank?
     return fail_with slug: :not_a_slug unless slug.match SLUG_REGEXP
     return fail_with slug: :taken          if slug_taken?(slug)
+  end
+
+  def update_source_subscriptions_cost
+    user.source_subscriptions.update_all({ current_cost: user.cost,
+                                           current_fees: user.subscription_fees,
+                                           total_cost:   user.subscription_cost })
   end
 end

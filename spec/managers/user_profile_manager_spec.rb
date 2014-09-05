@@ -369,6 +369,67 @@ describe UserProfileManager do
     end
   end
 
+  describe '#update_cost' do
+    before do
+      manager.update_cost(1)
+    end
+
+    it 'raises an error if cost is 0 or less' do
+      expect { manager.update_cost(0) }.to raise_error(ManagerError)
+    end
+
+    it 'raises an error if cost is more than 9999' do
+      expect { manager.update_cost(10000) }.to raise_error(ManagerError)
+      expect { manager.update_cost(9999) }.not_to raise_error
+    end
+
+    it 'raises an error if cost is not a number' do
+      expect { manager.update_cost('123a') }.to raise_error(ManagerError)
+    end
+
+    it 'returns user' do
+      expect(manager.update_cost(5)).to eq(user)
+    end
+
+    specify do
+      expect { manager.update_cost(4) }.to change { user.reload.cost }.from(1).to(4)
+    end
+
+    context 'with source subscriptions' do
+      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let!(:subscription) do
+        SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
+      end
+
+      before do
+        stub_const('ProfilesMailer', double('mailer', changed_cost: double('mail', deliver: true)).as_null_object)
+      end
+
+      it 'raises error if cost changes at the same day' do
+        expect { manager.update_cost(7) }.to raise_error(ManagerError)
+      end
+
+      it 'notify support if difference between new and old costs more than 3' do
+        Timecop.freeze(2.days.from_now) do
+          expect(ProfilesMailer).to receive(:changed_cost).with(user, 5)
+          manager.update_cost(5)
+        end
+      end
+
+      it 'changes cost in subscription' do
+        Timecop.freeze(2.days.from_now) do
+          expect { manager.update_cost(3, false) }.to change { subscription.reload.current_cost }.from(1).to(3)
+        end
+      end
+
+      it 'does not change cost in subscription' do
+        Timecop.freeze(2.days.from_now) do
+          expect { manager.update_cost(3, true) }.not_to change { subscription.reload.current_cost }.from(1)
+        end
+      end
+    end
+  end
+
   describe '#update_welcome_media' do
     let(:welcome_audio_data) { JSON.parse(welcome_audio_data_params['transloadit']) }
     let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }

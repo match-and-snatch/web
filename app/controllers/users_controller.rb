@@ -69,7 +69,7 @@ class UsersController < ApplicationController
 
   def update_cost
     manager = UserProfileManager.new(current_user.object)
-    manager.update_cost(params[:cost])
+    manager.update_cost(params[:cost], params[:keep_old] == '1')
 
     if manager.unable_to_change_cost?
       notice(:unable_to_change_cost)
