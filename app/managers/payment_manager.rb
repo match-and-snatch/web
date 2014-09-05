@@ -29,9 +29,9 @@ class PaymentManager < BaseManager
                     amount:             charge['amount'],
                     stripe_charge_data: charge.as_json,
                     description:        description,
-                    user_cost:              target.target_user.cost,
-                    user_subscription_fees: target.target_user.subscription_fees,
-                    user_subscription_cost: target.target_user.subscription_cost
+                    user_cost:              target.current_cost,
+                    user_subscription_fees: target.current_fees,
+                    user_subscription_cost: target.total_cost
 
     target.charged_at = Time.zone.now
 

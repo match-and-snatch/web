@@ -125,6 +125,11 @@ class SubscriptionManager < BaseManager
       subscription.user = @subscriber
       subscription.target = target
       subscription.target_user = target.subscription_source_user
+
+      subscription.current_cost = target.cost
+      subscription.current_fees = target.subscription_fees
+      subscription.total_cost = target.subscription_cost
+
       save_or_die! subscription
       @subscription = subscription
 
@@ -140,6 +145,14 @@ class SubscriptionManager < BaseManager
   end
 
   def restore
+    target = @subscription.target
+
+    @subscription.current_cost = target.cost
+    @subscription.current_fees = target.subscription_fees
+    @subscription.total_cost = target.subscription_cost
+
+    save_or_die! @subscription
+
     PaymentManager.new.pay_for!(@subscription, 'Payment for subscription') unless @subscription.paid?
 
     if @subscription.removed?

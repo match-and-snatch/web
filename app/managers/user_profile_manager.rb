@@ -201,7 +201,7 @@ class UserProfileManager < BaseManager
       user.cost_changed_at = Time.zone.now
       save_or_die! user
 
-      update_source_subscriptions_cost if keep_old
+      update_source_subscriptions_cost unless keep_old
 
       @unable_to_change_cost = false
     end
