@@ -1,2 +1,0 @@
-class SessionEvent < TrackingEvent
-end

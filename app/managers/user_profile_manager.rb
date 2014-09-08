@@ -204,6 +204,7 @@ class UserProfileManager < BaseManager
 
       update_subscriptions_cost if update_existing_subscriptions
       UserProfileEventManager.new(user: user).track_change_cost(from: previous_cost, to: cost)
+      EventsManager.track_change_cost(user: user, from: previous_cost, to: cost)
       @unable_to_change_cost = false
     end
 

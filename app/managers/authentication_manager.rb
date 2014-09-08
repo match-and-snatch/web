@@ -47,7 +47,7 @@ class AuthenticationManager < BaseManager
     end
 
     _user or raise AuthenticationError.new(message: t(:invalid_login))
-    SessionEventManager.new(user: _user).track_login
+    EventsManager.track_login(user: _user)
     _user
   end
 
@@ -64,7 +64,7 @@ class AuthenticationManager < BaseManager
 
     user.save or fail_with! user.errors
     AuthMailer.delay.registered(user) if user.is_profile_owner?
-    SessionEventManager.new(user: user).track_registration
+    EventsManager.track_registration(user: user)
     user
   end
 

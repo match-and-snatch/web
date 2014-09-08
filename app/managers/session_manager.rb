@@ -34,7 +34,7 @@ class SessionManager < BaseManager
       @session[:auth_token] = @session[:admin_token]
     end
     @session[:admin_token] = nil
-    SessionEventManager.new(user: @current_user.object).track_logout
+    EventsManager.track_logout(user: current_user.object)
   end
 
   # @return [CurrentUserDecorator]

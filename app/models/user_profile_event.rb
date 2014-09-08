@@ -1,2 +1,0 @@
-class UserProfileEvent < TrackingEvent
-end

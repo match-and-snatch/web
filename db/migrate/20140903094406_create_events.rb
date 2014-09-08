@@ -1,8 +1,8 @@
-class CreateTrackingEvents < ActiveRecord::Migration
+class CreateEvents < ActiveRecord::Migration
   def change
-    create_table :tracking_events do |t|
+    create_table :events do |t|
+      t.string :action
       t.string :message
-      t.string :type
       t.text :data
       t.references :user
       t.timestamps
