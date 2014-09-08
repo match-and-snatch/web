@@ -29,7 +29,7 @@ Given /^I exist as a user$/ do
   create_user
 end
 
-Given /^I am not logged in$/ do
+Given /^I am not signed in$/ do
   visit '/logout'
 end
 
@@ -57,21 +57,21 @@ end
 
 ### THEN ###
 Then /^I see a successful sign in message$/ do
-  page.should have_content 'Welcome Sergei Zinin'
+  expect(page).to have_content 'Welcome Sergei Zinin'
 end
 
 Then /^I should be signed in$/ do
-  page.should have_content 'Logout'
-  page.should_not have_content 'Sign up'
-  page.should_not have_content 'Login'
+  expect(page).to have_content 'Logout'
+  expect(page).not_to have_content 'Sign up'
+  expect(page).not_to have_content 'Login'
 end
 
 Then /^I see an invalid login message$/ do
-  page.should have_content 'Email or password is invalid.'
+  expect(page).to have_content 'Email or password is invalid.'
 end
 
 Then /^I should be signed out$/ do
-  page.should have_content 'Sign Up'
-  page.should have_content 'Login'
-  page.should_not have_content 'Logout'
+  expect(page).to have_content 'Sign Up'
+  expect(page).to have_content 'Login'
+  expect(page).not_to have_content 'Logout'
 end
