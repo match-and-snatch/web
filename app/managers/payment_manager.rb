@@ -7,55 +7,56 @@ class PaymentManager < BaseManager
     @user = user
   end
 
-  # @param target [Concerns::Payable]
+  # @param subscription [Concerns::Payable]
   # @param description [String, nil] optional notes on payment
   # @return [Payment, PaymentFailure]
-  def pay_for(target, description = nil)
-    unless target.is_a?(Concerns::Payable)
-      raise ArgumentError, "Don't know how to pay for #{target.class.name}"
+  def pay_for(subscription, description = nil)
+    unless subscription.is_a?(Concerns::Payable)
+      raise ArgumentError, "Don't know how to pay for #{subscription.class.name}"
     end
 
-    charge = Stripe::Charge.create amount:      target.cost,
-                                   customer:    target.customer.stripe_user_id,
+    charge = Stripe::Charge.create amount:      subscription.cost,
+                                   customer:    subscription.customer.stripe_user_id,
                                    currency:    'usd',
                                    description: description,
-                                   statement_description: target.target_user.profile_name.first(14).gsub("'", ''),
-                                   metadata:    {target_id:   target.id,
-                                                 target_type: target.class.name,
-                                                 user_id:     target.customer.id}
-    Payment.create! target:             target,
-                    user:               target.customer,
-                    target_user:        target.recipient,
+                                   statement_description: subscription.target_user.profile_name.first(14).gsub("'", ''),
+                                   metadata:    { target_id:   subscription.id,
+                                                  target_type: subscription.class.name,
+                                                  user_id:     subscription.customer.id }
+
+    Payment.create! target:             subscription,
+                    user:               subscription.customer,
+                    target_user:        subscription.recipient,
                     amount:             charge['amount'],
                     stripe_charge_data: charge.as_json,
                     description:        description,
-                    user_cost:              target.current_cost,
-                    user_subscription_fees: target.current_fees,
-                    user_subscription_cost: target.total_cost
+                    user_cost:              subscription.cost,
+                    user_subscription_fees: subscription.fees,
+                    user_subscription_cost: subscription.total_cost
 
-    target.charged_at = Time.zone.now
+    subscription.charged_at = Time.zone.now
 
-    save_or_die!(target).tap do
-      target.restore!
-      SubscriptionManager.new(subscriber: target.customer, subscription: target).accept
-      user_manager = UserManager.new(target.customer)
+    save_or_die!(subscription).tap do
+      subscription.restore!
+      SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).accept
+      user_manager = UserManager.new(subscription.customer)
       user_manager.remove_mark_billing_failed
       user_manager.activate # Anybody who paid us should be activated
     end
   rescue Stripe::StripeError => e
     failure = PaymentFailure.create! exception_data:     "#{e.inspect} | http_body:#{e.http_body} | json_body:#{e.json_body}",
-                                     target:             target,
-                                     target_user:        target.recipient,
-                                     user:               target.customer,
+                                     target:             subscription,
+                                     target_user:        subscription.recipient,
+                                     user:               subscription.customer,
                                      stripe_charge_data: charge.try(:as_json),
                                      description:        description
 
-    SubscriptionManager.new(subscriber: target.customer, subscription: target).tap do |subscription_manager|
+    SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).tap do |subscription_manager|
       subscription_manager.reject
-      subscription_manager.unsubscribe if target.payment_attempts_expired?
+      subscription_manager.unsubscribe if subscription.payment_attempts_expired?
     end
-    UserManager.new(target.customer).mark_billing_failed
-    PaymentsMailer.delay.failed(failure) if target.notify_about_payment_failure?
+    UserManager.new(subscription.customer).mark_billing_failed
+    PaymentsMailer.delay.failed(failure) if subscription.notify_about_payment_failure?
     failure
   end
 

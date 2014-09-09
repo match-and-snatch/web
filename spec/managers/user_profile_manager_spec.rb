@@ -418,13 +418,13 @@ describe UserProfileManager do
 
       it 'changes cost in subscription' do
         Timecop.freeze(2.days.from_now) do
-          expect { manager.update_cost(3, false) }.to change { subscription.reload.current_cost }.from(1).to(3)
+          expect { manager.update_cost(3, update_existing_subscriptions: true) }.to change { subscription.reload.cost }.from(1).to(3)
         end
       end
 
       it 'does not change cost in subscription' do
         Timecop.freeze(2.days.from_now) do
-          expect { manager.update_cost(3, true) }.not_to change { subscription.reload.current_cost }.from(1)
+          expect { manager.update_cost(3, update_existing_subscriptions: false) }.not_to change { subscription.reload.cost }.from(1)
         end
       end
     end

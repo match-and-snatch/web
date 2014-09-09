@@ -23,7 +23,7 @@ describe SubscriptionManager do
       end
 
       it 'sets current cost from user' do
-        expect(subject.current_cost).to eq(another_user.cost)
+        expect(subject.cost).to eq(another_user.cost)
       end
 
       context 'already subscribed' do
@@ -95,15 +95,20 @@ describe SubscriptionManager do
     context 'removed subscription' do
       before do
         manager.unsubscribe
-        UserProfileManager.new(another_user).update_cost(3, true)
       end
 
-      it 'restores' do
+      specify do
         expect { manager.restore }.to change { subscription.removed? }.from(true).to(false)
       end
 
-      it 'changes costs' do
-        expect { manager.restore }.to change { subscription.reload.current_cost }.from(5).to(3)
+      context 'changed costs' do
+        before do
+          UserProfileManager.new(another_user).update_cost(3, update_existing_subscriptions: false)
+        end
+
+        it 'updates cost to new value' do
+          expect { manager.restore }.to change { subscription.reload.cost }.from(5).to(3)
+        end
       end
     end
 
