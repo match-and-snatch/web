@@ -18,10 +18,11 @@ class Subscription < ActiveRecord::Base
     (charged_at || created_at).next_month.to_date
   end
 
-  # @return [Integer] Amount in cents
-  def cost
-    # (target_user.subscription_cost * 100).to_i
-    (total_cost * 100).to_i
+  def actualize_cost!
+    self.cost = target_user.cost
+    self.fees = target_user.subscription_fees
+    self.total_cost = target_user.subscription_cost
+    self.save!
   end
 
   # @return [User]
