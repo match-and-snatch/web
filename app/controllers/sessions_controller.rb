@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   # Logins user
   def create
     reset_session
-    user = session_manager.login(params[:email], params[:password], params[:remember_me])
+    user = session_manager.login(params[:email], params[:password], params.bool(:remember_me))
 
     if user.billing_failed?
       json_redirect account_info_url(anchor: '/account_info/billing_information'), notice: :billing_failed
