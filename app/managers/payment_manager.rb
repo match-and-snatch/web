@@ -15,7 +15,7 @@ class PaymentManager < BaseManager
       raise ArgumentError, "Don't know how to pay for #{subscription.class.name}"
     end
 
-    charge = Stripe::Charge.create amount:      subscription.cost,
+    charge = Stripe::Charge.create amount:      subscription.cost_in_cents,
                                    customer:    subscription.customer.stripe_user_id,
                                    currency:    'usd',
                                    description: description,

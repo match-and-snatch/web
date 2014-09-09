@@ -25,6 +25,10 @@ class Subscription < ActiveRecord::Base
     self.save!
   end
 
+  def cost_in_cents
+    (self.cost * 100).to_i
+  end
+
   # @return [User]
   def customer
     user
