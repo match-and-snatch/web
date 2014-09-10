@@ -20,8 +20,8 @@ class AuthenticationManager < BaseManager
     @email                 = email.to_s
     @password              = password
     @password_confirmation = password_confirmation
-    @first_name            = first_name.to_s.strip.humanize
-    @last_name             = last_name.to_s.strip.humanize
+    @first_name            = first_name.strip.humanize if first_name
+    @last_name             = last_name.strip.humanize if last_name
     @full_name             = full_name || "#@first_name #@last_name"
   end
 
