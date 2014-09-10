@@ -32,6 +32,10 @@ input.file, input.hide_btn {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 }
 
+input:focus:-ms-input-placeholder {
+    color:transparent;
+}
+
 .btn {
   -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
