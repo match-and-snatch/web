@@ -58,13 +58,8 @@ class CurrentUserDecorator < UserDecorator
     end
   end
 
-  def idols
-    User.joins(source_subscriptions: :target_user).
-      where(subscriptions: {user_id: object.id, removed: false}).
-      order('subscriptions.created_at DESC').
-      limit(10).map do |user|
-      ProfileDecorator.new(user)
-    end
+  def latest_subscriptions
+    object.subscriptions.includes(:target_user).order('created_at DESC').limit(10)
   end
 
   def has_posts?
@@ -76,7 +71,7 @@ class CurrentUserDecorator < UserDecorator
   end
 
   def has_subscriptions?
-    object.subscriptions.not_removed.any?
+    object.subscriptions.any?
   end
 
   def ==(other)
