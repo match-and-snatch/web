@@ -18,7 +18,3 @@
 $(document).ready ->
   bud.Core.initialize()
 
-  $(document).keyup (e) ->
-    if e.keyCode == 27
-      bud.pub('keyup.esc')
-
