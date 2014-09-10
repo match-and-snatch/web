@@ -2,10 +2,9 @@ li.dropdown.my_sub.Hover data-target='subscriptions-dropdown'
   i.fa.fa-plus-square.my_sub_parent My Subscriptions
 
   ul.my_sub_cont data-identifier='subscriptions-dropdown'
-    - current_user.latest_subscriptions.each do |sub|
-      - user = ProfileDecorator.new(sub.target_user)
+    - current_user.latest_subscriptions.each do |subscription, user|
       a href=profile_path(user)
-        li class="#{'pending' if sub.removed?}"
+        li class="#{'pending' if subscription.removed?}"
           .picture
             img src=user.small_profile_picture_url
           .details

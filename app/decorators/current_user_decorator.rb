@@ -59,7 +59,9 @@ class CurrentUserDecorator < UserDecorator
   end
 
   def latest_subscriptions
-    object.subscriptions.includes(:target_user).order('created_at DESC').limit(10)
+    object.subscriptions.includes(:target_user).order('created_at DESC').limit(10).map do |subscription|
+      [subscription, ProfileDecorator.new(subscription.target_user)]
+    end
   end
 
   def has_posts?
