@@ -26,7 +26,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def cost_in_cents
-    (self.cost * 100).to_i
+    (self.total_cost * 100).to_i
   end
 
   # @return [User]
