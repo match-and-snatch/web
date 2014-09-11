@@ -1444,20 +1444,21 @@
 
 .popup
   .modal-body
-    .audio_player, .video_player
-      span.file_name
-        font-size: 12px
-        padding: 15px 0 0 0
-        text-align: center
-        display: block
-    .video_player
+    .welcome_media_player
       margin: 0 auto
       width: 585px
-      .jwplayer
-        background-color: $color_background !important
-        border: 1px solid $color_border
-        margin: 0 auto
-        min-height: 330px !important
+      .audio_player, .video_player
+        span.file_name
+          font-size: 12px
+          padding: 15px 0 0 0
+          text-align: center
+          display: block
+      .video_player
+        .jwplayer
+          background-color: $color_background !important
+          border: 1px solid $color_border
+          margin: 0 auto
+          min-height: 330px !important
       .select_file_container
         height: 50px
         width: 585px
