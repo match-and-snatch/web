@@ -201,33 +201,7 @@
 
   / Welcome Media Popup
 
-  .Popup.popup.header_edit.modal-content data-identifier='welcome-editor' style="width: 745px"
-
-    /* Nav Tab Area */
-
-    ul.nav.nav-tabs
-      li.active
-        a href='javascript: void(0)' Welcome Media
-      li
-        a.PopupTrigger data-target='name-editor' href='#' Profile Name
-      li
-        a.PopupTrigger data-target='type-editor' href='#' Profile Type
-      li
-        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
-      li
-        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
-
-    /* Header Area */
-
-    .modal-header
-      i.fa.fa-times-circle.close type="button" aria-hidden="true" onclick='window.location.reload()'
-      .modal-title Welcome Media
-      span style='padding: 0 15px' This video or audio message will appear only for visitors who have not yet subscribed to your profile. Please use this video or audio as your marketing message to let people know why they should subscribe to your profile.
-
-    /* Body Area */
-
-    .modal-body
-      = render 'welcome_media'
+  .AjaxPopup.popup.header_edit.modal-content data-identifier='welcome-editor' data-url=edit_welcome_media_user_path(current_user.object) style="width: 745px"
 
   / Profile Name Popup
 
@@ -391,6 +365,7 @@
           |The profile owner will receive $3 per subscriber per month.
           br
           |And ConnectPal will receive 79 cents per subscriber per month.
+
 
   /* Profile Benefits Popup */
 
