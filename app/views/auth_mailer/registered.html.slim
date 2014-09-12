@@ -11,5 +11,7 @@ p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13p
   br
   'ConnectPal Staff
 
+- content_for :preheader do
+  Welcome! Thank you for registering at ConnectPal. Your new profile is confirmed!
 
 /a href=activate_url(token: @user.registration_token) = activate_url(token: @user.registration_token)
