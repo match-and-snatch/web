@@ -30,7 +30,7 @@ h2 Profile Owners
           a.HashLink href=admin_profile_owner_path(user.id) = user.name
         td
           = number_to_currency user.transfer / 100.0
-        td= user.source_subscriptions.where(removed: false).count
+        td= user.subscriptions_count
         td style='max-width: 200px; overflow: hidden'= user.plain_profile_types
         td style='min-width: 100px'= user.created_at
         td

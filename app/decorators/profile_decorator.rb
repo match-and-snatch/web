@@ -1,5 +1,5 @@
 class ProfileDecorator < UserDecorator
-  delegate :transfer, :source_subscriptions, to: :object
+  delegate :transfer, to: :object
 
   # @param user [User]
   def initialize(user)

@@ -82,6 +82,13 @@ input[type=number]::-webkit-outer-spin-button
   -webkit-appearance: none
   margin: 0
 
+input:focus::-webkit-input-placeholder
+  color: transparent
+input:focus:-moz-placeholder
+  color: transparent
+input:focus::-moz-placeholder
+  color: transparent
+
 .hidden
   display: none
 
@@ -1115,3 +1122,7 @@ input.file
             height: 73px
             width: 81px
             margin: 0
+
+// Apple iPhone 5 CSS
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px)
