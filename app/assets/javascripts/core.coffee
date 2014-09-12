@@ -28,7 +28,15 @@ class (window.bud or= {}).Core
 
   __initialize: ->
     bud.Core.init_widgets()
+
+    # BROWSER EVENTS
     $(window).on 'hashchange', -> bud.pub('window.hashchange')
     $(document).on 'touchstart', (e) ->
       bud.pub('document.touchstart', [$(e.currentTarget)])
+
+    # KEYBINDINGS
+    $(document).on 'keyup', (e) ->
+      if e.keyCode == 27
+        bud.pub('keyup.esc')
+
     @initialized = true

@@ -61,7 +61,7 @@ class UserProfileManager < BaseManager
   # @param account_number [String]
   # @return [User]
   def update(cost: nil, profile_name: nil, holder_name: nil, routing_number: nil, account_number: nil)
-    profile_name   = profile_name.try(:strip).to_s.squeeze(' ')
+    profile_name   = profile_name.to_s.strip.squeeze(' ')
     holder_name    = holder_name.to_s.strip
     routing_number = routing_number.to_s.strip
     account_number = account_number.to_s.strip
@@ -164,7 +164,7 @@ class UserProfileManager < BaseManager
   # @param profile_name [String]
   # @return [User]
   def update_profile_name(profile_name)
-    profile_name = profile_name.try(:to_s).squeeze(' ')
+    profile_name = profile_name.to_s.strip.squeeze(' ')
 
     fail_with! profile_name: :empty    if profile_name.blank?
     fail_with! profile_name: :too_long if profile_name.length > 140
@@ -297,6 +297,9 @@ class UserProfileManager < BaseManager
   # @param email [String]
   # @return [User]
   def update_general_information(full_name: nil, company_name: nil, email: nil)
+    full_name = full_name.to_s.strip.squeeze(' ')
+    company_name = company_name.to_s.strip.squeeze(' ')
+
     validate! do
       fail_with full_name: :empty unless full_name.present?
       if company_name
@@ -378,6 +381,12 @@ class UserProfileManager < BaseManager
                upload_manager.create_audio(transloadit_data).first
              end
     clear_old_welcome_uploads!(current_upload: upload)
+    user
+  end
+
+  # @return [User]
+  def remove_welcome_media!
+    clear_old_welcome_uploads!(clear_all: true)
     user
   end
 
@@ -493,14 +502,13 @@ class UserProfileManager < BaseManager
   private
 
   # @param current_upload [Video, Audio]
-  def clear_old_welcome_uploads!(current_upload: nil)
-    if current_upload.is_a?(Video)
-      Video.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
-      Audio.users.where(uploadable_id: user.id).delete_all
-    elsif current_upload.is_a?(Audio)
-      Audio.users.where(uploadable_id: user.id).where.not(id: current_upload.id).delete_all
-      Video.users.where(uploadable_id: user.id).delete_all
+  # @param clear_all [Boolean]
+  def clear_old_welcome_uploads!(current_upload: nil, clear_all: false)
+    if current_upload.present?
+      Upload.users.where(uploadable_id: user.id, type: current_upload.class.name).where.not(id: current_upload.id).delete_all
     end
+    Audio.users.where(uploadable_id: user.id).delete_all if clear_all || current_upload.is_a?(Video)
+    Video.users.where(uploadable_id: user.id).delete_all if clear_all || current_upload.is_a?(Audio)
   end
 
   def sync_stripe_recipient!

@@ -145,6 +145,20 @@ describe UsersController, type: :controller do
     end
   end
 
+  describe 'DELETE #remove_welcome_media' do
+    subject { delete 'remove_welcome_media', id: profile.id }
+
+    context 'unauthorized access' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized access' do
+      before { sign_in profile }
+      it { should be_success }
+      its(:body) { should match_regex /replace/ }
+    end
+  end
+
   describe 'PUT #update_profile_picture' do
     subject { put 'update_profile_picture', profile_picture_data_params }
 

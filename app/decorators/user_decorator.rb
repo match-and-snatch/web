@@ -61,4 +61,14 @@ class UserDecorator < BaseDecorator
   def welcome_media
     @welcome_media ||= welcome_video || welcome_audio
   end
+
+  def subscriptions_count
+    @subscriptions_count ||= subscriptions.count
+  end
+
+  private
+
+  def subscriptions
+    Subscription.not_removed.joins(:user).where({users: {billing_failed: false}}).where(target_user_id: object.id)
+  end
 end

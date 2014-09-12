@@ -43,10 +43,6 @@ class UserStatsDecorator < UserDecorator
     object.profile_types.map(&:title).join(' / ')
   end
 
-  def subscriptions_count
-    @subscriptions_count ||= subscriptions.count
-  end
-
   def subscribed_ever_count
     Subscription.where(target_user_id: object.id).count
   end
@@ -91,10 +87,6 @@ class UserStatsDecorator < UserDecorator
 
   def start_date
     [Time.zone.now.to_date - 30.days, SubscriptionDailyCountChangeEvent.order(:created_on).first.try(:created_on), object.created_at.to_date].compact.max - 1.day
-  end
-
-  def subscriptions
-    Subscription.not_removed.joins(:user).where({users: {billing_failed: false}}).where(target_user_id: object.id)
   end
 
   def payments
