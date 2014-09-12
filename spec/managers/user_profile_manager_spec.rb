@@ -126,8 +126,8 @@ describe UserProfileManager do
     end
 
     it 'updates cost' do
-      expect { manager.update(cost: 5, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(5.0)
-      expect { manager.update(cost:' 6', profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(6)
+      expect { manager.update(cost: 5, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(500)
+      expect { manager.update(cost:' 6', profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(600)
     end
 
     context 'empty cost' do
@@ -392,7 +392,7 @@ describe UserProfileManager do
     end
 
     specify do
-      expect { manager.update_cost(4) }.to change { user.reload.cost }.from(1).to(4)
+      expect { manager.update_cost(4) }.to change { user.reload.cost }.from(100).to(400)
     end
 
     context 'with source subscriptions' do
@@ -411,20 +411,20 @@ describe UserProfileManager do
 
       it 'notify support if difference between new and old costs more than 3' do
         Timecop.freeze(2.days.from_now) do
-          expect(ProfilesMailer).to receive(:changed_cost).with(user, 5)
+          expect(ProfilesMailer).to receive(:changed_cost).with(user, 500)
           manager.update_cost(5)
         end
       end
 
       it 'changes cost in subscription' do
         Timecop.freeze(2.days.from_now) do
-          expect { manager.update_cost(3, update_existing_subscriptions: true) }.to change { subscription.reload.cost }.from(1).to(3)
+          expect { manager.update_cost(3, update_existing_subscriptions: true) }.to change { subscription.reload.cost }.from(100).to(300)
         end
       end
 
       it 'does not change cost in subscription' do
         Timecop.freeze(2.days.from_now) do
-          expect { manager.update_cost(3, update_existing_subscriptions: false) }.not_to change { subscription.reload.cost }.from(1)
+          expect { manager.update_cost(3, update_existing_subscriptions: false) }.not_to change { subscription.reload.cost }.from(100)
         end
       end
     end

@@ -55,7 +55,7 @@ class BillingPeriodsPresenter
     end
 
     def connectpal_fee
-      payments.sum(:user_subscription_fees) - stripe_fee
+      (payments.sum(:subscription_fees) / 100.0) - stripe_fee
     end
 
     def stripe_fee
@@ -63,7 +63,7 @@ class BillingPeriodsPresenter
     end
 
     def tos_fee
-      unsubscribed_count * @user.cost
+      (unsubscribed_count * @user.cost) / 100.0
     end
 
     def total_subscribed_count

@@ -309,7 +309,7 @@
           .form-group.input-group.pull-left style="width: 113px; margin-bottom: 0;"
             span.input-group-addon
               i.fa.fa-usd.fa-fw
-            input.form-control type='text' name='cost' value=@profile.cost data-target='subscription-cost'
+            input.form-control type='text' name='cost' value=(@profile.cost / 100) data-target='subscription-cost'
 
           .form-group.pull-right style="margin-bottom: 0;"
             input.btn.pink type='submit' value='Update Price'

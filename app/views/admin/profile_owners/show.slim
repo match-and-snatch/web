@@ -45,13 +45,13 @@ hr
     ul.profile_detail_list
       li
         strong Total Gross:
-        span style="color: #ea2e49;" #{number_to_currency @user.total_gross}
+        span style="color: #ea2e49;" #{super_number_to_currency @user.total_gross}
       li
         strong Total Paid Out:
-        span style="color: #ea2e49;" #{number_to_currency @user.total_paid_out}
+        span style="color: #ea2e49;" #{super_number_to_currency @user.total_paid_out}
       li
         strong ConnectPal + ToS:
-        span style="color: #ea2e49;" #{number_to_currency @user.connectpal_and_tos}
+        span style="color: #ea2e49;" #{super_number_to_currency @user.connectpal_and_tos}
     .clearfix
 
 .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
@@ -138,7 +138,7 @@ hr
               a href="#" style="font-weight: bold; color: #3b9fd1"= link_to_user subscription.target_user
             td= subscription.created_at.to_date.to_s(:long)
             td
-              strong style="color: #ea2e49;"= number_to_currency subscription.target_user.cost
+              strong style="color: #ea2e49;"= number_to_currency subscription.cost / 100.0
             td= subscription.created_at < 1.months.ago ? 'Recurring' : 'New'
             td= subscription.removed_at.try(:to_date).try(:to_s, :long) || 'N/A'
 

@@ -61,7 +61,7 @@ module ApplicationHelper
   # @param opts [Hash]
   # @return [String]
   def super_number_to_currency(cost, opts = {})
-    cost = cost.to_f
+    cost = cost.to_i / 100.0
     ceil_cost = cost.to_i
 
     if opts[:use_ceil] == false

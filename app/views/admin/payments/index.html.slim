@@ -12,7 +12,7 @@ h2 Payments by user
     - @users.each do |user|
       tr
         td= link_to_user(user)
-        td= super_number_to_currency(user.amount / 100.0)
+        td= super_number_to_currency(user.amount)
         td= user.subscribers_count
         td= user.holder_name
         td= user.routing_number

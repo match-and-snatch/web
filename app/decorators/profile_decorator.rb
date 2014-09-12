@@ -32,8 +32,8 @@ class ProfileDecorator < UserDecorator
   # @return [Integer, Float]
   def subscription_cost
     @subscription_cost ||= begin
-      cost = object.subscription_cost.to_f
-      ceil_cost = cost.to_i
+      cost = object.subscription_cost
+      ceil_cost = cost
       cost - ceil_cost > 0 ? cost : ceil_cost
     end
   end

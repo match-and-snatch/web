@@ -357,9 +357,9 @@ CREATE TABLE payments (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     target_user_id integer,
-    user_cost integer,
-    user_subscription_fees double precision,
-    user_subscription_cost double precision
+    cost integer,
+    subscription_fees integer,
+    subscription_cost integer
 );
 
 
@@ -606,9 +606,9 @@ CREATE TABLE subscriptions (
     removed_at timestamp without time zone,
     rejected boolean DEFAULT false NOT NULL,
     rejected_at timestamp without time zone,
-    cost double precision,
-    fees double precision,
-    total_cost double precision
+    cost integer,
+    fees integer,
+    total_cost integer
 );
 
 
@@ -689,7 +689,7 @@ CREATE TABLE users (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     full_name character varying(512),
-    subscription_cost double precision,
+    subscription_cost integer,
     holder_name character varying(255),
     routing_number character varying(255),
     account_number character varying(255),
@@ -708,7 +708,7 @@ CREATE TABLE users (
     contacts_info text,
     auth_token character varying(255),
     cover_picture_position integer DEFAULT 0 NOT NULL,
-    subscription_fees double precision,
+    subscription_fees integer,
     cost integer,
     password_reset_token character varying(255),
     has_public_profile boolean DEFAULT false,
@@ -1193,6 +1193,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140806234854');
 INSERT INTO schema_migrations (version) VALUES ('20140818144156');
 
 INSERT INTO schema_migrations (version) VALUES ('20140818144636');
+
+INSERT INTO schema_migrations (version) VALUES ('20140904174036');
 
 INSERT INTO schema_migrations (version) VALUES ('20140904174216');
 

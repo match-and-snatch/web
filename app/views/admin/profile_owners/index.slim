@@ -34,5 +34,5 @@ h2 Profile Owners
         td style='max-width: 200px; overflow: hidden'= user.plain_profile_types
         td style='min-width: 100px'= user.created_at
         td
-          = number_to_currency user.subscription_cost
+          = number_to_currency user.subscription_cost / 100.0
   .clearfix

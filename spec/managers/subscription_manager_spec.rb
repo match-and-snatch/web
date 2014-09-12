@@ -107,7 +107,7 @@ describe SubscriptionManager do
         end
 
         it 'updates cost to new value' do
-          expect { manager.restore }.to change { subscription.reload.cost }.from(5).to(3)
+          expect { manager.restore }.to change { subscription.reload.cost }.from(500).to(300)
         end
       end
     end
