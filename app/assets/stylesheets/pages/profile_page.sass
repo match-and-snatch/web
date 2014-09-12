@@ -868,6 +868,7 @@
           -moz-transition: opacity 250ms ease
           -o-transition: opacity 250ms ease
           transition: opacity 250ms ease
+          max-width: 585px
           &:hover
             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"
             filter: alpha(opacity=80)
@@ -1223,6 +1224,8 @@
     padding: 0 !important
     overflow: hidden
     .no-radius
+      padding-top: 15px
+      min-height: 362px
       @include border_radius (0)
     .title
       font-size: 22px
