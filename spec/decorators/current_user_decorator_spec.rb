@@ -40,4 +40,24 @@ describe CurrentUserDecorator do
       expect(subject).not_to eq(User.new)
     end
   end
+
+  describe '#latest_subscriptions' do
+    let(:user) { create_user }
+
+    context 'without subscriptions' do
+      specify do
+        expect(subject.latest_subscriptions).to eq([])
+      end
+    end
+
+    context 'with subscriptions' do
+      let(:target_user) { create_profile email: 'target@user.com' }
+      let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
+
+      specify do
+        expect(subject.latest_subscriptions[0][0]).to eq(subscription)
+        expect(subject.latest_subscriptions[0][1]).to be_a(ProfileDecorator)
+      end
+    end
+  end
 end
