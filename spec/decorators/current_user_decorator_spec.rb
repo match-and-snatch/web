@@ -51,12 +51,29 @@ describe CurrentUserDecorator do
     end
 
     context 'with subscriptions' do
-      let(:target_user) { create_profile email: 'target@user.com' }
-      let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
+      let!(:old_subscription) do
+        Timecop.freeze 2.weeks.ago do
+          SubscriptionManager.new(subscriber: user).subscribe_to(create_profile email: 'target3@user.com')
+        end
+      end
+
+      let!(:old_removed_subscription) do
+        Timecop.freeze 2.weeks.ago do
+          manager = SubscriptionManager.new(subscriber: user)
+          manager.subscribe_to(create_profile email: 'target2@user.com').tap do
+            manager.unsubscribe
+          end
+        end
+      end
+
+      let!(:recent_subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(create_profile email: 'target@user.com') }
 
       specify do
-        expect(subject.latest_subscriptions[0][0]).to eq(subscription)
+        expect(subject.latest_subscriptions.count).to eq(2)
+        expect(subject.latest_subscriptions[0][0]).to eq(recent_subscription)
         expect(subject.latest_subscriptions[0][1]).to be_a(ProfileDecorator)
+        expect(subject.latest_subscriptions[1][0]).to eq(old_subscription)
+        expect(subject.latest_subscriptions[1][1]).to be_a(ProfileDecorator)
       end
     end
   end
