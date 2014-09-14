@@ -35,6 +35,12 @@ describe SubscriptionManager do
           before { StripeMock.start }
           after { StripeMock.stop }
 
+          let!(:subscription) do
+            Timecop.freeze 32.days.ago do
+              manager.subscribe_to(another_user)
+            end
+          end
+
           before do
             described_class.new(subscriber: subscriber, subscription: subscription).unsubscribe
           end
