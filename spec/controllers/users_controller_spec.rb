@@ -115,6 +115,21 @@ describe UsersController, type: :controller do
     end
   end
 
+  describe 'GET #edit_welcome_media' do
+    let!(:owner)  { create_profile email: 'owner@gmail.com' }
+    subject { get 'edit_welcome_media', id: owner.slug }
+
+    context 'authorized access' do
+      before { sign_in owner }
+      it { should be_success }
+      its(:body) { should match_regex /success/ }
+    end
+
+    context 'unauthorized access' do
+      its(:status) { should == 401 }
+    end
+  end
+
   describe 'PUT #update_welcome_media' do
     context 'with welcome video' do
       subject { put 'update_welcome_media', welcome_video_data_params }
