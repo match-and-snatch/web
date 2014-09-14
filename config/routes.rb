@@ -111,6 +111,8 @@ BuddyPlatform::Application.routes.draw do
       put :update_cover_picture
       put :update_contacts_info
       put :update_cover_picture_position
+
+      get :edit_welcome_media
       put :update_welcome_media
       delete :remove_welcome_media
     end
