@@ -88,6 +88,10 @@ class UsersController < ApplicationController
     json_replace partial: 'cover_picture'
   end
 
+  def edit_welcome_media
+    json_render
+  end
+
   def update_welcome_media
     UserProfileManager.new(current_user.object).update_welcome_media(params[:transloadit])
     json_replace partial: 'welcome_media'
