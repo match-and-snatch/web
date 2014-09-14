@@ -112,7 +112,7 @@ class User < ActiveRecord::Base
     return false if new_record?
 
     subscription = subscriptions.by_target(target).first
-    !!subscription && !subscription.rejected? && !(subscription.removed? && subscription.expired?)
+    (!!subscription) && (!subscription.rejected?) && !(subscription.removed? && subscription.expired?)
   end
 
   def subscribers

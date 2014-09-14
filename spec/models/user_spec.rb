@@ -105,8 +105,24 @@ describe User do
         it { should eq(false) }
       end
 
+      context 'removed subscription' do
+        before do
+          SubscriptionManager.new(subscriber: user, subscription: subscription).unsubscribe
+        end
+
+        it { should eq(true) }
+      end
+
       context 'expired subscription' do
-        before { SubscriptionManager.new(subscriber: user, subscription: subscription).unsubscribe }
+        let!(:subscription) do
+          Timecop.freeze 32.days.ago do
+            SubscriptionManager.new(subscriber: user).subscribe_to(target_user)
+          end
+        end
+
+        before do
+          SubscriptionManager.new(subscriber: user, subscription: subscription).unsubscribe
+        end
 
         it { should eq(false) }
       end
