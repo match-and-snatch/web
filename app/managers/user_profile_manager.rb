@@ -23,6 +23,8 @@ class UserProfileManager < BaseManager
     profile_type ||= ProfileType.where(['title ILIKE ?', type]).where(user_id: @user.id).first
     profile_type ||= ProfileType.create!(title: type, user_id: user.id)
 
+    EventsManager.profile_type_added(user: @user, profile_type: profile_type)
+
     if @user.profile_types.where(id: profile_type.id).empty?
       @user.profile_types << profile_type
     end
@@ -35,6 +37,7 @@ class UserProfileManager < BaseManager
     raise ArgumentError unless profile_type.is_a?(ProfileType)
     fail_with! profile_type: :not_set unless @user.profile_types.where(id: profile_type.id).any?
     @user.profile_types.delete(profile_type)
+    EventsManager.profile_type_removed(user: @user, profile_type: profile_type)
   end
 
   # @return [User]
@@ -51,6 +54,7 @@ class UserProfileManager < BaseManager
       SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
     end
     @user.save!
+    EventsManager.profile_page_removed(user: @user)
     @user
   end
 
@@ -111,6 +115,8 @@ class UserProfileManager < BaseManager
 
     save_or_die! user
 
+    EventsManager.profile_created(user: user, data: { cost: cost, profile_name: profile_name })
+
     sync_stripe_recipient! if user.stripe_recipient_id
     user
   end
@@ -125,6 +131,7 @@ class UserProfileManager < BaseManager
     benefits.each do |ordering, message|
       user.benefits.create!(message: message, ordering: ordering) if message.present?
     end
+    EventsManager.benefits_list_updated(user: user, benefits: user.benefits.map(&:message))
 
     user
   end
@@ -157,6 +164,8 @@ class UserProfileManager < BaseManager
 
     save_or_die! user
 
+    EventsManager.payout_information_changed(user: user)
+
     sync_stripe_recipient! if user.stripe_recipient_id
     user
   end
@@ -172,6 +181,7 @@ class UserProfileManager < BaseManager
 
     user.profile_name = profile_name
     save_or_die! user
+    EventsManager.profile_name_changed(user: user, name: profile_name)
   end
 
   # @param cost [Integer, Float, String]
@@ -204,7 +214,7 @@ class UserProfileManager < BaseManager
 
       update_subscriptions_cost if update_existing_subscriptions
       UserProfileEventManager.new(user: user).track_change_cost(from: previous_cost, to: cost)
-      EventsManager.track_change_cost(user: user, from: previous_cost, to: cost)
+      EventsManager.subscription_cost_changed(user: user, from: previous_cost, to: cost)
       @unable_to_change_cost = false
     end
 
@@ -229,6 +239,8 @@ class UserProfileManager < BaseManager
     end
 
     save_or_die! user
+    EventsManager.contact_info_changed(user: user, info: user.contacts_info)
+    user
   end
 
   # @param number [String]
@@ -271,6 +283,7 @@ class UserProfileManager < BaseManager
 
     save_or_die! user
 
+    EventsManager.credit_card_updated(user: user)
     UserManager.new(user).remove_mark_billing_failed
     PaymentManager.new(user: user).perform_test_payment
 
@@ -319,6 +332,8 @@ class UserProfileManager < BaseManager
     user.email        = email
 
     save_or_die! user
+    EventsManager.account_information_changed(user: user, data: { full_name: full_name, company_name: company_name, email: email })
+    user
   end
 
   # @param slug [String]
@@ -328,6 +343,8 @@ class UserProfileManager < BaseManager
 
     user.slug = slug
     save_or_die! user
+    EventsManager.slug_changed(user: user, slug: slug)
+    user
   end
 
   # @param transloadit_data [Hash]
@@ -339,7 +356,10 @@ class UserProfileManager < BaseManager
     user.small_account_picture_url = upload.url_on_step('thumb_50x50')
     user.original_account_picture_url = upload.url_on_step(':original')
 
-    save_or_die! user if user.changes.any?
+    if user.changes.any?
+      save_or_die! user
+      EventsManager.account_photo_changed(user: user, photo: upload)
+    end
     user
   end
 
@@ -352,7 +372,10 @@ class UserProfileManager < BaseManager
     user.small_profile_picture_url = upload.url_on_step('thumb_50x50')
     user.original_profile_picture_url = upload.url_on_step(':original')
 
-    save_or_die! user if user.changes.any?
+    if user.changes.any?
+      save_or_die! user
+      EventsManager.profile_picture_changed(user: user, picture: upload)
+    end
     user
   end
 
@@ -364,7 +387,10 @@ class UserProfileManager < BaseManager
     user.cover_picture_url = upload.url_on_step('resized')
     user.original_cover_picture_url = upload.url_on_step(':original')
 
-    save_or_die! user if user.changes.any?
+    if user.changes.any?
+      save_or_die! user
+      EventsManager.cover_picture_changed(user: user, picture: upload)
+    end
     user
   end
 
@@ -387,12 +413,14 @@ class UserProfileManager < BaseManager
                upload_manager.create_audio(transloadit_data).first
              end
     clear_old_welcome_uploads!(current_upload: upload)
+    EventsManager.welcome_media_added(user: user, media: upload)
     user
   end
 
   # @return [User]
   def remove_welcome_media!
     clear_old_welcome_uploads!(clear_all: true)
+    EventsManager.welcome_media_removed(user: user)
     user
   end
 
@@ -413,6 +441,8 @@ class UserProfileManager < BaseManager
 
     user.set_new_password(new_password)
     save_or_die! user
+    EventsManager.password_changed(user: user)
+    user
   rescue AuthenticationError
     fail_with! :current_password
   end
@@ -477,6 +507,7 @@ class UserProfileManager < BaseManager
 
     save_or_die!(user).tap do
       self.class.delay(queue: :mail).notify_vacation_enabled(user)
+      EventsManager.vacation_mode_enabled(user: user)
     end
   end
 
@@ -488,6 +519,7 @@ class UserProfileManager < BaseManager
 
     save_or_die!(user).tap do
       self.class.delay(queue: :mail).notify_vacation_disabled(user)
+      EventsManager.vacation_mode_disabled(user: user)
     end
   end
 

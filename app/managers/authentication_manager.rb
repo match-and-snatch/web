@@ -47,7 +47,7 @@ class AuthenticationManager < BaseManager
     end
 
     _user or raise AuthenticationError.new(message: t(:invalid_login))
-    EventsManager.track_login(user: _user)
+    EventsManager.user_logged_in(user: _user)
     _user
   end
 
@@ -64,7 +64,7 @@ class AuthenticationManager < BaseManager
 
     user.save or fail_with! user.errors
     AuthMailer.delay.registered(user) if user.is_profile_owner?
-    EventsManager.track_registration(user: user)
+    EventsManager.user_registered(user: user)
     user
   end
 
@@ -78,6 +78,7 @@ class AuthenticationManager < BaseManager
     fail_with! email: :no_such_email unless user
 
     user.generate_password_reset_token!
+    EventsManager.restore_password_requested(user: user)
     AuthMailer.delay.forgot_password(user)
   end
 
@@ -95,6 +96,7 @@ class AuthenticationManager < BaseManager
     user.set_new_password(password)
     user.password_reset_token = nil
     user.save or fail_with! user.errors
+    EventsManager.password_restored(user: user)
     user
   end
 

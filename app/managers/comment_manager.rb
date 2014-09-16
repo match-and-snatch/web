@@ -11,13 +11,15 @@ class CommentManager < BaseManager
 
   def show
     @comment.hidden = false
-    @comment.save or fail_with! @comment.errors
+    save_or_die! @comment
+    EventsManager.comment_mark_as_visible(user: @user, comment: @comment)
     @comment
   end
 
   def hide
     @comment.hidden = true
-    @comment.save or fail_with! @comment.errors
+    save_or_die! @comment
+    EventsManager.comment_mark_as_hidden(user: @user, comment: @comment)
     @comment
   end
 
@@ -31,7 +33,8 @@ class CommentManager < BaseManager
     end
 
     comment = Comment.new(post: @post, user: @user, post_user: @post.user, parent: @parent, message: message, mentions: mentions)
-    comment.save or fail_with!(comment.errors)
+    save_or_die! comment
+    EventsManager.comment_created(user: @user, comment: comment)
 
     comment.mentioned_users.find_each do |user|
       PostsMailer.delay.mentioned(comment, user)

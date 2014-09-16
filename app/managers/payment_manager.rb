@@ -39,6 +39,7 @@ class PaymentManager < BaseManager
     save_or_die!(subscription).tap do
       subscription.restore!
       SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).accept
+      EventsManager.payment_created(user: user)
       user_manager = UserManager.new(subscription.customer)
       user_manager.remove_mark_billing_failed
       user_manager.activate # Anybody who paid us should be activated
@@ -57,6 +58,7 @@ class PaymentManager < BaseManager
     end
     UserManager.new(subscription.customer).mark_billing_failed
     PaymentsMailer.delay.failed(failure) if subscription.notify_about_payment_failure?
+    EventsManager.payment_failed(user: user)
     failure
   end
 

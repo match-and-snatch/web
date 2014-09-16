@@ -12,9 +12,11 @@ class LikesManager < BaseManager
 
     if like
       like.destroy
+      EventsManager.like_removed(user: @liker, like: like)
     else
       like = Like.create(user: @liker, likable: post, post: post, target_user: post.user)
-      like.valid? or fail_with!(like.errors)
+      save_or_die! like
+      EventsManager.like_created(user: @liker, like: like)
     end
 
     like

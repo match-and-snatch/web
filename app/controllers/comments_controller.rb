@@ -22,6 +22,7 @@ class CommentsController < ApplicationController
 
   def update
     @comment.update_attributes(message: params[:message])
+    EventsManager.comment_updated(user: current_user.object, comment: @comment)
     render_comment_row
   end
 
@@ -37,6 +38,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy
+    EventsManager.comment_removed(user: current_user.object, comment: @comment)
     json_replace
   end
 

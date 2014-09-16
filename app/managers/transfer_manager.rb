@@ -25,6 +25,7 @@ class TransferManager < BaseManager
                                         statement_descriptor: descriptor,
                                         description: descriptor
 
+    EventsManager.transfer_sent(recipient: @recipient)
     month = month.present? ? month.to_i : Time.zone.now.month
     current_time = Time.zone.now
     created_at = current_time - (current_time.month - month).months
