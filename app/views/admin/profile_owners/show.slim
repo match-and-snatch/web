@@ -45,13 +45,13 @@ hr
     ul.profile_detail_list
       li
         strong Total Gross:
-        span style="color: #ea2e49;" #{super_number_to_currency @user.total_gross}
+        span style="color: #ea2e49;" #{number_to_currency @user.total_gross / 100.0}
       li
         strong Total Paid Out:
-        span style="color: #ea2e49;" #{super_number_to_currency @user.total_paid_out}
+        span style="color: #ea2e49;" #{number_to_currency @user.total_paid_out / 100.0}
       li
         strong ConnectPal + ToS:
-        span style="color: #ea2e49;" #{super_number_to_currency @user.connectpal_and_tos}
+        span style="color: #ea2e49;" #{number_to_currency @user.connectpal_and_tos / 100.0}
     .clearfix
 
 .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)

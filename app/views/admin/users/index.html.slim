@@ -48,7 +48,7 @@ h2
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
     p
       'Total ConnectPal Fees
-      strong= number_to_currency((Payment.sum(:subscription_fees) - stripe_fee) / 100.0)
+      strong= number_to_currency(Payment.sum(:subscription_fees) / 100.0 - stripe_fee)
 
   .col-md-3.col-sm-3.col-xs-3.dashboard-overview
     img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
