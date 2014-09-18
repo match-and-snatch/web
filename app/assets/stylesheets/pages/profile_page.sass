@@ -862,13 +862,14 @@
         overflow: hidden
         a
           border: 1px solid $color_border
+          display: block
         img
           background-color: $color_background
           -webkit-transition: opacity 250ms ease
           -moz-transition: opacity 250ms ease
           -o-transition: opacity 250ms ease
           transition: opacity 250ms ease
-          max-width: 585px
+          max-width: 583px
           &:hover
             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"
             filter: alpha(opacity=80)
@@ -885,7 +886,7 @@
             height: 284px
             overflow: hidden
           img
-            max-height: 282px
+            min-height: 282px
         &.three
           .three_left, .three_stacked
             a
@@ -895,7 +896,7 @@
               overflow: hidden
           .three_left
             img
-              max-height: 282px
+              min-height: 282px
           .three_stacked
             a
               height: 134px !important

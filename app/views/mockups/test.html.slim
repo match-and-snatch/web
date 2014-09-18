@@ -1,89 +1,102 @@
-.container
-  #subscriber_display
+// Homepage 3 Step Pitch
+
+//.featured_profile
+  .container
     .row
-      /* Recent Posts */
-      .pull-right.col-md-8.col-sm-12
-        .recent_posts
+      .col-md-12.col-sm-12.col-xs-12
+        i.fa.fa-times.hide_featured
+          '&nbsp;Hide
+        a.btn.black href='#'
+          img.neal src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-photo.png')
+          img.bus src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-bus.png')
+          img.lights.blink_me src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-lights.png')
+          span.tagline Looking for Neal Boortz? Click here!
 
-          // Single Photo
+.home_pitch
+  .container
+    .row
+      .col-md-12.col-sm-12.col-xs-12
+        .heading.dosis How it Works?
+        .sub_heading Welcome to the World's #1 Most Popular Content Marketplace.
+      .col-md-4.col-sm-4.col-xs-4.dosis.step Step 1
+      .col-md-4.col-sm-4.col-xs-4.dosis.step Step 2
+      .col-md-4.col-sm-4.col-xs-4.dosis.step Step 3
+      .col-md-12.col-sm-12.col-xs-12
+        .hr_circle
+          img src=image_path('//connectpal-assets.s3.amazonaws.com/images/steps-circle.png')
+      .col-md-4.col-sm-4.col-xs-4
+        .icon
+          img src=image_path('//connectpal-assets.s3.amazonaws.com/images/icon-homepage-step-1.png')
+        .title.dosis Create a Profile
+        .description Any person or group can setup a profile in just seconds. There are no startup fees or hosting fees, so let’s get going!
+      .col-md-4.col-sm-4.col-xs-4
+        .icon
+          img src=image_path('//connectpal-assets.s3.amazonaws.com/images/icon-homepage-step-2.png')
+        .title.dosis Post Content
+        .description Add content to your profile - audio, video, photos, documents, and more.  Update your content whenever you want.
+      .col-md-4.col-sm-4.col-xs-4
+        .icon
+          img src=image_path('//connectpal-assets.s3.amazonaws.com/images/icon-homepage-step-3.png')
+        .title.dosis Set Your Price
+        .description
+          | Set a monthly price for people to access your profile content. Tell your friends and followers… and we handle the rest!
+          .cleafix
+          a.btn.pink href="sampleprofile" target='_blank' style="font-size: 15px; color: #FFFFFF; width: 180px; display: inline-block; margin-top: 10px;" View Sample Profile
+      .clearfix
 
-          .post.box
-            .post_title Post Title
-            .date Posted (time) ago
+// Blue Row & Action Buttons
 
-            // Photo Area Single
+.button_actions
+  .container
+    .row
+      .col-md-12.col-sm-12.col-xs-12.title.dosis
+        span style="display: block;" Now you get how it works,
+        span what do you want to do?
+    .row
+      .col-md-5.col-sm-5.col-xs-5
+        .btn.pink.PopupTrigger.dosis data-target='registration'
+          span style="display: block;" I want to create my own profile
+          span to start getting subscribers.
+      .col-md-2.col-sm-2.col-xs-2.or.dosis or
+      .col-md-5.col-sm-5.col-xs-5
+        .btn.pink.PopupTrigger.dosis data-target='search-users'
+          span  style="display: block;" I want to search other profiles
+          span and subscribe to someone else.
 
-            .photo_display.one
-              a href='#'
-                img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/246eb100f05411e39e0f91d9b8fa9c48____612x1222____acid_picdump_146.jpg'
-                .photo_hover
-                  
+.homepage_profile
+  .container
+    .row
+      .col-md-6.col-sm-6.col-xs-6
+        a href="sampleprofile" target='_blank'
+          img src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
 
-            // End Photo Area Single
+      .col-md-6.col-sm-6.col-xs-6.description.dosis
+        ul
+          li Our platform allows content creators to control and monetize their own content.
+          li ConnectPal handles all of the boring business stuff for our users, including credit card processing and content hosting.
 
-            .message my message text will display here
-            .action_bar
-              /* Add .liked_post (a.fa.fa-heart.liked_post.pull-left) to display solid pink heart after subscriber clicks the heart */
-              a.fa.fa-heart.pull-left href="#"
-              .users_liked.pull-left Slava Popov, John Smith & 2 more
-              .clearfix
+.homepage_our_users.dosis
+  .container
+    .row
+      .col-md-6.col-sm-6.col-xs-6.description
+        .title Our Users
+        span
+          'Our users include YouTube Creators, Music Bands, Bloggers, Gamers, Charities, Business Consultants, Religious Groups, Political Groups, Athletes, Teachers,
+          span style="font-style: italic;" and more...
+          a.btn.pink href=users_path View Profile Directory
 
-          .clearfix
+      .col-md-6.col-sm-6.col-xs-6
+        img src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-our-users.png')
 
-          // Two Photos
+/.homepage_analytics.dosis
+  .container
+    .row
+      .col-md-6.col-sm-6.col-xs-6
+        img.img-circle src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-analytics.png')
 
-          .post.box
-            .post_title Post Title
-            .date Posted (time) ago
+      .col-md-6.col-sm-6.col-xs-6.description
+        .title Account Analytics
+        span ConnectPal provides in-depth analytics so you can grow your audience.
 
-            // Photo Area Single
+= render 'footer'
 
-            .photo_display.two
-              a href='#' style='margin-right: 15px;'
-                img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/246eb100f05411e39e0f91d9b8fa9c48____612x1222____acid_picdump_146.jpg'
-       
-              a href='#'
-                img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/939e70f0f06e11e39c001f42863ebd67____400x300____rocket.jpg'
-              .clearfix
-
-            // End Photo Area Single
-
-            .message my message text will display here
-            .action_bar
-              /* Add .liked_post (a.fa.fa-heart.liked_post.pull-left) to display solid pink heart after subscriber clicks the heart */
-              a.fa.fa-heart.pull-left href="#"
-              .users_liked.pull-left Slava Popov, John Smith & 2 more
-              .clearfix
-
-          .clearfix
-
-
-          // Three or more
-
-          .post.box
-            .post_title Post Title
-            .date Posted (time) ago
-
-            // Photo Area Single
-
-            .photo_display.three
-              .three_left
-                a href='#' style='margin-right: 15px;'
-                  img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/246eb100f05411e39e0f91d9b8fa9c48____612x1222____acid_picdump_146.jpg'
-              .three_stacked
-                a href='#' style='margin-bottom: 15px'
-                  img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/939e70f0f06e11e39c001f42863ebd67____400x300____rocket.jpg'
-                a href='#'
-                  img src='https://buddy-assets.s3.amazonaws.com/uploads/post_photos/slava/939e70f0f06e11e39c001f42863ebd67____400x300____rocket.jpg'
-              .clearfix
-
-            // End Photo Area Single
-
-            .message my message text will display here
-            .action_bar
-              /* Add .liked_post (a.fa.fa-heart.liked_post.pull-left) to display solid pink heart after subscriber clicks the heart */
-              a.fa.fa-heart.pull-left href="#"
-              .users_liked.pull-left Slava Popov, John Smith & 2 more
-              .clearfix
-
-          .clearfix
