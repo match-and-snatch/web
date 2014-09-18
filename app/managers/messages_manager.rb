@@ -39,7 +39,7 @@ class MessagesManager < BaseManager
       @dialogue.unread = false
       @dialogue.read_at = Time.zone.now
       @dialogue.save!
-      EventsManager.dialogue_marked_as_read(user: user)
+      EventsManager.dialogue_marked_as_read(user: user, dialogue: @dialogue)
     end
     @dialogue
   end

@@ -12,14 +12,14 @@ class CommentManager < BaseManager
   def show
     @comment.hidden = false
     save_or_die! @comment
-    EventsManager.comment_mark_as_visible(user: @user, comment: @comment)
+    EventsManager.comment_showed(user: @user, comment: @comment)
     @comment
   end
 
   def hide
     @comment.hidden = true
     save_or_die! @comment
-    EventsManager.comment_mark_as_hidden(user: @user, comment: @comment)
+    EventsManager.comment_hidden(user: @user, comment: @comment)
     @comment
   end
 

@@ -134,7 +134,7 @@ class SubscriptionManager < BaseManager
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
       SubscribedFeedEvent.create! target_user: target, target: @subscriber
       SubscriptionsMailer.delay.subscribed(subscription)
-      EventsManager.subscription_created(user: @subscriber)
+      EventsManager.subscription_created(user: @subscriber, subscription: @subscription)
     end
 
     # Any subscriber should be activated
@@ -154,7 +154,7 @@ class SubscriptionManager < BaseManager
       target_user = @subscription.target_user
       UserStatsManager.new(target_user).log_subscriptions_count
       SubscribedFeedEvent.create! target_user: target_user, target: @subscriber
-      EventsManager.subscription_created(user: @subscriber, restored: true)
+      EventsManager.subscription_created(user: @subscriber, subscription: @subscription, restored: true)
     end
   end
 

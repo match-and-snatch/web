@@ -507,7 +507,7 @@ class UserProfileManager < BaseManager
 
     save_or_die!(user).tap do
       self.class.delay(queue: :mail).notify_vacation_enabled(user)
-      EventsManager.vacation_mode_enabled(user: user)
+      EventsManager.vacation_mode_enabled(user: user, reason: reason)
     end
   end
 

@@ -25,7 +25,6 @@ class TransferManager < BaseManager
                                         statement_descriptor: descriptor,
                                         description: descriptor
 
-    EventsManager.transfer_sent(recipient: @recipient)
     month = month.present? ? month.to_i : Time.zone.now.month
     current_time = Time.zone.now
     created_at = current_time - (current_time.month - month).months
@@ -36,6 +35,7 @@ class TransferManager < BaseManager
                                       created_at: created_at
 
     fail_with! log_entry.errors if log_entry.new_record?
+    EventsManager.transfer_sent(user: @recipient, transfer: log_entry)
     true
   end
 

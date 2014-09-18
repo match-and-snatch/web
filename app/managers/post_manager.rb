@@ -17,6 +17,7 @@ class PostManager < BaseManager
   def hide
     @post.hidden = true
     @post.save or fail_with! @post.errors
+    EventsManager.post_hidden(user: @user, post: @post)
     @post
   end
 

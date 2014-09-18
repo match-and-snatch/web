@@ -1,4 +1,4 @@
-module Concerns::ProfileEventsTracker
+module Concerns::Events::ProfileTracker
   # @param user [User]
   # @param data [Hash]
   def profile_created(user: , data: {})
@@ -13,13 +13,23 @@ module Concerns::ProfileEventsTracker
   # @param user [User]
   # @param picture [Photo]
   def profile_picture_changed(user: , picture: )
-    Event.create! user: user, action: 'profile_picture_changed', data: { id: picture.id, type: picture.type }
+    Event.create! user: user,
+                  action: 'profile_picture_changed',
+                  data: { photo_id:    picture.id,
+                          target_id:   picture.uploadable_id,
+                          target_type: picture.uploadable_type,
+                          url:         picture.url }
   end
 
   # @param user [User]
   # @param picture [Photo]
   def cover_picture_changed(user: , picture: )
-    Event.create! user: user, action: 'cover_picture_changed', data: { id: picture.id, type: picture.type }
+    Event.create! user: user,
+                  action: 'cover_picture_changed',
+                  data: { photo_id:    picture.id,
+                          target_id:   picture.uploadable_id,
+                          target_type: picture.uploadable_type,
+                          url:         picture.url }
   end
 
   # @param user [User]
@@ -44,10 +54,16 @@ module Concerns::ProfileEventsTracker
   # @param user [User]
   # @param media [Audio, Video]
   def welcome_media_added(user: , media: )
-    Event.create! user: user, action: 'welcome_media_added', data: { id: media.id, type: media.type }
+    Event.create! user: user,
+                  action: 'welcome_media_added',
+                  data: { photo_id:    media.id,
+                          target_id:   media.uploadable_id,
+                          target_type: media.uploadable_type,
+                          url:         media.url,
+                          type:        media.type }
   end
 
-  def contact_info_changed(user: , info: )
+  def contact_info_changed(user: , info: {})
     Event.create! user: user, action: 'contact_info_changed', data: info
   end
 

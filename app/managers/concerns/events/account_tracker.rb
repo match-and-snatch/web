@@ -1,8 +1,13 @@
-module Concerns::AccountEventsTracker
+module Concerns::Events::AccountTracker
   # @param user [User]
   # @param photo [Photo]
   def account_photo_changed(user: , photo: )
-    Event.create! user: user, action: 'account_photo_changed', data: { id: photo.id, type: photo.type }
+    Event.create! user: user,
+                  action: 'account_photo_changed',
+                  data: { photo_id:    photo.id,
+                          target_id:   photo.uploadable_id,
+                          target_type: photo.uploadable_type,
+                          url:         photo.url }
   end
 
   # @param user [User]
@@ -33,8 +38,9 @@ module Concerns::AccountEventsTracker
   end
 
   # @param user [User]
-  def vacation_mode_enabled(user: )
-    Event.create! user: user, action: 'vacation_mode_enabled'
+  # @param reason [String]
+  def vacation_mode_enabled(user: , reason: nil)
+    Event.create! user: user, action: 'vacation_mode_enabled', data: { reason: reason }
   end
 
   # @param user [User]

@@ -1,4 +1,4 @@
-module Concerns::PostEventsTracker
+module Concerns::Events::PostTracker
   # @param user [User]
   # @param post [Post]
   def post_created(user: , post: )
@@ -9,6 +9,12 @@ module Concerns::PostEventsTracker
   # @param post [Post]
   def post_removed(user: , post: )
     Event.create! user: user, action: "#{post.type.tableize}_destroyed", data: { id: post.id, type: post.type }
+  end
+
+  # @param user [User]
+  # @param post [Post]
+  def post_hidden(user: , post: )
+    Event.create! user: user, action: "#{post.type.tableize}_hidden", data: { id: post.id, type: post.type }
   end
 
   # @param user [User]

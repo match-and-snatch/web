@@ -1,4 +1,4 @@
-module Concerns::SessionEventsTracker
+module Concerns::Events::SessionTracker
   # @param user [User]
   # @return [Event]
   def user_logged_in(user: )
