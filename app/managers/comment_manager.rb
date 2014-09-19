@@ -12,7 +12,7 @@ class CommentManager < BaseManager
   def show
     @comment.hidden = false
     save_or_die! @comment
-    EventsManager.comment_showed(user: @user, comment: @comment)
+    EventsManager.comment_shown(user: @user, comment: @comment)
     @comment
   end
 

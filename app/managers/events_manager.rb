@@ -10,50 +10,64 @@ class EventsManager < BaseManager
   class << self
     # @param user [User]
     # @param profile_type [ProfileType]
-    def profile_type_added(user: , profile_type: nil)
-      Event.create! user: user, action: 'profile_type_added', data: { title: profile_type.title }
+    # @yield
+    # @return [Event]
+    def profile_type_added(user: , profile_type: , &block)
+      Event.create! user: user, action: 'profile_type_added', data: { title: profile_type.title }, &block
     end
 
     # @param user [User]
     # @param profile_type [ProfileType]
-    def profile_type_removed(user: , profile_type: nil)
-      Event.create! user: user, action: 'profile_type_removed', data: { title: profile_type.title }
+    # @yield
+    # @return [Event]
+    def profile_type_removed(user: , profile_type: , &block)
+      Event.create! user: user, action: 'profile_type_removed', data: { title: profile_type.title }, &block
     end
 
     # @param user [User]
     # @param file [Upload]
-    def file_uploaded(user: , file: )
+    # @yield
+    # @return [Event]
+    def file_uploaded(user: , file: , &block)
       Event.create! user: user,
-                    action: "#{file.type.tableize}_uploaded",
+                    action: "#{file.type.tableize.singularize}_uploaded",
                     data: { photo_id:    file.id,
                             target_id:   file.uploadable_id,
                             target_type: file.uploadable_type,
-                            url:         file.url }
+                            url:         file.url },
+                    &block
     end
 
     # @param user [User]
     # @param upload [Upload]
-    def upload_removed(user: , upload: )
+    # @yield
+    # @return [Event]
+    def upload_removed(user: , upload: , &block)
       Event.create! user: user,
-                    action: "#{upload.type.tableize}_destroyed",
+                    action: "#{upload.type.tableize.singularize}_removed",
                     data: { photo_id:    upload.id,
                             target_id:   upload.uploadable_id,
                             target_type: upload.uploadable_type,
-                            url:         upload.url }
+                            url:         upload.url },
+                    &block
     end
 
     # @param user [User]
     # @param like [Like]
-    def like_created(user: , like: )
+    # @yield
+    # @return [Event]
+    def like_created(user: , like: , &block)
       Event.create! user: user,
                     action: 'like_created',
                     data: { likable_id: like.likable_id,
                             target_user_id: like.target_user_id,
-                            likable_type: like.likable_type }
+                            likable_type: like.likable_type },
+                    &block
     end
 
     # @param user [User]
     # @param like [Like]
+    # @return [Integer]
     def like_removed(user: , like: )
       Event.where(user_id: user.id,
                   action: 'like_created',
@@ -64,25 +78,34 @@ class EventsManager < BaseManager
 
     # @param user [User]
     # @param message [Message]
-    def message_created(user: , message: )
+    # @yield
+    # @return [Event]
+    def message_created(user: , message: , &block)
       Event.create! user: user,
                     action: 'message_created',
                     data: { id: message.id,
                             target_user_id: message.target_user_id,
-                            dialogue_id: message.dialogue_id }
+                            dialogue_id: message.dialogue_id },
+                    &block
     end
 
     # @param user [User]
-    def dialogue_marked_as_read(user: , dialogue: )
-      Event.create! user: user, action: 'dialogue_marked_as_read', data: { dialogue_id: dialogue.id }
+    # @param dialogue [Dialogue]
+    # @yield
+    # @return [Event]
+    def dialogue_marked_as_read(user: , dialogue: , &block)
+      Event.create! user: user, action: 'dialogue_marked_as_read', data: { dialogue_id: dialogue.id }, &block
     end
 
     # @param user [User]
     # @param transfer [StripeTransfer]
-    def transfer_sent(user: , transfer: )
+    # @yield
+    # @return [Event]
+    def transfer_sent(user: , transfer: , &block)
       Event.create! user: user,
                     action: 'transfer_sent',
-                    data: { amount: transfer.amount }
+                    data: { amount: transfer.amount },
+                    &block
     end
   end
 end

@@ -2,25 +2,32 @@ module Concerns::Events::SubscriptionTracker
   # @param user [User]
   # @param subscription [Subscription]
   # @param restored: [Boolean]
-  def subscription_created(user: , subscription: , restored: false)
+  # @yield
+  # @return [Event]
+  def subscription_created(user: , subscription: , restored: false, &block)
     Event.create! user: user,
                   action: 'subscription_created',
                   data: { subscription_id: subscription.id,
                           target_user_id:  subscription.target_user_id,
-                          restored:        restored }
+                          restored:        restored },
+                  &block
   end
 
   # @param user [User]
   # @param subscription [Subscription]
-  def subscription_cancelled(user: , subscription: )
+  # @yield
+  # @return [Event]
+  def subscription_cancelled(user: , subscription: , &block)
     Event.create! user: user,
                   action: 'subscription_canceled',
                   data: { subscription_id: subscription.id,
-                          target_user_id:  subscription.target_user_id }
+                          target_user_id:  subscription.target_user_id },
+                  &block
   end
 
   # @param user [User]
   # @param subscription [Subscription]
+  # @return [Integer]
   def subscription_notifications_enabled(user: , subscription: )
     Event.where(user_id: user.id,
                 action: 'subscription_notifications_disabled',
@@ -30,10 +37,13 @@ module Concerns::Events::SubscriptionTracker
 
   # @param user [User]
   # @param subscription [Subscription]
-  def subscription_notifications_disabled(user: , subscription: )
+  # @yield
+  # @return [Event]
+  def subscription_notifications_disabled(user: , subscription: , &block)
     Event.create! user: user,
                   action: 'subscription_notifications_disabled',
                   data: { subscription_id: subscription.id,
-                          target_user_id:  subscription.target_user_id }
+                          target_user_id:  subscription.target_user_id },
+                  &block
   end
 end
