@@ -14,13 +14,13 @@ ul.nav.navbar-nav.pull-right
         i.fa.fa-sign-out Logout
 
   - else
-    li
+    li.hidden-xs
       a.PopupTrigger data-target='search-users' href='#'
         i.fa.fa-search Search Users
     li
       a.PopupTrigger href='#' data-target='login'
         i.fa.fa-lock Login
-    li
+    //li
       a.PopupTrigger href='#' data-target='registration'
         i.fa.fa-sign-in Sign Up
     = render 'authentication_popups'

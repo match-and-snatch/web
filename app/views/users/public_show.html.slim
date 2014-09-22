@@ -11,7 +11,7 @@
 
     /* Details Container */
     .details_container.row
-      .col-md-7.col-sm-7.col-xs-7.profile_details
+      .col-md-7.col-sm-7.col-xs-12.profile_details
 
         /* Profile Name */
         span.profile_name.visitor = @profile.profile_name
@@ -23,7 +23,7 @@
         /* Profile Type */
         span.profile_type= @profile.types
 
-      .col-md-5.col-sm-5.col-xs-5
+      .col-md-5.col-sm-5.col-xs-12
 
         /* Subscribe Container */
         .subscribe_cont
@@ -59,9 +59,19 @@
 
   - if @profile.welcome_video.present?
 
+    .row
+      .col-xs-12.hidden-sm.hidden-md
+        a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='subscription' href='#' Subscribe Now
+        .clearfix
+
+        span.already_user.hidden-xs
+          - unless current_user.authorized?
+            | Already a member? &nbsp;
+            a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
+
     #visitor.with_video.row
 
-      .col-md-4.col-sm-4.col-xs-4
+      .col-md-4.col-sm-4.col-xs-12
         .box style='padding: 15px; min-height: 352px;'
           .title Welcome to #{@profile.profile_name}'s profile page.
 
@@ -82,23 +92,33 @@
       .clearfix
 
   - else
+
+    #visitor.mobile.row.hidden-sm.hidden-md
+      .col-xs-12
+        a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
+        .clearfix
+
+        span.already_user
+          - unless current_user.authorized?
+            | Already a member? &nbsp;
+            a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
     #visitor.box
       .row
         .col-md-12.col-sm-12.col-xs-12
 
           .title Welcome to #{@profile.profile_name}'s profile page
 
-          div style='margin: 15px auto; width: 585px;'
+          div style='margin: 15px auto; width: 100%;'
             = audio_player(@profile.welcome_audio)
 
           span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
 
           = render 'welcome_benefits'
 
-          a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
+          a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='subscription' href='#' Subscribe Now
           .clearfix
 
-          span.already_user
+          span.already_user.hidden-xs
             - unless current_user.authorized?
               | Already a member? &nbsp;
               a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
@@ -107,5 +127,5 @@
 
 /* Footer */
 
-div style='position: fixed; bottom: 0; width: 100%'
+div.hidden-xs style='position: fixed; bottom: 0; width: 100%'
   = render 'application/footer'
