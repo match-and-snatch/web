@@ -57,19 +57,11 @@ module ApplicationHelper
   end
 
   # Returns number displaying subscription cost
-  # @param cost [Integer, Float, String]
+  # @param cost [Integer]
   # @param opts [Hash]
   # @return [String]
-  def super_number_to_currency(cost, opts = {})
-    cost = cost.to_i / 100.0
-    ceil_cost = cost.to_i
-
-    if opts[:use_ceil] == false
-      cost = cost - ceil_cost > 0 ? cost : ceil_cost
-      number_to_currency(cost, opts)
-    else
-      cost - ceil_cost > 0 ? number_to_currency(cost, opts) : ceil_cost
-    end
+  def cents_to_dollars(cost, opts = {})
+    number_to_currency(cost / 100.0, opts)
   end
 
   # @param profile [ProfileDecorator]

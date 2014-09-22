@@ -24,15 +24,15 @@ h2
             a.Toggler href='#' style="color: #3b9fd1" data-target="#{month.name}-details"
               = month.name
         td
-          = number_to_currency month.total_gross
+          = cents_to_dollars month.total_gross
         td
-          = number_to_currency month.connectpal_fee
+          = cents_to_dollars month.connectpal_fee
         td
-          = number_to_currency month.tos_fee
+          = cents_to_dollars month.tos_fee
         td
-          = number_to_currency month.stripe_fee
+          = cents_to_dollars month.stripe_fee
         td
-          = number_to_currency month.payout
+          = cents_to_dollars month.payout
 
       tr style='display: none' data-identifier="#{month.name}-details"
         td colspan="6"

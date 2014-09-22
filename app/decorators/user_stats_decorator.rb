@@ -43,12 +43,17 @@ class UserStatsDecorator < UserDecorator
     object.profile_types.map(&:title).join(' / ')
   end
 
+  # @return [Integer]
   def subscribed_ever_count
     Subscription.where(target_user_id: object.id).count
   end
 
+  def unsubscribed_ever
+    Subscription.where(target_user_id: object.id, removed: true)
+  end
+
   def unsubscribed_ever_count
-    Subscription.where(target_user_id: object.id, removed: true).count
+    self.unsubscribed_ever.count
   end
 
   def uploaded_bytes
@@ -63,8 +68,9 @@ class UserStatsDecorator < UserDecorator
     StripeTransfer.where(user_id: object.id).sum(:amount)
   end
 
+  # @return [Integer]
   def connectpal_and_tos
-    (Payment.where(target_user_id: object.id).sum(:subscription_fees) + unsubscribed_ever_count * object.subscription_cost.to_i)
+    Payment.where(target_user_id: object.id).sum(:subscription_fees) + unsubscribed_ever.sum(:cost)
   end
 
   private
@@ -94,6 +100,6 @@ class UserStatsDecorator < UserDecorator
   end
 
   def stripe_fee
-    payments.count * 0.30 + (payments.sum(:amount) * 0.029) / 100.0
+    payments.count * 30 + payments.sum(:amount) * 0.029
   end
 end

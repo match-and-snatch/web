@@ -19,7 +19,7 @@ hr
         span= @user.profile_types
       li
         strong Subscription Cost:
-        span style="color: #ea2e49;" $#{super_number_to_currency @user.cost}
+        span style="color: #ea2e49;"= cents_to_dollars @user.cost
       li
         strong Posts Count:
         span= @user.posts.count
@@ -30,7 +30,7 @@ hr
     ul.profile_detail_list
       li
         strong Currently Subscribed:
-        span style="color: #ea2e49;" #{@user.subscriptions_count}
+        span style="color: #ea2e49;"= @user.subscriptions_count
       li
         strong Total Subscribers (all time):
         span style="color: #ea2e49;"= @user.subscribed_ever_count
@@ -45,13 +45,13 @@ hr
     ul.profile_detail_list
       li
         strong Total Gross:
-        span style="color: #ea2e49;" #{number_to_currency @user.total_gross / 100.0}
+        span style="color: #ea2e49;"= cents_to_dollars @user.total_gross
       li
         strong Total Paid Out:
-        span style="color: #ea2e49;" #{number_to_currency @user.total_paid_out / 100.0}
+        span style="color: #ea2e49;"= cents_to_dollars @user.total_paid_out
       li
         strong ConnectPal + ToS:
-        span style="color: #ea2e49;" #{number_to_currency @user.connectpal_and_tos / 100.0}
+        span style="color: #ea2e49;"= cents_to_dollars @user.connectpal_and_tos
     .clearfix
 
 .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
@@ -107,7 +107,7 @@ hr
         strong
           ' Total Sales (to date):
         span style="color: #ea2e49;"
-          = number_to_currency @user.target_sales
+          = cents_to_dollars @user.target_sales
       li
         strong Total Refunded:
         span style="color: #ea2e49;" -
@@ -138,7 +138,7 @@ hr
               a href="#" style="font-weight: bold; color: #3b9fd1"= link_to_user subscription.target_user
             td= subscription.created_at.to_date.to_s(:long)
             td
-              strong style="color: #ea2e49;"= number_to_currency subscription.cost / 100.0
+              strong style="color: #ea2e49;"= cents_to_dollars subscription.cost
             td= subscription.created_at < 1.months.ago ? 'Recurring' : 'New'
             td= subscription.removed_at.try(:to_date).try(:to_s, :long) || 'N/A'
 
