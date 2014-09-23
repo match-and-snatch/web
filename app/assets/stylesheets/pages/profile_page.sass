@@ -687,6 +687,10 @@
   // Sidebar
 
   .sidebar
+    @media screen and (min-width: 991px)
+      display: block !important
+    @media screen and (max-width: 767px)
+      display: none
 
     // Profile Action
 
@@ -1496,6 +1500,7 @@
             margin-left: 0
   #subscriber_display
     .sidebar
+      display: none
       .search
         margin-bottom: 20px
     .recent_posts
@@ -1505,7 +1510,7 @@
         .video_player
           margin: 10px 15px 0 15px
           .jwplayer
-            min-height: 392px
+            min-height: 330px
         .photo_display
           &.one
             display: block
