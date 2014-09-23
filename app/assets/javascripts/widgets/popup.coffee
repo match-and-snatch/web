@@ -33,7 +33,6 @@ class bud.widgets.Popup extends bud.Widget
     window_width = $(window).width()
 
     popup_width = @width()
-    console.log [popup_width, @current_popup_width]
     if Math.abs(@current_popup_width - popup_width) > 1
       @current_popup_width = popup_width
 
