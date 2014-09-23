@@ -77,26 +77,26 @@
         input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
         .mobile_message.alert.alert-warning Passwords are case sensitve, please make sure you enter your correct password.
       .form-group style="margin-top: 15px"
+        input.btn.blue.login_btn type='submit' value='Login'
         .pull-left
           .checkbox
             label.remember_me
               input name='remember_me' type="checkbox" Remember Me
-        input.pull-right.btn.blue type='submit' value='Login'
         .clearfix
       .text-danger.Error style="margin-bottom: 15px;"
 
   /* Footer Area */
 
   .modal-footer
-    span Not registered yet?&nbsp;
-    a.PopupTrigger style='text-decoration: underline' href='#' data-target='registration' Click here to register!
+    span.hidden-xs Not registered yet?&nbsp;
+    a.PopupTrigger.hidden-xs style='text-decoration: underline' href='#' data-target='registration' Click here to register!
     .clearfix
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='forgot-password' Forgot Password
 
 
 /* Restore Password Popup */
 
-.Popup.popup.authentication_popup.modal-content data-identifier='forgot-password' style="width: 400px;"
+.Popup.popup.authentication_popup.modal-content data-identifier='forgot-password'
 
   /* Header Area */
 
@@ -119,8 +119,8 @@
   /* Footer Area */
 
   .modal-footer
-    span Not registered yet?&nbsp;
-    a.PopupTrigger style='text-decoration: underline' href='#' data-target='registration' Click here to register!
+    span.hidden-xs Not registered yet?&nbsp;
+    a.PopupTrigger.hidden-xs style='text-decoration: underline' href='#' data-target='registration' Click here to register!
     .clearfix
     span Already have an account? &nbsp;
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.

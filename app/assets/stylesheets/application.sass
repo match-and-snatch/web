@@ -126,6 +126,8 @@ input:focus::-moz-placeholder
   &.general_page
     margin: 15px 0 60px
     padding-bottom: 5px
+    @media screen and (max-width: 767px)
+      margin-bottom: 100px
     h1
       margin-top: 15px
     h2
@@ -384,6 +386,133 @@ nav
                 background: $color_pink
                 color: #FFFFFF
 
+// Mobile
+
+@media screen and (max-width: 767px)
+  nav
+    .brand
+      img
+        margin: 6px auto 0 auto
+        display: block
+    .navbar-nav
+      margin: 0
+      li
+        font-size: 13px
+
+  // Mobile Nav
+
+  .mobile_nav
+    @include white-area
+    border-top: 1px solid $color_border
+    display: block
+    list-style: none
+    position: fixed
+    bottom: 0
+    left: 0
+    padding: 0
+    text-align: center
+    width: 100%
+    z-index: 99999
+    ul
+      margin: 0 auto
+      li
+        border-right: 1px solid $color_border
+        display: inline-block
+        font-size: 10px
+        padding: 15px
+        &:first-child
+          border-left: 1px solid $color_border
+        a
+          color: $color_text_dark
+          text-shadow: -1px -1px 0 #FFFFFF
+          i.fa, .more_link
+            &:before
+              color: $color_blue
+              margin-bottom: 5px
+              padding-right: 5px
+          .fa-search
+            &:before
+              padding-right: 0
+        &:hover
+          background-color: #FFFFFF
+          a
+            text-shadow: none
+        &.my_sub, &.more_sub
+          cursor: pointer
+          position: relative
+          &:hover
+            text-shadow: none
+          .my_sub_parent, .more_link_parent
+            &:before
+              color: $color_blue
+              margin-bottom: 5px
+              padding-right: 5px
+          .my_sub_cont, .more_sub_cont
+            display: none
+            @include border_radius(10px 10px 0 0)
+            border: 1px solid $color_border
+            background-color: #FFFFFF
+            position: absolute
+            bottom: 44px
+            left: -1px
+            overflow: hidden
+            min-width: 230px
+            a
+              color: $color_text_dark
+              text-shadow: -1px -1px 0 #FFFFFF
+              &.add_subscription
+            li
+              display: inline-block
+              font-size: 12px
+              width: 200px
+              margin-top: 10px
+              padding: 0
+              border: none
+              &:first-child
+                padding-left: 0
+              .picture
+                float: left
+                img
+                  height: 50px
+                  width: 50px
+              .details
+                float: left
+                text-align: left
+                margin-top: 5px
+                padding-left: 15px
+                width: 150px
+                .name
+                  font-size: 12px
+                .type
+                  color: $color_text_light
+                  font-weight: bold
+                  font-size: 10px
+          .more_sub_cont
+            @include border_radius(10px 10px 0 0)
+            border: 1px solid $color_border
+            background-color: #FFFFFF
+            position: absolute
+            bottom: 44px
+            left: -26px
+            overflow: hidden
+            min-width: 90px
+            li
+              padding: 0
+              margin: 0
+              border-top: 1px solid $color_border
+              width: 95px
+              &:first-child
+                border-top: none
+              a
+                display: block
+                margin: 0
+                padding: 10px 10px 10px 0
+                font-size: 11px
+                text-align: right
+                text-decoration: none
+        &:hover
+          color: $color_blue
+
 // Notifcation Bar
 
 .notification_bar
@@ -398,7 +527,23 @@ nav
   .cont
     margin: 0 auto
     text-align: center
-    width: 970px
+
+    // Mobile
+
+    @media screen and (max-width: 767px)
+      width: auto
+
+    // Tablet
+
+    @media screen and (min-width: 768px)
+      width: auto
+
+    // Desktop
+
+    @media screen and (min-width: 991px)
+      width: 970px !important
+
+
   .close
     position: absolute
     top: 15px
@@ -491,10 +636,13 @@ footer
   margin-top: 30px
   padding: 15px 15px 5px 15px
   ul
+    float: left
     li
       list-style: none
       display: inline
-      padding-right: 15px
+      padding-left: 15px
+      &:first-child
+        padding-left: 0
       a
         color: #FFFFFF
         text-decoration: none
@@ -503,6 +651,16 @@ footer
           text-decoration: underline
   .copyright
     font-size: 11px
+@media screen and (max-width: 767px)
+  footer
+    padding: 10px 0 0 0
+    .container
+      padding: 0
+      ul
+        float: none
+      .copyright
+        font-size: 10px
+
 
 // Popup Overlay
 
@@ -535,6 +693,17 @@ footer
   top: 50%
   z-index: $deepest_depth + 10001
 
+  &.search_popup
+    @media screen and (max-width: 767px)
+      width: 100%
+      .modal-body
+        padding: 0 15px !important
+
+  // Mobile
+
+  @media screen and (max-width: 767px)
+    @include border-radius(0)
+
   // Popup Header
 
   .modal-header
@@ -545,6 +714,7 @@ footer
       position: absolute
       top: 5px
       right: 5px
+      z-index: 2
     .modal-title
       color: $color_blue
       font-size: 32px
@@ -558,6 +728,14 @@ footer
       display: block
       font-size: 13px
       margin-top: 5px
+
+    // Mobile
+
+    @media screen and (max-width: 767px)
+      .modal-title
+        font-size: 18px
+      span
+        font-size: 11px
 
   // Popup Body
 
@@ -585,6 +763,7 @@ footer
       &:focus
         color: #FFFFFF
         outline: none
+
     .text-danger
       color: $color_pink
       font-size: 11px
@@ -592,6 +771,9 @@ footer
       padding: 5px 0 0 0
     .margin-left, .margin-right
       width: 165px
+      @media screen and (max-width: 767px)
+        width: 128px
+
     .margin-right
       margin-right: 10px
     .margin-left
@@ -601,16 +783,27 @@ footer
       font-size: 11px
       margin-top: 5px
       width: 180px
+      @media screen and (max-width: 767px)
+        float: none !important
+        width: 100%
       a
         color: #cccccc
         &:hover
           color: $color_text_light
+    .btn.blue
+      @media screen and (max-width: 767px)
+        width: 100% !important
+        float: none !important
+        margin-top: 10px
     .remember_me
       color: $color_text_light
       font-size: 12px
     .search_user
       margin: 0 15px 15px
       width: 467px
+      @media screen and (max-width: 767px)
+        width: 100%
+        margin: 0 0 15px 0
     .user_list
       .bg-danger
         @include border-radius($border_radius)
@@ -671,14 +864,21 @@ footer
       img
         max-width: 500px
 
+      @media screen and (max-width: 767px)
+        img
+          width: 100%
+
     // Popup Subscriber Container
 
     &.subscribe_container
       color: $color_text_dark
       font-size: 16px
       padding: 0 15px 15px
+      &.existing
+        @media screen and (max-width: 767px)
+          width: 260px
       .order_summary, .account_payment
-        background-color: $color_background
+        background: none
         min-height: 280px
         padding: 15px
         width: 325px
@@ -689,7 +889,7 @@ footer
       // Popup Order Summary
 
       .order_summary
-        background-color: #FFFFFF
+        background-color: none
         padding: 0
         .heading
           border-bottom: 1px solid #e1e1e1
@@ -715,6 +915,58 @@ footer
           display: inline-block
           font-size: 12px
           font-weight: normal
+
+      // Mobile
+
+      @media screen and (max-width: 767px)
+        form
+          float: none !important
+        .order_summary, .account_payment
+          margin: 0
+          width: 100%
+          float: none
+        .order_summary
+          font-size: 11px
+          min-height: 100px
+          margin-bottom: 10px
+          .heading
+            font-size: 14px
+            padding: 0 0 5px 0
+            margin: 0 0 5px 0
+          .subtotal, .transaction_fee
+            font-size: 11px
+            margin: 10px 0
+          .total_cost
+            font-size: 14px
+            padding: 5px 0
+          .note
+            display: none
+        .account_payment
+          label
+            font-weight: bold !important
+          .cc_row
+            input
+              width: 100% !important
+      &.new_billing
+        @media screen and (max-width: 767px)
+          .order_summary
+            min-height: 110px !important
+          .account_payment
+            label
+              margin-bottom: 5px
+            .exp_date
+              .small
+                font-weight: normal !important
+              .month
+                width: 92px !important
+
+      // Tablet
+
+      @media screen and (min-width: 768px)
+        .account_payment
+          background: $color_background
+          padding: 15px
+
 
       // Popup Account Payment
 
@@ -783,6 +1035,24 @@ footer
                 font-size: 11px
                 margin-bottom: 0
                 width: 170px
+
+        // Mobile
+
+        @media screen and (max-width: 767px)
+          padding: 0
+          background: none
+          .form-group
+            margin-bottom: 0
+            label
+              font-size: 11px
+              font-weight: normal
+              margin-bottom: 0
+          .cc_row
+            ul
+              display: none
+          .exp_date
+            .small
+              font-size: 11px
 
     // Popup Pricing Table
 
@@ -893,14 +1163,30 @@ footer
 // Popup Authentication
 
 .authentication_popup
+  width: 400px
   .modal-header
     padding: 15px 20px
   .modal-body
+    .login_btn
+      float: right
     .checkbox
       width: 150px
     .form-group
       margin-bottom: 5px
-
+@media screen and (max-width: 767px)
+  .authentication_popup
+    width: 100%
+    .modal-body
+      .checkbox
+        display: block
+        margin-bottom: 0
+        .remember_me
+          input
+            margin-top: 4px
+      .login_btn
+        display: block
+        float: none
+        width: 100%
 
 // Required by JS
 
@@ -945,7 +1231,7 @@ input.file
   color: $color_text_light
   cursor: pointer
   font-size: 13px
-  margin: 0 0 15px -90px
+  margin: 0 0 15px 0px
   position: fixed
   &:hover
     color: $color_text_dark
@@ -1044,7 +1330,7 @@ input.file
 // Tablet
 
 @media screen and (max-width: 991px)
-  nav
+  //nav
     .navbar-nav
       li
         font-size: 11px !important
@@ -1056,7 +1342,7 @@ input.file
         ul.my_sub_cont
           padding: 0 !important
 
-  .modal-body
+  //.modal-body
     .mobile_message
       display: block !important
       font-size: 12px
@@ -1122,7 +1408,3 @@ input.file
             height: 73px
             width: 81px
             margin: 0
-
-// Apple iPhone 5 CSS
-
-@media only screen and (min-device-width : 320px) and (max-device-width : 568px)

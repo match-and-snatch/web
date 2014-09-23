@@ -5,7 +5,7 @@
 
     / Sidebar
 
-    .sidebar.box
+    .sidebar.box.hidden-xs
       .header
         | Welcome
         span.name #{@user.full_name}
@@ -50,6 +50,8 @@
       .AjaxContainer data-use_anchor='true' data-identifier='account-info' data-url=feed_path
     .clearfix
 
+.hidden-md.hidden-sm.col-xs-12
+  = render 'navigation_mobile'
 
-div style='position: fixed; bottom: 0; width: 100%'
+div.hidden-xs style='position: fixed; bottom: 0; width: 100%'
   = render 'footer'
