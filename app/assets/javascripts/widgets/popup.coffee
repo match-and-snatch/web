@@ -20,6 +20,7 @@ class bud.widgets.Popup extends bud.Widget
     bud.unsub("popup.show", @autoclose)
     bud.unsub("popup.toggle.#{@identifier}", @toggle)
     bud.unsub("popup.autoplace.#{@identifier}", @autoplace)
+    clearInterval(@autoplacer) if @autoplacer
 
   # Closes when other popup gets opened
   autoclose: (e, widget) => @hide() if widget != @
@@ -28,10 +29,28 @@ class bud.widgets.Popup extends bud.Widget
   toggle: => if @$container.is(':visible') then @hide() else @show()
 
   autoplace: =>
-    @$container.css('margin-left', "-#{@width()/2}px")
-    @$container.css('margin-top', "-#{@height()/2}px")
+    window_height = $(window).height()
+    window_width = $(window).width()
+
+    popup_width = @width()
+    console.log [popup_width, @current_popup_width]
+    if Math.abs(@current_popup_width - popup_width) > 1
+      @current_popup_width = popup_width
+
+      left_margin = (if popup_width > window_width then window_width else popup_width) / 2
+      @$container.css('margin-left', "-#{left_margin}px")
+
+    popup_height = @height()
+    if Math.abs(@current_popup_height - popup_height) > 1
+      @current_popup_height = popup_height
+
+      top_margin = (if popup_height > window_height then window_height else popup_height) / 2
+      @$container.css('margin-top', "-#{top_margin}px")
 
   show: =>
+    @current_popup_height = 0
+    @current_popup_width = 0
+
     # Close other popups
     bud.pub("popup.show", [@]);
 
