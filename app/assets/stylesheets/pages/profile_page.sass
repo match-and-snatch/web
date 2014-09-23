@@ -52,6 +52,8 @@
       height: 122px
       background-size: 450px
       background-position-x: -120px
+      div
+        background-size: 100% !important
       .btn
         display: none !important
 
@@ -891,9 +893,12 @@
         font-size: 12px
         padding: 0 15px
       span.file_name
+        float: none !important
+        display: block
         font-size: 12px
         font-weight: 600
-        padding: 10px 15px 5px
+        padding: 0
+        margin: 10px 0
         width: 100%
       a.file_download
         color: $color_blue
@@ -911,7 +916,7 @@
         margin: 15px 15px 0 15px
       .audio_player
         background-color: #FFFFFF
-        margin: 10px 15px 0 15px
+        margin: 0 15px 0 15px
         height: 30px
         border: none
         .jwplayer
@@ -1765,3 +1770,7 @@
     background: #d9eaff
     border-radius: 3px
     padding: 0 4px
+
+.mobile_nav
+  @media screen and (min-width: 768px)
+    display: none

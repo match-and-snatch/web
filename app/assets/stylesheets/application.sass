@@ -54,6 +54,15 @@ a
     color: $color_text_dark
     text-decoration: none
 
+.hidden-md
+  @media screen and (min-width: 991px)
+    display: none
+
+.hidden-sm
+  @media screen and (min-width: 768px)
+    display: none
+
+
 img
   border: none
 
@@ -413,6 +422,8 @@ nav
     text-align: center
     width: 100%
     z-index: 99999
+    @media screen and (min-width: 768px)
+      display: none
     ul
       margin: 0 auto
       li
@@ -698,6 +709,10 @@ footer
       width: 100%
       .modal-body
         padding: 0 15px !important
+        .btn.pink
+          width: 100%
+          margin: 0 0 15px 0 !important
+
 
   // Mobile
 
