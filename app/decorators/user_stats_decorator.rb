@@ -48,12 +48,8 @@ class UserStatsDecorator < UserDecorator
     Subscription.where(target_user_id: object.id).count
   end
 
-  def unsubscribed_ever
-    Subscription.where(target_user_id: object.id, removed: true)
-  end
-
   def unsubscribed_ever_count
-    self.unsubscribed_ever.count
+    removed_subscriptions.count
   end
 
   def uploaded_bytes
@@ -70,7 +66,7 @@ class UserStatsDecorator < UserDecorator
 
   # @return [Integer]
   def connectpal_and_tos
-    Payment.where(target_user_id: object.id).sum(:subscription_fees) + unsubscribed_ever.sum(:cost)
+    Payment.where(target_user_id: object.id).sum(:subscription_fees) + removed_subscriptions.sum(:cost)
   end
 
   private
@@ -101,5 +97,9 @@ class UserStatsDecorator < UserDecorator
 
   def stripe_fee
     payments.count * 30 + payments.sum(:amount) * 0.029
+  end
+
+  def removed_subscriptions
+    Subscription.where(target_user_id: object.id, removed: true)
   end
 end

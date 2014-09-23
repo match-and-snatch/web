@@ -33,7 +33,7 @@
           a.cost_owner.PopupTrigger data-target='cost-editor'
             .amount
               span data-identifier='subscription-cost'
-                = cents_to_dollars(@profile.subscription_cost, format: '%n')
+                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
               span.month
                 |/month
             .btn.pink.fa.fa-usd.fa-2x

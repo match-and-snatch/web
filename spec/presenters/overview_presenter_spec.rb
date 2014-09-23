@@ -77,7 +77,7 @@ describe OverviewPresenter do
 
   describe '#daily_payments' do
     specify do
-      expect(subject.daily_payments.map(&:id)).to eq(Payment.all.map(&:id))
+      expect(subject.daily_payments).to eq([Payment.first])
     end
   end
 

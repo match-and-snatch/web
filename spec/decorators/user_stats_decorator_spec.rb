@@ -17,12 +17,6 @@ describe UserStatsDecorator do
       SubscriptionManager.new(subscription: subscription).unsubscribe
     end
 
-    describe '#unsubscribed_ever' do
-      it 'returns removed subscription' do
-        expect(subject.unsubscribed_ever).to eq([subscription])
-      end
-    end
-
     describe '#unsubscribed_ever_count' do
       it 'returns count of removed subscriptions' do
         expect(subject.unsubscribed_ever_count).to eq(1)
@@ -35,5 +29,4 @@ describe UserStatsDecorator do
       end
     end
   end
-
 end

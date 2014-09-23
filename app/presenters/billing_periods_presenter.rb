@@ -63,7 +63,7 @@ class BillingPeriodsPresenter
     end
 
     def tos_fee
-      unsubscribed.sum(:cost)
+      removed_subscriptions.sum(:cost)
     end
 
     def total_subscribed_count
@@ -81,12 +81,8 @@ class BillingPeriodsPresenter
       Subscription.where(target_user_id: @user.id, created_at: @period).count
     end
 
-    def unsubscribed
-      Subscription.where(target_user_id: @user.id, removed_at: @period, removed: true)
-    end
-
     def unsubscribed_count
-      unsubscribed.count
+      removed_subscriptions.count
     end
 
     def payout
@@ -102,6 +98,10 @@ class BillingPeriodsPresenter
     end
 
     private
+
+    def removed_subscriptions
+      Subscription.where(target_user_id: @user.id, removed_at: @period, removed: true)
+    end
 
     def transfers
       @transfers ||= StripeTransfer.where(user_id: @user.id).where(created_at: @period)

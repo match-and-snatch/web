@@ -44,12 +44,6 @@ describe BillingPeriodsPresenter do
       end
     end
 
-    describe '#unsubscribed' do
-      it 'return canceled subscriptions' do
-        expect(subject.unsubscribed).to eq([subscription])
-      end
-    end
-
     describe '#unsubscribed_count' do
       specify do
         expect(subject.unsubscribed_count).to eq(1)
