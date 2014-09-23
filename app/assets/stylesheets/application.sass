@@ -430,7 +430,7 @@ nav
         border-right: 1px solid $color_border
         display: inline-block
         font-size: 10px
-        padding: 15px
+        padding: 15px 12px
         &:first-child
           border-left: 1px solid $color_border
         a
@@ -934,34 +934,41 @@ footer
       // Mobile
 
       @media screen and (max-width: 767px)
-        form
-          float: none !important
-        .order_summary, .account_payment
-          margin: 0
-          width: 100%
-          float: none
-        .order_summary
-          font-size: 11px
-          min-height: 100px
-          margin-bottom: 10px
-          .heading
-            font-size: 14px
-            padding: 0 0 5px 0
-            margin: 0 0 5px 0
-          .subtotal, .transaction_fee
+        &.new_subscriber
+          form
+            float: none !important
+          .order_summary, .account_payment
+            margin: 0
+            width: 100%
+            float: none
+          .order_summary
             font-size: 11px
-            margin: 10px 0
-          .total_cost
-            font-size: 14px
-            padding: 5px 0
-          .note
-            display: none
-        .account_payment
-          label
-            font-weight: bold !important
-          .cc_row
-            input
-              width: 100% !important
+            min-height: 100px
+            margin-bottom: 10px
+            margin-top: -25px
+            .heading
+              font-size: 16px
+              padding: 0 0 5px 0
+              margin: 0 0 5px 0
+              text-align: center
+            .item_row
+              font-size: 12px
+            .subtotal, .transaction_fee
+              font-size: 12px
+              margin: 0
+              padding: 5px 0
+            .total_cost
+              font-size: 13px
+              padding: 5px 0
+            .note
+              display: none
+          .account_payment
+            label
+              font-weight: bold !important
+            .cc_row
+              input
+                width: 100% !important
+
       &.new_billing
         @media screen and (max-width: 767px)
           .order_summary

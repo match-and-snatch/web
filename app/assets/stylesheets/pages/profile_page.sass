@@ -1066,6 +1066,9 @@
           color: $color_text_light
           font-size: 12px
           padding-left: 5px
+          @media screen and (max-width: 767px)
+            font-size: 10px
+            padding-top: 2px
 
     // Mobile
 
@@ -1084,7 +1087,7 @@
           .comment_row
             .content
               float: right
-              width: 196px
+              width: 196px !important
               .comment_text
                 font-size: 12px
                 padding-bottom: 5px

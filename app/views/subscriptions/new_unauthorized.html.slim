@@ -44,7 +44,7 @@
     .modal-title.hidden-xs Create an account & subscribe
     span.hidden-xs Checkout will create an account for you to login and view your subscriptions
 
-  .modal-body.subscribe_container
+  .modal-body.subscribe_container.new_subscriber
 
     /* Order Summary Column */
 
@@ -88,7 +88,7 @@
           label Email Address
           input.form-control type='email' name='email'
           span.error data-field='email'
-        .form-group style="margin-bottom: 5px"
+        .form-group
           label.password_label Enter Password
           input.form-control.password type='password' name='password' placeholder=''
           span.error data-field='password'
@@ -136,6 +136,6 @@
       .clearfix
     .clearfix
 
-  .modal-footer
+  .modal-footer.hidden-xs
     span Already have an account?&nbsp;
     a.PopupTrigger href='#' data-target='login' Login

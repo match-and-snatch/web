@@ -69,7 +69,6 @@
 
   .content
     min-height: 90px
-    width: 660px
     h2
       color: $color_blue
       font-size: 20px
@@ -323,11 +322,6 @@
         margin-top: 34px
         padding: 8px 10px
 
-
-
-
-
-
     /* Profile Details */
 
     .example_url
@@ -340,7 +334,6 @@
       span
         color: $color_text_dark
         font-weight: bold
-
 
     .stats
       @include linear-gradient(#3e3e3e, #2d2d2d)
@@ -435,3 +428,38 @@
         .form-control
           font-size: 12px
           width: 335px
+
+// Mobile
+
+@media screen and (max-width: 767px)
+  .content
+    width: 100% !important
+    margin-bottom: 0 !important
+    .item_feed
+      .name
+        display: block
+        width: 100%
+        padding-bottom: 0 !important
+      .date
+        padding: 10px 0
+        text-align: left
+        float: none !important
+        font-size: 10px !important
+      .profile_picture
+        display: none
+      .latest_post
+        width: 100% !important
+      .box
+        font-size: 12px
+
+// Tablet
+
+@media screen and (min-width: 768px)
+  .content
+    width: 660px
+
+// Medium
+
+@media screen and (min-width: 992px)
+  .content
+    width: 660px
