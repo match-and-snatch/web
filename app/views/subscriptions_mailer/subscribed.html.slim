@@ -2,8 +2,7 @@
   strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 28px; line-height: 100%;' Subscription Receipt
 
 - content_for :preheader do
-  'Congratulations = @subscriber.full_name || @subscriber.holder_name || @subscriber.profile_name
-  '. You are now subscribed to a new profile.
+  'Congratulations. You are now subscribed to a new profile.
 
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 120%; padding: 0; margin: 0 0 15px 0; -webkit-text-size-adjust: none;'
   'Congratulations
@@ -23,17 +22,17 @@ table cellpadding='0' cellspacing='0' border='0' align='center' style='font-fami
     td width='52px' align='left'
       img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-dollar.png' border='0' height='52px' width='52px' alt='Subscription Cost' title='Subscription Cost' style='display: block; border: none; padding: 0; margin: 0;'
     td
-      p style='color: #898989; font-family: Helvetica,Arial,sans-serif; font-size: 12px; line-height: 150%; padding: 0; margin: 0;' Subscription Cost
-      p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 16px; line-height: 120%; padding: 0; margin: 0;'
-        strong
+      p style='color: #898989; font-family: Helvetica,Arial,sans-serif; font-size: 12px; line-height: 150%; padding: 0; margin: 0;webkit-text-size-adjust: none;' Subscription Cost
+      p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 16px; line-height: 120%; padding: 0; margin: 0;webkit-text-size-adjust: none;'
+        strong style='webkit-text-size-adjust: none;'
           = super_number_to_currency(@owner.subscription_cost, use_ceil: false)
           |/month
     td width='60px' align='left'
       img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-calendar.png' border='0' height='52px' width='52px' alt='Subscription Date' title='Subscription Date' style='display: block; border: none; padding: 0; margin: 0;'
     td
-      p style='color: #898989; font-family: Helvetica,Arial,sans-serif; font-size: 12px; line-height: 150%; padding: 0; margin: 0;' Subscription Date
-      p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 16px; line-height: 120%; padding: 0; margin: 0;'
-        strong= @subscription.created_at.to_date.to_s(:long)
+      p style='color: #898989; font-family: Helvetica,Arial,sans-serif; font-size: 12px; line-height: 150%; padding: 0; margin: 0;webkit-text-size-adjust: none;' Subscription Date
+      p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 16px; line-height: 120%; padding: 0; margin: 0;webkit-text-size-adjust: none;'
+        strong style='webkit-text-size-adjust: none;'= @subscription.created_at.to_date.to_s(:long)
     td width='20px'
   tr
     td colspan='6' height='15px'

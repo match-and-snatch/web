@@ -1,15 +1,15 @@
 .post.box data-identifier='post-#{post.id}' style='#{"opacity: 0.5" if post.hidden?}'
   - if can?(:delete, post)
-    i.fa.fa-gear.edit_post.pull-right.Toggler data-target='edit-post-#{post.id}'
+    i.fa.fa-gear.edit_post.pull-right.Toggler.hidden-xs data-target='edit-post-#{post.id}'
       .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
         ul
           a.AjaxLink.delete_btn href=edit_post_path(post.id)
             li Edit Post
           a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}'
             li Delete
-          a.Toggler data-target='edit-post-#{post.id}' href="#" 
+          a.Toggler data-target='edit-post-#{post.id}' href="#"
             li.last
-              i.fa.fa-times 
+              i.fa.fa-times
                 |&nbsp; Close
 
   - if post.title
@@ -31,7 +31,7 @@
     .new_comments data-identifier="comments_section-#{post.id}"
 
     form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}" data-highlighter='post-comment-mentions-#{post.id}'
-      .photo.pull-left
+      .photo.hidden-xs
         img src=current_user.comment_picture_url width=50 height=50
 
       .comment_section

@@ -1,4 +1,4 @@
-/* Homepage */
+// Homepage
 
 .home_pitch
   background-color: #FFFFFF
@@ -24,6 +24,8 @@
     font-weight: 600
   .icon
     height: 100px
+    img
+      margin: 0 auto
   .title
     color: $color_blue
     font-weight: 600
@@ -44,11 +46,11 @@
       &:hover
         color: $color_pink
 
-  /* Large & Medium */
+  // Large & Medium
 
   @media screen and (min-width: 992px)
     .heading
-      font-size: 60px 
+      font-size: 60px
     .sub_heading
       font-size: 20px
       margin: 15px 0 30px
@@ -58,24 +60,21 @@
     .title
       font-size: 32px
       margin: 15px 0
-    .description     
+    .description
       font-size: 14px
       line-height: 20px
       a
         font-size: 16px
         padding-top: 5px
 
-  /* Tablet */  
+  // Tablet
 
-  @media screen and (max-width: 991px)
+  @media screen and (min-width: 768px)
     .heading
-      font-size: 48px 
+      font-size: 48px
     .sub_heading
       font-size: 18px
       margin: 15px 0
-    .hr_circle
-      img
-        width: 515px
     .step
       font-size: 18px
       margin: 15px 0 5px
@@ -86,18 +85,96 @@
     .title
       font-size: 24px
       margin: 15px 0 10px
-    .description     
+    .description
       font-size: 13px
       line-height: 20px
       a
         font-size: 14px
         padding-top: 5px
 
-  /* Mobile */
+  // Mobile
 
-  @media screen and (max-width: 600px)
+  @media screen and (max-width: 767px)
+    .heading
+      font-size: 40px
+    .sub_heading
+      font-size: 18px
+      margin-bottom: 10px
+    .step
+      font-size: 24px
+      margin-top: 20px
+      margin-bottom: 10px
+      text-decoration: underline
+    .description
+      .btn.pink
+        display: none !important
 
-/* Button Actions */
+// Featured Profile
+
+.featured_profile
+  background-color: $color_background
+  border-bottom: 1px solid $color_border
+  display: block
+  margin-top: 120px
+  padding-bottom: 30px
+  position: relative
+  .hide_featured
+    font-size: 13px
+    color: $color_text_light
+    cursor: pointer
+    position: absolute
+    top: -25px
+    right: 30px
+    text-shadow: none
+  .btn.black
+    display: block
+    height: 70px
+    margin: 0 15px
+    position: relative
+    .neal, .bus, .lights, .tagline
+      position: absolute
+      bottom: 0
+      left: 0
+    .neal
+      height: 121px
+      width: 120px
+      z-index: 1
+    .bus
+      height: 90px
+      width: 200px
+      z-index: 0
+    .lights
+      display: none
+      height: 25px
+      width: 59px
+      z-index: 2
+    .tagline
+      text-shadow: -1px -1px 0 #000000
+  @media screen and (min-width: 992px)
+    .btn.black
+      .neal
+        left: 65px
+      .bus
+        left: 130px
+      .lights
+        bottom: 3px
+        left: 230px
+      .tagline
+        font-size: 30px
+        bottom: 13px
+        left: 370px
+  @media screen and (max-width: 991px)
+    .btn.black
+      .neal
+        left: 40px
+      .bus
+        left: 85px
+      .tagline
+        font-size: 16px
+        bottom: 13px
+        left: 260px
+
+// Button Actions
 
 .button_actions
   @include blue-area
@@ -117,14 +194,13 @@
     font-weight: 400
     font-size: 24px
     padding: 15px 0
-    width: 360px
   .or
     color: #256484
     font-size: 60px
     font-weight: 600
     text-shadow: 1px 1px 0 #7cc3e7
 
-  /* Large & Medium */
+  // Medium
 
   @media screen and (min-width: 992px)
     .title
@@ -133,27 +209,41 @@
     .btn
       font-size: 24px
       padding: 15px 0
-      width: 360px
     .or
       font-size: 60px
 
-  /* Tablet */  
+  // Small
 
-  @media screen and (max-width: 991px)
+  @media screen and (min-width: 768px)
     .title
       font-size: 44px
       padding-bottom: 30px
     .btn
       font-size: 20px
       padding: 15px 0
-      width: 280px
+      width: 100%
     .or
       font-size: 54px
 
-/* Homepage Rows */
+  // Mobile
+
+  @media screen and (max-width: 767px)
+    .title
+      font-size: 26px
+    .btn
+      font-size: 20px
+      padding: 15px
+    .or
+      font-size: 44px
+      margin-bottom: 10px
+      padding: 0
+
+// Homepage Rows
 
 .homepage_profile, .homepage_our_users, .homepage_analytics
   padding: 30px 0
+  img
+    margin: 0 auto
   .img-circle
     background-color: #FFFFFF
     border: 3px solid $color_border
@@ -172,31 +262,36 @@
         &:first-child
           padding-top: 0
     span
-      display: block
+      display: inline-block
       font-size: 28px
       line-height: 40px
+    .btn.pink
+      float: right
+      font-size: 18px
+      margin-top: 15px
+      padding: 7px 15px
 
-  /* Large & Medium */
+  // Medium
 
   @media screen and (min-width: 992px)
     .description
-      .title  
+      .title
         font-size: 60px
       ul
         font-size: 28px
         line-height: 40px
-        padding: 50px 0 0 30px
+        padding: 80px 0 0 30px
       span
         font-size: 28px
 
 
-  /* Tablet */  
+  // Small
 
-  @media screen and (max-width: 991px)
+  @media screen and (min-width: 768px)
     img
       width: 340px
     .description
-      .title  
+      .title
         font-size: 44px
       ul
         font-size: 22px
@@ -208,27 +303,45 @@
         span
           font-size: 22px
 
-/* Homepage Profile */
+  // Mobile
+
+  @media screen and (max-width: 767px)
+    .description
+      .title
+        margin-top: -50px
+        font-size: 40px
+        text-align: center
+      ul
+        font-size: 20px
+        line-height: 30px
+        padding: 30px 0 0 30px
+      span
+        text-align: center
+        font-size: 20px
+        line-height: 30px
+        margin-bottom: 15px
+
+// Homepage Profile
 
 .homepage_profile
   border-bottom: 1px solid $color_border
   a
     cursor: pointer
 
-/* Homepage Our Users */
+// Homepage Our Users
 
 .homepage_our_users
   background-color: #FFFFFF
   border-bottom: 1px solid $color_border
   .description
-    padding-top: 90px
+    padding-top: 60px
     .title
       color: $color_blue
   @media screen and (max-width: 991px)
     .description
       padding-top: 50px
 
-/* Homepage Analytics */
+// Homepage Analytics
 
 .homepage_analytics
   .description
@@ -239,11 +352,14 @@
     .description
       padding-top: 100px
 
+// Footer
+
 @media screen and (max-width: 991px)
   .footer
     ul
       font-size: 12px
       text-align: center
+      line-height: 20px
       margin: 0 auto
       float: none !important
     .copyright

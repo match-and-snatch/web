@@ -1,4 +1,4 @@
-ul.nav.navbar-nav.pull-right
+ul.nav.navbar-nav.pull-right.hidden-xs
   - if current_user.authorized?
     li
       a.PopupTrigger data-target='search-users' href='#'
@@ -19,7 +19,7 @@ ul.nav.navbar-nav.pull-right
     li
       a.PopupTrigger href='#' data-target='login'
         i.fa.fa-lock Login
-    li
+    //li
       a.PopupTrigger href='#' data-target='registration'
         i.fa.fa-sign-in Sign Up
 

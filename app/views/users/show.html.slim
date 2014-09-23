@@ -7,13 +7,7 @@
       '
       strong style='font-size: 24px;' This Profile is currently in Away Mode.
       br
-      'You will have full access to this profile while the profile owner is away. If you are a recurring subscriber, you will not be billed
-      br
-      'while the profile owner is on away mode. If you are a first-time subscriber and the profile owner is in away mode when you subscribe for the first time,
-      br
-      'you will be billed only once for joining the profile.  First-time subscribers will not be billed again until the profile owner returns from away mode.
-      br
-      'When the profile owner returns, you will be notified via email.
+      'You will have full access to this profile while the profile owner is away. If you are a recurring subscriber, you will not be billed while the profile owner is on away mode. If you are a first-time subscriber and the profile owner is in away mode when you subscribe for the first time, you will be billed only once for joining the profile.  First-time subscribers will not be billed again until the profile owner returns from away mode. When the profile owner returns, you will be notified via email.
       a href='#' class='Focuser' data-target='vacation-message-sticker' Read away message
       |.
 
@@ -33,7 +27,7 @@
 
     /* Details Container */
     .details_container.row
-      .col-md-7.col-sm-7.col-xs-7.profile_details
+      .col-md-7.col-sm-7.col-xs-12.profile_details
 
         /* Profile Name */
         span.profile_name= @profile.profile_name
@@ -46,7 +40,7 @@
         span.profile_type= @profile.types
 
 
-      .col-md-5.col-sm-5.col-xs-5
+      .col-md-5.col-sm-5.col-xs-12
 
         /* Subscribe Container */
         .subscribe_cont
@@ -80,7 +74,7 @@
 
   #subscriber_display
     .row
-      .sidebar.col-md-4.col-sm-4.col-xs-4.pull-left
+      .sidebar.col-md-4.col-sm-12.hidden-xs.pull-left
 
         /* Search */
 
@@ -92,7 +86,7 @@
 
         /* Category Cloud */
 
-        .archive_cloud.box
+        .archive_cloud.box.hidden-sm
           span Archived Content
           ul
             li
@@ -106,7 +100,7 @@
 
         /* Contact Info */
 
-        .contact.box
+        .contact.box.hidden-sm
           span Contact
           ul
             li
@@ -147,7 +141,7 @@
 
         /* Profile Action */
 
-        .share_url.btn.pink.PopupTrigger data-target='share' style='margin-bottom: 30px;'
+        .share_url.btn.pink.PopupTrigger.hidden-sm data-target='share' style='margin-bottom: 30px;'
           i.fa.fa-share-square-o
           .heading Share This Profile
           span Help expand the audience!
@@ -156,10 +150,14 @@
 
       /* Recent Posts */
 
-      .pull-right.col-md-8.col-sm-8.col-xs-8
+      .pull-right.col-md-8.col-sm-12.col-xs-12
         .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
 
           = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
+
+  // Mobile Navigation
+
+  = render 'navigation_mobile'
 
 .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(@profile.object)
 .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(@profile.object)

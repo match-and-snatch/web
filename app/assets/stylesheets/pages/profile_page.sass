@@ -30,7 +30,6 @@
   .photo_cover
     background-color: $color_background
     background: asset-url('//connectpal-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
-    background-size: 100%
     border-bottom: 1px solid $color_border
     display: block
     height: 240px
@@ -45,6 +44,27 @@
       right: 15px
     #change_position
       right: 160px
+
+  // Mobile
+
+  @media screen and (max-width: 767px)
+    .photo_cover
+      height: 122px
+      background-size: 450px
+      background-position-x: -120px
+      div
+        background-size: 100% !important
+      .btn
+        display: none !important
+
+  // Tablet
+  @media screen and (min-width: 768px)
+    .photo_cover
+      height: 122px
+      background-size: 100%
+
+  // Desktop
+
 
   // Photo Profile
 
@@ -64,6 +84,24 @@
       width: 180px
     .btn
       right: 19px
+
+  // Mobile
+
+  @media screen and (max-width: 767px)
+    .photo_profile
+      top: 10px
+      left: 10px
+      height: 102px
+      width: 102px
+      img
+        height: 100px
+        width: 100px
+      .btn
+        font-size: 11px !important
+        left: 15px
+        right: auto
+      form
+        display: none
 
 
   .photo_cover, .photo_profile
@@ -92,6 +130,9 @@
       font-size: 38px
       line-height: 100%
       margin-bottom: 5px
+      @media screen and (max-width: 767px)
+        font-size: 26px
+        text-align: center
       .profile_name
         color: $color_text_dark
         cursor: pointer
@@ -188,6 +229,14 @@
           .btn
             @include pink-area
 
+        // Mobile
+
+        @media screen and (max-width: 767px)
+          width: 100%
+          .amount
+            max-width: auto !important
+            min-width: 193px
+
       // Cost Owner
 
       .cost_owner
@@ -246,6 +295,10 @@
         text-decoration: none
         width: 247px
 
+        // Mobile
+        @media screen and (max-width: 767px)
+          width: 100%
+
   // Details Container
 
   .benefits_container
@@ -276,6 +329,16 @@
           top: 3px
           &:before
             color: $color_green
+
+    // Mobile
+
+    @media screen and (max-width: 767px)
+      .label
+        @include border-radius(0)
+        width: 100%
+        left: 0
+
+
     .edit
       position: absolute
       top: 8px
@@ -757,6 +820,10 @@
       span
         display: block
         margin-top: 15px
+      // Mobile
+      @media screen and (max-width: 767px)
+        font-size: 14px
+        margin-bottom: 80px
 
     // Deleted
 
@@ -820,17 +887,19 @@
         color: $color_blue
         font-size: 16px
         padding: 0 15px 5px 15px
-        width: 590px
         word-wrap: break-word
       .date
         color: #c2c2c2
         font-size: 12px
         padding: 0 15px
       span.file_name
+        float: none !important
+        display: block
         font-size: 12px
         font-weight: 600
-        padding: 10px 15px 5px
-        width: 445px
+        padding: 0
+        margin: 10px 0
+        width: 100%
       a.file_download
         color: $color_blue
         cursor: pointer
@@ -847,12 +916,17 @@
         margin: 15px 15px 0 15px
       .audio_player
         background-color: #FFFFFF
-        margin: 0 15px
+        margin: 0 15px 0 15px
         height: 30px
         border: none
+        .jwplayer
+          width: 100% !important
       .video_player
-        height: 332px
-        width: 587px
+        .jwplayer
+          display: block
+          min-height: 144px
+          width: 100% !important
+          margin: 0
         img.poster
           width: inherit
       .photo_display
@@ -862,13 +936,14 @@
         overflow: hidden
         a
           border: 1px solid $color_border
+          display: block
         img
           background-color: $color_background
           -webkit-transition: opacity 250ms ease
           -moz-transition: opacity 250ms ease
           -o-transition: opacity 250ms ease
           transition: opacity 250ms ease
-          max-width: 585px
+          max-width: 583px
           &:hover
             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"
             filter: alpha(opacity=80)
@@ -885,7 +960,7 @@
             height: 284px
             overflow: hidden
           img
-            max-height: 282px
+            min-height: 282px
         &.three
           .three_left, .three_stacked
             a
@@ -895,7 +970,7 @@
               overflow: hidden
           .three_left
             img
-              max-height: 282px
+              min-height: 282px
           .three_stacked
             a
               height: 134px !important
@@ -955,6 +1030,8 @@
         line-height: 20px
         padding: 15px
         word-wrap: break-word
+        @media screen and (max-width: 767px)
+          font-size: 12px
 
       // Action Bar
 
@@ -986,6 +1063,76 @@
           color: $color_text_light
           font-size: 12px
           padding-left: 5px
+
+    // Mobile
+
+    @media screen and (max-width: 767px)
+      .post
+        a.file_download
+          display: none !important
+        .post_title
+          width: 100%
+          font-size: 14px
+        .date
+          font-size: 11px
+        .comment_container
+          .photo
+            margin-right: 10px
+          .comment_row
+            .content
+              float: right
+              width: 196px
+              .comment_text
+                font-size: 12px
+                padding-bottom: 5px
+              .delete
+                display: none
+              .reply_comment
+                font-size: 11px
+              .post_date
+                font-size: 10px
+                margin-top: 5px
+          .nested_row
+            min-height: 60px
+            padding-left: 25px
+            .nested_content
+              float: none !important
+              width: 248px
+              .post_date
+                font-size: 10px
+              .delete
+                display: none
+          .reply_container
+            .comment_section
+              float: none !important
+              min-height: 52px
+              width: 100%
+            .Highlighter
+              width: 100%
+            .reply_input
+              width: 100% !important
+            .mentioner
+              width: 100%
+        .video_player
+          .jwplayer
+            height: auto !important
+            min-height: 146px
+
+        .photo_display
+          img
+            width: 100%
+          &.one
+            padding-right: 30px
+            width: 100%
+            a
+              border: none
+              img
+                width: 100%
+          &.two, &.three_left, &.three
+            a
+              float: none !important
+              img
+                margin-bottom: 10px
 
     // Discussion Dropdown
 
@@ -1019,6 +1166,9 @@
         border: 1px solid $color_border
         height: 52px
         width: 52px
+        margin: 0 auto
+        float: left
+        margin-right: 10px
         img
           border: none
       .comment_row, .nested_row
@@ -1035,8 +1185,8 @@
         .content, .nested_content
           font-size: 13px
           line-height: 20px
+          float: right
           position: relative
-          width: 520px
           .comment_reply
             border: 1px solid $color_border
             font-size: 13px
@@ -1044,7 +1194,6 @@
             margin-top: 5px
             padding: 5px 10px
             position: relative
-            width: 520px
           .delete
             cursor: pointer
             position: absolute
@@ -1124,9 +1273,6 @@
 
       .reply_container
         padding: 0 15px 15px 15px
-        @media screen and (min-width: 992px)
-          .reply_input, .Highlighter
-            width: 520px !important
 
         .reply_input
           border: 1px solid $color_border
@@ -1247,10 +1393,50 @@
       margin: 0 auto
       width: 100%
 
+// Mobile
+
+@media screen and (max-width: 767px)
+  #header
+    .benefits_container
+      display: none
+  .container.mobile
+    margin-bottom: 30px !important
+  #subscriber_display
+    margin-bottom: 30px
+  #visitor
+    margin: 10px 0 0 0
+    &.with_video
+      .no_pad
+        padding: 0
+    .title
+      font-size: 18px
+    .tagline
+      font-size: 13px
+    .sub_heading
+      font-size: 11px
+    ul
+      li
+        font-size: 11px
+    .subscribe
+      font-size: 30px
+      padding: 10px 0
+      width: 100%
+      margin-top: 0 !important
+    .already_user
+      display: none
+    .jwplayer
+      width: 100% !important
+  .box.no-radius
+    padding: 0 !important
+    margin-top: 10px
+    min-height: 194px !important
+    .jwplayer
+      height: 194px !important
+      width: 290px !important
 
 // Tablet
 
-@media screen and (min-width: 768px) and (max-width: 991px)
+@media screen and (min-width: 768px)
   #header
     .photo_cover
       height: 208px
@@ -1310,74 +1496,77 @@
             margin-left: 0
   #subscriber_display
     .sidebar
-      .share_url
-        .heading
-          font-size: 16px
-          padding-left: 50px
-        span
-          font-size: 11px
-          margin-left: -10px
-        .fa-share-square-o
-          &:before
-            font-size: 40px
-      .archive_cloud
-        display: none
-      .contact
-        ul
-          columns: 1
-          -webkit-columns: 1
-          -moz-columns: 1
-          li
-            display: block
-            margin-right: 15px
+      .search
+        margin-bottom: 20px
     .recent_posts
+      .show_results
+        margin-bottom: 15px
+      .post
+        .video_player
+          margin: 10px 15px 0 15px
+          .jwplayer
+            min-height: 392px
+        .photo_display
+          &.one
+            display: block
+            width: auto
+            a
+              display: block
+              height: 100%
+              img
+                max-width: 100%
+          &.two
+            a
+              width: 335px
+          &.three
+            .three_left
+              a
+                width: 335px
+                height: 335px
+                img
+                  min-height: 335px
+            .three_stacked
+              a
+                height: 160px !important
+                width: 335px
+                img
+                  min-width: 335px
+        ul.photo_view
+          li
+            width: 440px
+            img
+              width: 438px !important
+
       .comment_container
         .comment_row
           .content
-            width: 371px
-            .comment_reply
-              width: 371px
-            .comment_text
-              font-size: 12px
-              line-height: 18px
+            width: 626px
         .nested_row
+          padding-left: 77px
           .nested_content
-            width: 306px
-            .comment_text
-              font-size: 12px
-              line-height: 18px
+            width: 564px
         .reply_container
-          .reply_input
-            width: 371px !important
-          .Highlighter
-            width: 371px !important
-          .mentioner
-            width: 371px !important
-      .post
-        .post_title
-          width: 435px
-        .file_name
-          width: 300px !important
-        .video_player
-          margin: 0 auto
-          margin-top: 10px
-          height: 243px
-          width: 440px
-          .jwplayer
-            height: 243px !important
-            width: 438px !important
-        .audio_player
-          .jwplayer
-            width: 438px !important
-        ul.photo_view
-          li
-            width: 440px !important
-            img
-              width: 438px !important
+          .comment_section, .Highlighter, .reply_input
+            width: 626px !important
+        .reply_post
+          margin-top: 5px
+
+
   #visitor
     margin-bottom: 20px
+    &.with_video
+      .no-radius
+        min-height: 326px
+      .jwplayer
+        height: 294px !important
+        width: 440px !important
+        margin-bottom: 15px
     .title
       font-size: 24px
+    .jwplayer
+      display: block
+      margin: 0 auto
+
     .tagline
       font-size: 13px
     .sub_heading
@@ -1387,6 +1576,68 @@
         font-size: 12px
     .already_user
       font-size: 12px
+
+// Desktop
+
+@media screen and (min-width: 991px)
+  #visitor
+    margin-bottom: 20px
+    &.with_video
+      .no-radius
+        min-height: 326px
+      .jwplayer
+        height: auto !important
+        min-height: 330px
+        width: 585px !important
+        margin-bottom: 15px
+  #subscriber_display
+    .recent_posts
+      .post
+        .post_title
+          width: 100%
+          font-size: 14px
+        .date
+          font-size: 11px
+        .comment_container
+          .comment_row
+            .content
+              width: 522px
+          .nested_row
+            padding-left: 77px
+            .nested_content
+              width: 460px
+          .reply_container
+            .comment_section, .Highlighter, .reply_input, .mentioner
+              width: 522px !important
+          .reply_post
+            margin-top: 5px
+
+        .photo_display
+          &.one
+            display: block
+            width: auto
+            a
+              display: block
+              height: 100%
+              img
+                max-width: 100%
+          &.two
+            a
+              width: 284px
+          &.three
+            .three_left
+              a
+                width: 284px
+                height: 284px
+                img
+                  min-height: 284px
+            .three_stacked
+              a
+                height: 135px !important
+                width: 284px
+                img
+                  min-width: 284px
+
 
 
 // Edit Post Popup & Compose Message Popup
@@ -1423,6 +1674,16 @@
       display: none
     img
       @include border_radius (8px)
+
+      // Mobile
+      @media screen and (max-width: 767px)
+        @include border_radius (0)
+        max-width: 100%
+
+      // Tablet
+      @media screen and (min-width: 768px)
+        max-width: 100%
+
   .fa.fa-chevron-left, .fa.fa-chevron-right
     position: absolute
     color: #FFFFFF
@@ -1450,7 +1711,21 @@
   .fa.fa-chevron-right
     right: -35px
 
-// Random
+  // Mobile
+  @media screen and (max-width: 767px)
+    .fa.fa-chevron-left
+      left: 5px
+    .fa.fa-chevron-right
+      right: 5px
+
+  // Mobile
+  @media screen and (min-width: 768px)
+    .fa.fa-chevron-left
+      left: 5px
+    .fa.fa-chevron-right
+      right: 5px
+
+// Welcome Media Popup
 
 .popup
   .modal-body
@@ -1489,10 +1764,13 @@
           left: 0
 
 .comment_text
+  word-break: break-word
   b
     border: 1px solid #a5c6ea
     background: #d9eaff
     border-radius: 3px
     padding: 0 4px
 
-
+.mobile_nav
+  @media screen and (min-width: 768px)
+    display: none

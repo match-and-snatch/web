@@ -1,17 +1,17 @@
 - content_for :head do
   = render 'meta'
 
-.container style="margin-bottom: 73px;"
+.container.mobile style="margin-bottom: 73px;"
   #header.box
     .photo_cover
       - if @profile.cover_picture_url.present?
-        div style='background: url(#{@profile.cover_picture_url}); background-position: 0 #{@profile.cover_picture_position}px; width: 100%; height: 100%'
+        div style='background: url(#{@profile.cover_picture_url}); background-position: 0 #{@profile.cover_picture_position}px; width: 100%; height: 100%;'
     .photo_profile
       img src=@profile.profile_picture_url
 
     /* Details Container */
     .details_container.row
-      .col-md-7.col-sm-7.col-xs-7.profile_details
+      .col-md-7.col-sm-7.col-xs-12.profile_details
 
         /* Profile Name */
         span.profile_name.visitor = @profile.profile_name
@@ -23,7 +23,7 @@
         /* Profile Type */
         span.profile_type= @profile.types
 
-      .col-md-5.col-sm-5.col-xs-5
+      .col-md-5.col-sm-5.col-xs-12
 
         /* Subscribe Container */
         .subscribe_cont
@@ -59,19 +59,15 @@
 
   - if @profile.welcome_video.present?
 
+    // With video player
+
     #visitor.with_video.row
 
-      .col-md-4.col-sm-4.col-xs-4
-        .box style='padding: 15px; min-height: 352px;'
-          .title Welcome to #{@profile.profile_name}'s profile page.
-
-          = render 'welcome_benefits'
-
-      .col-md-8.col-sm-8.col-xs-8
+      .col-md-8.col-sm-8.col-xs-12.pull-right.no_pad
         .box.no-radius
           = video_player(@profile.welcome_video)
 
-      .col-md-8.col-sm-8.col-xs-8.pull-right style='margin-top: 15px'
+      .hidden-md.hidden-sm.col-xs-12.pull-right.no_pad style='margin-top: 15px'
         a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
         .clearfix
 
@@ -79,16 +75,35 @@
           - unless current_user.authorized?
             | Already a member? &nbsp;
             a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
+
+      .col-md-4.col-sm-4.col-xs-12.pull-left.no_pad
+        .box style='padding: 15px; min-height: 352px;'
+          .title Welcome to #{@profile.profile_name}'s profile page.
+
+          = render 'welcome_benefits'
+
+      .col-md-8.col-sm-8.hidden-xs.pull-right.no_pad style='margin-top: 15px'
+        a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
+        .clearfix
+
+        span.already_user
+          - unless current_user.authorized?
+            | Already a member? &nbsp;
+            a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
+
       .clearfix
 
   - else
+
+    // Generic and Generic w/audio player
+
     #visitor.box
       .row
         .col-md-12.col-sm-12.col-xs-12
 
           .title Welcome to #{@profile.profile_name}'s profile page
 
-          div style='margin: 15px auto; width: 585px;'
+          div style='margin: 15px auto; width: 100%;'
             = audio_player(@profile.welcome_audio)
 
           span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
@@ -98,7 +113,7 @@
           a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
           .clearfix
 
-          span.already_user
+          span.already_user.hidden-xs
             - unless current_user.authorized?
               | Already a member? &nbsp;
               a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
@@ -107,5 +122,5 @@
 
 /* Footer */
 
-div style='position: fixed; bottom: 0; width: 100%'
+div.hidden-xs style='position: fixed; bottom: 0; width: 100%'
   = render 'application/footer'
