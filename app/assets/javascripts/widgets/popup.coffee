@@ -42,10 +42,7 @@ class bud.widgets.Popup extends bud.Widget
     # Show overlay
     bud.pub("popup.show.overlay");
     @$container.find('input:first').focus()
-    @autoplacer = setInterval(@autoplace, 100)
-    setTimeout =>
-      clearInterval(@autoplacer) if @autoplacer
-    , 2000
+    @autoplacer = setInterval(@autoplace, 200)
 
   hide: =>
     @$container.hide()

@@ -26,8 +26,6 @@ class bud.widgets.BenefitToggler extends bud.Widget
     else
       nextBenefit.show()
 
-    bud.pub('popup.autoplace.benefits-editor')
-
   on_focusout: (e) =>
     currentInput = $(e.currentTarget)
     currentInputIndex = @$benefit_inputs.index(currentInput)
