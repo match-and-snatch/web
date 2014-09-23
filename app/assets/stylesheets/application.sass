@@ -419,7 +419,7 @@ nav
         border-right: 1px solid $color_border
         display: inline-block
         font-size: 10px
-        padding: 10px
+        padding: 15px
         &:first-child
           border-left: 1px solid $color_border
         a
@@ -428,11 +428,13 @@ nav
           i.fa, .more_link
             &:before
               color: $color_blue
-              display: block
               margin-bottom: 5px
+              padding-right: 5px
+          .fa-search
+            &:before
               padding-right: 0
         &:hover
-          background-color: $color_border
+          background-color: #FFFFFF
           a
             text-shadow: none
         &.my_sub, &.more_sub
@@ -443,16 +445,15 @@ nav
           .my_sub_parent, .more_link_parent
             &:before
               color: $color_blue
-              display: block
               margin-bottom: 5px
-              padding-right: 0
+              padding-right: 5px
           .my_sub_cont, .more_sub_cont
             display: none
             @include border_radius(10px 10px 0 0)
             border: 1px solid $color_border
             background-color: #FFFFFF
             position: absolute
-            bottom: 47px
+            bottom: 44px
             left: -1px
             overflow: hidden
             min-width: 230px
@@ -487,12 +488,12 @@ nav
                   font-weight: bold
                   font-size: 10px
           .more_sub_cont
-            @include border_radius(0)
+            @include border_radius(10px 10px 0 0)
             border: 1px solid $color_border
             background-color: #FFFFFF
             position: absolute
-            bottom: 47px
-            left: -51px
+            bottom: 44px
+            left: -26px
             overflow: hidden
             min-width: 90px
             li
@@ -635,10 +636,13 @@ footer
   margin-top: 30px
   padding: 15px 15px 5px 15px
   ul
+    float: left
     li
       list-style: none
       display: inline
-      padding-right: 15px
+      padding-left: 15px
+      &:first-child
+        padding-left: 0
       a
         color: #FFFFFF
         text-decoration: none
@@ -650,8 +654,12 @@ footer
 @media screen and (max-width: 767px)
   footer
     padding: 10px 0 0 0
-    .copyright
-      font-size: 10px
+    .container
+      padding: 0
+      ul
+        float: none
+      .copyright
+        font-size: 10px
 
 
 // Popup Overlay
@@ -688,6 +696,9 @@ footer
   &.search_popup
     @media screen and (max-width: 767px)
       width: 100%
+      .modal-body
+        padding: 0 15px !important
+
   // Mobile
 
   @media screen and (max-width: 767px)
@@ -703,6 +714,7 @@ footer
       position: absolute
       top: 5px
       right: 5px
+      z-index: 2
     .modal-title
       color: $color_blue
       font-size: 32px
@@ -721,7 +733,7 @@ footer
 
     @media screen and (max-width: 767px)
       .modal-title
-        font-size: 14px
+        font-size: 18px
       span
         font-size: 11px
 
@@ -852,14 +864,21 @@ footer
       img
         max-width: 500px
 
+      @media screen and (max-width: 767px)
+        img
+          width: 100%
+
     // Popup Subscriber Container
 
     &.subscribe_container
       color: $color_text_dark
       font-size: 16px
       padding: 0 15px 15px
+      &.existing
+        @media screen and (max-width: 767px)
+          width: 260px
       .order_summary, .account_payment
-        background-color: $color_background
+        background: none
         min-height: 280px
         padding: 15px
         width: 325px
@@ -870,7 +889,7 @@ footer
       // Popup Order Summary
 
       .order_summary
-        background-color: #FFFFFF
+        background-color: none
         padding: 0
         .heading
           border-bottom: 1px solid #e1e1e1
@@ -911,23 +930,42 @@ footer
           min-height: 100px
           margin-bottom: 10px
           .heading
-            font-size: 13px
+            font-size: 14px
             padding: 0 0 5px 0
             margin: 0 0 5px 0
           .subtotal, .transaction_fee
             font-size: 11px
             margin: 10px 0
           .total_cost
-            font-size: 13px
+            font-size: 14px
             padding: 5px 0
           .note
             display: none
+        .account_payment
+          label
+            font-weight: bold !important
+          .cc_row
+            input
+              width: 100% !important
+      &.new_billing
+        @media screen and (max-width: 767px)
+          .order_summary
+            min-height: 110px !important
+          .account_payment
+            label
+              margin-bottom: 5px
+            .exp_date
+              .small
+                font-weight: normal !important
+              .month
+                width: 92px !important
 
       // Tablet
 
       @media screen and (min-width: 768px)
-        .order_summary
-          margin-right: 15px
+        .account_payment
+          background: $color_background
+          padding: 15px
 
 
       // Popup Account Payment
@@ -1141,9 +1179,10 @@ footer
     .modal-body
       .checkbox
         display: block
+        margin-bottom: 0
         .remember_me
           input
-            margin-top: 1px
+            margin-top: 4px
       .login_btn
         display: block
         float: none
@@ -1227,7 +1266,7 @@ input.file
 
 // Sample Profile Viewport
 
-//@media screen and (min-width: 992px)
+@media screen and (min-width: 992px)
   .box
     .sample_profile
       margin: 15px 0

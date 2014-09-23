@@ -4,11 +4,11 @@
     .modal-title Subscribe Now
     span Review your subscription order.
 
-  .modal-body.subscribe_container style="width: 300px"
+  .modal-body.subscribe_container
 
     /* Order Summary Column */
 
-    .order_summary.pull-left
+    .order_summary
       .heading Your Order Summary
 
       /* Item Row */
@@ -41,8 +41,8 @@
 - else
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
-    .modal-title Create an account & subscribe
-    span Checkout will create an account for you to login and view your subscriptions
+    .modal-title.hidden-xs Create an account & subscribe
+    span.hidden-xs Checkout will create an account for you to login and view your subscriptions
 
   .modal-body.subscribe_container
 
@@ -77,7 +77,6 @@
       .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
 
     /* Account Payment Column */
-
 
     form.pull-right.Form action=via_register_user_subscriptions_path(@owner) method='POST'
       .account_payment

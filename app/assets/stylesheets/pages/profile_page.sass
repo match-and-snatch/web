@@ -30,7 +30,6 @@
   .photo_cover
     background-color: $color_background
     background: asset-url('//connectpal-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
-    background-size: 100%
     border-bottom: 1px solid $color_border
     display: block
     height: 240px
@@ -50,9 +49,20 @@
 
   @media screen and (max-width: 767px)
     .photo_cover
-      height: 183px
+      height: 122px
+      background-size: 450px
+      background-position-x: -120px
       .btn
         display: none !important
+
+  // Tablet
+  @media screen and (min-width: 768px)
+    .photo_cover
+      height: 122px
+      background-size: 100%
+
+  // Desktop
+
 
   // Photo Profile
 
@@ -77,17 +87,19 @@
 
   @media screen and (max-width: 767px)
     .photo_profile
-      top: 15px
-      left: 15px
-      height: 152px
-      width: 152px
+      top: 10px
+      left: 10px
+      height: 102px
+      width: 102px
       img
-        height: 150px
-        width: 150px
+        height: 100px
+        width: 100px
       .btn
         font-size: 11px !important
         left: 15px
         right: auto
+      form
+        display: none
 
 
   .photo_cover, .photo_profile
@@ -214,6 +226,14 @@
         &:hover
           .btn
             @include pink-area
+
+        // Mobile
+
+        @media screen and (max-width: 767px)
+          width: 100%
+          .amount
+            max-width: auto !important
+            min-width: 193px
 
       // Cost Owner
 
@@ -891,7 +911,7 @@
         margin: 15px 15px 0 15px
       .audio_player
         background-color: #FFFFFF
-        margin: 0 15px
+        margin: 10px 15px 0 15px
         height: 30px
         border: none
         .jwplayer
@@ -1042,6 +1062,8 @@
 
     @media screen and (max-width: 767px)
       .post
+        a.file_download
+          display: none !important
         .post_title
           width: 100%
           font-size: 14px
@@ -1060,16 +1082,18 @@
               .delete
                 display: none
               .reply_comment
-                font-size: 12px
-              .post_date
                 font-size: 11px
+              .post_date
+                font-size: 10px
                 margin-top: 5px
           .nested_row
             min-height: 60px
-            padding-left: 30px
+            padding-left: 25px
             .nested_content
               float: none !important
-              width: 243px
+              width: 248px
+              .post_date
+                font-size: 10px
               .delete
                 display: none
           .reply_container
@@ -1366,24 +1390,43 @@
 // Mobile
 
 @media screen and (max-width: 767px)
+  #header
+    .benefits_container
+      display: none
+  .container.mobile
+    margin-bottom: 30px !important
+  #subscriber_display
+    margin-bottom: 30px
   #visitor
     margin: 10px 0 0 0
-    &.mobile
-      padding: 0
-      margin: 10px 0 0 0
-      .col-xs-12
-        margin: 0
+    &.with_video
+      .no_pad
         padding: 0
     .title
       font-size: 18px
+    .tagline
+      font-size: 13px
+    .sub_heading
+      font-size: 11px
+    ul
+      li
+        font-size: 11px
     .subscribe
       font-size: 30px
       padding: 10px 0
       width: 100%
+      margin-top: 0 !important
     .already_user
       display: none
     .jwplayer
       width: 100% !important
+  .box.no-radius
+    padding: 0 !important
+    margin-top: 10px
+    min-height: 194px !important
+    .jwplayer
+      height: 194px !important
+      width: 290px !important
 
 // Tablet
 
@@ -1498,7 +1541,7 @@
             width: 564px
         .reply_container
           .comment_section, .Highlighter, .reply_input
-            width: 626px
+            width: 626px !important
         .reply_post
           margin-top: 5px
 
@@ -1511,6 +1554,7 @@
       .jwplayer
         height: 294px !important
         width: 440px !important
+        margin-bottom: 15px
     .title
       font-size: 24px
     .jwplayer
@@ -1530,6 +1574,16 @@
 // Desktop
 
 @media screen and (min-width: 991px)
+  #visitor
+    margin-bottom: 20px
+    &.with_video
+      .no-radius
+        min-height: 326px
+      .jwplayer
+        height: auto !important
+        min-height: 330px
+        width: 585px !important
+        margin-bottom: 15px
   #subscriber_display
     .recent_posts
       .post
@@ -1548,7 +1602,7 @@
               width: 460px
           .reply_container
             .comment_section, .Highlighter, .reply_input, .mentioner
-              width: 522px
+              width: 522px !important
           .reply_post
             margin-top: 5px
 
