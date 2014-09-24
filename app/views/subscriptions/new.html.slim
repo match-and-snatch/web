@@ -41,8 +41,8 @@
 - else
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
-    .modal-title Payment Information & Subscribe
-    span Please add your preferred payment method to your account and subscribe.
+    .modal-title.hidden-xs Payment Information & Subscribe
+    span.hidden-xs Please add your preferred payment method to your account and subscribe.
 
   .modal-body.subscribe_container.new_billing
 
@@ -78,7 +78,7 @@
       .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
 
     form.pull-right.Form action=via_update_cc_data_user_subscriptions_path(@owner) method='POST'
-      .account_payment.new_billing style="min-height: 195px;"
+      .account_payment style="min-height: 195px;"
         .form-group.cc_row
           label.control-label Credit Card Number
           ul style='right: 0'
@@ -96,10 +96,10 @@
         .form-group.exp_date.pull-left
           label.control-label Expiration Date
           .clearfix
-          .pull-left.month style='width: 100px'
+          .month.pull-left style='width: 100px'
             label.small.pull-left Month
             input.form-control type='text' name='expiry_month' placeholder='00' style="width: 50px"
-          .pull-left style="margin-left: 5px; width: 90px"
+          .year.pull-left style="margin-left: 5px; width: 90px"
             label.small.pull-left Year
             input.form-control type='text' name='expiry_year' placeholder='00' style="width: 50px"
           .clearfix
