@@ -159,11 +159,16 @@ input:focus::-moz-placeholder
         display: inline-block
         margin-right: 23px
     .profile_directory
-      span
+      .photo
         display: inline-block
-        margin: 13px 0 0 10px
+      span
+        @media screen and (max-width: 767px)
+          font-size: 11px !important
       li
-        margin-bottom: 15px
+        margin-bottom: 5px
+        a
+          img
+            margin: 0 10px 10px 0
     .search_top
       font-size: 12px
       display: block
@@ -445,7 +450,6 @@ nav
             &:before
               padding-right: 0
         &:hover
-          background-color: #FFFFFF
           a
             text-shadow: none
         &.my_sub, &.more_sub
@@ -455,6 +459,7 @@ nav
             text-shadow: none
           .my_sub_parent, .more_link_parent
             &:before
+              text-shadow: none
               color: $color_blue
               margin-bottom: 5px
               padding-right: 5px
@@ -522,6 +527,7 @@ nav
                 text-align: right
                 text-decoration: none
         &:hover
+          background-color: #FFFFFF
           color: $color_blue
 
 // Notifcation Bar

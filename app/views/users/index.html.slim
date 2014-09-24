@@ -70,8 +70,8 @@
           ul.profile_directory
             - users.each do |user|
               li
-                a.pull-left href=profile_path(user) target='_blank'
-                  img.pull-left src=user.small_profile_picture_url width=50 height=50
+                a href=profile_path(user) target='_blank'
+                  img.photo src=user.small_profile_picture_url width=50 height=50
                   span= user.name
                 .clearfix
         hr
