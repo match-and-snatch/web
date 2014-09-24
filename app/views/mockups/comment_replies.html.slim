@@ -1,0 +1,59 @@
+.container
+  #subscriber_display
+    .row
+      .sidebar.col-md-4.hidden
+        // Jump to Top
+        span.top_jumper.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
+
+      // Recent Posts
+      .pull-right.col-md-8.col-sm-12.col-xs-12
+        .recent_posts
+
+
+
+          .post.box
+
+            i.fa.fa-gear.edit_post.pull-right.Toggler
+              .edit_container style='display: none'
+                ul
+                  a.AjaxLink.delete_btn href='#'
+                    li Edit Post
+                  a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}'
+                    li Delete
+                  a.Toggler data-target='edit-post-#{post.id}' href="#"
+                    li.last
+                      i.fa.fa-times
+                        |&nbsp; Close
+
+
+            .post_title Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
+            .date Posted one minute ago
+
+            = render 'post_uploads', post: post
+
+            .message= super_highlight(format_post_message(post.message))
+            .action_bar
+              div data-identifier="likes-#{post.id}"
+                a.AjaxFormLink.fa.fa-thumbs-up.pull-left data-target="likes-#{post.id}" href=post_likes_path(post) class='#{'liked_post' if current_user.likes?(post)}'
+                .users_liked.pull-left
+                .clearfix
+
+
+            .comment_container
+              a.AjaxLink.load_more_comments.fa.fa-angle-double-up href='' Load Older Comments
+
+              / Comment Row
+
+              = render partial: 'comments/comment', collection: post.comments_query.results
+              .new_comments data-identifier="comments_section-#{post.id}"
+
+              form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}" data-highlighter='post-comment-mentions-#{post.id}'
+                .photo.hidden-xs
+                  img src=current_user.comment_picture_url width=50 height=50
+
+                .comment_section
+                  .Highlighter data-identifier='post-comment-mentions-#{post.id}' data-target='post-comment-textarea-#{post.id}' data-target_list='post-comment-autocomplete-users-#{post.id}'
+                  textarea.transparent.reply_input.pull-left data-identifier='post-comment-textarea-#{post.id}' name='message' placeholder="Write your comment..."
+                .clearfix
+                .mentioner data-identifier='post-comment-autocomplete-users-#{post.id}'
+                .clearfix

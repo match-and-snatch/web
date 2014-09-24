@@ -44,7 +44,7 @@
     .modal-title.hidden-xs Create an account & subscribe
     span.hidden-xs Checkout will create an account for you to login and view your subscriptions
 
-  .modal-body.subscribe_container
+  .modal-body.subscribe_container.new_subscriber
 
     /* Order Summary Column */
 
@@ -81,14 +81,14 @@
     form.pull-right.Form action=via_register_user_subscriptions_path(@owner) method='POST'
       .account_payment
         .form-group
-          label Full Name on credit card
+          label Name on card
           input.form-control type='text' name='full_name'
           span.error data-field='full_name'
         .form-group
           label Email Address
           input.form-control type='email' name='email'
           span.error data-field='email'
-        .form-group style="margin-bottom: 5px"
+        .form-group
           label.password_label Enter Password
           input.form-control.password type='password' name='password' placeholder=''
           span.error data-field='password'
@@ -109,10 +109,10 @@
         .form-group.exp_date.pull-left
           label.control-label Expiration Date
           .clearfix
-          .pull-left style="width: 90px"
+          .month.pull-left style="width: 90px"
             label.small.pull-left Month
             input.form-control type='text' name='expiry_month' placeholder='00' style="width: 42px"
-          .pull-left style="margin-left: 5px; width: 90px"
+          .year.pull-left style="margin-left: 5px; width: 90px"
             label.small.pull-left Year
             input.form-control type='text' name='expiry_year' placeholder='00' style="width: 45px"
           .clearfix
@@ -136,6 +136,6 @@
       .clearfix
     .clearfix
 
-  .modal-footer
+  .modal-footer.hidden-xs
     span Already have an account?&nbsp;
     a.PopupTrigger href='#' data-target='login' Login

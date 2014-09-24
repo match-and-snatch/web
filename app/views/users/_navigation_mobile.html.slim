@@ -1,7 +1,7 @@
 .mobile_nav.hidden-md.hidden-sm.col-xs-12
   ul
     - if current_user.authorized?
-      //li
+      li
         a.PopupTrigger data-target='search-users' href='#'
           i.fa.fa-search
       - if current_user.has_subscriptions?

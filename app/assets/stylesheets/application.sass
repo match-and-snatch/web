@@ -159,11 +159,16 @@ input:focus::-moz-placeholder
         display: inline-block
         margin-right: 23px
     .profile_directory
-      span
+      .photo
         display: inline-block
-        margin: 13px 0 0 10px
+      span
+        @media screen and (max-width: 767px)
+          font-size: 11px !important
       li
-        margin-bottom: 15px
+        margin-bottom: 5px
+        a
+          img
+            margin: 0 10px 10px 0
     .search_top
       font-size: 12px
       display: block
@@ -430,7 +435,7 @@ nav
         border-right: 1px solid $color_border
         display: inline-block
         font-size: 10px
-        padding: 15px
+        padding: 15px 12px
         &:first-child
           border-left: 1px solid $color_border
         a
@@ -445,7 +450,6 @@ nav
             &:before
               padding-right: 0
         &:hover
-          background-color: #FFFFFF
           a
             text-shadow: none
         &.my_sub, &.more_sub
@@ -455,6 +459,7 @@ nav
             text-shadow: none
           .my_sub_parent, .more_link_parent
             &:before
+              text-shadow: none
               color: $color_blue
               margin-bottom: 5px
               padding-right: 5px
@@ -522,6 +527,7 @@ nav
                 text-align: right
                 text-decoration: none
         &:hover
+          background-color: #FFFFFF
           color: $color_blue
 
 // Notifcation Bar
@@ -889,9 +895,6 @@ footer
       color: $color_text_dark
       font-size: 16px
       padding: 0 15px 15px
-      &.existing
-        @media screen and (max-width: 767px)
-          width: 260px
       .order_summary, .account_payment
         background: none
         min-height: 280px
@@ -930,58 +933,6 @@ footer
           display: inline-block
           font-size: 12px
           font-weight: normal
-
-      // Mobile
-
-      @media screen and (max-width: 767px)
-        form
-          float: none !important
-        .order_summary, .account_payment
-          margin: 0
-          width: 100%
-          float: none
-        .order_summary
-          font-size: 11px
-          min-height: 100px
-          margin-bottom: 10px
-          .heading
-            font-size: 14px
-            padding: 0 0 5px 0
-            margin: 0 0 5px 0
-          .subtotal, .transaction_fee
-            font-size: 11px
-            margin: 10px 0
-          .total_cost
-            font-size: 14px
-            padding: 5px 0
-          .note
-            display: none
-        .account_payment
-          label
-            font-weight: bold !important
-          .cc_row
-            input
-              width: 100% !important
-      &.new_billing
-        @media screen and (max-width: 767px)
-          .order_summary
-            min-height: 110px !important
-          .account_payment
-            label
-              margin-bottom: 5px
-            .exp_date
-              .small
-                font-weight: normal !important
-              .month
-                width: 92px !important
-
-      // Tablet
-
-      @media screen and (min-width: 768px)
-        .account_payment
-          background: $color_background
-          padding: 15px
-
 
       // Popup Account Payment
 
@@ -1051,13 +1002,50 @@ footer
                 margin-bottom: 0
                 width: 170px
 
-        // Mobile
+    &.existing_billing
+      .order_summary
+        margin-right: 0
 
-        @media screen and (max-width: 767px)
+    // Mobile
+
+    @media screen and (max-width: 767px)
+      &.new_subscriber
+        form
+          float: none !important
+        .order_summary, .account_payment
+          margin: 0
+          width: 100%
+          float: none
+        .order_summary
+          font-size: 11px
+          min-height: 100px
+          margin-bottom: 10px
+          margin-top: -25px
+          .heading
+            font-size: 16px
+            padding: 0 0 5px 0
+            margin: 0 0 5px 0
+            text-align: center
+          .item_row
+            font-size: 12px
+          .subtotal, .transaction_fee
+            font-size: 12px
+            margin: 0
+            padding: 5px 0
+          .total_cost
+            font-size: 13px
+            padding: 5px 0
+          .note
+            display: none
+        .account_payment
           padding: 0
-          background: none
+          label
+            font-weight: bold !important
           .form-group
             margin-bottom: 0
+            float: left
+            width: 46%
+            margin: 0 5px
             label
               font-size: 11px
               font-weight: normal
@@ -1065,9 +1053,108 @@ footer
           .cc_row
             ul
               display: none
+            input
+              width: 100% !important
+          .exp_date
+            margin: 0 0 0 5px
+            width: 170px
+            .small
+              font-size: 11px
+            .month
+              width: 85px !important
+            .year
+              width: 75px !important
+          .cvc
+            width: 70px !important
+
+      &.existing_billing
+        .order_summary
+          min-height: 150px
+          width: 100%
+          .heading
+            text-align: center
+          .item_row
+            font-size: 12px
+          .subtotal, .transaction_fee
+            font-size: 12px
+            margin: 0
+            padding: 5px 0
+          .total_cost
+            font-size: 13px
+            padding: 5px 0
+          .btn.blue
+            margin-top: 5px !important
+        .note
+          display: none
+
+      &.new_billing
+        form
+          float: none !important
+        .order_summary, .account_payment
+          margin: 0
+          width: 100%
+          float: none
+        .order_summary
+          font-size: 11px
+          min-height: 100px !important
+          margin-bottom: 10px
+          margin-top: -25px
+          .heading
+            font-size: 16px
+            padding: 0 0 5px 0
+            margin: 0 0 5px 0
+            text-align: center
+          .item_row
+            font-size: 12px
+          .subtotal, .transaction_fee
+            font-size: 12px
+            margin: 0
+            padding: 5px 0
+          .total_cost
+            font-size: 13px
+            padding: 5px 0
+          .note
+            display: none
+        .account_payment
+          padding: 0
+          label
+            font-weight: bold !important
+          .form-group
+            margin: 0
+            label
+              font-size: 11px
+              font-weight: normal
+              margin-bottom: 0
+          .cc_row
+            ul
+              display: none
+            input
+              width: 100% !important
           .exp_date
             .small
               font-size: 11px
+              font-weight: !important
+            .month
+              width: 92px !important
+            .year
+              width: 85px !important
+          .cvc
+            width: 70px !important
+        .btn.blue
+          margin-top: 10px !important
+
+      .btn.blue
+        font-size: 14px !important
+        margin-top: 0 !important
+
+    // Tablet
+
+    @media screen and (min-width: 768px)
+      .account_payment
+        background: $color_background !important
+        padding: 15px
+      .order_summary
+        margin-right: 15px
 
     // Popup Pricing Table
 
