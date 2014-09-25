@@ -48,4 +48,18 @@ class UserManager < BaseManager
       UserStatsManager.new(@user).log_subscriptions_count
     end
   end
+
+  def save_last_visited_profile(target_user)
+    if @user.subscribed_to?(target_user) && @user.last_visited_profile_id != target_user.id
+      @user.last_visited_profile_id = target_user.id
+      save_or_die! @user
+    end
+  end
+
+  def clear_last_visited_profile
+    unless @user.last_visited_profile_id.nil?
+      @user.last_visited_profile_id = nil
+      save_or_die! @user
+    end
+  end
 end

@@ -101,4 +101,25 @@ describe CurrentUserDecorator do
       end
     end
   end
+
+  describe '#last_visited_profile' do
+    let(:user) { create_user }
+    let(:another_user) { create_profile email: 'another@user.com' }
+    let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(another_user) }
+
+    before do
+      subscription
+      UserManager.new(user).save_last_visited_profile(another_user)
+    end
+
+    specify { expect(subject.last_visited_profile).to eq(another_user) }
+
+    context 'user unsubscribed' do
+      before do
+        SubscriptionManager.new(subscriber: user, subscription: subscription).unsubscribe
+      end
+
+      specify { expect(subject.last_visited_profile).to be_nil }
+    end
+  end
 end

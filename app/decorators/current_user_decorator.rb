@@ -69,6 +69,12 @@ class CurrentUserDecorator < UserDecorator
     end
   end
 
+  # @return [User, nil]
+  def last_visited_profile
+    last_profile = object.last_visited_profile_id ? User.where(id: object.last_visited_profile_id).first : nil
+    @last_visited_profile ||= last_profile
+  end
+
   def has_posts?
     object.posts.any?
   end
