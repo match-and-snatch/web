@@ -75,7 +75,9 @@ describe UserManager do
         end
 
         specify do
-          expect { manager.save_last_visited_profile(another_user) }.not_to change { user.last_visited_profile_id }.from(nil)
+          Timecop.freeze(38.days.from_now) do
+            expect { manager.save_last_visited_profile(another_user) }.not_to change { user.last_visited_profile_id }.from(nil)
+          end
         end
       end
     end
