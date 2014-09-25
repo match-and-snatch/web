@@ -1,10 +1,10 @@
 - if (!reply.hidden? || current_user.id == reply.post_user_id) || current_user.id == reply.user_id
   .nested_row data-identifier='comment-#{reply.id}' style='#{"opacity: 0.5" if (reply.hidden? && reply.user_id != current_user.id) || (reply.hidden? && reply.post_user_id == current_user.id)}'
-    .photo.pull-left
-      img src=reply.user.comment_picture_url width=50 height=50
-    .nested_content.pull-right
+    .nested_content
+      .photo
+        img src=reply.user.comment_picture_url width=50 height=50
 
-      /* Display Delete & Edit Only if profile owner or if it the subscribers reply. */
+      // Display Delete & Edit Only if profile owner or if it the subscribers reply.
 
       - if can?(:delete, reply)
         .delete.fa.fa-gear.Toggler data-target='edit-comment-#{reply.id}'

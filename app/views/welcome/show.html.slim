@@ -49,7 +49,10 @@
           'what do you want to do?
     .row
       .col-md-5.col-sm-5.col-xs-12
-        .btn.pink.PopupTrigger.dosis data-target='registration'
+        .btn.pink.PopupTrigger.dosis.hidden-md.hidden-sm data-target='no_registration'
+          span style="display: block;" I want to create my own profile
+          span to start getting subscribers.
+        .btn.pink.PopupTrigger.dosis.hidden-xs data-target='registration'
           span style="display: block;" I want to create my own profile
           span to start getting subscribers.
       .col-md-2.col-sm-2.col-xs-12.or.dosis or
@@ -64,8 +67,9 @@
   .container
     .row
       .col-md-6.col-sm-6.col-xs-12
+        img.img-responsive.hidden-md.hidden-sm src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-sample-profile-xs.png')
         a href="sampleprofile" target='_blank'
-          img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
+          img.img-responsive.hidden-xs src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
 
       .col-md-6.col-sm-6.col-xs-12.description.dosis
         ul

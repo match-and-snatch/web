@@ -1,14 +1,14 @@
-/* Sign Up Popup */
+// Sign Up Popup
 
 .Popup.popup.authentication_popup.modal-content data-identifier='registration'
 
-  /* Header Area */
+  // Header Area
 
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="registration" aria-hidden="true"
     .modal-title Let’s Get Started!
 
-  /* Body Area */
+  // Body Area
 
   .modal-body
     form.Form action=users_path method='post'
@@ -47,25 +47,25 @@
         input.btn.blue.pull-right type='submit' value='Continue to Profile' style="padding: 10px 0; width: 170px;"
         .clearfix
 
-  /* Footer Area */
+  // Footer Area
 
   .modal-footer
     span Already have an account? &nbsp;
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
 
 
-/* Login Popup */
+// Login Popup
 
 .Popup.popup.authentication_popup.modal-content data-identifier='login'
 
-  /* Header Area */
+  // Header Area
 
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="login" aria-hidden="true"
     .modal-title Existing Account?
     span If you already have an account, please login below.
 
-  /* Body Area */
+  // Body Area
 
   .modal-body
     form.Form action=session_path method='post'
@@ -85,7 +85,7 @@
         .clearfix
       .text-danger.Error style="margin-bottom: 15px;"
 
-  /* Footer Area */
+  // Footer Area
 
   .modal-footer
     span.hidden-xs Not registered yet?&nbsp;
@@ -94,18 +94,18 @@
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='forgot-password' Forgot Password
 
 
-/* Restore Password Popup */
+// Restore Password Popup
 
 .Popup.popup.authentication_popup.modal-content data-identifier='forgot-password'
 
-  /* Header Area */
+  // Header Area
 
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="forgot-password" aria-hidden="true" style="top: 5px"
     .modal-title Forgot your password?
     span If you already have an account, please enter email.
 
-  /* Body Area */
+  // Body Area
 
   .modal-body
     form.Form action=restore_password_path method='post'
@@ -116,11 +116,38 @@
         input.pull-right.btn.blue type='submit' value='Send'
         .clearfix
 
-  /* Footer Area */
+  // Footer Area
 
   .modal-footer
     span.hidden-xs Not registered yet?&nbsp;
     a.PopupTrigger.hidden-xs style='text-decoration: underline' href='#' data-target='registration' Click here to register!
     .clearfix
+    span Already have an account? &nbsp;
+    a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
+
+
+// Mobile No Registration
+
+.Popup.popup.authentication_popup.modal-content data-identifier='no_registration'
+
+  // Header Area
+
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="no_registration" aria-hidden="true"
+    .modal-title We apologize for the inconvenience.
+
+  // Body Area
+
+  .modal-body style='text-align: center;'
+    p If you would like to create a profile page, please use your tablet device or desktop computer. We currently do no support mobile profile page creation.
+
+    p
+      'If you're looking for a profile to subscribe to you can view our profile directory
+      a href=users_path here
+      '.
+
+  // Footer Area
+
+  .modal-footer
     span Already have an account? &nbsp;
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
