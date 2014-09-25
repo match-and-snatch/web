@@ -472,33 +472,77 @@ nav
             bottom: 44px
             left: -1px
             overflow: hidden
-            min-width: 230px
+            min-width: 177px
+            padding: 0
             a
+              display: block
+              padding: 5px
               color: $color_text_dark
               text-shadow: -1px -1px 0 #FFFFFF
+              &:hover
+                background-color: $color_pink
+                li
+                  background-color: $color_pink
+                  .details
+                    .name, .type
+                      text-shadow: none
+                    .name
+                      color: #FFFFFF
+                    .type
+                      color: #9e1528
+
               &.add_subscription
+                li
+                  height: 35px
+                  padding-bottom: 0 !important
+                  .picture
+                    padding: 8px 0 0 8px
+                    width: 35px
+                    i.fa.fa-search
+                      font-size: 18px
+                  .details
+                    padding: 9px 0 0 10px
+                    .name
+                      font-size: 10px
+                      font-weight: bold
+
+                &:hover
+                  background-color: $color_pink
+                  li
+                    background-color: $color_pink
+                    .picture
+                      i.fa.fa-search
+                        text-shadow: none
+                        &:before
+                          color: #FFFFFF
+                    .details
+                      .name
+                        text-shadow: none
+                        color: #FFFFFF
+
             li
-              display: inline-block
+              display: block
               font-size: 12px
-              width: 200px
-              margin-top: 10px
+              width: 165px
               padding: 0
               border: none
               &:first-child
-                padding-left: 0
+                padding-top: 0 !important
               .picture
+                @include border_radius(5px)
+                overflow: hidden
                 float: left
                 img
-                  height: 50px
-                  width: 50px
+                  height: 35px
+                  width: 35px
               .details
                 float: left
                 text-align: left
-                margin-top: 5px
-                padding-left: 15px
-                width: 150px
+                padding-left: 10px
+                padding-top: 3px
+                width: 130px
                 .name
-                  font-size: 12px
+                  font-size: 11px
                 .type
                   color: $color_text_light
                   font-weight: bold
@@ -509,26 +553,27 @@ nav
             background-color: #FFFFFF
             position: absolute
             bottom: 44px
-            left: -26px
+            left: -28px
             overflow: hidden
+            padding: 0 !important
             min-width: 90px
             li
-              padding: 0
+              padding: 0 !important
               margin: 0
               border-top: 1px solid $color_border
-              width: 95px
+              width: 90px
               &:first-child
                 border-top: none
               a
                 display: block
                 margin: 0
-                padding: 10px 10px 10px 0
+                padding: 10px
                 font-size: 11px
                 text-align: right
                 text-decoration: none
         &:hover
-          background-color: #FFFFFF
-          color: $color_blue
+          background-color: $color_border
+          color: $color_text_dark
 
 // Notifcation Bar
 

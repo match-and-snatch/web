@@ -1075,7 +1075,6 @@
     @media screen and (max-width: 767px)
       .post
         a.file_download
-          display: none !important
         .post_title
           width: 100%
           font-size: 14px
@@ -1086,8 +1085,7 @@
             margin-right: 10px
           .comment_row
             .content
-              float: right
-              width: 196px !important
+              width: 100%
               .comment_text
                 font-size: 12px
                 padding-bottom: 5px
@@ -1100,10 +1098,11 @@
                 margin-top: 5px
           .nested_row
             min-height: 60px
-            padding-left: 25px
+            padding-left: 67px
             .nested_content
-              float: none !important
-              width: 248px
+              width: 100%
+              .comment_text
+                font-size: 12px
               .post_date
                 font-size: 10px
               .delete
@@ -1119,6 +1118,8 @@
               width: 100% !important
             .mentioner
               width: 100%
+        .photo_view
+          margin-bottom: 0
         .photo_display
           img
             width: 100%
@@ -1126,14 +1127,40 @@
             padding-right: 30px
             width: 100%
             a
-              border: none
               img
                 width: 100%
-          &.two, &.three_left, &.three
+                max-width: 100%
+          &.two
             a
               float: none !important
+              height: auto
+              width: 100%
+              margin: 10px 0 0 0
+              &:first-child
+                margin-top: 0
               img
-                margin-bottom: 10px
+                min-height: 50px
+                margin-bottom: 0
+                max-width: 100%
+          &.three
+            .three_left, .three_stacked
+              a
+                float: none !important
+                height: auto !important
+                width: 100%
+                margin: 10px 0 0 0 !important
+                img
+                  min-height: 50px
+                  margin-bottom: 0
+                  max-width: 100%
+                  width: 100%
+
+        .video_player
+          margin-top: 10px
+          min-height: 152px !important
+          .jwplayer
+            min-height: 150px !important
+            height: auto !important
 
     // Discussion Dropdown
 
@@ -1186,8 +1213,8 @@
         .content, .nested_content
           font-size: 13px
           line-height: 20px
-          float: right
           position: relative
+          width: 100%
           .comment_reply
             border: 1px solid $color_border
             font-size: 13px
@@ -1268,7 +1295,7 @@
       .nested_row
         padding-left: 80px
         .nested_content
-          width: 454px
+          width: 100%
 
       // Reply Container
 
@@ -1542,17 +1569,16 @@
       .comment_container
         .comment_row
           .content
-            width: 626px
+            width: 100%
         .nested_row
           padding-left: 77px
           .nested_content
-            width: 564px
+            width: 100%
         .reply_container
           .comment_section, .Highlighter, .reply_input
             width: 626px !important
         .reply_post
           margin-top: 5px
-
 
   #visitor
     margin-bottom: 20px
@@ -1602,11 +1628,11 @@
         .comment_container
           .comment_row
             .content
-              width: 522px
+              width: 100%
           .nested_row
             padding-left: 77px
             .nested_content
-              width: 460px
+              width: 100%
           .reply_container
             .comment_section, .Highlighter, .reply_input, .mentioner
               width: 522px !important
@@ -1638,8 +1664,6 @@
                 width: 284px
                 img
                   min-width: 284px
-
-
 
 // Edit Post Popup & Compose Message Popup
 

@@ -5,7 +5,7 @@
         a.PopupTrigger data-target='search-users' href='#'
           i.fa.fa-search
       - if current_user.has_subscriptions?
-        = render 'subscriptions_nav'
+        = render 'subscriptions_nav_mobile'
       - if current_user.object.has_profile_page? && !current_page?(current_profile_path)
         li
           a href=current_profile_path
@@ -22,4 +22,3 @@
             a href=contact_us_path Contact Us
           li
             a href=logout_path Logout
-
