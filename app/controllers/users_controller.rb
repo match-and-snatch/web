@@ -59,7 +59,7 @@ class UsersController < ApplicationController
       end
     end
 
-    if mobile_device?
+    if mobile_phone_device?
       UserManager.new(current_user.object).save_last_visited_profile(user)
     end
 
