@@ -53,7 +53,12 @@ class PostsController < ApplicationController
   def create
     has_posts = current_user.has_posts?
     @post = PostManager.new(user: current_user.object).create_status_post(message: params[:message], notify: params.bool(:notify))
-    has_posts ? json_prepend(notice: :post_created) : json_replace(notice: :post_created)
+
+    if mobile_device?
+      json_reload
+    else
+      has_posts ? json_prepend(notice: :post_created) : json_replace(notice: :post_created)
+    end
   end
 
   def destroy

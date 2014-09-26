@@ -121,7 +121,6 @@
             = render 'user_contacts_info_links', profile: @profile
 
         // Jump to Top
-
         span.top_jumper.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
       // Recent Posts
@@ -132,6 +131,12 @@
   // Mobile Navigation
 
   = render 'navigation_mobile'
+
+  .AjaxPopup.popup.header_edit.modal-content data-identifier='status-post-mobile' data-url=new_status_post_path style="width: 745px"
+  .AjaxPopup.popup.header_edit.modal-content data-identifier='audio-post-mobile' data-url=new_audio_post_path style="width: 745px"
+  .AjaxPopup.popup.header_edit.modal-content data-identifier='video-post-mobile' data-url=new_video_post_path style="width: 745px"
+  .AjaxPopup.popup.header_edit.modal-content data-identifier='photo-post-mobile' data-url=new_photo_post_path style="width: 745px"
+  .AjaxPopup.popup.header_edit.modal-content data-identifier='document-post-mobile' data-url=new_document_post_path style="width: 745px"
 
   // Popups & More
 

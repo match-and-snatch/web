@@ -3,13 +3,21 @@ class PendingPostsController < ApplicationController
   before_filter :init_profile, only: [:new, :cancel]
 
   def new
-    json_replace
+    if mobile_device?
+      json_render template: 'new_mobile'
+    else
+      json_replace
+    end
   end
 
   def create
     had_posts = current_user.has_posts?
     @post = create_post
-    had_posts ? json_prepend(html: post_html) : json_replace(html: post_html)
+    if mobile_device?
+      json_reload
+    else
+      had_posts ? json_prepend(html: post_html) : json_replace(html: post_html)
+    end
   end
 
   def update
