@@ -36,6 +36,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  before_action :detect_device_format
+
   # Returns a new kind of ActionController::Parameters object that
   # has been instantiated with the <tt>request.parameters</tt>.
   # @return [ActionController::ManagebleParameters]
@@ -66,7 +68,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def mobile_device?
-    request.user_agent =~ /Mobile|webOS/
+    (request.variant || []).include?(:phone)
   end
   helper_method :mobile_device?
 
@@ -203,5 +205,20 @@ class ApplicationController < ActionController::Base
 
   def referrer_host
     URI.parse(request.referrer).try(:host) if request.referrer
+  end
+
+  def detect_device_format
+    case request.user_agent
+    when /iPad/i
+      request.variant = :tablet
+    when /iPhone/i
+      request.variant = :phone
+    when /Android/i && /mobile/i
+      request.variant = :phone
+    when /Android/i
+      request.variant = :tablet
+    when /Windows Phone/i
+      request.variant = :phone
+    end
   end
 end
