@@ -118,13 +118,14 @@
   display: block
   padding-bottom: 15px
   position: relative
-  &.slideup, &.slidedown
+  margin-top: 110px
+  //&.slideup, &.slidedown
     margin-top: 112px
     -webkit-transition: margin-top 0.5s ease-in-out
     -moz-transition: margin-top 0.5s ease-in-out
     -o-transition: margin-top 0.5s ease-in-out
     transition: margin-top 0.5s ease-in-out
-  &.slidedown
+  //&.slidedown
     margin-top: -86px
   .hide_featured
     font-size: 13px
@@ -151,10 +152,10 @@
       height: 90px
       width: 200px
       z-index: 0
-      -webkit-transition: 1s ease-in-out
-      -moz-transition: 1s ease-in-out
-      -o-transition: 1s ease-in-out
-      transition: 1s ease-in-out
+      // -webkit-transition: 1s ease-in-out
+      // -moz-transition: 1s ease-in-out
+      // -o-transition: 1s ease-in-out
+      // transition: 1s ease-in-out
     .lights
       display: none
       height: 25px
@@ -162,20 +163,45 @@
       z-index: 2
     .tagline
       text-shadow: -1px -1px 0 #000000
-  @media screen and (min-width: 991px)
+
+@media screen and (max-width: 767px)
+  .featured_profile
+    margin-top: 65px
+    .btn.black
+      height: 55px
+      .neal
+        display: none
+      .bus
+        display: none
+      .tagline
+        font-size: 14px
+        position: relative
+        top: 10px
+
+@media screen and (min-width: 768px)
+  .featured_profile
+    .btn.black
+      .neal
+        left: 45px
+      .bus
+        left: 95px
+      .tagline
+        font-size: 20px
+        bottom: 20px
+        left: 325px
+
+@media screen and (min-width: 991px)
+  .featured_profile
     .btn.black
       .neal
         left: 65px
       .bus
-        left: 97px
-      .lights
-        bottom: 3px
-        left: 230px
+        left: 115px
       .tagline
         font-size: 30px
         bottom: 13px
         left: 370px
-    &:hover
+    //  &:hover
       .btn.black
         .bus
           -webkit-transform: translate(2.5em,0)
@@ -183,6 +209,7 @@
           -o-transform: translate(2.5em,0)
           -ms-transform: translate(2.5em,0)
           transform: translate(2.5em,0)
+
 
 // Button Actions
 
