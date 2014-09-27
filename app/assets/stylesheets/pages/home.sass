@@ -116,9 +116,17 @@
   background-color: $color_background
   border-bottom: 1px solid $color_border
   display: block
-  margin-top: 120px
-  padding-bottom: 30px
+  padding-bottom: 15px
   position: relative
+  margin-top: 110px
+  //&.slideup, &.slidedown
+    margin-top: 112px
+    -webkit-transition: margin-top 0.5s ease-in-out
+    -moz-transition: margin-top 0.5s ease-in-out
+    -o-transition: margin-top 0.5s ease-in-out
+    transition: margin-top 0.5s ease-in-out
+  //&.slidedown
+    margin-top: -86px
   .hide_featured
     font-size: 13px
     color: $color_text_light
@@ -144,6 +152,10 @@
       height: 90px
       width: 200px
       z-index: 0
+      // -webkit-transition: 1s ease-in-out
+      // -moz-transition: 1s ease-in-out
+      // -o-transition: 1s ease-in-out
+      // transition: 1s ease-in-out
     .lights
       display: none
       height: 25px
@@ -151,29 +163,53 @@
       z-index: 2
     .tagline
       text-shadow: -1px -1px 0 #000000
-  @media screen and (min-width: 992px)
+
+@media screen and (max-width: 767px)
+  .featured_profile
+    margin-top: 65px
+    .btn.black
+      height: 55px
+      .neal
+        display: none
+      .bus
+        display: none
+      .tagline
+        font-size: 14px
+        position: relative
+        top: 10px
+
+@media screen and (min-width: 768px)
+  .featured_profile
+    .btn.black
+      .neal
+        left: 45px
+      .bus
+        left: 95px
+      .tagline
+        font-size: 20px
+        bottom: 20px
+        left: 325px
+
+@media screen and (min-width: 991px)
+  .featured_profile
     .btn.black
       .neal
         left: 65px
       .bus
-        left: 130px
-      .lights
-        bottom: 3px
-        left: 230px
+        left: 115px
       .tagline
         font-size: 30px
         bottom: 13px
         left: 370px
-  @media screen and (max-width: 991px)
-    .btn.black
-      .neal
-        left: 40px
-      .bus
-        left: 85px
-      .tagline
-        font-size: 16px
-        bottom: 13px
-        left: 260px
+    //  &:hover
+      .btn.black
+        .bus
+          -webkit-transform: translate(2.5em,0)
+          -moz-transform: translate(2.5em,0)
+          -o-transform: translate(2.5em,0)
+          -ms-transform: translate(2.5em,0)
+          transform: translate(2.5em,0)
+
 
 // Button Actions
 
