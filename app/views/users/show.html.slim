@@ -64,8 +64,8 @@
 
     /* Subscriber Benefits */
 
-    .benefits_container.row
-      .col-md-12.col-sm-12.col-xs-12
+    .benefits_container.row.hidden-xs
+      .col-md-12.col-sm-12
         - if @profile.benefits.any?
           .label Subscriber Benefits
           div data-identifier='benefits'= render_benefits(@profile)
@@ -86,7 +86,7 @@
 
         /* Category Cloud */
 
-        .archive_cloud.box.hidden-sm
+        .archive_cloud.box
           span Archived Content
           ul
             li
@@ -100,7 +100,7 @@
 
         /* Contact Info */
 
-        .contact.box.hidden-sm
+        .contact.box
           span Contact
           ul
             li
@@ -141,7 +141,7 @@
 
         /* Profile Action */
 
-        .share_url.btn.pink.PopupTrigger.hidden-sm data-target='share' style='margin-bottom: 30px;'
+        .share_url.btn.pink.PopupTrigger data-target='share' style='margin-bottom: 30px;'
           i.fa.fa-share-square-o
           .heading Share This Profile
           span Help expand the audience!
