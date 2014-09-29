@@ -54,10 +54,11 @@ class PostsController < ApplicationController
     has_posts = current_user.has_posts?
     @post = PostManager.new(user: current_user.object).create_status_post(message: params[:message], notify: params.bool(:notify))
 
-    if mobile_device?
-      json_reload
-    else
-      has_posts ? json_prepend(notice: :post_created) : json_replace(notice: :post_created)
+    respond_to do |format|
+      format.json do |variant|
+        variant.phone { json_reload }
+        variant.any { has_posts ? json_prepend(notice: :post_created) : json_replace(notice: :post_created) }
+      end
     end
   end
 

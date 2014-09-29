@@ -17,7 +17,7 @@ describe PostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', user_id: poster.slug, message: 'Reply' }
+    subject { post 'create', user_id: poster.slug, message: 'Reply', format: :json }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }

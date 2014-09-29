@@ -3,20 +3,22 @@ class PendingPostsController < ApplicationController
   before_filter :init_profile, only: [:new, :cancel]
 
   def new
-    if mobile_phone_device?
-      json_render template: 'new_mobile'
-    else
-      json_replace
+    respond_to do |format|
+      format.json do |variant|
+        variant.any { json_replace }
+        variant.phone { json_render template: 'new_mobile', format: :html }
+      end
     end
   end
 
   def create
     had_posts = current_user.has_posts?
     @post = create_post
-    if mobile_phone_device?
-      json_reload
-    else
-      had_posts ? json_prepend(html: post_html) : json_replace(html: post_html)
+    respond_to do |format|
+      format.json do |variant|
+        variant.any { had_posts ? json_prepend(html: post_html) : json_replace(html: post_html) }
+        variant.phone { json_reload }
+      end
     end
   end
 
@@ -37,7 +39,7 @@ class PendingPostsController < ApplicationController
   helper_method :media_posts_path
 
   def post_html
-    render_to_string(partial: 'post', locals: {post: @post})
+    render_to_string(partial: 'post', locals: {post: @post}, formats: ['html'])
   end
 
   private

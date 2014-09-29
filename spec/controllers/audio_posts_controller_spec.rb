@@ -4,7 +4,7 @@ describe AudioPostsController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'GET #new' do
-    subject { get :new }
+    subject { get :new, format: :json }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }
@@ -31,7 +31,7 @@ describe AudioPostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, title: 'audio', message: 'post'}
+    subject { post :create, title: 'audio', message: 'post', format: :json }
 
     context 'authorized access' do
       before { sign_in owner }

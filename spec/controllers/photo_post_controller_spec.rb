@@ -18,7 +18,7 @@ describe PhotoPostsController, type: :controller do
   end
 
   describe 'GET #new' do
-    subject { get :new }
+    subject { get :new, format: :json }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }
@@ -31,7 +31,7 @@ describe PhotoPostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, title: 'aa', message: 'bb'}
+    subject { post :create, title: 'aa', message: 'bb', format: :json }
 
     context 'authorized access' do
       before { sign_in owner }
