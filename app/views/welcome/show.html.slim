@@ -1,17 +1,17 @@
 - set_layout(:title, 'ConnectPal.com - Home')
 
 // Homepage 3 Step Pitch
-
-.featured_profile.slidedown
-  .container
-    .row
-      .col-md-12.col-sm-12.col-xs-12
-        i.fa.fa-times.hide_featured
-          '&nbsp;Hide
-        a.btn.black href='/the-painful-truth-from-neal-boortz'
-          img.neal src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-photo.png')
-          img.bus src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-bus.png')
-          span.tagline Looking for Neal Boortz? Click here!
+- unless cookies[:promo_block_hidden]
+  .featured_profile.slidedown data-identifier='promo-profile-block'
+    .container
+      .row
+        .col-md-12.col-sm-12.col-xs-12
+          i.fa.fa-times.hide_featured.TemporalHider data-target='promo-profile-block'
+            '&nbsp;Hide
+          a.btn.black href='/the-painful-truth-from-neal-boortz'
+            img.neal src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-photo.png')
+            img.bus src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-bus.png')
+            span.tagline Looking for Neal Boortz? Click here!
 
 // Homepage 3 Step Pitch
 
