@@ -103,20 +103,22 @@
 
     // Generic and Generic w/audio player
 
+    a.btn.blue.subscribe.PopupTrigger.hidden-sm.hidden-md data-target='subscription' href='#' style='width: 100%; margin-top: 10px; font-size: 24px' Subscribe Now
+
     #visitor.box
       .row
         .col-md-12.col-sm-12.col-xs-12
 
           .title Welcome to #{@profile.profile_name}'s profile page
 
-          div style='margin: 15px auto; width: 100%;'
+          .audio_container
             = audio_player(@profile.welcome_audio)
 
           span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
 
           = render 'welcome_benefits'
 
-          a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' Subscribe Now
+          a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='subscription' href='#' Subscribe Now
           .clearfix
 
           span.already_user.hidden-xs

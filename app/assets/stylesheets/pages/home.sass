@@ -118,15 +118,14 @@
   display: block
   padding-bottom: 15px
   position: relative
-  margin-top: 110px
-  //&.slideup, &.slidedown
-    margin-top: 112px
+  &.slideup, &.slidedown
+    margin-top: -86px
     -webkit-transition: margin-top 0.5s ease-in-out
     -moz-transition: margin-top 0.5s ease-in-out
     -o-transition: margin-top 0.5s ease-in-out
     transition: margin-top 0.5s ease-in-out
-  //&.slidedown
-    margin-top: -86px
+  &.slidedown
+    margin-top: 112px
   .hide_featured
     font-size: 13px
     color: $color_text_light
@@ -152,10 +151,10 @@
       height: 90px
       width: 200px
       z-index: 0
-      // -webkit-transition: 1s ease-in-out
-      // -moz-transition: 1s ease-in-out
-      // -o-transition: 1s ease-in-out
-      // transition: 1s ease-in-out
+      -webkit-transition: 1s ease-in-out
+      -moz-transition: 1s ease-in-out
+      -o-transition: 1s ease-in-out
+      transition: 1s ease-in-out
     .lights
       display: none
       height: 25px
@@ -201,7 +200,7 @@
         font-size: 30px
         bottom: 13px
         left: 370px
-    //  &:hover
+    //&:hover
       .btn.black
         .bus
           -webkit-transform: translate(2.5em,0)
