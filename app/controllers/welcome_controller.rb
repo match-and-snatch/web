@@ -8,4 +8,8 @@ class WelcomeController < ApplicationController
       end
     end
   end
+
+  def show
+    layout.promo_block_hidden = cookies[:promo_block_hidden]
+  end
 end

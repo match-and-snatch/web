@@ -19,4 +19,12 @@ class Layout < Hash
       true
     end
   end
+
+  def promo_block_hidden=(val)
+    self[:promo_block_hidden] = val
+  end
+
+  def show_promo_block?
+    !self[:promo_block_hidden]
+  end
 end

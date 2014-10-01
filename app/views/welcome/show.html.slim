@@ -1,7 +1,7 @@
 - set_layout(:title, 'ConnectPal.com - Home')
 
 // Homepage 3 Step Pitch
-- unless cookies[:promo_block_hidden]
+- if layout.show_promo_block?
   .featured_profile.slidedown data-identifier='promo-profile-block'
     .container
       .row
