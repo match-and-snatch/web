@@ -10,6 +10,6 @@ class WelcomeController < ApplicationController
   end
 
   def show
-    layout.promo_block_hidden = cookies[:promo_block_hidden]
+    @show_promo_block = cookies[:boortz_promo_block] != 'false'
   end
 end

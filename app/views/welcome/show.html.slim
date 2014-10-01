@@ -1,12 +1,12 @@
 - set_layout(:title, 'ConnectPal.com - Home')
 
 // Homepage 3 Step Pitch
-- if layout.show_promo_block?
-  .featured_profile.slidedown data-identifier='promo-profile-block'
+- if @show_promo_block
+  .featured_profile.slidedown data-identifier='boortz-promo-block' data-storage_key='boortz_promo_block'
     .container
       .row
         .col-md-12.col-sm-12.col-xs-12
-          i.fa.fa-times.hide_featured.TemporalHider data-target='promo-profile-block'
+          i.fa.fa-times.hide_featured.MemoToggler data-target='boortz-promo-block'
             '&nbsp;Hide
           a.btn.black href='/the-painful-truth-from-neal-boortz'
             img.neal src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-photo.png')
