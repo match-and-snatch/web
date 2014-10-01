@@ -20,19 +20,11 @@ class bud.widgets.Hover extends bud.Widget
 
   on_out: =>
     @$target.hide()
-    @toggle_classes()
 
   on_hover: (e) =>
     e.stopPropagation()
     @$target.show()
-    @toggle_classes()
 
   on_link_touch: (e) =>
     e.stopPropagation()
     window.location = $(e.currentTarget).attr('href')
-
-  toggle_classes: ->
-    if @$target.is(':visible')
-      @$container.addClass('shows')
-    else
-      @$container.addClass('hides')

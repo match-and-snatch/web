@@ -8,4 +8,8 @@ class WelcomeController < ApplicationController
       end
     end
   end
+
+  def show
+    @show_promo_block = cookies[:boortz_promo_block] != 'hidden'
+  end
 end
