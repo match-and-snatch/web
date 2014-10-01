@@ -10,11 +10,16 @@ class bud.widgets.MemoToggler extends bud.widgets.Toggler
 
   set_cookie: ->
     cookie_name = @$target.data('storage_key')
-    visible_state = !@$target.is(':visible')
-    document.cookie = "#{cookie_name}=#{visible_state};expires=#{@cookie_expire_time()};path=/"
+    document.cookie = "#{cookie_name}=#{@target_display_state()};expires=#{@cookie_expire_time()};path=/"
 
   toggle: ->
     @$target.toggleClass('slidedown').toggleClass('slideup')
+
+  target_display_state: ->
+    if @$target.is(':visible')
+      'hidden'
+    else
+      'visible'
 
   cookie_expire_time: ->
     now = new Date()
