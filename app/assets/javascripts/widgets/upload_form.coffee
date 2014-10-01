@@ -36,13 +36,17 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         @$container.find('.select_file_container').addClass('hidden')
         $('.Progress').removeClass('hidden')
         bud.pub('attachment.uploading')
+        if @invalid_file_format
+          bud.pub('attachment.cancel')
+          @notify_about_invalid_file()
+      onFileSelect: (fileName, $fileInputField) =>
+        @validate_file_extension(fileName, $fileInputField)
       onError: (error) =>
         console.log(error) if console
         $('.Progress').addClass('hidden')
         @change_progress '0%'
         bud.pub('attachment.uploaded')
-        @$container.find('.select_file_container').removeClass('hidden')
-        alert('Sorry, but file you are trying to upload is invalid')
+        @notify_about_invalid_file()
     )
 
   on_cancel: =>
@@ -51,6 +55,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     u = @$container.data('transloadit.uploader')
     if u && u.$files
       u.cancel()
+
   on_post: =>
     bud.clear_html(@$target)
 
@@ -73,3 +78,12 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     # it will realese transloadit callbacks. seems like it expects page to be reloaded
     bud.replace_container(@$container, @$container.removeClass('js-widget pending').clone())
     @on_script_loaded()
+
+  validate_file_extension: (file_name, file_input) ->
+    allowed_extensions = (file_input.attr('accept') || '').split(',')
+    file_extension = file_name.match(/\.[a-zA-Z0-9]+$/)[0]
+    @invalid_file_format = !(file_extension in allowed_extensions) and !_.isEqual(allowed_extensions, [''])
+
+  notify_about_invalid_file: ->
+    @$container.find('.select_file_container').removeClass('hidden')
+    alert('Sorry, but file you are trying to upload is invalid')
