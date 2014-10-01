@@ -7,9 +7,10 @@ class bud.widgets.Hover extends bud.Widget
   initialize: ->
     @$target = bud.get(@$container.data('target')) || @$container
     @$container.click @on_hover
-    @$container.find('a').on 'touchstart', @on_link_touch
     @$container.hover @on_hover
     @$container.mouseleave @on_out
+    @$container.find('a').on 'touchstart', @on_link_touch
+    @$container.find('a').on 'touchend', @on_out
     bud.sub('document.touchstart', @on_body_touch)
 
   destroy: ->
