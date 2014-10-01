@@ -6,10 +6,10 @@ ul.nav.navbar-nav.pull-right
           i.fa.fa-user My Profile
     - if current_user.has_subscriptions?
       = render 'subscriptions_nav'
-    li
+    li.hidden-xs
       a href=account_info_path
         i.fa.fa-bars My Account
-    li
+    li.hidden-xs
       a href=logout_path
         i.fa.fa-sign-out Logout
 
