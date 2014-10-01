@@ -2,9 +2,10 @@ class ProfilesMailer < ApplicationMailer
 
   # @param user [User]
   # @param cost [Integer]
-  def changed_cost(user, cost)
+  def changed_cost(user, old_cost, cost)
     @user = user
     @cost = cost
+    @old_cost = cost
     mail to: 'support@connectpal.com', subject: 'Requested cost change'
   end
 
