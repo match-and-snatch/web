@@ -163,7 +163,6 @@ class SubscriptionManager < BaseManager
 
     target_user = @subscription.target_user
     UserStatsManager.new(target_user).log_subscriptions_count
-    UserManager.new(@subscriber).clear_last_visited_profile
 
     if @subscription.rejected?
       # TODO: create another type of event

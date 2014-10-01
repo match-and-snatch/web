@@ -2,6 +2,8 @@ class PendingPostsController < ApplicationController
   before_filter :authenticate!
   before_filter :init_profile, only: [:new, :cancel]
 
+  before_action :detect_device_format, only: [:new, :create]
+
   def new
     respond_to do |format|
       format.json do |variant|

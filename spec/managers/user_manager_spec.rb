@@ -81,15 +81,5 @@ describe UserManager do
         end
       end
     end
-
-    describe '#clear_last_visited_profile' do
-      before do
-        manager.save_last_visited_profile(another_user)
-      end
-
-      specify do
-        expect { manager.clear_last_visited_profile }.to change { user.last_visited_profile_id }.from(another_user.id).to(nil)
-      end
-    end
   end
 end

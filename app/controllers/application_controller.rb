@@ -36,8 +36,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_action :detect_device_format
-
   # Returns a new kind of ActionController::Parameters object that
   # has been instantiated with the <tt>request.parameters</tt>.
   # @return [ActionController::ManagebleParameters]
@@ -68,13 +66,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def mobile_phone_device?
-    (request.variant || []).include?(:phone)
+    request_variant.include?(:phone)
   end
   helper_method :mobile_phone_device?
 
   def mobile_device?
-    variants = request.variant || []
-    variants.include?(:tablet) || variants.include?(:phone)
+    request_variant.include?(:tablet) || request_variant.include?(:phone)
   end
   helper_method :mobile_device?
 
@@ -213,6 +210,10 @@ class ApplicationController < ActionController::Base
     URI.parse(request.referrer).try(:host) if request.referrer
   end
 
+  def request_variant
+    @request_variant ||= request.variant || detect_device_format
+  end
+
   def detect_device_format
     case request.user_agent
     when /iPad/i
@@ -225,6 +226,9 @@ class ApplicationController < ActionController::Base
       request.variant = :tablet
     when /Windows Phone/i
       request.variant = :phone
+    else
+      request.variant = :unrecognized
     end
+    request.variant
   end
 end

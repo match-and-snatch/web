@@ -119,7 +119,11 @@ describe CurrentUserDecorator do
         SubscriptionManager.new(subscriber: user, subscription: subscription).unsubscribe
       end
 
-      specify { expect(subject.last_visited_profile).to be_nil }
+      specify do
+        Timecop.freeze 32.days.from_now do
+          expect(subject.last_visited_profile).to be_nil
+        end
+      end
     end
   end
 end

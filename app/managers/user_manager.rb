@@ -55,11 +55,4 @@ class UserManager < BaseManager
       save_or_die! @user
     end
   end
-
-  def clear_last_visited_profile
-    unless @user.last_visited_profile_id.nil?
-      @user.last_visited_profile_id = nil
-      save_or_die! @user
-    end
-  end
 end
