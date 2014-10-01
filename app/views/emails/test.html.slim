@@ -1,17 +1,20 @@
 doctype html
 head
   meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
+
 html
   body data-force-encoding='✓' style='background-color: #f7f7f7; margin: 0; padding: 0;'
+
+    div style='display: none !important;' = yield :preheader
 
     table cellpadding='0' cellspacing='0' border='0' style='background-color: #3b9fd1; font-family: Helvetica,Arial,sans-serif; font-size: 13px; margin: 0; padding: 0; width: 100%; -webkit-text-size-adjust: 100%;' align='center'
       tr
         td align='center' valign='top' height='25px'
-          img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-spacer.gif' border='0' alt='email preview text' style='display: block;'
+          img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-spacer.gif' border='0' alt='' style='display: block;'
       tr
         td align='center' valign='top' height='60px'
           a href='https://www.connectpal.com' border='0' target='_blank' style='border: none;'
-            img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-logo.png' border='0' height='60px' width='220px' alt='ConnectPal.com' title='ConnectPal.com' style='display: block; border: none;'
+            img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-logo.png' border='0' height='55px' width='215px' alt='ConnectPal.com' title='ConnectPal.com' style='height: 55px; width: 215px; display: block; border: none;'
       tr
         td align='center' valign='top' height='25px'
       tr
@@ -21,11 +24,11 @@ html
               td colspan='3' height='20px'
             tr
               td width='20px'
-              td align='center'
-                strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 28px; line-height: 100%;' Heading Title
+              td align='center' width="460px"
+
+                strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 28px; line-height: 100%;' Account Update – Price Change
+
               td width='20px'
-
-
 
     table cellpadding='0' cellspacing='0' border='0' style='background-color: #f7f7f7; font-family: Helvetica,Arial,sans-serif; font-size: 13px; margin: 0; padding: 0; width: 100%; -webkit-text-size-adjust: 100%;' align='center'
       tr
@@ -33,23 +36,42 @@ html
           table cellpadding='0' cellspacing='0' border='0' align='center' style='background-color: #FFFFFF; border: 1px solid #d7d7d7; border-top: none; font-family: Helvetica,Arial,sans-serif; font-size: 13px; margin: 0; padding: 0; width: 500px; -webkit-text-size-adjust: 100%; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;'
             tr
               td width='20px'
-              td align='center'
+              td align='center' width="460px"
 
-                p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
-                  | Your recent recurring billing payment has failed. Please update your credit card on file in order to regain access to your subscribed profile.&nbsp;
-                  a href="#{account_info_url(anchor: '/account_info/billing_information')}"  style='color: #ea2e49;' Click here to update your billing information
-                  |. Thank you!
+                // Body
 
-                p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
-                  'If your information is up-to-date and you are experiencing issues,
+                p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 150%; padding: 0; margin: 0 0 15px 0;'
+                  a href='#' style="color: #ea2e49;" Andy Dean’s
+                  '&nbsp; profile has updated the monthly subscription cost.
                   br
-                  'please contact us at
-                  a href='mailto:help@connectpal.com' style='color: #ea2e49;' help@connectpal.com
-                  '.
-
-                img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-noreply.png' border='0' height='26px' width='356px' alt='Please note that this is only a notification, please login to view content' title='Please note that this is only a notification, please login to view content' style='display: block; border: none; padding: 0; margin: 5px 0 15px 0;'
+                  'This price update will happen on your next billing cycle.
 
 
+                table cellpadding='0' cellspacing='0' border='0' align='center' style='font-family: Helvetica,Arial,sans-serif; font-size: 13px; margin: 0; padding: 0; width: 100%; -webkit-text-size-adjust: 100%; text-align: center;'
+                  tr
+                    td width=''
+                      p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 12px; line-height: 100%; padding: 0; margin: 0 0 10px 0; font-weight: bold;' Old Subscription Cost
+                      p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 24px; line-height: 100%; padding: 0; margin: 0 0 15px 0; font-weight: bold;' $1.79/month
+                    td width='60px' align='center' valign='top'
+                      img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-letter.png' border='0' height='32px' width='48px' alt='Away Mode Message' title='Away Mode Message' style='display: block; border: none; padding: 0; margin: 0;'
+                    td width=''
+                      p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 12px; line-height: 100%; padding: 0; margin: 0 0 10px 0; font-weight: bold;' New Subscription Cost
+                      p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 24px; line-height: 100%; padding: 0; margin: 0 0 15px 0; font-weight: bold;' $1.79/month
+
+
+
+                img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-hr.png' border='0' height='1px' width='458px' alt='divider' title='divider' style='display: block; border: none; padding: 0; margin: 0 0 15px 0;'
+
+                p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13px; line-height: 120%; padding: 0; margin: 0 0 15px 0; text-align: center; font-weight: bold;'
+                  'A message from
+                  a href='#' style="color: #ea2e49;" Andy Dean
+                  '&nbsp;regarding the price update.
+
+                p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13px; line-height: 120%; padding: 0; margin: 0 0 15px 0;' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum.
+
+                img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-noreply-2x.png' border='0' height='25px' width='350px' alt='Please note that this is only a notification, please login to view content' title='Please note that this is only a notification, please login to view content' style='display: block; border: none; padding: 0; margin: 5px 0 15px 0;'
+
+                // Body End
 
               td width='20px'
             tr
@@ -65,7 +87,7 @@ html
               td width='63px' align='left'
                 a href='https://twitter.com/ConnectPalTech' border='0' target='_blank' style='border: none;'
                   img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-social-twitter.png' border='0' height='48px' width='48px' alt='Facebook - ConnectPal.com' title='Facebook - ConnectPal.com' style='display: block; border: none;'
-              td align='right' style='color: #898989; font-size: 11px; line-height: 150%;'
+              td align='right' style='color: #898989; font-size: 11px; line-height: 150%; -webkit-text-size-adjust: none;'
                 span If you do not want to receive email notifications, please click
                 '
                 a href='#{account_info_url(anchor: '/subscriptions')}' target='_blank' style='color: #ea2e49; text-decoration: underline;' unsubscribe
