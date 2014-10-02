@@ -233,7 +233,7 @@ class User < ActiveRecord::Base
   end
 
   def unread_messages_count
-    dialogues.unread.joins(:recent_message).where.not(messages: {user_id: id}).count
+    dialogues.not_removed.unread.joins(:recent_message).where.not(messages: {user_id: id}).count
   end
 
   # @return [Video, nil]
