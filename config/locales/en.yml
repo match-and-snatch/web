@@ -35,6 +35,7 @@ en:
     post_updated: The post has been updated
     post_hidden: The post has been hidden from users
     post_shown: The post has been made visible to other users
+    post_created: Congratulations! Your post was successful!
     billing_failed: Your last payment failed. Please update your credit card on file under <a href='/account#/account_info/billing_information'>billing information</a>.
     new_message: Your message has been sent. You will be notified when you have a reply.
     new_comment: Thanks for the comment
