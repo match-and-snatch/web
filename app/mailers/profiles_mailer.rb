@@ -1,11 +1,22 @@
 class ProfilesMailer < ApplicationMailer
+  add_template_helper ApplicationHelper
 
   # @param user [User]
   # @param cost [Integer]
-  def changed_cost(user, cost)
+  def changed_cost(user, old_cost, cost)
     @user = user
     @cost = cost
-    mail to: 'support@connectpal.com', subject: 'Requested cost change'
+    @old_cost = old_cost
+    mail to: 'support@connectpal.com', subject: 'Subscription Notice - Price Change'
+  end
+
+  # @param user [User]
+  # @param cost [Integer]
+  def changed_cost_blast(recipient, user, old_cost, cost)
+    @user = user
+    @cost = cost
+    @old_cost = old_cost
+    mail to: recipient.email, subject: 'Subscription Notice - Price Change'
   end
 
   # @param subscription [Subscription]

@@ -22,6 +22,8 @@
 .ruby-version
 .idea
 *.DS_Store
+*.swo
+*.swp
 
 # Virtual Machine
 .vagrant

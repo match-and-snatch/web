@@ -193,7 +193,7 @@ class UserProfileManager < BaseManager
     cost = cost.to_f
 
     if user.source_subscriptions.any? && (cost - user.cost) > 3
-      ProfilesMailer.delay.changed_cost(user, cost)
+      ProfilesMailer.delay.changed_cost(user, user.cost, cost)
       @unable_to_change_cost = true
     else
       user.cost = cost
