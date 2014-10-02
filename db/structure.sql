@@ -177,7 +177,9 @@ CREATE TABLE dialogues (
     updated_at timestamp without time zone,
     recent_message_at timestamp without time zone,
     unread boolean DEFAULT true NOT NULL,
-    read_at timestamp without time zone
+    read_at timestamp without time zone,
+    removed boolean DEFAULT false,
+    removed_at timestamp without time zone
 );
 
 
@@ -1199,4 +1201,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140904174036');
 INSERT INTO schema_migrations (version) VALUES ('20140904174216');
 
 INSERT INTO schema_migrations (version) VALUES ('20140908174517');
+
+INSERT INTO schema_migrations (version) VALUES ('20141002080154');
 
