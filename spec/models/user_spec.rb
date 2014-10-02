@@ -160,7 +160,7 @@ describe User do
     end
   end
 
-  describe 'welcome_video' do
+  describe '#welcome_video' do
     subject(:user) { create_user }
 
     its(:welcome_video) { should be_nil }
@@ -170,6 +170,22 @@ describe User do
       let(:welcome_video) { UploadManager.new(user).create_video(welcome_video_data) }
 
       its(:welcome_video) { should eq(welcome_video) }
+    end
+  end
+
+  describe '#unread_messages_count' do
+    let(:user) { create_user }
+    let(:friend) { create_user email: 'sender@gmail.com' }
+    let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
+
+    before { dialogue }
+
+    specify { expect(friend.unread_messages_count).to eq(1) }
+
+    context 'removed dialogue' do
+      before { dialogue.remove! }
+
+      specify { expect(friend.unread_messages_count).to eq(0) }
     end
   end
 end

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe AccountInfo::DialoguesController, type: :controller do
   let(:user) { create_user }
   let(:friend) { create_user email: 'sender@gmail.com' }
+  let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
 
   describe 'GET #index' do
     subject(:perform_request) { get 'index' }
@@ -40,7 +41,6 @@ describe AccountInfo::DialoguesController, type: :controller do
       before { sign_in user }
 
       context 'dialogue exists' do
-        let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
         it { should be_success }
 
         context 'sender reads recently sent message' do
@@ -65,6 +65,44 @@ describe AccountInfo::DialoguesController, type: :controller do
 
       context 'foreign dialogue' do
         let(:dialogue) { MessagesManager.new(user: friend).create(target_user: friend, message: 'test').dialogue }
+        its(:status) { should == 401 }
+      end
+    end
+  end
+
+  describe 'GET #confirm_removal' do
+    subject { get 'confirm_removal', id: dialogue.id }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    subject { delete 'destroy', id: dialogue.id }
+
+    context 'unauthorized access' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized access' do
+      context 'as dialogue creator' do
+        before { sign_in user }
+        its(:status) { should == 200 }
+      end
+
+      context 'as a dialogue target' do
+        before { sign_in friend }
+        its(:status) { should == 200 }
+      end
+
+      context 'as anybody else' do
+        before { sign_in }
         its(:status) { should == 401 }
       end
     end
