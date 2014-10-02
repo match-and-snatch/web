@@ -411,7 +411,7 @@ describe UserProfileManager do
 
       it 'notify support if difference between new and old costs more than 3' do
         Timecop.freeze(2.days.from_now) do
-          expect(ProfilesMailer).to receive(:changed_cost).with(user, 500)
+          expect(ProfilesMailer).to receive(:changed_cost).with(user, 100, 500)
           manager.update_cost(5)
         end
       end
