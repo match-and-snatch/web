@@ -214,8 +214,6 @@
           color: $color_pink
           cursor: default
           float: right
-          height: 55px
-          max-width: 265px
           overflow: hidden
           padding: 0 15px
           .month
@@ -223,14 +221,6 @@
         &:hover
           .btn
             @include pink-area
-
-        // Mobile
-
-        @media screen and (max-width: 767px)
-          width: 100%
-          .amount
-            max-width: auto !important
-            min-width: 193px
 
       // Cost Owner
 
@@ -268,11 +258,8 @@
           cursor: pointer
           float: right
           font-weight: 400
-          height: 55px
           margin-bottom: 15px
-          padding: 0 15px
           text-decoration: none
-          width: 247px
 
       // Subscribed
 
@@ -284,15 +271,9 @@
         cursor: default
         float: right
         font-weight: 400
-        height: 55px
         margin-bottom: 15px
-        padding: 0 15px
         text-decoration: none
-        width: 247px
-
-        // Mobile
-        @media screen and (max-width: 767px)
-          width: 100%
+        width: 240px
 
   // Details Container
 
@@ -1433,6 +1414,31 @@
 // Mobile
 
 @media screen and (max-width: 767px)
+  #header
+    .details_container
+      .subscribe_cont
+        height: 55px
+        font-size: 36px
+        max-width: 240px
+        margin: 0 auto
+        .cost_owner, .cost_visitor
+          .amount, .fa
+            height: 55px
+          .fa
+            padding: 6px 0 0 0
+            width: 65px
+            &:before
+              font-size: 30px
+        &:hover
+          .subscribe
+            font-size: 36px
+            height: 55px
+            padding: 0
+            width: 240px
+        .subscribed
+          font-size: 24px
+          padding: 10px 0
+
   .container.mobile
     margin-bottom: 30px !important
   #subscriber_display
@@ -1485,26 +1491,22 @@
           -webkit-text-size-adjust: none
     .details_container
       .subscribe_cont
-        font-size: 30px
-        .cost_visitor, .cost_owner
-          .amount
-            height: 47px
+        height: 55px
+        font-size: 36px
+        .cost_owner, .cost_visitor
+          .amount, .fa
+            height: 55px
           .fa
-            height: 47px
-            width: 40px
-            padding-top: 9px
+            padding: 6px 0 0 0
+            width: 65px
             &:before
-              font-size: 20px
-        .cost_owner
-          .fa-gear
-            width: 30px
-            &:before
-              padding-right: 0
-        .subscribe, .subscribed
-          height: 47px !important
-          font-size: 24px !important
-          padding-top: 5px !important
-          width: 203px !important
+              font-size: 30px
+        &:hover
+          .subscribe
+            font-size: 36px
+            height: 55px
+            padding: 0
+            width: 240px
       .add_welcome_media
         width: 203px
         padding: 8px 0
@@ -1621,7 +1623,7 @@
       .subscribe_cont
         height: 55px
         font-size: 36px
-        .cost_owner
+        .cost_owner, .cost_visitor
           .amount, .fa
             height: 55px
           .fa
@@ -1629,6 +1631,13 @@
             width: 65px
             &:before
               font-size: 30px
+        &:hover
+          .subscribe
+            font-size: 36px
+            height: 55px
+            padding: 0
+            width: 240px
+
       .add_welcome_media
         width: 240px
         padding: 10px 0
