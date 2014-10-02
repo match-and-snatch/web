@@ -191,7 +191,6 @@
     // Cost Button/Subscribe Button
 
     .subscribe_cont
-      font-size: 36px
       font-weight: 600
       text-align: center
 
@@ -205,11 +204,7 @@
           @include border-radius($border_radius 0 0 10px)
           cursor: default
           float: right
-          height: 55px
           width: 65px
-        .fa
-          &:before
-            font-size: 30px
         .amount
           @include border-radius(0 $border_radius $border_radius 0)
           background-color: $color_background
@@ -678,6 +673,14 @@
         margin-right: 15px
         &:hover
           text-decoration: underline
+
+      .congrats_post
+        background-color: #ea2e49
+        border: 1px solid #cd233b
+        text-align: center
+        color: #FFFFFF
+        font-size: 13px
+        padding: 7px
 
 // Subscriber Display
 
@@ -1502,6 +1505,9 @@
           font-size: 24px !important
           padding-top: 5px !important
           width: 203px !important
+      .add_welcome_media
+        width: 203px
+        padding: 8px 0
   #create_post_nav
     li
       font-size: 14px
@@ -1610,6 +1616,27 @@
 // Desktop
 
 @media screen and (min-width: 991px)
+  #header
+    .details_container
+      .subscribe_cont
+        height: 55px
+        font-size: 36px
+        .cost_owner
+          .amount, .fa
+            height: 55px
+          .fa
+            padding: 6px 0 0 0
+            width: 65px
+            &:before
+              font-size: 30px
+      .add_welcome_media
+        width: 240px
+        padding: 10px 0
+
+  #create_post_nav
+    li
+      font-size: 16px
+      padding: 15px 36px
   #visitor
     margin-bottom: 20px
     &.with_video

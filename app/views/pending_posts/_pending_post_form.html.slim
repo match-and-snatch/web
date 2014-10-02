@@ -31,18 +31,24 @@
       .error data-field='message'
       / Post notification
       .notify
-        label.pull-left style='margin-top: 2px' Do you want to notify your subscribers of this post via email?     
+        label.pull-left style='margin-top: 2px' Do you want to notify your subscribers of this post via email?
         .pull-left.no_width
           input type='radio' name='notify' value='' checked='checked' id='notify_no'
-          label for='notify_no' 
+          label for='notify_no'
             |&nbsp;No
         .pull-left.yes_width
           input type='radio' name='notify' value='1' id='notify_yes'
-          label for='notify_yes' 
+          label for='notify_yes'
             |&nbsp;Yes
         .clearfix
-        
+
       / Disabled until all uploads are 100%
+      / Hide Cancel Post & Submit Post when Submit is clicked.
       input.btn.blue.pull-right type='Submit' value='Submit Post'
       .cancel_post.pull-right.AjaxFormLink href=cancel_media_posts_path data-_method='DELETE' data-target='post-fields' data-event='attachment.cancel' Cancel Post
+      .clearfix
+
+      / Show when post is successful. Don't show if error appears.
+      /.box.congrats_post Congratulations! Your post was successful!
+
     .clearfix
