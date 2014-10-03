@@ -11,7 +11,7 @@
       a href='#' class='Focuser' data-target='vacation-message-sticker' Read away message
       |.
 
-// Header
+/Header
 .container
   #header.box
     .photo_cover
@@ -25,23 +25,23 @@
           a.PopupTrigger data-target='full-profile-photo' href=@profile.original_profile_picture_url
             img src=@profile.profile_picture_url
 
-    // Details Container
+    /Details Container
     .details_container.row
       .col-md-7.col-sm-7.col-xs-12.profile_details
 
-        // Profile Name
+        /Profile Name
         span.profile_name= @profile.profile_name
         .clearfix
         - if can? :login_as, @profile.object
           a.admin_login.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this User
         .clearfix
 
-        // Profile Type
+        /Profile Type
         span.profile_type= @profile.types
 
       .col-md-5.col-sm-5.col-xs-12
 
-        // Subscribe Container
+        /Subscribe Container
         .subscribe_cont
           - if current_user.subscribed_to?(@profile.object)
             .subscribed Subscribed
@@ -49,7 +49,7 @@
             a.cost_visitor
               .amount
                 span
-                  = super_number_to_currency(@profile.subscription_cost, format: '%n')
+                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
                 span.month
                   |/month
               .btn.pink.fa.fa-usd.fa-2x
@@ -57,34 +57,30 @@
             a.subscribe.PopupTrigger data-target='subscription' Subscribe
           / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
 
-    // RSS
+    /RSS
     - if @profile.rss_enabled?
       a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
-    // Subscriber Benefits
-
+    /Subscriber Benefits
     .benefits_container.row.hidden-xs
       .col-md-12.col-sm-12
         - if @profile.benefits.any?
           .label Subscriber Benefits
           div data-identifier='benefits'= render_benefits(@profile)
 
-  // Posts & Sidebar (Owner/Subscribed Only)
-
+  /Posts & Sidebar (Owner/Subscribed Only)
   #subscriber_display
     .row
       .sidebar.col-md-4.col-sm-12.hidden-xs.pull-left
 
-        // Search
-
+        /Search
         .search.input-group style="margin-top: 0"
           span.input-group-addon
             i.fa.fa-search.fa-fw.fa-lg
           form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
             input.Autocomplete.form-control data-identifier='search-posts-autocomplete' type="text" name='q' placeholder="Search profile content"
 
-        // Category Cloud
-
+        /Category Cloud
         .archive_cloud.box
           span Archived Content
           ul
@@ -97,8 +93,7 @@
             li
               a.SearchTag data-target='search-posts-autocomplete' data-tag='document' href="#" Documents
 
-        // Contact Info
-
+        /Contact Info
         .contact.box
           span Contact
           ul
@@ -138,34 +133,29 @@
               li
                 a.fa.fa-vimeo-square  href=url target="_blank" Vimeo
 
-        // Profile Action
-
+        /Profile Action
         .share_url.btn.pink.PopupTrigger data-target='share' style='margin-bottom: 30px;'
           i.fa.fa-share-square-o
           .heading Share This Profile
           span Help expand the audience!
 
-        // Jump to Top
-
+        /Jump to Top
         span.top_jumper.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
-      // Recent Posts
-
+      /Recent Posts
       .pull-right.col-md-8.col-sm-12.col-xs-12
         .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
 
           = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
 
-  // Mobile Navigation
-
+  /Mobile Navigation
   = render 'navigation_mobile'
 
 .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(@profile.object)
 .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(@profile.object)
 .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
 
-// Share popup
-
+/Share popup
 .Popup.popup.modal-content data-identifier='share' style="width: 350px"
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="share" aria-hidden="true"

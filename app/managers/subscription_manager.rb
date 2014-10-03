@@ -125,8 +125,11 @@ class SubscriptionManager < BaseManager
       subscription.user = @subscriber
       subscription.target = target
       subscription.target_user = target.subscription_source_user
+
       save_or_die! subscription
+
       @subscription = subscription
+      @subscription.actualize_cost! or fail_with! @subscription.errors
 
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
       SubscribedFeedEvent.create! target_user: target, target: @subscriber
@@ -140,6 +143,8 @@ class SubscriptionManager < BaseManager
   end
 
   def restore
+    @subscription.actualize_cost! or fail_with! @subscription.errors
+
     PaymentManager.new.pay_for!(@subscription, 'Payment for subscription') unless @subscription.paid?
 
     if @subscription.removed?

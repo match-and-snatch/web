@@ -9,64 +9,55 @@
     .photo_profile
       img src=@profile.profile_picture_url
 
-    // Details Container
-
+    /Details Container
     .details_container.row
       .col-md-7.col-sm-7.col-xs-12.profile_details
 
-        // Profile Name
-
+        /Profile Name
         span.profile_name.visitor = @profile.profile_name
         .clearfix
         - if can? :login_as, @profile.object
           a.admin_login.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this User
         .clearfix
 
-        // Profile Type
-
+        /Profile Type
         span.profile_type= @profile.types
 
       .col-md-5.col-sm-5.col-xs-12
 
-        // Subscribe Container
-
+        /Subscribe Container
         .subscribe_cont
 
-          // Cost Button Visitor (Show Logged User/Visitor)
-
+          /Cost Button Visitor (Show Logged User/Visitor)
           a.cost_visitor
             .amount
               span
-                = super_number_to_currency(@profile.subscription_cost, format: '%n')
+                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
               span.month
                 |/month
             .btn.pink.fa.fa-usd.fa-2x
             .clearfix
 
-          // Subscribe Button
-
+          /Subscribe Button
           a.subscribe.PopupTrigger data-target='subscription' Subscribe
           / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
 
-    // RSS
+    /RSS
     - if @profile.rss_enabled?
       - if current_user.can? :see, @profile.object
         a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
-    // Subscriber Benefits
-
+    /Subscriber Benefits
     .benefits_container.row
       .col-md-12.col-sm-12.col-xs-12
         - if @profile.benefits.any?
           .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
           div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
 
-  // Visitor View
-
+  /Visitor View
   - if @profile.welcome_video.present?
 
-    // With video player
-
+    /With video player
     #visitor.with_video.row
 
       .col-md-8.col-sm-8.col-xs-12.pull-right.no_pad
@@ -101,8 +92,7 @@
 
   - else
 
-    // Generic and Generic w/audio player
-
+    /Generic and Generic w/audio player
     a.btn.blue.subscribe.PopupTrigger.hidden-sm.hidden-md data-target='subscription' href='#' style='width: 100%; margin-top: 10px; font-size: 24px' Subscribe Now
 
     #visitor.box
@@ -128,7 +118,6 @@
 
   .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
 
-// Footer
-
+/Footer
 div.hidden-xs style='position: fixed; bottom: 0; width: 100%'
   = render 'application/footer'

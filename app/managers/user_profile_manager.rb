@@ -79,9 +79,9 @@ class UserProfileManager < BaseManager
         fail_with cost: :empty
       elsif !cost.to_s.strip.match ONLY_DIGITS
         fail_with! cost: :not_an_integer
-      elsif cost.to_f <= 0
+      elsif (cost.to_f * 100).to_i <= 0
         fail_with cost: :zero
-      elsif cost.to_f > 9999
+      elsif (cost.to_f * 100).to_i > 999999
         fail_with cost: :reached_maximum
       end
 
@@ -102,7 +102,7 @@ class UserProfileManager < BaseManager
       end
     end
 
-    user.cost           = cost
+    user.cost           = (cost.to_f * 100).to_i
     user.profile_name   = profile_name
     user.holder_name    = holder_name
     user.routing_number = routing_number
@@ -175,10 +175,12 @@ class UserProfileManager < BaseManager
   end
 
   # @param cost [Integer, Float, String]
+  # @param update_existing_subscriptions [true, false, nil]
   # @return [User]
-  def update_cost(cost)
-    fail_with! cost: :zero if cost.to_f <= 0.0
-    fail_with! cost: :reached_maximum if cost.to_f > 9999
+  def update_cost(cost, update_existing_subscriptions: false)
+    unless cost.to_s.strip.match ONLY_DIGITS
+      fail_with! cost: :not_an_integer
+    end
 
     if user.source_subscriptions.any?
       if user.cost_changed_at && user.cost_changed_at.today?
@@ -186,19 +188,21 @@ class UserProfileManager < BaseManager
       end
     end
 
-    unless cost.to_s.strip.match ONLY_DIGITS
-      fail_with! cost: :not_an_integer
-    end
+    cost = (cost.to_f * 100).to_i
 
-    cost = cost.to_f
+    fail_with! cost: :zero if cost <= 0
+    fail_with! cost: :reached_maximum if cost > 999999
 
-    if user.source_subscriptions.any? && (cost - user.cost) > 3
-      ProfilesMailer.delay.changed_cost(user, user.cost, cost)
+    if user.source_subscriptions.any? && (cost - user.cost) > 300
+      ProfilesMailer.delay.changed_cost(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
       @unable_to_change_cost = true
     else
       user.cost = cost
       user.cost_changed_at = Time.zone.now
       save_or_die! user
+
+      update_subscriptions_cost if update_existing_subscriptions
+
       @unable_to_change_cost = false
     end
 
@@ -531,5 +535,11 @@ class UserProfileManager < BaseManager
     return fail_with slug: :empty          if slug.blank?
     return fail_with slug: :not_a_slug unless slug.match SLUG_REGEXP
     return fail_with slug: :taken          if slug_taken?(slug)
+  end
+
+  def update_subscriptions_cost
+    user.source_subscriptions.update_all({ cost: user.cost,
+                                           fees: user.subscription_fees,
+                                           total_cost: user.subscription_cost })
   end
 end

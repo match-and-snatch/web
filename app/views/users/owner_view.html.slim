@@ -33,7 +33,7 @@
           a.cost_owner.PopupTrigger data-target='cost-editor'
             .amount
               span data-identifier='subscription-cost'
-                = super_number_to_currency(@profile.subscription_cost, format: '%n')
+                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
               span.month
                 |/month
             .btn.pink.fa.fa-usd.fa-2x
@@ -309,11 +309,17 @@
           .form-group.input-group.pull-left style="width: 113px; margin-bottom: 0;"
             span.input-group-addon
               i.fa.fa-usd.fa-fw
-            input.form-control type='text' name='cost' value=@profile.cost data-target='subscription-cost'
+            input.form-control type='text' name='cost' value=(@profile.cost / 100) data-target='subscription-cost'
 
           .form-group.pull-right style="margin-bottom: 0;"
             input.btn.pink type='submit' value='Update Price'
           .clearfix
+
+          .form-group.input_group
+            .checkbox
+              label
+                input name='update_existing' type="checkbox" Update prices for existing subscriptions
+
         .error data-field='cost' style="text-align: center; padding-top: 5px"
 
       hr

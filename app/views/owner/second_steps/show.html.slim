@@ -81,7 +81,7 @@
           .input-group
             span.input-group-addon
               i.fa.fa-usd.fa-fw.fa-lg
-            input.form-control.usd type='text' name='cost' value=(@user.cost || 5)
+            input.form-control.usd type='text' name='cost' value=((@user.cost || 500) / 100)
             a.pull-right.breakdown.PopupTrigger style='color: #8dc63f; text-decoration: underline' data-target='pricing-popup' href="#" Check out our pricing breakdown here
             .clearfix
           .error data-field='cost'

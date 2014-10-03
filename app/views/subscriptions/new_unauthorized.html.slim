@@ -6,32 +6,31 @@
 
   .modal-body.subscribe_container
 
-    /* Order Summary Column */
-
+    /Order Summary Column
     .order_summary
       .heading Your Order Summary
 
-      /* Item Row */
+      /Item Row
 
       .item_row
         .pull-left #{@owner.profile_name}
         .pull-right
-          strong= super_number_to_currency(@owner.cost, use_ceil: false)
+          strong= cents_to_dollars @owner.cost
         .clearfix
 
-      /* Transaction Fee */
+      /Transaction Fee
 
       .transaction_fee
         .pull-left Service Fee
         .pull-right
-          strong= super_number_to_currency(@owner.subscription_fees, use_ceil: false)
+          strong= cents_to_dollars @owner.subscription_fees
         .clearfix
 
-      /* Total Cost */
+      /Total Cost
 
       .total_cost
         .pull-left Total Monthly Cost
-        .pull-right.cost= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
+        .pull-right.cost= cents_to_dollars @owner.subscription_cost
         .clearfix
 
       .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
@@ -46,38 +45,33 @@
 
   .modal-body.subscribe_container.new_subscriber
 
-    /* Order Summary Column */
-
+    /Order Summary Column
     .order_summary.pull-left
       .heading Your Order Summary
 
-      /* Item Row */
-
+      /Item Row
       .item_row
         .pull-left #{@owner.profile_name}
         .pull-right
-          strong= super_number_to_currency(@owner.cost, use_ceil: false)
+          strong= cents_to_dollars @owner.cost
         .clearfix
 
-      /* Transaction Fee */
-
+      /Transaction Fee
       .transaction_fee
         .pull-left Service Fee
         .pull-right
-          strong= super_number_to_currency(@owner.subscription_fees, use_ceil: false)
+          strong= cents_to_dollars @owner.subscription_fees
         .clearfix
 
-      /* Total Cost */
-
+      /Total Cost
       .total_cost
         .pull-left Total Monthly Cost
-        .pull-right.cost= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
+        .pull-right.cost= cents_to_dollars @owner.subscription_cost
         .clearfix
 
       .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
 
-    /* Account Payment Column */
-
+    /Account Payment Column
     form.pull-right.Form action=via_register_user_subscriptions_path(@owner) method='POST'
       .account_payment
         .form-group

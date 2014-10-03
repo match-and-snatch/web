@@ -9,7 +9,7 @@
             img.pull-left src=subscription.target_user.profile_picture_url height='150px' width='150px'
           .name.pull-left= subscription.target_user.name
           .cost.pull-right
-            = super_number_to_currency(subscription.target_user.subscription_cost)
+            = cents_to_dollars(subscription.total_cost, use_ceil: true)
             |/month
 
           p.pull-left style='width: 450px'

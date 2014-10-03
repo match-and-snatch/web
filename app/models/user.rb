@@ -195,20 +195,28 @@ class User < ActiveRecord::Base
       cost = cost.to_i
       fees = 0
 
-      if cost <= 3
-        fees = 0.79
-      elsif cost >= 4 && cost <= 9
-        fees = 0.99
-      elsif cost >= 10 && cost <= 20
-        fees = 1.79
-      elsif cost >= 21
-        fees = cost * 0.09
+      if cost <= 300
+        fees = 79
+      elsif cost >= 400 && cost <= 900
+        fees = 99
+      elsif cost >= 1000 && cost <= 2000
+        fees = 179
+      elsif cost >= 2100
+        fees = cost / 100 * 9
       else
         raise ArgumentError, 'Invalid cost'
       end
 
       self.subscription_fees = fees
       self.subscription_cost = fees + cost
+    end
+  end
+
+  def pretend(attrs = {})
+    self.dup.tap do |user|
+      attrs.each do |key, val|
+        user.send("#{key}=", val)
+      end
     end
   end
 

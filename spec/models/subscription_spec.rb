@@ -191,4 +191,14 @@ describe Subscription do
       end
     end
   end
+
+  describe '#actualize_cost!' do
+    before do
+      subject.update_attribute :cost, nil
+    end
+
+    specify do
+      expect { subject.actualize_cost! }.to change { subject.cost }.from(nil).to(target_user.cost)
+    end
+  end
 end

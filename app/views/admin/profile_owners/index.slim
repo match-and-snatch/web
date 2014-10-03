@@ -29,10 +29,10 @@ h2 Profile Owners
         td
           a.HashLink href=admin_profile_owner_path(user.id) = user.name
         td
-          = number_to_currency user.transfer / 100.0
+          = cents_to_dollars user.transfer
         td= user.subscriptions_count
         td style='max-width: 200px; overflow: hidden'= user.plain_profile_types
         td style='min-width: 100px'= user.created_at
         td
-          = number_to_currency user.subscription_cost
+          = cents_to_dollars user.subscription_cost
   .clearfix
