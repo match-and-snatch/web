@@ -51,19 +51,19 @@ class BillingPeriodsPresenter
     end
 
     def total_gross
-      payments.sum(:amount) / 100.0 #- stripe_fee
+      payments.sum(:amount) #- stripe_fee
     end
 
     def connectpal_fee
-      payments.sum(:user_subscription_fees) - stripe_fee
+      payments.sum(:subscription_fees) - stripe_fee
     end
 
     def stripe_fee
-      payments.count * 0.30 + (payments.sum(:amount) * 0.029) / 100.0
+      payments.count * 30 + payments.sum(:amount) * 0.029
     end
 
     def tos_fee
-      unsubscribed_count * @user.cost
+      removed_subscriptions.sum(:cost)
     end
 
     def total_subscribed_count
@@ -82,11 +82,11 @@ class BillingPeriodsPresenter
     end
 
     def unsubscribed_count
-      Subscription.where(target_user_id: @user.id, removed_at: @period, removed: true).count
+      removed_subscriptions.count
     end
 
     def payout
-      @payout ||= transfers.sum(:amount) / 100.0
+      @payout ||= transfers.sum(:amount)
     end
 
     def billing_failed_count
@@ -98,6 +98,10 @@ class BillingPeriodsPresenter
     end
 
     private
+
+    def removed_subscriptions
+      Subscription.where(target_user_id: @user.id, removed_at: @period, removed: true)
+    end
 
     def transfers
       @transfers ||= StripeTransfer.where(user_id: @user.id).where(created_at: @period)

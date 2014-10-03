@@ -2,7 +2,7 @@ class Admin::ProfileOwnersController < Admin::BaseController
   before_filter :load_user!, only: [:show, :total_subscribed, :total_new_subscribed, :total_unsubscribed, :failed_billing_subscriptions]
 
   def index
-    query = User.profile_owners.includes(:profile_types).where('subscription_cost IS NOT NULL').limit(1000)
+    query = User.profile_owners.includes(:profile_types).where('users.subscription_cost IS NOT NULL').limit(1000)
     query = query.joins(:source_payments).
       select('users.*, SUM(payments.amount) as transfer').
       group('users.id, payments.amount')

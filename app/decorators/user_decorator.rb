@@ -66,7 +66,7 @@ class UserDecorator < BaseDecorator
     @subscriptions_count ||= subscriptions.count
   end
 
-  private
+  protected
 
   def subscriptions
     Subscription.not_removed.joins(:user).where({users: {billing_failed: false}}).where(target_user_id: object.id)

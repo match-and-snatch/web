@@ -12,10 +12,10 @@ h2 Payout Details
     - @users.each do |user|
       tr
         td= link_to_user(user)
-        td= super_number_to_currency user.amount, use_ceil: false
+        td= cents_to_dollars user.amount
         td unknown
-        td= super_number_to_currency user.connectpal_fees, use_ceil: false
+        td= cents_to_dollars user.connectpal_fees
         td unknown
-        td= super_number_to_currency user.payout_amount, use_ceil: false
+        td= cents_to_dollars user.payout_amount
 - else
   strong No payments so far

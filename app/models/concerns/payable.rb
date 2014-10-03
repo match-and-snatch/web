@@ -5,11 +5,6 @@ module Concerns::Payable
     scope :on_charge, -> { where(['charged_at <= ? OR charged_at IS NULL', 1.month.ago]).joins(:target_user).where(users: { is_profile_owner: true }).readonly(false) }
   end
 
-  # @return [Integer] Amount in cents
-  def cost
-    raise NotImplementedError
-  end
-
   # @return [User]
   def customer
     raise NotImplementedError

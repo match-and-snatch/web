@@ -6,37 +6,33 @@
 
   .modal-body.subscribe_container.existing_billing
 
-      /* Order Summary Column */
+    /Order Summary Column
+    .order_summary
+      .heading Your Order Summary
 
-      .order_summary
-        .heading Your Order Summary
+      /Item Row
+      .item_row
+        .pull-left #{@owner.profile_name}
+        .pull-right
+          strong= cents_to_dollars @owner.cost
+        .clearfix
 
-        /* Item Row */
+      /Transaction Fee
+      .transaction_fee
+        .pull-left Service Fee
+        .pull-right
+          strong= cents_to_dollars @owner.subscription_fees
+        .clearfix
 
-        .item_row
-          .pull-left #{@owner.profile_name}
-          .pull-right
-            strong= super_number_to_currency(@owner.cost, use_ceil: false)
-          .clearfix
+      /Total Cost
+      .total_cost
+        .pull-left Total Monthly Cost
+        .pull-right.cost= cents_to_dollars @owner.subscription_cost
+        .clearfix
 
-        /* Transaction Fee */
+      .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
 
-        .transaction_fee
-          .pull-left Service Fee
-          .pull-right
-            strong= super_number_to_currency(@owner.subscription_fees, use_ceil: false)
-          .clearfix
-
-        /* Total Cost */
-
-        .total_cost
-          .pull-left Total Monthly Cost
-          .pull-right.cost= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
-          .clearfix
-
-        .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
-
-        a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) style="width: 100%; margin-top: 15px;" Subscribe
+      a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) style="width: 100%; margin-top: 15px;" Subscribe
 
 - else
   .modal-header
@@ -46,33 +42,29 @@
 
   .modal-body.subscribe_container.new_billing
 
-    /* Order Summary Column */
-
+    /Order Summary Column
     .order_summary.pull-left style="margin-right: 15px; min-height: 260px;"
       .heading Your Order Summary
 
-      /* Item Row */
-
+      /Item Row
       .item_row
         .pull-left #{@owner.profile_name}
         .pull-right
-          /* Please display both decimal points for the cost only in this place */
-          strong= super_number_to_currency(@owner.cost, use_ceil: false)
+          /Please display both decimal points for the cost only in this place
+          strong= cents_to_dollars @owner.cost
         .clearfix
 
-      /* Transaction Fee */
-
+      /Transaction Fee
       .transaction_fee
         .pull-left Service Fee
         .pull-right
-          strong= super_number_to_currency(@owner.subscription_fees, use_ceil: false)
+          strong= cents_to_dollars @owner.subscription_fees
         .clearfix
 
-      /* Total Cost */
-
+      /Total Cost
       .total_cost
         .pull-left Total Monthly Cost
-        .pull-right.cost= super_number_to_currency(@owner.subscription_cost, use_ceil: false)
+        .pull-right.cost= cents_to_dollars @owner.subscription_cost
         .clearfix
 
       .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
@@ -122,4 +114,3 @@
       input.btn.blue type='submit' value='Pay & Subscribe' style="width: 100%; margin-top: 15px; font-size: 24px"
       .clearfix
     .clearfix
-

@@ -60,15 +60,14 @@ module ApplicationHelper
   # @param cost [Integer, Float, String]
   # @param opts [Hash]
   # @return [String]
-  def super_number_to_currency(cost, opts = {})
-    cost = cost.to_f
+  def cents_to_dollars(cost, opts = {})
+    cost = cost.to_f / 100.0
     ceil_cost = cost.to_i
 
-    if opts[:use_ceil] == false
-      cost = cost - ceil_cost > 0 ? cost : ceil_cost
-      number_to_currency(cost, opts)
+    if opts[:use_ceil]
+      cost - ceil_cost > 0 ? number_to_currency(cost, opts) : "$#{ceil_cost}"
     else
-      cost - ceil_cost > 0 ? number_to_currency(cost, opts) : ceil_cost
+      number_to_currency(cost - ceil_cost > 0 ? cost : ceil_cost, opts)
     end
   end
 

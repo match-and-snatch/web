@@ -36,6 +36,8 @@ module Delayable
             value.to_i
           when [Float]
             value.to_f
+          when [Fixnum]
+            value.to_i
           else
             raise ArgumentError, "Not expected #{klass.name}"
         end
@@ -49,7 +51,7 @@ module Delayable
         case arg
           when ActiveRecord::Base
             "###___#{ActiveRecord::Base.name}___:::___#{arg.class.name}-#{arg.id}"
-          when String, Integer, Float
+          when String, Integer, Float, Fixnum
             "###___#{arg.class.name}___:::___#{arg}"
           else
             raise ArgumentError, "Delayed #{arg.class.name} is not Supported"
