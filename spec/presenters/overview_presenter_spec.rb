@@ -59,19 +59,19 @@ describe OverviewPresenter do
 
   describe '#total_gross_sales' do
     specify do
-      expect(subject.total_gross_sales).to eq(500)
+      expect(subject.total_gross_sales).to eq(599)
     end
   end
 
   describe '#total_connectpal_fees' do
     specify do
-      expect(subject.total_connectpal_fees).to eq(54.5)
+      expect(subject.total_connectpal_fees).to eq(51.629)
     end
   end
 
   describe '#stripe_fees' do
     specify do
-      expect(subject.stripe_fees).to eq(44.5)
+      expect(subject.stripe_fees).to eq(47.371)
     end
   end
 
@@ -83,7 +83,7 @@ describe OverviewPresenter do
 
   describe '#daily_gross_sales' do
     specify do
-      expect(subject.daily_gross_sales).to eq(500)
+      expect(subject.daily_gross_sales).to eq(599)
     end
   end
 
@@ -125,7 +125,7 @@ describe OverviewPresenter do
 
   describe '#daily_stripe_fees' do
     specify do
-      expect(subject.daily_stripe_fees).to eq(44.5)
+      expect(subject.daily_stripe_fees).to eq(47.371)
     end
   end
 end
