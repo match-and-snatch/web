@@ -194,7 +194,7 @@ class UserProfileManager < BaseManager
     fail_with! cost: :reached_maximum if cost > 999999
 
     if user.source_subscriptions.any? && (cost - user.cost) > 300
-      ProfilesMailer.delay.changed_cost(user, user.cost, cost)
+      ProfilesMailer.delay.changed_cost(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
       @unable_to_change_cost = true
     else
       user.cost = cost

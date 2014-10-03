@@ -5,8 +5,8 @@ class ProfilesMailer < ApplicationMailer
   # @param cost [Integer]
   def changed_cost(user, old_cost, cost)
     @user = user
-    @cost = cost / 100.0
-    @old_cost = old_cost / 100.0
+    @cost = cost
+    @old_cost = old_cost
     mail to: 'support@connectpal.com', subject: 'Subscription Notice - Price Change'
   end
 
@@ -14,8 +14,8 @@ class ProfilesMailer < ApplicationMailer
   # @param cost [Integer]
   def changed_cost_blast(recipient, user, old_cost, cost)
     @user = user
-    @cost = cost / 100.0
-    @old_cost = old_cost / 100.0
+    @cost = cost
+    @old_cost = old_cost
     mail to: recipient.email, subject: 'Subscription Notice - Price Change'
   end
 

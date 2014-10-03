@@ -212,6 +212,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def pretend(attrs = {})
+    self.dup.tap do |user|
+      attrs.each do |key, val|
+        user.send("#{key}=", val)
+      end
+    end
+  end
+
   def created_profile_page?
     !((!passed_profile_steps? && is_profile_owner?) || (!is_profile_owner?))
   end
