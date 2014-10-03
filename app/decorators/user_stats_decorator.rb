@@ -32,7 +32,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def monthly_earnings
-    @monthly_earnings ||= subscriptions_count * (object.cost || 0)
+    @monthly_earnings ||= subscriptions.sum(:cost)
   end
 
   def profile_created

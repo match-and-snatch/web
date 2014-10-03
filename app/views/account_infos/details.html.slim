@@ -3,7 +3,7 @@
     .value= @user.subscriptions_count
     span Active Subscriptions
   .col-md-6.col-sm-6.col-xs-6
-    .value $#{@user.monthly_earnings}
+    .value= cents_to_dollars(@user.monthly_earnings, use_ceil: true)
     span Monthly Earnings
   .clearfix
 
