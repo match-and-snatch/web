@@ -45,7 +45,7 @@ class PostManager < BaseManager
 
       if notify == '1'
         post.user.source_subscriptions.where(notifications_enabled: true).preload(:user).find_each do |s|
-          PostsMailer.delay.created(post, s.user)
+          PostsMailer.delay.created(post, s.user) if s.user && post
         end
       end
     end
@@ -168,7 +168,7 @@ class PostManager < BaseManager
 
       if notify == '1'
         post.user.source_subscriptions.where(notifications_enabled: true).preload(:user).find_each do |s|
-          PostsMailer.delay.created(post, s.user)
+          PostsMailer.delay.created(post, s.user) if s.user && post
         end
       end
     end
