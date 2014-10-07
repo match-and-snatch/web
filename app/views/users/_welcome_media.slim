@@ -24,7 +24,7 @@
       - else
         .btn.green.fa.fa-plus
           |  Add Welcome Media File
-      input.hide_btn type='file' name='welcome_media_file'
+      input.hide_btn type='file' name='welcome_media_file' accept=".mp4,.m4v,.f4v,.mov,.flv,.aac,.m4a,.mp3,.ogg,.oga"
       input type='hidden' name='slug' value=current_user.slug
 
     - if current_user.welcome_media.present?

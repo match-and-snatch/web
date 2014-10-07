@@ -9,7 +9,7 @@ form.PictureUploadForm action=update_account_picture_account_info_path(current_u
       .change_button
         .btn.pink.i.fa.fa-picture-o style='position: relative'
           |&nbsp;Change Photo
-          input.file type='file' name='account_picture_file' style='height: 41px'
+          input.file accept='.jpg,.png,.gif' type='file' name='account_picture_file' style='height: 41px'
         input type='hidden' name='slug' value=current_user.slug
 
     .clearfix

@@ -20,7 +20,7 @@ div data-identifier='pending-documents'
           .select_file_container
             .btn.green.multi.fa.fa-plus
               |&nbsp;Add Document Files
-            input.hide_btn type='file' name='post_documents' multiple='multiple'
+            input.hide_btn type='file' name='post_documents' multiple='multiple' accept='.doc,.docx,.rtf,.txt,.odt,.csv,.pps,.ppt,.pptx,.indd,.pdf,.xlr,.xls,.xlsx'
             input type='hidden' name='slug' value=current_user.slug
       - else
         p You can only upload 5 files per post.

@@ -7,7 +7,7 @@
 
     .btn.blue.i.fa.fa-picture-o
       |&nbsp;Change Photo
-      input.file type='file' name='cover_picture_file'
+      input.file type='file' name='cover_picture_file' accept='.jpg,.png,.gif'
     input type='hidden' name='slug' value=current_user.slug
 
   - if current_user.cover_picture_url.present?
