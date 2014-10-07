@@ -21,11 +21,5 @@ class Dialogue < ActiveRecord::Base
   def antiuser(user)
     user == self.user ? target_user : self.user
   end
-
-  def remove!
-    self.removed = true
-    self.removed_at = Time.zone.now
-    self.save!
-  end
 end
 
