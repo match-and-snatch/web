@@ -36,5 +36,16 @@ describe MessagesManager do
     specify do
       expect { subject.remove }.not_to change { dialogue.dialogues_users.where(user_id: target_user.id).first.removed? }
     end
+
+    describe 'persistance' do
+      before do
+        user
+        target_user
+      end
+
+      specify do
+        expect { described_class.new(user: user, dialogue: dialogue).remove }.not_to change { User.count }
+      end
+    end
   end
 end
