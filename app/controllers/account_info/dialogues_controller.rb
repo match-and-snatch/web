@@ -11,7 +11,7 @@ class AccountInfo::DialoguesController < AccountInfo::BaseController
   end
 
   def show
-    json_render.tap { MessagesManager.new(user: current_user.object).mark_as_read(@dialogue) }
+    json_render.tap { MessagesManager.new(user: current_user.object, dialogue: @dialogue).mark_as_read }
   end
 
   def confirm_removal
@@ -19,7 +19,7 @@ class AccountInfo::DialoguesController < AccountInfo::BaseController
   end
 
   def destroy
-    @dialogue.remove!
+    MessagesManager.new(user: current_user.object, dialogue: @dialogue).remove
     json_replace
   end
 
