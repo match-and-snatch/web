@@ -17,6 +17,6 @@ div data-identifier='pending-photos'
         .select_file_container
           .btn.green.multi.fa.fa-plus
             |&nbsp;Add Photo Files
-          input.hide_btn type='file' name='post_photos' multiple='multiple'
+          input.hide_btn type='file' name='post_photos' multiple='multiple' accept='.jpg,.png,.gif'
           input type='hidden' name='slug' value=current_user.slug
     .clearfix
