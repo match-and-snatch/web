@@ -3,9 +3,11 @@ class MessagesManager < BaseManager
 
   # @param user [User] Who is sending the message
   # @param dialogue [Dialogue, nil]
-  def initialize(user: , dialogue: nil)
+  # @param message [Message, nil]
+  def initialize(user: , dialogue: nil, message: nil)
     @user = user
-    @dialogue = nil
+    @dialogue = dialogue
+    @message = message
   end
 
   # @param target_user [User]
@@ -17,15 +19,15 @@ class MessagesManager < BaseManager
 
     @dialogue = Dialogue.pick(user, target_user)
 
-    _message = Message.new(user: user, target_user: target_user, message: message, dialogue: @dialogue)
-    _message.save!
-    @dialogue.recent_message = _message
-    @dialogue.recent_message_at = _message.created_at
+    @message = Message.new(user: user, target_user: target_user, message: message, dialogue: @dialogue)
+    @message.save!
+    @dialogue.recent_message = @message
+    @dialogue.recent_message_at = @message.created_at
     @dialogue.unread = true
     @dialogue.save!
 
-    MessagesMailer.delay.new_message(_message)
-    _message
+    MessagesMailer.delay.new_message(@message)
+    @message
   end
 
   def mark_as_read
@@ -35,6 +37,10 @@ class MessagesManager < BaseManager
       @dialogue.save!
     end
     @dialogue
+  end
+
+  def remove
+    @dialogue.dialogues_users.where(user_id: @user.id).update_all(removed: true)
   end
 end
 

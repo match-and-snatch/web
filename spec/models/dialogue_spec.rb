@@ -3,23 +3,41 @@ require 'spec_helper'
 describe Dialogue do
   let(:user) { create_user }
   let(:friend) { create_user email: 'sender@gmail.com' }
-
-  subject(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
+  let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
 
   describe '.pick' do
-    subject { described_class.pick(user, friend).id }
+    context 'dialogue does exist' do
+      subject { described_class.pick(user, friend) }
+      specify { expect(subject).to eq(dialogue) }
+    end
 
-    specify { expect(subject).to eq(dialogue.id) }
+    context 'dialogue does not exist' do
+      let(:another_user) { create_user(email: 'another@user.ru') }
+      subject { described_class.pick(another_user, friend) }
 
-    context 'removed dialogue' do
-      before { dialogue.remove! }
+      specify { expect(subject).not_to eq(dialogue) }
 
-      specify { expect(subject).not_to eq(dialogue.id) }
+      specify do
+        expect { subject }.to change { Dialogue.count }.by(1)
+      end
+
+      specify do
+        expect(subject).to be_a(Dialogue)
+      end
+
+      specify do
+        expect(subject.users).to include(friend, another_user)
+      end
     end
   end
 
-  describe '#remove!' do
-    specify { expect { dialogue.remove! }.to change { dialogue.removed }.from(false).to(true) }
-    specify { expect { dialogue.remove! }.to change { dialogue.removed_at }.from(nil) }
+  describe '#antiuser' do
+    specify do
+      expect(dialogue.antiuser(user)).to eq(friend)
+    end
+
+    specify do
+      expect(dialogue.antiuser(friend)).to eq(user)
+    end
   end
 end

@@ -5,7 +5,7 @@ class AccountInfo::DialoguesController < AccountInfo::BaseController
   protect(:destroy) { can? :manage, @dialogue }
 
   def index
-    @dialogues = Dialogue.by_user(current_user.object).not_removed.
+    @dialogues = current_user.object.dialogues.not_removed.
       includes(recent_message: :user).order('recent_message_at DESC').limit(200).to_a
     json_render
   end

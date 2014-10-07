@@ -1,25 +1,39 @@
 class Dialogue < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :target_user, class_name: 'User'
+  has_many :dialogues_users
+  has_many :users, through: :dialogues_users
   belongs_to :recent_message, class_name: 'Message'
 
   has_many :messages
 
-  scope :by_user, -> (user) { where(['dialogues.user_id = ? OR dialogues.target_user_id = ?', user.id, user.id]) }
+  scope :by_user, -> (user) { joins(:users).where(users: {id: user.id}) }
   scope :unread, -> { where(unread: true) }
-  scope :not_removed, -> { where(removed: false) }
 
   # Finds or creates dialogue between users
   # @param user [User]
   # @param target_user [User]
   # @return [Dialogue]
   def self.pick(user, target_user)
-    dialogue = by_user(user).by_user(target_user).not_removed.first
-    dialogue || Dialogue.create!(user: user, target_user: target_user)
+    dialogue = joins(:users).
+      where(users: {id: [user.id, target_user.id]}).
+      group('dialogues.id').having('COUNT(users.id) = 2').first
+
+    if dialogue
+      dialogue.dialogues_users.update_all(removed: false)
+    else
+      dialogue = Dialogue.new
+      dialogue.dialogues_users.build(user: user)
+      dialogue.dialogues_users.build(user: target_user)
+      dialogue.save!
+    end
+
+    dialogue
   end
 
+  # Returns second person involved in dialogue
+  # @param user [User]
+  # @return [User]
   def antiuser(user)
-    user == self.user ? target_user : self.user
+    users.where(['users.id <> ?', user.id]).first
   end
 end
 

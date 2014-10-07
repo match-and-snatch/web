@@ -183,7 +183,7 @@ describe User do
     specify { expect(friend.unread_messages_count).to eq(1) }
 
     context 'removed dialogue' do
-      before { dialogue.remove! }
+      before { MessagesManager.new(user: friend, dialogue: dialogue).remove }
 
       specify { expect(friend.unread_messages_count).to eq(0) }
     end

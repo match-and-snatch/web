@@ -19,6 +19,12 @@ class User < ActiveRecord::Base
   has_many :payments
   has_many :payment_failures
   has_many :source_payments, class_name: 'Payment', foreign_key: 'target_user_id'
+  has_many :dialogues_users
+  has_many :dialogues, through: :dialogues_users do
+    def not_removed
+      where(dialogues_users: {removed: false})
+    end
+  end
 
   has_one :pending_post
 
@@ -52,10 +58,6 @@ class User < ActiveRecord::Base
 
   def comment_picture_url
     small_account_picture_url || small_profile_picture_url
-  end
-
-  def dialogues
-    Dialogue.by_user(self)
   end
 
   # @param new_password [String]
