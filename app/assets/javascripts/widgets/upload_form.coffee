@@ -36,9 +36,9 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         @$container.find('.select_file_container').addClass('hidden')
         $('.Progress').removeClass('hidden')
         bud.pub('attachment.uploading')
-        if @invalid_file_format
+        if @has_invalid_file_extension
           bud.pub('attachment.cancel')
-          @notify_about_invalid_file()
+          @notify_file_invalid()
       onFileSelect: (fileName, $fileInputField) =>
         @validate_file_extension(fileName, $fileInputField)
       onError: (error) =>
@@ -46,7 +46,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         $('.Progress').addClass('hidden')
         @change_progress '0%'
         bud.pub('attachment.uploaded')
-        @notify_about_invalid_file()
+        @notify_file_invalid()
     )
 
   on_cancel: =>
@@ -81,9 +81,11 @@ class bud.widgets.UploadForm extends bud.widgets.Form
 
   validate_file_extension: (file_name, file_input) ->
     allowed_extensions = (file_input.attr('accept') || '').split(',')
-    file_extension = file_name.match(/\.[a-zA-Z0-9]+$/)[0]
-    @invalid_file_format = !(file_extension in allowed_extensions) and !_.isEqual(allowed_extensions, [''])
+    matched_ext = file_name.match(/\.[a-zA-Z0-9]+$/)
+    file_extension = ''
+    file_extension = matched_ext[0] if matched_ext
+    @has_invalid_file_extension = !(file_extension in allowed_extensions) and !_.isEqual(allowed_extensions, [''])
 
-  notify_about_invalid_file: ->
+  notify_file_invalid: ->
     @$container.find('.select_file_container').removeClass('hidden')
-    alert('Sorry, but file you are trying to upload is invalid')
+    alert('Sorry, but the file you are trying to upload is invalid')
