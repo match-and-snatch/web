@@ -68,12 +68,6 @@
           span.no_profile Sorry, there are no listings for this section.
         - else
           ul.profile_directory
-            - if letter == 'B' && boortz = User.where(slug: 'the-painful-truth-from-neal-boortz').first
-              li
-                a href=profile_path(boortz) target='_blank'
-                  img.photo src=boortz.small_profile_picture_url width=50 height=50
-                  span= boortz.name.split(' ').reverse.join(' ')
-                .clearfix
             - users.each do |user|
               li
                 a href=profile_path(user) target='_blank'
