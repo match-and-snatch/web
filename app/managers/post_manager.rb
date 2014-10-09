@@ -44,7 +44,7 @@ class PostManager < BaseManager
       user.pending_post.try(:destroy!)
 
       if notify == '1'
-        post.user.source_subscriptions.where(notifications_enabled: true).preload(:user).find_each do |s|
+        post.user.source_subscriptions.where(notifications_enabled: true).not_removed.preload(:user).find_each do |s|
           PostsMailer.delay.created(post, s.user) if s.user && post
         end
       end
@@ -167,7 +167,7 @@ class PostManager < BaseManager
       user.pending_post.try(:destroy!)
 
       if notify == '1'
-        post.user.source_subscriptions.where(notifications_enabled: true).preload(:user).find_each do |s|
+        post.user.source_subscriptions.where(notifications_enabled: true).not_removed.preload(:user).find_each do |s|
           PostsMailer.delay.created(post, s.user) if s.user && post
         end
       end
