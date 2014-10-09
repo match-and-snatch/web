@@ -188,4 +188,52 @@ describe User do
       specify { expect(friend.unread_messages_count).to eq(0) }
     end
   end
+
+  describe '#cost=' do
+    subject(:user) { User.new }
+
+    context 'invalid cost' do
+      specify { expect { user.cost =  301 }.to raise_error(ArgumentError, /Invalid cost/) }
+      specify { expect { user.cost =  701 }.to raise_error(ArgumentError, /Invalid cost/) }
+      specify { expect { user.cost = 2001 }.to raise_error(ArgumentError, /Invalid cost/) }
+    end
+
+    context 'float cost' do
+      specify { expect { user.cost = 300.5 }.to change { user.cost }.from(nil).to(300) }
+      specify { expect { user.cost = 300.5 }.to change { user.subscription_cost }.from(nil).to(379) }
+      specify { expect { user.cost = 300.5 }.to change { user.subscription_fees }.from(nil).to(79) }
+    end
+
+    context 'cost <= $3' do
+      specify { expect { user.cost = 300 }.to change { user.cost }.from(nil).to(300) }
+      specify { expect { user.cost = 300 }.to change { user.subscription_cost }.from(nil).to(379) }
+      specify { expect { user.cost = 300 }.to change { user.subscription_fees }.from(nil).to(79) }
+    end
+
+    context 'cost >= $4 and <= $7' do
+      specify { expect { user.cost = 400 }.to change { user.cost }.from(nil).to(400) }
+      specify { expect { user.cost = 400 }.to change { user.subscription_cost }.from(nil).to(499) }
+      specify { expect { user.cost = 400 }.to change { user.subscription_fees }.from(nil).to(99) }
+
+      specify { expect { user.cost = 700 }.to change { user.cost }.from(nil).to(700) }
+      specify { expect { user.cost = 700 }.to change { user.subscription_cost }.from(nil).to(799) }
+      specify { expect { user.cost = 700 }.to change { user.subscription_fees }.from(nil).to(99) }
+    end
+
+    context 'cost >= $8 and <= $20' do
+      specify { expect { user.cost = 800 }.to change { user.cost }.from(nil).to(800) }
+      specify { expect { user.cost = 800 }.to change { user.subscription_cost }.from(nil).to(995) }
+      specify { expect { user.cost = 800 }.to change { user.subscription_fees }.from(nil).to(195) }
+
+      specify { expect { user.cost = 2000 }.to change { user.cost }.from(nil).to(2000) }
+      specify { expect { user.cost = 2000 }.to change { user.subscription_cost }.from(nil).to(2195) }
+      specify { expect { user.cost = 2000 }.to change { user.subscription_fees }.from(nil).to(195) }
+    end
+
+    context 'cost >= $21' do
+      specify { expect { user.cost = 2100 }.to change { user.cost }.from(nil).to(2100) }
+      specify { expect { user.cost = 2100 }.to change { user.subscription_cost }.from(nil).to(2289) }
+      specify { expect { user.cost = 2100 }.to change { user.subscription_fees }.from(nil).to(189) }
+    end
+  end
 end
