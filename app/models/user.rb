@@ -178,13 +178,7 @@ class User < ActiveRecord::Base
   end
 
   # Sets costs and fees
-  # New logic:
-  # - $3 or less = $0.79
-  # - $4 - $9 = $0.99
-  # - $10 - $20 = $1.79
-  # - $21 & above = 9% of price
-  #
-  # Old logic:
+  # Logic:
   # $3 or less = $0.79
   # $4 - $7 = $0.99
   # $8 - $20 = $1.95
