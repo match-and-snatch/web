@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe AudiosController, type: :controller do
-  let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true, itunes_enabled: true }
+  let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'POST #create' do
     subject { post 'create', transloadit_audio_data_params }
@@ -29,7 +29,7 @@ describe AudiosController, type: :controller do
       its(:status) { should == 200 }
 
       context 'itunes is not enabled' do
-        let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true, itunes_enabled: false }
+        before { UserProfileManager.new(owner).disable_itunes }
         its(:status) { should == 404 }
       end
 
