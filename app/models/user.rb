@@ -185,10 +185,10 @@ class User < ActiveRecord::Base
   # - $21 & above = 9% of price
   #
   # Old logic:
-  # - $4 or less = $0.79
-  # - $5 - $9 = $0.95
-  # - $10 - $20 = $1.79
-  # - $21 & above = 9% of price
+  # $3 or less = $0.79
+  # $4 - $7 = $0.99
+  # $8 - $20 = $1.95
+  # $21 and above = 9% of subscription price
   #
   # @param val [Integer]
   # @return [S]
@@ -199,10 +199,10 @@ class User < ActiveRecord::Base
 
       if cost <= 300
         fees = 79
-      elsif cost >= 400 && cost <= 900
+      elsif cost >= 400 && cost <= 700
         fees = 99
-      elsif cost >= 1000 && cost <= 2000
-        fees = 179
+      elsif cost >= 800 && cost <= 2000
+        fees = 195
       elsif cost >= 2100
         fees = cost / 100 * 9
       else
