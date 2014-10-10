@@ -2,12 +2,12 @@
 
   / Progress bar. Add in hidden class.
   .row-fluid.file_status.Progress.hidden
-    .col-md-2.col-sm-2.col-xs-2.file_name Uploading...
+    .col-md-2.col-sm-2.col-xs-2.file_name data-identifier='uploading-status' Uploading...
     .col-md-8.col-sm-8.col-xs-8
       .progress.progress-striped.active
         .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
           span.sr-only 0% Complete
-    .col-md-2.col-sm-2.col-xs-2.percentage 0%
+    .col-md-2.col-sm-2.col-xs-2.percentage data-identifier='uploading-percentage' 0%
     .clearfix
 
   .row-fluid
