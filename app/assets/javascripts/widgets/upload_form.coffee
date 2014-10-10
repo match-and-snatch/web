@@ -35,12 +35,12 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       fields: "input[name=slug]"
       modal: false
       onProgress: (bytesReceived, bytesExpected, assembly) =>
-        @change_progress (bytesReceived / bytesExpected * 100).toFixed(2) + '%'
+        @change_progress (bytesReceived / bytesExpected * 100).toFixed(2)
       onUpload: (upload, assembly) =>
         #@$target.prepend("<div>#{upload.name} is uploaded.</div>")
       onSuccess: (assembly) =>
         $('.Progress').addClass('hidden')
-        @change_progress '0%'
+        @change_progress 0
         bud.pub('attachment.uploaded')
         @$container.find('.select_file_container').removeClass('hidden')
       onStart: (assembly) =>
@@ -56,14 +56,14 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       onError: (error) =>
         console.log(error) if console
         $('.Progress').addClass('hidden')
-        @change_progress '0%'
+        @change_progress 0
         bud.pub('attachment.uploaded')
         @notify_file_invalid(error.message)
     )
 
   on_cancel: =>
     $('.Progress').addClass('hidden')
-    @change_progress '0%'
+    @change_progress 0
     u = @$container.data('transloadit.uploader')
     if u && u.$files
       u.cancel()
@@ -80,8 +80,17 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     @reinit()
 
   change_progress: (progress) ->
-    $('.progress-bar-info').width(progress)
-    $('.percentage').text(progress)
+    progress_bar = $("[role=progressbar]")
+    status_label = $("[data-identifier=uploading-status]")
+    progress_bar.width("#{progress}%")
+    $("[data-identifier=uploading-percentage]").text("#{progress}%")
+
+    if progress < 100
+      status_label.text('Uploading...')
+      progress_bar.removeClass('progress-bar-success').addClass('progress-bar-info')
+    else
+      status_label.text('Processing...')
+      progress_bar.removeClass('progress-bar-info').addClass('progress-bar-success')
 
   reinit: () =>
     $(@$container).unbind('submit.transloadit');
