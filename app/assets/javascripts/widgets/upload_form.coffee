@@ -18,6 +18,17 @@ class bud.widgets.UploadForm extends bud.widgets.Form
 
   on_script_loaded: =>
     @$container.attr('enctype', 'multipart/form-data')
+    @$container.transloadit.i18n.en =
+      'errors.BORED_INSTANCE_ERROR': 'Something went wrong. Please restart your upload process.'
+      'errors.CONNECTION_ERROR': 'Sorry, your upload failed due to connection issues. Please restart your upload process.'
+      'errors.unknown': 'There was an internal error. Please restart your upload process.'
+      'errors.tryAgain': 'Please restart your upload process.'
+      'errors.troubleshootDetails': 'If you would like our help to troubleshoot this, please email us this information:'
+      cancel: 'Cancel'
+      details: 'Details'
+      startingUpload: 'Starting upload ...'
+      processingFiles: 'Processing files'
+      uploadProgress: '%s MB / %s MB (%s kB / sec)'
     @$container.transloadit(
       wait: true
       triggerUploadOnFileSelection: true
@@ -47,7 +58,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         $('.Progress').addClass('hidden')
         @change_progress '0%'
         bud.pub('attachment.uploaded')
-        @notify_file_invalid()
+        @notify_file_invalid(error.message)
     )
 
   on_cancel: =>
@@ -86,6 +97,6 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     file_extension = matched_ext[0] if matched_ext
     @has_invalid_file_extension = !(file_extension in @allowed_extensions) and !_.isEqual(@allowed_extensions, [''])
 
-  notify_file_invalid: ->
+  notify_file_invalid: (message) ->
     @$container.find('.select_file_container').removeClass('hidden')
-    alert('Sorry, but the file you are trying to upload is invalid')
+    alert(message || 'Sorry, but the file you are trying to upload is invalid')
