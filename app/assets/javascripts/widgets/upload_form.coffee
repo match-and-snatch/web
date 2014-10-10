@@ -12,7 +12,6 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     bud.sub('attachment.cancel', @on_cancel)
     bud.Ajax.getScript(bud.widgets.UploadForm.TRANSLOADIT_SCRIPT_PATH).done(@on_script_loaded)
 
-
   destroy: ->
     bud.unsub('post', @on_post)
     bud.unsub('attachment.cancel', @on_cancel)
@@ -20,7 +19,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
   on_script_loaded: =>
     @$container.attr('enctype', 'multipart/form-data')
     @$container.transloadit.i18n.en =
-      'errors.BORED_INSTANCE_ERROR': 'Could not find a bored instance.  Please restart your upload process.'
+      'errors.BORED_INSTANCE_ERROR': 'Something went wrong. Please restart your upload process.'
       'errors.CONNECTION_ERROR': 'Sorry, your upload failed due to connection issues. Please restart your upload process.'
       'errors.unknown': 'There was an internal error. Please restart your upload process.'
       'errors.tryAgain': 'Please restart your upload process.'
