@@ -31,10 +31,10 @@
       .AjaxFormLink.btn.pink data-target='welcome-media-container' data-_method='delete' href=remove_welcome_media_user_path(current_user.object) style='margin-bottom: 15px; width: 100%;' Remove Welcome Media File
 
     .row-fluid.file_status.Progress.hidden style='width: 585px; margin: 15px auto 0;'
-      .col-md-2.col-sm-2.col-xs-2.file_name data-identifier='uploading-status' style='text-align: left;' Uploading...
+      .col-md-2.col-sm-2.col-xs-2.file_name id='uploading-status' style='text-align: left;' Uploading...
       .col-md-8.col-sm-8.col-xs-8
         .progress.progress-striped.active
-          .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
+          .progress-bar.progress-bar-info id='progressbar' role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
             span.sr-only 0% Complete
-      .col-md-2.col-sm-2.col-xs-2.percentage data-identifier='uploading-percentage' style='text-align: right;' 0%
+      .col-md-2.col-sm-2.col-xs-2.percentage id='uploading-percentage' style='text-align: right;' 0%
       .clearfix

@@ -80,10 +80,10 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     @reinit()
 
   change_progress: (progress) ->
-    progress_bar = $("[role=progressbar]")
-    status_label = $("[data-identifier=uploading-status]")
+    progress_bar = $("#progressbar")
+    status_label = $("#uploading-status")
     progress_bar.width("#{progress}%")
-    $("[data-identifier=uploading-percentage]").text("#{progress}%")
+    $("#uploading-percentage").text("#{progress}%")
 
     if progress < 100
       status_label.text('Uploading...')
