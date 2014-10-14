@@ -314,7 +314,6 @@
         width: 100%
         left: 0
 
-
     .edit
       position: absolute
       top: 8px
@@ -330,310 +329,93 @@
 
 // Create Post (Owner View)
 
-#create_post_nav
-  @include linear-gradient(#FFFFFF, #F7F7F7)
-  @include border-radius($border_radius $border_radius 0 0)
-  border-left: 1px solid $color_border
-  border-top: 1px solid $color_border
-  border-right: 1px solid $color_border
-  padding: 0
-  margin: 0
-  margin-top: $box_margin
-  line-height: 100%
-  li
-    cursor: pointer
+#create_post_container
+  position: relative
+
+  // Submitted Post
+  .submit_cancel_container
+    -webkit-transition: opacity 1s ease-in-out
+    -moz-transition: opacity 1s ease-in-out
+    -ms-transition: opacity 1s ease-in-out
+    -o-transition: opacity 1s ease-in-out
+    transition: opacity 1s ease-in-out
+  .congrats_post
+    opacity: 0
+    position: absolute
+    bottom: 0
+    right: 15px
+    width: 438px
+    -webkit-transition: opacity 2s ease-in-out
+    -moz-transition: opacity 2s ease-in-out
+    -ms-transition: opacity 2s ease-in-out
+    -o-transition: opacity 2s ease-in-out
+    transition: opacity 2s ease-in-out
+  &.submitted
+    .submit_cancel_container
+      opacity: 0
+    .congrats_post
+      opacity: 1
+
+
+  #create_post_nav
+    @include linear-gradient(#FFFFFF, #F7F7F7)
+    @include border-radius($border_radius $border_radius 0 0)
+    border-left: 1px solid $color_border
+    border-top: 1px solid $color_border
     border-right: 1px solid $color_border
-    display: inline-block
-    font-size: 16px
-    list-style-type: none
-    padding: 15px 36px
-    &:last-child
-      border-right: none
-    &.active
-      a
-        color: $color_blue
-    a
-      border-bottom: none
-      color: #464646
-      text-decoration: none
-      text-shadow: -1px -1px 0 #FFFFFF
-      &:focus
-        outline: none
-      input
-        cursor: pointer !important
-        height: 15px
-      &.fa
-        &:before
-          color: $color_text_dark
-          padding-right: 10px
-
-      &:hover
-        color: $color_blue
-        .fa
-          &:before
-            color: $color_blue
-
-// Create Post
-
-#create_post
-  @include border-radius(0 0 $border_radius $border_radius)
-
-  // Status Post Textarea
-
-  #post
-    padding: 15px
-    position: relative
-    textarea
-      display: block
-      min-height: 60px
-      width: 100%
-    .notify
-      margin: 10px 0 0 0
-      label
-        color: $color_text_light
-        font-size: 12px
-        font-weight: 400 !important
-      .no_width
-        margin-left: 10px
-        width: 40px
-      .yes_width
-        width: 45px
-    input[type="submit"]
-      &:focus
-        color: #FFFFFF
-        outline: none
-
-  // Uploading Container
-
-  #uploading
-    margin: 15px 0
-    position: relative
-
-    // Progress Bar
-
-    .progress_title
-      color: $color_blue
+    padding: 0
+    margin: 0
+    margin-top: $box_margin
+    line-height: 100%
+    li
+      cursor: pointer
+      border-right: 1px solid $color_border
+      display: inline-block
       font-size: 16px
-      font-weight: 600
-      padding: 10px 15px 15px
-
-    // File Status
-
-    .file_status
-      border-bottom: 1px solid $color_border
-      font-size: 13px
-      height: 36px
-      margin-bottom: 15px
-      .progress
-        margin-bottom: 0
-      .file_name
-        color: $color_text_dark
-      .percentage
-        text-align: right
-
-    // Pending Files
-
-    .pending_audio, .pending_video, .pending_photo, .pending_document
-      overflow: hidden
-      position: relative
-
-      // Listed Files
-
-      .added_audio, .added_video, .added_photo, .added_document
-        overflow: hidden
-        height: 251px
-        ul
-          @include border-radius (5px)
-          border: 1px solid $color_border
-          height: 180px
-          margin: 0
-          padding: 0
-          overflow: hidden
-          overflow-y: scroll
-          &.audio_bg
-            background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_audio.png') no-repeat
-          &.video_bg
-            background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
-          &.photo_bg
-            background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_photo.png') no-repeat
-          &.document_bg
-            background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_document.png') no-repeat
-          li
-            background-color: $color_background
-            border-bottom: 1px solid $color_border
-            height: 30px
-            padding: 0 10px
-
-            // Sort Related
-
-            .dragger
-              cursor: move
-              margin: 8px 5px 0 0
-              padding: 0
-            &.Cell
-              border: 1px dashed $color_pink
-              height: 30px
-              width: 100%
-
-            // Details
-
-            .file_name
-              font-size: 12px
-              margin-top: 6px
-            .fa-music, .fa-paperclip
-              &:before
-                color: $color_blue
-                font-size: 12px
-                padding-right: 3px
-                position: relative
-                top: 7px
-                margin-left: 3px
-            .fa-paperclip
-              &:before
-                font-size: 15px
-            &:first-child
-              padding-top: 0
-
-            // Delete X icon
-
-            a.delete_button
-              float: right
-              margin: 8px 0 0 10px
-              text-decoration: none
-              &:hover
-                text-decoration: none
-                &:before
-                  color: $color_text_dark
-        p
-          color: $color_pink
-          font-size: 12px
-          margin: 0
-          padding: 20px 0 0
-          text-align: center
-
-      // Supported File Type
-
-      span.supported_files
-        color: $color_text_light
-        cursor: pointer
-        display: inline-block
-        font-size: 12px
-        margin: 10px 0
-        text-decoration: underline
-        position: relative
-        .file_types
-          @include border-radius(5px)
-          background-color: $color_pink
-          border: 1px solid #cd233b
-          color: #FFFFFF
-          display: none
-          font-size: 12px
-          padding: 7px 10px 8px
-          position: absolute
-          top: 27px
-          left: 0
-          width: 439px
-          z-index: 1
-        &:hover
-          text-decoration: none
-          .file_types
-            display: block
-
-      // Listed Video
-
-      .added_video
-        ul
-          overflow-y: hidden !important
-          li
-            background-color: #FFFFFF
-            border-bottom: none
-            height: auto
-            padding: 0
-            position: relative
-            img
-              margin-top: -30px
-              width: 437px
-            a.delete_button
-              @include border-radius (50%)
-              background-color: $color_background
-              padding: 4px 5px
-              position: absolute
-              top: -3px
-              right: 5px
-
-      // Listed Photo
-
-      .added_photo
-        ul
-          padding: 5px
-          white-space: nowrap
-          li
-            background-color: #FFFFFF
-            border-bottom: none
-            height: 100px
-            float: left
-            margin: 0 5px 5px 0
-            overflow: hidden
-            padding: 0 !important
-            position: relative
-            &:last-child
-              margin-right: 0
-            img
-              border: 1px solid $color_border
-              height: 98px
-            .delete_photo
-              background-color: $color_pink
-              @include border-radius(0 0 0 $border_radius)
-              color: #FFFFFF
-              font-size: 11px
-              padding: 5px 10px
-              position: absolute
-              top: 1px
-              right: 1px
-              text-decoration: none
-              &:hover
-                background-color: $color_blue
-
-      // Select Files Container
-
-      .select_file_container
-        .multi
-          @include border-radius (5px)
-          bottom: 0
-          color: #FFFFFF
-          margin: 0 auto
-          padding: 6px 0
-          position: absolute
-          text-align: center
-          width: 100%
-        .hide_btn
-          opacity: 0
-          cursor: pointer
-          position: absolute
-          bottom: 0
-          left: 0
-          height: 34px
-          width: 439px
-
-    // Upload Details
-
-    .upload_details
-      .form-control
-        color: $color_text_dark !important
-        &.bg-color
-          background-color: $color_background
-        font-size: 13px
-        margin-top: 15px
-        margin-bottom: 0
+      list-style-type: none
+      padding: 15px 36px
+      &:last-child
+        border-right: none
+      &.active
+        a
+          color: $color_blue
+      a
+        border-bottom: none
+        color: #464646
+        text-decoration: none
+        text-shadow: -1px -1px 0 #FFFFFF
         &:focus
           outline: none
+        input
+          cursor: pointer !important
+          height: 15px
+        &.fa
+          &:before
+            color: $color_text_dark
+            padding-right: 10px
+
+        &:hover
+          color: $color_blue
+          .fa
+            &:before
+              color: $color_blue
+
+  // Create Post
+
+  #create_post
+    @include border-radius(0 0 $border_radius $border_radius)
+
+    // Status Post Textarea
+
+    #post
+      padding: 15px
+      position: relative
       textarea
-        height: 131px
-        overflow: auto
-      .error
-        padding: 5px 0
+        display: block
+        min-height: 60px
+        width: 100%
       .notify
-        margin-bottom: 6px
+        margin: 10px 0 0 0
         label
           color: $color_text_light
           font-size: 12px
@@ -643,25 +425,270 @@
           width: 40px
         .yes_width
           width: 45px
-      .btn.blue
-        @include border-radius (5px)
-        padding: 6px 10px
-      .cancel_post
-        color: #959595
-        cursor: pointer
-        font-size: 12px
-        margin-top: 9px
-        margin-right: 15px
-        &:hover
-          text-decoration: underline
+      input[type="submit"]
+        &:focus
+          color: #FFFFFF
+          outline: none
 
-      .congrats_post
-        background-color: #ea2e49
-        border: 1px solid #cd233b
-        text-align: center
-        color: #FFFFFF
+    // Uploading Container
+
+    #uploading
+      margin: 15px 0
+      position: relative
+
+      // Progress Bar
+
+      .progress_title
+        color: $color_blue
+        font-size: 16px
+        font-weight: 600
+        padding: 10px 15px 15px
+
+      // File Status
+
+      .file_status
+        border-bottom: 1px solid $color_border
         font-size: 13px
-        padding: 7px
+        height: 36px
+        margin-bottom: 15px
+        .progress
+          margin-bottom: 0
+        .file_name
+          color: $color_text_dark
+        .percentage
+          text-align: right
+
+      // Pending Files
+
+      .pending_audio, .pending_video, .pending_photo, .pending_document
+        overflow: hidden
+        position: relative
+
+        // Listed Files
+
+        .added_audio, .added_video, .added_photo, .added_document
+          overflow: hidden
+          height: 251px
+          ul
+            @include border-radius (5px)
+            border: 1px solid $color_border
+            height: 180px
+            margin: 0
+            padding: 0
+            overflow: hidden
+            overflow-y: scroll
+            &.audio_bg
+              background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_audio.png') no-repeat
+            &.video_bg
+              background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
+            &.photo_bg
+              background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_photo.png') no-repeat
+            &.document_bg
+              background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_document.png') no-repeat
+            li
+              background-color: $color_background
+              border-bottom: 1px solid $color_border
+              height: 30px
+              padding: 0 10px
+
+              // Sort Related
+
+              .dragger
+                cursor: move
+                margin: 8px 5px 0 0
+                padding: 0
+              &.Cell
+                border: 1px dashed $color_pink
+                height: 30px
+                width: 100%
+
+              // Details
+
+              .file_name
+                font-size: 12px
+                margin-top: 6px
+              .fa-music, .fa-paperclip
+                &:before
+                  color: $color_blue
+                  font-size: 12px
+                  padding-right: 3px
+                  position: relative
+                  top: 7px
+                  margin-left: 3px
+              .fa-paperclip
+                &:before
+                  font-size: 15px
+              &:first-child
+                padding-top: 0
+
+              // Delete X icon
+
+              a.delete_button
+                float: right
+                margin: 8px 0 0 10px
+                text-decoration: none
+                &:hover
+                  text-decoration: none
+                  &:before
+                    color: $color_text_dark
+          p
+            color: $color_pink
+            font-size: 12px
+            margin: 0
+            padding: 20px 0 0
+            text-align: center
+
+        // Supported File Type
+
+        span.supported_files
+          color: $color_text_light
+          cursor: pointer
+          display: inline-block
+          font-size: 12px
+          margin: 10px 0
+          text-decoration: underline
+          position: relative
+          .file_types
+            @include border-radius(5px)
+            background-color: $color_pink
+            border: 1px solid #cd233b
+            color: #FFFFFF
+            display: none
+            font-size: 12px
+            padding: 7px 10px 8px
+            position: absolute
+            top: 27px
+            left: 0
+            width: 439px
+            z-index: 1
+          &:hover
+            text-decoration: none
+            .file_types
+              display: block
+
+        // Listed Video
+
+        .added_video
+          ul
+            overflow-y: hidden !important
+            li
+              background-color: #FFFFFF
+              border-bottom: none
+              height: auto
+              padding: 0
+              position: relative
+              img
+                margin-top: -30px
+                width: 437px
+              a.delete_button
+                @include border-radius (50%)
+                background-color: $color_background
+                padding: 4px 5px
+                position: absolute
+                top: -3px
+                right: 5px
+
+        // Listed Photo
+
+        .added_photo
+          ul
+            padding: 5px
+            white-space: nowrap
+            li
+              background-color: #FFFFFF
+              border-bottom: none
+              height: 100px
+              float: left
+              margin: 0 5px 5px 0
+              overflow: hidden
+              padding: 0 !important
+              position: relative
+              &:last-child
+                margin-right: 0
+              img
+                border: 1px solid $color_border
+                height: 98px
+              .delete_photo
+                background-color: $color_pink
+                @include border-radius(0 0 0 $border_radius)
+                color: #FFFFFF
+                font-size: 11px
+                padding: 5px 10px
+                position: absolute
+                top: 1px
+                right: 1px
+                text-decoration: none
+                &:hover
+                  background-color: $color_blue
+
+        // Select Files Container
+
+        .select_file_container
+          .multi
+            @include border-radius (5px)
+            bottom: 0
+            color: #FFFFFF
+            margin: 0 auto
+            padding: 6px 0
+            position: absolute
+            text-align: center
+            width: 100%
+          .hide_btn
+            opacity: 0
+            cursor: pointer
+            position: absolute
+            bottom: 0
+            left: 0
+            height: 34px
+            width: 439px
+
+      // Upload Details
+
+      .upload_details
+        .form-control
+          color: $color_text_dark !important
+          &.bg-color
+            background-color: $color_background
+          font-size: 13px
+          margin-top: 15px
+          margin-bottom: 0
+          &:focus
+            outline: none
+        textarea
+          height: 131px
+          overflow: auto
+        .error
+          padding: 5px 0
+        .notify
+          margin-bottom: 6px
+          label
+            color: $color_text_light
+            font-size: 12px
+            font-weight: 400 !important
+          .no_width
+            margin-left: 10px
+            width: 40px
+          .yes_width
+            width: 45px
+        .btn.blue
+          @include border-radius (5px)
+          padding: 6px 10px
+        .cancel_post
+          color: #959595
+          cursor: pointer
+          font-size: 12px
+          margin-top: 9px
+          margin-right: 15px
+          &:hover
+            text-decoration: underline
+
+        .congrats_post
+          background-color: #8dc63f
+          border: 1px solid #87bf3b
+          text-align: center
+          color: #FFFFFF
+          font-size: 13px
+          padding: 7px
 
 // Subscriber Display
 
