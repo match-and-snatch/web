@@ -213,7 +213,6 @@ class UserProfileManager < BaseManager
       save_or_die! user
 
       update_subscriptions_cost if update_existing_subscriptions
-      UserProfileEventManager.new(user: user).track_change_cost(from: previous_cost, to: cost)
       EventsManager.subscription_cost_changed(user: user, from: previous_cost, to: cost)
       @unable_to_change_cost = false
     end
@@ -543,10 +542,22 @@ class UserProfileManager < BaseManager
   # @param clear_all [Boolean]
   def clear_old_welcome_uploads!(current_upload: nil, clear_all: false)
     if current_upload.present?
-      Upload.users.where(uploadable_id: user.id, type: current_upload.class.name).where.not(id: current_upload.id).delete_all
+      Upload.users.where(uploadable_id: user.id, type: current_upload.class.name).where.not(id: current_upload.id).each do |upload|
+        upload.delete
+        EventsManager.upload_removed(user: user, upload: upload)
+      end
     end
-    Audio.users.where(uploadable_id: user.id).delete_all if clear_all || current_upload.is_a?(Video)
-    Video.users.where(uploadable_id: user.id).delete_all if clear_all || current_upload.is_a?(Audio)
+    if clear_all || current_upload.is_a?(Video)
+      Audio.users.where(uploadable_id: user.id).each do |audio|
+        audio.delete
+        EventsManager.upload_removed(user: user, upload: audio)
+      end
+    end
+    if clear_all || current_upload.is_a?(Audio)
+      Video.users.where(uploadable_id: user.id).each do |video|
+        video.delete
+      end
+    end
   end
 
   def sync_stripe_recipient!

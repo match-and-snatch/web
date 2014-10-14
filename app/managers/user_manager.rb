@@ -1,4 +1,5 @@
-class UserManager < BaseManager
+class
+UserManager < BaseManager
   attr_reader :user
 
   # @param user [User]

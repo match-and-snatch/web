@@ -80,12 +80,17 @@ describe AuthenticationManager do
     end
 
     context 'having wrong password' do
-      before { manager.register }
+      before do
+        manager.register
+      end
 
       specify do
         expect { described_class.new(email: email, password: 'wrong_password').authenticate }.to raise_error(AuthenticationError)
       end
-      specify { expect { authenticate }.not_to create_event(:logged_in) }
+
+      specify do
+        expect { described_class.new(email: email, password: 'wrong_password').authenticate }.not_to create_event(:logged_in)
+      end
     end
   end
 end

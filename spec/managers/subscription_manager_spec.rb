@@ -65,10 +65,6 @@ describe SubscriptionManager do
             expect { manager.subscribe_to(another_user) }.to change { subscriber.subscribed_to?(another_user) }.from(false).to(true)
           end
 
-          it 'creates subscription_created event' do
-            expect { manager.subscribe_to(another_user) }.to create_event(:subscription_created)
-          end
-
           it 'does not create duplicate subscription' do
             expect { manager.subscribe_to(another_user) rescue nil }.not_to change { Subscription.count }
           end
@@ -129,10 +125,6 @@ describe SubscriptionManager do
         it 'updates cost to new value' do
           expect { manager.restore }.to change { subscription.reload.cost }.from(500).to(300)
         end
-
-        it 'creates subscription_created event' do
-          expect { manager.restore }.to create_event(:subscription_created)
-        end
       end
     end
 
@@ -143,10 +135,6 @@ describe SubscriptionManager do
 
       it 'tries to retry payment' do
         expect { manager.restore }.to change { subscription.rejected? }.from(true).to(false)
-      end
-
-      it 'creates subscription_created event' do
-        expect { manager.restore }.to create_event(:subscription_created)
       end
     end
   end

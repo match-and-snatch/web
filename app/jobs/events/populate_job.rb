@@ -9,7 +9,6 @@ module Events
         WHERE transloadit_data LIKE '%!ruby/hash:ActionController::ManagebleParameters%'
       SQL
 
-      puts "# ====================== started at : #{Time.zone.now}"
       User.find_each do |user|
         EventsManager.user_logged_in(user: user) do |event|
           event.created_at = user.created_at
@@ -166,7 +165,6 @@ module Events
           end
         end
       end
-      puts "# ====================== finished at : #{Time.zone.now}"
     end
   end
 end
