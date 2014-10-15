@@ -340,6 +340,7 @@
     -o-transition: opacity 1s ease-in-out
     transition: opacity 1s ease-in-out
   .congrats_post
+    display: none
     opacity: 0
     position: absolute
     bottom: 0
@@ -353,9 +354,10 @@
   &.submitted
     .submit_cancel_container
       opacity: 0
+      display: none
     .congrats_post
+      display: block
       opacity: 1
-
 
   #create_post_nav
     @include linear-gradient(#FFFFFF, #F7F7F7)
