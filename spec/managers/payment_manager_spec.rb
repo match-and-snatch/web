@@ -67,7 +67,7 @@ describe PaymentManager do
         end
 
         it 'does not create event about new payment' do
-          expect { subject.pay_for(subscription) }.not_to create_event(:payment_created)
+          expect { subject.pay_for(subscription) rescue nil }.not_to create_event(:payment_created)
         end
 
         it 'creates payment_failed event' do

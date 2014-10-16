@@ -4,7 +4,7 @@ RSpec::Matchers.define :create_event do |action|
 
     if @data
       initial_event_ids = fetch_events(action).pluck(:id)
-      block.call rescue nil
+      block.call
       event_ids = fetch_events(action).pluck(:id)
       diff_ids = (event_ids - initial_event_ids)
 
@@ -26,7 +26,7 @@ RSpec::Matchers.define :create_event do |action|
       end
     else
       initial_events_count = fetch_events(action).count
-      block.call rescue nil
+      block.call
       events_count = fetch_events(action).count
       initial_events_count + 1 == events_count
     end

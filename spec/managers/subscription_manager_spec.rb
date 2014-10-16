@@ -40,7 +40,7 @@ describe SubscriptionManager do
         end
 
         it 'does not create subscription_created event twice' do
-          expect { manager.subscribe_to(another_user) }.not_to create_event(:subscription_created)
+          expect { manager.subscribe_to(another_user) rescue nil }.not_to create_event(:subscription_created)
         end
 
         context 'unsubscribed subscription' do
@@ -84,7 +84,7 @@ describe SubscriptionManager do
           end
 
           it 'does not create subscription_created event' do
-            expect { manager.subscribe_to(another_user) }.not_to create_event(:subscription_created)
+            expect { manager.subscribe_to(another_user) rescue nil }.not_to create_event(:subscription_created)
           end
         end
       end
@@ -96,7 +96,7 @@ describe SubscriptionManager do
       end
 
       it 'does not create subscription_created event' do
-        expect { manager.subscribe_to(Subscription) }.not_to create_event(:subscription_created)
+        expect { manager.subscribe_to(Subscription) rescue nil }.not_to create_event(:subscription_created)
       end
     end
   end

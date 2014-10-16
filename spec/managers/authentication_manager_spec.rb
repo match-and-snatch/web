@@ -31,25 +31,25 @@ describe AuthenticationManager do
     context 'already registered user' do
       before { manager.register }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) } }
-      specify { expect { register }.not_to create_event(:registered) }
+      specify { expect { register rescue nil }.not_to create_event(:registered) }
     end
 
     context 'invalid email' do
       let(:email) { 'whatever' }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:default)) } }
-      specify { expect { register }.not_to create_event(:registered) }
+      specify { expect { register rescue nil }.not_to create_event(:registered) }
     end
 
     context 'empty email' do
       let(:email) { '' }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:empty)) } }
-      specify { expect { register }.not_to create_event(:registered) }
+      specify { expect { register rescue nil }.not_to create_event(:registered) }
     end
 
     context 'password confirmation does not match' do
       let(:password_confirmation) { 'qwertyui' }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:password_confirmation) } }
-      specify { expect { register }.not_to create_event(:registered) }
+      specify { expect { register rescue nil }.not_to create_event(:registered) }
     end
 
     context 'short password' do
@@ -57,7 +57,7 @@ describe AuthenticationManager do
       let(:password_confirmation) { 'qwer' }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:password) } }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).not_to have_key(:password_confirmation) } }
-      specify { expect { register }.not_to create_event(:registered) }
+      specify { expect { register rescue nil }.not_to create_event(:registered) }
     end
   end
 
@@ -76,7 +76,7 @@ describe AuthenticationManager do
 
     context 'not registered user' do
       specify { expect { authenticate }.to raise_error(ManagerError) }
-      specify { expect { authenticate }.not_to create_event(:logged_in) }
+      specify { expect { authenticate rescue nil }.not_to create_event(:logged_in) }
     end
 
     context 'having wrong password' do
@@ -89,7 +89,7 @@ describe AuthenticationManager do
       end
 
       specify do
-        expect { described_class.new(email: email, password: 'wrong_password').authenticate }.not_to create_event(:logged_in)
+        expect { described_class.new(email: email, password: 'wrong_password').authenticate rescue nil }.not_to create_event(:logged_in)
       end
     end
   end

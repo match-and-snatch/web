@@ -60,7 +60,7 @@ describe UserProfileManager do
         expect { enable_vacation_mode }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(vacation_message: t_error(:empty)) }
       end
 
-      specify { expect { enable_vacation_mode }.not_to create_event(:vacation_mode_enabled) }
+      specify { expect { enable_vacation_mode rescue nil }.not_to create_event(:vacation_mode_enabled) }
     end
 
     context 'already on vacation' do
@@ -73,7 +73,7 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { enable_vacation_mode }.not_to create_event(:vacation_mode_enabled)
+        expect { enable_vacation_mode rescue nil }.not_to create_event(:vacation_mode_enabled)
       end
     end
   end
@@ -121,7 +121,7 @@ describe UserProfileManager do
         expect { disable_vacation_mode }.to raise_error(ManagerError)
       end
 
-      specify { expect { disable_vacation_mode }.not_to create_event(:vacation_mode_disabled) }
+      specify { expect { disable_vacation_mode rescue nil }.not_to create_event(:vacation_mode_disabled) }
     end
   end
 
@@ -164,7 +164,7 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.update(cost: '', profile_name: '') }.not_to create_event(:profile_created)
+        expect { manager.update(cost: '', profile_name: '') rescue nil }.not_to create_event(:profile_created)
       end
 
       specify do
@@ -189,7 +189,7 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.update(cost: 1, profile_name: '') }.not_to create_event(:profile_created)
+        expect { manager.update(cost: 1, profile_name: '') rescue nil }.not_to create_event(:profile_created)
       end
     end
 
@@ -256,7 +256,7 @@ describe UserProfileManager do
         end
 
         specify do
-          expect { manager.update(routing_number: 'wutever') }.not_to create_event(:profile_created)
+          expect { manager.update(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
         end
       end
 
@@ -270,7 +270,7 @@ describe UserProfileManager do
         end
 
         specify do
-          expect { manager.update(routing_number: 'wutever') }.not_to create_event(:profile_created)
+          expect { manager.update(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
         end
       end
     end
@@ -284,7 +284,7 @@ describe UserProfileManager do
     end
 
     specify do
-      expect { manager.update_benefits(nil) }.not_to create_event(:benefits_list_updated)
+      expect { manager.update_benefits(nil) rescue nil }.not_to create_event(:benefits_list_updated)
     end
 
     specify do
@@ -372,7 +372,7 @@ describe UserProfileManager do
         expect { manager.update_payment_information(holder_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:holder_name) }
       end
       specify do
-        expect { manager.update_payment_information(holder_name: '') }.not_to create_event(:payout_information_changed)
+        expect { manager.update_payment_information(holder_name: '') rescue nil }.not_to create_event(:payout_information_changed)
       end
     end
 
@@ -386,7 +386,7 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.update_payment_information(routing_number: '12345678') }.not_to create_event(:payout_information_changed)
+        expect { manager.update_payment_information(routing_number: '12345678') rescue nil }.not_to create_event(:payout_information_changed)
       end
     end
 
@@ -400,7 +400,7 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.update_payment_information(account_number: '12') }.not_to create_event(:payout_information_changed)
+        expect { manager.update_payment_information(account_number: '12') rescue nil }.not_to create_event(:payout_information_changed)
       end
     end
   end
