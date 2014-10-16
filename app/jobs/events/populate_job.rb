@@ -165,6 +165,31 @@ module Events
           end
         end
       end
+
+      Payment.where.not(user_id: User.select(:id)).each do |payment|
+        EventsManager.payment_created(user: nil, payment: payment) do |event|
+          event.created_at = payment.created_at
+          event.updated_at = payment.created_at
+          event.user_id = payment.user_id
+        end
+      end
+
+      PaymentFailure.where.not(user_id: User.select(:id)).each do |payment_failure|
+        EventsManager.payment_failed(user: nil, payment_failure: payment_failure) do |event|
+          event.created_at = payment_failure.created_at
+          event.updated_at = payment_failure.created_at
+          event.user_id = payment_failure.user_id
+        end
+      end
+
+      Subscription.where.not(user_id: User.select(:id)).each do |subscription|
+        EventsManager.subscription_created(user: nil, subscription: subscription) do |event|
+          event.created_at = subscription.created_at
+          event.updated_at = subscription.created_at
+          event.user_id = subscription.user_id
+        end
+        subscription.delete
+      end
     end
   end
 end
