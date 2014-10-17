@@ -9,7 +9,7 @@ class OverviewPresenter
   end
 
   def current_unsubscribers_count
-    Subscription.where(removed: true).count
+    Subscription.where(['removed = ? OR rejected = ?', true, true]).count
   end
 
   def total_unsubscribers_count

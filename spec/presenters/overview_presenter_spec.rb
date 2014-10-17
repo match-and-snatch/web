@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe OverviewPresenter do
-  subject { described_class.new }
-
   let(:user) { create_user }
   let(:target_user) { create_profile(email: 'target@user.com') }
   let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
@@ -60,6 +58,16 @@ describe OverviewPresenter do
 
       context 'restored subscription' do
         specify { expect{ restore }.to change { subject.current_unsubscribers_count }.from(1).to(0) }
+      end
+
+      context 'rejected subscription' do
+        before do
+          manager = SubscriptionManager.new(subscription: subscription)
+          manager.restore
+          manager.reject
+        end
+
+        specify { expect(subject.current_unsubscribers_count).to eq(1) }
       end
     end
 
