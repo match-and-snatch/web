@@ -13,13 +13,14 @@ module ApplicationHelper
     end
   end
 
-  def object_checker_tag(object, field_name)
+  def object_checker_tag(object, field_name, options = {})
     data = {}
     data[:checked_url]   = polymorphic_path(["enable_#{field_name}", object])
     data[:unchecked_url] = polymorphic_path(["disable_#{field_name}", object])
 
     html_options = {id: "#{field_name}_#{object.id}_#{object.class.name}_checker", data: data, class: 'Checker', type: 'checkbox'}
     html_options['checked'] = 'checked' if object["#{field_name}_enabled"]
+    html_options.merge! options
 
     tag :input, html_options
   end
