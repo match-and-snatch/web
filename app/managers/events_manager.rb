@@ -45,8 +45,7 @@ class EventsManager < BaseManager
     def upload_removed(user: , upload: , &block)
       Event.create! user: user,
                     action: "#{upload.type.tableize.singularize}_removed",
-                    data: { photo_id:    upload.id,
-                            target_id:   upload.uploadable_id,
+                    data: { target_id:   upload.uploadable_id,
                             target_type: upload.uploadable_type,
                             url:         upload.url },
                     &block

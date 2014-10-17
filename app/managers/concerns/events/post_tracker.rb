@@ -12,7 +12,7 @@ module Concerns::Events::PostTracker
   # @yield
   # @return [Event]
   def post_removed(user: , post: , &block)
-    Event.create! user: user, action: "#{post.type.tableize.singularize}_removed", data: { id: post.id, type: post.type }, &block
+    Event.create! user: user, action: "#{post.type.tableize.singularize}_removed", data: { title: post.title, type: post.type }, &block
   end
 
   # @param user [User]
