@@ -4,9 +4,9 @@
   - if @subscriptions.any?
     ul
       - @subscriptions.each do |subscription|
-        - profile_owner = subscription.target_user.is_profile_owner?
+        - is_profile_owner = subscription.target_user.is_profile_owner?
         li.item_sub
-          - if profile_owner
+          - if is_profile_owner
             a href=profile_path(subscription.target_user)
               img.pull-left src=subscription.target_user.profile_picture_url height='150px' width='150px'
           - else
@@ -28,11 +28,11 @@
 
             .checkbox.pull-left style='display: block'
               label
-                = object_checker_tag(subscription, :notifications, disabled: !profile_owner)
+                = object_checker_tag(subscription, :notifications, disabled: !is_profile_owner)
                 | Receive email notifications from this profile.
             .clearfix
 
-            - if profile_owner
+            - if is_profile_owner
               a href=profile_path(subscription.target_user)
                 i.fa.fa-eye style='margin-top: 15px' View Profile
           .clearfix
