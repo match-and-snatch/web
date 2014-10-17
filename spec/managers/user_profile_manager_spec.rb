@@ -15,6 +15,10 @@ describe UserProfileManager do
       expect { manager.add_profile_type(profile_type.title) }.to change(user.profile_types, :count).from(0).to(1)
       expect(user.profile_types).to include(profile_type)
     end
+
+    it 'creates added_profile_type event' do
+      expect { manager.add_profile_type(profile_type.title) }.to create_event(:profile_type_added)
+    end
   end
 
   describe '#enable_vacation_mode' do
@@ -25,6 +29,10 @@ describe UserProfileManager do
 
     it 'enables vacation mode' do
       expect { enable_vacation_mode }.to change { user.reload.vacation_enabled? }.from(false).to(true)
+    end
+
+    it 'creates vacation_mode_enabled event' do
+      expect { enable_vacation_mode }.to create_event(:vacation_mode_enabled)
     end
 
     context 'with subscribers' do
@@ -51,6 +59,8 @@ describe UserProfileManager do
       specify do
         expect { enable_vacation_mode }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(vacation_message: t_error(:empty)) }
       end
+
+      specify { expect { enable_vacation_mode rescue nil }.not_to create_event(:vacation_mode_enabled) }
     end
 
     context 'already on vacation' do
@@ -60,6 +70,10 @@ describe UserProfileManager do
 
       specify do
         expect { enable_vacation_mode }.to raise_error(ManagerError)
+      end
+
+      specify do
+        expect { enable_vacation_mode rescue nil }.not_to create_event(:vacation_mode_enabled)
       end
     end
   end
@@ -74,6 +88,10 @@ describe UserProfileManager do
 
     it 'disables vacation mode' do
       expect { disable_vacation_mode }.to change { user.reload.vacation_enabled? }.from(true).to(false)
+    end
+
+    it 'creates vacation_mode_disabled event' do
+      expect { disable_vacation_mode }.to create_event(:vacation_mode_disabled)
     end
 
     context 'with subscribers' do
@@ -102,6 +120,8 @@ describe UserProfileManager do
       specify do
         expect { disable_vacation_mode }.to raise_error(ManagerError)
       end
+
+      specify { expect { disable_vacation_mode rescue nil }.not_to create_event(:vacation_mode_disabled) }
     end
   end
 
@@ -114,6 +134,10 @@ describe UserProfileManager do
       expect { manager.remove_profile_type(profile_type) }.to change(user.profile_types, :count).from(1).to(0)
       expect(user.profile_types).not_to include(profile_type)
     end
+
+    it 'creates vacation_mode_enabled event' do
+      expect { manager.remove_profile_type(profile_type) }.to create_event(:profile_type_removed)
+    end
   end
 
   describe '#update' do
@@ -123,6 +147,10 @@ describe UserProfileManager do
 
     it 'updates slug' do
       expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :slug).to('obama')
+    end
+
+    it 'creates profile_created event' do
+      expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to create_event(:profile_created)
     end
 
     it 'updates cost' do
@@ -136,21 +164,32 @@ describe UserProfileManager do
       end
 
       specify do
+        expect { manager.update(cost: '', profile_name: '') rescue nil }.not_to create_event(:profile_created)
+      end
+
+      specify do
         expect { manager.update(cost: 0, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) }
+        # expect { manager.update(cost: 0, profile_name: '')}.not_to create_event(:profile_created)
       end
 
       specify do
         expect { manager.update(cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_an_integer)) }
+        # expect { manager.update(cost: '-100', profile_name: '') }.not_to create_event(:profile_created)
       end
 
       specify do
         expect { manager.update(cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_an_integer)) }
+        # expect { manager.update(cost: -200, profile_name: '') }.not_to create_event(:profile_created)
       end
     end
 
     context 'empty slug' do
       specify do
         expect { manager.update(cost: 1, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) }
+      end
+
+      specify do
+        expect { manager.update(cost: 1, profile_name: '') rescue nil }.not_to create_event(:profile_created)
       end
     end
 
@@ -215,6 +254,10 @@ describe UserProfileManager do
         specify do
           expect { manager.update(routing_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_a_routing_number)) }
         end
+
+        specify do
+          expect { manager.update(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
+        end
       end
 
       context 'invalid account number' do
@@ -224,6 +267,10 @@ describe UserProfileManager do
 
         specify do
           expect { manager.update(account_number: '12') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
+        end
+
+        specify do
+          expect { manager.update(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
         end
       end
     end
@@ -237,11 +284,19 @@ describe UserProfileManager do
     end
 
     specify do
+      expect { manager.update_benefits(nil) rescue nil }.not_to create_event(:benefits_list_updated)
+    end
+
+    specify do
       expect(manager.update_benefits(benefits_params)).to eq(user)
     end
 
     it 'create benefits' do
       expect { manager.update_benefits(benefits_params) }.to change { user.benefits.count }.from(0).to(2)
+    end
+
+    it 'creates benefits_list_updated event' do
+      expect { manager.update_benefits(benefits_params) }.to create_event(:benefits_list_updated)
     end
 
     context 'with benefits' do
@@ -268,6 +323,10 @@ describe UserProfileManager do
 
     specify do
       expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.to change { user.reload.billing_failed? }.to(false)
+    end
+
+    it 'creates credit_card_updated event' do
+      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.to create_event(:credit_card_updated)
     end
 
     context 'user has outstanding payments' do
@@ -304,9 +363,16 @@ describe UserProfileManager do
       expect { manager.update_payment_information(holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :account_number).to('000123456789')
     end
 
+    it 'creates payout_information_changed event' do
+      expect { manager.update_payment_information(holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to create_event(:payout_information_changed)
+    end
+
     context 'empty holder name' do
       specify do
         expect { manager.update_payment_information(holder_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:holder_name) }
+      end
+      specify do
+        expect { manager.update_payment_information(holder_name: '') rescue nil }.not_to create_event(:payout_information_changed)
       end
     end
 
@@ -318,6 +384,10 @@ describe UserProfileManager do
       specify do
         expect { manager.update_payment_information(routing_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_a_routing_number)) }
       end
+
+      specify do
+        expect { manager.update_payment_information(routing_number: '12345678') rescue nil }.not_to create_event(:payout_information_changed)
+      end
     end
 
     context 'invalid account number' do
@@ -327,6 +397,10 @@ describe UserProfileManager do
 
       specify do
         expect { manager.update_payment_information(account_number: '12') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
+      end
+
+      specify do
+        expect { manager.update_payment_information(account_number: '12') rescue nil }.not_to create_event(:payout_information_changed)
       end
     end
   end
@@ -352,8 +426,14 @@ describe UserProfileManager do
       expect { manager.update_contacts_info(twitter: 'twit.ru') }.to change { user.reload.contacts_info[:twitter] }.from(nil).to('http://twit.ru')
     end
 
-    specify do
-      expect { manager.update_contacts_info(twitter: ' ') }.not_to change { user.reload.contacts_info[:twitter] }
+    it 'creates contact_info_changed event' do
+      expect { manager.update_contacts_info(twitter: 'twit.ru') }.to create_event(:contact_info_changed)
+    end
+
+    context 'blank contact link' do
+      specify do
+        expect { manager.update_contacts_info(twitter: ' ') }.not_to change { user.reload.contacts_info[:twitter] }
+      end
     end
   end
 
@@ -443,6 +523,13 @@ describe UserProfileManager do
         expect { manager.update_welcome_media(welcome_video_data) }.to change { user.reload.welcome_video }.from(nil)
       end
 
+      it 'creates welcome_media_added event' do
+        expect { manager.update_welcome_media(welcome_video_data) }.to create_event(:welcome_media_added)
+      end
+      specify do
+        expect { manager.update_welcome_media(welcome_video_data) }.to create_event(:video_uploaded)
+      end
+
       context 'welcome video exist' do
         let!(:existing_video_id) { UploadManager.new(user).create_video(welcome_video_data).id }
 
@@ -457,6 +544,10 @@ describe UserProfileManager do
 
         specify do
           expect(user.reload.welcome_video).to be
+        end
+
+        specify do
+          expect { manager.update_welcome_media(welcome_video_data) }.to create_event(:video_removed)
         end
       end
 
@@ -474,6 +565,10 @@ describe UserProfileManager do
         specify do
           expect(user.reload.welcome_video).to be
         end
+
+        specify do
+          expect { manager.update_welcome_media(welcome_video_data) }.to create_event(:video_removed)
+        end
       end
     end
 
@@ -484,6 +579,13 @@ describe UserProfileManager do
 
       specify do
         expect { manager.update_welcome_media(welcome_audio_data) }.to change { user.reload.welcome_audio }.from(nil)
+      end
+
+      it 'creates welcome_media_added event' do
+        expect { manager.update_welcome_media(welcome_audio_data) }.to create_event(:welcome_media_added)
+      end
+      specify do
+        expect { manager.update_welcome_media(welcome_audio_data) }.to create_event(:audio_uploaded)
       end
 
       context 'welcome video exist' do
@@ -499,6 +601,10 @@ describe UserProfileManager do
 
         specify do
           expect(user.reload.welcome_audio).to be
+        end
+
+        specify do
+          expect { manager.update_welcome_media(welcome_audio_data) }.to create_event(:audio_removed)
         end
       end
 
@@ -517,6 +623,10 @@ describe UserProfileManager do
         specify do
           expect(user.reload.welcome_audio).to be
         end
+
+        specify do
+          expect { manager.update_welcome_media(welcome_audio_data) }.to create_event(:audio_removed)
+        end
       end
     end
   end
@@ -527,6 +637,10 @@ describe UserProfileManager do
 
     specify do
       expect(manager.remove_welcome_media!).to eq(user)
+    end
+
+    it 'creates welcome_media_removed event' do
+      expect { manager.remove_welcome_media! }.to create_event(:welcome_media_removed)
     end
 
     context 'welcome video exist' do

@@ -17,6 +17,7 @@ class UploadsController < ApplicationController
 
   def destroy
     @upload.delete
+    EventsManager.upload_removed(user: current_user.object, upload: @upload)
   end
 
   protected

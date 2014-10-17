@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
       where(dialogues_users: {removed: false})
     end
   end
+  has_many :messages
+  has_many :events
 
   has_one :pending_post
 

@@ -17,6 +17,7 @@ class PostManager < BaseManager
   def hide
     @post.hidden = true
     @post.save or fail_with! @post.errors
+    EventsManager.post_hidden(user: @user, post: @post)
     @post
   end
 
@@ -26,7 +27,7 @@ class PostManager < BaseManager
     @post.title = title
     @post.message = CGI.escapeHTML(message)
     @post.save or fail_with!(@post.errors)
-
+    EventsManager.post_updated(user: @user, post: @post)
     @post
   end
 
@@ -40,6 +41,7 @@ class PostManager < BaseManager
 
     StatusPost.new(user: user, message: message).tap do |post|
       post.save or fail_with! post.errors
+      EventsManager.post_created(user: user, post: post)
       StatusFeedEvent.create! subscription_target_user: user, target: post, data: {message: message}
       user.pending_post.try(:destroy!)
 
@@ -58,6 +60,7 @@ class PostManager < BaseManager
 
     create_media_post(AudioPost, *args).tap do |post|
       AudioFeedEvent.create! subscription_target_user: user, target: post
+      EventsManager.post_created(user: user, post: post)
     end
   end
 
@@ -68,6 +71,7 @@ class PostManager < BaseManager
 
     create_media_post(VideoPost, *args).tap do |post|
       VideoFeedEvent.create! subscription_target_user: user, target: post
+      EventsManager.post_created(user: user, post: post)
     end
   end
 
@@ -78,6 +82,7 @@ class PostManager < BaseManager
 
     create_media_post(PhotoPost, *args).tap do |post|
       PhotoFeedEvent.create! subscription_target_user: user, target: post
+      EventsManager.post_created(user: user, post: post)
     end
   end
 
@@ -88,6 +93,7 @@ class PostManager < BaseManager
 
     create_media_post(DocumentPost, *args).tap do |post|
       DocumentFeedEvent.create! subscription_target_user: user, target: post
+      EventsManager.post_created(user: user, post: post)
     end
   end
 
@@ -113,26 +119,31 @@ class PostManager < BaseManager
 
   def cancel_pending_audios
     @user.pending_post_uploads.audios.destroy_all
+    EventsManager.post_canceled(user: @user, post_type: 'AudioPost')
     make_pending_blank
   end
 
   def cancel_pending_videos
     @user.pending_post_uploads.videos.destroy_all
+    EventsManager.post_canceled(user: @user, post_type: 'VideoPost')
     make_pending_blank
   end
 
   def cancel_pending_photos
     @user.pending_post_uploads.photos.destroy_all
+    EventsManager.post_canceled(user: @user, post_type: 'PhotoPost')
     make_pending_blank
   end
 
   def cancel_pending_documents
     @user.pending_post_uploads.documents.destroy_all
+    EventsManager.post_canceled(user: @user, post_type: 'DocumentPost')
     make_pending_blank
   end
 
   def delete(post)
     FeedEvent.where(target_type: 'Post', target_id: post.id).delete_all
+    EventsManager.post_removed(user: user, post: post)
     post.destroy
   end
 

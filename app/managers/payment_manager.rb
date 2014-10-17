@@ -24,21 +24,22 @@ class PaymentManager < BaseManager
                                                   target_type: subscription.class.name,
                                                   user_id:     subscription.customer.id }
 
-    Payment.create! target:             subscription,
-                    user:               subscription.customer,
-                    target_user:        subscription.recipient,
-                    amount:             charge['amount'],
-                    stripe_charge_data: charge.as_json,
-                    description:        description,
-                    cost:              subscription.cost,
-                    subscription_fees: subscription.fees,
-                    subscription_cost: subscription.total_cost
+    payment = Payment.create! target:             subscription,
+                              user:               subscription.customer,
+                              target_user:        subscription.recipient,
+                              amount:             charge['amount'],
+                              stripe_charge_data: charge.as_json,
+                              description:        description,
+                              cost:              subscription.cost,
+                              subscription_fees: subscription.fees,
+                              subscription_cost: subscription.total_cost
 
     subscription.charged_at = Time.zone.now
 
     save_or_die!(subscription).tap do
       subscription.restore!
       SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).accept
+      EventsManager.payment_created(user: user, payment: payment)
       user_manager = UserManager.new(subscription.customer)
       user_manager.remove_mark_billing_failed
       user_manager.activate # Anybody who paid us should be activated
@@ -57,6 +58,7 @@ class PaymentManager < BaseManager
     end
     UserManager.new(subscription.customer).mark_billing_failed
     PaymentsMailer.delay.failed(failure) if subscription.notify_about_payment_failure?
+    EventsManager.payment_failed(user: user, payment_failure: failure)
     failure
   end
 

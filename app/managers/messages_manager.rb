@@ -21,6 +21,9 @@ class MessagesManager < BaseManager
 
     @message = Message.new(user: user, target_user: target_user, message: message, dialogue: @dialogue)
     @message.save!
+
+    EventsManager.message_created(user: @user, message: @message)
+
     @dialogue.recent_message = @message
     @dialogue.recent_message_at = @message.created_at
     @dialogue.unread = true
@@ -30,11 +33,13 @@ class MessagesManager < BaseManager
     @message
   end
 
+  # @return [Dialogue]
   def mark_as_read
     if user != @dialogue.recent_message.user
       @dialogue.unread = false
       @dialogue.read_at = Time.zone.now
       @dialogue.save!
+      EventsManager.dialogue_marked_as_read(user: user, dialogue: @dialogue)
     end
     @dialogue
   end

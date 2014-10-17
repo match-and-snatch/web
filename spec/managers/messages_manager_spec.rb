@@ -12,6 +12,10 @@ describe MessagesManager do
     it 'creates new message' do
       expect(subject.create(message: 'test', target_user: target_user)).to be_a Message
     end
+
+    it 'creates message_created event' do
+      expect { subject.create(message: 'test', target_user: target_user) }.to create_event(:message_created)
+    end
   end
 
   describe '#mark_as_read' do

@@ -65,6 +65,8 @@ class UploadManager < BaseManager
                          url:              original['ssl_url']
       upload.attributes = attributes.merge(preview_url: preview['ssl_url'])
       save_or_die! upload
+      EventsManager.file_uploaded(user: user, file: upload)
+      upload
     end
   end
 
@@ -99,6 +101,8 @@ class UploadManager < BaseManager
         upload.attributes = attributes
       end
       save_or_die! upload
+      EventsManager.file_uploaded(user: user, file: upload)
+      upload
     end
   end
 
@@ -120,6 +124,8 @@ class UploadManager < BaseManager
                        url: transloadit_data["results"][":original"][0]["ssl_url"]
     upload.attributes = attributes
     save_or_die! upload
+    EventsManager.file_uploaded(user: user, file: upload)
+    upload
   end
 
   # @param transloadit_data [Hash]
@@ -144,6 +150,8 @@ class UploadManager < BaseManager
                        preview_url: thumb['ssl_url']
     upload.attributes = attributes
     save_or_die! upload
+    EventsManager.file_uploaded(user: user, file: upload)
+    upload
   end
 
   # @param transloadit_data [Hash]
@@ -167,6 +175,8 @@ class UploadManager < BaseManager
 
       upload.attributes = attributes
       save_or_die! upload
+      EventsManager.file_uploaded(user: user, file: upload)
+      upload
     end
   end
 end

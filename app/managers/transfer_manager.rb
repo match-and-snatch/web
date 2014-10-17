@@ -35,6 +35,7 @@ class TransferManager < BaseManager
                                       created_at: created_at
 
     fail_with! log_entry.errors if log_entry.new_record?
+    EventsManager.transfer_sent(user: @recipient, transfer: log_entry)
     true
   end
 
