@@ -332,33 +332,6 @@
 #create_post_container
   position: relative
 
-  // Submitted Post
-  .submit_cancel_container
-    -webkit-transition: opacity 1s ease-in-out
-    -moz-transition: opacity 1s ease-in-out
-    -ms-transition: opacity 1s ease-in-out
-    -o-transition: opacity 1s ease-in-out
-    transition: opacity 1s ease-in-out
-  .congrats_post
-    display: none
-    opacity: 0
-    position: absolute
-    bottom: 0
-    right: 15px
-    width: 438px
-    -webkit-transition: opacity 2s ease-in-out
-    -moz-transition: opacity 2s ease-in-out
-    -ms-transition: opacity 2s ease-in-out
-    -o-transition: opacity 2s ease-in-out
-    transition: opacity 2s ease-in-out
-  &.submitted
-    .submit_cancel_container
-      opacity: 0
-      display: none
-    .congrats_post
-      display: block
-      opacity: 1
-
   #create_post_nav
     @include linear-gradient(#FFFFFF, #F7F7F7)
     @include border-radius($border_radius $border_radius 0 0)
@@ -406,6 +379,34 @@
 
   #create_post
     @include border-radius(0 0 $border_radius $border_radius)
+
+    // Submitted Post
+    .submit_cancel_container
+      -webkit-transition: opacity 1s ease-in-out
+      -moz-transition: opacity 1s ease-in-out
+      -ms-transition: opacity 1s ease-in-out
+      -o-transition: opacity 1s ease-in-out
+      transition: opacity 1s ease-in-out
+      visibility: visible
+    .congrats_post
+      display: none
+      opacity: 0
+      position: absolute
+      bottom: 0
+      right: 15px
+      width: 438px
+      -webkit-transition: opacity 2s ease-in-out
+      -moz-transition: opacity 2s ease-in-out
+      -ms-transition: opacity 2s ease-in-out
+      -o-transition: opacity 2s ease-in-out
+      transition: opacity 2s ease-in-out
+    &.submitted
+      .submit_cancel_container
+        opacity: 0
+        visibility: none
+      .congrats_post
+        display: block
+        opacity: 1
 
     // Status Post Textarea
 
@@ -690,7 +691,7 @@
           text-align: center
           color: #FFFFFF
           font-size: 13px
-          padding: 7px
+          padding: 6px 0
 
 // Subscriber Display
 

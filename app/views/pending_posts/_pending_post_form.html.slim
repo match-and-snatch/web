@@ -44,10 +44,10 @@
 
       / Disabled until all uploads are 100%
       / Hide Cancel Post & Submit Post when Submit is clicked.
-
-      input.btn.blue.pull-right type='Submit' value='Submit Post'
-      .cancel_post.pull-right.AjaxFormLink href=cancel_media_posts_path data-_method='DELETE' data-target='post-fields' data-event='attachment.cancel' Cancel Post
-      .clearfix
+      .submit_cancel_container
+        input.btn.blue.pull-right type='Submit' value='Submit Post'
+        .cancel_post.pull-right.AjaxFormLink href=cancel_media_posts_path data-_method='DELETE' data-target='post-fields' data-event='attachment.cancel' Cancel Post
+        .clearfix
 
       / Show when post is successful. Don't show if error appears.
       .box.congrats_post Congratulations! Your post was successful!
