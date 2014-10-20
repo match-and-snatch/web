@@ -53,7 +53,7 @@ class PostsController < ApplicationController
   def create
     has_posts = current_user.has_posts?
     @post = PostManager.new(user: current_user.object).create_status_post(params.slice(:message, :notify))
-    has_posts ? json_prepend : json_replace
+    has_posts ? json_prepend(notice: :post_created) : json_replace(notice: :post_created)
   end
 
   def destroy
