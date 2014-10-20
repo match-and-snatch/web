@@ -18,6 +18,10 @@ describe SubscriptionManager do
         expect { manager.subscribe_to(another_user) }.to change { Subscription.count }.by(1)
       end
 
+      it 'creates subscription_created event' do
+        expect { manager.subscribe_to(another_user) }.to create_event(:subscription_created)
+      end
+
       it 'activates subscriber if he is not yet active' do
         expect { manager.subscribe_to(another_user) }.to change { subscriber.reload.activated? }.to(true)
       end
@@ -33,6 +37,10 @@ describe SubscriptionManager do
 
         it 'does not allow to subscribe twice' do
           expect { manager.subscribe_to(another_user) }.to raise_error(ManagerError)
+        end
+
+        it 'does not create subscription_created event twice' do
+          expect { manager.subscribe_to(another_user) rescue nil }.not_to create_event(:subscription_created)
         end
 
         context 'unsubscribed subscription' do
@@ -74,6 +82,10 @@ describe SubscriptionManager do
           it 'does not create duplicate subscription' do
             expect { manager.subscribe_to(another_user) rescue nil }.not_to change { Subscription.count }
           end
+
+          it 'does not create subscription_created event' do
+            expect { manager.subscribe_to(another_user) rescue nil }.not_to create_event(:subscription_created)
+          end
         end
       end
     end
@@ -81,6 +93,10 @@ describe SubscriptionManager do
     context 'any unsubscribable thing' do
       specify do
         expect { manager.subscribe_to(Subscription) }.to raise_error(ArgumentError, /Cannot subscribe/)
+      end
+
+      it 'does not create subscription_created event' do
+        expect { manager.subscribe_to(Subscription) rescue nil }.not_to create_event(:subscription_created)
       end
     end
   end

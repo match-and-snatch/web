@@ -16,14 +16,17 @@ describe PaymentManager do
       expect { subject.pay_for(subscription) }.to change { user.reload.activated? }.to(true)
     end
 
+    it 'creates payment_created event' do
+      expect { subject.pay_for(subscription) }.to create_event(:payment_created)
+    end
+
     context 'profile owner is on vacation' do
       before do
         UserProfileManager.new(target_user).enable_vacation_mode(reason: 'Super reason')
       end
 
-      specify do
-        expect { subject.pay_for(subscription) }.not_to raise_error
-      end
+      specify { expect { subject.pay_for(subscription) }.not_to raise_error }
+      specify { expect { subject.pay_for(subscription) }.to create_event(:payment_created) }
     end
 
     context 'billing failed' do
@@ -44,6 +47,10 @@ describe PaymentManager do
         it 'removes rejected date' do
           expect { subject.pay_for(subscription) }.to change { subscription.rejected_at }.to(nil)
         end
+
+        it 'creates payment_created event' do
+          expect { subject.pay_for(subscription) }.to create_event(:payment_created)
+        end
       end
 
       context 'payment fails' do
@@ -57,6 +64,14 @@ describe PaymentManager do
         it 'marks as rejected and sets rejected date' do
           expect(subscription.rejected).to eq(true)
           expect(subscription.rejected_at.utc.to_s).to eq(Time.zone.now.to_s)
+        end
+
+        it 'does not create event about new payment' do
+          expect { subject.pay_for(subscription) rescue nil }.not_to create_event(:payment_created)
+        end
+
+        it 'creates payment_failed event' do
+          expect { subject.pay_for(subscription) }.to create_event(:payment_failed)
         end
 
         context 'on a day when payment fails first time' do

@@ -170,8 +170,6 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 CREATE TABLE dialogues (
     id integer NOT NULL,
-    user_id integer,
-    target_user_id integer,
     recent_message_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -198,6 +196,71 @@ CREATE SEQUENCE dialogues_id_seq
 --
 
 ALTER SEQUENCE dialogues_id_seq OWNED BY dialogues.id;
+
+
+--
+-- Name: dialogues_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE dialogues_users (
+    id integer NOT NULL,
+    dialogue_id integer,
+    user_id integer,
+    removed boolean DEFAULT false NOT NULL
+);
+
+
+--
+-- Name: dialogues_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE dialogues_users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: dialogues_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE dialogues_users_id_seq OWNED BY dialogues_users.id;
+
+
+--
+-- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE events (
+    id integer NOT NULL,
+    action character varying(255),
+    message character varying(255),
+    data text,
+    user_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE events_id_seq OWNED BY events.id;
 
 
 --
@@ -721,8 +784,8 @@ CREATE TABLE users (
     activated boolean DEFAULT false NOT NULL,
     registration_token character varying(255),
     rss_enabled boolean DEFAULT false NOT NULL,
-    downloads_enabled boolean DEFAULT false NOT NULL,
-    itunes_enabled boolean DEFAULT false NOT NULL,
+    downloads_enabled boolean DEFAULT true NOT NULL,
+    itunes_enabled boolean DEFAULT true NOT NULL,
     profile_types_text text,
     subscribers_count integer DEFAULT 0 NOT NULL,
     billing_failed boolean DEFAULT false NOT NULL,
@@ -771,6 +834,20 @@ ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq':
 --
 
 ALTER TABLE ONLY dialogues ALTER COLUMN id SET DEFAULT nextval('dialogues_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY dialogues_users ALTER COLUMN id SET DEFAULT nextval('dialogues_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::regclass);
 
 
 --
@@ -893,6 +970,22 @@ ALTER TABLE ONLY comments
 
 ALTER TABLE ONLY dialogues
     ADD CONSTRAINT dialogues_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dialogues_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY dialogues_users
+    ADD CONSTRAINT dialogues_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (id);
 
 
 --
@@ -1194,9 +1287,19 @@ INSERT INTO schema_migrations (version) VALUES ('20140818144156');
 
 INSERT INTO schema_migrations (version) VALUES ('20140818144636');
 
+INSERT INTO schema_migrations (version) VALUES ('20140903094406');
+
 INSERT INTO schema_migrations (version) VALUES ('20140904174036');
 
 INSERT INTO schema_migrations (version) VALUES ('20140904174216');
 
 INSERT INTO schema_migrations (version) VALUES ('20140908174517');
+
+INSERT INTO schema_migrations (version) VALUES ('20141007164537');
+
+INSERT INTO schema_migrations (version) VALUES ('20141007164627');
+
+INSERT INTO schema_migrations (version) VALUES ('20141007164832');
+
+INSERT INTO schema_migrations (version) VALUES ('20141009063051');
 

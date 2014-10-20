@@ -9,7 +9,7 @@ class PendingPostsController < ApplicationController
   def create
     had_posts = current_user.has_posts?
     @post = create_post
-    had_posts ? json_prepend(html: post_html, notice: :post_created) : json_replace(html: post_html, notice: :post_created)
+    had_posts ? json_prepend(html: post_html) : json_replace(html: post_html)
   end
 
   def update

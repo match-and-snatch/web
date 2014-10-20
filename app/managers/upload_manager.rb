@@ -52,19 +52,24 @@ class UploadManager < BaseManager
       transloadit_data['results'][':original'] or fail_with! 'Invalid image'
 
       original = transloadit_data['results'][':original'][index]
-      preview  = transloadit_data['results']['preview'][index]
-      upload = Photo.new transloadit_data: transloadit_data,
-                         user_id:          user.id,
-                         type:             'Photo',
-                         duration:         upload_data['meta']['duration'],
-                         mime_type:        upload_data['mime'],
-                         filename:         upload_data['name'],
-                         filesize:         upload_data['size'],
-                         width:            upload_data['meta']['width'],
-                         height:           upload_data['meta']['height'],
-                         url:              original['ssl_url']
-      upload.attributes = attributes.merge(preview_url: preview['ssl_url'])
-      save_or_die! upload
+
+      if original
+        preview  = transloadit_data['results']['preview'][index]
+        upload = Photo.new transloadit_data: transloadit_data,
+                           user_id:          user.id,
+                           type:             'Photo',
+                           duration:         upload_data['meta']['duration'],
+                           mime_type:        upload_data['mime'],
+                           filename:         upload_data['name'],
+                           filesize:         upload_data['size'],
+                           width:            upload_data['meta']['width'],
+                           height:           upload_data['meta']['height'],
+                           url:              original['ssl_url']
+        upload.attributes = attributes.merge(preview_url: preview['ssl_url'])
+        save_or_die! upload
+        EventsManager.file_uploaded(user: user, file: upload)
+        upload
+      end
     end
   end
 
@@ -99,6 +104,8 @@ class UploadManager < BaseManager
         upload.attributes = attributes
       end
       save_or_die! upload
+      EventsManager.file_uploaded(user: user, file: upload)
+      upload
     end
   end
 
@@ -120,6 +127,8 @@ class UploadManager < BaseManager
                        url: transloadit_data["results"][":original"][0]["ssl_url"]
     upload.attributes = attributes
     save_or_die! upload
+    EventsManager.file_uploaded(user: user, file: upload)
+    upload
   end
 
   # @param transloadit_data [Hash]
@@ -144,6 +153,8 @@ class UploadManager < BaseManager
                        preview_url: thumb['ssl_url']
     upload.attributes = attributes
     save_or_die! upload
+    EventsManager.file_uploaded(user: user, file: upload)
+    upload
   end
 
   # @param transloadit_data [Hash]
@@ -167,6 +178,8 @@ class UploadManager < BaseManager
 
       upload.attributes = attributes
       save_or_die! upload
+      EventsManager.file_uploaded(user: user, file: upload)
+      upload
     end
   end
 end

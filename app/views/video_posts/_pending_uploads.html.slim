@@ -17,7 +17,7 @@ div data-identifier='pending-videos'
           .select_file_container
             .btn.green.multi.fa.fa-plus
               |&nbsp;Add Video
-            input.hide_btn type='file' name='post_videos'
+            input.hide_btn type='file' name='post_videos' accept='.avi,.mp4,.flv,.m4v,.f4v,.mov'
             input type='hidden' name='slug' value=current_user.slug
       - else
         p style="color: #898989;" Your video is uploaded. You can only post 1 video per post.

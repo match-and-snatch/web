@@ -32,9 +32,10 @@ BuddyPlatform::Application.routes.draw do
 
     scope module: :account_info do
       resources :messages, only: [:create]
-      resources :dialogues, only: [:index, :show] do
+      resources :dialogues, only: [:index, :show, :destroy] do
         member do
           put :mark_as_read
+          get :confirm_removal
         end
       end
     end

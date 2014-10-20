@@ -19,6 +19,14 @@ class User < ActiveRecord::Base
   has_many :payments
   has_many :payment_failures
   has_many :source_payments, class_name: 'Payment', foreign_key: 'target_user_id'
+  has_many :dialogues_users
+  has_many :dialogues, through: :dialogues_users do
+    def not_removed
+      where(dialogues_users: {removed: false})
+    end
+  end
+  has_many :messages
+  has_many :events
 
   has_one :pending_post
 
@@ -52,10 +60,6 @@ class User < ActiveRecord::Base
 
   def comment_picture_url
     small_account_picture_url || small_profile_picture_url
-  end
-
-  def dialogues
-    Dialogue.by_user(self)
   end
 
   # @param new_password [String]
@@ -176,17 +180,11 @@ class User < ActiveRecord::Base
   end
 
   # Sets costs and fees
-  # New logic:
-  # - $3 or less = $0.79
-  # - $4 - $9 = $0.99
-  # - $10 - $20 = $1.79
-  # - $21 & above = 9% of price
-  #
-  # Old logic:
-  # - $4 or less = $0.79
-  # - $5 - $9 = $0.95
-  # - $10 - $20 = $1.79
-  # - $21 & above = 9% of price
+  # Logic:
+  # $3 or less = $0.79
+  # $4 - $7 = $0.99
+  # $8 - $20 = $1.95
+  # $21 and above = 9% of subscription price
   #
   # @param val [Integer]
   # @return [S]
@@ -197,10 +195,10 @@ class User < ActiveRecord::Base
 
       if cost <= 300
         fees = 79
-      elsif cost >= 400 && cost <= 900
+      elsif cost >= 400 && cost <= 700
         fees = 99
-      elsif cost >= 1000 && cost <= 2000
-        fees = 179
+      elsif cost >= 800 && cost <= 2000
+        fees = 195
       elsif cost >= 2100
         fees = cost / 100 * 9
       else
@@ -233,7 +231,7 @@ class User < ActiveRecord::Base
   end
 
   def unread_messages_count
-    dialogues.unread.joins(:recent_message).where.not(messages: {user_id: id}).count
+    dialogues.not_removed.unread.joins(:recent_message).where.not(messages: {user_id: id}).count
   end
 
   # @return [Video, nil]

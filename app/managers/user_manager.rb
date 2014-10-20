@@ -36,12 +36,16 @@ class UserManager < BaseManager
   def mark_billing_failed
     @user.billing_failed = true
     @user.billing_failed_at = Time.zone.now
-    save_or_die! @user
+    save_or_die! @user do
+      UserStatsManager.new(@user).log_subscriptions_count
+    end
   end
 
   def remove_mark_billing_failed
     @user.billing_failed = false
     @user.billing_failed_at = nil
-    save_or_die! @user
+    save_or_die! @user do
+      UserStatsManager.new(@user).log_subscriptions_count
+    end
   end
 end

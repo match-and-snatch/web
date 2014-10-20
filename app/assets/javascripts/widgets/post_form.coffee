@@ -8,11 +8,11 @@ class bud.widgets.PostForm extends bud.Widget
     @$current_tab = bud.get(@$container.data('default_post_tab'))
 
     bud.sub('PostTab.changed', @on_tab_changed)
-    bud.sub('post', @reload_tab)
+    bud.sub('post', @on_post)
 
   destroy: ->
     bud.unsub('PostTab.changed', @on_tab_changed)
-    bud.unsub('post', @reload_tab)
+    bud.unsub('post', @on_post)
 
   on_tab_changed: (e, $tab_element) =>
     if @$current_tab != $($tab_element)
@@ -35,6 +35,17 @@ class bud.widgets.PostForm extends bud.Widget
       params['message'] = message_container.val()
 
     bud.Ajax.post @pending_post_url, params, success: @reload_tab
+
+  on_post: =>
+    bud.Ajax.get(@$current_tab.data('url'), {}, replace: (response) =>
+      @on_render_form(response)
+      setTimeout =>
+        @$target.addClass('submitted')
+        setTimeout =>
+          @$target.removeClass('submitted')
+        , 4000
+      , 100
+    )
 
   reload_tab: =>
     bud.Ajax.get(@$current_tab.data('url'), {}, replace: @on_render_form)

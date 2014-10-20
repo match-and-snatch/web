@@ -23,6 +23,9 @@ module Queries
             result['0-9'].concat(number_group)
           end
         end
+
+        boortz = User.where(registration_token: 'EPrIZ_8bLkzOhBmE5Lor6Q').first
+        result['B'].unshift(boortz) if boortz
       end
     end
 

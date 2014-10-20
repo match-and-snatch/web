@@ -12,6 +12,10 @@ describe PostManager do
     specify do
       expect(manager.create_status_post(message: 'some text')).to be_persisted
     end
+
+    it 'creates status_post_created event' do
+      expect { manager.create_status_post(message: 'some text') }.to create_event(:status_post_created)
+    end
   end
 
   describe '#update_pending' do

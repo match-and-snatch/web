@@ -10,7 +10,7 @@ class UserStatsManager < BaseManager
   # Denormalizes into users table, saves stats in events
   # @return [SubscriptionDailyCountChangeEvent]
   def log_subscriptions_count
-    count = user.source_subscriptions.not_removed.count
+    count = user.source_subscriptions.not_removed.where(rejected: false).count
     user.subscribers_count = count
     save_or_die! user
 
