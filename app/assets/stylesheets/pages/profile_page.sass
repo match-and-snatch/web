@@ -30,9 +30,9 @@
   .photo_cover
     background-color: $color_background
     background: asset-url('//connectpal-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
+    background-size: 100%
     border-bottom: 1px solid $color_border
     display: block
-    height: 240px
     overflow: hidden
     margin-bottom: 15px
     position: relative
@@ -45,15 +45,37 @@
     #change_position
       right: 160px
 
+  // Apple iPhone 4 & 5
+
+  @media screen and (max-width: 320px)
+    .photo_cover
+      height: 84px
+
+  // Apple iPhone 6
+
+  @media screen and (min-width: 321px) and (max-width: 375px)
+    .photo_cover
+      height: 100px
+
+  // Apple iPhone 6 Plus
+
+  @media screen and (min-width: 376px) and (max-width: 414px)
+    .photo_cover
+      height: 111px
+
+  // Samsung S4
+
+  @media screen and (width: 360px) and (height: 640px)
+    .photo_cover
+      height: 95px
+
   // Mobile
 
   @media screen and (max-width: 767px)
     .photo_cover
-      height: 122px
-      background-size: 450px
-      background-position-x: -120px
       div
-        background-size: 100% !important
+        background-size: 100%
+        background-position-y: 50% !important
       .btn
         display: none !important
 
@@ -85,24 +107,60 @@
     .btn
       right: 19px
 
+  // Apple iPhone 4 & 5
+
+  @media screen and (max-width: 320px)
+    .photo_profile
+      top: 5px
+      left: 5px
+      height: 72px
+      width: 72px
+      img
+        height: 70px
+        width: 70px
+
+  // Apple iPhone 6
+
+  @media screen and (min-width: 321px) and (max-width: 375px)
+    .photo_profile
+      top: 6px
+      left: 6px
+      height: 87px
+      width: 87px
+      img
+        height: 85px
+        width: 85px
+
+  // Apple iPhone 6 Plus
+
+  @media screen and (min-width: 376px) and (max-width: 414px)
+    .photo_profile
+      top: 10px
+      left: 10px
+      height: 90px
+      width: 90px
+      img
+        height: 88px
+        width: 88px
+
+  // Samsung S4
+
+  @media screen and (width: 360px) and (height: 640px)
+    .photo_profile
+      top: 8px
+      left: 8px
+      height: 78px
+      width: 78px
+      img
+        height: 76px
+        width: 76px
+
   // Mobile
 
   @media screen and (max-width: 767px)
     .photo_profile
-      top: 10px
-      left: 10px
-      height: 102px
-      width: 102px
-      img
-        height: 100px
-        width: 100px
-      .btn
-        font-size: 11px !important
-        left: 15px
-        right: auto
-      form
+      .btn, form
         display: none
-
 
   .photo_cover, .photo_profile
     .btn
@@ -346,9 +404,7 @@
       cursor: pointer
       border-right: 1px solid $color_border
       display: inline-block
-      font-size: 16px
       list-style-type: none
-      padding: 15px 36px
       &:last-child
         border-right: none
       &.active
@@ -1522,28 +1578,33 @@
     .details_container
       .subscribe_cont
         height: 55px
-        font-size: 36px
+        font-size: 26px
         .cost_owner, .cost_visitor
           .amount, .fa
-            height: 55px
+            height: 42px
           .fa
             padding: 6px 0 0 0
-            width: 65px
+            width: 47px
             &:before
-              font-size: 30px
+              font-size: 20px
+          .fa.fa-gear
+            padding-top: 10px
+            width: 25px
         &:hover
           .subscribe
             font-size: 36px
             height: 55px
             padding: 0
             width: 240px
+        .subscribed
+          padding: 5px
       .add_welcome_media
         width: 203px
         padding: 8px 0
   #create_post_nav
     li
-      font-size: 14px
-      padding: 15px 19px
+      font-size: 13px
+      padding: 15px 24px
   #create_post
     #post
       .error
@@ -1656,9 +1717,13 @@
         .cost_owner, .cost_visitor
           .amount, .fa
             height: 55px
-          .fa
-            padding: 6px 0 0 0
+          .fa.fa-usd
             width: 65px
+            &:before
+              font-size: 30px
+          .fa.fa-gear
+            padding: 10px 0 0 0
+            width: 35px
             &:before
               font-size: 30px
         &:hover
