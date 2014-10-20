@@ -121,10 +121,6 @@ module Events
         end
 
         user.subscriptions.find_each do |subscription|
-          EventsManager.subscription_cancelled(user: user, subscription: subscription) do |event|
-            event.created_at = subscription.removed_at
-            event.updated_at = subscription.removed_at
-          end
           EventsManager.subscription_created(user: user, subscription: subscription) do |event|
             event.created_at = subscription.created_at
             event.updated_at = subscription.created_at
@@ -187,7 +183,7 @@ module Events
       end
 
       Subscription.where.not(user_id: User.select(:id)).each do |subscription|
-        EventsManager.subscription_cancelled(user: user, subscription: subscription) do |event|
+        EventsManager.subscription_cancelled(user: nil, subscription: subscription) do |event|
           event.created_at = subscription.removed_at
           event.updated_at = subscription.removed_at
           event.user_id = subscription.user_id
