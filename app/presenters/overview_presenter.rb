@@ -1,7 +1,7 @@
 class OverviewPresenter
 
   def current_subscribers_count
-    Subscription.where(removed: false).count
+    Subscription.where(removed: false, rejected: false).count
   end
 
   def total_subscribers_count
