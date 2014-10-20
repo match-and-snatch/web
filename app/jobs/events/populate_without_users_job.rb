@@ -1,7 +1,7 @@
 module Events
   class PopulateWithoutUsersJob
     def self.perform
-      Subscription.where.not(user_id: User.select(:id)).each do |subscription|
+      Subscription.where.not(user_id: User.select(:id)).find_each do |subscription|
         EventsManager.subscription_cancelled(user: nil, subscription: subscription) do |event|
           event.created_at = subscription.created_at
           event.updated_at = subscription.created_at
@@ -15,7 +15,7 @@ module Events
         subscription.delete
       end
 
-      Subscription.joins(:user).where(removed: true).each do |subscription|
+      Subscription.joins(:user).where(removed: true).find_each do |subscription|
         EventsManager.subscription_cancelled(user: subscription.user, subscription: subscription) do |event|
           event.created_at = subscription.removed_at
           event.updated_at = subscription.removed_at

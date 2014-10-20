@@ -21,7 +21,7 @@ module Events
 
         EventsManager.profile_created(user: user, data: { cost: user.cost, profile_name: user.profile_name }) if user.has_profile_page?
 
-        user.uploads.photos.each do |photo|
+        user.uploads.photos.find_each do |photo|
           type = photo.transloadit_data['results'][':original'][0]['field']
           if type == 'profile_picture_file'
             EventsManager.profile_picture_changed(user: user, picture: photo) do |event|
@@ -52,13 +52,13 @@ module Events
           EventsManager.benefits_list_updated(user: user, benefits: user.benefits.map(&:message))
         end
 
-        user.uploads.audios.each do |audio|
+        user.uploads.audios.find_each do |audio|
           EventsManager.welcome_media_added(user: user, media: audio) do |event|
             event.created_at = audio.created_at
             event.updated_at = audio.created_at
           end
         end
-        user.uploads.videos.each do |video|
+        user.uploads.videos.find_each do |video|
           EventsManager.welcome_media_added(user: user, media: video) do |event|
             event.created_at = video.created_at
             event.updated_at = video.created_at
@@ -151,14 +151,14 @@ module Events
           end
         end
 
-        StripeTransfer.where(user_id: user.id).each do |transfer|
+        StripeTransfer.where(user_id: user.id).find_each do |transfer|
           EventsManager.transfer_sent(user: user, transfer: transfer) do |event|
             event.created_at = transfer.created_at
             event.updated_at = transfer.created_at
           end
         end
 
-        Upload.where(user_id: user.id).where.not(uploadable_type: 'User').each do |upload|
+        Upload.where(user_id: user.id).where.not(uploadable_type: 'User').find_each do |upload|
           EventsManager.file_uploaded(user: user, file: upload) do |event|
             event.created_at = upload.created_at
             event.updated_at = upload.created_at
@@ -166,7 +166,7 @@ module Events
         end
       end
 
-      Payment.where.not(user_id: User.select(:id)).each do |payment|
+      Payment.where.not(user_id: User.select(:id)).find_each do |payment|
         EventsManager.payment_created(user: nil, payment: payment) do |event|
           event.created_at = payment.created_at
           event.updated_at = payment.created_at
@@ -174,7 +174,7 @@ module Events
         end
       end
 
-      PaymentFailure.where.not(user_id: User.select(:id)).each do |payment_failure|
+      PaymentFailure.where.not(user_id: User.select(:id)).find_each do |payment_failure|
         EventsManager.payment_failed(user: nil, payment_failure: payment_failure) do |event|
           event.created_at = payment_failure.created_at
           event.updated_at = payment_failure.created_at
@@ -182,7 +182,7 @@ module Events
         end
       end
 
-      Subscription.where.not(user_id: User.select(:id)).each do |subscription|
+      Subscription.where.not(user_id: User.select(:id)).find_each do |subscription|
         EventsManager.subscription_cancelled(user: nil, subscription: subscription) do |event|
           event.created_at = subscription.removed_at
           event.updated_at = subscription.removed_at
