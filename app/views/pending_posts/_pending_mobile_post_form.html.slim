@@ -1,23 +1,23 @@
 .row-fluid.file_status.Progress.hidden
-  .col-md-2.col-sm-2.col-xs-2.file_name Uploading...
-  .col-md-8.col-sm-8.col-xs-8
+  .col-md-2.col-sm-2.hidden-xs.file_name Uploading...
+  .col-md-8.col-sm-8.col-xs-12
     .progress.progress-striped.active
       .progress-bar.progress-bar-info role="progressbar" aria-voluenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"
         span.sr-only 0% Complete
-  .col-md-2.col-sm-2.col-xs-2.percentage 0%
+  .col-md-2.col-sm-2.hidden.xs.percentage 0%
   .clearfix
 
 .row-fluid
   / File selection, progress bar, and file listing.
-  .col-md-6.col-sm-6.col-xs-6
+  .col-md-6.col-sm-6.col-xs-12
     / Uploaded files.
     .uploaded data-identifier='pending-uploads'
       = render 'pending_uploads'
 
   / Input fields for post title, description, keywords, and post notification
-  form.col-md-6.col-sm-6.col-xs-6.upload_details.Poster action=media_posts_path method='POST' data-target='posts'
+  form.col-md-6.col-sm-6.col-xs-12.upload_details.Poster action=media_posts_path method='POST' data-target='posts'
     / Post title
-    input.bg-color.form-control name='title' placeholder='Title' value=pending_post.title style='margin-top: 0;'
+    input.bg-color.form-control name='title' placeholder='Title' value=pending_post.title style='margin-top: 0; padding: 5px'
     .error data-field='title'
     / Post keywords, hidden for now.
     / input.form-control name='keywords' placeholder='Keywords/Category' value=pending_post.keywords
@@ -26,19 +26,18 @@
     textarea.bg-color.form-control name='message' placeholder='Description' style='margin-bottom: 8px'
       = restore_message_format(pending_post.message)
     .error data-field='message'
+    / Disabled until all uploads are 100%
+    input.btn.blue.pull-right type='Submit' value='Submit Post'
     / Post notification
     .notify
-      label.pull-left style='margin-top: 2px' Notify your subscribers of this post via email?
-      .pull-left.no_width
+      label style='width: 100%;' Notify your subscribers of this post via email?
+      .no_width
         input type='radio' name='notify' value='' checked='checked' id='notify_no'
         label for='notify_no'
           |&nbsp;No
-      .pull-left.yes_width
+      .yes_width
         input type='radio' name='notify' value='1' id='notify_yes'
         label for='notify_yes'
           |&nbsp;Yes
       .clearfix
-
-    / Disabled until all uploads are 100%
-    input.btn.blue.pull-right type='Submit' value='Submit Post'
   .clearfix

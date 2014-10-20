@@ -1915,3 +1915,140 @@
 .mobile_nav
   @media screen and (min-width: 768px)
     display: none
+
+.mobile_create_popup
+  max-width: 100% !important
+  position: relative
+  ul.nav.nav-tabs
+    li
+      font-size: 12px
+      a
+        @include border-radius(0)
+        border-top: none
+        padding: 10px 15px
+        text-decoration: none
+        color: $color_text_dark
+    &.active
+      a
+        color: $color_blue
+  .modal-header
+    position: absolute !important
+    top: 5px
+    right: 5px
+  .modal-body
+    padding: 5px
+    .col-xs-12
+      padding: 0
+      textarea
+        background-color: $color_background
+        font-size: 12px
+        width: 100%
+        border: 1px solid $color_border
+        padding: 5px
+        height: 70px
+      .notify
+        margin-top: 5px
+        label
+          font-weight: normal !important
+          font-size: 10px
+        .no_width, .yes_width
+          float: none !important
+          display: inline-block
+          margin-right: 10px
+          input
+            margin-right: 2px
+          label
+            font-size: 11px
+  &.status
+    .modal-body
+      .col-xs-12
+        padding: 5px
+        .notify
+          padding: 0
+  &.media
+    .modal-body
+      padding: 10px !important
+      .progress
+        margin-bottom: 10px
+      .pending_audio, .pending_video, .pending_photo, .pending_document
+        .supported_files
+          display: none
+        .added_audio, .added_video, .added_photo
+          .audio_bg
+            @include border-radius(10px)
+            border: 1px solid $color_border
+            background-color: $color_background
+            height: 100px
+            li
+              border-bottom: 1px solid $color_border
+              font-size: 11px
+              padding: 10px
+              .icon
+                display: none
+              .file_name
+                word-break: break-all
+                width: 90%
+              .delete_button
+                text-decoration: none
+                float: right
+          .video_bg
+            li
+              position: relative
+              .delete_button
+                position: absolute
+                top: 5px
+                right: 5px
+                text-decoration: none
+              img
+                width: 100%
+          .photo_bg
+            padding: 5px
+            white-space: nowrap
+            li
+              background-color: #FFFFFF
+              border-bottom: none
+              height: 66px
+              float: left
+              margin: 0 5px 5px 0
+              overflow: hidden
+              padding: 0 !important
+              position: relative
+              &:last-child
+                margin-right: 0
+              img
+                border: 1px solid $color_border
+                height: 66px
+              .delete_photo
+                background-color: $color_pink
+                @include border-radius(0 0 0 $border_radius)
+                color: #FFFFFF
+                font-size: 11px
+                padding: 5px 10px
+                position: absolute
+                top: 1px
+                right: 1px
+                text-decoration: none
+                &:hover
+                  background-color: $color_blue
+          p
+            font-size: 10px
+            text-align: center
+
+        .select_file_container
+          padding: 5px 0
+          .btn.multi
+            display: none
+          input[type="file"]
+            margin-bottom: 10px
+      .notify
+        margin-top: 0
+        label
+          font-size: 11px
+          margin-right: 5px
+        .no_width, .yes_width
+          input
+            margin-bottom: 0
+      form
+        input
+          margin-bottom: 10px
+
