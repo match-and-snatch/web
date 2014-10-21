@@ -177,5 +177,91 @@ describe Billing::ChargeJob do
         end
       end
     end
+    
+    describe 'suspended billing flow' do
+      let(:create_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
+      after { Timecop.return }
+
+      context 'subscribed before billing started' do
+        before do
+          Timecop.freeze(Date.new(2001, 01, 01)) do
+            @subscription = create_subscription
+          end
+
+          Timecop.freeze(Date.new(2001, 01, 15)) do
+            UserProfileManager.new(target_user).suspend_billing
+          end
+        end
+
+        context 'billing restored before next billing date' do
+          before { Timecop.freeze Date.new(2001, 01, 20) }
+
+          it 'does not charge subscriber' do
+            expect { perform }.not_to change { Payment.count }
+          end
+
+          specify do
+            expect { perform }.not_to change { @subscription.reload.charged_at }
+          end
+        end
+
+        context 'billing restored after next billing date' do
+          before do
+            Timecop.freeze Date.new(2001, 03, 10)
+            UserProfileManager.new(target_user).restore_billing
+          end
+
+          it 'charges subscriber only once for 1 month' do
+            expect { perform }.to change { Payment.count }.by(1)
+          end
+
+          specify do
+            expect { perform }.to change { @subscription.reload.charged_at }.to(Time.zone.now)
+          end
+        end
+      end
+
+      context 'subscribed within suspended billing period' do
+        before do
+          Timecop.freeze(Date.new(2001, 01, 01)) do
+            UserProfileManager.new(target_user).suspend_billing
+          end
+
+          Timecop.freeze(Date.new(2001, 01, 15)) do
+            @subscription = create_subscription
+          end
+        end
+
+        context 'billing restored before next billing date' do
+          before do
+            Timecop.freeze Date.new(2001, 02, 01)
+            UserProfileManager.new(target_user).restore_billing
+          end
+
+          it 'does not charge subscriber' do
+            expect { perform }.not_to change { Payment.count }
+          end
+
+          specify do
+            expect { perform }.not_to change { @subscription.reload.charged_at }
+          end
+        end
+
+        context 'billing restored after next billing date' do
+          before do
+            Timecop.freeze Date.new(2001, 03, 25)
+            UserProfileManager.new(target_user).restore_billing
+          end
+
+          it 'charges subscriber only once for 1 month' do
+            expect { perform }.to change { Payment.count }.by(1)
+          end
+
+          specify do
+            expect { perform }.to change { @subscription.reload.charged_at }.to(Time.zone.now)
+          end
+        end
+      end
+    end
   end
 end
