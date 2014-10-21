@@ -38,7 +38,7 @@ h2 Profile Owners
         td
           = cents_to_dollars user.subscription_cost
         td
-          - if user.has_suspended_billing?
+          - if user.billing_suspended?
             strong style='color: red; font-size: 14px' Suspended
           - else
             small style='color: gray' Active

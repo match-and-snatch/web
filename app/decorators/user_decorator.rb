@@ -14,7 +14,7 @@ class UserDecorator < BaseDecorator
            :cost, :name, :has_profile_page?,
            :posts, :source_uploads, :account_number, :holder_name, :routing_number,
            :vacation_enabled?,
-           :has_suspended_billing?,
+           :billing_suspended?,
            to: :object
 
   # @param object [User]

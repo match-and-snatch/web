@@ -7,7 +7,7 @@ hr
 .row
   .form-group.profile_display_settings
     label.pull-left for='billing_checker' Suspend Billing
-    = object_checker_tag(@user.object, :billing, checked: @user.object.has_suspended_billing?, unchecked_url: enable_billing_admin_profile_owner_path(@user.object.id), checked_url: disable_billing_admin_profile_owner_path(@user.object.id))
+    = object_checker_tag(@user.object, :billing, checked: @user.object.billing_suspended?, unchecked_url: enable_billing_admin_profile_owner_path(@user.object.id), checked_url: disable_billing_admin_profile_owner_path(@user.object.id))
     .clearfix
 hr
 

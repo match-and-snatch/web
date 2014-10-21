@@ -523,14 +523,14 @@ class UserProfileManager < BaseManager
   end
 
   def suspend_billing
-    fail_with! 'Billing is already suspended' if user.has_suspended_billing?
-    user.has_suspended_billing = true
+    fail_with! 'Billing is already suspended' if user.billing_suspended?
+    user.billing_suspended = true
     save_or_die!(user)
   end
 
   def restore_billing
-    fail_with! 'Billing is already active' unless user.has_suspended_billing?
-    user.has_suspended_billing = false
+    fail_with! 'Billing is already active' unless user.billing_suspended?
+    user.billing_suspended = false
     save_or_die!(user)
   end
 

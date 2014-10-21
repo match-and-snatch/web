@@ -668,7 +668,7 @@ describe UserProfileManager do
 
   describe '#suspend_billing' do
     specify do
-      expect { manager.suspend_billing }.to change { user.reload.has_suspended_billing? }.from(false).to(true)
+      expect { manager.suspend_billing }.to change { user.reload.billing_suspended? }.from(false).to(true)
     end
 
     context 'already suspended' do
@@ -679,7 +679,7 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.suspend_billing rescue nil }.not_to change { user.reload.has_suspended_billing? }
+        expect { manager.suspend_billing rescue nil }.not_to change { user.reload.billing_suspended? }
       end
     end
   end
@@ -688,7 +688,7 @@ describe UserProfileManager do
     before { manager.suspend_billing }
 
     specify do
-      expect { manager.restore_billing }.to change { user.reload.has_suspended_billing? }.from(true).to(false)
+      expect { manager.restore_billing }.to change { user.reload.billing_suspended? }.from(true).to(false)
     end
 
     context 'already restored' do
@@ -699,7 +699,7 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.restore_billing rescue nil }.not_to change { user.reload.has_suspended_billing? }
+        expect { manager.restore_billing rescue nil }.not_to change { user.reload.billing_suspended? }
       end
     end
   end
