@@ -505,7 +505,7 @@ class UserProfileManager < BaseManager
     user.vacation_message = reason
 
     save_or_die!(user).tap do
-      self.class.delay(queue: :mail).notify_vacation_enabled(user)
+      NotificationManager.delay.notify_vacation_enabled(user)
       EventsManager.vacation_mode_enabled(user: user, reason: reason)
     end
   end
@@ -517,22 +517,8 @@ class UserProfileManager < BaseManager
     user.vacation_message = nil
 
     save_or_die!(user).tap do
-      self.class.delay(queue: :mail).notify_vacation_disabled(user)
+      NotificationManager.delay.notify_vacation_disabled(user)
       EventsManager.vacation_mode_disabled(user: user)
-    end
-  end
-
-  # @param profile_owner [User]
-  def self.notify_vacation_enabled(profile_owner)
-    profile_owner.source_subscriptions.not_removed.joins(:user).find_each do |subscription|
-      ProfilesMailer.vacation_enabled(subscription).deliver
-    end
-  end
-
-  # @param profile_owner [User]
-  def self.notify_vacation_disabled(profile_owner)
-    profile_owner.source_subscriptions.not_removed.joins(:user).find_each do |subscription|
-      ProfilesMailer.vacation_disabled(subscription).deliver
     end
   end
 

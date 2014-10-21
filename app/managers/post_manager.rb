@@ -45,11 +45,7 @@ class PostManager < BaseManager
       StatusFeedEvent.create! subscription_target_user: user, target: post, data: {message: message}
       user.pending_post.try(:destroy!)
 
-      if notify == '1'
-        post.user.source_subscriptions.where(notifications_enabled: true).not_removed.preload(:user).find_each do |s|
-          PostsMailer.delay.created(post, s.user) if s.user && post
-        end
-      end
+      NotificationManager.delay.notify_post_created(post) if notify
     end
   end
 
@@ -157,7 +153,7 @@ class PostManager < BaseManager
   # @param title [String]
   # @param keywords_text [String]
   # @param message [String]
-  def create_media_post(post_class, title: nil, keywords_text: nil, message: nil, notify: nil)
+  def create_media_post(post_class, title: nil, keywords_text: nil, message: nil, notify: false)
     uploads = post_class.pending_uploads_for(user)
 
     fail_with! 'Please upload files' if uploads.empty?
@@ -177,11 +173,7 @@ class PostManager < BaseManager
       uploads.each { |upload| post.uploads << upload }
       user.pending_post.try(:destroy!)
 
-      if notify == '1'
-        post.user.source_subscriptions.where(notifications_enabled: true).not_removed.preload(:user).find_each do |s|
-          PostsMailer.delay.created(post, s.user) if s.user && post
-        end
-      end
+      NotificationManager.delay.notify_post_created(post) if notify
     end
   end
 end
