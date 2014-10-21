@@ -69,6 +69,16 @@ describe Billing::ChargeJob do
         end
       end
 
+      context 'profile owner has suspended billing' do
+        before do
+          UserProfileManager.new(target_user).suspend_billing
+        end
+
+        it 'does not create any payments' do
+          expect { perform }.not_to change { unpaid_subscription.payments.count }
+        end
+      end
+
       context 'having invalid subscription without user set' do
         before do
           subscriber = create_user email: 'invalid@two.com'
