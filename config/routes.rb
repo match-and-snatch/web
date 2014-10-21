@@ -162,6 +162,8 @@ BuddyPlatform::Application.routes.draw do
         get :total_new_subscribed
         get :total_unsubscribed
         get :failed_billing_subscriptions
+        put :enable_billing
+        put :disable_billing
       end
     end
     resources :profiles, only: [:index, :show] do

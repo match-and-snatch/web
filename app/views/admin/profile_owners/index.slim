@@ -20,7 +20,9 @@ h2 Profile Owners
     th
       strong
         a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:subscription_cost)) data-target='admin-panel' Subscription Cost
-    
+    th
+      strong Billing Status
+
     - @users.each do |user|
       tr
         td ##{user.id}
@@ -35,4 +37,9 @@ h2 Profile Owners
         td style='min-width: 100px'= user.created_at
         td
           = cents_to_dollars user.subscription_cost
+        td
+          - if user.has_suspended_billing?
+            strong style='color: red; font-size: 14px' Suspended
+          - else
+            small style='color: gray' Active
   .clearfix

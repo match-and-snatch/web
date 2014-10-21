@@ -15,11 +15,11 @@ module ApplicationHelper
 
   def object_checker_tag(object, field_name, options = {})
     data = {}
-    data[:checked_url]   = polymorphic_path(["enable_#{field_name}", object])
-    data[:unchecked_url] = polymorphic_path(["disable_#{field_name}", object])
+    data[:checked_url]   = options.delete(:checked_url) || polymorphic_path(["enable_#{field_name}", object])
+    data[:unchecked_url] = options.delete(:unchecked_url) || polymorphic_path(["disable_#{field_name}", object])
 
     html_options = {id: "#{field_name}_#{object.id}_#{object.class.name}_checker", data: data, class: 'Checker', type: 'checkbox'}
-    html_options['checked'] = 'checked' if object["#{field_name}_enabled"]
+    html_options['checked'] = 'checked' if options.delete(:checked) || object["#{field_name}_enabled"]
     html_options.merge! options
 
     tag :input, html_options

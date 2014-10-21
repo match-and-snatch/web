@@ -522,6 +522,18 @@ class UserProfileManager < BaseManager
     end
   end
 
+  def suspend_billing
+    fail_with! 'Billing is already suspended' if user.has_suspended_billing?
+    user.has_suspended_billing = true
+    save_or_die!(user)
+  end
+
+  def restore_billing
+    fail_with! 'Billing is already active' unless user.has_suspended_billing?
+    user.has_suspended_billing = false
+    save_or_die!(user)
+  end
+
   private
 
   # @param current_upload [Video, Audio]
