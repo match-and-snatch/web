@@ -1,0 +1,5 @@
+- @statistic.filter_hash.each do |group, filters|
+  ol class='breadcrumb'
+    - filters.each do |filter, label|
+      li class="#{'active' if @statistic.action == filter}"
+        a.AjaxLink href=graphic_admin_statistics_path(graph_type: filter) data-target='graphic-area' #{label}
