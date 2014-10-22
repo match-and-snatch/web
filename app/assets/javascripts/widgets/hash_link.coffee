@@ -29,4 +29,3 @@ class bud.widgets.HashLink extends bud.Widget
       window.location.hash = @hash
 
     return false
-
