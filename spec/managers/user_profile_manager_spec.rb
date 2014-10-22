@@ -80,6 +80,7 @@ describe UserProfileManager do
 
   describe '#disable_vacation_mode' do
     let(:user) { create_profile email: 'profiled@gmail.com' }
+
     before do
       manager.enable_vacation_mode(reason: 'Yexa/| B DepeBH|-O')
     end
@@ -88,6 +89,94 @@ describe UserProfileManager do
 
     it 'disables vacation mode' do
       expect { disable_vacation_mode }.to change { user.reload.vacation_enabled? }.from(true).to(false)
+    end
+
+    context 'user has suspended billing' do
+      before { manager.suspend_billing }
+
+      it 'disables suspended state' do
+        expect { disable_vacation_mode }.to change { user.reload.billing_suspended? }.from(true).to(false)
+      end
+
+      context 'with subscribed users' do
+        let(:subscriber) { create_user email: 'subscriber@gmail.com' }
+
+        context 'not charged subscription' do
+          let!(:subscription) do
+            SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
+          end
+
+          it 'does nothing with charge date since it is not set' do
+            expect { disable_vacation_mode }.not_to change { subscription.reload.charged_at }.from(nil)
+          end
+        end
+
+        context 'subscribed at this month' do
+          before { StripeMock.start }
+          after { StripeMock.stop }
+
+          before do
+            UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+            subscriber.reload
+          end
+
+          let!(:subscription) do
+            SubscriptionManager.new(subscriber: subscriber).subscribe_and_pay_for(user)
+          end
+
+          it 'does nothing with charge date since subscriber just subscribed' do
+            expect { disable_vacation_mode }.not_to change { subscription.reload.charged_at }
+          end
+        end
+
+        context 'have already been subscribed before' do
+          before { StripeMock.start }
+          after { StripeMock.stop }
+
+          before do
+            UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+            subscriber.reload
+          end
+
+          let(:charge_time) { Date.new(2001, 01, 01).to_time }
+
+          let!(:subscription) do
+            Timecop.freeze(charge_time) do
+              SubscriptionManager.new(subscriber: subscriber).subscribe_and_pay_for(user)
+            end
+          end
+
+          it 'moves charge date to number of days from beginning of current month' do
+            Timecop.freeze(Date.new(2014, 01, 22)) do
+              expect { disable_vacation_mode }.to change { subscription.reload.charged_at }.from(charge_time).to(charge_time + 22.days)
+            end
+          end
+        end
+
+        context 'subscribed during current month' do
+          before { StripeMock.start }
+          after { StripeMock.stop }
+
+          before do
+            UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+            subscriber.reload
+          end
+
+          let(:charge_time) { Time.zone.parse('2001-01-05') }
+
+          let!(:subscription) do
+            Timecop.freeze(charge_time) do
+              SubscriptionManager.new(subscriber: subscriber).subscribe_and_pay_for(user)
+            end
+          end
+
+          it 'moves charge date to number of days owner spent in vacation mode during subscription' do
+            Timecop.freeze(Date.new(2001, 01, 07)) do
+              expect { disable_vacation_mode }.to change { subscription.reload.charged_at }.from(charge_time).to(charge_time + 2.days)
+            end
+          end
+        end
+      end
     end
 
     it 'creates vacation_mode_disabled event' do

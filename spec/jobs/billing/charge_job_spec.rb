@@ -94,6 +94,7 @@ describe Billing::ChargeJob do
 
     describe 'vacation flow' do
       let(:create_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
+
       after { Timecop.return }
 
       context 'subscribed before vacation started' do
@@ -162,17 +163,69 @@ describe Billing::ChargeJob do
         end
 
         context 'vacation ended after next billing date' do
-          before do
-            Timecop.freeze Date.new(2001, 03, 25)
-            UserProfileManager.new(target_user).disable_vacation_mode
+          context 'billing is not suspended' do
+            before do
+              Timecop.freeze Date.new(2001, 02, 25)
+              UserProfileManager.new(target_user).disable_vacation_mode
+            end
+
+            it 'charges subscriber only once for 1 month' do
+              expect { perform }.to change { Payment.count }.by(1)
+            end
+
+            specify do
+              expect { perform }.to change { @subscription.reload.charged_at }.to(Time.zone.now)
+            end
           end
 
-          it 'charges subscriber only once for 1 month' do
-            expect { perform }.to change { Payment.count }.by(1)
-          end
+          context 'billing was suspended' do
+            context 'disabled vacation mode during next billing period' do
+              before do
+                Timecop.freeze Date.new(2001, 02, 05)
+                UserProfileManager.new(target_user).suspend_billing
+                UserProfileManager.new(target_user).disable_vacation_mode
+              end
 
-          specify do
-            expect { perform }.to change { @subscription.reload.charged_at }.to(Time.zone.now)
+              it 'does not charge' do
+                expect { perform }.not_to change { Payment.count }
+              end
+
+              specify do
+                expect { perform }.not_to change { @subscription.reload.charged_at }
+              end
+
+              context 'when it is time to pay' do
+                before do
+                  Timecop.freeze Date.new(2001, 02, 20) # 15th (subscription created on 15th) + 5days (vacation was disable on March __5th__)
+                end
+
+                it 'charges subscriber only once for 1 month' do
+                  expect { perform }.to change { Payment.count }.by(1)
+                end
+
+                specify do
+                  expect { perform }.to change { @subscription.reload.charged_at }.to(Time.zone.now)
+                end
+              end
+            end
+
+            context 'disabled vacation mode after next billing period' do
+              before do
+                Timecop.freeze Date.new(2001, 03, 25)
+                UserProfileManager.new(target_user).suspend_billing
+                UserProfileManager.new(target_user).disable_vacation_mode # billing date set on 2001-02-05 (subscription created on 15th) + 25days (vacation was disable on March __5th__)
+              end
+
+              it 'does not charge' do
+                expect { perform }.to change { Payment.count }.by(1) # charged for 1 month (February)
+              end
+
+              specify do
+                expect { perform }.to change { @subscription.reload.charged_at }.to(Time.zone.now)
+                # billing date set on 2001-03-25
+                # User does not pay for 25 days
+              end
+            end
           end
         end
       end
@@ -182,7 +235,7 @@ describe Billing::ChargeJob do
       let(:create_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
       after { Timecop.return }
 
-      context 'subscribed before billing started' do
+      context 'subscribed before billing suspended' do
         before do
           Timecop.freeze(Date.new(2001, 01, 01)) do
             @subscription = create_subscription
@@ -193,8 +246,20 @@ describe Billing::ChargeJob do
           end
         end
 
-        context 'billing restored before next billing date' do
+        context 'before next billing date' do
           before { Timecop.freeze Date.new(2001, 01, 20) }
+
+          it 'does not charge subscriber' do
+            expect { perform }.not_to change { Payment.count }
+          end
+
+          specify do
+            expect { perform }.not_to change { @subscription.reload.charged_at }
+          end
+        end
+
+        context 'after next billing date' do
+          before { Timecop.freeze Date.new(2001, 03, 01) }
 
           it 'does not charge subscriber' do
             expect { perform }.not_to change { Payment.count }
