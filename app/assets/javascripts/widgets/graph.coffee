@@ -3,6 +3,7 @@ class bud.widgets.Graph extends bud.Widget
 
   initialize: ->
     @data = @$container.data('data')
+    @data_label = @$container.data('data_label') || 'Subscriptions'
     bud.Ajax.getScript('//cdnjs.cloudflare.com/ajax/libs/d3/3.4.5/d3.min.js').done(@on_d3_loaded)
     bud.Ajax.getScript('//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js').done(@on_rickshaw_loaded)
 
@@ -23,8 +24,6 @@ class bud.widgets.Graph extends bud.Widget
 
     graph = new Rickshaw.Graph( {
       element: @$container[0],
-      width: 600,
-      height: 180,
       renderer: 'area',
       stroke: true,
       interpolation: 'linear',
@@ -32,7 +31,7 @@ class bud.widgets.Graph extends bud.Widget
         color: 'rgba(59,159,209,0.3)',
         stroke: '#3b9fd1',
         data: @data,
-        name: 'Subscriptions'
+        name: @data_label
       }]
     })
     hoverDetail = new Rickshaw.Graph.HoverDetail( {

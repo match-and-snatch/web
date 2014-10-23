@@ -1,0 +1,5 @@
+- @chart.filter_hash.each do |group, filters|
+  ol class='breadcrumb'
+    - filters.each do |filter, label|
+      li class="#{'active' if @chart.action == filter}"
+        a.AjaxLink href=admin_chart_path(id: filter) data-target='chart-area' #{label}
