@@ -61,9 +61,6 @@
     // Apple iPhone 6 Plus
     @media screen and (min-width: 376px) and (max-width: 414px)
       height: 111px
-    // Samsung S4
-    // @media screen and (width: 360px) and (height: 640px)
-    //   height: 95px
     // Tablet
     @media screen and (min-width: 768px)
       height: 122px
@@ -1799,6 +1796,7 @@
   @include border_radius (0)
   max-height: 100% !important
   .modal-body
+    background-color: #252525
     position: relative
     padding: 0 !important
     .close
@@ -1824,16 +1822,16 @@
     a
       display: block
       z-index: 9998
-      img
-        @include border_radius (0)
-        // Mobile & Tablet
-        @media screen and (max-width: 991px)
-          height: auto
-          width: 100%
-        // Desktop
-        @media screen and (min-width: 992px)
-          max-height: 640px
-          width: auto
+    img
+      @include border_radius (0)
+      // Mobile & Tablet
+      @media screen and (max-width: 991px)
+        height: auto
+        width: 100%
+      // Desktop
+      @media screen and (min-width: 992px)
+        max-height: 640px
+        width: auto
     .photo_nav
       background-color: #252525
       border-top: 1px solid #252525
