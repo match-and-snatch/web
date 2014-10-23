@@ -20,10 +20,10 @@ form.Form action=update_cc_data_account_info_path method='post'
     label.pull-left Expiry Date
     .pull-right.expiry_date
 
-      input.form-control.pull-left type='text' name='expiry_month' placeholder='00' style="width: 50px;"
+      input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 50px;"
       label.pull-left style="width: 80px; text-align: left; padding-left: 10px;" Month
 
-      input.form-control.pull-left type='text' name='expiry_year' placeholder='00' style="width: 50px;"
+      input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 50px;"
       label.pull-left style="width: 60px; text-align: left; padding-left: 10px;" Year
 
     .clearfix
