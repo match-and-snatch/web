@@ -44,49 +44,30 @@
       right: 15px
     #change_position
       right: 160px
-
-  // Apple iPhone 4 & 5
-
-  @media screen and (max-width: 320px)
-    .photo_cover
-      height: 84px
-
-  // Apple iPhone 6
-
-  @media screen and (min-width: 321px) and (max-width: 375px)
-    .photo_cover
-      height: 100px
-
-  // Apple iPhone 6 Plus
-
-  @media screen and (min-width: 376px) and (max-width: 414px)
-    .photo_cover
-      height: 111px
-
-  // Samsung S4
-
-  @media screen and (width: 360px) and (height: 640px)
-    .photo_cover
-      height: 95px
-
-  // Mobile
-
-  @media screen and (max-width: 767px)
-    .photo_cover
+    // Mobile
+    @media screen and (max-width: 767px)
+      height: 122px
       div
         background-size: 100%
         background-position-y: 50% !important
       .btn
         display: none !important
-
-  // Tablet
-  @media screen and (min-width: 768px)
-    .photo_cover
+    // Apple iPhone 4 & 5
+    @media screen and (max-width: 320px)
+      height: 84px
+    // Apple iPhone 6
+    @media screen and (min-width: 321px) and (max-width: 375px)
+      height: 100px
+    // Apple iPhone 6 Plus
+    @media screen and (min-width: 376px) and (max-width: 414px)
+      height: 111px
+    // Samsung S4
+    // @media screen and (width: 360px) and (height: 640px)
+    //   height: 95px
+    // Tablet
+    @media screen and (min-width: 768px)
       height: 122px
       background-size: 100%
-
-  // Desktop
-
 
   // Photo Profile
 
@@ -106,35 +87,32 @@
       width: 180px
     .btn
       right: 19px
-
-  // Apple iPhone 4 & 5
-
-  @media screen and (max-width: 320px)
-    .photo_profile
-      top: 5px
-      left: 5px
-      height: 72px
-      width: 72px
+    //Mobile
+    @media screen and (max-width: 767px)
+      top: 0px
+      left: 0px
+      .btn, form
+        display: none
+    // Apple iPhone 4 & 5
+    @media screen and (max-width: 320px)
+      top: 10px
+      left: 10px
+      height: 62px
+      width: 62px
       img
-        height: 70px
-        width: 70px
-
-  // Apple iPhone 6
-
-  @media screen and (min-width: 321px) and (max-width: 375px)
-    .photo_profile
-      top: 6px
-      left: 6px
-      height: 87px
-      width: 87px
+        height: 60px
+        width: 60px
+    // Apple iPhone 6
+    @media screen and (min-width: 321px) and (max-width: 375px)
+      top: 10px
+      left: 10px
+      height: 79px
+      width: 79px
       img
-        height: 85px
-        width: 85px
-
-  // Apple iPhone 6 Plus
-
-  @media screen and (min-width: 376px) and (max-width: 414px)
-    .photo_profile
+        height: 77px
+        width: 77px
+    // Apple iPhone 6 Plus
+    @media screen and (min-width: 376px) and (max-width: 414px)
       top: 10px
       left: 10px
       height: 90px
@@ -142,25 +120,6 @@
       img
         height: 88px
         width: 88px
-
-  // Samsung S4
-
-  @media screen and (width: 360px) and (height: 640px)
-    .photo_profile
-      top: 8px
-      left: 8px
-      height: 78px
-      width: 78px
-      img
-        height: 76px
-        width: 76px
-
-  // Mobile
-
-  @media screen and (max-width: 767px)
-    .photo_profile
-      .btn, form
-        display: none
 
   .photo_cover, .photo_profile
     .btn
@@ -530,6 +489,7 @@
           height: 251px
           ul
             @include border-radius (5px)
+            background-position: 50%
             border: 1px solid $color_border
             height: 180px
             margin: 0
@@ -538,12 +498,24 @@
             overflow-y: scroll
             &.audio_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_audio.png') no-repeat
+              // Tablet
+              @media screen and (min-width: 768px) and (max-width: 991px)
+                background-position-x: -60px
             &.video_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
+              // Tablet
+              @media screen and (min-width: 768px) and (max-width: 991px)
+                background-position-x: -60px
             &.photo_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_photo.png') no-repeat
+              // Tablet
+              @media screen and (min-width: 768px) and (max-width: 991px)
+                background-position-x: -60px
             &.document_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_document.png') no-repeat
+              // Tablet
+              @media screen and (min-width: 768px) and (max-width: 991px)
+                background-position-x: -60px
             li
               background-color: $color_background
               border-bottom: 1px solid $color_border
