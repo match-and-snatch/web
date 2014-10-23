@@ -58,6 +58,7 @@ class bud.widgets.Form extends bud.Widget
 
     _.each @params(), (value, field) =>
       @$container.find("[data-field]").html('').hide()
+      @$container.find("[name=#{field}], [data-error_field=#{field}]").removeClass('error_input')
     @$container.addClass('pending')
 
   on_after: =>
