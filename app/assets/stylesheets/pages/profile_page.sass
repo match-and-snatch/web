@@ -1921,31 +1921,42 @@
   position: relative
   ul.nav.nav-tabs
     li
-      font-size: 12px
+      font-size: 11px
+      font-weight: bold
       a
         @include border-radius(0)
         border-top: none
         padding: 10px 15px
         text-decoration: none
         color: $color_text_dark
-    &.active
-      a
-        color: $color_blue
+      &.active
+        a
+          color: $color_blue
   .modal-header
     position: absolute !important
     top: 5px
     right: 5px
   .modal-body
     padding: 5px
+    .error
+      font-size: 10px
     .col-xs-12
       padding: 0
+      .btn.blue
+        font-size: 11px !important
+        text-transform: uppercase
+        font-weight: bold
+        padding: 10px
       textarea
+        @include border_radius(10px)
         background-color: $color_background
-        font-size: 12px
+        font-size: 11px
         width: 100%
         border: 1px solid $color_border
-        padding: 5px
-        height: 70px
+        padding: 5px 7px
+        height: 100px
+      textarea.mobile_textarea
+        height: 50px
       .notify
         margin-top: 5px
         label
@@ -1978,7 +1989,7 @@
             @include border-radius(10px)
             border: 1px solid $color_border
             background-color: $color_background
-            height: 100px
+            height: 50px
             li
               border-bottom: 1px solid $color_border
               font-size: 11px
@@ -1994,6 +2005,10 @@
           .video_bg
             li
               position: relative
+              height: 100px
+              overflow: hidden
+              img
+                margin-top: -35px
               .delete_button
                 position: absolute
                 top: 5px
@@ -2033,15 +2048,25 @@
           p
             font-size: 10px
             text-align: center
-
         .select_file_container
-          padding: 5px 0
-          .btn.multi
-            display: none
+          padding: 0
+          position: relative
+          margin-bottom: 10px
+          .btn.multi, input[type="file"]
+            display: block
+            margin: 0
+            padding: 10px 0
+            width: 100%
+            font-size: 11px
+            text-transform: uppercase
           input[type="file"]
-            margin-bottom: 10px
+            opacity: 0
+            cursor: pointer
+            position: absolute
+            bottom: 0
+            left: 0
       .notify
-        margin-top: 0
+        margin-top: 5px
         label
           font-size: 11px
           margin-right: 5px
@@ -2049,6 +2074,10 @@
           input
             margin-bottom: 0
       form
-        input
+        input[type="text"]
+          padding: 5px 5px 7px 7px
+        .form-control
           margin-bottom: 10px
+          font-size: 11px !important
+          padding: 5px !important
 
