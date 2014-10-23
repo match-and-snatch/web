@@ -62,7 +62,7 @@ class SubscriptionsController < ApplicationController
 
   def destroy
     SubscriptionManager.new(subscription: @subscription).unsubscribe
-    notice(:subscription_cancelled)
+    notice(:subscription_cancelled, profile_name: @subscription.target_user.profile_name)
     json_reload
   end
 

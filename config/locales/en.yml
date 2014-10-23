@@ -28,6 +28,7 @@ en:
     account_updated: Your account information has been updated.
     updated_password: Successfully updated your password.
     unsubscribed: You have been unsubscribed
+    subscription_cancelled: You have been unsubscribed from %{profile_name}
     restored_subscription: Your subscription has been restored
     failed_to_restore_subscription: "Payment didn't go through, please check your billing details"
     unable_to_change_cost: You have requested a price change that is greater than $3 from your current price.  For security purposes, we will contact you directly to confirm the change.
