@@ -26,7 +26,7 @@ class bud.widgets.Poster extends bud.widgets.Form
     bud.pub('post')
 
   disable_submit: =>
-    @$container.find('input[type=submit]').attr('disabled','disabled').val('Processing files...');
+    @$container.find('input[type=submit]').attr('disabled','disabled').val('Processing...');
 
   enable_submit: =>
     @$container.find('input[type=submit]').removeAttr('disabled').val('Post');

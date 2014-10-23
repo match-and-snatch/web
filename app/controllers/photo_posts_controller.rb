@@ -8,7 +8,7 @@ class PhotoPostsController < PendingPostsController
   protected
 
   def create_post
-    PostManager.new(user: current_user.object).create_photo_post(params.slice(%i(title keyword_text message notify)))
+    PostManager.new(user: current_user.object).create_photo_post(params.slice(%i(title keyword_text message)).merge({ notify: params.bool(:notify) }))
   end
 
   def cancel_media_posts_path

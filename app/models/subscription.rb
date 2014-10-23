@@ -11,6 +11,8 @@ class Subscription < ActiveRecord::Base
 
   scope :by_target, -> (target) { where(target_type: target.class.name, target_id: target.id) }
   scope :not_removed, -> { where(removed: false) }
+  scope :been_charged, -> { where('charged_at IS NOT NULL') }
+  scope :to_charge, -> { on_charge.not_removed.where(users: { vacation_enabled: false, billing_suspended: false }) }
 
   # Returns upcoming billing date
   # @return [Date]

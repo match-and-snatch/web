@@ -65,6 +65,16 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  def mobile_phone_device?
+    request_variant.include?(:phone)
+  end
+  helper_method :mobile_phone_device?
+
+  def mobile_device?
+    request_variant.include?(:tablet) || mobile_phone_device?
+  end
+  helper_method :mobile_device?
+
   # @param code [Integer]
   def error(code)
     raise HttpCodeError, code
@@ -198,5 +208,27 @@ class ApplicationController < ActionController::Base
 
   def referrer_host
     URI.parse(request.referrer).try(:host) if request.referrer
+  end
+
+  def request_variant
+    @request_variant ||= request.variant || detect_device_format
+  end
+
+  def detect_device_format
+    case request.user_agent
+    when /iPad/i
+      request.variant = :tablet
+    when /iPhone/i
+      request.variant = :phone
+    when /Android/i && /mobile/i
+      request.variant = :phone
+    when /Android/i
+      request.variant = :tablet
+    when /Windows Phone/i
+      request.variant = :phone
+    else
+      request.variant = :unrecognized
+    end
+    request.variant
   end
 end

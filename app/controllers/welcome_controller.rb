@@ -4,7 +4,11 @@ class WelcomeController < ApplicationController
       if current_user.object.has_profile_page?
         redirect_to profile_path(current_user.object)
       else
-        redirect_to account_info_path
+        if mobile_phone_device?
+          new_way = profile_path(current_user.last_visited_profile) if current_user.last_visited_profile.try(:has_profile_page?)
+        end
+
+        redirect_to(new_way || account_info_path)
       end
     end
   end

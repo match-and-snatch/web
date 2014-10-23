@@ -19,7 +19,7 @@ describe VideoPostsController, type: :controller do
   end
 
   describe 'GET #new' do
-    subject { get :new }
+    subject { get :new, format: :json }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }
@@ -33,7 +33,7 @@ describe VideoPostsController, type: :controller do
 
   describe 'POST #create' do
     let!(:pending_video) { create_video_upload  owner }
-    subject { post :create, title: 'aa', message: 'bb'}
+    subject { post :create, title: 'aa', message: 'bb', format: :json }
 
     context 'authorized access' do
       before { sign_in owner }

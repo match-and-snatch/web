@@ -505,7 +505,7 @@ class UserProfileManager < BaseManager
     user.vacation_message = reason
 
     save_or_die!(user).tap do
-      self.class.delay(queue: :mail).notify_vacation_enabled(user)
+      NotificationManager.delay.notify_vacation_enabled(user)
       EventsManager.vacation_mode_enabled(user: user, reason: reason)
     end
   end
@@ -513,27 +513,36 @@ class UserProfileManager < BaseManager
   def disable_vacation_mode
     fail_with! 'Vacation Mode is not enabled' unless user.vacation_enabled?
 
+    billing_was_suspended = user.billing_suspended
+
     user.vacation_enabled = false
     user.vacation_message = nil
+    user.billing_suspended = false
 
     save_or_die!(user).tap do
-      self.class.delay(queue: :mail).notify_vacation_disabled(user)
+      if billing_was_suspended
+        user.source_subscriptions.to_charge.been_charged.where(["subscriptions.created_at < ?", Time.zone.now.beginning_of_month]).
+          update_all(["charged_at = charged_at + interval '? days'", Time.zone.now.day])
+
+        user.source_subscriptions.been_charged.where(["subscriptions.created_at >= ?", Time.zone.now.beginning_of_month]).
+          update_all(["charged_at = charged_at + (interval '1 day' * (? - EXTRACT(DAY FROM created_at)))", Time.zone.now.day])
+      end
+
+      NotificationManager.delay.notify_vacation_disabled(user)
       EventsManager.vacation_mode_disabled(user: user)
     end
   end
 
-  # @param profile_owner [User]
-  def self.notify_vacation_enabled(profile_owner)
-    profile_owner.source_subscriptions.not_removed.joins(:user).find_each do |subscription|
-      ProfilesMailer.vacation_enabled(subscription).deliver
-    end
+  def suspend_billing
+    fail_with! 'Billing is already suspended' if user.billing_suspended?
+    user.billing_suspended = true
+    save_or_die!(user)
   end
 
-  # @param profile_owner [User]
-  def self.notify_vacation_disabled(profile_owner)
-    profile_owner.source_subscriptions.not_removed.joins(:user).find_each do |subscription|
-      ProfilesMailer.vacation_disabled(subscription).deliver
-    end
+  def restore_billing
+    fail_with! 'Billing is already active' unless user.billing_suspended?
+    user.billing_suspended = false
+    save_or_die!(user)
   end
 
   private

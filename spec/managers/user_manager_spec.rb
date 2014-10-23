@@ -54,4 +54,30 @@ describe UserManager do
       end
     end
   end
+
+  describe 'last visited profile' do
+    let(:user) { create_user }
+    let(:another_user) { create_profile email: 'another@user.com' }
+    let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(another_user) }
+
+    describe '#save_last_visited_profile' do
+      specify do
+        expect { manager.save_last_visited_profile(another_user) }.to change { user.last_visited_profile_id }.from(nil).to(another_user.id)
+      end
+
+      context 'unsubscribed' do
+        before do
+          SubscriptionManager.new(subscriber: user, subscription: subscription).unsubscribe
+          subscription.reload
+          user.reload
+        end
+
+        specify do
+          Timecop.freeze(38.days.from_now) do
+            expect { manager.save_last_visited_profile(another_user) }.not_to change { user.last_visited_profile_id }.from(nil)
+          end
+        end
+      end
+    end
+  end
 end

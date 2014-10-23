@@ -72,7 +72,15 @@ hr
         label style='margin-right: 5px' Month
         = select_month Time.zone.now.month, use_month_keys: true, field_name: 'month'
       input.btn.pink type='submit' value='Transfer'
-  .clearfix
+    .clearfix
+    hr
+    h2
+      strong Suspended Billing / Away Mode
+      .checkbox
+        label for='billing_checker'
+          'Enable suspended billing.
+          = object_checker_tag(@user.object, :billing, checked: @user.object.billing_suspended?, unchecked_url: enable_billing_admin_profile_owner_path(@user.object.id), checked_url: disable_billing_admin_profile_owner_path(@user.object.id))
+      .clearfix
 
 / Subscriber Information
 

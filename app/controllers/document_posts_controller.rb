@@ -8,7 +8,7 @@ class DocumentPostsController < PendingPostsController
   protected
 
   def create_post
-    PostManager.new(user: current_user.object).create_document_post(params.slice(%i(title keyword_text message notify)))
+    PostManager.new(user: current_user.object).create_document_post(params.slice(%i(title keyword_text message)).merge({ notify: params.bool(:notify) }))
   end
 
   def cancel_media_posts_path

@@ -2,14 +2,26 @@ class PendingPostsController < ApplicationController
   before_filter :authenticate!
   before_filter :init_profile, only: [:new, :cancel]
 
+  before_action :detect_device_format, only: [:new, :create]
+
   def new
-    json_replace
+    respond_to do |format|
+      format.json do |variant|
+        variant.any { json_replace }
+        variant.phone { json_render template: 'new_mobile', format: :html }
+      end
+    end
   end
 
   def create
     had_posts = current_user.has_posts?
     @post = create_post
-    had_posts ? json_prepend(html: post_html) : json_replace(html: post_html)
+    respond_to do |format|
+      format.json do |variant|
+        variant.any { had_posts ? json_prepend(html: post_html) : json_replace(html: post_html) }
+        variant.phone { json_reload }
+      end
+    end
   end
 
   def update
@@ -29,7 +41,7 @@ class PendingPostsController < ApplicationController
   helper_method :media_posts_path
 
   def post_html
-    render_to_string(partial: 'post', locals: {post: @post})
+    render_to_string(partial: 'post', locals: {post: @post}, formats: ['html'])
   end
 
   private

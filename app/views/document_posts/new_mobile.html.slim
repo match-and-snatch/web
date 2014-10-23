@@ -1,0 +1,18 @@
+ul.nav.nav-tabs
+  li
+    a.PopupTrigger data-target='status-post-mobile' href='#' Status
+  li
+    a.PopupTrigger data-target='audio-post-mobile' href='#' Audio
+  li
+    a.PopupTrigger data-target='video-post-mobile' href='#' Video
+  li
+    a.PopupTrigger data-target='photo-post-mobile' href='#' Photo
+  li.active
+    a href='javascript: void(0)' Document
+
+.modal-header
+  i.fa.fa-times-circle.close type="button" aria-hidden="true" onclick='window.location.reload()'
+    /.modal-title Post status
+
+.modal-body
+  = render 'pending_mobile_post_form', pending_post: @profile.pending_post

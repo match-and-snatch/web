@@ -1,13 +1,20 @@
 .modal-body
-  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target='photo-#{@photo.id}'
-
+  span.close.mobile_close.fa-stack.fa-lg.PopupTrigger data-target='photo-#{@photo.id}' type="button"
+    i.fa.fa-circle.fa-stack-2x
+    i.fa.fa-times.fa-stack-1x.fa-inverse
   - if @next_photo
     a.PopupTrigger data-target='photo-#{@next_photo.id}' href=photo_path(@next_photo)
-      img style='max-height: 500px' src=@photo.url
+      img src=@photo.url
   - else
-    img style='max-height: 500px' src=@photo.url
+    img src=@photo.url
 
-  - if @prev_photo
-    a.fa.fa-chevron-left.PopupTrigger data-target='photo-#{@prev_photo.id}' href=photo_path(@prev_photo)
-  - if @next_photo
-    a.fa.fa-chevron-right.PopupTrigger data-target='photo-#{@next_photo.id}' href=photo_path(@next_photo)
+  .photo_nav
+    - if @prev_photo
+      a.PopupTrigger.pull-left data-target='photo-#{@prev_photo.id}' href=photo_path(@prev_photo)
+        i.fa.fa-chevron-left
+        'Previous
+    - if @next_photo
+      a.PopupTrigger.pull-right data-target='photo-#{@next_photo.id}' href=photo_path(@next_photo)
+        'Next
+        i.fa.fa-chevron-right
+    .clearfix

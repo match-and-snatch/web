@@ -792,7 +792,9 @@ CREATE TABLE users (
     stripe_recipient_id character varying(255),
     billing_failed_at timestamp without time zone,
     vacation_enabled boolean DEFAULT false NOT NULL,
-    vacation_message text
+    vacation_message text,
+    billing_suspended boolean DEFAULT false NOT NULL
+    last_visited_profile_id integer
 );
 
 
@@ -1295,6 +1297,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140904174216');
 
 INSERT INTO schema_migrations (version) VALUES ('20140908174517');
 
+INSERT INTO schema_migrations (version) VALUES ('20140925094412');
+
 INSERT INTO schema_migrations (version) VALUES ('20141007164537');
 
 INSERT INTO schema_migrations (version) VALUES ('20141007164627');
@@ -1302,4 +1306,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141007164627');
 INSERT INTO schema_migrations (version) VALUES ('20141007164832');
 
 INSERT INTO schema_migrations (version) VALUES ('20141009063051');
+
+INSERT INTO schema_migrations (version) VALUES ('20141021155421');
 

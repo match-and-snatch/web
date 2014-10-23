@@ -35,10 +35,7 @@ class CommentManager < BaseManager
     comment = Comment.new(post: @post, user: @user, post_user: @post.user, parent: @parent, message: message, mentions: mentions)
     save_or_die! comment
     EventsManager.comment_created(user: @user, comment: comment)
-
-    comment.mentioned_users.find_each do |user|
-      PostsMailer.delay.mentioned(comment, user)
-    end
+    NotificationManager.delay.notify_comment_created(comment)
 
     comment
   end

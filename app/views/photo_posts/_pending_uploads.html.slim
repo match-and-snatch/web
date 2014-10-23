@@ -2,11 +2,10 @@ div data-identifier='pending-photos'
   .pending_photo
     .added_photo
       ul.photo_bg
-        - current_user.pending_photos.any?
-          - current_user.pending_photos.each do |upload|
-            li
-              img src=upload.preview_url
-              a.delete_photo.fa.fa-times.AjaxFormLink href=photo_path(upload) data-_method='DELETE' data-target='pending-photos'
+        - current_user.pending_photos.each do |upload|
+          li
+            img src=upload.preview_url
+            a.delete_photo.fa.fa-times.AjaxFormLink href=photo_path(upload) data-_method='DELETE' data-target='pending-photos'
       .clearfix
       span.supported_files
         | What file extensions are supported?

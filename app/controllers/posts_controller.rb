@@ -3,6 +3,8 @@ class PostsController < ApplicationController
   before_filter :load_user!, only: :index
   before_filter :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide]
 
+  before_action :detect_device_format, only: [:create]
+
   protect(:index) { can? :see, @user }
   protect(:destroy) { can? :delete, @post }
 
@@ -52,8 +54,14 @@ class PostsController < ApplicationController
 
   def create
     has_posts = current_user.has_posts?
-    @post = PostManager.new(user: current_user.object).create_status_post(params.slice(:message, :notify))
-    has_posts ? json_prepend(notice: :post_created) : json_replace(notice: :post_created)
+    @post = PostManager.new(user: current_user.object).create_status_post(message: params[:message], notify: params.bool(:notify))
+
+    respond_to do |format|
+      format.json do |variant|
+        variant.phone { json_reload }
+        variant.any { has_posts ? json_prepend(notice: :post_created) : json_replace(notice: :post_created) }
+      end
+    end
   end
 
   def destroy

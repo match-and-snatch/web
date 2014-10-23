@@ -30,9 +30,9 @@
   .photo_cover
     background-color: $color_background
     background: asset-url('//connectpal-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
+    background-size: 100%
     border-bottom: 1px solid $color_border
     display: block
-    height: 240px
     overflow: hidden
     margin-bottom: 15px
     position: relative
@@ -44,27 +44,27 @@
       right: 15px
     #change_position
       right: 160px
-
-  // Mobile
-
-  @media screen and (max-width: 767px)
-    .photo_cover
-      height: 122px
-      background-size: 450px
-      background-position-x: -120px
+    // Mobile
+    @media screen and (max-width: 767px)
+      height: 184px
       div
-        background-size: 100% !important
+        background-size: 100%
+        background-position-y: 50% !important
       .btn
         display: none !important
-
-  // Tablet
-  @media screen and (min-width: 768px)
-    .photo_cover
+    // Apple iPhone 4 & 5
+    @media screen and (max-width: 320px)
+      height: 84px
+    // Apple iPhone 6
+    @media screen and (min-width: 321px) and (max-width: 375px)
+      height: 100px
+    // Apple iPhone 6 Plus
+    @media screen and (min-width: 376px) and (max-width: 414px)
+      height: 111px
+    // Tablet
+    @media screen and (min-width: 768px)
       height: 122px
       background-size: 100%
-
-  // Desktop
-
 
   // Photo Profile
 
@@ -84,25 +84,38 @@
       width: 180px
     .btn
       right: 19px
-
-  // Mobile
-
-  @media screen and (max-width: 767px)
-    .photo_profile
+    //Mobile
+    @media screen and (max-width: 767px)
       top: 10px
       left: 10px
-      height: 102px
-      width: 102px
+      height: 164px
+      width: 164px
       img
-        height: 100px
-        width: 100px
-      .btn
-        font-size: 11px !important
-        left: 15px
-        right: auto
-      form
+        height: 162px
+        width: 162px
+      .btn, form
         display: none
-
+    // Apple iPhone 4 & 5
+    @media screen and (max-width: 320px)
+      height: 62px
+      width: 62px
+      img
+        height: 60px
+        width: 60px
+    // Apple iPhone 6
+    @media screen and (min-width: 321px) and (max-width: 375px)
+      height: 79px
+      width: 79px
+      img
+        height: 77px
+        width: 77px
+    // Apple iPhone 6 Plus
+    @media screen and (min-width: 376px) and (max-width: 414px)
+      height: 90px
+      width: 90px
+      img
+        height: 88px
+        width: 88px
 
   .photo_cover, .photo_profile
     .btn
@@ -346,9 +359,7 @@
       cursor: pointer
       border-right: 1px solid $color_border
       display: inline-block
-      font-size: 16px
       list-style-type: none
-      padding: 15px 36px
       &:last-child
         border-right: none
       &.active
@@ -474,6 +485,7 @@
           height: 251px
           ul
             @include border-radius (5px)
+            background-position: 50%
             border: 1px solid $color_border
             height: 180px
             margin: 0
@@ -482,12 +494,24 @@
             overflow-y: scroll
             &.audio_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_audio.png') no-repeat
+              // Tablet
+              @media screen and (min-width: 768px) and (max-width: 991px)
+                background-position-x: -60px
             &.video_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
+              // Tablet
+              @media screen and (min-width: 768px) and (max-width: 991px)
+                background-position-x: -60px
             &.photo_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_photo.png') no-repeat
+              // Tablet
+              @media screen and (min-width: 768px) and (max-width: 991px)
+                background-position-x: -60px
             &.document_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_document.png') no-repeat
+              // Tablet
+              @media screen and (min-width: 768px) and (max-width: 991px)
+                background-position-x: -60px
             li
               background-color: $color_background
               border-bottom: 1px solid $color_border
@@ -1522,28 +1546,33 @@
     .details_container
       .subscribe_cont
         height: 55px
-        font-size: 36px
+        font-size: 26px
         .cost_owner, .cost_visitor
           .amount, .fa
-            height: 55px
+            height: 42px
           .fa
             padding: 6px 0 0 0
-            width: 65px
+            width: 47px
             &:before
-              font-size: 30px
+              font-size: 20px
+          .fa.fa-gear
+            padding-top: 10px
+            width: 25px
         &:hover
           .subscribe
             font-size: 36px
             height: 55px
             padding: 0
             width: 240px
+        .subscribed
+          padding: 5px
       .add_welcome_media
         width: 203px
         padding: 8px 0
   #create_post_nav
     li
-      font-size: 14px
-      padding: 15px 19px
+      font-size: 13px
+      padding: 15px 24px
   #create_post
     #post
       .error
@@ -1656,9 +1685,13 @@
         .cost_owner, .cost_visitor
           .amount, .fa
             height: 55px
-          .fa
-            padding: 6px 0 0 0
+          .fa.fa-usd
             width: 65px
+            &:before
+              font-size: 30px
+          .fa.fa-gear
+            padding: 10px 0 0 0
+            width: 35px
             &:before
               font-size: 30px
         &:hover
@@ -1760,50 +1793,62 @@
 // Photo Popup
 
 .photo_popup
-  overflow: visible !important
+  @include border_radius (0)
+  max-height: 100% !important
   .modal-body
+    background-color: #252525
     position: relative
     padding: 0 !important
     .close
-      display: none
+      position: absolute
+      top: 3px
+      right: 1px
+      &.mobile_close
+        cursor: pointer
+        opacity: 0.6
+        text-shadow: none
+        height: 28px
+        width: 28px
+        z-index: 9999
+        .fa.fa-circle
+          color: $color_background
+          font-size: 25px
+        .fa.fa-times
+          color: $color_text_dark
+          font-size: 15px
+          top: 5px
+        &:hover
+          opacity: 1
+    a
+      display: block
+      z-index: 9998
     img
-      @include border_radius (8px)
-
-      // Mobile
-      @media screen and (max-width: 767px)
-        @include border_radius (0)
-        max-width: 100%
-
-      // Tablet
-      @media screen and (min-width: 768px)
-        max-width: 100%
-
-  .fa.fa-chevron-left, .fa.fa-chevron-right
-    position: absolute
-    color: #FFFFFF
-    font-size: 40px
-    text-decoration: none
-    top: 45%
-    // -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"
-    // filter: alpha(opacity=100)
-    // -moz-opacity: 1
-    // -khtml-opacity: 1
-    // opacity: 1
-    -webkit-transition: color 250ms ease
-    -moz-transition: color 250ms ease
-    -o-transition: color 250ms ease
-    transition: color 250ms ease
-    &:hover
-      color: $color_blue
-      // -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"
-      // filter: alpha(opacity=50)
-      // -moz-opacity: 0.5
-      // -khtml-opacity: 0.5
-      // opacity: 0.5
-  .fa.fa-chevron-left
-    left: -35px
-  .fa.fa-chevron-right
-    right: -35px
+      @include border_radius (0)
+      // Mobile & Tablet
+      @media screen and (max-width: 991px)
+        height: auto
+        width: 100%
+      // Desktop
+      @media screen and (min-width: 992px)
+        max-height: 640px
+        width: auto
+    .photo_nav
+      background-color: #252525
+      border-top: 1px solid #252525
+      font-size: 12px
+      a
+        color: #FFFFFF
+        display: inline-block
+        padding: 10px 30px
+        text-decoration: none
+        width: 50%
+        text-align: center
+        i.fa.fa-chevron-left
+          &:before
+            margin-right: 5px
+        &:hover
+          background: $color_blue
+          color: #FFFFFF
 
   // Mobile
   @media screen and (max-width: 767px)
@@ -1868,3 +1913,169 @@
 .mobile_nav
   @media screen and (min-width: 768px)
     display: none
+
+.mobile_create_popup
+  max-width: 100% !important
+  position: relative
+  ul.nav.nav-tabs
+    li
+      font-size: 11px
+      font-weight: bold
+      a
+        @include border-radius(0)
+        border-top: none
+        padding: 10px 15px
+        text-decoration: none
+        color: $color_text_dark
+      &.active
+        a
+          color: $color_blue
+  .modal-header
+    position: absolute !important
+    top: 5px
+    right: 5px
+  .modal-body
+    padding: 5px
+    .error
+      font-size: 10px
+    .col-xs-12
+      padding: 0
+      .btn.blue
+        font-size: 11px !important
+        text-transform: uppercase
+        font-weight: bold
+        padding: 10px
+      textarea
+        @include border_radius(10px)
+        background-color: $color_background
+        font-size: 11px
+        width: 100%
+        border: 1px solid $color_border
+        padding: 5px 7px
+        height: 100px
+      textarea.mobile_textarea
+        height: 50px
+      .notify
+        margin-top: 5px
+        label
+          font-weight: normal !important
+          font-size: 10px
+        .no_width, .yes_width
+          float: none !important
+          display: inline-block
+          margin-right: 10px
+          input
+            margin-right: 2px
+          label
+            font-size: 11px
+  &.status
+    .modal-body
+      .col-xs-12
+        padding: 5px
+        .notify
+          padding: 0
+  &.media
+    .modal-body
+      padding: 10px !important
+      .progress
+        margin-bottom: 10px
+      .pending_audio, .pending_video, .pending_photo, .pending_document
+        .supported_files
+          display: none
+        .added_audio, .added_video, .added_photo
+          .audio_bg
+            @include border-radius(10px)
+            border: 1px solid $color_border
+            background-color: $color_background
+            height: 50px
+            li
+              border-bottom: 1px solid $color_border
+              font-size: 11px
+              padding: 10px
+              .icon
+                display: none
+              .file_name
+                word-break: break-all
+                width: 90%
+              .delete_button
+                text-decoration: none
+                float: right
+          .video_bg
+            li
+              position: relative
+              height: 100px
+              overflow: hidden
+              img
+                margin-top: -35px
+              .delete_button
+                position: absolute
+                top: 5px
+                right: 5px
+                text-decoration: none
+              img
+                width: 100%
+          .photo_bg
+            padding: 5px
+            white-space: nowrap
+            li
+              background-color: #FFFFFF
+              border-bottom: none
+              height: 66px
+              float: left
+              margin: 0 5px 5px 0
+              overflow: hidden
+              padding: 0 !important
+              position: relative
+              &:last-child
+                margin-right: 0
+              img
+                border: 1px solid $color_border
+                height: 66px
+              .delete_photo
+                background-color: $color_pink
+                @include border-radius(0 0 0 $border_radius)
+                color: #FFFFFF
+                font-size: 11px
+                padding: 5px 10px
+                position: absolute
+                top: 1px
+                right: 1px
+                text-decoration: none
+                &:hover
+                  background-color: $color_blue
+          p
+            font-size: 10px
+            text-align: center
+        .select_file_container
+          padding: 0
+          position: relative
+          margin-bottom: 10px
+          .btn.multi, input[type="file"]
+            display: block
+            margin: 0
+            padding: 10px 0
+            width: 100%
+            font-size: 11px
+            text-transform: uppercase
+          input[type="file"]
+            opacity: 0
+            cursor: pointer
+            position: absolute
+            bottom: 0
+            left: 0
+      .notify
+        margin-top: 5px
+        label
+          font-size: 11px
+          margin-right: 5px
+        .no_width, .yes_width
+          input
+            margin-bottom: 0
+      form
+        input[type="text"]
+          padding: 5px 5px 7px 7px
+        .form-control
+          margin-bottom: 10px
+          font-size: 11px !important
+          padding: 5px !important
+
