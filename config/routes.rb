@@ -184,11 +184,7 @@ BuddyPlatform::Application.routes.draw do
       end
     end
     resources :profile_types, only: [:index, :create, :destroy]
-    resources :statistics, only: :index do
-      collection do
-        get :graphic
-      end
-    end
+    resources :charts, only: [:index, :show]
   end
 
   resource :password, only: [:edit, :update] do
