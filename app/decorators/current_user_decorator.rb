@@ -69,12 +69,6 @@ class CurrentUserDecorator < UserDecorator
     end
   end
 
-  # @return [User, nil]
-  def last_visited_profile
-    last_profile = User.where(id: object.last_visited_profile_id).first
-    @last_visited_profile ||= (last_profile && object.subscribed_to?(last_profile)) ? last_profile : nil
-  end
-
   def has_posts?
     object.posts.any?
   end

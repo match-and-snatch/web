@@ -55,12 +55,10 @@ describe UserManager do
     end
   end
 
-  context 'last visited profile' do
+  describe 'last visited profile' do
     let(:user) { create_user }
     let(:another_user) { create_profile email: 'another@user.com' }
-    let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(another_user) }
-
-    before { subscription }
+    let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(another_user) }
 
     describe '#save_last_visited_profile' do
       specify do

@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
 
   serialize :contacts_info, Hash
 
+  belongs_to :last_visited_profile, class_name: 'User'
+
   has_many :benefits
   has_many :posts
   has_many :comments
@@ -113,6 +115,7 @@ class User < ActiveRecord::Base
   end
 
   def subscribed_to?(target)
+    return false unless target
     return false if new_record?
 
     subscription = subscriptions.by_target(target).first
