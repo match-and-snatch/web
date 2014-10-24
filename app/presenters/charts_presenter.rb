@@ -34,15 +34,9 @@ class ChartsPresenter
 
   def chart_data
     @chart_data ||= [].tap do |result|
-      Event.where(action: @action).
-          select('COUNT(id) as events_count, DATE(created_at) as events_date').
-          group('events_date').
-          order('events_date ASC').each do |event|
-        result << { x: event.events_date.to_time.utc.beginning_of_day.to_i, y: event.events_count }
+      Event.where(action: @action).group('DATE(created_at)').order('date_created_at ASC').count.each do |date, count|
+        result << { x: date.to_time.utc.beginning_of_day.to_i, y: count }
       end
-      # Event.where(action: @action).group('DATE(created_at)').count.each do |date, count|
-      #   result << { x: date.to_time.utc.beginning_of_day.to_i, y: count }
-      # end
     end
   end
 end
