@@ -12,7 +12,8 @@ class ChartsPresenter
 
                        payments: { 'payment_created' => 'Success payments',
                                    'payment_failed'  => 'Failed payments',
-                                   'transfer_sent'   => 'Transfers' },
+                                   'transfer_sent'   => 'Transfers',
+                                   'gross_sales'     => 'Gross sales' },
 
                           posts: { 'status_post_created'   => 'Status posts',
                                    'audio_post_created'    => 'Audio posts',
@@ -38,9 +39,23 @@ class ChartsPresenter
   # Returns array of hashes with dates and number of events
   # @return [Array<Hash<x: Integer, y: Integer>>]
   def chart_data
-    @chart_data ||= [].tap do |result|
-      Event.where(action: @action).group('DATE(created_at)').order('date_created_at ASC').count.each do |date, count|
-        result << { x: date.to_time.utc.beginning_of_day.to_i, y: count }
+    @chart_data ||= if @action == 'gross_sales'
+                      gross_sales_chart_data
+                    else
+                      [].tap do |result|
+                        Event.where(action: @action).group('DATE(created_at)').order('date_created_at ASC').count.each do |date, count|
+                          result << { x: date.to_time.utc.beginning_of_day.to_i, y: count }
+                        end
+                      end
+                    end
+  end
+
+  private
+
+  def gross_sales_chart_data
+    @gross_sales_chart_data ||= [].tap do |result|
+      Payment.group('EXTRACT(MONTH FROM created_at)').order('extract_month_from_created_at ASC').sum(:amount).each do |month, sum|
+        result << { x: DateTime.new(2014, month, 1, 0, 0, 0).beginning_of_day.to_i, y: (sum / 100.0) }
       end
     end
   end
