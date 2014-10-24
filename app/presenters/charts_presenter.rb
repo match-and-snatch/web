@@ -20,18 +20,23 @@ class ChartsPresenter
                                    'photo_post_created'    => 'Photo posts',
                                    'document_post_created' => 'Document posts' } }
 
+  # @param graph_type [String]
   def initialize(graph_type: nil)
     @action = graph_type
   end
 
+  # @return [Hash<String, String>]
   def filter_hash
     FILTER_HASH
   end
 
+  # @return [String, nil]
   def data_label
     FILTER_HASH.values.inject(:merge)[@action]
   end
 
+  # Returns array of hashes with dates and number of events
+  # @return [Array<Hash<x: Integer, y: Integer>>]
   def chart_data
     @chart_data ||= [].tap do |result|
       Event.where(action: @action).group('DATE(created_at)').order('date_created_at ASC').count.each do |date, count|
