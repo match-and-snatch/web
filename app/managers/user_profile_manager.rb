@@ -191,8 +191,12 @@ class UserProfileManager < BaseManager
   # @param update_existing_subscriptions [true, false, nil]
   # @return [User]
   def update_cost(cost, update_existing_subscriptions: false)
-    unless cost.to_s.strip.match ONLY_DIGITS
-      fail_with! cost: :not_an_integer
+    unless cost.to_s.strip.match COST_REGEXP
+      fail_with! cost: :not_a_cost
+    end
+
+    if (cost.to_f - cost.to_i) != 0
+      fail_with! cost: :not_a_whole_number
     end
 
     if user.source_subscriptions.any?
