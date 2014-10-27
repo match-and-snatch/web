@@ -6,6 +6,7 @@ class UserProfileManager < BaseManager
   attr_reader :user
 
   SLUG_REGEXP  = /^[a-zA-Z0-9]+(\w|_|-)+[a-zA-Z0-9]+$/i
+  COST_REGEXP  = /^\d+(.\d+)?$/i
   ONLY_DIGITS  = /^[0-9]*$/i
 
   # @param user [User]
@@ -81,8 +82,10 @@ class UserProfileManager < BaseManager
 
       if cost.blank?
         fail_with cost: :empty
-      elsif !cost.to_s.strip.match ONLY_DIGITS
-        fail_with! cost: :not_an_integer
+      elsif !cost.to_s.strip.match COST_REGEXP
+        fail_with! cost: :not_a_cost
+      elsif (cost.to_f - cost.to_i) != 0
+        fail_with! cost: :not_a_whole_number
       elsif (cost.to_f * 100).to_i <= 0
         fail_with cost: :zero
       elsif (cost.to_f * 100).to_i > 999999
@@ -188,8 +191,12 @@ class UserProfileManager < BaseManager
   # @param update_existing_subscriptions [true, false, nil]
   # @return [User]
   def update_cost(cost, update_existing_subscriptions: false)
-    unless cost.to_s.strip.match ONLY_DIGITS
-      fail_with! cost: :not_an_integer
+    unless cost.to_s.strip.match COST_REGEXP
+      fail_with! cost: :not_a_cost
+    end
+
+    if (cost.to_f - cost.to_i) != 0
+      fail_with! cost: :not_a_whole_number
     end
 
     if user.source_subscriptions.any?
