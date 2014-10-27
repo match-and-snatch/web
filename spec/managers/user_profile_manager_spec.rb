@@ -569,7 +569,7 @@ describe UserProfileManager do
     end
 
     it 'raises an error if cost have invalid format' do
-      expect { manager.update_cost('5.03') }.to raise_error(ManagerError)
+      expect { manager.update_cost('5.03') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_whole_number)) }
     end
 
     it 'does not raise an error if cost format is valid' do
