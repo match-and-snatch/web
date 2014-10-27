@@ -2,7 +2,7 @@
 
 class bud.widgets.UploadForm extends bud.widgets.Form
   @SELECTOR: '.UploadForm'
-  @TRANSLOADIT_SCRIPT_PATH: '//assets.transloadit.com/js/jquery.transloadit2-latest.js'
+  @TRANSLOADIT_SCRIPT_PATH: '//assets.transloadit.com/js/jquery.transloadit2-latest.js?new_one=1'
 
   initialize: ->
     super
