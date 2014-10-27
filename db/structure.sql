@@ -793,8 +793,8 @@ CREATE TABLE users (
     billing_failed_at timestamp without time zone,
     vacation_enabled boolean DEFAULT false NOT NULL,
     vacation_message text,
+    last_visited_profile_id integer,
     billing_suspended boolean DEFAULT false NOT NULL
-    last_visited_profile_id integer
 );
 
 
