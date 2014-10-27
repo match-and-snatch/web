@@ -568,6 +568,14 @@ describe UserProfileManager do
       expect(manager.update_cost(5)).to eq(user)
     end
 
+    it 'raises an error if cost have invalid format' do
+      expect { manager.update_cost('5.03') }.to raise_error(ManagerError)
+    end
+
+    it 'does not raise an error if cost format is valid' do
+      expect { manager.update_cost('5.00') }.not_to raise_error
+    end
+
     specify do
       expect { manager.update_cost(4) }.to change { user.reload.cost }.from(100).to(400)
     end
