@@ -19,7 +19,7 @@ class ChartsPresenter
                                    'audio_post_created'    => 'Audio posts',
                                    'video_post_created'    => 'Video posts',
                                    'photo_post_created'    => 'Photo posts',
-                                   'document_post_created' => 'Document posts' } }
+                                   'document_post_created' => 'Document posts' } }.freeze
 
   # @param graph_type [String]
   def initialize(graph_type: nil)
@@ -53,9 +53,9 @@ class ChartsPresenter
   private
 
   def gross_sales_chart_data
-    @gross_sales_chart_data ||= [].tap do |result|
-      Payment.group('EXTRACT(MONTH FROM created_at)').order('extract_month_from_created_at ASC').sum(:amount).each do |month, sum|
-        result << { x: DateTime.new(2014, month, 1, 0, 0, 0).beginning_of_day.to_i, y: (sum / 100.0) }
+    [].tap do |result|
+      Payment.group("date_trunc('month', created_at)").order('date_trunc_month_created_at ASC').sum(:amount).each do |date, sum|
+        result << { x: date.to_i, y: (sum / 100.0) }
       end
     end
   end
