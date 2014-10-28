@@ -8,11 +8,11 @@ else
 end
 
 Resque.before_fork do
-  defined?(ActiveRecord::Base) and
-    ActiveRecord::Base.connection.disconnect!
+  ActiveRecord::Base.connection.disconnect!
+  ActiveRecord::Base.establish_connection(ENV['HEROKU_POSTGRESQL_PINK_URL'])
 end
 
 Resque.after_fork do
-  defined?(ActiveRecord::Base) and
-    ActiveRecord::Base.establish_connection(ENV['HEROKU_POSTGRESQL_PINK_URL'])
+  ActiveRecord::Base.connection.disconnect!
+  ActiveRecord::Base.establish_connection(ENV['HEROKU_POSTGRESQL_PINK_URL'])
 end
