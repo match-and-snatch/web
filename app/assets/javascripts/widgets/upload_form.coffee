@@ -6,7 +6,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
 
   initialize: ->
     super
-    @allowed_extensions = (@$container.find('input[type=file]').attr('accept') || '').split(',')
+    @allowed_extensions = (@$container.find('input[type=file]').attr('accept') || '').toLowerCase().split(',')
     @$target = bud.get(@$container.data('target'))
     bud.sub('post', @on_post)
     bud.sub('attachment.cancel', @on_cancel)
@@ -103,7 +103,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
   validate_file_extension: (file_name, file_input) ->
     matched_ext = file_name.match(/\.[a-zA-Z0-9]+$/)
     file_extension = ''
-    file_extension = matched_ext[0] if matched_ext
+    file_extension = matched_ext[0].toLowerCase() if matched_ext
     @has_invalid_file_extension = !(file_extension in @allowed_extensions) and !_.isEqual(@allowed_extensions, [''])
 
   notify_file_invalid: (message) ->
