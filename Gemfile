@@ -56,6 +56,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-its'
   gem 'guard-rspec', require: false
+  gem 'guard-cucumber', require: false
   gem 'awesome_print'
 end
 
