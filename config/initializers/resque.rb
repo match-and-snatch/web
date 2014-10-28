@@ -14,5 +14,5 @@ end
 
 Resque.after_fork do
   defined?(ActiveRecord::Base) and
-    ActiveRecord::Base.establish_connection
+    ActiveRecord::Base.establish_connection(ENV['HEROKU_POSTGRESQL_PINK_URL'])
 end
