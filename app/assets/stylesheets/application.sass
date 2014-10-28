@@ -62,7 +62,6 @@ a
   @media screen and (min-width: 768px)
     display: none
 
-
 img
   border: none
 
@@ -102,9 +101,9 @@ input:focus::-moz-placeholder
   display: none
 
 .error
+  @include border-radius(0 5px 5px 5px)
   color: $color_pink
   font-size: 11px
-  display: none
 
 .error_input
   border: 1px solid #ea2e49 !important
@@ -830,11 +829,6 @@ footer
       &:focus
         background-color: #FFFFFF
         border: 1px solid $color_blue
-    input[type="submit"]
-      &:focus
-        color: #FFFFFF
-        outline: none
-
     .text-danger
       color: $color_pink
       font-size: 11px
@@ -844,7 +838,6 @@ footer
       width: 165px
       @media screen and (max-width: 767px)
         width: 128px
-
     .margin-right
       margin-right: 10px
     .margin-left
