@@ -4,10 +4,11 @@ end
 
 ### GIVEN ###
 Given /^I do not exist as a user$/ do
+  home_page.remove_user
 end
 
-Given /^I exist as a user$/ do
-  home_page.sign_up
+Given /^I exist as a user:$/ do |credentials|
+  home_page.sign_up(credentials.hashes.first)
 end
 
 Given /^I am not signed in$/ do
@@ -19,16 +20,8 @@ When /^I return to the home page$/ do
   home_page.visit_home_page
 end
 
-When /^I sign in with a wrong \"([^\"]*)\" email$/ do |wrong_email|
-  home_page.sign_in_with_wrong_email(wrong_email)
-end
-
-When /^I sign in with a wrong \"([^\"]*)\" password$/ do |wrong_password|
-  home_page.sign_in_with_wrong_password(wrong_password)
-end
-
-When /^I sign in with valid credentials$/ do
-  home_page.sign_in
+When /^I sign in with credentials:$/ do |credentials|
+  home_page.sign_in(credentials.hashes.first)
 end
 
 ### THEN ###

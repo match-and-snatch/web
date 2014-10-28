@@ -1,40 +1,30 @@
 class HomePage
   include Capybara::DSL
 
-  def sign_up
+  def sign_up(credentials = {})
     visit_home_page
 
     click_link 'Login'
     click_link 'Click here to register!'
 
-    fill_in 'first_name', with: visitor_data[:first_name]
-    fill_in 'last_name', with: visitor_data[:last_name]
-    fill_in 'email', with: visitor_data[:email]
-    fill_in 'password', with: visitor_data[:password]
-    fill_in 'password_confirmation', with: visitor_data[:password_confirmation]
+    fill_in 'first_name',            with: credentials['first_name']
+    fill_in 'last_name',             with: credentials['last_name']
+    fill_in 'email',                 with: credentials['email']
+    fill_in 'password',              with: credentials['password']
+    fill_in 'password_confirmation', with: credentials['password_confirmation']
 
     click_button 'Continue to Profile'
   end
 
-  def sign_in
+  def sign_in(credentials = {})
     visit_home_page
 
     click_link 'Login'
 
-    fill_in 'email', with: visitor_data[:email]
-    fill_in 'password', with: visitor_data[:password]
+    fill_in 'email',    with: credentials['email']
+    fill_in 'password', with: credentials['password']
 
     click_button 'Login'
-  end
-
-  def sign_in_with_wrong_email(wrong_email)
-    visitor_data[:email] = wrong_email
-    sign_in
-  end
-
-  def sign_in_with_wrong_password(wrong_password)
-    visitor_data[:password] = wrong_password
-    sign_in
   end
 
   def log_out
@@ -61,13 +51,7 @@ class HomePage
     has_content? message
   end
 
-  private
-
-  def visitor_data
-    @visitor_data ||= { first_name: 'sergei',
-                        last_name: 'zinin',
-                        email: 'serge@gmail.com',
-                        password: 'password',
-                        password_confirmation: 'password' }
+  def remove_user
+    User.delete_all
   end
 end
