@@ -38,20 +38,6 @@ COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance betwe
 
 
 --
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
-
-
---
 -- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -162,6 +148,45 @@ CREATE SEQUENCE comments_id_seq
 --
 
 ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
+
+
+--
+-- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE delayed_jobs (
+    id integer NOT NULL,
+    priority integer DEFAULT 0 NOT NULL,
+    attempts integer DEFAULT 0 NOT NULL,
+    handler text NOT NULL,
+    last_error text,
+    run_at timestamp without time zone,
+    locked_at timestamp without time zone,
+    failed_at timestamp without time zone,
+    locked_by character varying(255),
+    queue character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: delayed_jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE delayed_jobs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: delayed_jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
 
 
 --
@@ -773,8 +798,8 @@ CREATE TABLE users (
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees integer,
     cost integer,
-    password_reset_token character varying(255),
     has_public_profile boolean DEFAULT false,
+    password_reset_token character varying(255),
     company_name character varying(255),
     small_profile_picture_url text,
     account_picture_url text,
@@ -793,7 +818,7 @@ CREATE TABLE users (
     billing_failed_at timestamp without time zone,
     vacation_enabled boolean DEFAULT false NOT NULL,
     vacation_message text,
-    billing_suspended boolean DEFAULT false NOT NULL
+    billing_suspended boolean DEFAULT false NOT NULL,
     last_visited_profile_id integer
 );
 
@@ -829,6 +854,13 @@ ALTER TABLE ONLY benefits ALTER COLUMN id SET DEFAULT nextval('benefits_id_seq':
 --
 
 ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY delayed_jobs ALTER COLUMN id SET DEFAULT nextval('delayed_jobs_id_seq'::regclass);
 
 
 --
@@ -967,6 +999,14 @@ ALTER TABLE ONLY comments
 
 
 --
+-- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY delayed_jobs
+    ADD CONSTRAINT delayed_jobs_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: dialogues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1100,6 +1140,13 @@ ALTER TABLE ONLY uploads
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at);
 
 
 --
@@ -1308,4 +1355,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141007164832');
 INSERT INTO schema_migrations (version) VALUES ('20141009063051');
 
 INSERT INTO schema_migrations (version) VALUES ('20141021155421');
+
+INSERT INTO schema_migrations (version) VALUES ('20141029032547');
 

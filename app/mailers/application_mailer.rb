@@ -2,8 +2,6 @@ class ApplicationMailer < ActionMailer::Base
   layout 'mail'
   default from: 'Connectpal <noreply@connectpal.com>'
 
-  extend Delayable
-
   def self.queue
     :mail
   end
