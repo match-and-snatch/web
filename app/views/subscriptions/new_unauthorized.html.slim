@@ -74,57 +74,115 @@
     /Account Payment Column
     form.pull-right.Form action=via_register_user_subscriptions_path(@owner) method='POST'
       .account_payment
-        .form-group
-          label Name on card
-          input.form-control type='text' name='full_name'
-          span.error data-field='full_name'
-        .form-group
-          label Email Address
-          input.form-control type='email' name='email'
-          span.error data-field='email'
-        .form-group
-          label.password_label Enter Password
-          input.form-control.password type='password' name='password' placeholder=''
-          span.error data-field='password'
-        .form-group.cc_row
-          label.control-label Credit Card Number
-          ul style='right: -5px'
-            li
-              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Visa@2x.png')
-            li
-              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Mastercard@2x.png')
-            li
-              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
-            li
-              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-          input.form-control type='text' name='number' placeholder='1234 5678 9012 3456' style="width: 147px"
-          span.error data-field='number'
+        - if mobile_phone_device?
+          .form-group
+            input.form-control.input-sm type='text' name='full_name' placeholder='Full Name on card'
+            span.error data-field='full_name'
+          .form-group
+            input.form-control.input-sm type='email' name='email' placeholder='Email Address'
+            span.error data-field='email'
+          .form-group
+            input.form-control.input-sm type='password' name='password' placeholder='Enter Password'
+            span.error data-field='password'
+          .form-group
+            label.control-label Credit Card Number
+            input.form-control.input-sm type='text' name='number' placeholder='XXXX XXXX XXXX XXXX'
+            span.error data-field='number'
 
-        .form-group.exp_date.pull-left
-          label.control-label Expiration Date
+          .form-group style='margin-bottom: 15px;'
+            label.control-label Expiration Date
+            .clearfix
+            select.form-control.input-sm.pull-left data-error_field='expiry_date' name='expiry_month' style='width: 100px; margin-right: 10px;'
+              option value='' Month
+              option value='01' 01 - January
+              option value='02' 02 - February
+              option value='03' 03 - March
+              option value='04' 04 - April
+              option value='05' 05 - May
+              option value='06' 06 - June
+              option value='07' 07 - July
+              option value='08' 08 - August
+              option value='09' 09 - September
+              option value='10' 10 - October
+              option value='11' 11 - November
+              option value='12' 12 - December
+
+            select.form-control.input-sm.pull-left type='text' data-error_field='expiry_date' name='expiry_year' style='width: 60px; margin-right: 10px;'
+              option value='' Year
+              option value='14' 2014
+              option value='15' 2015
+              option value='16' 2016
+              option value='17' 2017
+              option value='18' 2018
+              option value='19' 2019
+              option value='20' 2020
+              option value='21' 2021
+              option value='22' 2022
+              option value='23' 2023
+              option value='24' 2024
+              option value='25' 2025
+              option value='26' 2026
+              option value='27' 2027
+              option value='28' 2028
+              option value='29' 2029
+              option value='30' 2030
+
+            input.form-control.input-sm type='text' name='cvc' placeholder='CVC' style='width: 60px;'
+            span.error data-field='cvc'
           .clearfix
-          .month.pull-left style="width: 90px"
-            label.small.pull-left Month
-            input.form-control type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 42px"
-          .year.pull-left style="margin-left: 5px; width: 90px"
-            label.small.pull-left Year
-            input.form-control type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 45px"
+
+        - else
+          .form-group
+            label Name on card
+            input.form-control type='text' name='full_name'
+            span.error data-field='full_name'
+          .form-group
+            label Email Address
+            input.form-control type='email' name='email'
+            span.error data-field='email'
+          .form-group
+            label.password_label Enter Password
+            input.form-control.password type='password' name='password' placeholder=''
+            span.error data-field='password'
+          .form-group.cc_row
+            label.control-label Credit Card Number
+            ul style='right: -5px'
+              li
+                img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Visa@2x.png')
+              li
+                img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Mastercard@2x.png')
+              li
+                img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
+              li
+                img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
+            input.form-control type='text' name='number' style="width: 154px"
+            span.error data-field='number'
+
+          .form-group.exp_date.pull-left
+            label.control-label Expiration Date
+            .clearfix
+            .month.pull-left style="width: 105px"
+              label.small.pull-left Month
+              input.form-control type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 48px"
+            .year.pull-left style="width: 90px"
+              label.small.pull-left Year
+              input.form-control type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 48px"
+            .clearfix
+            span.error data-field='expiry_date'
+            .clearfix
+          .form-group.cvc.pull-right
+            label.control-label CVC
+            .clearfix
+            input.form-control.pull-left type='text' name='cvc'
+            .pull-right
+              i.fa.fa-question
+                .cvc_example
+                  span Discover, MasterCard, Visa, and Others
+                  img.pull-left src="//connectpal-assets.s3.amazonaws.com/images/cvc_example.png" alt="CVC Example"
+                  p.pull-right The security code is the last three digits of the number that appears on the back of your card in the signature bar.
+            .clearfix
+            span.error data-field='cvc'
           .clearfix
-          span.error data-field='expiry_date'
-          .clearfix
-        .form-group.cvc.pull-right
-          label.control-label CVC
-          .clearfix
-          input.form-control.pull-left type='text' name='cvc'
-          .pull-right
-            i.fa.fa-question
-              .cvc_example
-                span Discover, MasterCard, Visa, and Others
-                img.pull-left src="//connectpal-assets.s3.amazonaws.com/images/cvc_example.png" alt="CVC Example"
-                p.pull-right The security code is the last three digits of the number that appears on the back of your card in the signature bar.
-          .clearfix
-          span.error data-field='cvc'
-        .clearfix
 
       input.btn.blue type='submit' value='Pay & Subscribe' style="width: 100%; margin-top: 15px; font-size: 24px"
       .clearfix
