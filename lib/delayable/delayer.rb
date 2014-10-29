@@ -15,7 +15,7 @@ module Delayable
         delayable.perform(method_name, *encode_args(args))
       end
     rescue Resque::TermException
-      Resque.enqueue(self, method_name, *args)
+      Resque.enqueue(delayable, method_name.to_s, *encode_args(args))
     end
 
     def decode_args(args)
