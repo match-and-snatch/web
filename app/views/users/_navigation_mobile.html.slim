@@ -10,17 +10,13 @@
         li
           a href=current_profile_path
             i.fa.fa-user My Profile
-      //li
-        a href=account_info_path
-          i.fa.fa-gear My Account
 
       li.dropdown.more_sub.Hover data-target='more-dropdown'
         i.fa.fa-bars.more_link_parent More
 
         ul.more_sub_cont data-identifier='more-dropdown'
-          li
-            a.PopupTrigger data-target='status-post-mobile' href='javascript: void(0)' Create post
-          //li
-            a href=contact_us_path Contact Us
+          - if current_page?(current_profile_path)
+            li
+              a.PopupTrigger data-target='status-post-mobile' href='javascript: void(0)' Create post
           li
             a href=logout_path Logout
