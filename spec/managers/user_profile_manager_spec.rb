@@ -48,7 +48,7 @@ describe UserProfileManager do
 
       specify do
         stub_const('ProfilesMailer', double('mailer', vacation_enabled: double('mail', deliver: true)).as_null_object)
-        expect(ProfilesMailer).to receive(:vacation_enabled).with(subscription)
+        expect(ProfilesMailer).to receive(:vacation_enabled).with(subscription).and_return(double('mailer').as_null_object)
         enable_vacation_mode
       end
     end
@@ -196,7 +196,7 @@ describe UserProfileManager do
 
       specify do
         stub_const('ProfilesMailer', double('mailer', vacation_disabled: double('mail', deliver: true)).as_null_object)
-        expect(ProfilesMailer).to receive(:vacation_disabled).with(subscription)
+        expect(ProfilesMailer).to receive(:vacation_disabled).with(subscription).and_return(double('mailer').as_null_object)
         disable_vacation_mode
       end
     end
@@ -570,17 +570,13 @@ describe UserProfileManager do
         SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
       end
 
-      before do
-        stub_const('ProfilesMailer', double('mailer', changed_cost: double('mail', deliver: true)).as_null_object)
-      end
-
       it 'raises error if cost changes at the same day' do
         expect { manager.update_cost(7) }.to raise_error(ManagerError)
       end
 
       it 'notify support if difference between new and old costs more than 3' do
         Timecop.freeze(2.days.from_now) do
-          expect(ProfilesMailer).to receive(:changed_cost).with(user, 179, 599)
+          expect(ProfilesMailer).to receive(:changed_cost).with(user, 179, 599).and_return(double('mailer').as_null_object)
           manager.update_cost(5)
         end
       end
