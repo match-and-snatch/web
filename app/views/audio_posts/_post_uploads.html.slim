@@ -5,7 +5,6 @@
   .clearfix
   - if upload.user.itunes_enabled?
     a.file_download.pull-right.hidden-sm.hidden-md href=audio_url(upload.id, format: :xml, protocol: 'itpc') target='_blank' Add to 3rd Party App
-  - if upload.user.itunes_enabled?
     a.file_download.pull-right.hidden-xs href=audio_url(upload.id, format: :xml, protocol: 'itpc') target='_blank' Add to iTunes
   - if upload.user.downloads_enabled?
     a.file_download.pull-right href=upload.original_url target='_blank' Download
