@@ -55,7 +55,6 @@ describe PaymentManager do
 
       context 'payment fails' do
         before do
-          stub_const('PaymentsMailer', double('payments_mailer').as_null_object)
           StripeMock.prepare_card_error(:card_declined)
           subject.pay_for(subscription)
           StripeMock.prepare_card_error(:card_declined)
@@ -80,7 +79,7 @@ describe PaymentManager do
           end
 
           it 'notifies user about payment failure' do
-            expect(PaymentsMailer).to receive(:failed)
+            expect(PaymentsMailer).to receive(:failed).and_return(double('mailer').as_null_object)
             subject.pay_for(subscription)
           end
 
@@ -106,7 +105,7 @@ describe PaymentManager do
             end
 
             it 'notifies user about payment failure' do
-              expect(PaymentsMailer).to receive(:failed)
+              expect(PaymentsMailer).to receive(:failed).and_return(double('mailer').as_null_object)
             end
 
             it 'does not unsubscribe user' do
@@ -138,7 +137,7 @@ describe PaymentManager do
             end
 
             it 'notifies user about payment failure' do
-              expect(PaymentsMailer).to receive(:failed)
+              expect(PaymentsMailer).to receive(:failed).and_return(double('mailer').as_null_object)
             end
 
             it 'does not unsubscribe user' do
@@ -170,7 +169,7 @@ describe PaymentManager do
             end
 
             it 'notifies user about payment failure' do
-              expect(PaymentsMailer).to receive(:failed)
+              expect(PaymentsMailer).to receive(:failed).and_return(double('mailer').as_null_object)
             end
 
             it 'unsubscribes user' do
@@ -186,7 +185,7 @@ describe PaymentManager do
             end
 
             it 'notifies user about payment failure' do
-              expect(PaymentsMailer).to receive(:failed)
+              expect(PaymentsMailer).to receive(:failed).and_return(double('mailer').as_null_object)
             end
 
             it 'unsubscribes user' do
