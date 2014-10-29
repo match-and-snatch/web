@@ -48,7 +48,7 @@
     @media screen and (max-width: 767px)
       height: 184px
       div
-        background-size: 100%
+        background-size: 100% !important
         background-position-y: 50% !important
       .btn
         display: none !important
@@ -1538,10 +1538,10 @@
       top: 13px
     .benefits_container
       ul
-        font-size: 12px
+        font-size: 13px
         -webkit-text-size-adjust: none
         li
-          font-size: 12px
+          font-size: 13px
           -webkit-text-size-adjust: none
     .details_container
       .subscribe_cont
@@ -1980,6 +1980,12 @@
       .progress
         margin-bottom: 10px
       .pending_audio, .pending_video, .pending_photo, .pending_document
+        .show_iphone
+          color: $color_pink
+          display: block
+          font-size: 11px
+          margin-bottom: 10px
+          text-align: center
         .supported_files
           display: none
         .added_audio, .added_video, .added_photo

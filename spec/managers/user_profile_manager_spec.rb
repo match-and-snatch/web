@@ -262,13 +262,21 @@ describe UserProfileManager do
       end
 
       specify do
-        expect { manager.update(cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_an_integer)) }
+        expect { manager.update(cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) }
         # expect { manager.update(cost: '-100', profile_name: '') }.not_to create_event(:profile_created)
       end
 
       specify do
-        expect { manager.update(cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_an_integer)) }
+        expect { manager.update(cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) }
         # expect { manager.update(cost: -200, profile_name: '') }.not_to create_event(:profile_created)
+      end
+
+      specify do
+        expect { manager.update(cost: 20.00, profile_name: 'putin') }.not_to raise_error
+      end
+
+      specify do
+        expect { manager.update(cost: 20.01, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_whole_number)) }
       end
     end
 
@@ -558,6 +566,14 @@ describe UserProfileManager do
 
     it 'returns user' do
       expect(manager.update_cost(5)).to eq(user)
+    end
+
+    it 'raises an error if cost have invalid format' do
+      expect { manager.update_cost('5.03') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_whole_number)) }
+    end
+
+    it 'does not raise an error if cost format is valid' do
+      expect { manager.update_cost('5.00') }.not_to raise_error
     end
 
     specify do
