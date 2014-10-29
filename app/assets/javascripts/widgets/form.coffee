@@ -58,7 +58,7 @@ class bud.widgets.Form extends bud.Widget
 
     _.each @params(), (value, field) =>
       @$container.find("[data-field]").html('').hide()
-      @$container.find("[name='#{field}'], [data-error_field='#{field}']").removeClass('error_input')
+      @$container.find("[name='#{field}'], [data-error_field='#{field}']").filter('.has-error').addClass('has-valid').removeClass('has-error')
     @$container.addClass('pending')
 
   on_after: =>
@@ -77,7 +77,7 @@ class bud.widgets.Form extends bud.Widget
     if errors = response['errors']
       _.each errors, (message, field) =>
         @$container.find("[data-field=#{field}]").html(message).show()
-        @$container.find("[name='#{field}'], [data-error_field='#{field}']").addClass('error_input')
+        @$container.find("[name='#{field}'], [data-error_field='#{field}']").addClass('has-error').removeClass('has-valid')
 
       # Scroll to the first error
       first_error   = @$container.find('[data-field]:visible')
