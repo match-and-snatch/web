@@ -41,8 +41,8 @@ gem 'newrelic_rpm'
 gem 'slim-rails'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'bootstrap-sass'
-gem 'resque', '~> 1.22.0'
 gem 'rails_autolink'
+gem 'delayed_job_active_record'
 
 # Credit cards, billing, charges, payments
 gem 'stripe-rails'
