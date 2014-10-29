@@ -7,7 +7,11 @@ class NotificationManager < BaseManager
     # @param post [Post]
     def notify_post_created(post)
       post.user.source_subscriptions.where(notifications_enabled: true).not_removed.preload(:user).find_each do |s|
-        PostsMailer.created(post, s.user).deliver if s.user && post
+        begin
+          PostsMailer.created(post, s.user).deliver if s.user && post
+        rescue
+          puts "Something is wrong with subscription ##{s.id}"
+        end
       end
     end
 

@@ -6,3 +6,11 @@ else
                            port: 12790,
                            password: 'jJKJDmjSyaHEkBsL')
 end
+
+Resque.before_fork do
+  ActiveRecord::Base.establish_connection(ENV['HEROKU_POSTGRESQL_PINK_URL'])
+end
+
+Resque.after_fork do
+  ActiveRecord::Base.establish_connection(ENV['HEROKU_POSTGRESQL_PINK_URL'])
+end
