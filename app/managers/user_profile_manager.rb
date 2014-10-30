@@ -528,10 +528,10 @@ class UserProfileManager < BaseManager
 
     save_or_die!(user).tap do
       if billing_was_suspended
-        user.source_subscriptions.to_charge.been_charged.where(["subscriptions.created_at < ?", Time.zone.now.beginning_of_month]).
+        user.source_subscriptions.not_removed.where(rejected: false).been_charged.where(["subscriptions.created_at < ?", Time.zone.now.beginning_of_month]).
           update_all(["charged_at = charged_at + interval '? days'", Time.zone.now.day])
 
-        user.source_subscriptions.been_charged.where(["subscriptions.created_at >= ?", Time.zone.now.beginning_of_month]).
+        user.source_subscriptions.not_removed.where(rejected: false).been_charged.where(["subscriptions.created_at >= ?", Time.zone.now.beginning_of_month]).
           update_all(["charged_at = charged_at + (interval '1 day' * (? - EXTRACT(DAY FROM created_at)))", Time.zone.now.day])
       end
 
