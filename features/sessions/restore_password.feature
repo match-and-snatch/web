@@ -26,4 +26,3 @@ Feature: Restore password
       | dimon@mail.ru | There is no user registered with this email. |
       | dimon@mail    | This is not valid.                           |
       |               | This is not valid.                           |
-    
