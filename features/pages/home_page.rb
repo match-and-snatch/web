@@ -1,6 +1,9 @@
-class HomePage
-  include Capybara::DSL
+class HomePage < BasePage
 
+  def generate_user(credentials = {})
+    create_user(credentials)
+  end
+  
   def sign_up(credentials = {})
     visit_home_page
 
@@ -16,13 +19,13 @@ class HomePage
     click_button 'Continue to Profile'
   end
 
-  def sign_in(credentials = {})
+  def sign_in(email: , password: )
     visit_home_page
 
     click_link 'Login'
 
-    fill_in 'email',    with: credentials['email']
-    fill_in 'password', with: credentials['password']
+    fill_in 'email',    with: email
+    fill_in 'password', with: password
 
     click_button 'Login'
   end
@@ -49,9 +52,5 @@ class HomePage
 
   def has_message?(message)
     has_content? message
-  end
-
-  def remove_user
-    User.delete_all
   end
 end

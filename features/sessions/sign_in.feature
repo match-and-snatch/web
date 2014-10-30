@@ -12,35 +12,17 @@ Feature: Sign in
     And I am not signed in
 
   Scenario: User is not signed up
-    Given I do not exist as a user
-    When I sign in with credentials:
-      | email           | password |
-      | serge@gmail.com | password |
-
-    Then I see "Email or password is invalid." message
-    And I should be signed out
+    When I sign in with email "dimon@mail.ru" and password "password"
+    Then I should see "Email or password is invalid." message
+    And  I should be signed out
 
   Scenario: User signs in successfully
-    When I sign in with credentials:
-      | email           | password |
-      | serge@gmail.com | password |
-
-    Then I see "Welcome Sergei Zinin" message
+    When I sign in with email "serge@gmail.com" and password "password"
+    Then I should see "Welcome Sergei Zinin" message
     When I return to the home page
     Then I should be signed in
 
-  Scenario: User enters wrong email
-    When I sign in with credentials:
-      | email           | password      |
-      | serge@gmail.com | wrongpassword |
-
-    Then I see "Email or password is invalid." message
-    And I should be signed out
-
   Scenario: User enters wrong password
-    When I sign in with credentials:
-      | email      | password |
-      | notanemail | password |
-
-    Then I see "Email or password is invalid." message
-    And I should be signed out
+    When I sign in with email "serge@gmail.com" and password "wrongpassword"
+    Then I should see "Email or password is invalid." message
+    And  I should be signed out
