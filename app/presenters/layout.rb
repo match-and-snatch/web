@@ -19,4 +19,8 @@ class Layout < Hash
       true
     end
   end
+
+  def error_messages
+    self[:error_messages] ||= I18n.t('errors').to_json(except: :messages)
+  end
 end
