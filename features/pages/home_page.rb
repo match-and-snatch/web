@@ -34,6 +34,17 @@ class HomePage < BasePage
     visit '/logout'
   end
 
+  def restore_password(email: )
+    visit_home_page
+
+    click_link 'Login'
+    click_link 'Forgot Password'
+
+    fill_in 'email', with: email
+
+    click_button 'Send'
+  end
+
   def visit_home_page
     visit '/'
   end

@@ -20,8 +20,12 @@ When /^I return to the home page$/ do
   home_page.visit_home_page
 end
 
-When /^I sign in with email \"([^\"]*)\" and password \"([^\"]*)\"$/ do |email, password|
+When /^I sign in with email \"(.*?)\" and password \"(.*?)\"$/ do |email, password|
   home_page.sign_in(email: email, password: password)
+end
+
+When /^I try to restore password with email \"(.*?)\"$/ do |email|
+  home_page.restore_password(email: email)
 end
 
 ### THEN ###
@@ -30,7 +34,7 @@ Then /^I should be signed in$/ do
   expect(home_page.has_sign_in_link?).to eq(false)
 end
 
-Then /^I should see \"([^\"]*)\" message$/ do |message|
+Then /^I should see \"(.*?)\" message$/ do |message|
    expect(home_page.has_message?(message)).to eq(true)
 end
 
