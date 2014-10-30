@@ -71,8 +71,11 @@ class bud.widgets.Form extends bud.Widget
 
   on_fail: (response) =>
     if message = response['message']
-      if @$error.length > 0 then @$error.html(message)
-      else alert(message)
+      if @$error.length > 0
+        @$container.find("input[validate]").addClass('has-error').removeClass('has-valid')
+        @$error.html(message)
+      else
+        alert(message)
 
     if errors = response['errors']
       _.each errors, (message, field) =>

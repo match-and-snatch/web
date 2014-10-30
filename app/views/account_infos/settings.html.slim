@@ -8,13 +8,13 @@
 
     .form-group
       label.pull-left Account Full Name
-      input.form-control.pull-right type='text' name='full_name' value=@user.full_name
+      input.form-control.pull-right type='text' name='full_name' value=@user.full_name validate='require'
       .clearfix
       .error data-field='full_name'
 
     .form-group
       label.pull-left Email Address
-      input.form-control.pull-right type='email' name='email' value=@user.email
+      input.form-control.pull-right type='email' name='email' value=@user.email validate='require,email'
       .clearfix
       .error data-field='email'
 
@@ -36,19 +36,19 @@
 
     .form-group
       label.pull-left Current Password
-      input.form-control.pull-right.password type='password' name='current_password' value=''
+      input.form-control.pull-right.password type='password' name='current_password' value='' validate='require'
       .clearfix
       .error data-field='current_password'
 
     .form-group
       label.pull-left New Password
-      input.form-control.pull-right.password type='password' name='new_password' value=''
+      input.form-control.pull-right.password type='password' name='new_password' value='' validate='require,min_length:5'
       .clearfix
       .error data-field='new_password'
 
     .form-group
       label.pull-left Re-type Password
-      input.form-control.pull-right.password type='password' name='new_password_confirmation' value=''
+      input.form-control.pull-right.password type='password' name='new_password_confirmation' value='' validate='require,match:new_password'
       .clearfix
       .error data-field='new_password_confirmation'
 

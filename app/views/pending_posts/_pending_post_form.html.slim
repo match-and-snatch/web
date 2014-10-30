@@ -20,13 +20,13 @@
     / Input fields for post title, description, keywords, and post notification
     form.col-md-6.col-sm-6.col-xs-6.upload_details.Poster action=media_posts_path method='POST' data-target='posts'
       / Post title
-      input.bg-color.form-control name='title' placeholder='Title' value=pending_post.title style='margin-top: 0;'
+      input.bg-color.form-control name='title' placeholder='Title' value=pending_post.title style='margin-top: 0;' validate='require'
       .error data-field='title'
       / Post keywords, hidden for now.
       / input.form-control name='keywords' placeholder='Keywords/Category' value=pending_post.keywords
       / .error data-field='keywords'
       / Post description
-      textarea.bg-color.form-control name='message' placeholder='Description' style='margin-bottom: 8px'
+      textarea.bg-color.form-control name='message' placeholder='Description' style='margin-bottom: 8px' validate='require'
         = restore_message_format(pending_post.message)
       .error data-field='message'
       / Post notification

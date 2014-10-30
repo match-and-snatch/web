@@ -74,7 +74,7 @@
         .account_payment
           .form-group
             label.control-label Credit Card Number
-            input.form-control.input-sm type='text' name='number' placeholder='XXXX XXXX XXXX XXXX'
+            input.form-control.input-sm type='text' name='number' placeholder='XXXX XXXX XXXX XXXX' validate='cc_number'
             span.error data-field='number'
 
           .form-group style='margin-bottom: 15px;'
@@ -115,7 +115,7 @@
               option value='29' 2029
               option value='30' 2030
 
-            input.form-control.input-sm type='tel' name='cvc' placeholder='CVC' maxlength='4' style='width: 60px;'
+            input.form-control.input-sm type='text' name='cvc' placeholder='CVC' maxlength='4' style='width: 60px;' validate='cvc'
             span.error data-field='cvc'
           .clearfix
 
@@ -132,7 +132,7 @@
                 img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
               li
                 img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-            input.form-control type='text' name='number' placeholder='XXXX XXXX XXXX XXXX'
+            input.form-control type='text' name='number' placeholder='XXXX XXXX XXXX XXXX' validate='cc_number'
             span.error data-field='number'
 
           .form-group.exp_date.pull-left
@@ -140,17 +140,17 @@
             .clearfix
             .month.pull-left style='width: 100px'
               label.small.pull-left Month
-              input.form-control type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 50px"
+              input.form-control type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 50px" validate='expiry_month'
             .year.pull-left style="margin-left: 5px; width: 90px"
               label.small.pull-left Year
-              input.form-control type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 50px"
+              input.form-control type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 50px" validate='expiry_year'
             .clearfix
             span.error data-field='expiry_date'
             .clearfix
           .form-group.cvc.pull-right
             label.control-label CVC
             .clearfix
-            input.form-control.pull-left type='text' name='cvc'  maxlength='4'
+            input.form-control.pull-left type='text' name='cvc' maxlength='4' validate='cvc'
             .pull-right
               i.fa.fa-question
                 .cvc_example
