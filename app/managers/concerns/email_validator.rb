@@ -1,5 +1,5 @@
 module Concerns::EmailValidator
-  EMAIL_REGEXP = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
+  EMAIL_REGEXP = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z_\-]+\.)+[A-Za-z]{2,4}\z/
 
   def validate_email(email)
     return fail_with email: :empty if email.blank?

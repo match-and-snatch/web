@@ -60,7 +60,7 @@ class bud.widgets.Validator extends bud.Widget
       @mark_as_invalid @t('reached_maximum')
 
   validate_email: ->
-    email_regex = /^[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}$/
+    email_regex = /^[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z_\-]+\.)+[A-Za-z]{2,4}$/
     unless email_regex.test @$container.val()
       @mark_as_invalid @t()
 
