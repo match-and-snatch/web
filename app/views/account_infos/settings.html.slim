@@ -48,7 +48,7 @@
 
     .form-group
       label.pull-left Re-type Password
-      input.form-control.pull-right.password type='password' name='new_password_confirmation' value='' validate='require,match:new_password'
+      input.form-control.pull-right.password type='password' name='new_password_confirmation' value='' validate='require,match_password:new_password'
       .clearfix
       .error data-field='new_password_confirmation'
 

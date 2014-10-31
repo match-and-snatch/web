@@ -21,6 +21,6 @@ class Layout < Hash
   end
 
   def error_messages
-    self[:error_messages] ||= I18n.t('errors').to_json(except: :messages)
+    self[:error_messages] ||= I18n.t('errors')
   end
 end

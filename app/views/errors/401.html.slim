@@ -8,10 +8,10 @@
     form.Form action=session_path method='post'
       .form-group
         label Email Address
-        input.form-control type='text' name='email' autocorrect='off' autocapitalize='off'
+        input.form-control type='text' name='email' autocorrect='off' autocapitalize='off' validate='require,email'
       .form-group
         label Password
-        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
+        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off' validate='require'
         .mobile_message.alert.alert-warning style='margin-top: 15px' Passwords are case sensitve, please make sure you enter your correct password.
       .form-group style="margin-top: 15px"
         input.pull-right.btn.blue type='submit' value='Login'

@@ -1,5 +1,6 @@
 javascript:
   window.bud.config = #{APP_CONFIG['javascript'].to_json.html_safe};
+  window.bud.layout = {error_messages: #{layout.error_messages.to_json(except: :messages).html_safe}};
 
 = yield :js
 
