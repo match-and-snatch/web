@@ -23,7 +23,7 @@
 
     .form-group
       label.pull-left Profile URL
-      input.form-control.pull-right type='text' name='slug' value=@user.slug
+      input.form-control.pull-right type='text' name='slug' value=@user.slug validate='require,slug'
       .clearfix
       .error data-field='slug'
 

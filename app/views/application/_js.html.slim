@@ -1,5 +1,6 @@
 javascript:
   window.bud.config = #{APP_CONFIG['javascript'].to_json.html_safe};
+  window.bud.layout = #{layout.js_data.to_json.html_safe};
 
 = yield :js
 

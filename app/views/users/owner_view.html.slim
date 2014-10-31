@@ -231,7 +231,7 @@
       form.Form action=update_name_user_path(@profile.object) method='post'
         .form-group
           input type='hidden' name='_method' value='put'
-          input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name'
+          input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name' validate='require'
 
         .form-group
           .pull-left.error data-field='profile_name'
@@ -314,7 +314,7 @@
           .form-group.input-group.pull-left style="width: 113px; margin-bottom: 0;"
             span.input-group-addon
               i.fa.fa-usd.fa-fw
-            input.form-control type='text' name='cost' value=(@profile.cost / 100) data-target='subscription-cost'
+            input.form-control type='text' name='cost' value=(@profile.cost / 100) data-target='subscription-cost' validate='subscription_cost'
 
           .form-group.pull-right style="margin-bottom: 0;"
             input.btn.pink type='submit' value='Update Price'

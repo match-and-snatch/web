@@ -37,7 +37,7 @@
             | Profile Name
             span Your profile name will be displayed at the top of your profile. You can edit this at anytime.
         .col-md-12.col-sm-12.col-xs-12  style="margin-bottom: 15px;"
-          input.form-control type='text' name='profile_name' placeholder='Enter your profile name here.'
+          input.form-control type='text' name='profile_name' placeholder='Enter your profile name here.' validate='require'
           .error data-field='profile_name'
         .clearfix
 
@@ -77,7 +77,7 @@
           .input-group
             span.input-group-addon
               i.fa.fa-usd.fa-fw.fa-lg
-            input.form-control.usd type='text' name='cost' value=((@user.cost || 500) / 100)
+            input.form-control.usd type='text' name='cost' value=((@user.cost || 500) / 100) validate='subscription_cost'
             a.pull-right.breakdown.PopupTrigger style='color: #8dc63f; text-decoration: underline' data-target='pricing-popup' href="#" Check out our pricing breakdown here
             .clearfix
           .error data-field='cost'
@@ -100,13 +100,13 @@
             .col-md-12.col-sm-12.col-xs-12
               .pay_to_name
                 label Pay to the order of:
-                input.form-control data-identifier='holder-name-input' type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
+                input.form-control data-identifier='holder-name-input' type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name validate='require'
             .clearfix
             .col-md-12.col-sm-12.col-xs-12.payout_numbers
               label.pull-left Routing Number
-              input.form-control.pull-left type='text' name='routing_number' placeholder='123456789' value=@user.routing_number style="width: 90px; margin-right: 30px"
+              input.form-control.pull-left type='text' name='routing_number' placeholder='123456789' value=@user.routing_number style="width: 90px; margin-right: 30px" validate='routing_number'
               label.pull-left Account Number
-              input.form-control.pull-left type='text' name='account_number' placeholder='000123456789' value=@user.account_number style="width: 115px"
+              input.form-control.pull-left type='text' name='account_number' placeholder='000123456789' value=@user.account_number style="width: 115px" validate='account_number'
             .clearfix
         .clearfix
 

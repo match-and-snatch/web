@@ -10,13 +10,13 @@
 
         .form-group
           label.pull-left New Password
-          input.form-control.pull-right.password type='password' name='password' value=''
+          input.form-control.pull-right.password type='password' name='password' value='' validate='require,min_length:5'
           .clearfix
           .error data-field='password'
 
         .form-group
           label.pull-left Re-type Password
-          input.form-control.pull-right.password type='password' name='password_confirmation' value=''
+          input.form-control.pull-right.password type='password' name='password_confirmation' value='' validate='require,match_password:password'
           .clearfix
           .error data-field='password_confirmation'
 
@@ -25,6 +25,3 @@
 
 div style='position: fixed; bottom: 0; width: 100%' 
   = render 'footer'
-
-
-

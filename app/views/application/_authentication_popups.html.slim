@@ -1,41 +1,38 @@
 // Sign Up Popup
-
 .Popup.popup.authentication_popup.modal-content data-identifier='registration'
 
   // Header Area
-
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="registration" aria-hidden="true"
     .modal-title Let’s Get Started!
 
   // Body Area
-
   .modal-body
     form.Form action=users_path method='post'
       .form-group
         .pull-left.margin-right
           label First Name
-          input.form-control type='text' name='first_name'
+          input.form-control type='text' name='first_name' validate='require'
           p.text-danger data-field='first_name'
         .pull-right.margin-left
           label Last Name
-          input.form-control type='text' name='last_name'
+          input.form-control type='text' name='last_name' validate='require'
           p.text-danger data-field='last_name'
         .clearfix
 
       .form-group
         label Email Address
-        input.form-control type='email' name='email' autocorrect='off' autocapitalize='off'
+        input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' validate='require,email'
         p.text-danger data-field='email'
 
       .form-group
         label Password
-        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
+        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off' validate='require,min_length:5'
         p.text-danger data-field='password'
 
       .form-group
         label Retype Password
-        input.form-control.password type='password' name='password_confirmation'
+        input.form-control.password type='password' name='password_confirmation' validate='require,match_password:password'
         p.text-danger data-field='password_confirmation'
 
       .form-group style="margin: 15px 0"
@@ -48,33 +45,31 @@
         .clearfix
 
   // Footer Area
-
   .modal-footer
     span Already have an account? &nbsp;
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
 
 
 // Login Popup
-
 .Popup.popup.authentication_popup.modal-content data-identifier='login'
 
   // Header Area
-
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="login" aria-hidden="true"
     .modal-title Existing Account?
     span If you already have an account, please login below.
 
   // Body Area
-
   .modal-body
     form.Form action=session_path method='post'
       .form-group
         label Email Address
-        input.form-control type='email' name='email' autocorrect='off' autocapitalize='off'
+        input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' validate='require,email'
+        p.text-danger data-field='email'
       .form-group
         label Password
-        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off'
+        input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off' validate='require'
+        p.text-danger data-field='password'
         .mobile_message.alert.alert-warning Passwords are case sensitve, please make sure you enter your correct password.
       .form-group style="margin-top: 15px"
         input.btn.blue.login_btn type='submit' value='Login'
@@ -86,7 +81,6 @@
       .text-danger.Error style="margin-bottom: 15px;"
 
   // Footer Area
-
   .modal-footer
     span.hidden-xs Not registered yet?&nbsp;
     a.PopupTrigger.hidden-xs style='text-decoration: underline' href='#' data-target='registration' Click here to register!
@@ -95,29 +89,25 @@
 
 
 // Restore Password Popup
-
 .Popup.popup.authentication_popup.modal-content data-identifier='forgot-password'
 
   // Header Area
-
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="forgot-password" aria-hidden="true" style="top: 5px"
     .modal-title Forgot your password?
     span If you already have an account, please enter email.
 
   // Body Area
-
   .modal-body
     form.Form action=restore_password_path method='post'
       .form-group style="margin-bottom: 15px"
         .pull-left
-          input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' placeholder='Email Address' style="width: 260px"
+          input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' placeholder='Email Address' style="width: 260px" validate='require,email'
           p.text-danger data-field='email'
         input.pull-right.btn.blue type='submit' value='Send'
         .clearfix
 
   // Footer Area
-
   .modal-footer
     span.hidden-xs Not registered yet?&nbsp;
     a.PopupTrigger.hidden-xs style='text-decoration: underline' href='#' data-target='registration' Click here to register!
@@ -127,17 +117,14 @@
 
 
 // Mobile No Registration
-
 .Popup.popup.authentication_popup.modal-content data-identifier='no_registration'
 
   // Header Area
-
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="no_registration" aria-hidden="true"
     .modal-title Hey there! We apologize for the inconvenience.
 
   // Body Area
-
   .modal-body style='text-align: center;'
     p We currently do not support profile page creation on mobile phones for security purposes. If you would like to create a profile page, please use a computer or tablet device.
 
@@ -147,7 +134,6 @@
       '. Thanks.
 
   // Footer Area
-
   .modal-footer
     span Already have an account? &nbsp;
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
