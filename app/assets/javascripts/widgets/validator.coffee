@@ -10,7 +10,13 @@ class bud.widgets.Validator extends bud.Widget
     @$container.on 'focusout', @validate
     @$container.on 'keyup', @validate
 
-  validate: =>
+  validate: (e) =>
+    key_code = e.keyCode || e.which;
+
+    if key_code == 9
+      e.preventDefault()
+      return false
+
     @mark_as_valid()
 
     _.find @validators, (validator) =>
