@@ -20,7 +20,7 @@ class Layout < Hash
     end
   end
 
-  def error_messages
-    self[:error_messages] ||= I18n.t('errors')
+  def js_data
+    self[:js_data] ||= { error_messages: I18n.t('errors').except(:messages) }
   end
 end
