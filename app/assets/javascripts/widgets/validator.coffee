@@ -39,7 +39,7 @@ class bud.widgets.Validator extends bud.Widget
         else bud.Logger.error('No validator')
 
   validate_require: ->
-    if _.isEmpty @$container.val()
+    if _.isEmpty @$container.val().trim()
       @mark_as_invalid @t('empty')
 
   validate_min_length: (min_length) ->
@@ -91,8 +91,11 @@ class bud.widgets.Validator extends bud.Widget
   validate_cc_number: ->
     return if @validate_require()
 
-    cc_number = @$container.val().replace(/\D/g, '')
-    if cc_number.length < 14
+    cc_number = @$container.val()
+    unless /^[0-9\s._-]+$/.test cc_number
+      return @mark_as_invalid @t()
+
+    if cc_number.replace(/\D/g, '').length < 14
       @mark_as_invalid @t()
 
   validate_expiry_month: ->
