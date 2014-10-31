@@ -19,4 +19,8 @@ class Layout < Hash
       true
     end
   end
+
+  def js_data
+    self[:js_data] ||= { error_messages: I18n.t('errors').except(:messages) }
+  end
 end

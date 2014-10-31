@@ -6,7 +6,7 @@ class UserProfileManager < BaseManager
   attr_reader :user
 
   SLUG_REGEXP  = /^[a-zA-Z0-9]+(\w|_|-)+[a-zA-Z0-9]+$/i
-  COST_REGEXP  = /^\d+(.\d+)?$/i
+  COST_REGEXP  = /^\d+(\.\d+)?$/i
   ONLY_DIGITS  = /^[0-9]*$/i
 
   # @param user [User]

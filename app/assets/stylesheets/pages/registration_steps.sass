@@ -1,4 +1,4 @@
-/* Registration Areas */
+// Registration Areas
 
 .registration_steps
   background-color: #FFFFFF
@@ -42,7 +42,7 @@
     .number_title
       padding-top: 3px
 
-    /* Done */
+    // Done
 
     .done
       color: $color_green
@@ -51,7 +51,7 @@
       .number
         background-color: $color_green
 
-    /* Active */
+    // Active
 
     .active
       color: $color_pink
@@ -60,7 +60,7 @@
       .number
         background-color: $color_pink
 
-/* Steps Container */
+// Steps Container
 
 .steps_container
   font-size: 13px
@@ -75,11 +75,17 @@
       color: $color_text_dark
     .btn
       margin: 0 auto
+    .profile-type-list-show
+      ul
+        border: 1px solid $color_border
+        height: 150px
+        overflow-y: scroll
+        padding: 10px
 
-  /* Step 1 */
+  // Step 1
 
   .step_one
-    overflow: visible    
+    overflow: visible
     @media screen and (min-width: 992px)
       .note
         &.n4
@@ -89,18 +95,18 @@
             top: 290px !important
 
 
-  /* Step 2 */
+  // Step 2
 
   &.step_two
-    h1 
+    h1
       color: $color_text_dark
       margin: 0
       padding: 15px 0
-    .row_label 
+    .row_label
       color: $color_blue
       font-size: 18px
       font-weight: 600
-      span 
+      span
         color: $color_text_dark
         display: block
         font-size: 12px
@@ -122,12 +128,12 @@
       padding: 5px
       margin-top: 5px
 
-    /* Profile Name */
+    // Profile Name
 
     .profile_name
       margin-bottom: 15px
 
-    /* USD */
+    // USD
 
     @media screen and (min-width: 992px)
       .usd
@@ -142,9 +148,9 @@
         text-align: right
         margin-right: 0
 
-    /* Check Design */
+    // Check Design
 
-    .check 
+    .check
       @include blue-area
       margin: 15px 0
       padding: 5px
@@ -162,7 +168,7 @@
         .pay_to_name
           margin-bottom: 30px
         .payout_numbers
-          label 
+          label
             display: inline-block
             padding: 7px 10px 0 0
 

@@ -12,7 +12,7 @@ form.Form action=update_cc_data_account_info_path method='post'
           img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
         li
           img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-    input.form-control.pull-right type='text' name='number' placeholder=current_user.cc_placeholder
+    input.form-control.pull-right type='text' name='number' placeholder=current_user.cc_placeholder validate='cc_number'
     .clearfix
     .error data-field='number'
 
@@ -20,10 +20,10 @@ form.Form action=update_cc_data_account_info_path method='post'
     label.pull-left Expiry Date
     .pull-right.expiry_date
 
-      input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 50px;"
+      input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 50px;" validate='expiry_month'
       label.pull-left style="width: 80px; text-align: left; padding-left: 10px;" Month
 
-      input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 50px;"
+      input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 50px;" validate='expiry_year'
       label.pull-left style="width: 60px; text-align: left; padding-left: 10px;" Year
 
     .clearfix
@@ -31,7 +31,7 @@ form.Form action=update_cc_data_account_info_path method='post'
 
   .form-group
     label.pull-left CVC Code
-    input.form-control.pull-left type='text' name='cvc' style="width: 55px; margin-left: 19px"
+    input.form-control.pull-left type='text' name='cvc' style="width: 55px; margin-left: 19px" validate='cvc'
     .clearfix
     .error data-field='cvc'
 

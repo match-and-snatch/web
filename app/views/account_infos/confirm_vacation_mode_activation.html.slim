@@ -7,7 +7,7 @@
     form.Form action=enable_vacation_mode_account_info_path method='post'
       .form-group
         label style="padding-bottom: 5px;" Please write an away message for your subscribers. This away message will be emailed to your subscribers and posted on your profile page.
-        textarea.form-control type='text' name='vacation_message' autocorrect='off' autocapitalize='off' rows='5' style="font-size: 13px;"
+        textarea.form-control type='text' name='vacation_message' autocorrect='off' autocapitalize='off' rows='5' style="font-size: 13px;" validate='require'
         p.text-danger data-field='vacation_message'
 
       .form-group style="margin: 15px 0 0"

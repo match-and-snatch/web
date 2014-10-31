@@ -1,6 +1,6 @@
 div data-identifier='pending-audios'
   .pending_audio
-    .show_iphone Mobile audio uploading is not supported by iOS.
+    .show_iphone.hidden-sm.hidden-md.hidden-lg Mobile audio uploading is not supported by iOS.
     .added_audio
       ul.audio_bg.Sorter data-url=reorder_audios_path
         - current_user.pending_audios.each do |upload|

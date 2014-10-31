@@ -4,8 +4,8 @@ rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmln
     title= @post.title
     link= profile_url(@post.user)
     language en-us
-    copyright © 2014 Andy Dean Inc.
-    itunes:subtitle America Now podcast
+    copyright © #{Time.zone.now.year} #{@post.user.full_name || @post.user.profile_name}
+    itunes:subtitle= @post.user.profile_name
     itunes:author= @post.user.name
     itunes:summary= @post.message
     description= @post.message
