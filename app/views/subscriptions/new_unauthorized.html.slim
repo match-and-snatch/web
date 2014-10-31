@@ -76,13 +76,13 @@
       .account_payment
         - if mobile_phone_device?
           .form-group
-            input.form-control.input-sm type='text' name='full_name' placeholder='Full Name on card'
+            input.form-control.input-sm type='text' name='full_name' placeholder='Full Name on Card'
             span.error data-field='full_name'
           .form-group
             input.form-control.input-sm type='email' name='email' placeholder='Email Address'
             span.error data-field='email'
           .form-group
-            input.form-control.input-sm type='password' name='password' placeholder='Enter Password'
+            input.form-control.input-sm type='password' name='password' placeholder='Create a Password'
             span.error data-field='password'
           .form-group
             label.control-label Credit Card Number
@@ -107,7 +107,7 @@
               option value='11' 11 - November
               option value='12' 12 - December
 
-            select.form-control.input-sm.pull-left type='text' data-error_field='expiry_date' name='expiry_year' style='width: 60px; margin-right: 10px;'
+            select.form-control.input-sm.pull-left type='text' data-error_field='expiry_date' name='expiry_year' style='width: 70px; margin-right: 10px;'
               option value='' Year
               option value='14' 2014
               option value='15' 2015
@@ -127,7 +127,7 @@
               option value='29' 2029
               option value='30' 2030
 
-            input.form-control.input-sm type='text' name='cvc' placeholder='CVC' style='width: 60px;'
+            input.form-control.input-sm type='tel' name='cvc' placeholder='CVC' maxlength='4' style='width: 60px;'
             span.error data-field='cvc'
           .clearfix
 
@@ -141,7 +141,7 @@
             input.form-control type='email' name='email'
             span.error data-field='email'
           .form-group
-            label.password_label Enter Password
+            label.password_label Create Password
             input.form-control.password type='password' name='password' placeholder=''
             span.error data-field='password'
           .form-group.cc_row
@@ -173,7 +173,7 @@
           .form-group.cvc.pull-right
             label.control-label CVC
             .clearfix
-            input.form-control.pull-left type='text' name='cvc'
+            input.form-control.pull-left type='text' name='cvc'  maxlength='4'
             .pull-right
               i.fa.fa-question
                 .cvc_example

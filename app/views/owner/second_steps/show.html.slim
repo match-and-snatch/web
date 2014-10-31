@@ -1,15 +1,13 @@
 .container-fluid.registration_steps
   .container
 
-    /* Header Content */
-
+    // Header Content
     .row
       .col-md-12.col-sm-12.col-xs-12.reg_head
         .reg_title Your profile is almost complete!
         .reg_text In order to take your profile live, just 2 more quick things!
 
-    /* Steps 1 - 3 row */
-
+    // Steps 1 - 3 row
     .row.steps_row
       .col-md-6.col-sm-6.col-xs-6.done
         .bar
@@ -32,7 +30,7 @@
       .col-md-12.col-sm-12.col-xs-12
         h1 Profile Details
 
-      /* Profile Page Name */
+      // Profile Page Name
       .profile_name
         .col-md-12.col-sm-12.col-xs-12
           .row_label
@@ -43,8 +41,7 @@
           .error data-field='profile_name'
         .clearfix
 
-      /* Profile Type/Category */
-
+      // Profile Type/Category
       .col-md-6.col-sm-6.col-xs-6
 
         .row_label
@@ -67,8 +64,7 @@
           .profile-type-list data-identifier='profile-types' style="padding-top: 10px"
             = render 'profile_types/list_assigned', profile_types: current_user.profile_types
 
-      /* Subscription Cost */
-
+      // Subscription Cost
       .col-md-6.col-sm-6.col-xs-6
         .row_label
           | Subscription Cost
@@ -114,7 +110,7 @@
             .clearfix
         .clearfix
 
-        /* I think we can remove this */
+        // I think we can remove this
         / NO WE CAN't
         / User can enter invalid data and you don't notify him about the failed operation
         .error_cont
@@ -122,8 +118,7 @@
           .error data-field='routing_number'
           .error data-field='account_number'
 
-      /* Continue to Profile */
-
+      // Continue to Profile
       .col-md-12.col-sm-12.col-xs-12.finish_registration
         input type='hidden' name='authenticity_token' value=form_authenticity_token
         input.btn.pink type='submit' value='Finish Registration'
