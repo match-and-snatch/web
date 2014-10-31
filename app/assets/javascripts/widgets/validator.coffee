@@ -8,6 +8,7 @@ class bud.widgets.Validator extends bud.Widget
     @validators = @get_validators()
 
     @$container.on 'focusout', @validate
+    @$container.on 'keyup', @validate
 
   validate: =>
     @mark_as_valid()
