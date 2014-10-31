@@ -92,10 +92,10 @@ class bud.widgets.Validator extends bud.Widget
     return if @validate_require()
 
     cc_number = @$container.val()
-    unless /^[0-9_.\ \-]+$/.test cc_number
+    unless /^[0-9\s._-]+$/.test cc_number
       return @mark_as_invalid @t()
 
-    if cc_number.length < 14
+    if cc_number.replace(/\D/g, '').length < 14
       @mark_as_invalid @t()
 
   validate_expiry_month: ->
