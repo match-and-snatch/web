@@ -59,7 +59,7 @@ BuddyPlatform::Application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   #config.action_controller.asset_host = "//s3-us-west-1.amazonaws.com/buddy-assets"
   config.action_controller.asset_host = ENV['ASSET_HOST'] || '//buddy-assets.s3.amazonaws.com'
-  config.force_ssl = true
+  config.force_ssl = false
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
