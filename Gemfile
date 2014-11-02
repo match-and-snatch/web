@@ -39,7 +39,7 @@ end
 gem 'foreman', group: :development
 gem 'newrelic_rpm'
 
-group :staging do
+group :staging, :development do
   gem 'puma'
 end
 
