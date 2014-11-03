@@ -7,8 +7,9 @@ class CostChangeRequestManager < BaseManager
   end
 
   def create(new_cost: , update_existing_subscriptions: false)
-    user.cost_change_requests.create!(old_cost: user.cost, new_cost: new_cost, update_existing_subscriptions: update_existing_subscriptions || false)
-    ProfilesMailer.delay.changed_cost(user, user.subscription_cost, user.pretend(cost: new_cost).subscription_cost)
+    @request = user.cost_change_requests.create!(old_cost: user.cost, new_cost: new_cost, update_existing_subscriptions: update_existing_subscriptions || false)
+    ProfilesMailer.delay.cost_change_request(user, user.subscription_cost, user.pretend(cost: new_cost).subscription_cost)
+    request
   end
 
   def reject
