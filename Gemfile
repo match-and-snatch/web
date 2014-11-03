@@ -33,9 +33,15 @@ end
 
 # Required by Heroku
 gem 'rails_12factor', group: :production
-gem 'unicorn'
+group :production do
+  gem 'unicorn'
+end
 gem 'foreman', group: :development
 gem 'newrelic_rpm'
+
+group :staging, :development do
+  gem 'puma'
+end
 
 # Application Specific
 gem 'slim-rails'
