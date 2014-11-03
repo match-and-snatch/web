@@ -53,7 +53,8 @@
           .profile-type-input
             input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.' style='width: 300px;'
             i.fa.fa-plus.pull-left data-identifier='types-submit' Add
-            i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
+            i.fa.fa-caret-square-o-down.pull-left.Toggler data-identifier='types-toggler' data-target=%w(types-dropdown types-hide types-toggler) Show List
+            i.fa.fa-caret-square-o-up.pull-left.Toggler style='display: none' data-identifier='types-toggler' data-target=%w(types-dropdown types-toggler) Hide List
             .clearfix
 
           .error data-field='profile_type'
