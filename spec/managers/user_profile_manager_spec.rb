@@ -593,12 +593,12 @@ describe UserProfileManager do
       #   expect { manager.update_cost(7) }.to raise_error(ManagerError)
       # end
 
-      it 'notify support if difference between new and old costs more than 3' do
-        Timecop.freeze(2.days.from_now) do
-          expect(ProfilesMailer).to receive(:changed_cost).with(user, 179, 599).and_return(double('mailer').as_null_object)
-          manager.update_cost(5)
-        end
-      end
+      # it 'notify support if difference between new and old costs more than 3' do
+      #   Timecop.freeze(2.days.from_now) do
+      #     expect(ProfilesMailer).to receive(:changed_cost).with(user, 179, 599).and_return(double('mailer').as_null_object)
+      #     manager.update_cost(5)
+      #   end
+      # end
 
       # it 'changes cost in subscription' do
       #   Timecop.freeze(2.days.from_now) do
