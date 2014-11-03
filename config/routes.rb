@@ -189,6 +189,8 @@ BuddyPlatform::Application.routes.draw do
       member do
         get :confirm_reject
         post :reject
+        get :confirm_approve
+        post :approve
       end
     end
   end

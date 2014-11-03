@@ -171,11 +171,15 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 CREATE TABLE cost_change_requests (
     id integer NOT NULL,
     new_cost integer,
+    old_cost integer,
     approved boolean DEFAULT false NOT NULL,
     rejected boolean DEFAULT false NOT NULL,
+    performed boolean DEFAULT false NOT NULL,
+    update_existing_subscriptions boolean DEFAULT false NOT NULL,
     user_id integer,
     approved_at timestamp without time zone,
     rejected_at timestamp without time zone,
+    performed_at timestamp without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
