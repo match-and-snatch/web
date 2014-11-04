@@ -203,6 +203,7 @@ BuddyPlatform::Application.routes.draw do
   put '/create_profile' => 'account_infos#create_profile_page'
 
   scope module: :owner do
+    resource :first_step, only: :show
     resource :second_step, only: %i(show update)
   end
 

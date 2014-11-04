@@ -9,7 +9,7 @@
 
     // Steps 1 - 3 row
     .row.steps_row
-      .col-md-6.col-sm-6.col-xs-6.done
+      a.col-md-6.col-sm-6.col-xs-6.done.HashLink data-use_anchor='true' data-default='true' data-target='steps-container' href=first_step_path
         .bar
         .number.img-circle.pull-left
           span.one 1
@@ -53,7 +53,10 @@
           .profile-type-input
             input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.' style='width: 300px;'
             i.fa.fa-plus.pull-left data-identifier='types-submit' Add
-            i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
+            .ToggleListener data-target='types-dropdown'
+              i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
+            .ToggleListener data-target='types-dropdown' style='display: none'
+              i.fa.fa-caret-square-o-up.pull-left.Toggler data-target='types-dropdown' Hide List
             .clearfix
 
           .error data-field='profile_type'

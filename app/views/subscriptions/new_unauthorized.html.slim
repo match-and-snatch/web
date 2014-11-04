@@ -76,7 +76,7 @@
       .account_payment
         - if mobile_phone_device?
           .form-group
-            input.form-control.input-sm type='text' name='full_name' placeholder='Full Name on Card' validate='require'
+            input.form-control.input-sm type='text' name='full_name' placeholder='Full Name on Credit Card' validate='require'
             span.error data-field='full_name'
           .form-group
             input.form-control.input-sm type='email' name='email' placeholder='Email Address' validate='require,email'
@@ -127,7 +127,7 @@
               option value='29' 2029
               option value='30' 2030
 
-            input.form-control.input-sm type='text' name='cvc' placeholder='CVC' maxlength='4' style='width: 60px;' validate='cvc'
+            input.form-control.input-sm type='number' name='cvc' placeholder='CVC' maxlength='4' style='width: 60px;' validate='cvc'
             span.error data-field='cvc'
           .clearfix
 

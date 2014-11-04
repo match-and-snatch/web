@@ -13,6 +13,16 @@
         }
         return pos;
     }
+
+    // $('#my_div').on('toggle', dance);
+    $.each(['show', 'hide', 'toggle'], function (i, ev) {
+        var el = $.fn[ev];
+        $.fn[ev] = function () {
+            result = el.apply(this, arguments);
+            this.trigger('toggle');
+            return result;
+        };
+    });
 })(jQuery);
 
 $.fn.selectRange = function(start, end) {
