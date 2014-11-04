@@ -189,8 +189,8 @@ class UserProfileManager < BaseManager
       if user.cost_change_requests.pending.any?
         fail_with! cost: :pending_request_present
       else
-        user.cost_change_requests.create!(old_cost: user.subscription_cost,
-                                          new_cost: user.pretend(cost: cost).subscription_cost,
+        user.cost_change_requests.create!(old_cost: user.cost,
+                                          new_cost: cost,
                                           update_existing_subscriptions: update_existing_subscriptions || false)
         ProfilesMailer.delay.cost_change_request(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
         @cost_change_request_submited = true
