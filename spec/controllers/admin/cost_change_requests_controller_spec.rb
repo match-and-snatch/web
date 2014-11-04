@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe Admin::CostChangeRequestsController, type: :controller do
-  let(:cost_change_request) { CostChangeRequestManager.new(user: create_profile(email: 'profile@lol.com')).create(new_cost: 10) }
+  let(:user) { create_profile(email: 'profile@mail.com') }
+  let(:cost_change_request) { CostChangeRequest.create!(user: user, old_cost: user.cost, new_cost: 800) }
 
   describe 'GET #index' do
     subject { get 'index' }

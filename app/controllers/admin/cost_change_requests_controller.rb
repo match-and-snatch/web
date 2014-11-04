@@ -11,7 +11,7 @@ class Admin::CostChangeRequestsController < Admin::BaseController
   end
 
   def reject
-    CostChangeRequestManager.new(request: @cost_change_request).reject
+    @cost_change_request.reject!
     json_reload
   end
 
@@ -20,7 +20,7 @@ class Admin::CostChangeRequestsController < Admin::BaseController
   end
 
   def approve
-    CostChangeRequestManager.new(request: @cost_change_request).approve
+    @cost_change_request.approve!
     json_reload
   end
 

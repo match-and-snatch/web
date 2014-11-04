@@ -589,27 +589,42 @@ describe UserProfileManager do
         SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
       end
 
-      # it 'raises error if cost changes at the same day' do
-      #   expect { manager.update_cost(7) }.to raise_error(ManagerError)
-      # end
+      it 'creates change cost request' do
+        expect { manager.update_cost(5) }.to change { user.cost_change_requests.count }.from(0).to(1)
+      end
 
-      # it 'notify support if difference between new and old costs more than 3' do
-      #   Timecop.freeze(2.days.from_now) do
-      #     expect(ProfilesMailer).to receive(:changed_cost).with(user, 179, 599).and_return(double('mailer').as_null_object)
-      #     manager.update_cost(5)
-      #   end
-      # end
+      it 'notify support if new change cost request was changed' do
+        expect(ProfilesMailer).to receive(:cost_change_request).with(user, 179, 599).and_return(double('mailer').as_null_object)
+        manager.update_cost(5)
+      end
 
-      # it 'changes cost in subscription' do
-      #   Timecop.freeze(2.days.from_now) do
-      #     expect { manager.update_cost(3, update_existing_subscriptions: true) }.to change { subscription.reload.cost }.from(100).to(300)
-      #   end
-      # end
+      context 'with pending change cost requests' do
+        before { manager.update_cost(10) }
+
+        it 'raises error' do
+          expect { manager.update_cost(7) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:pending_request_present)) }
+        end
+      end
+    end
+  end
+
+  describe '#change_cost!' do
+    specify do
+      expect { manager.change_cost!(400) }.to change { user.reload.cost }.from(100).to(400)
+    end
+
+    context 'with source subscriptions' do
+      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let!(:subscription) do
+        SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
+      end
+
+      it 'changes cost in subscription' do
+        expect { manager.change_cost!(cost: 300, update_existing_subscriptions: true) }.to change { subscription.reload.cost }.from(100).to(300)
+      end
 
       it 'does not change cost in subscription' do
-        Timecop.freeze(2.days.from_now) do
-          expect { manager.update_cost(3, update_existing_subscriptions: false) }.not_to change { subscription.reload.cost }.from(100)
-        end
+        expect { manager.update_cost(3, update_existing_subscriptions: false) }.not_to change { subscription.reload.cost }.from(100)
       end
     end
   end
