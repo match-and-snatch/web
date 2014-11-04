@@ -610,7 +610,7 @@ describe UserProfileManager do
 
   describe '#change_cost!' do
     specify do
-      expect { manager.change_cost!(400) }.to change { user.reload.cost }.from(100).to(400)
+      expect { manager.change_cost!(cost: 400) }.to change { user.reload.cost }.from(nil).to(400)
     end
 
     context 'with source subscriptions' do
@@ -620,11 +620,11 @@ describe UserProfileManager do
       end
 
       it 'changes cost in subscription' do
-        expect { manager.change_cost!(cost: 300, update_existing_subscriptions: true) }.to change { subscription.reload.cost }.from(100).to(300)
+        expect { manager.change_cost!(cost: 300, update_existing_subscriptions: true) }.to change { subscription.reload.cost }.from(nil).to(300)
       end
 
       it 'does not change cost in subscription' do
-        expect { manager.update_cost(3, update_existing_subscriptions: false) }.not_to change { subscription.reload.cost }.from(100)
+        expect { manager.update_cost(3, update_existing_subscriptions: false) }.not_to change { subscription.reload.cost }.from(nil)
       end
     end
   end
