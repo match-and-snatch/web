@@ -187,6 +187,14 @@ BuddyPlatform::Application.routes.draw do
     end
     resources :profile_types, only: [:index, :create, :destroy]
     resources :charts, only: [:index, :show]
+    resources :cost_change_requests, only: :index do
+      member do
+        get :confirm_reject
+        post :reject
+        get :confirm_approve
+        post :approve
+      end
+    end
   end
 
   resource :password, only: [:edit, :update] do

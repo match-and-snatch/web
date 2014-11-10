@@ -12,6 +12,15 @@ class ProfilesMailer < ApplicationMailer
 
   # @param user [User]
   # @param cost [Integer]
+  def cost_change_request(user, old_cost, cost)
+    @user = user
+    @cost = cost
+    @old_cost = old_cost
+    mail to: 'business@connectpal.com', subject: 'Notice - New Cost Change Request'
+  end
+
+  # @param user [User]
+  # @param cost [Integer]
   def changed_cost_blast(recipient, user, old_cost, cost)
     @user = user
     @cost = cost

@@ -119,7 +119,7 @@ describe SubscriptionManager do
 
       context 'changed costs' do
         before do
-          UserProfileManager.new(another_user).update_cost(3, update_existing_subscriptions: false)
+          UserProfileManager.new(another_user).change_cost!(cost: 300, update_existing_subscriptions: false)
         end
 
         it 'updates cost to new value' do
