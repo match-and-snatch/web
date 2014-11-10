@@ -13,3 +13,6 @@
   - if current_user.cover_picture_url.present?
     #change_position.BackgroundScroller.fa.fa-arrows-v.btn.blue data-target='cover-background' data-focus_target='cover-container' data-position=current_user.cover_picture_position data-url=update_cover_picture_position_user_path(current_user.object)
       |&nbsp;Change position
+
+    a.AjaxFormLink.btn.blue.i.fa.fa-picture-o data-target='cover-picture' data-_method='DELETE' href=delete_cover_picture_user_path(current_user.object)
+      |&nbsp;Delete Cover

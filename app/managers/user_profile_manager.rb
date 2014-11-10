@@ -407,6 +407,13 @@ class UserProfileManager < BaseManager
     user
   end
 
+  def delete_cover_picture
+    user.cover_picture_position = 0
+    user.cover_picture_url = nil
+    user.original_cover_picture_url = nil
+    save_or_die! user
+  end
+
   # @param position [Integer] Y-offset
   def update_cover_picture_position(position)
     user.cover_picture_position = position

@@ -97,6 +97,11 @@ class UsersController < ApplicationController
     json_replace partial: 'cover_picture'
   end
 
+  def delete_cover_picture
+    UserProfileManager.new(current_user.object).delete_cover_picture
+    json_replace partial: 'cover_picture'
+  end
+
   def edit_welcome_media
     json_render
   end
