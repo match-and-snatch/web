@@ -87,6 +87,11 @@ class UsersController < ApplicationController
     json_replace partial: 'profile_picture'
   end
 
+  def delete_profile_picture
+    UserProfileManager.new(current_user.object).delete_profile_picture
+    json_replace partial: 'profile_picture'
+  end
+
   def update_cover_picture
     UserProfileManager.new(current_user.object).update_cover_picture(params[:transloadit])
     json_replace partial: 'cover_picture'

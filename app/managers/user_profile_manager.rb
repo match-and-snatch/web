@@ -385,6 +385,13 @@ class UserProfileManager < BaseManager
     user
   end
 
+  def delete_profile_picture
+    user.profile_picture_url = nil
+    user.small_profile_picture_url = nil
+    user.original_profile_picture_url = nil
+    save_or_die! user
+  end
+
   # @param transloadit_data [Hash]
   # @return [User]
   def update_cover_picture(transloadit_data)

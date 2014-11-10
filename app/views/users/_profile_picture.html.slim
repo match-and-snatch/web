@@ -10,5 +10,8 @@
     .btn.blue.i.fa.fa-picture-o
       |&nbsp;Change Photo
       input.file type='file' name='profile_picture_file' accept='.jpg,.png,.gif'
+    - if current_user.original_profile_picture_url
+      a.AjaxFormLink.btn.blue.i.fa.fa-picture-o data-target='profile-picture' data-_method='DELETE' href=delete_profile_picture_user_path(current_user.object)
+        |&nbsp;Delete Photo
     input type='hidden' name='slug' value=current_user.slug
 

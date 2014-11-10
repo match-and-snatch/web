@@ -109,6 +109,7 @@ BuddyPlatform::Application.routes.draw do
       put :update_name
       put :update_cost
       put :update_profile_picture
+      delete :delete_profile_picture
       put :update_cover_picture
       put :update_contacts_info
       put :update_cover_picture_position
