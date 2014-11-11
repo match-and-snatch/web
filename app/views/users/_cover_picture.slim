@@ -1,22 +1,25 @@
-.photo_cover data-identifier='cover-container' class="#{'blank' if current_user.cover_picture_url.blank?}"
-  div.background_cover data-identifier='cover-background' style='#{"background-image: url(#{current_user.cover_picture_url})" if current_user.cover_picture_url}'
+div data-identifier='cover-picture-inner'
+  .photo_cover data-identifier='cover-container' class="#{'blank' if current_user.cover_picture_url.blank?}"
+    div.background_cover data-identifier='cover-background' style='#{"background-image: url(#{current_user.cover_picture_url})" if current_user.cover_picture_url}'
 
-  form.PictureUploadForm action=update_cover_picture_user_path(current_user.object) method='post' data-target='cover-picture'
-    input type='hidden' name='_method' value='put'
-    = transloadit :cover_picture
-    input.file type='hidden' name='slug' value=current_user.slug
-    - if current_user.cover_picture_url.present?
-      #change_position.BackgroundScroller.fa.fa-arrows-v.btn.blue data-target='cover-background' data-focus_target='cover-container' data-position=current_user.cover_picture_position data-url=update_cover_picture_position_user_path(current_user.object)
-        |&nbsp;Position
+    form.PictureUploadForm action=update_cover_picture_user_path(current_user.object) method='post' data-target='cover-picture'
+      input type='hidden' name='_method' value='put'
+      = transloadit :cover_picture
+      input.file type='hidden' name='slug' value=current_user.slug
+      - if current_user.cover_picture_url.present?
+        #change_position.BackgroundScroller.fa.fa-arrows-v.btn.blue data-target='cover-background' data-focus_target='cover-container' data-position=current_user.cover_picture_position data-url=update_cover_picture_position_user_path(current_user.object)
+          |&nbsp;Position
 
-      .btn.blue.i.fa.fa-picture-o.replace_photo
-        |&nbsp;Replace
-        input.file type='file' name='cover_picture_file' accept='.jpg,.png,.gif' style='height: 32px;'
+        .btn.blue.i.fa.fa-picture-o.replace_photo
+          |&nbsp;Replace
+          input.file type='file' name='cover_picture_file' accept='.jpg,.png,.gif' style='height: 32px;'
 
-      a.delete_photo.AjaxFormLink.btn.blue.i.fa.fa-times data-target='cover-picture' data-_method='DELETE' href=delete_cover_picture_user_path(current_user.object)
-        |&nbsp;Delete
+        a.delete_photo.AjaxFormLink.btn.blue.i.fa.fa-times data-target='cover-picture-inner' data-_method='DELETE' href=delete_cover_picture_user_path(current_user.object)
+          |&nbsp;Delete
 
-    - else
-      .btn.blue.i.fa.fa-picture-o.add_photo
-        |&nbsp;Add Photo
-        input.file type='file' name='cover_picture_file' accept='.jpg,.png,.gif' style='height: 32px;'
+      - else
+        .btn.blue.i.fa.fa-picture-o.add_photo
+          |&nbsp;Add Photo
+          input.file type='file' name='cover_picture_file' accept='.jpg,.png,.gif' style='height: 32px;'
+        input.file type='hidden' name='slug' value=current_user.slug
+
