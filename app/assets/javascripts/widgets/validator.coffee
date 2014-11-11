@@ -7,7 +7,7 @@ class bud.widgets.Validator extends bud.Widget
     @error_messages = window.bud.layout.error_messages or {}
     @validators = @get_validators()
 
-    @$container.on 'focusout', @validate
+    @$container.on 'blur', @validate
     @$container.on 'keyup', @greenify_on_validated
 
   greenify_on_validated: (e) =>
@@ -15,6 +15,9 @@ class bud.widgets.Validator extends bud.Widget
       @validate(e)
 
   validate: (e) =>
+    unless e.relatedTarget
+      return false
+
     setTimeout( =>
       key_code = e.keyCode || e.which;
 
