@@ -60,6 +60,10 @@ class UserStatsDecorator < UserDecorator
     payments.sum(:amount)
   end
 
+  def total_subscription_sales
+    payments.sum(:subscription_cost)
+  end
+
   def total_paid_out
     StripeTransfer.where(user_id: object.id).sum(:amount)
   end
