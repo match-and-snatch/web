@@ -54,6 +54,10 @@ class BillingPeriodsPresenter
       payments.sum(:amount) #- stripe_fee
     end
 
+    def total_subscription_sales
+      payments.sum(:subscription_cost)
+    end
+
     def connectpal_fee
       payments.sum(:subscription_fees) - stripe_fee
     end
