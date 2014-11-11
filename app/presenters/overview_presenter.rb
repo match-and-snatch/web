@@ -5,7 +5,8 @@ class OverviewPresenter
   end
 
   def total_subscribers_count
-    Event.where(action: 'subscription_created').count
+    #Event.where(action: 'subscription_created').count
+    Subscription.count
   end
 
   def current_unsubscribers_count
