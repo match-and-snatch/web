@@ -77,17 +77,17 @@
         - if mobile_phone_device?
           .form-group
             input.form-control.input-sm type='text' name='full_name' placeholder='Full Name on Credit Card' validate='require'
-            span.error data-field='full_name'
+            //span.error data-field='full_name'
           .form-group
             input.form-control.input-sm type='email' name='email' placeholder='Email Address' validate='require,email'
-            span.error data-field='email'
+            //span.error data-field='email'
           .form-group
             input.form-control.input-sm type='password' name='password' placeholder='Create Password' validate='require,min_length:5'
-            span.error data-field='password'
+            //span.error data-field='password'
           .form-group
             label.control-label Credit Card Number
             input.form-control.input-sm type='text' name='number' placeholder='XXXX XXXX XXXX XXXX' validate='cc_number'
-            span.error data-field='number'
+            //span.error data-field='number'
 
           .form-group style='margin-bottom: 15px;'
             label.control-label Expiration Date
@@ -128,7 +128,7 @@
               option value='30' 2030
 
             input.form-control.input-sm type='number' name='cvc' placeholder='CVC' maxlength='4' style='width: 60px;' validate='cvc'
-            span.error data-field='cvc'
+            //span.error data-field='cvc'
           .clearfix
 
         - else
