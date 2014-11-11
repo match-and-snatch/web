@@ -77,20 +77,10 @@ class UserProfileManager < BaseManager
       elsif profile_name.length > 140
         fail_with profile_name: :too_long
       else
-        fail_with! profile_name: :taken if (/connect.?pal/i).match(profile_name)
+        fail_with profile_name: :taken if (/connect.?pal/i).match(profile_name)
       end
 
-      if cost.blank?
-        fail_with cost: :empty
-      elsif !cost.to_s.strip.match COST_REGEXP
-        fail_with! cost: :not_a_cost
-      elsif (cost.to_f - cost.to_i) != 0
-        fail_with! cost: :not_a_whole_number
-      elsif (cost.to_f * 100).to_i <= 0
-        fail_with cost: :zero
-      elsif (cost.to_f * 100).to_i > 999999
-        fail_with cost: :reached_maximum
-      end
+      validate_cost cost
 
       if holder_name.present? || routing_number.present? || account_number.present?
         fail_with holder_name: :empty if holder_name.blank?
@@ -191,44 +181,41 @@ class UserProfileManager < BaseManager
   # @param update_existing_subscriptions [true, false, nil]
   # @return [User]
   def update_cost(cost, update_existing_subscriptions: false)
-    unless cost.to_s.strip.match COST_REGEXP
-      fail_with! cost: :not_a_cost
-    end
-
-    if (cost.to_f - cost.to_i) != 0
-      fail_with! cost: :not_a_whole_number
-    end
-
-    if user.source_subscriptions.any?
-      if user.cost_changed_at && user.cost_changed_at.today?
-        fail_with! cost: :already_changed_today
-      end
-    end
+    validate! { validate_cost cost }
 
     cost = (cost.to_f * 100).to_i
 
-    fail_with! cost: :zero if cost <= 0
-    fail_with! cost: :reached_maximum if cost > 999999
-
-    if user.source_subscriptions.any? && (cost - user.cost) > 300
-      ProfilesMailer.delay.changed_cost(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
-      @unable_to_change_cost = true
+    if user.source_subscriptions.any?
+      if user.cost_change_requests.pending.any?
+        fail_with! cost: :pending_request_present
+      else
+        user.cost_change_requests.create!(old_cost: user.cost,
+                                          new_cost: cost,
+                                          update_existing_subscriptions: update_existing_subscriptions || false)
+        ProfilesMailer.delay.cost_change_request(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
+        @cost_change_request_submited = true
+      end
     else
-      previous_cost = user.cost
-      user.cost = cost
-      user.cost_changed_at = Time.zone.now
-      save_or_die! user
-
-      update_subscriptions_cost if update_existing_subscriptions
-      EventsManager.subscription_cost_changed(user: user, from: previous_cost, to: cost)
-      @unable_to_change_cost = false
+      change_cost!(cost: cost, update_existing_subscriptions: update_existing_subscriptions)
     end
 
     user
   end
 
-  def unable_to_change_cost?
-    !!@unable_to_change_cost
+  def cost_change_request_submited?
+    !!@cost_change_request_submited
+  end
+
+  # @param cost [Integer]
+  # @param update_existing_subscriptions [Boolean]
+  def change_cost!(cost: , update_existing_subscriptions: false)
+    previous_cost = user.cost
+    user.cost = cost
+    user.cost_changed_at = Time.zone.now
+    save_or_die! user
+
+    update_subscriptions_cost if update_existing_subscriptions
+    EventsManager.subscription_cost_changed(user: user, from: previous_cost, to: cost)
   end
 
   # @param contacts_info [Hash]
@@ -385,6 +372,13 @@ class UserProfileManager < BaseManager
     user
   end
 
+  def delete_profile_picture
+    user.profile_picture_url = nil
+    user.small_profile_picture_url = nil
+    user.original_profile_picture_url = nil
+    save_or_die! user
+  end
+
   # @param transloadit_data [Hash]
   # @return [User]
   def update_cover_picture(transloadit_data)
@@ -398,6 +392,13 @@ class UserProfileManager < BaseManager
       EventsManager.cover_picture_changed(user: user, picture: upload)
     end
     user
+  end
+
+  def delete_cover_picture
+    user.cover_picture_position = 0
+    user.cover_picture_url = nil
+    user.original_cover_picture_url = nil
+    save_or_die! user
   end
 
   # @param position [Integer] Y-offset
@@ -596,6 +597,20 @@ class UserProfileManager < BaseManager
     return fail_with slug: :empty          if slug.blank?
     return fail_with slug: :not_a_slug unless slug.match SLUG_REGEXP
     return fail_with slug: :taken          if slug_taken?(slug)
+  end
+
+  def validate_cost(cost)
+    if cost.blank?
+      fail_with cost: :empty
+    elsif !cost.to_s.strip.match COST_REGEXP
+      fail_with cost: :not_a_cost
+    elsif (cost.to_f - cost.to_i) != 0
+      fail_with cost: :not_a_whole_number
+    elsif (cost.to_f * 100).to_i <= 0
+      fail_with cost: :zero
+    elsif (cost.to_f * 100).to_i > 999999
+      fail_with cost: :reached_maximum
+    end
   end
 
   def update_subscriptions_cost

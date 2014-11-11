@@ -40,10 +40,12 @@
     .background_cover
       overflow: hidden
       height: inherit
-    .btn
-      right: 15px
     #change_position
-      right: 160px
+      right: 217px
+    .replace_photo
+      right: 110px
+    .delete_photo, .add_photo
+      right: 15px
     // Mobile
     @media screen and (max-width: 767px)
       height: 184px
@@ -82,8 +84,17 @@
     img
       height: 180px
       width: 180px
-    .btn
-      right: 19px
+    .profile_pic_btn
+      font-size: 12px
+      &.fa-times
+        right: 5px
+      &.fa-picture-o
+        left: 5px
+    .profile_pic_add
+      left: 33px
+      .file
+        height: 32px !important
+
     //Mobile
     @media screen and (max-width: 767px)
       top: 10px

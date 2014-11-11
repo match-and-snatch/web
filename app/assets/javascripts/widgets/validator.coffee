@@ -7,36 +7,48 @@ class bud.widgets.Validator extends bud.Widget
     @error_messages = window.bud.layout.error_messages or {}
     @validators = @get_validators()
 
-    @$container.on 'focusout', @validate
-    @$container.on 'keyup', @validate
+    @$container.on 'blur', @validate
+    @$container.on 'keyup', @greenify_on_validated
+
+  greenify_on_validated: (e) =>
+    if @$container.hasClass('has-error') || @$container.hasClass('has-valid')
+      @validate(e)
 
   validate: (e) =>
-    key_code = e.keyCode || e.which;
-
-    if key_code == 9
-      e.preventDefault()
+    unless e.relatedTarget
       return false
 
-    @mark_as_valid()
+    setTimeout( =>
+      key_code = e.keyCode || e.which;
 
-    _.find @validators, (validator) =>
-      switch validator[0]
-        when 'require' then @validate_require()
-        when 'digit'   then @validate_digit()
-        when 'slug'    then @validate_slug()
-        when 'email'   then @validate_email()
-        when 'zero'    then @validate_zero()
-        when 'maximum' then @validate_maximum(validator[1])
-        when 'min_length'   then @validate_min_length(validator[1])
-        when 'cc_number'    then @validate_cc_number()
-        when 'expiry_month' then @validate_expiry_month()
-        when 'expiry_year'  then @validate_expiry_year()
-        when 'cvc'          then @validate_cvc()
-        when 'match_password'    then @validate_match_password(validator[1])
-        when 'routing_number'    then @validate_routing_number()
-        when 'account_number'    then @validate_account_number()
-        when 'subscription_cost' then @validate_subscription_cost()
-        else bud.Logger.error('No validator')
+      if key_code == 9
+        e.preventDefault()
+        return false
+
+      @mark_as_valid()
+
+      _.find @validators, (validator) =>
+        switch validator[0]
+          when 'require' then @validate_require()
+          when 'digit'   then @validate_digit()
+          when 'slug'    then @validate_slug()
+          when 'email'   then @validate_email()
+          when 'zero'    then @validate_zero()
+          when 'maximum' then @validate_maximum(validator[1])
+          when 'min_length'   then @validate_min_length(validator[1])
+          when 'cc_number'    then @validate_cc_number()
+          when 'expiry_month' then @validate_expiry_month()
+          when 'expiry_year'  then @validate_expiry_year()
+          when 'cvc'          then @validate_cvc()
+          when 'match_password'    then @validate_match_password(validator[1])
+          when 'routing_number'    then @validate_routing_number()
+          when 'account_number'    then @validate_account_number()
+          when 'subscription_cost' then @validate_subscription_cost()
+          else bud.Logger.error('No validator')
+    , 10)
+
+    e.stopPropagation()
+    return true
 
   validate_require: ->
     if _.isEmpty @$container.val().trim()

@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   end
   has_many :messages
   has_many :events
+  has_many :cost_change_requests
 
   has_one :pending_post
 

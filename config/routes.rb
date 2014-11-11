@@ -109,7 +109,9 @@ BuddyPlatform::Application.routes.draw do
       put :update_name
       put :update_cost
       put :update_profile_picture
+      delete :delete_profile_picture
       put :update_cover_picture
+      delete :delete_cover_picture
       put :update_contacts_info
       put :update_cover_picture_position
 
@@ -185,6 +187,14 @@ BuddyPlatform::Application.routes.draw do
     end
     resources :profile_types, only: [:index, :create, :destroy]
     resources :charts, only: [:index, :show]
+    resources :cost_change_requests, only: :index do
+      member do
+        get :confirm_reject
+        post :reject
+        get :confirm_approve
+        post :approve
+      end
+    end
   end
 
   resource :password, only: [:edit, :update] do

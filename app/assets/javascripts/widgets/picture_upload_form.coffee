@@ -20,3 +20,11 @@ class bud.widgets.PictureUploadForm extends bud.widgets.Form
     super
     @on_script_loaded()
     @$container.find('textarea[name=transloadit]').remove()
+
+  destroy: ->
+    @$container.unbind('submit.transloadit');
+    @$container.find('textarea[name=transloadit]').remove()
+    super
+    @$container.unbind('submit.transloadit');
+    @$container.find('textarea[name=transloadit]').remove()
+

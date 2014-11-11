@@ -75,8 +75,8 @@ class UsersController < ApplicationController
     manager = UserProfileManager.new(current_user.object)
     manager.update_cost(params[:cost], update_existing_subscriptions: params.bool(:update_existing))
 
-    if manager.unable_to_change_cost?
-      notice(:unable_to_change_cost)
+    if manager.cost_change_request_submited?
+      notice(:cost_change_request_submited)
     end
 
     json_reload
@@ -87,8 +87,18 @@ class UsersController < ApplicationController
     json_replace partial: 'profile_picture'
   end
 
+  def delete_profile_picture
+    UserProfileManager.new(current_user.object).delete_profile_picture
+    json_replace partial: 'profile_picture'
+  end
+
   def update_cover_picture
     UserProfileManager.new(current_user.object).update_cover_picture(params[:transloadit])
+    json_replace partial: 'cover_picture'
+  end
+
+  def delete_cover_picture
+    UserProfileManager.new(current_user.object).delete_cover_picture
     json_replace partial: 'cover_picture'
   end
 
