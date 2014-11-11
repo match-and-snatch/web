@@ -61,9 +61,6 @@ hr
       li
         strong Total Paid Out:
         span style="color: #ea2e49;"= cents_to_dollars @user.total_paid_out
-      li
-        strong ConnectPal + ToS:
-        span style="color: #ea2e49;"= cents_to_dollars @user.connectpal_and_tos
     .clearfix
 
 .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
