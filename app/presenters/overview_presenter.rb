@@ -29,6 +29,10 @@ class OverviewPresenter
     @total_gross_sales ||= Payment.sum(:amount)
   end
 
+  def total_subscription_sales
+    @total_subscription_sales ||= Payment.sum(:subscription_cost)
+  end
+
   def total_connectpal_fees
     Payment.sum(:subscription_fees) - self.total_stripe_fees
   end
