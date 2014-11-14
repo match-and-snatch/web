@@ -30,7 +30,7 @@ class OverviewPresenter
   end
 
   def total_subscription_sales
-    @total_subscription_sales ||= Payment.sum(:subscription_cost)
+    @total_subscription_sales ||= Payment.sum(:cost)
   end
 
   def total_connectpal_fees

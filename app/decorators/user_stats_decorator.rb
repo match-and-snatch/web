@@ -61,7 +61,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def total_subscription_sales
-    payments.sum(:subscription_cost)
+    payments.sum(:cost)
   end
 
   def connectpal_fee
