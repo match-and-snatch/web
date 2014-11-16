@@ -58,7 +58,7 @@ development:
   auth:
     key     : 'bd5bea60c06e11e3bf3d4b00c82e3cf7'
     secret  : '80d8d557d23c2e6798dc55c6bedfdebaf281fec5' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
-    duration: 1800 # 30 minute validity period for signed upload forms
+    duration: 320000 # 30 minute validity period for signed upload forms
 
   templates:
     # template identified by template_id
@@ -236,7 +236,7 @@ staging:
   auth:
     key     : 'bd5bea60c06e11e3bf3d4b00c82e3cf7'
     secret  : '80d8d557d23c2e6798dc55c6bedfdebaf281fec5' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
-    duration: 1800 # 30 minute validity period for signed upload forms
+    duration: 320000 # 30 minute validity period for signed upload forms
 
   templates:
     # template identified by template_id
@@ -402,7 +402,7 @@ production:
   auth:
     key     : 'bd5bea60c06e11e3bf3d4b00c82e3cf7'
     secret  : '80d8d557d23c2e6798dc55c6bedfdebaf281fec5' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
-    duration: 1800 # 30 minute validity period for signed upload forms
+    duration: 320000 # 30 minute validity period for signed upload forms
 
   templates:
     # template identified by template_id
