@@ -9,26 +9,42 @@
           ul.Slider.homepage_slider data-interval=5000
             i.fa.fa-times.hide_featured.hidden-xs.MemoToggler data-target='boortz-promo-block'
               '&nbsp;Hide
-            a.fa.fa-chevron-left.previous href='#'
-            a.fa.fa-chevron-right.next href='#'
-            li
+
+            li data-identifier='first-slide'
+              a.fa.fa-chevron-left.previous.Toggler href='#' data-target=%w(third-slide first-slide)
+              a.fa.fa-chevron-right.next.Toggler href='#' data-target=%w(second-slide first-slide)
+
               a.btn.black href='/the-painful-truth-from-neal-boortz'
                 img.neal src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-photo.png')
                 img.bus.AutoClassToggler data-class='happy' src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-bus.png')
                 span.tagline Looking for Neal Boortz? Click here!
-            li
+              ul.step_circles
+                li.active
+                li
+                li
+
+            li data-identifier='second-slide'
+              a.fa.fa-chevron-left.previous.Toggler href='#' data-target=%w(first-slide second-slide)
+              a.fa.fa-chevron-right.next.Toggler href='#' data-target=%w(third-slide second-slide)
+
               a.btn.black href='/judgealex'
                 img.alex src=image_path('//connectpal-assets.s3.amazonaws.com/images/judge-alex.png')
                 span.tagline Looking for Judge Alex? Click here!
-            li
-              a.btn.black href='/the-painful-truth-from-neal-boortz'
-                span.tagline.slide_three To View our Profile Directory - Click here!
-          // steps circle
-          ul.step_circles
-            li.active
-            li
-            li
+              ul.step_circles
+                li
+                li.active
+                li
 
+            li data-identifier='third-slide'
+              a.fa.fa-chevron-left.previous.Toggler href='#' data-target=%w(second-slide third-slide)
+              a.fa.fa-chevron-right.next.Toggler href='#' data-target=%w(first-slide third-slide)
+
+              a.btn.black href=users_path
+                span.tagline.slide_three To View our Profile Directory - Click here!
+              ul.step_circles
+                li
+                li
+                li.active
 
 // Homepage 3 Step Pitch
 
