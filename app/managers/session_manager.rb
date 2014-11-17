@@ -10,6 +10,9 @@ class SessionManager < BaseManager
   # @param remember_me [true, false, nil]
   # @return [User, nil]
   def login(email, password, remember_me = false)
+    email.present? or fail_with!(email: :empty)
+    password.present? or fail_with!(password: :empty)
+
     AuthenticationManager.new(email: email, password: password).authenticate.tap do |user|
       if remember_me
         @session.permanent[:auth_token] = user.auth_token

@@ -21,6 +21,8 @@ en:
     not_a_cost: Must contain only digits or dot.
     not_a_whole_number: Must be a whole number.
     pending_request_present: You currently have a price change requested pending.
+    user_does_not_exist: There is nobody registered with this email.
+    invalid_password: This password is incorrect.
   messages:
     activated: Congratulations, your account has been activated. You are now ready to use our service.
     congrats: "Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!"
