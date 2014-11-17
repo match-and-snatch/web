@@ -10,8 +10,10 @@ class SessionManager < BaseManager
   # @param remember_me [true, false, nil]
   # @return [User, nil]
   def login(email, password, remember_me = false)
-    email.present? or fail_with!(email: :empty)
-    password.present? or fail_with!(password: :empty)
+    validate! do
+      email.present? or fail_with(email: :empty)
+      password.present? or fail_with(password: :empty)
+    end
 
     AuthenticationManager.new(email: email, password: password).authenticate.tap do |user|
       if remember_me
