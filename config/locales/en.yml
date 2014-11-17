@@ -21,6 +21,8 @@ en:
     not_a_cost: Must contain only digits or dot.
     not_a_whole_number: Must be a whole number.
     pending_request_present: You currently have a price change requested pending.
+    user_does_not_exist: There is nobody registered with this email.
+    invalid_password: This password is incorrect.
   messages:
     activated: Congratulations, your account has been activated. You are now ready to use our service.
     congrats: "Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!"
@@ -44,7 +46,7 @@ en:
     new_message: Your message has been sent. You will be notified when you have a reply.
     new_comment: Thanks for the comment
     updated_cc_data: Your billing info has been updated.
-    cost_change_request_submited: Your request has been submitted, we will contact you within 48 hours.
+    cost_change_request_submited: "<span style='font-size: 15px'>Your request has been submitted, we will contact you within 48 hours.</span>"
   feed:
     audios: Just added a new audio file to their profile.
     videos: Just posted a new video to their profile.

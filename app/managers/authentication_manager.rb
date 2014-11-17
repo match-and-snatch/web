@@ -40,13 +40,15 @@ class AuthenticationManager < BaseManager
 
     User.by_email(email).find_each do |user|
       begin
-        _user = User.by_email(email).where(password_hash: user.generate_password_hash(password)).first
+        scope = User.by_email(email)
+        _user = scope.first or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
+        _user = scope.where(password_hash: user.generate_password_hash(password)).first or raise AuthenticationError.new(errors: {password: t(:invalid_password)})
       rescue BCrypt::Errors::InvalidSalt
         next
       end
     end
 
-    _user or raise AuthenticationError.new(message: t(:invalid_login))
+    _user or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)}) #or raise AuthenticationError.new(message: t(:invalid_login))
     EventsManager.user_logged_in(user: _user)
     _user
   end

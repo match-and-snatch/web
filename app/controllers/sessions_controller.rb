@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  rescue_from(AuthenticationError) { |e| json_fail message: e.message }
+  #rescue_from(AuthenticationError) { |e| json_fail message: e.message }
 
   # Logins user
   def create

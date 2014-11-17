@@ -62,6 +62,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-its'
   gem 'guard-rspec', require: false
+  gem 'guard-cucumber', require: false
   gem 'awesome_print'
 end
 
@@ -69,6 +70,8 @@ group :test do
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
   gem 'stripe-ruby-mock', '~> 1.10.1.7'
   gem 'timecop'
+  gem 'cucumber-rails', require: false
+  gem 'capybara-webkit'
 end
 
 # Use ActiveModel has_secure_password
