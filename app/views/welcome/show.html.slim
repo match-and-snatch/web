@@ -1,31 +1,12 @@
 - set_layout(:title, 'ConnectPal.com - Home')
 
-
+// Homepage Featured Slider
 - if @show_promo_block
   .featured_profile.slidedown data-identifier='boortz-promo-block' data-storage_key='boortz_promo_block'
     .container
       .row
         .col-md-12.col-sm-12.col-xs-12
-          ul.homepage_slider
-            i.fa.fa-times.hide_featured.hidden-xs.MemoToggler data-target='boortz-promo-block'
-              '&nbsp;Hide
-
-            li data-identifier='first-slide'
-              //a.fa.fa-chevron-left.previous.Toggler href='#' data-target=%w(third-slide first-slide)
-              //a.fa.fa-chevron-right.next.Toggler href='#' data-target=%w(second-slide first-slide)
-
-              a.btn.black href='/the-painful-truth-from-neal-boortz'
-                img.neal src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-photo.png')
-                img.bus.AutoClassToggler data-class='happy' src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-bus.png')
-                span.tagline Looking for Neal Boortz? Click here!
-
-// Homepage Featured Slider
-//- if @show_promo_block
-  .featured_profile.slidedown data-identifier='boortz-promo-block' data-storage_key='boortz_promo_block'
-    .container
-      .row
-        .col-md-12.col-sm-12.col-xs-12
-          ul.Slider.homepage_slider data-interval=5000
+          ul.Slider.homepage_slider data-interval=7000
             i.fa.fa-times.hide_featured.hidden-xs.MemoToggler data-target='boortz-promo-block'
               '&nbsp;Hide
 
@@ -36,7 +17,7 @@
               a.btn.black href='/the-painful-truth-from-neal-boortz'
                 img.neal src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-photo.png')
                 img.bus.AutoClassToggler data-class='happy' src=image_path('//connectpal-assets.s3.amazonaws.com/images/neal-bus.png')
-                span.tagline Looking for Neal Boortz? Click here!
+                span.tagline.neal_text Looking for Neal Boortz? Click here!
               ul.step_circles
                 li.active
                 li
@@ -48,7 +29,7 @@
 
               a.btn.black href='/judgealex'
                 img.alex src=image_path('//connectpal-assets.s3.amazonaws.com/images/judge-alex.png')
-                span.tagline Looking for Judge Alex? Click here!
+                span.tagline.alex_text Looking for Judge Alex? Click here!
               ul.step_circles
                 li
                 li.active
@@ -59,6 +40,7 @@
               a.fa.fa-chevron-right.next.Toggler href='#' data-target=%w(first-slide third-slide)
 
               a.btn.black href=users_path
+                img.profile_directory src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-slide-3.png')
                 span.tagline.slide_three To View our Profile Directory - Click here!
               ul.step_circles
                 li
