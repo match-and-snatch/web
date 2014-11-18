@@ -59,14 +59,14 @@ gem 'transloadit-rails'
 gem 'mailcatcher', group: :development
 
 group :development, :test do
-  gem 'rspec-rails'
-  gem 'rspec-its'
-  gem 'guard-rspec', require: false
-  gem 'guard-cucumber', require: false
   gem 'awesome_print'
 end
 
 group :test do
+  gem 'rspec-rails'
+  gem 'rspec-its'
+  gem 'guard-rspec', require: false
+  gem 'guard-cucumber', require: false
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
   gem 'stripe-ruby-mock', '~> 1.10.1.7'
   gem 'timecop'
@@ -79,9 +79,6 @@ end
 
 # Use unicorn as the app server
 # gem 'unicorn'
-
-# Use Capistrano for deployment
-gem 'capistrano', group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
