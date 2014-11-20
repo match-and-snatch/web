@@ -66,6 +66,18 @@ class Upload < ActiveRecord::Base
     'Document' == type
   end
 
+  def upload_template
+    "post_#{type.downcase}" if uploadable_type == 'Post'
+  end
+
+  def bucket
+    Transloadit::Rails::Engine.configuration['templates'][upload_template]['steps']['store']['bucket']
+  end
+
+  def delete_s3_files!
+    s3_client.delete_objects(bucket: bucket, delete: { objects: s3_file_keys, quiet: true })
+  end
+
   private
 
   def generate_secure_url(upload_url, expiration_date = 30.minutes.from_now.utc.to_i)
@@ -79,5 +91,17 @@ class Upload < ActiveRecord::Base
                                 OpenSSL::Digest::Digest.new('sha1'),
                                   secret, string_to_sign)).gsub("\n","") )
     "#{s3_base_url}#{s3_path}?AWSAccessKeyId=#{key}&Expires=#{expiration_date}&Signature=#{signature}"
+  end
+
+  def s3_client
+    @s3_client ||= Aws::S3::Client.new(endpoint: 'https://s3.amazonaws.com')
+  end
+
+  def s3_file_keys
+    objects = []
+    transloadit_data['started_jobs'].map { |e| e.match(/store\:\:.+/) }.compact.map { |e| e.to_s.sub('store::', '') }.each do |step|
+      objects << transloadit_data['results'][step].map { |h| { key: URI(h['url']).path.sub('/', '') } }
+    end
+    objects.flatten!
   end
 end

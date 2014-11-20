@@ -182,4 +182,10 @@ class UploadManager < BaseManager
       upload
     end
   end
+
+  def self.remove_post_uploads(ids: [])
+    Upload.where(id: ids).find_each do |upload|
+      upload.delete_s3_files!
+    end
+  end
 end
