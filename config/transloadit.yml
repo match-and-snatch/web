@@ -207,7 +207,7 @@ development:
             - ':original'
             - 'preview'
           bucket: 'buddy-private-assets'
-          path: 'uploads/post_documents/${fields.slug}/${assembly.id}/${file.url_name}'
+          path: 'uploads/post_documents/${fields.slug}/${assembly.id}__${file.url_name}'
 
 staging:
   attachment: &attachment

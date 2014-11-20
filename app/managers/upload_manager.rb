@@ -55,7 +55,7 @@ class UploadManager < BaseManager
 
       if original
         preview  = transloadit_data['results']['preview'][index]
-        upload = Photo.new transloadit_data: transloadit_data,
+        upload = Photo.new transloadit_data: transloadit_data.to_hash,
                            user_id:          user.id,
                            type:             'Photo',
                            duration:         upload_data['meta']['duration'],
@@ -87,7 +87,7 @@ class UploadManager < BaseManager
       if transloadit_data['results']['preview']
         preview  = transloadit_data['results']['preview'][index]
       end
-      upload = Document.new transloadit_data: transloadit_data,
+      upload = Document.new transloadit_data: transloadit_data.to_hash,
                             user_id:          user.id,
                             type:             'Document',
                             duration:         upload_data['meta']['duration'],
@@ -114,7 +114,7 @@ class UploadManager < BaseManager
   # @param attributes [Hash] upload attributes
   # @return [Upload]
   def create_photo(transloadit_data, uploadable: user, attributes: {})
-    upload = Photo.new transloadit_data: transloadit_data,
+    upload = Photo.new transloadit_data: transloadit_data.to_hash,
                        uploadable: uploadable,
                        user_id: user.id,
                        duration: transloadit_data["uploads"][0]["meta"]["duration"],
@@ -138,7 +138,7 @@ class UploadManager < BaseManager
   def create_video(transloadit_data, uploadable: user, attributes: {})
     thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
 
-    upload = Video.new transloadit_data: transloadit_data,
+    upload = Video.new transloadit_data: transloadit_data.to_hash,
                        uploadable: uploadable,
                        user_id: user.id,
                        type: 'Video',
@@ -165,7 +165,7 @@ class UploadManager < BaseManager
     transloadit_data['uploads'].each_with_index.map do |upload_data, index|
       original = transloadit_data['results'][':original'][index]
       # TODO: fetch track name
-      upload = Audio.new transloadit_data: transloadit_data,
+      upload = Audio.new transloadit_data: transloadit_data.to_hash,
                          uploadable: uploadable,
                          user_id: user.id,
                          type: 'Audio',
