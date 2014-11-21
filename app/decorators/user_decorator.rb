@@ -16,6 +16,7 @@ class UserDecorator < BaseDecorator
            :vacation_enabled?,
            :billing_suspended?,
            :last_visited_profile,
+           :profile_removed_at,
            to: :object
 
   # @param object [User]

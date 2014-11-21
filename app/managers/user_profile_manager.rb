@@ -44,6 +44,7 @@ class UserProfileManager < BaseManager
   # @return [User]
   def create_profile_page
     @user.is_profile_owner = true
+    @user.profile_removed_at = nil
     @user.save!
     @user
   end
@@ -51,6 +52,7 @@ class UserProfileManager < BaseManager
   # @return [User]
   def delete_profile_page
     @user.is_profile_owner = false
+    @user.profile_removed_at = Time.zone.now
     @user.source_subscriptions.find_each do |subscription|
       SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
     end
