@@ -75,7 +75,11 @@ class Upload < ActiveRecord::Base
   end
 
   def delete_s3_files!
-    s3_client.delete_objects(bucket: bucket, delete: { objects: s3_file_keys, quiet: true })
+    if s3_client.delete_objects(bucket: bucket, delete: { objects: s3_file_keys, quiet: false })['errors'].blank?
+      self.removed = true
+      self.removed_at = Time.zone.now
+      self.save!
+    end
   end
 
   private
