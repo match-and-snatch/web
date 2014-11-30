@@ -797,7 +797,8 @@ CREATE TABLE uploads (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     removed boolean DEFAULT false,
-    removed_at timestamp without time zone
+    removed_at timestamp without time zone,
+    s3_paths text
 );
 
 
@@ -875,8 +876,7 @@ CREATE TABLE users (
     vacation_enabled boolean DEFAULT false NOT NULL,
     vacation_message text,
     last_visited_profile_id integer,
-    billing_suspended boolean DEFAULT false NOT NULL,
-    profile_removed_at timestamp without time zone
+    billing_suspended boolean DEFAULT false NOT NULL
 );
 
 
@@ -1434,7 +1434,7 @@ INSERT INTO schema_migrations (version) VALUES ('20141031093054');
 
 INSERT INTO schema_migrations (version) VALUES ('20141120115958');
 
-INSERT INTO schema_migrations (version) VALUES ('20141121095108');
-
 INSERT INTO schema_migrations (version) VALUES ('20141128040705');
+
+INSERT INTO schema_migrations (version) VALUES ('20141128075349');
 
