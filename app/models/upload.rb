@@ -1,5 +1,6 @@
 class Upload < ActiveRecord::Base
   serialize :transloadit_data, Hash
+  serialize :s3_paths, Hash
   belongs_to :uploadable, polymorphic: true
   belongs_to :user
 
@@ -66,16 +67,12 @@ class Upload < ActiveRecord::Base
     'Document' == type
   end
 
-  def upload_template
-    "post_#{type.downcase}" if uploadable_type == 'Post'
-  end
-
-  def bucket
-    Transloadit::Rails::Engine.configuration['templates'][upload_template]['steps']['store']['bucket']
-  end
-
   def delete_s3_files!
-    if s3_client.delete_objects(bucket: bucket, delete: { objects: s3_file_keys, quiet: false })['errors'].blank?
+    errors = []
+    s3_paths.each do |bucket, paths|
+      errors << s3_client.delete_objects(bucket: bucket, delete: { objects: paths, quiet: false })['errors']
+    end
+    if errors.flatten.blank?
       self.removed = true
       self.removed_at = Time.zone.now
       self.save!
@@ -99,13 +96,5 @@ class Upload < ActiveRecord::Base
 
   def s3_client
     @s3_client ||= Aws::S3::Client.new(endpoint: 'https://s3.amazonaws.com')
-  end
-
-  def s3_file_keys
-    objects = []
-    transloadit_data['started_jobs'].map { |e| e.match(/store\:\:.+/) }.compact.map { |e| e.to_s.sub('store::', '') }.each do |step|
-      objects << transloadit_data['results'][step].map { |h| { key: URI(h['url']).path.sub('/', '') } }
-    end
-    objects.flatten!
   end
 end
