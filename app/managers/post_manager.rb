@@ -140,7 +140,9 @@ class PostManager < BaseManager
   def delete(post)
     FeedEvent.where(target_type: 'Post', target_id: post.id).delete_all
     EventsManager.post_removed(user: user, post: post)
-    UploadManager.delay.remove_post_uploads(ids: post.uploads.pluck(:id)) unless post.status?
+    if Rails.env.production? || Rails.env.staging?
+      UploadManager.delay.remove_post_uploads(ids: post.uploads.pluck(:id)) unless post.status?
+    end
     post.destroy
   end
 
