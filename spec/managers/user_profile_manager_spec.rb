@@ -233,14 +233,12 @@ describe UserProfileManager do
     before { manager.delete_profile_page }
 
     it { expect { manager.create_profile_page }.to change { user.is_profile_owner }.from(false).to(true) }
-    it { expect { manager.create_profile_page }.to change { user.profile_removed_at }.to(nil) }
   end
 
   describe '#delete_profile_page' do
     before { manager.create_profile_page }
 
     it { expect { manager.delete_profile_page }.to change { user.is_profile_owner }.from(true).to(false) }
-    it { expect { manager.delete_profile_page }.to change { user.profile_removed_at }.from(nil) }
 
     it { expect { manager.delete_profile_page }.to create_event(:profile_page_removed) }
   end

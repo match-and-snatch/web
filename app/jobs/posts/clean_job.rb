@@ -1,7 +1,9 @@
 module Posts
   class CleanJob
     def self.perform
-      User.where(['is_profile_owner = ? AND profile_removed_at <= ?', false, 1.month.ago]).joins(:posts).find_each do |user|
+      return if Rails.env.staging?
+
+      User.joins(:posts, :events).where(['users.is_profile_owner = ? AND events.action = ? AND events.created_at <= ?', false, 'profile_page_removed', 1.month.ago]).find_each do |user|
         user.posts.includes(:uploads).find_each do |post|
           unless post.status?
             post.uploads.find_each do |upload|

@@ -876,8 +876,7 @@ CREATE TABLE users (
     vacation_enabled boolean DEFAULT false NOT NULL,
     vacation_message text,
     last_visited_profile_id integer,
-    billing_suspended boolean DEFAULT false NOT NULL,
-    profile_removed_at timestamp without time zone
+    billing_suspended boolean DEFAULT false NOT NULL
 );
 
 
@@ -1434,8 +1433,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141029032547');
 INSERT INTO schema_migrations (version) VALUES ('20141031093054');
 
 INSERT INTO schema_migrations (version) VALUES ('20141120115958');
-
-INSERT INTO schema_migrations (version) VALUES ('20141121095108');
 
 INSERT INTO schema_migrations (version) VALUES ('20141128040705');
 
