@@ -48,6 +48,7 @@ gem 'slim-rails'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'bootstrap-sass'
 gem 'rails_autolink'
+gem 'daemons'
 gem 'delayed_job_active_record'
 
 # Credit cards, billing, charges, payments
