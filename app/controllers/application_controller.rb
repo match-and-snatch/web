@@ -31,10 +31,6 @@ class ApplicationController < ActionController::Base
   end
 
   before_filter do
-    render text: 'We are currently upgrading our platform, we will be back up soon.'
-  end
-
-  before_filter do
     if current_user.billing_failed? && referrer_host != request.host
       notice(:billing_failed)
     end
