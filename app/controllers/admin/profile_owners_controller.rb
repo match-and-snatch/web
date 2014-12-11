@@ -53,16 +53,6 @@ class Admin::ProfileOwnersController < Admin::BaseController
     json_popup
   end
 
-  def enable_billing
-    UserProfileManager.new(@user.object).restore_billing
-    json_success
-  end
-
-  def disable_billing
-    UserProfileManager.new(@user.object).suspend_billing
-    json_success
-  end
-
   private
 
   def load_user!
