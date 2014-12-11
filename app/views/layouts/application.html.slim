@@ -15,6 +15,9 @@ html
 
     nav.navbar-wrapper.navbar-fixed-top role="navigation"
       .navbar-inner
+        - if Rails.env.staging?
+          div style='position: absolute; color: #aafbff; top: 0; left: 0; font-size: 11px;'
+            | staging: vacations
         .container
           a.brand.pull-left href=root_path
             img src=image_path('//connectpal-assets.s3.amazonaws.com/images/logo.png')
