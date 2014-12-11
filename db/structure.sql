@@ -38,20 +38,6 @@ COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance betwe
 
 
 --
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
-
-
---
 -- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -852,8 +838,8 @@ CREATE TABLE users (
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees integer,
     cost integer,
-    password_reset_token character varying(255),
     has_public_profile boolean DEFAULT false,
+    password_reset_token character varying(255),
     company_name character varying(255),
     small_profile_picture_url text,
     account_picture_url text,
@@ -873,7 +859,7 @@ CREATE TABLE users (
     vacation_enabled boolean DEFAULT false NOT NULL,
     vacation_message text,
     last_visited_profile_id integer,
-    billing_suspended boolean DEFAULT false NOT NULL
+    vacation_enabled_at timestamp without time zone
 );
 
 
@@ -1428,4 +1414,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141021155421');
 INSERT INTO schema_migrations (version) VALUES ('20141029032547');
 
 INSERT INTO schema_migrations (version) VALUES ('20141031093054');
+
+INSERT INTO schema_migrations (version) VALUES ('20141211175513');
 

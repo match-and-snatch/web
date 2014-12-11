@@ -31,6 +31,12 @@ describe UserProfileManager do
       expect { enable_vacation_mode }.to change { user.reload.vacation_enabled? }.from(false).to(true)
     end
 
+    it 'saves vacation start date' do
+      Timecop.freeze(Time.zone.now) do
+        expect { enable_vacation_mode }.to change { user.reload.vacation_enabled_at }.from(nil).to(Time.zone.now)
+      end
+    end
+
     it 'creates vacation_mode_enabled event' do
       expect { enable_vacation_mode }.to create_event(:vacation_mode_enabled)
     end
@@ -80,9 +86,12 @@ describe UserProfileManager do
 
   describe '#disable_vacation_mode' do
     let(:user) { create_profile email: 'profiled@gmail.com' }
+    let(:vacation_start_date) { Time.zone.now }
 
     before do
-      manager.enable_vacation_mode(reason: 'Yexa/| B DepeBH|-O')
+      Timecop.freeze(vacation_start_date) do
+        manager.enable_vacation_mode(reason: 'Yexa/| B DepeBH|-O')
+      end
     end
 
     subject(:disable_vacation_mode) { manager.disable_vacation_mode }
@@ -91,13 +100,11 @@ describe UserProfileManager do
       expect { disable_vacation_mode }.to change { user.reload.vacation_enabled? }.from(true).to(false)
     end
 
+    it 'restores vacation start date' do
+      expect { disable_vacation_mode }.to change { user.reload.vacation_enabled_at }.to(nil)
+    end
+
     context 'user has suspended billing' do
-      before { manager.suspend_billing }
-
-      it 'disables suspended state' do
-        expect { disable_vacation_mode }.to change { user.reload.billing_suspended? }.from(true).to(false)
-      end
-
       context 'with subscribed users' do
         let(:subscriber) { create_user email: 'subscriber@gmail.com' }
 
@@ -125,7 +132,9 @@ describe UserProfileManager do
           end
 
           it 'does nothing with charge date since subscriber just subscribed' do
-            expect { disable_vacation_mode }.not_to change { subscription.reload.charged_at }
+            Timecop.freeze(2.days.from_now) do
+              expect { disable_vacation_mode }.not_to change { subscription.reload.charged_at }
+            end
           end
         end
 
@@ -139,6 +148,7 @@ describe UserProfileManager do
           end
 
           let(:charge_time) { Date.new(2001, 01, 01).to_time }
+          let(:vacation_start_date) { Time.zone.parse('2001-01-06') }
 
           let!(:subscription) do
             Timecop.freeze(charge_time) do
@@ -146,33 +156,9 @@ describe UserProfileManager do
             end
           end
 
-          it 'moves charge date to number of days from beginning of current month' do
-            Timecop.freeze(Date.new(2014, 01, 22)) do
-              expect { disable_vacation_mode }.to change { subscription.reload.charged_at }.from(charge_time).to(charge_time + 22.days)
-            end
-          end
-        end
-
-        context 'subscribed during current month' do
-          before { StripeMock.start }
-          after { StripeMock.stop }
-
-          before do
-            UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
-            subscriber.reload
-          end
-
-          let(:charge_time) { Time.zone.parse('2001-01-05') }
-
-          let!(:subscription) do
-            Timecop.freeze(charge_time) do
-              SubscriptionManager.new(subscriber: subscriber).subscribe_and_pay_for(user)
-            end
-          end
-
-          it 'moves charge date to number of days owner spent in vacation mode during subscription' do
-            Timecop.freeze(Date.new(2001, 01, 07)) do
-              expect { disable_vacation_mode }.to change { subscription.reload.charged_at }.from(charge_time).to(charge_time + 2.days)
+          it 'moves charge date to number of days spent on vacation' do
+            Timecop.freeze(Date.new(2001, 02, 03)) do
+              expect { disable_vacation_mode }.to change { subscription.reload.charged_at }.from(charge_time).to(charge_time + 28.days)
             end
           end
         end
@@ -781,44 +767,6 @@ describe UserProfileManager do
       it 'removes all welcome audio' do
         expect { manager.remove_welcome_media! }.to change { Audio.users.where(uploadable_id: user.id).count }.from(1).to(0)
         expect(user.welcome_video).to be_nil
-      end
-    end
-  end
-
-  describe '#suspend_billing' do
-    specify do
-      expect { manager.suspend_billing }.to change { user.reload.billing_suspended? }.from(false).to(true)
-    end
-
-    context 'already suspended' do
-      before { manager.suspend_billing }
-
-      specify do
-        expect { manager.suspend_billing }.to raise_error(ManagerError)
-      end
-
-      specify do
-        expect { manager.suspend_billing rescue nil }.not_to change { user.reload.billing_suspended? }
-      end
-    end
-  end
-
-  describe '#restore_billing' do
-    before { manager.suspend_billing }
-
-    specify do
-      expect { manager.restore_billing }.to change { user.reload.billing_suspended? }.from(true).to(false)
-    end
-
-    context 'already restored' do
-      before { manager.restore_billing }
-
-      specify do
-        expect { manager.restore_billing }.to raise_error(ManagerError)
-      end
-
-      specify do
-        expect { manager.restore_billing rescue nil }.not_to change { user.reload.billing_suspended? }
       end
     end
   end
