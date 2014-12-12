@@ -1,5 +1,6 @@
 class Upload < ActiveRecord::Base
   serialize :transloadit_data, Hash
+  serialize :s3_paths, Hash
   belongs_to :uploadable, polymorphic: true
   belongs_to :user
 
@@ -66,6 +67,18 @@ class Upload < ActiveRecord::Base
     'Document' == type
   end
 
+  def delete_s3_files!
+    errors = []
+    s3_paths.each do |bucket, paths|
+      errors << s3_client.delete_objects(bucket: bucket, delete: { objects: paths, quiet: false })['errors']
+    end
+    if errors.flatten.blank?
+      self.removed = true
+      self.removed_at = Time.zone.now
+      self.save!
+    end
+  end
+
   private
 
   def generate_secure_url(upload_url, expiration_date = 30.minutes.from_now.utc.to_i)
@@ -79,5 +92,9 @@ class Upload < ActiveRecord::Base
                                 OpenSSL::Digest::Digest.new('sha1'),
                                   secret, string_to_sign)).gsub("\n","") )
     "#{s3_base_url}#{s3_path}?AWSAccessKeyId=#{key}&Expires=#{expiration_date}&Signature=#{signature}"
+  end
+
+  def s3_client
+    @s3_client ||= Aws::S3::Client.new(endpoint: 'https://s3.amazonaws.com')
   end
 end

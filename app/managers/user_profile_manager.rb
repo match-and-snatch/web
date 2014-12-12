@@ -343,7 +343,7 @@ class UserProfileManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [User]
   def update_account_picture(transloadit_data)
-    upload = UploadManager.new(user).create_photo(transloadit_data)
+    upload = UploadManager.new(user).create_photo(transloadit_data, template: 'profile_picture')
 
     user.account_picture_url = upload.url_on_step('thumb_180x180')
     user.small_account_picture_url = upload.url_on_step('thumb_50x50')
@@ -359,7 +359,7 @@ class UserProfileManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [User]
   def update_profile_picture(transloadit_data)
-    upload = UploadManager.new(user).create_photo(transloadit_data)
+    upload = UploadManager.new(user).create_photo(transloadit_data, template: 'profile_picture')
 
     user.profile_picture_url = upload.url_on_step('thumb_180x180')
     user.small_profile_picture_url = upload.url_on_step('thumb_50x50')
@@ -382,7 +382,7 @@ class UserProfileManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [User]
   def update_cover_picture(transloadit_data)
-    upload = UploadManager.new(user).create_photo(transloadit_data)
+    upload = UploadManager.new(user).create_photo(transloadit_data, template: 'cover_picture')
     user.cover_picture_position = 0
     user.cover_picture_url = upload.url_on_step('resized')
     user.original_cover_picture_url = upload.url_on_step(':original')
@@ -415,9 +415,9 @@ class UserProfileManager < BaseManager
     mimetype = transloadit_data['uploads'][0]['type']
     upload_manager = UploadManager.new(user)
     upload = if mimetype == 'video'
-               upload_manager.create_video(transloadit_data)
+               upload_manager.create_video(transloadit_data, template: 'welcome_media')
              elsif mimetype == 'audio'
-               upload_manager.create_audio(transloadit_data).first
+               upload_manager.create_audio(transloadit_data, template: 'welcome_media').first
              end
     clear_old_welcome_uploads!(current_upload: upload)
     EventsManager.welcome_media_added(user: user, media: upload)
@@ -510,6 +510,7 @@ class UserProfileManager < BaseManager
     fail_with! vacation_message: :empty if reason.blank?
 
     user.vacation_enabled = true
+    user.vacation_enabled_at = Time.zone.now
     user.vacation_message = reason
 
     save_or_die!(user).tap do
@@ -521,36 +522,20 @@ class UserProfileManager < BaseManager
   def disable_vacation_mode
     fail_with! 'Vacation Mode is not enabled' unless user.vacation_enabled?
 
-    billing_was_suspended = user.billing_suspended
+    vacation_enabled_at = user.vacation_enabled_at
 
     user.vacation_enabled = false
+    user.vacation_enabled_at = nil
     user.vacation_message = nil
-    user.billing_suspended = false
 
     save_or_die!(user).tap do
-      if billing_was_suspended
-        user.source_subscriptions.not_removed.where(rejected: false).been_charged.where(["subscriptions.created_at < ?", Time.zone.now.beginning_of_month]).
-          update_all(["charged_at = charged_at + interval '? days'", Time.zone.now.day])
-
-        user.source_subscriptions.not_removed.where(rejected: false).been_charged.where(["subscriptions.created_at >= ?", Time.zone.now.beginning_of_month]).
-          update_all(["charged_at = charged_at + (interval '1 day' * (? - EXTRACT(DAY FROM created_at)))", Time.zone.now.day])
-      end
+      # Charge users who have been subscribed for more than 1 month
+      user.source_subscriptions.not_removed.where(rejected: false).been_charged.where(["subscriptions.created_at <= ?", vacation_enabled_at - 1.month]).
+        update_all(["charged_at = charged_at + interval '? days'", (Time.zone.now.to_date - vacation_enabled_at.to_date).to_i])
 
       NotificationManager.delay.notify_vacation_disabled(user)
       EventsManager.vacation_mode_disabled(user: user)
     end
-  end
-
-  def suspend_billing
-    fail_with! 'Billing is already suspended' if user.billing_suspended?
-    user.billing_suspended = true
-    save_or_die!(user)
-  end
-
-  def restore_billing
-    fail_with! 'Billing is already active' unless user.billing_suspended?
-    user.billing_suspended = false
-    save_or_die!(user)
   end
 
   private

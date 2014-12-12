@@ -10,11 +10,17 @@ class ApplicationMailer < ActionMailer::Base
     #if Rails.env.production?
     #  ActiveRecord::Base.establish_connection(ENV['HEROKU_POSTGRESQL_PINK_URL'])
     #end
-    super.deliver
+    super(*args).deliver
   end
 
-  def mail(*args)
-    super(*args) do |format|
+  def mail(headers = {}, &block)
+    unless Rails.env.production?
+      headers[:to] = "\"#{headers[:to]}\" <debug@connectpal.com>"
+    end
+
+    super(headers) do |format|
+      block.call if block
+
       format.text(content_transfer_encoding: 'base64') do
         render(layout: true, formats: [:html])
         render text: Base64.encode64(self.response_body)

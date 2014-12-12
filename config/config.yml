@@ -28,6 +28,9 @@ production:
 
 staging:
   <<: *defaults
+  http_access:
+    name: buddy
+    password: staging
   javascript:
     log_level: 3
     <<: *jwplayer
