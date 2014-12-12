@@ -147,7 +147,7 @@ class User < ActiveRecord::Base
   # @return [String]
   def sample_slug
     @slug_example ||= begin
-      slug_base = (profile_name || full_name).parameterize
+      slug_base = (profile_name || full_name).parameterize.gsub('-', '')
       slug = slug_base
       i = 0
 

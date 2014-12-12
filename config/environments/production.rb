@@ -58,8 +58,8 @@ BuddyPlatform::Application.configure do
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   #config.action_controller.asset_host = "//s3-us-west-1.amazonaws.com/buddy-assets"
-  config.action_controller.asset_host = ENV['ASSET_HOST'] || '//d37ecui9yfxlx3.cloudfront.net'
-  config.force_ssl = true
+  config.action_controller.asset_host = ENV['ASSET_HOST'] || '//d1gpkyal8vhkhi.cloudfront.net'
+  config.force_ssl = false
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
@@ -70,8 +70,8 @@ BuddyPlatform::Application.configure do
     :address        => 'smtp.sendgrid.net',
     :port           => '587',
     :authentication => :plain,
-    :user_name      => ENV['SENDGRID_USERNAME'],
-    :password       => ENV['SENDGRID_PASSWORD'],
+    :user_name      => 'spopov', #ENV['SENDGRID_USERNAME'],
+    :password       => 'frontend123', #ENV['SENDGRID_PASSWORD'],
     :domain         => 'heroku.com',
     :enable_starttls_auto => true
   }
@@ -94,6 +94,6 @@ BuddyPlatform::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   # Redirect to www.connectpal.com any invalid request
-  config.middleware.use Redirector
+  # config.middleware.use Redirector
   config.stripe.secret_key = 'sk_live_4MV1tr0ikLzw9ZdYO9HbErpH'
 end

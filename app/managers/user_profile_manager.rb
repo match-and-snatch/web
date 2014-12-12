@@ -510,6 +510,7 @@ class UserProfileManager < BaseManager
     fail_with! vacation_message: :empty if reason.blank?
 
     user.vacation_enabled = true
+    user.vacation_enabled_at = Time.zone.now
     user.vacation_message = reason
 
     save_or_die!(user).tap do
@@ -521,36 +522,20 @@ class UserProfileManager < BaseManager
   def disable_vacation_mode
     fail_with! 'Vacation Mode is not enabled' unless user.vacation_enabled?
 
-    billing_was_suspended = user.billing_suspended
+    vacation_enabled_at = user.vacation_enabled_at
 
     user.vacation_enabled = false
+    user.vacation_enabled_at = nil
     user.vacation_message = nil
-    user.billing_suspended = false
 
     save_or_die!(user).tap do
-      if billing_was_suspended
-        user.source_subscriptions.not_removed.where(rejected: false).been_charged.where(["subscriptions.created_at < ?", Time.zone.now.beginning_of_month]).
-          update_all(["charged_at = charged_at + interval '? days'", Time.zone.now.day])
-
-        user.source_subscriptions.not_removed.where(rejected: false).been_charged.where(["subscriptions.created_at >= ?", Time.zone.now.beginning_of_month]).
-          update_all(["charged_at = charged_at + (interval '1 day' * (? - EXTRACT(DAY FROM created_at)))", Time.zone.now.day])
-      end
+      # Charge users who have been subscribed for more than 1 month
+      user.source_subscriptions.not_removed.where(rejected: false).been_charged.where(["subscriptions.created_at < ?", vacation_enabled_at]).
+        update_all(["charged_at = charged_at + interval '? days'", (Time.zone.now.to_date - vacation_enabled_at.to_date).to_i])
 
       NotificationManager.delay.notify_vacation_disabled(user)
       EventsManager.vacation_mode_disabled(user: user)
     end
-  end
-
-  def suspend_billing
-    fail_with! 'Billing is already suspended' if user.billing_suspended?
-    user.billing_suspended = true
-    save_or_die!(user)
-  end
-
-  def restore_billing
-    fail_with! 'Billing is already active' unless user.billing_suspended?
-    user.billing_suspended = false
-    save_or_die!(user)
   end
 
   private

@@ -9,7 +9,7 @@ li.dropdown.my_sub.Hover data-target='subscriptions-dropdown'
             img src=user.small_profile_picture_url
           .details
             .name= user.profile_name
-            .type = user.types
+            .type= user.profile_types.pluck(:title).join(' / ')
           .clearfix
     a.add_subscription.PopupTrigger data-target='search-users' href='javascript: void(0)'
       li
