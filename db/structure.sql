@@ -795,7 +795,10 @@ CREATE TABLE uploads (
     filesize integer,
     ordering integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    removed boolean DEFAULT false,
+    removed_at timestamp without time zone,
+    s3_paths text
 );
 
 
@@ -1428,4 +1431,10 @@ INSERT INTO schema_migrations (version) VALUES ('20141021155421');
 INSERT INTO schema_migrations (version) VALUES ('20141029032547');
 
 INSERT INTO schema_migrations (version) VALUES ('20141031093054');
+
+INSERT INTO schema_migrations (version) VALUES ('20141120115958');
+
+INSERT INTO schema_migrations (version) VALUES ('20141128040705');
+
+INSERT INTO schema_migrations (version) VALUES ('20141128075349');
 

@@ -229,6 +229,20 @@ describe UserProfileManager do
     end
   end
 
+  describe '#create_profile_page' do
+    before { manager.delete_profile_page }
+
+    it { expect { manager.create_profile_page }.to change { user.is_profile_owner }.from(false).to(true) }
+  end
+
+  describe '#delete_profile_page' do
+    before { manager.create_profile_page }
+
+    it { expect { manager.delete_profile_page }.to change { user.is_profile_owner }.from(true).to(false) }
+
+    it { expect { manager.delete_profile_page }.to create_event(:profile_page_removed) }
+  end
+
   describe '#update' do
     specify do
       expect { manager.update(cost: 1, profile_name: 'some-random-name', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error

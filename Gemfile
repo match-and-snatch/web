@@ -53,6 +53,9 @@ gem 'delayed_job_active_record'
 # Credit cards, billing, charges, payments
 gem 'stripe-rails'
 
+# Amazon S3
+gem 'aws-sdk', '~> 2.0.9.pre'
+
 # Uploads, assets
 gem 'transloadit-rails'
 
