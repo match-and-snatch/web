@@ -147,7 +147,7 @@ describe UserProfileManager do
             subscriber.reload
           end
 
-          let(:charge_time) { Date.new(2001, 01, 01).to_time }
+          let(:charge_time) { Date.new(2000, 12, 1).to_time }
           let(:vacation_start_date) { Time.zone.parse('2001-01-06') }
 
           let!(:subscription) do
