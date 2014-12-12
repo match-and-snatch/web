@@ -4,13 +4,13 @@ describe User do
   describe '.create' do
     context 'profile owner' do
       it 'assigns slug' do
-        expect(create_user(first_name: 'slava', last_name: 'popov', is_profile_owner: true).slug).to eq('slava-popov')
+        expect(create_user(first_name: 'slava', last_name: 'popov', is_profile_owner: true).slug).to eq('slavapopov')
       end
 
       it 'generates uniq slug' do
         create_user(first_name: 'slava', last_name: 'popov', email: 'e@m.il', is_profile_owner: true)
-        expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e2@m.il', is_profile_owner: true).slug).to eq('slava-popov-1')
-        expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e3@m.il', is_profile_owner: true).slug).to eq('slava-popov-2')
+        expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e2@m.il', is_profile_owner: true).slug).to eq('slavapopov-1')
+        expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e3@m.il', is_profile_owner: true).slug).to eq('slavapopov-2')
       end
     end
 
