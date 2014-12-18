@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   belongs_to :last_visited_profile, class_name: 'User'
 
+  has_many :contributions
+  has_many :source_contributions, class_name: 'Contribution', foreign_key: 'target_user_id'
   has_many :benefits
   has_many :posts
   has_many :comments

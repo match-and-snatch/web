@@ -7,6 +7,15 @@ class PaymentManager < BaseManager
     @user = user
   end
 
+  def create_charge(amount: , customer: nil, description: nil, statement_description: nil, metadata: {})
+    Stripe::Charge.create amount: amount,
+                          customer: (customer || user),
+                          currency: 'usd',
+                          description: description,
+                          statement_description: statement_description,
+                          metadata: metadata
+  end
+
   # @param subscription [Concerns::Payable]
   # @param description [String, nil] optional notes on payment
   # @return [Payment, PaymentFailure]
@@ -15,14 +24,13 @@ class PaymentManager < BaseManager
       raise ArgumentError, "Don't know how to pay for #{subscription.class.name}"
     end
 
-    charge = Stripe::Charge.create amount:      subscription.total_cost,
-                                   customer:    subscription.customer.stripe_user_id,
-                                   currency:    'usd',
-                                   description: description,
-                                   statement_description: subscription.target_user.profile_name.first(14).gsub("'", ''),
-                                   metadata:    { target_id:   subscription.id,
-                                                  target_type: subscription.class.name,
-                                                  user_id:     subscription.customer.id }
+    charge = create_charge amount: subscription.total_cost,
+                           customer:    subscription.customer.stripe_user_id,
+                           description: description,
+                           statement_description: subscription.target_user.profile_name.first(14).gsub("'", ''),
+                           metadata: { target_id:   subscription.id,
+                                       target_type: subscription.class.name,
+                                       user_id:     subscription.customer.id }
 
     payment = Payment.create! target:             subscription,
                               user:               subscription.customer,
