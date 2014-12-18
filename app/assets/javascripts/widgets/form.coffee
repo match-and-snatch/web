@@ -99,7 +99,7 @@ class bud.widgets.Form extends bud.Widget
       $input = $(input)
 
       if $input.attr('name')
-        if $input.is('[type=checkbox],[type=radio]')
+        if $input.is('[type=checkbox]')
           if $input.is(':checked')
             result[$input.attr('name')] = '1'
           else

@@ -54,6 +54,8 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
+  resources :contributions, only: [:create, :new]
+
   resources :posts, only: [:show, :edit, :update, :destroy] do
     member do
       put :make_visible

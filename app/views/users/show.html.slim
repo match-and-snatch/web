@@ -72,6 +72,10 @@
   #subscriber_display
     .row
       .sidebar.col-md-4.col-sm-12.hidden-xs.pull-left
+        a.share_url.btn.pink.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id) style='margin-bottom: 30px;'
+          i.fa.fa-bullhorn
+          .heading Donate
+          span Help to get some money!
 
         /Search
         .search.input-group style="margin-top: 0"

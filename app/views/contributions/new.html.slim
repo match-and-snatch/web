@@ -1,0 +1,22 @@
+form.Form action=contributions_path method='post'
+  input type='hidden' name='target_user_id' value=params[:target_user_id]
+  .form-group
+    label style='width: auto;' Amount
+    input id='amount_cont_5' type='radio' name='amount' value='500'
+    label for='amount_cont_5' $5
+    input id='amount_cont_10' type='radio' name='amount' value='1000'
+    label for='amount_cont_10' $10
+    input id='amount_cont_15' type='radio' name='amount' value='1500'
+    label for='amount_cont_15' $15
+    input id='custom_amount_cont_rb' type='radio' name='amount' value=''
+    label for='custom_amount_cont_rb'
+      input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter amount here' validate='presence' style='width: 100%'
+      .clearfix
+  .error data-field='amount' style='width: 100%;'
+  .form-group
+    input id='recurring_cont_0' type='radio' name='recurring' value='0' checked='1'
+    label id='recurring_cont_0' for='recurring_cont_0' Not Recurring
+    input id='recurring_cont_1' type='radio' name='recurring' value='1'
+    label id='recurring_cont_1' for='recurring_cont_1' Repeat each month
+  br
+  input type='submit' value='Donate'

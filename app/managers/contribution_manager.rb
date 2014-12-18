@@ -27,7 +27,7 @@ class ContributionManager < BaseManager
   def create_contribution(target_user: , amount: , recurring: , parent: nil)
     contribution = Contribution.create!(user: @user, target_user: target_user, amount: amount, recurring: recurring, parent: parent)
     PaymentManager.new(user: @user).create_charge(amount: amount,
-                                                  customer: @user,
+                                                  customer: @user.stripe_user_id,
                                                   description: "Contribution #{target_user.profile_name.first(20)}",
                                                   statement_description: 'Contribution',
                                                   metadata: {target_id: contribution.id, target_type: contribution.class.name, user_id: @user.id})
