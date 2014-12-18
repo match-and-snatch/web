@@ -40,6 +40,23 @@
 
     / This is the section for all canceled subscriptions and any profile that is deleted that once was a subscription.
 
+  h2 Active Contributions
+  table.table.table-hover
+    thead
+      tr
+        th
+          b Contribution Profile
+        th style='width: 170px;'
+          b Next Billing Date
+        th style='width: 170px;'
+    tbody
+      tr
+        td width='300px' profile title with url
+        td date
+        td style='text-align: right;'
+          a.fa.fa-close href='#' Cancel Contribution
+
+
   - if @subscriptions.canceled.any?
     h2 Canceled Subscriptions
 
