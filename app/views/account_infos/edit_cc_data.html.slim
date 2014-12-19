@@ -4,27 +4,32 @@ form.Form action=update_cc_data_account_info_path method='post'
   - if mobile_phone_device?
     .form-group
       label style='width: auto;' Street Address
-      input.form-control type='text' name='' style='width: 100%'
+      input.form-control type='text' name='address_line_1' style='width: 100%' validate='require' value=@user.billing_address_line_1
+      .error data-field='address_line_1'
     .clearfix
 
     .form-group
       label style='width: auto;' Address 2
-      input.form-control type='text' name='' style='width: 100%'
+      input.form-control type='text' name='address_line_2' style='width: 100%' validate='require' value=@user.billing_address_line_2
+      .error data-field='address_line_2'
     .clearfix
 
     .form-group
       label style='width: auto;' City
-      input.form-control.pull-left type='text' name='' style='width: 100%'
+      input.form-control.pull-left type='text' name='city' style='width: 100%' validate='require' value=@user.billing_address_city
+      .error data-field='city'
     .clearfix
 
     .form-group
       label style='width: auto;' State
-      input.form-control type='text' name='' style='width: 100%;'
+      input.form-control type='text' name='state' style='width: 100%;' validate='require' value=@user.billing_address_state
+      .error data-field='state'
     .clearfix
 
     .form-group
       label style='width: auto;' ZIP Code
-      input.form-control type='text' name='' style='width: 100%;'
+      input.form-control type='text' name='zip' style='width: 100%;' validate='require' value=@user.billing_address_zip
+      .error data-field='zip'
     .clearfix
 
     hr
@@ -86,26 +91,31 @@ form.Form action=update_cc_data_account_info_path method='post'
   - else
     .form-group
       label.pull-left Street Address
-      input.pull-right.form-control type='text' name=''
+      input.pull-right.form-control type='text' name='address_line_1' validate='require' value=@user.billing_address_line_1
+      .error data-field='address_line_1'
     .clearfix
 
     .form-group style='margin-top: 15px'
       label.pull-left Address 2
-      input.pull-right.form-control type='text' name=''
+      input.pull-right.form-control type='text' name='address_line_2' validate='require' value=@user.billing_address_line_2
+      .error data-field='address_line_2'
     .clearfix
 
     .form-group style='margin-top: 15px'
       .pull-left
         label.pull-left City
-        input.pull-right.form-control.pull-left type='text' name='' style='margin-left: 18px; width: 90px;'
+        input.pull-right.form-control.pull-left type='text' name='city' style='margin-left: 18px; width: 90px;' validate='require' value=@user.billing_address_city
+        .error data-field='city'
 
       .pull-left
         label.pull-left style='width: 60px' State
-        input.pull-right.form-control type='text' name='' style='margin-left: 18px; width: 90px;'
+        input.pull-right.form-control type='text' name='state' style='margin-left: 18px; width: 90px;' validate='require' value=@user.billing_address_state
+        .error data-field='state'
 
       .pull-left
         label.pull-left style='width: 75px' ZIP Code
-        input.pull-right.form-control.pull-left type='text' name='' style='margin-left: 18px; width: 84px;'
+        input.pull-right.form-control.pull-left type='text' name='zip' style='margin-left: 18px; width: 84px;' validate='require' value=@user.billing_address_zip
+        .error data-field='zip'
     .clearfix
 
     hr

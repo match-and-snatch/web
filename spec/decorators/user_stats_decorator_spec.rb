@@ -13,7 +13,7 @@ describe UserStatsDecorator do
     let(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_and_pay_for(user) }
 
     before do
-      UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+      UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
       SubscriptionManager.new(subscription: subscription).unsubscribe
     end
 

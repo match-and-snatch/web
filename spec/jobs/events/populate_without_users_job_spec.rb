@@ -21,7 +21,7 @@ describe Events::PopulateWithoutUsersJob do
 
     context 'subscription without user' do
       before do
-        UserProfileManager.new(user).update_cc_data(number: '4242_4242_4242_4242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+        UserProfileManager.new(user).update_cc_data(number: '4242_4242_4242_4242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
         SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user)
 
         user.events.delete_all
@@ -35,7 +35,7 @@ describe Events::PopulateWithoutUsersJob do
 
     context 'canceled subscription' do
       before do
-        UserProfileManager.new(user).update_cc_data(number: '4242_4242_4242_4242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+        UserProfileManager.new(user).update_cc_data(number: '4242_4242_4242_4242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
         SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user)
         SubscriptionManager.new(subscription: user.subscriptions.last).unsubscribe
 

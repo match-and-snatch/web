@@ -39,7 +39,7 @@ describe SubscriptionsController, type: :controller do
     context 'authorized access' do
       let(:subscriber) do
         create_user(email: 'subscriber@gmail.com').tap do |user|
-          UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '123', expiry_month: '12', expiry_year: '15')
+          UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '123', expiry_month: '12', expiry_year: '15', address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
         end
       end
 

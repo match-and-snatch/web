@@ -123,7 +123,7 @@ describe UserProfileManager do
           after { StripeMock.stop }
 
           before do
-            UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+            UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
             subscriber.reload
           end
 
@@ -143,7 +143,7 @@ describe UserProfileManager do
           after { StripeMock.stop }
 
           before do
-            UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+            UserProfileManager.new(subscriber).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
             subscriber.reload
           end
 
@@ -419,11 +419,11 @@ describe UserProfileManager do
     end
 
     specify do
-      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.to change { user.reload.billing_failed? }.to(false)
+      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.to change { user.reload.billing_failed? }.to(false)
     end
 
     it 'creates credit_card_updated event' do
-      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.to create_event(:credit_card_updated)
+      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.to create_event(:credit_card_updated)
     end
 
     context 'user has outstanding payments' do
@@ -434,7 +434,7 @@ describe UserProfileManager do
       end
 
       it 'restores billing failed flag to false' do
-        expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.to change { user.reload.billing_failed? }.to(false)
+        expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.to change { user.reload.billing_failed? }.to(false)
       end
 
       context 'test payment failed' do
@@ -443,7 +443,7 @@ describe UserProfileManager do
         end
 
         it 'keeps flag in the failed state' do
-          expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018) }.not_to change { user.reload.billing_failed? }.from(true)
+          expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.not_to change { user.reload.billing_failed? }.from(true)
         end
       end
     end

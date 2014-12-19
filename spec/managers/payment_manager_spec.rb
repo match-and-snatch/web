@@ -209,7 +209,7 @@ describe PaymentManager do
     context 'subscription is already paid' do
       before do
         stub_const('Stripe::Customer', double('customer').as_null_object)
-        UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018)
+        UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
         user.reload
       end
 
