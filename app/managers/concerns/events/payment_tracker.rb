@@ -30,6 +30,21 @@ module Concerns::Events::PaymentTracker
   end
 
   # @param user [User]
+  # @param contribution [Contribution]
+  # @yield
+  # @return [Event]
+  def contribution_cancelled(user: , contribution: , &block)
+    Event.create! user: user,
+                  action: 'contribution_cancelled',
+                  data: { amount: contribution.amount,
+                          user_id: contribution.user_id,
+                          target_user_id: contribution.target_user_id,
+                          parent_id: contribution.try(:parent_id),
+                          contribution_id: contribution.id },
+                  &block
+  end
+
+  # @param user [User]
   # @param payment [Payment]
   # @yield
   # @return [Event]

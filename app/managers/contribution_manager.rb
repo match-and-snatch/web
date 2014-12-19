@@ -22,6 +22,11 @@ class ContributionManager < BaseManager
     create_contribution(target_user: @contribution.target_user, amount: @contribution.amount, recurring: false, parent: @contribution)
   end
 
+  def delete
+    EventsManager.contribution_cancelled(user: @user, contribution: @contribution)
+    @contribution.destroy
+  end
+
   private
 
   def create_contribution(target_user: , amount: , recurring: , parent: nil)

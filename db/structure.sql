@@ -174,7 +174,9 @@ CREATE TABLE contributions (
     recurring boolean DEFAULT false NOT NULL,
     user_id integer,
     target_user_id integer,
-    parent_id integer
+    parent_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -1489,4 +1491,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141128075349');
 INSERT INTO schema_migrations (version) VALUES ('20141211175513');
 
 INSERT INTO schema_migrations (version) VALUES ('20141218170138');
+
+INSERT INTO schema_migrations (version) VALUES ('20141219110607');
+
+INSERT INTO schema_migrations (version) VALUES ('20141219110658');
 
