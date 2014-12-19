@@ -3,6 +3,7 @@ class bud.widgets.MonthYearField extends bud.Widget
 
   initialize: ->
     @$container.on('input', @on_keyup)
+    @validator = new bud.widgets.Validator(@$container, bud.widgets.Validator) if @$container.attr('validate')
 
   on_keyup: (e) =>
     @$container.val(@value().replace(/^(\d*)[^\/0-9]+(\d*)$/, '$1$2').
