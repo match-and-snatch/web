@@ -172,7 +172,17 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
       padding-top: 24px
     .top_ten
       a
+        text-decoration: none
         margin-bottom: 15px
+        span
+          color: $color_pink
+          text-decoration: underline
+          &:hover
+            text-decoration: none
+          &.category
+            color: $color_text_dark
+            font-size: 12px
+            text-decoration: none
         // Tablet
         @media screen and (min-width: 768px)
           width: 344px
