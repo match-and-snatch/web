@@ -11,11 +11,7 @@
       .heading Your Order Summary
 
       /Item Row
-      .item_row style='margin-bottom: 15px'
-        .pull-left #{@owner.profile_name}
-        .pull-right
-          strong= cents_to_dollars @owner.subscription_cost
-        .clearfix
+      .item_row style='height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 15px;' #{@owner.profile_name}
 
       /Total Cost
       .total_cost
@@ -40,12 +36,7 @@
       .heading Your Order Summary
 
       /Item Row
-      .item_row
-        .pull-left #{@owner.profile_name}
-        .pull-right
-          /Please display both decimal points for the cost only in this place
-          strong= cents_to_dollars @owner.subscription_cost
-        .clearfix
+      .item_row #{@owner.profile_name}
 
       /Total Cost
       .total_cost

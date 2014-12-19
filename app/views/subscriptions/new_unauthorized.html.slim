@@ -11,11 +11,7 @@
       .heading Your Order Summary
 
       /Item Row
-      .item_row style='margin-bottom: 15px'
-        .pull-left #{@owner.profile_name}
-        .pull-right
-          strong= cents_to_dollars @owner.subscription_cost
-        .clearfix
+      .item_row style='margin-bottom: 15px' #{@owner.profile_name}
 
       /Total Cost
       .total_cost
@@ -41,11 +37,7 @@
       - if mobile_phone_device?
         .order_summary style='min-height: 50px'
           .heading style='margin: 0;' Your Order Summary
-          .item_row style='margin: 5px 0 0 0;'
-            .pull-left #{@owner.profile_name}
-            .pull-right
-              strong= cents_to_dollars @owner.subscription_cost
-            .clearfix
+          .item_row style='margin: 5px 0 0 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; height: 18px;' #{@owner.profile_name}
           .total_cost style='margin: 5px 0 0 0;'
             .pull-left Total Monthly Cost
             .pull-right.cost= cents_to_dollars @owner.subscription_cost
@@ -131,11 +123,7 @@
           .heading Your Order Summary
 
           /Item Row
-          .item_row
-            .pull-left #{@owner.profile_name}
-            .pull-right
-              strong= cents_to_dollars @owner.subscription_cost
-            .clearfix
+          .item_row style='height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;' #{@owner.profile_name}
 
           /Transaction Fee
           //.transaction_fee
