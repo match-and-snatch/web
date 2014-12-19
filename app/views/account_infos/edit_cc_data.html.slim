@@ -102,20 +102,21 @@ form.Form action=update_cc_data_account_info_path method='post'
     .clearfix
 
     .form-group style='margin-top: 15px'
-      .pull-left
-        label.pull-left City
-        input.pull-right.form-control.pull-left type='text' name='city' style='margin-left: 18px; width: 90px;' validate='require' value=@user.billing_address_city
-        .error data-field='city'
+      label.pull-left City
+      input.pull-right.form-control type='text' name='city' validate='require' value=@user.billing_address_city
+      .error data-field='city'
+    .clearfix
 
-      .pull-left
-        label.pull-left style='width: 60px' State
-        input.pull-right.form-control type='text' name='state' style='margin-left: 18px; width: 90px;' validate='require' value=@user.billing_address_state
-        .error data-field='state'
+    .form-group style='margin-top: 15px'
+      label.pull-left State
+      input.pull-right.form-control type='text' name='state' validate='require' value=@user.billing_address_state
+      .error data-field='state'
+    .clearfix
 
-      .pull-left
-        label.pull-left style='width: 75px' ZIP Code
-        input.pull-right.form-control.pull-left type='text' name='zip' style='margin-left: 18px; width: 84px;' validate='require' value=@user.billing_address_zip
-        .error data-field='zip'
+    .form-group style='margin-top: 15px'
+      label.pull-left ZIP Code
+      input.pull-right.form-control type='text' name='zip' validate='require' value=@user.billing_address_zip
+      .error data-field='zip'
     .clearfix
 
     hr
