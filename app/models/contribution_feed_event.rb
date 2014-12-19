@@ -1,0 +1,2 @@
+class ContributionFeedEvent < FeedEvent
+end
