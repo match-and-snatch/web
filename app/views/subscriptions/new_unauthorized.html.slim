@@ -2,40 +2,30 @@
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
     .modal-title Subscribe Now
-    span Review your subscription order.
+    span Review your subscription order
 
-  .modal-body.subscribe_container
+  .modal-body.subscribe_container.existing_billing
 
     /Order Summary Column
     .order_summary
       .heading Your Order Summary
 
       /Item Row
-
-      .item_row
+      .item_row style='margin-bottom: 15px'
         .pull-left #{@owner.profile_name}
         .pull-right
-          strong= cents_to_dollars @owner.cost
-        .clearfix
-
-      /Transaction Fee
-
-      .transaction_fee
-        .pull-left Service Fee
-        .pull-right
-          strong= cents_to_dollars @owner.subscription_fees
+          strong= cents_to_dollars @owner.subscription_cost
         .clearfix
 
       /Total Cost
-
       .total_cost
         .pull-left Total Monthly Cost
         .pull-right.cost= cents_to_dollars @owner.subscription_cost
         .clearfix
 
-      .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
+      .note.bg-warning style='text-align: center; margin: 10px 0 0 0' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
 
-      a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) Subscribe
+      a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) style="width: 100%; margin-top: 15px;" Subscribe
 
 - else
   .modal-header
@@ -45,36 +35,27 @@
 
   .modal-body.subscribe_container.new_subscriber
 
-    /Order Summary Column
-    .order_summary.pull-left
-      .heading Your Order Summary
-
-      /Item Row
-      .item_row
-        .pull-left #{@owner.profile_name}
-        .pull-right
-          strong= cents_to_dollars @owner.cost
-        .clearfix
-
-      /Transaction Fee
-      .transaction_fee
-        .pull-left Service Fee
-        .pull-right
-          strong= cents_to_dollars @owner.subscription_fees
-        .clearfix
-
-      /Total Cost
-      .total_cost
-        .pull-left Total Monthly Cost
-        .pull-right.cost= cents_to_dollars @owner.subscription_cost
-        .clearfix
-
-      .note.bg-warning Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
-
     /Account Payment Column
-    form.pull-right.Form action=via_register_user_subscriptions_path(@owner) method='POST'
-      .account_payment
-        - if mobile_phone_device?
+    form.pull-left.Form action=via_register_user_subscriptions_path(@owner) method='POST'
+
+      - if mobile_phone_device?
+        .order_summary style='min-height: 50px'
+          .heading style='margin: 0;' Your Order Summary
+          .item_row style='margin: 5px 0 0 0;'
+            .pull-left #{@owner.profile_name}
+            .pull-right
+              strong= cents_to_dollars @owner.subscription_cost
+            .clearfix
+          .total_cost style='margin: 5px 0 0 0;'
+            .pull-left Total Monthly Cost
+            .pull-right.cost= cents_to_dollars @owner.subscription_cost
+            .clearfix
+
+        hr style='margin: 0 0 5px 0; padding: 0'
+
+        .account_payment
+          .form-group
+            label.control-label Account Information
           .form-group
             input.form-control.input-sm type='text' name='full_name' placeholder='Full Name on Credit Card' validate='require'
             //span.error data-field='full_name'
@@ -85,13 +66,11 @@
             input.form-control.input-sm type='password' name='password' placeholder='Create Password' validate='require,min_length:5'
             //span.error data-field='password'
           .form-group
-            label.control-label Credit Card Number
-            input.form-control.input-sm type='text' name='number' placeholder='XXXX XXXX XXXX XXXX' validate='cc_number'
+            label.control-label Billing Information
+            input.form-control.input-sm type='text' name='number' placeholder='Credit Card Number' validate='cc_number'
             //span.error data-field='number'
 
           .form-group style='margin-bottom: 15px;'
-            label.control-label Expiration Date
-            .clearfix
             select.form-control.input-sm.pull-left data-error_field='expiry_date' name='expiry_month' style='width: 100px; margin-right: 10px;'
               option value='' Month
               option value='01' 01 - January
@@ -129,24 +108,69 @@
 
             input.form-control.input-sm type='number' name='cvc' placeholder='CVC' maxlength='4' style='width: 60px;' validate='cvc'
             //span.error data-field='cvc'
+
+            .form-group
+              input.form-control.input-sm type='text' name='' placeholder='Street Address'
+
+            .form-group
+              input.form-control.input-sm type='text' name='' placeholder='Address 2'
+
+            .form-group.pull-left style='width: 88px; margin-right: 10px;'
+              input.form-control.input-sm.pull-left type='text' name='' placeholder='City'
+
+            .form-group.pull-left style='width: 70px; margin-right: 10px;'
+              input.form-control.input-sm type='text' name='' placeholder='State'
+
+            .form-group.pull-left style='width: 80px;'
+              input.form-control.input-sm.pull-left type='text' name='' placeholder='ZIP Code'
           .clearfix
 
-        - else
+      - else
+        /Order Summary Column
+        .order_summary.pull-right style='width: 315px; background-color: #FFFFFF; padding: 0 15px 0 15px; margin: 0 0 15px 0;'
+          .heading Your Order Summary
+
+          /Item Row
+          .item_row
+            .pull-left #{@owner.profile_name}
+            .pull-right
+              strong= cents_to_dollars @owner.subscription_cost
+            .clearfix
+
+          /Transaction Fee
+          //.transaction_fee
+            .pull-left Service Fee
+            .pull-right
+              strong= cents_to_dollars @owner.subscription_fees
+            .clearfix
+
+          /Total Cost
+          .total_cost
+            .pull-left Total Monthly Cost
+            .pull-right.cost= cents_to_dollars @owner.subscription_cost
+            .clearfix
+
+          .note.bg-warning style='margin: 10px 0 15px' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
+
+        .account_payment.pull-left style='padding: 10px 0 15px 15px;'
+          label style='font-size: 13px; margin-bottom: 10px' Account Information
+          .clearfix
           .form-group
-            label Name on card
-            input.form-control type='text' name='full_name' validate='require'
+            input.form-control type='text' name='full_name' validate='require' placeholder='Full Name on Card' style='width: 300px;'
             span.error data-field='full_name'
           .form-group
-            label Email Address
-            input.form-control type='email' name='email' validate='require,email'
+            input.form-control type='email' name='email' validate='require,email' placeholder='Email Address' style='margin-top: 15px; width: 300px;'
             span.error data-field='email'
           .form-group
-            label.password_label Create Password
-            input.form-control.password type='password' name='password' placeholder='' validate='require,min_length:5'
+            input.form-control.password type='password' name='password' placeholder='Create Password' validate='require,min_length:5' style='width: 300px; margin-top: 15px'
             span.error data-field='password'
-          .form-group.cc_row
-            label.control-label Credit Card Number
-            ul style='right: -5px'
+          .clearfix
+
+        .account_payment style='width: 100%; padding: 0 15px 15px 15px;'
+          label style='display: block; font-size: 13px; margin: 0 0 15px 0;' Billing Information
+          .clearfix
+          .form-group.cc_row.pull-left
+            ul.cc_images
               li
                 img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Visa@2x.png')
               li
@@ -155,25 +179,22 @@
                 img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
               li
                 img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-            input.form-control type='text' name='number' style="width: 154px" validate='cc_number'
+            input.form-control type='text' name='number' placeholder='Credit Card Number' validate='cc_number'
             span.error data-field='number'
 
           .form-group.exp_date.pull-left
-            label.control-label Expiration Date
-            .clearfix
-            .month.pull-left style="width: 105px"
-              label.small.pull-left Month
-              input.form-control type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 48px" validate='expiry_month'
-            .year.pull-left style="width: 90px"
-              label.small.pull-left Year
-              input.form-control type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 48px" validate='expiry_year'
-            .clearfix
+            input.form-control type='text' name='expiration' placeholder='Expires MM / YYYY'
+            / .month.pull-left style='width: 100px'
+            /   label.small.pull-left Month
+            /   input.form-control type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 50px" validate='expiry_month'
+            / .year.pull-left style="margin-left: 5px; width: 90px"
+            /   label.small.pull-left Year
+            /   input.form-control type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 50px" validate='expiry_year'
+            / .clearfix
             span.error data-field='expiry_date'
-            .clearfix
-          .form-group.cvc.pull-right
-            label.control-label CVC
-            .clearfix
-            input.form-control.pull-left type='text' name='cvc' maxlength='4' validate='cvc'
+
+          .form-group.cvc.pull-left
+            input.form-control.pull-left type='text' name='cvc' maxlength='4' validate='cvc' placeholder='CVC'
             .pull-right
               i.fa.fa-question
                 .cvc_example
@@ -184,7 +205,64 @@
             span.error data-field='cvc'
           .clearfix
 
-      input.btn.blue type='submit' value='Pay & Subscribe' style="width: 100%; margin-top: 15px; font-size: 24px"
+          .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
+            input.form-control type='text' name='' placeholder='Street Address'
+
+          .form-group.address.pull-left style='width: 300px;'
+            input.form-control type='text' name='' placeholder='Address 2'
+          .clearfix
+
+          .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
+            input.form-control type='text' name='' placeholder='City'
+
+          .form-group.address.pull-left style='width: 150px; margin-right: 15px'
+            input.form-control type='text' name='' placeholder='State'
+
+          .form-group.address.pull-left style='width: 135px;'
+            input.form-control type='text' name='' placeholder='ZIP Code'
+          .clearfix
+
+          / .form-group.cc_row
+          /   label.control-label Credit Card Number
+          /   ul style='right: -5px'
+          /     li
+          /       img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Visa@2x.png')
+          /     li
+          /       img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Mastercard@2x.png')
+          /     li
+          /       img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
+          /     li
+          /       img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
+          /   input.form-control type='text' name='number' style="width: 154px" validate='cc_number'
+          /   span.error data-field='number'
+
+          / .form-group.exp_date.pull-left
+          /   label.control-label Expiration Date
+          /   .clearfix
+          /   .month.pull-left style="width: 105px"
+          /     label.small.pull-left Month
+          /     input.form-control type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 48px" validate='expiry_month'
+          /   .year.pull-left style="width: 90px"
+          /     label.small.pull-left Year
+          /     input.form-control type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 48px" validate='expiry_year'
+          /   .clearfix
+          /   span.error data-field='expiry_date'
+          /   .clearfix
+          / .form-group.cvc.pull-right
+          /   label.control-label CVC
+          /   .clearfix
+          /   input.form-control.pull-left type='text' name='cvc' maxlength='4' validate='cvc'
+          /   .pull-right
+          /     i.fa.fa-question
+          /       .cvc_example
+          /         span Discover, MasterCard, Visa, and Others
+          /         img.pull-left src="//connectpal-assets.s3.amazonaws.com/images/cvc_example.png" alt="CVC Example"
+          /         p.pull-right The security code is the last three digits of the number that appears on the back of your card in the signature bar.
+          /   .clearfix
+          /   span.error data-field='cvc'
+          / .clearfix
+
+      input.btn.blue type='submit' value='Pay & Subscribe' style="margin-top: 15px; font-size: 24px; width: 100%;"
       .clearfix
     .clearfix
 
