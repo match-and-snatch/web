@@ -106,7 +106,7 @@ class bud.widgets.Form extends bud.Widget
             result[$input.attr('name')] = '0'
         else if $input.is('[type=radio]')
           if $input.is(':checked')
-            result[$input.attr('name')] = $input.val()
+            result[$input.attr('name')] = $input.val() || '1'
         else
           result[$input.attr('name')] = $input.val()
 
