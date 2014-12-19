@@ -10,7 +10,7 @@ form.Form action=update_cc_data_account_info_path method='post'
 
     .form-group
       label style='width: auto;' Address 2
-      input.form-control type='text' name='address_line_2' style='width: 100%' validate='require' value=@user.billing_address_line_2
+      input.form-control type='text' name='address_line_2' style='width: 100%' value=@user.billing_address_line_2
       .error data-field='address_line_2'
     .clearfix
 
@@ -97,7 +97,7 @@ form.Form action=update_cc_data_account_info_path method='post'
 
     .form-group style='margin-top: 15px'
       label.pull-left Address 2
-      input.pull-right.form-control type='text' name='address_line_2' validate='require' value=@user.billing_address_line_2
+      input.pull-right.form-control type='text' name='address_line_2' value=@user.billing_address_line_2
       .error data-field='address_line_2'
     .clearfix
 

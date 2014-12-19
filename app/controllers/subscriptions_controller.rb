@@ -29,7 +29,12 @@ class SubscriptionsController < ApplicationController
                                          number:       params[:number],
                                          cvc:          params[:cvc],
                                          expiry_month: params[:expiry_month],
-                                         expiry_year:  params[:expiry_year]
+                                         expiry_year:  params[:expiry_year],
+                                         zip:          params[:zip],
+                                         city:         params[:city],
+                                         address_line_1: params[:address_line_1],
+                                         address_line_2: params[:address_line_2],
+                                         state:          params[:state]
       session_manager.login(params[:email], params[:password])
     end
     json_reload
@@ -41,7 +46,12 @@ class SubscriptionsController < ApplicationController
                                           number:       params[:number],
                                           cvc:          params[:cvc],
                                           expiry_month: params[:expiry_month],
-                                          expiry_year:  params[:expiry_year]
+                                          expiry_year:  params[:expiry_year],
+                                          zip:          params[:zip],
+                                          city:         params[:city],
+                                          address_line_1: params[:address_line_1],
+                                          address_line_2: params[:address_line_2],
+                                          state:          params[:state]
     end
     json_reload
   end

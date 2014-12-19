@@ -102,19 +102,24 @@
             //span.error data-field='cvc'
 
             .form-group
-              input.form-control.input-sm type='text' name='' placeholder='Street Address'
+              input.form-control.input-sm type='text' name='address_line_1' placeholder='Street Address' validate='require'
+              span.error data-field='address_line_1'
 
             .form-group
-              input.form-control.input-sm type='text' name='' placeholder='Address 2'
+              input.form-control.input-sm type='text' name='address_line_2' placeholder='Address 2'
+              span.error data-field='address_line_2'
 
             .form-group.pull-left style='width: 88px; margin-right: 10px;'
-              input.form-control.input-sm.pull-left type='text' name='' placeholder='City'
+              input.form-control.input-sm.pull-left type='text' name='city' placeholder='City' validate='require'
+              span.error data-field='city'
 
             .form-group.pull-left style='width: 70px; margin-right: 10px;'
-              input.form-control.input-sm type='text' name='' placeholder='State'
+              input.form-control.input-sm type='text' name='state' placeholder='State' validate='require'
+              span.error data-field='state'
 
             .form-group.pull-left style='width: 80px;'
-              input.form-control.input-sm.pull-left type='text' name='' placeholder='ZIP Code'
+              input.form-control.input-sm.pull-left type='text' name='zip' placeholder='ZIP Code' validate='require'
+              span.error data-field='zip'
           .clearfix
 
       - else
@@ -194,20 +199,25 @@
           .clearfix
 
           .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
-            input.form-control type='text' name='' placeholder='Street Address'
+            input.form-control type='text' name='address_line_1' placeholder='Street Address' validate='require'
+            span.error data-field='address_line_1'
 
           .form-group.address.pull-left style='width: 300px;'
-            input.form-control type='text' name='' placeholder='Address 2'
+            input.form-control type='text' name='address_line_2' placeholder='Address 2'
+            span.error data-field='address_line_2'
           .clearfix
 
           .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
-            input.form-control type='text' name='' placeholder='City'
+            input.form-control type='text' name='city' placeholder='City' validate='require'
+            span.error data-field='city'
 
           .form-group.address.pull-left style='width: 150px; margin-right: 15px'
-            input.form-control type='text' name='' placeholder='State'
+            input.form-control type='text' name='state' placeholder='State' validate='require'
+            span.error data-field='state'
 
           .form-group.address.pull-left style='width: 135px;'
-            input.form-control type='text' name='' placeholder='ZIP Code'
+            input.form-control type='text' name='zip' placeholder='ZIP Code' validate='require'
+            span.error data-field='zip'
           .clearfix
 
           / .form-group.cc_row
