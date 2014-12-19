@@ -47,6 +47,12 @@ class CurrentUserDecorator < UserDecorator
       else
         raise ArgumentError, "No such action #{action}"
       end
+    when Contribution
+      case action
+        when :delete then object.id == subject.user_id
+        else
+          raise ArgumentError, "No such action #{action}"
+      end
     when Subscription
       case action
       when :delete then object.id == subject.user_id

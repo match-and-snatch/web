@@ -87,6 +87,12 @@
     .row
       .sidebar.col-md-4.pull-left
 
+        /Contribute
+        a.contribute_url.btn.green.PopupTrigger data-target='contribute' style='margin-bottom: 30px;'
+          i.fa.fa-usd
+          .heading Make a Contribution
+          span Donate to this profile!
+
         // Profile Action
         .share_url.btn.pink.PopupTrigger data-target='share'
           i.fa.fa-share-square-o
@@ -398,6 +404,17 @@
         .form-group
           input.btn.pink.pull-right type='submit' value='Update Benefits'
           .clearfix
+
+  // Contribute popup
+  .Popup.popup.modal-content data-identifier='contribute' style="width: 700px"
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="contribute" aria-hidden="true"
+      .modal-title Subscriber Contributions
+
+    .modal-body style="text-align: center; margin-bottom: 15px"
+      p This green button 'Make a Contribution' is located on the left side of all of your subscribers' profiles.  When your subscribers click on the green button, a popup window will appear in which your subscribers can make a financial contribution directly to you.So, if you need to raise money for a special project, or if you are seeking additional recurring contributions to increase your income - this green button allows subscribers to donate to you.  They can donate any amount they want, and they can donate money as a one-time payment or as a monthly recurring payment.  If you are looking for contributions, please let your subscribers know about the green button on the profile page.  Once your subscribers click on the green button, they can contribute any amount of money to you at anytime.
+
+      p ConnectPal will pay out your Contribution money on the 1st of the month with the rest of your payments.  Our percentage fee for processing contributions is 5% of the contributed amount, as well as a small fee for credit card processing, our 3rd party credit card processor charges 2.9% plus 30 cents.
 
   // Share popup
   .Popup.popup.modal-content data-identifier='share' style="width: 350px"
