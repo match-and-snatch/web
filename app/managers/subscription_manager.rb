@@ -70,7 +70,12 @@ class SubscriptionManager < BaseManager
         UserProfileManager.new(@subscriber).update_cc_data number: number,
                                                            cvc: cvc,
                                                            expiry_month: expiry_month,
-                                                           expiry_year: expiry_year
+                                                           expiry_year: expiry_year,
+                                                           zip: zip,
+                                                           city: city,
+                                                           state: state,
+                                                           address_line_1: address_line_1,
+                                                           address_line_2: address_line_2
         subscribe_and_pay_for target
       end
     else
@@ -118,7 +123,12 @@ class SubscriptionManager < BaseManager
       UserProfileManager.new(@subscriber).update_cc_data number: number,
                                                          cvc: cvc,
                                                          expiry_month: expiry_month,
-                                                         expiry_year: expiry_year
+                                                         expiry_year: expiry_year,
+                                                         zip: zip,
+                                                         city: city,
+                                                         state: state,
+                                                         address_line_1: address_line_1,
+                                                         address_line_2: address_line_2
       subscribe_and_pay_for target
     end
   end

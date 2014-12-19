@@ -1,6 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_filter :authenticate!, except: [:new, :via_register]
   before_filter :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
+  before_filter :filter_card_params, only: [:via_register, :via_update_cc_data]
   before_filter :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore, :retry_payment]
 
   protect(:destroy) { can? :delete, @subscription }
@@ -91,5 +92,13 @@ class SubscriptionsController < ApplicationController
 
   def load_owner!
     @owner = User.where(slug: params[:user_id]).first or error(404)
+  end
+
+  def filter_card_params
+    if params[:expiry_date].present?
+      month, year = params[:expiry_date].split(/\s*\/\s*/)
+      params[:expiry_month] = month
+      params[:expiry_year] = year
+    end
   end
 end
