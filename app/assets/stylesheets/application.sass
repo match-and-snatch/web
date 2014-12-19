@@ -171,9 +171,16 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
       font-weight: bold
       padding-top: 24px
     .top_ten
-      font-size: 13px
       a
         margin-bottom: 15px
+        // Tablet
+        @media screen and (min-width: 768px)
+          width: 344px
+          font-size: 12px
+        // Desktop
+        @media screen and (min-width: 991px)
+          width: 444px
+          font-size: 13px
         img
           border: 1px solid $color_border
           margin-right: 15px
