@@ -37,6 +37,7 @@ class ContributionManager < BaseManager
                                                   statement_description: 'Contribution',
                                                   metadata: {target_id: contribution.id, target_type: contribution.class.name, user_id: @user.id})
     EventsManager.contribution_created(user: @user, contribution: contribution)
+    ContributionFeedEvent.create! subscription_target_user: @user, target_user: target_user, target: contribution, data: {recurring: recurring, amount: (amount / 100).to_i}
     contribution
   rescue Stripe::StripeError => e
     EventsManager.contribution_failed(user: @user, contribution: contribution)

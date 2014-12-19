@@ -53,3 +53,4 @@ en:
     videos: Just posted a new video to their profile.
     documents: Just posted some documents.
     photos: Just posted %{count} %{label} to their profile.
+    contributions: Has made a %{type} contribution of $%{amount} towards your profile!
