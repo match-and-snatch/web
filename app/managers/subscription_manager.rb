@@ -19,6 +19,12 @@ class SubscriptionManager < BaseManager
   # @param cvc [String]
   # @param expiry_year [String]
   # @param expiry_month [String]
+  # @param address_line_1 [String]
+  # @param address_line_2 [String]
+  # @param state [String]
+  # @param city [String]
+  # @param zip [String]
+  # @param target [Concerns::Subscribable]
   # @return [Subscription]
   def register_subscribe_and_pay(email: nil,
                                  full_name: nil,
@@ -27,6 +33,11 @@ class SubscriptionManager < BaseManager
                                  cvc: nil,
                                  expiry_month: nil,
                                  expiry_year: nil,
+                                 zip: nil,
+                                 city: nil,
+                                 state: nil,
+                                 address_line_1: nil,
+                                 address_line_2: nil,
                                  target: )
     unless target.is_a?(Concerns::Subscribable)
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"
@@ -35,7 +46,12 @@ class SubscriptionManager < BaseManager
     card = CreditCard.new number:       number,
                           cvc:          cvc,
                           expiry_month: expiry_month,
-                          expiry_year:  expiry_year
+                          expiry_year:  expiry_year,
+                          zip: zip,
+                          city: city,
+                          state: state,
+                          address_line_1: address_line_1,
+                          address_line_2: address_line_2
     validate! do
       fail_with full_name: :empty if full_name.blank?
       validate_email email
@@ -54,7 +70,12 @@ class SubscriptionManager < BaseManager
         UserProfileManager.new(@subscriber).update_cc_data number: number,
                                                            cvc: cvc,
                                                            expiry_month: expiry_month,
-                                                           expiry_year: expiry_year
+                                                           expiry_year: expiry_year,
+                                                           zip: zip,
+                                                           city: city,
+                                                           state: state,
+                                                           address_line_1: address_line_1,
+                                                           address_line_2: address_line_2
         subscribe_and_pay_for target
       end
     else
@@ -66,12 +87,22 @@ class SubscriptionManager < BaseManager
   # @param cvc [String]
   # @param expiry_year [String]
   # @param expiry_month [String]
+  # @param address_line_1 [String]
+  # @param address_line_2 [String]
+  # @param state [String]
+  # @param city [String]
+  # @param zip [String]
   # @param target [Concerns::Subscribable]
   # @return [Subscription]
   def update_cc_subscribe_and_pay(number: nil,
                                   cvc: nil,
                                   expiry_month: nil,
                                   expiry_year: nil,
+                                  zip: nil,
+                                  city: nil,
+                                  state: nil,
+                                  address_line_1: nil,
+                                  address_line_2: nil,
                                   target: )
     unless target.is_a?(Concerns::Subscribable)
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"
@@ -80,14 +111,24 @@ class SubscriptionManager < BaseManager
     card = CreditCard.new number:       number,
                           cvc:          cvc,
                           expiry_month: expiry_month,
-                          expiry_year:  expiry_year
+                          expiry_year:  expiry_year,
+                          zip: zip,
+                          city: city,
+                          state: state,
+                          address_line_1: address_line_1,
+                          address_line_2: address_line_2
     validate! { validate_cc card }
 
     ActiveRecord::Base.transaction do
       UserProfileManager.new(@subscriber).update_cc_data number: number,
                                                          cvc: cvc,
                                                          expiry_month: expiry_month,
-                                                         expiry_year: expiry_year
+                                                         expiry_year: expiry_year,
+                                                         zip: zip,
+                                                         city: city,
+                                                         state: state,
+                                                         address_line_1: address_line_1,
+                                                         address_line_2: address_line_2
       subscribe_and_pay_for target
     end
   end

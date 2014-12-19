@@ -9,8 +9,12 @@ class FeedEvent < ActiveRecord::Base
     @label ||= self.name.tableize.gsub('_feed_event', '')
   end
 
-  def self.message
-    @message ||= I18n.t(label, scope: :feed)
+  def self.message(data = {})
+    if data.empty?
+      @message ||= I18n.t(label, scope: :feed)
+    else
+      I18n.t(label, data.merge(scope: :feed))
+    end
   end
 
   def kind
@@ -18,7 +22,7 @@ class FeedEvent < ActiveRecord::Base
   end
 
   def message
-    self.class.message
+    self.class.message(data)
   end
 
   def title

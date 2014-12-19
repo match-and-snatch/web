@@ -39,6 +39,7 @@ class AccountInfosController < ApplicationController
 
   def billing_information
     @subscriptions = SubscriptionsPresenter.new(user: @user)
+    @contributions = Contribution.where(user_id: @user.id, recurring: true).limit(200)
     json_render
   end
 
@@ -56,7 +57,7 @@ class AccountInfosController < ApplicationController
   end
 
   def update_cc_data
-    manager.update_cc_data(params.slice(:number, :cvc, :expiry_month, :expiry_year))
+    manager.update_cc_data(params.slice(:number, :cvc, :expiry_month, :expiry_year, :zip, :city, :state, :address_line_1, :address_line_2))
     json_reload notice: :updated_cc_data
   end
 

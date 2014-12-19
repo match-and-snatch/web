@@ -240,12 +240,23 @@ class UserProfileManager < BaseManager
   # @param cvc [String]
   # @param expiry_month [String]
   # @param expiry_year [String]
+  # @param address_line_1 [String]
+  # @param address_line_2 [String]
+  # @param state [String]
+  # @param city [String]
+  # @param zip [String]
   # @return [User]
-  def update_cc_data(number: nil, cvc: nil, expiry_month: nil, expiry_year: nil)
-    card = CreditCard.new number:       number,
-                          cvc:          cvc,
+  def update_cc_data(number: nil, cvc: nil, expiry_month: nil, expiry_year: nil,
+                     address_line_1: nil, address_line_2: nil, state: nil, city: nil, zip: nil)
+    card = CreditCard.new number: number,
+                          cvc: cvc,
                           expiry_month: expiry_month,
-                          expiry_year:  expiry_year
+                          expiry_year: expiry_year,
+                          address_line_1: address_line_1,
+                          address_line_2: address_line_2,
+                          state: state,
+                          city: city,
+                          zip: zip
 
     validate! { validate_cc card }
 
@@ -269,10 +280,16 @@ class UserProfileManager < BaseManager
       customer = Stripe::Customer.create customer_data
     end
 
-    user.stripe_user_id       = customer['id']
-    user.stripe_card_id       = customer['cards']['data'][0]['id']
-    user.last_four_cc_numbers = customer['cards']['data'][0]['last4']
-    user.card_type            = customer['cards']['data'][0]['type']
+    card_data = customer['cards']['data'][0]
+    user.stripe_user_id = customer['id']
+    user.stripe_card_id = card_data['id']
+    user.last_four_cc_numbers = card_data['last4']
+    user.card_type = card_data['type']
+    user.billing_address_zip = card_data['address_zip']
+    user.billing_address_line_1 = card_data['address_line1']
+    user.billing_address_line_2 = card_data['address_line2']
+    user.billing_address_city = card_data['address_city']
+    user.billing_address_state = card_data['address_state']
 
     save_or_die! user
 

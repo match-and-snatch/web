@@ -139,7 +139,7 @@ class ApplicationController < ActionController::Base
     json_render_html('append', json)
   end
 
-  # @param [String, Sy]
+  # @param [String, Symbol]
   def json_popup(json = {})
     unless json[:html]
       template = json.delete(:template) || action_name

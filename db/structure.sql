@@ -151,6 +151,41 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
+-- Name: contributions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE contributions (
+    id integer NOT NULL,
+    amount integer,
+    recurring boolean DEFAULT false NOT NULL,
+    user_id integer,
+    target_user_id integer,
+    parent_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: contributions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE contributions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: contributions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE contributions_id_seq OWNED BY contributions.id;
+
+
+--
 -- Name: cost_change_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -862,7 +897,12 @@ CREATE TABLE users (
     vacation_enabled boolean DEFAULT false NOT NULL,
     vacation_message text,
     last_visited_profile_id integer,
-    vacation_enabled_at timestamp without time zone
+    vacation_enabled_at timestamp without time zone,
+    billing_address_city character varying(255),
+    billing_address_state character varying(255),
+    billing_address_zip character varying(255),
+    billing_address_line_1 text,
+    billing_address_line_2 text
 );
 
 
@@ -897,6 +937,13 @@ ALTER TABLE ONLY benefits ALTER COLUMN id SET DEFAULT nextval('benefits_id_seq':
 --
 
 ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY contributions ALTER COLUMN id SET DEFAULT nextval('contributions_id_seq'::regclass);
 
 
 --
@@ -1046,6 +1093,14 @@ ALTER TABLE ONLY benefits
 
 ALTER TABLE ONLY comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contributions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY contributions
+    ADD CONSTRAINT contributions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1425,4 +1480,12 @@ INSERT INTO schema_migrations (version) VALUES ('20141128040705');
 INSERT INTO schema_migrations (version) VALUES ('20141128075349');
 
 INSERT INTO schema_migrations (version) VALUES ('20141211175513');
+
+INSERT INTO schema_migrations (version) VALUES ('20141218170138');
+
+INSERT INTO schema_migrations (version) VALUES ('20141219110607');
+
+INSERT INTO schema_migrations (version) VALUES ('20141219110658');
+
+INSERT INTO schema_migrations (version) VALUES ('20141219160721');
 
