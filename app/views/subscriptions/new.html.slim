@@ -117,7 +117,7 @@
 
       - else
         .account_payment
-          label style='font-size: 13px; margin-bottom: 10px' Billing Information
+          label style='font-size: 13px; margin: 0 0 15px 0;' Billing Information
           .clearfix
           .form-group.cc_row.pull-left
             ul.cc_images
@@ -132,8 +132,15 @@
             input.form-control type='text' name='number' placeholder='Credit Card Number' validate='cc_number'
             span.error data-field='number'
 
+          / .form-group.exp_date.pull-left
+          /   input.form-control.MonthYearField type='text' name='expiry_date' placeholder='Expires MM / YYYY' validate='require'
+          /   span.error data-field='expiry_date'
+
           .form-group.exp_date.pull-left
-            input.form-control.MonthYearField type='text' name='expiry_date' placeholder='Expires MM / YYYY' validate='require'
+            label.pull-left style='margin: 10px 10px 0 0;' Expiration
+            input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_month' placeholder='Month' style="width: 70px; margin-right: 15px;" validate='expiry_month'
+            input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_year' placeholder='Year' style="width: 55px" validate='expiry_year'
+            .clearfix
             span.error data-field='expiry_date'
 
           .form-group.cvc.pull-left

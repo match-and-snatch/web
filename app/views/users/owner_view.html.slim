@@ -418,10 +418,13 @@
 
       p ConnectPal will pay out your Contribution money on the 1st of the month with the rest of your payments.  Our percentage fee for processing contributions is 5% of the contributed amount, as well as a small fee for credit card processing, our 3rd party credit card processor charges 2.9% plus 30 cents
 
-      //.well.well-sm
-        p Would you like to show this button for your subscribers?
-        input.pull-left type='submit' value='Yes, show button to my subscribers!'
-        input.pull-left type='submit' value='Hide' style='margin-left: 15px;'
+      .well.well-sm
+        p You have the ability to hide the "Make a Contribution" button if you do not want to accept contributions. Do you want to show or hide the ‘Make a Contribution' button?
+        // Show & Hide buttons for subscriber profile
+        label.radio-inline style='font-size: 13px;'
+          input type='radio' name='' value='Show' checked='checked'  Yes, please show it.
+        label.radio-inline style='font-size: 13px; margin-left: 15px;'
+          input type='radio' name='' value='Hide' No, please hide it.
         .clearfix
 
   // Share popup
