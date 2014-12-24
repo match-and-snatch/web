@@ -134,10 +134,11 @@
                 a.fa.fa-vimeo-square  href=url target="_blank" Vimeo
 
         /Contribute
-        a.contribute_url.btn.green.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id) style='margin-bottom: 30px;'
-          i.fa.fa-usd
-          .heading Make a Contribution
-          span Donate to this profile!
+        - if @profile.contributions_enabled?
+          a.contribute_url.btn.green.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id) style='margin-bottom: 30px;'
+            i.fa.fa-usd
+            .heading Make a Contribution
+            span Donate to this profile!
 
         /Share Profile
         .share_url.btn.pink.PopupTrigger data-target='share' style='margin-bottom: 30px;'

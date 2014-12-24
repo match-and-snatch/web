@@ -85,6 +85,16 @@ class AccountInfosController < ApplicationController
     json_success
   end
 
+  def enable_contributions
+    manager.enable_contributions
+    json_success
+  end
+
+  def disable_contributions
+    manager.disable_contributions
+    json_success
+  end
+
   def enable_downloads
     manager.enable_downloads
     json_success

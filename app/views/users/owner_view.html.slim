@@ -88,7 +88,7 @@
       .sidebar.col-md-4.pull-left
 
         /Contribute
-        a.contribute_url.btn.green.PopupTrigger data-target='contribute' style='margin-bottom: 30px;'
+        a.contribute_url.btn.green.PopupTrigger data-target='contribute' style='margin-bottom: 30px;' class=('pending' unless @profile.contributions_enabled?)
           i.fa.fa-usd
           .heading Make a Contribution
           span Donate to this profile!
@@ -422,9 +422,9 @@
         p You have the ability to hide the "Make a Contribution" button if you do not want to accept contributions. Do you want to show or hide the ‘Make a Contribution' button?
         // Show & Hide buttons for subscriber profile
         label.radio-inline style='font-size: 13px;'
-          input type='radio' name='' value='Show' checked='checked'  Yes, please show it.
+          input.Checker data-checked-url=enable_contributions_account_info_path name='contribution_rb' type='radio' value='Show' checked=@profile.contributions_enabled? Yes, please show it.
         label.radio-inline style='font-size: 13px; margin-left: 15px;'
-          input type='radio' name='' value='Hide' No, please hide it.
+          input.Checker data-checked-url=disable_contributions_account_info_path name='contribution_rb' checked=!@profile.contributions_enabled? type='radio' value='Hide' No, please hide it.
         .clearfix
 
   // Share popup

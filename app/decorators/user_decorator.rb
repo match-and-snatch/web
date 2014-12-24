@@ -10,6 +10,7 @@ class UserDecorator < BaseDecorator
            :rss_enabled?,
            :itunes_enabled?,
            :downloads_enabled?,
+           :contributions_enabled?,
            :cover_picture_position,
            :cost, :name, :has_profile_page?,
            :posts, :source_uploads, :account_number, :holder_name, :routing_number,

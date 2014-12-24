@@ -485,6 +485,16 @@ class UserProfileManager < BaseManager
     save_or_die! user
   end
 
+  def enable_contributions
+    @user.contributions_enabled = true
+    save_or_die! user
+  end
+
+  def disable_contributions
+    @user.contributions_enabled = false
+    save_or_die! user
+  end
+
   def enable_rss
     fail_with! 'RSS is already enabled' if @user.rss_enabled?
     @user.rss_enabled = true

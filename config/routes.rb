@@ -26,6 +26,8 @@ BuddyPlatform::Application.routes.draw do
       put :disable_itunes
       get :confirm_vacation_mode_activation
       get :confirm_vacation_mode_deactivation
+      put :enable_contributions
+      put :disable_contributions
       post :enable_vacation_mode
       put :disable_vacation_mode
     end
