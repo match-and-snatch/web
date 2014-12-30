@@ -1,0 +1,17 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: snatch_development
+  pool: 5
+  user: szinin
+  password: qwerty
+  host: localhost
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: snatch_test
+  pool: 5
+  user: szinin
+  password: qwerty
+  host: localhost
