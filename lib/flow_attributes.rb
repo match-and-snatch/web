@@ -96,7 +96,7 @@ class FlowAttributes
     end
 
     def error_for(value)
-      ERROR if failed?(value)
+      self.class::ERROR if failed?(value)
     end
 
     def failed?(value)
