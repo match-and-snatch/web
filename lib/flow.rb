@@ -92,6 +92,10 @@ class Flow
 
   private
 
+  def flows
+    @flows
+  end
+
   # @raise [FlowError]
   def fail!
     raise FlowError

@@ -25,4 +25,19 @@ describe OfferFlow do
       it { is_expected.to be_valid }
     end
   end
+
+  describe '#add_to_favorites' do
+    before { flow.create(title: 'test') }
+
+    let(:add_to_favorites) { flow.add_to_favorites }
+
+    it { expect { add_to_favorites }.to change { flow.offer.favorites.count }.from(0).to(1) }
+
+    describe 'favorite' do
+      before { add_to_favorites }
+      subject(:favorite) { flow.offer.favorites.first }
+
+      it { expect(favorite.user).to eq(performer) }
+    end
+  end
 end
