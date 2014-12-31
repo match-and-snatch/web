@@ -1,4 +1,7 @@
 class Flow
+  attr_reader :performer
+  attr_reader :errors
+  attr_reader :states
 
   # @return [Hash] Flows used by this flow
   def self.flows; @flows ||= {} end
@@ -17,10 +20,6 @@ class Flow
     @instance_name = :"@#{name}"
 
     define_method(name) { subject }
-
-    attr_reader :performer
-    attr_reader :errors
-    attr_reader :states
   end
 
   # Creates object by described set of rules
@@ -30,7 +29,7 @@ class Flow
     name = name ? "create_#{name}" : 'create'
 
     define_method name do |attributes|
-      return if subject
+      raise 'Cannot call factory on existing subject' if subject
 
       transaction do
         attributes = FlowAttributes.new(self, attributes, &block)
@@ -140,4 +139,3 @@ class Flow
     !!@parent
   end
 end
-
