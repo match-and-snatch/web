@@ -1,6 +1,4 @@
 class OfferFlow < Flow
-  subject :offer
-
   factory do
     attr(:title).require
     attr(:user).map_to(performer)
@@ -11,8 +9,6 @@ class OfferFlow < Flow
   end
 
   flow :favorite do
-    subject :favorite
-
     factory do
       attr(:offer).require
       attr(:user).map_to(performer)

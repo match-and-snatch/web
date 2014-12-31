@@ -15,17 +15,21 @@ class Flow
   # @param name [Symbol]
   # @param class_name [String]
   def self.subject(name, class_name: nil)
+    raise 'Subject has been already set' if @subject_set
+
     class_name ||= name.to_s
     @klass = class_name.classify.constantize
     @instance_name = :"@#{name}"
 
     define_method(name) { subject }
+    @subject_set = true
   end
 
   # Creates object by described set of rules
   # @param name [Symbol]
   # @return [self]
   def self.factory(name = nil, &block)
+    autoset_subject
     name = name ? "create_#{name}" : 'create'
 
     define_method name do |attributes|
@@ -47,12 +51,22 @@ class Flow
   end
 
   # @param name [Symbol]
-  def self.flow(name = nil, &block)
-    flows[name.to_sym] = block ? Class.new(Flow, &block) : name.to_s.classify.constantize
+  def self.flow(_name = nil, &block)
+    autoset_subject
+
+    flows[_name.to_sym] = if block
+      Class.new(Flow) do
+        eval("def self.name; '#{_name}' end")
+        instance_eval(&block)
+      end
+    else
+      _name.to_s.classify.constantize
+    end
   end
 
   # @param name [Symbol] no ! bang names allowed
   def self.action(name, &block)
+    autoset_subject
     base_name = :"__#{name}"
     define_method(base_name, &block)
 
@@ -60,6 +74,13 @@ class Flow
       raise ArgumentError, 'No subject set' unless subject
       transaction { public_send(base_name, *args); self }
     end
+  end
+
+  def self.autoset_subject
+    return if @subject_set
+
+    subject_name = name.gsub(/Flow$/, '').gsub(/.+::/, '').underscore
+    subject subject_name.to_sym
   end
 
   # @param performer [User]
