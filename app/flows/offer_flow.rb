@@ -26,6 +26,11 @@ class OfferFlow < Flow
     flows.subscription.create offer: offer
   end
 
+  action :hit do
+    offer.hits_count += 1
+    save
+  end
+
   flow :favorite do
     factory do
       attr(:offer).require

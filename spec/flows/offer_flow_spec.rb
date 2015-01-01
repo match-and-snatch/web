@@ -138,6 +138,13 @@ describe OfferFlow do
     end
   end
 
+  describe '#hit' do
+    subject(:flow) { described_class.new(performer: performer, subject: offer) }
+    let(:offer) { create_offer }
+
+    it { expect { flow.hit }.to change { offer.reload.hits_count }.by(1) }
+  end
+
   describe '#update' do
     subject(:flow) { described_class.new(performer: performer, subject: offer) }
 
