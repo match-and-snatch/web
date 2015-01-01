@@ -22,6 +22,10 @@ class OfferFlow < Flow
     flows.feedback.create offer: offer, positive: false
   end
 
+  action :subscribe do
+    flows.subscription.create offer: offer
+  end
+
   flow :favorite do
     factory do
       attr(:offer).require
@@ -34,6 +38,15 @@ class OfferFlow < Flow
       attr(:offer).require
       attr(:user).map_to(performer)
       attr(:positive).boolean.require
+    end
+  end
+
+  flow :subscription do
+    factory do
+      attr(:offer).require
+      attr(:user).map_to(performer)
+      attr(:query).map_to -> { offer.title }
+      attr(:tag_ids).map_to -> { offer.tag_ids }
     end
   end
 

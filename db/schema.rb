@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150101114019) do
+ActiveRecord::Schema.define(version: 20150101115533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,19 @@ ActiveRecord::Schema.define(version: 20150101114019) do
 
   create_table "offers_tags", force: :cascade do |t|
     t.integer "offer_id"
+    t.integer "tag_id"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "offer_id"
+    t.string   "query",      limit: 1024
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subscriptions_tags", force: :cascade do |t|
+    t.integer "subscription_id"
     t.integer "tag_id"
   end
 

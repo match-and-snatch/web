@@ -119,6 +119,25 @@ describe OfferFlow do
     end
   end
 
+  describe '#subscribe' do
+    subject(:flow) { described_class.new(performer: performer, subject: offer) }
+
+    let(:offer) { create_offer }
+    let(:subscribe) { flow.subscribe }
+
+    it { expect { subscribe }.to change { Subscription.count }.by(1) }
+    it { expect { subscribe }.to change { offer.subscriptions.count }.from(0).to(1) }
+
+    describe 'subscription' do
+      before { subscribe }
+      subject(:subscription) { offer.subscriptions.first }
+
+      it { expect(subscription.reload.user).to eq(performer) }
+      it { expect(subscription.reload.query).to eq(offer.title) }
+      it { expect(subscription.reload.tags).to eq(offer.tags) }
+    end
+  end
+
   describe '#update' do
     subject(:flow) { described_class.new(performer: performer, subject: offer) }
 

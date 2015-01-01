@@ -43,6 +43,10 @@ class FlowAttributes
     errors.empty?
   end
 
+  def method_missing(name, *args)
+    @attrs[name] ? @attrs[name].value : super
+  end
+
   private
 
   class FlowAttribute
