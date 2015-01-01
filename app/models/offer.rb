@@ -3,4 +3,5 @@ class Offer < ActiveRecord::Base
   has_many :favorites
   has_many :offers_tags
   has_many :tags, through: :offers_tags
+  has_many :feedbacks
 end

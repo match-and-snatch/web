@@ -70,6 +70,19 @@ class FlowAttributes
       @validators << Validator.new(message: :not_an_array) { |v| v.is_a?(Array) }
     end
 
+    chain :boolean do
+      @validators << BooleanValidator.new
+      v = @value
+      @value = -> {
+        case v
+        when 0, false, '0', 'false', 'no', '-', -> (value) { value.blank? }
+          false
+        else
+          true
+        end
+      }
+    end
+
     chain :map_to do |value|
       case value
       when Symbol
@@ -80,7 +93,7 @@ class FlowAttributes
     end
 
     chain :require do |message = :cannot_be_empty|
-      @validators << Validator.new(message: message) { |v| v.present? }
+      @validators << Validator.new(message: message) { |v| v.present? || v === false }
     end
 
     # @return [Array<Symbol>]
@@ -111,11 +124,23 @@ class FlowAttributes
     end
 
     def error_message
-      @options[:message]
+      @options[:message] || :invalid
     end
 
     def valid?(value)
       @block.call(value)
+    end
+  end
+
+  class BooleanValidator < Validator
+    VALID_VALUES = [1,0,true,false,'1','0','true','false','yes','no','+','-']
+
+    def error_message
+      :not_a_boolean
+    end
+
+    def valid?(value)
+      VALID_VALUES.include?(value)
     end
   end
 end

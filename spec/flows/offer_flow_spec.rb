@@ -70,6 +70,55 @@ describe OfferFlow do
     end
   end
 
+  describe '#add_to_favorites' do
+    before { flow.create(title: 'test', tag_ids: [tag.id]) }
+
+    let(:add_to_favorites) { flow.add_to_favorites }
+
+    it { expect { add_to_favorites }.to change { flow.offer.favorites.count }.from(0).to(1) }
+
+    describe 'favorite' do
+      before { add_to_favorites }
+      subject(:favorite) { flow.offer.favorites.first }
+
+      it { expect(favorite.user).to eq(performer) }
+    end
+  end
+
+  describe '#like' do
+    subject(:flow) { described_class.new(performer: performer, subject: offer) }
+
+    let(:offer) { create_offer }
+    let(:like) { flow.like }
+
+    it { expect { like }.to change { Feedback.count }.by(1) }
+    it { expect { like }.to change { offer.feedbacks.count }.from(0).to(1) }
+
+    describe 'feedback' do
+      before { like }
+      subject(:feedback) { offer.feedbacks.first }
+
+      it { is_expected.to be_positive }
+    end
+  end
+
+  describe '#dislike' do
+    subject(:flow) { described_class.new(performer: performer, subject: offer) }
+
+    let(:offer) { create_offer }
+    let(:dislike) { flow.dislike }
+
+    it { expect { dislike }.to change { Feedback.count }.by(1) }
+    it { expect { dislike }.to change { offer.feedbacks.count }.from(0).to(1) }
+
+    describe 'feedback' do
+      before { dislike }
+      subject(:feedback) { offer.feedbacks.first }
+
+      it { is_expected.not_to be_positive }
+    end
+  end
+
   describe '#update' do
     subject(:flow) { described_class.new(performer: performer, subject: offer) }
 
@@ -87,21 +136,6 @@ describe OfferFlow do
       it { expect { update }.to change { offer.reload.tags(true).to_a }.to([new_tag]) }
       it { expect { update }.not_to change { offer.reload.title } }
       it { expect { update }.not_to change { offer.reload.user } }
-    end
-  end
-
-  describe '#add_to_favorites' do
-    before { flow.create(title: 'test', tag_ids: [tag.id]) }
-
-    let(:add_to_favorites) { flow.add_to_favorites }
-
-    it { expect { add_to_favorites }.to change { flow.offer.favorites.count }.from(0).to(1) }
-
-    describe 'favorite' do
-      before { add_to_favorites }
-      subject(:favorite) { flow.offer.favorites.first }
-
-      it { expect(favorite.user).to eq(performer) }
     end
   end
 end

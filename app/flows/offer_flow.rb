@@ -14,10 +14,26 @@ class OfferFlow < Flow
     flows.favorite.create offer: offer
   end
 
+  action :like do
+    flows.feedback.create offer: offer, positive: true
+  end
+
+  action :dislike do
+    flows.feedback.create offer: offer, positive: false
+  end
+
   flow :favorite do
     factory do
       attr(:offer).require
       attr(:user).map_to(performer)
+    end
+  end
+
+  flow :feedback do
+    factory do
+      attr(:offer).require
+      attr(:user).map_to(performer)
+      attr(:positive).boolean.require
     end
   end
 
