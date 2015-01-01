@@ -3,7 +3,7 @@ class CreateFavorites < ActiveRecord::Migration
     create_table :favorites do |t|
       t.references :user
       t.references :offer
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

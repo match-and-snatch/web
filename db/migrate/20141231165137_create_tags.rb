@@ -3,7 +3,7 @@ class CreateTags < ActiveRecord::Migration
     create_table :tags do |t|
       t.string :title, limit: 512
       t.references :user
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

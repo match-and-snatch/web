@@ -4,7 +4,7 @@ class CreateSubscriptions < ActiveRecord::Migration
       t.references :user
       t.references :offer
       t.string :query, limit: 1024
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :subscriptions_tags do |t|

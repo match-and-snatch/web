@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150101115533) do
+ActiveRecord::Schema.define(version: 20150101150455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,23 +19,24 @@ ActiveRecord::Schema.define(version: 20150101115533) do
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "offer_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "feedbacks", force: :cascade do |t|
     t.boolean  "positive"
     t.integer  "offer_id"
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "offers", force: :cascade do |t|
     t.string   "title",      limit: 1024
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "hits_count",              default: 0, null: false
   end
 
   create_table "offers_tags", force: :cascade do |t|
@@ -47,8 +48,8 @@ ActiveRecord::Schema.define(version: 20150101115533) do
     t.integer  "user_id"
     t.integer  "offer_id"
     t.string   "query",      limit: 1024
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "subscriptions_tags", force: :cascade do |t|
@@ -59,13 +60,13 @@ ActiveRecord::Schema.define(version: 20150101115533) do
   create_table "tags", force: :cascade do |t|
     t.string   "title",      limit: 512
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

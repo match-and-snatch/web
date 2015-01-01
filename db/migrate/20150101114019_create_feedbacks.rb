@@ -4,7 +4,7 @@ class CreateFeedbacks < ActiveRecord::Migration
       t.boolean :positive
       t.references :offer
       t.references :user
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

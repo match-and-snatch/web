@@ -3,7 +3,7 @@ class CreateOffers < ActiveRecord::Migration
     create_table :offers do |t|
       t.string :title, limit: 1024
       t.references :user
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
