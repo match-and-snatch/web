@@ -3,11 +3,15 @@ class OfferFlow < Flow
     attr(:title).require
     attr(:user).map_to(performer)
     attr(:tag_ids).array.require(:missing_tag)
+    attr(:messages_enabled).boolean
+    attr(:calls_enabled).boolean
   end
 
   factory :without_tags do
     attr(:title).require
     attr(:user).map_to(performer)
+    attr(:messages_enabled).boolean
+    attr(:calls_enabled).boolean
   end
 
   action :add_to_favorites do

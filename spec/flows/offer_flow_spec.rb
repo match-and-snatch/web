@@ -32,8 +32,17 @@ describe OfferFlow do
 
       it { expect(offer.user).to eq(performer) }
       it { expect(offer.tags).to eq([tag]) }
+      it { expect(offer.messages_enabled?).to eq(false) }
+      it { expect(offer.calls_enabled?).to eq(false) }
       it { is_expected.to be_persisted }
       it { is_expected.to be_valid }
+
+      context 'communication enabled' do
+        let(:create) { flow.create(title: 'test', tag_ids: [tag.id], messages_enabled: true, calls_enabled: true) }
+
+        it { expect(offer.messages_enabled?).to eq(true) }
+        it { expect(offer.calls_enabled?).to eq(true) }
+      end
     end
   end
 
