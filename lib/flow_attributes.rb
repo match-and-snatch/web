@@ -18,6 +18,12 @@ class FlowAttributes
     @attrs[name] = FlowAttribute.new(self, name)
   end
 
+  # @param name [Symbol]
+  # @return [FlowAttribute]
+  def vattr(name)
+    @attrs[name] = FlowAttribute.new(self, name, true)
+  end
+
   def [](key)
     @attrs[key]
   end
@@ -34,7 +40,7 @@ class FlowAttributes
   def to_h
     {}.tap do |result|
       @attrs.each do |name, attr|
-        result[name] = attr.value
+        result[name] = attr.value unless attr.virtual?
       end
     end
   end
@@ -63,15 +69,33 @@ class FlowAttributes
 
     # @param data [Hash]
     # @param name [Symbol]
-    def initialize(attrs, name)
+    # @param virtual [true, false]
+    def initialize(attrs, name, virtual = false)
       @name = name.to_sym
       @attrs = attrs
       @value = @attrs.data[@name]
       @validators = []
+      @virtual = virtual
     end
 
     chain :array do
       @validators << Validator.new(message: :not_an_array) { |v| v.is_a?(Array) }
+    end
+
+    chain :email do
+      @validators << EmailValidator.new
+    end
+
+    chain :uniq do
+      @validators << Validator.new(message: :already_taken) { |v| @attrs.flow.klass.where(@name => v).empty? }
+    end
+
+    chain :password do
+      @validators << Validator.new(message: :too_short) { |v| v.try(:length).to_i > 5 }
+    end
+
+    chain :equal_to do |value|
+      @validators << Validator.new(message: :does_not_match) { |v| v == (value.is_a?(Proc) ? value.call : value) }
     end
 
     chain :boolean do
@@ -112,6 +136,10 @@ class FlowAttributes
     def value
       @cahed_value ||= @value.is_a?(Proc) ? @value.call : @value
     end
+
+    def virtual?
+      @virtual
+    end
   end
 
   class Validator
@@ -145,6 +173,18 @@ class FlowAttributes
 
     def valid?(value)
       VALID_VALUES.include?(value)
+    end
+  end
+
+  class EmailValidator < Validator
+    EMAIL_REGEXP = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
+
+    def error_message
+      :not_an_email
+    end
+
+    def valid?(value)
+      !!value.match(EMAIL_REGEXP)
     end
   end
 end

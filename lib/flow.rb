@@ -122,11 +122,15 @@ class Flow
     end
 
     @performer = performer
-    raise ArgumentError unless performer.is_a?(User)
+    raise ArgumentError unless performer.is_a?(User) || performer.nil?
 
     @errors = {}
     @states = []
     @flows = FlowsProxy.new(self)
+  end
+
+  def klass
+    self.class.klass
   end
 
   def failed?
