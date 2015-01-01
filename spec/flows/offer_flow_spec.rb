@@ -1,19 +1,29 @@
 describe OfferFlow do
   let(:performer) { User.create! }
-  subject(:flow) { OfferFlow.new(performer: performer) }
+  let(:tag) { create_tag }
+
+  subject(:flow) { described_class.new(performer: performer) }
 
   describe '#create' do
-    let(:create) { flow.create(title: 'test') }
+    let(:create) { flow.create(title: 'test', tag_ids: [tag.id]) }
 
     it { expect { create }.to change { flow.offer }.from(nil).to(instance_of(Offer)) }
     it { expect { create }.to change { Offer.count }.by(1) }
 
     context 'no title set' do
-      let(:create) { flow.create(title: ' ') }
+      let(:create) { flow.create(title: ' ', tag_ids: [tag.id]) }
 
       it { expect { create }.not_to change { flow.offer }.from(nil) }
       it { expect { create }.not_to change { Offer.count } }
-      it { expect { create }.to change { flow.errors }.from({}).to eq(title: [:cannot_be_blank]) }
+      it { expect { create }.to change { flow.errors }.from({}).to eq(title: [:cannot_be_empty]) }
+    end
+
+    context 'no tags set' do
+      let(:create) { flow.create(title: 'test', tag_ids: []) }
+
+      it { expect { create }.not_to change { flow.offer }.from(nil) }
+      it { expect { create }.not_to change { Offer.count } }
+      it { expect { create }.to change { flow.errors }.from({}).to eq(tag_ids: [:missing_tag]) }
     end
 
     describe 'offer' do
@@ -21,13 +31,67 @@ describe OfferFlow do
       subject(:offer) { flow.offer }
 
       it { expect(offer.user).to eq(performer) }
+      it { expect(offer.tags).to eq([tag]) }
       it { is_expected.to be_persisted }
       it { is_expected.to be_valid }
     end
   end
 
+  describe '#create_without_tags' do
+    let(:create) { flow.create_without_tags(title: 'test', tag_ids: [tag.id]) }
+
+    it { expect { create }.to change { flow.offer }.from(nil).to(instance_of(Offer)) }
+    it { expect { create }.to change { Offer.count }.by(1) }
+
+    context 'no title set' do
+      let(:create) { flow.create(title: ' ', tag_ids: [tag.id]) }
+
+      it { expect { create }.not_to change { flow.offer }.from(nil) }
+      it { expect { create }.not_to change { Offer.count } }
+      it { expect { create }.to change { flow.errors }.from({}).to eq(title: [:cannot_be_empty]) }
+    end
+
+    context 'no tags set' do
+      let(:create) { flow.create_without_tags(title: 'test', tag_ids: []) }
+
+      it { expect { create }.to change { flow.offer }.from(nil).to(instance_of(Offer)) }
+      it { expect { create }.to change { Offer.count }.by(1) }
+      it { expect { create }.not_to change { flow.errors }.from({}) }
+    end
+
+    describe 'offer' do
+      before { create }
+      subject(:offer) { flow.offer }
+
+      it { expect(offer.user).to eq(performer) }
+      it { expect(offer.tags).to eq([]) }
+      it { is_expected.to be_persisted }
+      it { is_expected.to be_valid }
+    end
+  end
+
+  describe '#update' do
+    subject(:flow) { described_class.new(performer: performer, subject: offer) }
+
+    let(:offer) { create_offer }
+    let(:new_tag) { create_tag }
+    let(:update) { flow.update title: 'changed', tag_ids: [new_tag.id], user: create_user }
+
+    it { expect { update }.to change { offer.reload.title }.to 'changed' }
+    it { expect { update }.to change { offer.reload.tags(true).to_a }.to([new_tag]) }
+    it { expect { update }.not_to change { offer.reload.user } }
+
+    describe '#update_tags' do
+      let(:update) { flow.update_tags title: 'changed', tag_ids: [new_tag.id], user: create_user }
+
+      it { expect { update }.to change { offer.reload.tags(true).to_a }.to([new_tag]) }
+      it { expect { update }.not_to change { offer.reload.title } }
+      it { expect { update }.not_to change { offer.reload.user } }
+    end
+  end
+
   describe '#add_to_favorites' do
-    before { flow.create(title: 'test') }
+    before { flow.create(title: 'test', tag_ids: [tag.id]) }
 
     let(:add_to_favorites) { flow.add_to_favorites }
 

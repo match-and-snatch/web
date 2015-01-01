@@ -50,6 +50,29 @@ class Flow
     end
   end
 
+  # Updates object by described set of rules
+  # @param name [Symbol]
+  # @return [self]
+  def self.update(name = nil, &block)
+    autoset_subject
+    name = name ? "update_#{name}" : 'update'
+
+    define_method name do |attributes|
+      transaction do
+        attributes = FlowAttributes.new(self, attributes, &block)
+
+        if attributes.valid?
+          subject.attributes = attributes.to_h
+          save
+        else
+          invalidate!(attributes.errors)
+        end
+      end
+
+      self
+    end
+  end
+
   # @param name [Symbol]
   def self.flow(_name = nil, &block)
     autoset_subject

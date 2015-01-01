@@ -48,6 +48,15 @@ class FlowAttributes
   class FlowAttribute
     attr_reader :name
 
+    # @param name [Symbol]
+    # @return [FlowAttribute]
+    def self.chain(name, &block)
+      define_method name do |*args|
+        instance_exec(*args, &block)
+        self
+      end
+    end
+
     # @param data [Hash]
     # @param name [Symbol]
     def initialize(attrs, name)
@@ -57,25 +66,26 @@ class FlowAttributes
       @validators = []
     end
 
-    # @return [Array<Symbol>]
-    def errors
-      @errors ||= @validators.map { |v| v.error_for(value) }.compact
+    chain :array do
+      @validators << Validator.new(message: :not_an_array) { |v| v.is_a?(Array) }
     end
 
-    def map_to(value)
+    chain :map_to do |value|
       case value
       when Symbol
         @value = -> { @attrs[@name] }
       else
         @value = value
       end
-
-      self
     end
 
-    def require
-      @validators << PresenceValidator.new
-      self
+    chain :require do |message = :cannot_be_empty|
+      @validators << Validator.new(message: message) { |v| v.present? }
+    end
+
+    # @return [Array<Symbol>]
+    def errors
+      @errors ||= @validators.map { |v| v.error_for(value) }.compact
     end
 
     def valid?
@@ -91,24 +101,21 @@ class FlowAttributes
 
     # @param name [Symbol]
     # @param options [Hash]
-    def initialize(options = {})
+    def initialize(options = {}, &block)
       @options = options
+      @block = block
     end
 
     def error_for(value)
-      self.class::ERROR if failed?(value)
+      error_message unless valid?(value)
     end
 
-    def failed?(value)
-      raise NotImplementedError
+    def error_message
+      @options[:message]
     end
-  end
 
-  class PresenceValidator < Validator
-    ERROR = :cannot_be_blank
-
-    def failed?(value)
-      value.blank?
+    def valid?(value)
+      @block.call(value)
     end
   end
 end
