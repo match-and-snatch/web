@@ -5,4 +5,5 @@ class Offer < ActiveRecord::Base
   has_many :tags, through: :offers_tags
   has_many :feedbacks
   has_many :subscriptions
+  has_many :messages
 end

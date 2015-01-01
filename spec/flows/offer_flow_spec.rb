@@ -154,6 +154,54 @@ describe OfferFlow do
     it { expect { flow.hit }.to change { offer.reload.hits_count }.by(1) }
   end
 
+  describe '#send_message' do
+    subject(:flow) { described_class.new(performer: performer, subject: offer) }
+
+    let(:offer) { create_offer }
+    let(:send_message) { flow.send_message('test message') }
+
+    it { expect { send_message }.to change { Message.count }.by(1) }
+    it { expect { send_message }.to change { offer.messages.count }.from(0).to(1) }
+
+    context 'empty message' do
+      let(:send_message) { flow.send_message('') }
+
+      it { expect { send_message }.not_to change { Message.count } }
+      it { expect { send_message }.not_to change { offer.messages.count } }
+      it { expect { send_message }.to change { flow.flows.message.errors }.from({}).to(content: [:cannot_be_empty]) }
+      it { expect { send_message }.to change { flow.errors }.from({}).to(message: {content: [:cannot_be_empty]}) }
+    end
+
+    describe 'message' do
+      before { send_message }
+      subject(:message) { offer.messages.first }
+
+      it { expect(message.reload.user).to eq(performer) }
+      it { expect(message.reload.content).to eq('test message') }
+      it { expect(message.reload.parent).to eq(nil) }
+    end
+  end
+
+  describe '#send_reply' do
+    subject(:flow) { described_class.new(performer: performer, subject: offer) }
+
+    let(:offer) { create_offer }
+    let!(:parent_message) { described_class.new(performer: create_user, subject: offer).send_message('test message').flows.message.subject }
+    let(:send_reply) { flow.send_reply(parent_id: parent_message.id, content: 'test submessage') }
+
+    it { expect { send_reply }.to change { Message.count }.by(1) }
+    it { expect { send_reply }.to change { offer.messages.count }.from(1).to(2) }
+
+    describe 'message' do
+      before { send_reply }
+      subject(:message) { offer.messages.where.not(id: parent_message.id).first }
+
+      it { expect(message.reload.user).to eq(performer) }
+      it { expect(message.reload.content).to eq('test submessage') }
+      it { expect(message.reload.parent).to eq(parent_message) }
+    end
+  end
+
   describe '#update' do
     subject(:flow) { described_class.new(performer: performer, subject: offer) }
 

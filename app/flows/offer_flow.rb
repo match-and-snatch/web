@@ -35,6 +35,14 @@ class OfferFlow < Flow
     save
   end
 
+  action :send_message do |content|
+    flows.message.create offer: offer, content: content
+  end
+
+  action :send_reply do |parent_id:, content:|
+    flows.message.create_reply offer: offer, content: content, parent_id: parent_id
+  end
+
   flow :favorite do
     factory do
       attr(:offer).require
@@ -47,6 +55,21 @@ class OfferFlow < Flow
       attr(:offer).require
       attr(:user).map_to(performer)
       attr(:positive).boolean.require
+    end
+  end
+
+  flow :message do
+    factory do
+      attr(:offer).require
+      attr(:content).require
+      attr(:user).map_to(performer)
+    end
+
+    factory :reply do
+      attr(:offer).require
+      attr(:content).require
+      attr(:user).map_to(performer)
+      attr(:parent_id).require
     end
   end
 

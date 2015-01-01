@@ -12,6 +12,9 @@ class Flow
   # @return [Symbol] Subject instance var name
   def self.instance_name; @instance_name end
 
+  # @return [Symbol] Subject virtual name
+  def self.subject_name; @subject_name end
+
   # @param name [Symbol]
   # @param class_name [String]
   def self.subject(name, class_name: nil)
@@ -19,7 +22,8 @@ class Flow
 
     class_name ||= name.to_s
     @klass = class_name.classify.constantize
-    @instance_name = :"@#{name}"
+    @subject_name = name.to_sym
+    @instance_name = :"@#@subject_name"
 
     define_method(name) { subject }
     @subject_set = true
@@ -129,32 +133,38 @@ class Flow
     errors.any?
   end
 
+  def flows
+    @flows
+  end
+
   # @return [ActiveRecord::Base]
   def subject
     instance_variable_get(self.class.instance_name)
   end
 
-  private
-
-  def flows
-    @flows
-  end
-
-  # @raise [FlowError]
-  def fail!
-    raise FlowError
-  end
-
-  # @param errors [Hash]
-  def invalidate(errors)
-    @errors.merge!(errors.symbolize_keys)
-  end
+  protected
 
   # @param errors [Hash]
   # @raise [FlowError]
   def invalidate!(errors)
     invalidate(errors)
     fail!
+  end
+
+  # @param errors [Hash]
+  def invalidate(errors)
+    @errors.merge!(errors.symbolize_keys)
+
+    if has_parent?
+      @parent.invalidate(self.class.subject_name => @errors)
+    end
+  end
+
+  private
+
+  # @raise [FlowError]
+  def fail!
+    raise FlowError
   end
 
   # @param state [*]
