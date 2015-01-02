@@ -4,6 +4,30 @@ html
   body
     .heap
       .logo
-        h1 Snatch
+        h1 M&Snatch
+      .account_area
+        a href='#'
+          snan.fa.fa-user &nbsp;Login
 
-    = yield
+        a href='#'
+          span.fa.fa-users &nbsp;Register
+    .clearfix
+
+    .search_area.bg-primary
+      .container
+        h2 Search
+        small Take control over the world with joy
+
+    .search_field.bg-primary
+      .container
+        .query
+          .search_icon.fa.fa-search
+          input.search_input placeholder='Search for something you really need...'
+          button.close type="button" aria-label="Close"
+            span aria-hidden="true" &times;
+
+    .content
+      .container=yield
+
+    #overlay.Overlay
+    #ClickBlocker
