@@ -1,6 +1,5 @@
 describe UserFlow do
-  let!(:performer) { nil }
-  subject(:flow) { described_class.new(performer: performer) }
+  subject(:flow) { described_class.new }
 
   describe '#create' do
     subject(:create) { flow.create(email: 'szinin@gmail.com', password: 'qwertyui', password_confirmation: 'qwertyui') }
@@ -13,14 +12,20 @@ describe UserFlow do
       subject(:user) { flow.user }
 
       it { expect(user.email).to eq('szinin@gmail.com') }
+      it { expect(user.password_salt).to be_present }
+      it { expect(user.password_hash).to be_present }
+      it { expect(user.auth_token).to be_present }
+      it { expect(user.registration_token).to be_present }
     end
 
     context 'invalid email' do
-      subject(:create) { flow.create(email: 'szinin', password: 'qwertyui', password_confirmation: 'qwertyui') }
+      context 'invalid format' do
+        subject(:create) { flow.create(email: 'szinin', password: 'qwertyui', password_confirmation: 'qwertyui') }
 
-      it { expect { create }.not_to change { User.count } }
-      it { expect { create }.not_to change { flow.user }.from(nil) }
-      it { expect { create }.to change { flow.errors }.from({}).to(email: [:not_an_email]) }
+        it { expect { create }.not_to change { User.count } }
+        it { expect { create }.not_to change { flow.user }.from(nil) }
+        it { expect { create }.to change { flow.errors }.from({}).to(email: [:not_an_email]) }
+      end
 
       context 'not set' do
         subject(:create) { flow.create(email: '', password: 'qwertyui', password_confirmation: 'qwertyui') }
@@ -28,6 +33,18 @@ describe UserFlow do
         it { expect { create }.not_to change { User.count } }
         it { expect { create }.not_to change { flow.user }.from(nil) }
         it { expect { create }.to change { flow.errors }.from({}).to(email: [:cannot_be_empty, :not_an_email]) }
+      end
+
+      context 'already taken' do
+        before do
+          described_class.new.create(email: 'szinin@gmail.com', password: '1234567', password_confirmation: '1234567')
+        end
+
+        subject(:create) { flow.create(email: 'szinin@gmail.com', password: 'qwertyui', password_confirmation: 'qwertyui') }
+
+        it { expect { create }.not_to change { User.count } }
+        it { expect { create }.not_to change { flow.user }.from(nil) }
+        it { expect { create }.to change { flow.errors }.from({}).to(email: [:already_taken]) }
       end
     end
 

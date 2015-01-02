@@ -37,13 +37,14 @@ class Flow
     name = name ? "create_#{name}" : 'create'
 
     define_method name do |attributes|
-      raise 'Cannot call factory on existing subject' if subject
+      raise 'Cannot call factory on existing subject' if subject.try(:persisted?)
 
       transaction do
         attributes = FlowAttributes.new(self, attributes, &block)
 
         if attributes.valid?
-          result = self.class.klass.new(attributes.to_h)
+          result = subject || self.class.klass.new
+          result.attributes = attributes.to_h
           save set_subject result
         else
           invalidate!(attributes.errors)
@@ -122,7 +123,7 @@ class Flow
     end
 
     @performer = performer
-    raise ArgumentError unless performer.is_a?(User) || performer.nil?
+    raise ArgumentError unless performer.is_a?(User)
 
     @errors = {}
     @states = []
