@@ -1,0 +1,110 @@
+$deepest_depth: 1000 // Z-Index start for elements displaying on top of others
+$border_radius: 10px
+$default_color: #181818
+$active_color: #0f87ff
+$passive_color: #204a8a
+$background_color: #eeeeee
+
+@import "mixins/**/*"
+@import "pages/**/*"
+@import "bootstrap"
+
+html
+  max-height: 1000000px
+
+body
+  background-color: $background_color
+  color: $default_color
+  font-family: 'Open Sans', Arial, sans-serif !important
+
+.dosis
+  font-family: 'Dosis', 'Open Sans', Arial !important
+
+a
+  color: $active_color
+  text-decoration: underline
+  &:hover
+    color: $passive_color
+    text-decoration: none
+
+img
+  border: none
+
+p
+  font-size: 13px
+
+h1, h2, h3, h4, h5
+  line-height: 100%
+
+h1
+  font-size: 2em
+h2
+  font-size: 1.5em
+h3
+  font-size: 1.17em
+h4
+  font-size: 0.83em
+h5
+  font-size: 0.75em
+
+input
+  font-size: 13px !important
+
+.hidden
+  display: none
+
+// Popup Overlay
+
+#overlay
+  z-index: $deepest_depth + 10000
+  background: black
+  display: none
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  top: 0
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"
+  filter: alpha(opacity=50)
+  -moz-opacity: 0.5
+  -khtml-opacity: 0.5
+  opacity: 0.5
+
+// Popup
+
+.popup
+  @include border-radius($border_radius)
+  border: 1px solid #464646
+  display: none
+  min-height: 50px
+  min-width: 200px
+  overflow: hidden
+  position: fixed
+  left: 50%
+  top: 50%
+  z-index: $deepest_depth + 10001
+
+  // Mobile
+
+  @media screen and (max-width: 767px)
+    @include border-radius(0)
+
+// Required by JS
+
+#ClickBlocker
+  z-index: $deepest_depth + 10002
+  top: 0
+  right: 0
+  left: 0
+  bottom: 0
+  background: white
+  position: fixed
+  opacity: 0.6
+
+.js-highlight
+  border: 2px solid red
+  display: visible
+
+.pending
+  opacity: 0.3
+
