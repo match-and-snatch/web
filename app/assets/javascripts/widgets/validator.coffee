@@ -52,7 +52,7 @@ class bud.widgets.Validator extends bud.Widget
 
   validate_require: ->
     if _.isEmpty @$container.val().trim()
-      @mark_as_invalid @t('empty')
+      @mark_as_invalid @t('cannot_be_empty')
 
   validate_min_length: (min_length) ->
     if @$container.val().length < min_length

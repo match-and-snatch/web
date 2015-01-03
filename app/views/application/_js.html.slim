@@ -1,0 +1,5 @@
+javascript:
+  window.bud.config = {log_level: 0};
+  window.bud.layout = #{layout.js_data.to_json.html_safe};
+
+= yield :js

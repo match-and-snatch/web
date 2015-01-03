@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def layout
-    @layout ||= {}
+    @layout ||= Layout.new
   end
   helper_method :layout
 
@@ -83,7 +83,11 @@ class ApplicationController < ActionController::Base
     elsif flow.passed?
       block.call if block
     else
-      json_fail errors: flow.errors
+      errors = {}
+      flow.errors.each do |field, field_errors|
+        errors[field] = field_errors.map { |e| translate_message(e, {}, :errors) }
+      end
+      json_fail errors: errors
     end
   end
 
@@ -111,8 +115,13 @@ class ApplicationController < ActionController::Base
     render json: resp, status: response_status
   end
 
-  def translate_message(message, opts = {})
+  # @param message [String, Symbol]
+  # @param opts [Hash]
+  # @return [String]
+  def translate_message(message, opts = {}, scope = :messages)
+    return message if message.is_a? String
     raise ArgumentError unless message.is_a? Symbol
-    I18n.t(message, opts.reverse_merge(scope: :messages, default: [:default, message])).html_safe
+    I18n.t(message, opts.reverse_merge(scope: scope, default: [:default, message])).html_safe
   end
 end
+
