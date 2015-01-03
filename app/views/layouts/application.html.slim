@@ -7,6 +7,9 @@ html
         h1 M&Snatch
       .account_area
         - if current_user.logged_in?
+          a.AjaxLink href=new_offer_path(mode: :popup)
+            span.fa.fa-plus &nbsp;Add offer
+
           a href='#'= current_user.email
 
           a.AjaxFormLink href=session_path(current_user.id) data-_method='DELETE'

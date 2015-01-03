@@ -1,0 +1,9 @@
+form.Form action=offers_path method='post'
+  .form-group
+    label Title
+    textarea.form-control name='title' validate='require'
+    p.text-danger data-field='title'
+
+  .form-group style="margin: 15px 0"
+    input.btn.blue.pull-right type='submit' value='Create' style="padding: 10px 0; width: 170px;"
+    .clearfix
