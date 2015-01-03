@@ -210,6 +210,7 @@ class Flow
     ActiveRecord::Base.transaction(&block)
   rescue FlowError => e
     raise e if has_parent?
+    self
   end
 
   def has_parent?

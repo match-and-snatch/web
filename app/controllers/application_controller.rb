@@ -107,11 +107,7 @@ class ApplicationController < ActionController::Base
     elsif flow.passed?
       block.call if block
     else
-      errors = {}
-      flow.errors.each do |field, field_errors|
-        errors[field] = field_errors.map { |e| translate_message(e, {}, :errors) }
-      end
-      json_fail errors: errors
+      json_fail errors: translate_errors(flow.errors)
     end
   end
 
@@ -146,6 +142,20 @@ class ApplicationController < ActionController::Base
     return message if message.is_a? String
     raise ArgumentError unless message.is_a? Symbol
     I18n.t(message, opts.reverse_merge(scope: scope, default: [:default, message])).html_safe
+  end
+
+  # @param errors [Hash]
+  # @return [Hash]
+  def translate_errors(errors)
+    {}.tap do |result|
+      errors.each do |field, field_errors|
+        if field_errors.is_a?(Array)
+          result[field] = field_errors.map { |e| translate_message(e, {}, :errors) }
+        elsif field_errors.is_a?(Hash)
+          result[field] = translate_errors(field_errors)
+        end
+      end
+    end
   end
 end
 

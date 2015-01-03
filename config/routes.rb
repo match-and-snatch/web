@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       patch :like
       patch :dislike
     end
+
+    resources :messages, only: [:create]
   end
   resources :sessions, only: [:new, :create, :destroy]
   resources :users, only: [:new, :create]

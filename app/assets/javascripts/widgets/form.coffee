@@ -7,6 +7,7 @@ class bud.widgets.Form extends bud.Widget
     @submitted_text = @$submit_button.data('submitted_text') || 'Submitted'
     @wait_text      = @$submit_button.data('wait_text') || 'Wait...'
     @submit_text    = @$submit_button.val()
+    @scope          = @data('scope')
 
     @$container.submit @on_submit
     @$error = @$container.find('.Error')
@@ -77,7 +78,7 @@ class bud.widgets.Form extends bud.Widget
       else
         alert(message)
 
-    if errors = response['errors']
+    if errors = @errors_from(response)
       _.each errors, (message, field) =>
         @$container.find("[data-field=#{field}]").html(message[0]).show()
         @$container.find("[name='#{field}'], [data-error_field='#{field}']").addClass('has-error').removeClass('has-valid')
@@ -111,3 +112,9 @@ class bud.widgets.Form extends bud.Widget
           result[$input.attr('name')] = $input.val()
 
     result
+
+  errors_from: (response) ->
+    if @scope
+      response['errors'][@scope]
+    else
+      response['errors']

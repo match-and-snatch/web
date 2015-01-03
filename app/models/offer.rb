@@ -23,10 +23,20 @@ class Offer < ActiveRecord::Base
   end
 
   def positive_feedback_percentage
-    (feedbacks.where(positive: true).count.to_f / feedbacks.count).round(2) * 100
+    total_count = feedbacks.count
+
+    if total_count.zero?
+      0.0
+    else
+      (feedbacks.where(positive: true).count.to_f / total_count).round(2) * 100
+    end
   end
 
   def negative_feedback_percentage
-    100.0 - positive_feedback_percentage
+    if feedbacks.count.zero?
+      0.0
+    else
+      100.0 - positive_feedback_percentage
+    end
   end
 end

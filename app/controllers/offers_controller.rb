@@ -12,6 +12,7 @@ class OffersController < ApplicationController
   end
 
   def show
+    @messages = @offer.messages.order('created_at DESC').limit(100)
     pass_flow(flow.hit)
   end
 
