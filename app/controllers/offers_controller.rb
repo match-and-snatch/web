@@ -1,5 +1,5 @@
 class OffersController < ApplicationController
-  before_filter :load_offer, only: [:show, :destroy, :toggle_favorite]
+  before_filter :load_offer, only: [:show, :destroy, :toggle_favorite, :like, :dislike]
 
   popup :new do
     layout[:title] = 'New Offer'
@@ -21,6 +21,14 @@ class OffersController < ApplicationController
 
   def toggle_favorite
     pass_flow(flow.toggle_favorite) { json_reload }
+  end
+
+  def like
+    pass_flow(flow.like) { json_reload }
+  end
+
+  def dislike
+    pass_flow(flow.dislike) { json_reload }
   end
 
   private

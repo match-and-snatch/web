@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :offers, only: [:new, :create, :show, :destroy] do
     member do
       patch :toggle_favorite
+      patch :like
+      patch :dislike
     end
   end
   resources :sessions, only: [:new, :create, :destroy]
