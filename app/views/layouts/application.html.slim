@@ -4,7 +4,8 @@ html
   body
     .heap
       .logo
-        h1 M&Snatch
+        a href='/'
+          h1 M&Snatch
       .account_area
         - if current_user.logged_in?
           a.AjaxLink href=new_offer_path(mode: :popup)

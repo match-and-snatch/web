@@ -1,0 +1,12 @@
+- if @offers.my.any?
+  .pod
+    h3= "My offers (#{@offers.my.count})"
+
+    ul.my_offers
+      - @offers.my.each do |offer|
+        li
+          a.pull-left href=offer_path(offer)
+            = offer.title
+          a.AjaxFormLink.fa.fa-trash.pull-right href=offer_path(offer) data-_method='DELETE'
+          .fa.fa-pencil.pull-right &nbsp;
+

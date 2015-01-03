@@ -43,6 +43,10 @@ class OfferFlow < Flow
     flows.message.create_reply offer: offer, content: content, parent_id: parent_id
   end
 
+  action :destroy do
+    offer.destroy
+  end
+
   flow :favorite do
     factory do
       attr(:offer).require
