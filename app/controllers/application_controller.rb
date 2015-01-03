@@ -39,6 +39,30 @@ class ApplicationController < ActionController::Base
   end
   helper_method :layout
 
+  def current_user
+    @current_user ||= begin
+      if cookies[:auth_token]
+        User.where(auth_token: cookies[:auth_token]).first || User.new
+      else
+        User.new
+      end
+    end
+  end
+  helper_method :current_user
+
+  # @param user [User]
+  def login(user)
+    reset_session
+    cookies.permanent[:auth_token] = user.auth_token
+    @current_user = user
+  end
+
+  def logout
+    reset_session
+    cookies[:auth_token] = nil
+    @current_user = nil
+  end
+
   # @param code [Integer]
   def error(code)
     raise HttpCodeError, code

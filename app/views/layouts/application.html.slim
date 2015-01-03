@@ -6,11 +6,17 @@ html
       .logo
         h1 M&Snatch
       .account_area
-        a.AjaxLink href=new_session_path(mode: :popup)
-          snan.fa.fa-user &nbsp;Login
+        - if current_user.logged_in?
+          a href='#'= current_user.email
 
-        a.AjaxLink href=new_user_path(mode: :popup)
-          span.fa.fa-users &nbsp;Register
+          a.AjaxFormLink href=session_path(current_user.id) data-_method='DELETE'
+            span.fa.fa-sign-out &nbsp;Logout
+        - else
+          a.AjaxLink href=new_session_path(mode: :popup)
+            snan.fa.fa-sign-in &nbsp;Login
+
+          a.AjaxLink href=new_user_path(mode: :popup)
+            span.fa.fa-users &nbsp;Register
     .clearfix
 
     .search_area.bg-primary

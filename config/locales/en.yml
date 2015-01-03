@@ -5,5 +5,7 @@ en:
     too_short: Please enter at least %{minimum} characters
     does_not_match_password: Does not match password
     does_not_match: Does not match
+    authentication_failed: Authorization failed, check email or password
+    already_taken: Already taken by someone else
   messages:
     activated: Congratulations, your account has been activated. You are now ready to use our service.

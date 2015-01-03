@@ -5,6 +5,10 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :messages
 
+  def logged_in?
+    persisted?
+  end
+
   # @return [String]
   def self.generate_auth_token
     begin

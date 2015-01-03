@@ -4,6 +4,15 @@ class UsersController < ApplicationController
   end
 
   def create
-    pass_flow(UserFlow.new.create(params)) { json_reload }
+    pass_flow(flow.create(params)) do
+      login flow.user
+      json_reload
+    end
+  end
+
+  private
+
+  def flow
+    @flow ||= UserFlow.new
   end
 end

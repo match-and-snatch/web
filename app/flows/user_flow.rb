@@ -15,4 +15,14 @@ class UserFlow < Flow
     attr(:auth_token).map_to -> { User.generate_auth_token }
     attr(:registration_token).map_to -> { User.generate_registration_token }
   end
+
+  action :login, requires_subject: false do |email, password|
+    user = User.where(email: email).first
+
+    if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
+      set_subject user
+    else
+      invalidate(login: [:authentication_failed])
+    end
+  end
 end

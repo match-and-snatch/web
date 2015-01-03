@@ -64,4 +64,26 @@ describe UserFlow do
       it { expect { create }.to change { flow.errors }.from({}).to(password_confirmation: [:does_not_match]) }
     end
   end
+
+  describe '#login' do
+    let!(:registrator) { described_class.new.create(email: 'szinin@gmail.com', password: 'qwertyui', password_confirmation: 'qwertyui') }
+    let(:login) { flow.login('szinin@gmail.com', 'qwertyui') }
+
+    it { expect(login).to be_passed }
+    it { expect { login }.to change { flow.user }.from(nil).to(registrator.user) }
+
+    context 'invalid email' do
+      let(:login) { flow.login('sergei@gmail.com', 'qwertyui') }
+
+      it { expect(login).to be_failed }
+      it { expect { login }.not_to change { flow.user }.from(nil) }
+    end
+
+    context 'invalid password' do
+      let(:login) { flow.login('szinin@gmail.com', '1234567') }
+
+      it { expect(login).to be_failed }
+      it { expect { login }.not_to change { flow.user }.from(nil) }
+    end
+  end
 end

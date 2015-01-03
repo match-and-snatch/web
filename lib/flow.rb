@@ -93,13 +93,15 @@ class Flow
   end
 
   # @param name [Symbol] no ! bang names allowed
-  def self.action(name, &block)
+  def self.action(name, requires_subject: true, &block)
     autoset_subject
     base_name = :"__#{name}"
     define_method(base_name, &block)
 
     define_method name do |*args|
-      raise ArgumentError, 'No subject set' unless subject
+      if requires_subject
+        raise ArgumentError, 'No subject set' unless subject
+      end
       transaction { public_send(base_name, *args); self }
     end
   end
