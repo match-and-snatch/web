@@ -6,4 +6,9 @@ class Offer < ActiveRecord::Base
   has_many :feedbacks
   has_many :subscriptions
   has_many :messages
+
+  # @param user [User]
+  def favorited_by?(user)
+    favorites.where(user_id: user.id).exists?
+  end
 end

@@ -86,11 +86,33 @@ describe OfferFlow do
 
     it { expect { add_to_favorites }.to change { flow.offer.favorites.count }.from(0).to(1) }
 
+    context 'already in favorites' do
+      before { flow.add_to_favorites }
+
+      it { expect { add_to_favorites }.to raise_error /existing subject/ }
+    end
+
     describe 'favorite' do
       before { add_to_favorites }
       subject(:favorite) { flow.offer.favorites.first }
 
       it { expect(favorite.user).to eq(performer) }
+    end
+  end
+
+  describe '#remove_from_favorites' do
+    before { flow.create(title: 'test', tag_ids: [tag.id]) }
+    before { flow.add_to_favorites }
+
+    let(:remove_from_favorites) { flow.remove_from_favorites }
+
+    it { expect { remove_from_favorites }.to change { flow.offer.favorites.count }.from(1).to(0) }
+
+    describe 'favorite' do
+      before { remove_from_favorites }
+      subject(:favorite) { flow.offer.favorites.first }
+
+      it { expect(favorite).to eq(nil) }
     end
   end
 

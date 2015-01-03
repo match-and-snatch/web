@@ -15,14 +15,24 @@ class OfferFlow < Flow
   end
 
   action :add_to_favorites do
-    flows.favorite.create offer: offer
+    flows.favorite(offer_favorite).create offer: offer
+  end
+
+  action :remove_from_favorites do
+    flows.favorite(offer_favorite).destroy
+  end
+
+  action :toggle_favorite do
+    offer.favorited_by?(performer) ? remove_from_favorites : add_to_favorites
   end
 
   action :like do
+    offer_feedback.try(:destroy)
     flows.feedback.create offer: offer, positive: true
   end
 
   action :dislike do
+    offer_feedback.try(:destroy)
     flows.feedback.create offer: offer, positive: false
   end
 
@@ -51,6 +61,10 @@ class OfferFlow < Flow
     factory do
       attr(:offer).require
       attr(:user).map_to(performer)
+    end
+
+    action :destroy do
+      favorite.destroy
     end
   end
 
@@ -93,5 +107,15 @@ class OfferFlow < Flow
 
   update :tags do
     attr(:tag_ids).array.require(:missing_tag)
+  end
+
+  private
+
+  def offer_favorite
+    @offer_favorite ||= offer.favorites.find_by_user_id(performer.id)
+  end
+
+  def offer_feedback
+    @offer_feedback ||= offer.feedbacks.find_by_user_id(performer.id)
   end
 end
