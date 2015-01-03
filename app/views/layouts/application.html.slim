@@ -6,10 +6,10 @@ html
       .logo
         h1 M&Snatch
       .account_area
-        a href='#'
+        a.AjaxLink href=new_session_path(mode: :popup)
           snan.fa.fa-user &nbsp;Login
 
-        a href='#'
+        a.AjaxLink href=new_user_path(mode: :popup)
           span.fa.fa-users &nbsp;Register
     .clearfix
 
@@ -28,6 +28,7 @@ html
 
     .content
       .container=yield
+      .RemotePopup.popup.modal-content data-identifier='remote-popup'
 
     #overlay.Overlay
     #ClickBlocker

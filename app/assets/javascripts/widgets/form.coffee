@@ -79,7 +79,7 @@ class bud.widgets.Form extends bud.Widget
 
     if errors = response['errors']
       _.each errors, (message, field) =>
-        @$container.find("[data-field=#{field}]").html(message).show()
+        @$container.find("[data-field=#{field}]").html(message[0]).show()
         @$container.find("[name='#{field}'], [data-error_field='#{field}']").addClass('has-error').removeClass('has-valid')
 
       # Scroll to the first error

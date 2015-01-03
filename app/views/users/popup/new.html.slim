@@ -1,0 +1,21 @@
+form.Form action=users_path method='post'
+  .form-group
+    label Email Address
+    input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' validate='require,email'
+    p.text-danger data-field='email'
+
+  .form-group
+    label Password
+    input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off' validate='require,min_length:5'
+    p.text-danger data-field='password'
+
+  .form-group
+    label Retype Password
+    input.form-control.password type='password' name='password_confirmation' validate='require,match_password:password'
+    p.text-danger data-field='password_confirmation'
+
+  .form-group style="margin: 15px 0"
+    .terms_text.pull-left
+      |By proceeding, you agree to everything
+    input.btn.blue.pull-right type='submit' value='Continue to Profile' style="padding: 10px 0; width: 170px;"
+    .clearfix

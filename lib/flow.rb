@@ -147,6 +147,18 @@ class Flow
     instance_variable_get(self.class.instance_name)
   end
 
+  def passed?
+    !failed?
+  end
+
+  def success
+    yield if valid?
+  end
+
+  def failure
+    yield if failed?
+  end
+
   protected
 
   # @param errors [Hash]

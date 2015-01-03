@@ -1,0 +1,17 @@
+form.Form action=sessions_path method='post'
+  .form-group
+    label Email Address
+    input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' validate='require,email'
+    p.text-danger data-field='email'
+  .form-group
+    label Password
+    input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off' validate='require'
+    p.text-danger data-field='password'
+  .form-group style="margin-top: 15px"
+    input.btn.blue.login_btn type='submit' value='Login'
+    .pull-left
+      .checkbox
+        label.remember_me
+          input name='remember_me' type="checkbox" Remember Me
+    .clearfix
+  .text-danger.Error style="margin-bottom: 15px;"
