@@ -73,11 +73,13 @@ development:
           width: 180
           height: 180
           resize_strategy: 'fillcrop'
+          rotation: false
         thumb_50x50:
           robot: '/image/resize'
           width: 50
           height: 50
           resize_strategy: 'fillcrop'
+          rotation: false
           use: thumb_180x180
         store:
           <<: *profile_image
@@ -93,6 +95,7 @@ development:
         resized:
           robot: '/image/resize'
           width: 970
+          rotation: false
           resize_strategy: 'fit'
         store:
           <<: *profile_image
@@ -184,6 +187,7 @@ development:
           use: ':original'
           width: 100
           height: 100
+          rotation: false
           resize_strategy: 'fillcrop'
         store:
           <<: *s3
@@ -236,11 +240,13 @@ test:
           robot: '/image/resize'
           width: 180
           height: 180
+          rotation: false
           resize_strategy: 'fillcrop'
         thumb_50x50:
           robot: '/image/resize'
           width: 50
           height: 50
+          rotation: false
           resize_strategy: 'fillcrop'
           use: thumb_180x180
         store:
@@ -257,6 +263,7 @@ test:
         resized:
           robot: '/image/resize'
           width: 970
+          rotation: false
           resize_strategy: 'fit'
         store:
           <<: *profile_image
@@ -348,6 +355,7 @@ test:
           use: ':original'
           width: 100
           height: 100
+          rotation: false
           resize_strategy: 'fillcrop'
         store:
           <<: *s3
@@ -414,11 +422,13 @@ staging:
           robot: '/image/resize'
           width: 180
           height: 180
+          rotation: false
           resize_strategy: 'fillcrop'
         thumb_50x50:
           robot: '/image/resize'
           width: 50
           height: 50
+          rotation: false
           resize_strategy: 'fillcrop'
           use: thumb_180x180
         store:
@@ -435,6 +445,7 @@ staging:
         resized:
           robot: '/image/resize'
           width: 970
+          rotation: false
           resize_strategy: 'fit'
         store:
           <<: *user_picture
@@ -518,6 +529,7 @@ staging:
           use: ':original'
           width: 100
           height: 100
+          rotation: false
           resize_strategy: 'fillcrop'
         store:
           <<: *attachment
@@ -579,11 +591,13 @@ production:
           robot: '/image/resize'
           width: 180
           height: 180
+          rotation: false
           resize_strategy: 'fillcrop'
         thumb_50x50:
           robot: '/image/resize'
           width: 50
           height: 50
+          rotation: false
           resize_strategy: 'fillcrop'
           use: thumb_180x180
         store:
@@ -600,6 +614,7 @@ production:
         resized:
           robot: '/image/resize'
           width: 970
+          rotation: false
           resize_strategy: 'fit'
         store:
           <<: *user_picture
@@ -682,6 +697,7 @@ production:
           use: ':original'
           width: 100
           height: 100
+          rotation: false
           resize_strategy: 'fillcrop'
         store:
           <<: *attachment
