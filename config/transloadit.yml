@@ -73,13 +73,13 @@ development:
           width: 180
           height: 180
           resize_strategy: 'fillcrop'
-          rotation: false
+          strip: true
         thumb_50x50:
           robot: '/image/resize'
           width: 50
           height: 50
           resize_strategy: 'fillcrop'
-          rotation: false
+          strip: true
           use: thumb_180x180
         store:
           <<: *profile_image
@@ -95,7 +95,7 @@ development:
         resized:
           robot: '/image/resize'
           width: 970
-          rotation: false
+          strip: true
           resize_strategy: 'fit'
         store:
           <<: *profile_image
@@ -182,17 +182,23 @@ development:
     post_photo:
       steps:
         <<: *image_filter
-        preview:
+        full_size:
           robot: '/image/resize'
           use: ':original'
+          width: 1920
+          strip: true
+          resize_strategy: 'fit'
+        preview:
+          robot: '/image/resize'
+          use: 'full_size'
           width: 100
           height: 100
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
         store:
           <<: *s3
           use:
-            - ':original'
+            - 'full_size'
             - 'preview'
           bucket: 'buddy-assets'
           path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
@@ -240,13 +246,13 @@ test:
           robot: '/image/resize'
           width: 180
           height: 180
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
         thumb_50x50:
           robot: '/image/resize'
           width: 50
           height: 50
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
           use: thumb_180x180
         store:
@@ -263,7 +269,7 @@ test:
         resized:
           robot: '/image/resize'
           width: 970
-          rotation: false
+          strip: true
           resize_strategy: 'fit'
         store:
           <<: *profile_image
@@ -350,17 +356,23 @@ test:
     post_photo:
       steps:
         <<: *image_filter
-        preview:
+        full_size:
           robot: '/image/resize'
           use: ':original'
+          width: 1920
+          strip: true
+          resize_strategy: 'fit'
+        preview:
+          robot: '/image/resize'
+          use: 'full_size'
           width: 100
           height: 100
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
         store:
           <<: *s3
           use:
-            - ':original'
+            - 'full_size'
             - 'preview'
           bucket: 'buddy-assets'
           path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
@@ -422,13 +434,13 @@ staging:
           robot: '/image/resize'
           width: 180
           height: 180
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
         thumb_50x50:
           robot: '/image/resize'
           width: 50
           height: 50
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
           use: thumb_180x180
         store:
@@ -445,7 +457,7 @@ staging:
         resized:
           robot: '/image/resize'
           width: 970
-          rotation: false
+          strip: true
           resize_strategy: 'fit'
         store:
           <<: *user_picture
@@ -524,17 +536,23 @@ staging:
     post_photo:
       steps:
         <<: *image_filter
-        preview:
+        full_size:
           robot: '/image/resize'
           use: ':original'
+          width: 1920
+          strip: true
+          resize_strategy: 'fit'
+        preview:
+          robot: '/image/resize'
+          use: 'full_size'
           width: 100
           height: 100
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
         store:
           <<: *attachment
           use:
-            - ':original'
+            - 'full_size'
             - 'preview'
           path: 'photos/${fields.slug}/${assembly.id}__${file.meta.width}x${file.meta.height}____${file.url_name}'
 
@@ -591,13 +609,13 @@ production:
           robot: '/image/resize'
           width: 180
           height: 180
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
         thumb_50x50:
           robot: '/image/resize'
           width: 50
           height: 50
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
           use: thumb_180x180
         store:
@@ -614,7 +632,7 @@ production:
         resized:
           robot: '/image/resize'
           width: 970
-          rotation: false
+          strip: true
           resize_strategy: 'fit'
         store:
           <<: *user_picture
@@ -692,17 +710,23 @@ production:
     post_photo:
       steps:
         <<: *image_filter
-        preview:
+        full_size:
           robot: '/image/resize'
           use: ':original'
+          width: 1920
+          strip: true
+          resize_strategy: 'fit'
+        preview:
+          robot: '/image/resize'
+          use: 'full_size'
           width: 100
           height: 100
-          rotation: false
+          strip: true
           resize_strategy: 'fillcrop'
         store:
           <<: *attachment
           use:
-            - ':original'
+            - 'full_size'
             - 'preview'
           path: 'photos/${fields.slug}/${assembly.id}__${file.meta.width}x${file.meta.height}____${file.url_name}'
 

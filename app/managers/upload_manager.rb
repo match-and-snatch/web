@@ -50,9 +50,9 @@ class UploadManager < BaseManager
 
     transloadit_data['uploads'].each_with_index.map do |upload_data, index|
       transloadit_data['results']['preview']   or fail_with! 'Invalid image'
-      transloadit_data['results'][':original'] or fail_with! 'Invalid image'
+      transloadit_data['results']['full_size'] or fail_with! 'Invalid image'
 
-      original = transloadit_data['results'][':original'][index]
+      original = transloadit_data['results']['full_size'][index]
 
       if original
         preview  = transloadit_data['results']['preview'][index]
