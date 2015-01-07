@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
   before_filter :authenticate!, except: %i(index search mentions create show activate)
+  before_filter :redirect_invalid_slug, only: :show
 
   def index
     layout.title = 'ConnectPal.com - Profile Directory'
@@ -125,5 +126,11 @@ class UsersController < ApplicationController
   def remove_welcome_media
     UserProfileManager.new(current_user.object).remove_welcome_media!
     json_replace partial: 'welcome_media'
+  end
+
+  private
+
+  def redirect_invalid_slug
+    redirect_to profile_path(params[:id].downcase), status: 301 if /[A-Z]/.match(params[:id])
   end
 end
