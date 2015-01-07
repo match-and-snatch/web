@@ -97,6 +97,7 @@ development:
           width: 970
           strip: true
           resize_strategy: 'fit'
+          strip: true
         store:
           <<: *profile_image
           use:
