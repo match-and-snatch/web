@@ -9,11 +9,18 @@ class ContributionManager < BaseManager
 
   # @param target_user [User]
   # @param amount [Integer, String]
+  # @param message [String, nil]
   # @return [Contribution]
-  def create(target_user: , amount: nil, recurring: false)
+  def create(target_user: , amount: nil, recurring: false, message: nil)
     amount = amount.to_i
     fail_with! amount: :zero if amount < 1
     @contribution = create_contribution(target_user: target_user, amount: amount, recurring: recurring)
+
+    if message.present?
+      MessagesManager.new(user: @user).create(target_user: target_user, message: message)
+    end
+
+    @contribution
   end
 
   # Creates child from recurring contribution
