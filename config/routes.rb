@@ -20,6 +20,8 @@ BuddyPlatform::Application.routes.draw do
       put :update_account_picture
       put :enable_rss
       put :disable_rss
+      put :enable_notifications_debug
+      put :disable_notifications_debug
       put :enable_downloads
       put :disable_downloads
       put :enable_itunes
@@ -150,6 +152,7 @@ BuddyPlatform::Application.routes.draw do
   resources :profile_types, only: [:index, :create, :destroy]
 
   namespace :admin do
+    resources :contributions, only: :index
     resources :duplicates, only: :index
     resources :payment_failures , only: :index
     resources :payments, only: :index

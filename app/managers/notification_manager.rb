@@ -6,6 +6,10 @@ class NotificationManager < BaseManager
 
     # @param post [Post]
     def notify_post_created(post)
+      if post.user.notifications_debug_enabled?
+        PostsMailer.created(post, post.user).deliver
+      end
+
       post.user.source_subscriptions.where(notifications_enabled: true).not_removed.preload(:user).find_each do |s|
         begin
           PostsMailer.created(post, s.user).deliver if s.user && post

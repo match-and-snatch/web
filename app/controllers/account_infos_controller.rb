@@ -115,6 +115,16 @@ class AccountInfosController < ApplicationController
     json_success
   end
 
+  def enable_notifications_debug
+    manager.enable_notifications_debug
+    json_success
+  end
+
+  def disable_notifications_debug
+    manager.disable_notifications_debug
+    json_success
+  end
+
   def confirm_vacation_mode_activation
     json_popup
   end

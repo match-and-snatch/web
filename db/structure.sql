@@ -917,7 +917,8 @@ CREATE TABLE users (
     billing_address_zip character varying(255),
     billing_address_line_1 text,
     billing_address_line_2 text,
-    contributions_enabled boolean DEFAULT true NOT NULL
+    contributions_enabled boolean DEFAULT true NOT NULL,
+    notifications_debug_enabled boolean DEFAULT true
 );
 
 
@@ -1505,4 +1506,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141219110658');
 INSERT INTO schema_migrations (version) VALUES ('20141219160721');
 
 INSERT INTO schema_migrations (version) VALUES ('20141224143422');
+
+INSERT INTO schema_migrations (version) VALUES ('20150108153710');
+
+INSERT INTO schema_migrations (version) VALUES ('20150108160914');
 

@@ -7,9 +7,25 @@ class Contribution < ActiveRecord::Base
 
   validates :amount, presence: true
 
+  def self.each_year_month(&block)
+    self.reorder('contributions.created_at DESC').to_a.group_by(&:year_month).each(&block)
+  end
+
+  def self.total_amount
+    sum(:amount)
+  end
+
   # @return [Date]
   def next_billing_date
     raise ArgumentError unless recurring?
     (children.maximum(:created_at) || created_at).next_month.to_date
+  end
+
+  def will_repeat?
+    !!(recurring? || parent_id)
+  end
+
+  def year_month
+    @year_month ||= YearMonth.new(created_at.year, created_at.month)
   end
 end

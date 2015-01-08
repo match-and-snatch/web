@@ -8,7 +8,7 @@ class bud.widgets.Slider extends bud.Widget
     @$current_li.show()
     @interval = @data('interval') || 3000
     @$lis.on('toggle', @on_toggle)
-    setTimeout(@iterate, @interval)
+    @timeout = setTimeout(@iterate, @interval)
 
   on_toggle: (e) =>
     if $(e.currentTarget).is(':visible')

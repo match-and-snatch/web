@@ -52,14 +52,12 @@
       .clearfix
 
   .item_block
-    h2 Profile Notifications
-    p Check this box if you would like to recieve new post notifications when you create a post.
+    h2 Notification Settings
+    p Specify which notifications you want to enable/disable.
     .form-group.profile_display_settings
-      label.pull-left Enable Post Notifications
-      // Fix this tag, checked by default
-      = checker_tag(current_user.object, :rss, :account_info)
+      label.pull-left for='notifications_debug_checker' style='width: 250px' Receive my post notifications
+      = checker_tag(current_user.object, :notifications_debug, :account_info)
       .clearfix
-    .clearfix
 
   .item_block
     h2 Away Mode
