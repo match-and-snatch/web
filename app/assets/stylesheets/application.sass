@@ -183,6 +183,10 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
             color: $color_text_dark
             font-size: 12px
             text-decoration: none
+        // Mobile
+        @media screen and (max-width: 767px)
+          width: 100%
+          font-size: 12px
         // Tablet
         @media screen and (min-width: 768px)
           width: 344px
@@ -1048,20 +1052,19 @@ footer
         .exp_date
           position: relative
           margin-right: 15px
-          width: 150px
           .small
             font-size: 12px
             font-weight: 400
             padding: 8px 5px 0 0
         .cvc
-          width: 125px
+          width: 76px
           input
             width: 62px
           .fa
             cursor: pointer
             padding-top: 8px
             position: relative
-            right: 45px
+            right: 0
             &:before
               color: $color_text_light
             &:hover

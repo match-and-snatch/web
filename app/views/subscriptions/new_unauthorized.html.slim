@@ -145,7 +145,7 @@
 
           .note.bg-warning style='margin: 10px 0 15px' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
 
-        .account_payment.pull-left style='padding: 10px 0 15px 15px;'
+        .account_payment.pull-left style='padding: 10px 15px 15px 15px;'
           label style='font-size: 13px; margin-bottom: 10px' Account Information
           .clearfix
           .form-group
@@ -158,9 +158,10 @@
             input.form-control.password type='password' name='password' placeholder='Create Password' validate='require,min_length:5' style='width: 300px; margin-top: 15px'
             span.error data-field='password'
           .clearfix
+        .clearfix style='height: 0;'
 
         .account_payment style='width: 100%; padding: 0 15px 15px 15px;'
-          label style='display: block; font-size: 13px; margin: 0 0 15px 0;' Billing Information
+          label style='font-size: 13px; margin: 0 0 15px 0;' Billing Information
           .clearfix
           .form-group.cc_row.pull-left
             ul.cc_images
@@ -175,8 +176,15 @@
             input.form-control type='text' name='number' placeholder='Credit Card Number' validate='cc_number'
             span.error data-field='number'
 
+          / .form-group.exp_date.pull-left
+          /   input.form-control.MonthYearField type='text' name='expiry_date' placeholder='Expires MM / YYYY' validate='require'
+          /   span.error data-field='expiry_date'
+
           .form-group.exp_date.pull-left
-            input.form-control.MonthYearField type='text' name='expiry_date' placeholder='Expires MM / YYYY' validate='require'
+            label.pull-left style='margin: 10px 10px 0 0;' Expiration
+            input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_month' placeholder='Month' style="width: 70px; margin-right: 15px;" validate='expiry_month'
+            input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_year' placeholder='Year' style="width: 55px" validate='expiry_year'
+            .clearfix
             span.error data-field='expiry_date'
 
           .form-group.cvc.pull-left

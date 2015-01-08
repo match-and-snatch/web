@@ -31,17 +31,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-# Required by Heroku
-gem 'rails_12factor', group: :production
-group :production do
-  gem 'unicorn'
-end
-gem 'foreman', group: :development
 gem 'newrelic_rpm'
-
-group :staging, :development do
-  gem 'puma'
-end
+gem 'puma'
 
 # Application Specific
 gem 'slim-rails'

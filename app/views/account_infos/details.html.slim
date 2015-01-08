@@ -52,6 +52,14 @@
       .clearfix
 
   .item_block
+    h2 Notification Settings
+    p Specify which notifications you want to enable/disable.
+    .form-group.profile_display_settings
+      label.pull-left for='notifications_debug_checker' style='width: 250px' Receive my post notifications
+      = checker_tag(current_user.object, :notifications_debug, :account_info)
+      .clearfix
+
+  .item_block
     h2 Away Mode
     p Click here to enable away mode for your profile. While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. When you come back from away mode, you can disable away mode at this same location.
     - if @user.vacation_enabled?

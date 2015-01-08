@@ -17,7 +17,7 @@ class ContributionsController < ApplicationController
       amount = params[:amount]
     end
 
-    manager.create({target_user: target_user, amount: amount}.merge(recurring: params.bool(:recurring)))
+    manager.create({target_user: target_user, amount: amount, recurring: params.bool(:recurring), message: params[:message]})
     json_reload(notice: 'Thanks for you contribution!')
   end
 

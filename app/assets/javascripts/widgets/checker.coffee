@@ -9,7 +9,7 @@ class bud.widgets.Checker extends bud.Widget
   on_change: =>
     @$container.addClass('pending')
     url = if @$container.prop('checked') then @checked_url else @unchecked_url
-    bud.Ajax.post(url, {_method: 'PUT'}, {success: @on_success})
+    bud.Ajax.post(url, {_method: 'PUT'}, {success: @on_success}) if url
     true
 
   on_success: =>
