@@ -20,6 +20,8 @@ BuddyPlatform::Application.routes.draw do
       put :update_account_picture
       put :enable_rss
       put :disable_rss
+      put :enable_notifications_debug
+      put :disable_notifications_debug
       put :enable_downloads
       put :disable_downloads
       put :enable_itunes
