@@ -52,6 +52,16 @@
       .clearfix
 
   .item_block
+    h2 Profile Notifications
+    p Check this box if you would like to recieve new post notifications when you create a post.
+    .form-group.profile_display_settings
+      label.pull-left Enable Post Notifications
+      // Fix this tag, checked by default
+      = checker_tag(current_user.object, :rss, :account_info)
+      .clearfix
+    .clearfix
+
+  .item_block
     h2 Away Mode
     p Click here to enable away mode for your profile. While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. When you come back from away mode, you can disable away mode at this same location.
     - if @user.vacation_enabled?

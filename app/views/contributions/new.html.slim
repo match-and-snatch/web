@@ -8,23 +8,22 @@
     input type='hidden' name='target_user_id' value=params[:target_user_id]
     .form-group
       span style='width: auto; font-size: 13px;' Amount:
-      input id='amount_cont_5' type='radio' name='amount' value='500' style='margin: 0 5px 0 15px;'
 
-      label for='amount_cont_5' style='font-size: 13px;' $5
       input id='amount_cont_10' type='radio' name='amount' value='1000' style='margin: 0 5px 0 15px;'
-
       label for='amount_cont_10' style='font-size: 13px;' $10
-      input id='amount_cont_15' type='radio' name='amount' value='1500' style='margin: 0 5px 0 15px;'
 
-      label for='amount_cont_15' style='font-size: 13px;' $15
+      input id='amount_cont_20' type='radio' name='amount' value='2000' style='margin: 0 5px 0 15px;'
+      label for='amount_cont_20' style='font-size: 13px;' $20
+
+      input id='amount_cont_30' type='radio' name='amount' value='3000' style='margin: 0 5px 0 15px;'
+      label for='amount_cont_30' style='font-size: 13px;' $30
+
       input id='custom_amount_cont_rb' type='radio' name='amount' value='0' style='margin: 0 5px 0 15px;'
-
       label for='custom_amount_cont_rb'
         input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter other value' style='width: 140px;'
         .clearfix
-      br
-      span style='width: 150px; font-size: 13px;' Message:
-      textarea name='message' value='500' style='width: 300px; height: 100px; border: 1px solid gray'
+      .clearfix
+      textarea.form-control name='message' value='500' placeholder='Please leave a message for the profile owner (optional)' style='height: 80px; margin-top: 15px;'
       .clearfix
     .error data-field='amount' style='width: 100%;'
     hr style='height: 1px;'
