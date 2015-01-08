@@ -11,6 +11,10 @@ class Contribution < ActiveRecord::Base
     self.reorder('contributions.created_at DESC').to_a.group_by(&:year_month).each(&block)
   end
 
+  def self.total_amount
+    sum(:amount)
+  end
+
   # @return [Date]
   def next_billing_date
     raise ArgumentError unless recurring?
