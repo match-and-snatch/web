@@ -2,6 +2,8 @@ h2 Contributions (#{cents_to_dollars @contributions.total_amount})
 .table-responsive
   table.table.table-striped
     th
+      strong Profile Name
+    th
       strong Subscriber Name
     th
       strong Date/Time
@@ -12,18 +14,19 @@ h2 Contributions (#{cents_to_dollars @contributions.total_amount})
 
     - @contributions.each_year_month do |year_month, contributions|
       tr.info
-        td colspan=2
+        td colspan=3
           strong= year_month
         td colspan=2
           strong= cents_to_dollars contributions.sum(&:amount)
       - contributions.each do |contribution|
         tr
-          td= contribution.user.name
+          td= link_to_user contribution.target_user
+          td= link_to_user contribution.user
           td= contribution.created_at.to_s(:short)
           td= cents_to_dollars contribution.amount
           td= contribution.will_repeat? ? 'yes' : 'no'
     tr.warning
-      td colspan=2
+      td colspan=3
         strong Total:
       td colspan=2
         strong= cents_to_dollars @contributions.total_amount
