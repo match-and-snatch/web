@@ -241,5 +241,6 @@ BuddyPlatform::Application.routes.draw do
     get 'emails/*mockup' => 'emails#show'
   end
 
+  get '/the-painful-truth-from-neal-boortz', to: redirect('/boortzcast')
   get '/:id' => 'users#show', as: :profile
 end
