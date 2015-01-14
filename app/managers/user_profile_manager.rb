@@ -351,7 +351,7 @@ class UserProfileManager < BaseManager
   def update_slug(slug)
     validate! { validate_slug slug }
 
-    user.slug = slug
+    user.slug = slug.parameterize
     save_or_die! user
     EventsManager.slug_changed(user: user, slug: slug)
     user
