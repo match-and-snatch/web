@@ -77,15 +77,21 @@
           td= subscription.canceled_at.to_s(:long) if subscription.canceled_at
           - if @subscriptions.show_failed_column?
             td
-              - if subscription.rejected?
-                span style='color: red' Payment failed
-              - else
+              - if subscription.removed? && subscription.rejected?
+                span style='color: gray' Canceled (failed)
+              - elsif subscription.removed?
                 span style='color: gray' Canceled
+              - else
+                span style='color: red' Payment failed
           td style='text-align: right;'
             - if subscription.target_user.is_profile_owner?
               span.fa.fa-refresh.pink style='color: #ea2e49' &nbsp;
               a.AjaxFormLink data-_method='PUT' href=restore_subscription_path(subscription.id)
                 = subscription.rejected? ? 'Retry Payment' : 'Restore'
+              - if !subscription.removed?
+                br
+                span.fa.fa-times.pink style='color: #ea2e49' &nbsp;
+                a.fa.fa-close.AjaxLink href=cancel_subscription_path(subscription.id) Cancel
             - else
               span Deleted Profile
 
