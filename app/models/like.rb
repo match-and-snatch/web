@@ -3,6 +3,7 @@ class Like < ActiveRecord::Base
   belongs_to :target_user, class_name: 'User'
   belongs_to :likable, polymorphic: true
   belongs_to :post
+  belongs_to :comment
 
   validates :likable, :user, :target_user, presence: true
 end

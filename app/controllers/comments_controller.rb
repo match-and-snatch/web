@@ -1,9 +1,9 @@
 class CommentsController < ApplicationController
   before_filter :authenticate!
   before_filter :load_post!, only: [:index, :create]
-  before_filter :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide]
+  before_filter :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide, :like]
 
-  protect(:index, :create) { can? :see, @post }
+  protect(:index, :create, :like) { can? :see, post }
   protect(:edit, :update, :make_visible, :hide, :destroy) { can? :manage, @comment }
 
   def index
@@ -42,7 +42,20 @@ class CommentsController < ApplicationController
     json_replace
   end
 
+  def like
+    LikesManager.new(current_user.object).toggle(@comment)
+    json_render partial: 'like', locals: {comment: @comment}
+  end
+
   private
+
+  def post
+    @post || comment.post
+  end
+
+  def comment
+    @comment || load_comment!
+  end
 
   def load_comment!
     @comment = Comment.where(id: params[:id]).first or error(404)

@@ -32,4 +32,5 @@
       .comment_text= format_comment_message(reply)
       .cleaffix
       .post_date Posted #{time_ago_in_words reply.created_at} ago
+      .action_bar= render 'comments/like', comment: reply
     .clearfix
