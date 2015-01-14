@@ -612,7 +612,7 @@ class UserProfileManager < BaseManager
   # @param slug [String]
   # @return [true, false]
   def slug_taken?(slug)
-    User.where.not(id: user.id).where(slug: slug).any?
+    User.where.not(id: user.id).where(slug: slug.parameterize).any?
   end
 
   def validate_slug(slug)
