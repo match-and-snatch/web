@@ -29,8 +29,9 @@
       = link_to_user comment.user
     .comment_text= format_comment_message(comment)
     .clearfix
-    .post_date.pull-left Posted #{time_ago_in_words comment.created_at} ago
-    .action_bar= render 'comments/like', comment: comment
+    .post_date
+      span.pull-left Posted #{time_ago_in_words comment.created_at} ago
+      = render 'comments/like_small', comment: comment
 
     // Change text Add Reply to Cancel Reply when user clicks on this link and reply container appears.
 

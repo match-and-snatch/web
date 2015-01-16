@@ -1278,6 +1278,21 @@
           line-height: 20px
           position: relative
           width: 100%
+          .like_small
+            margin-left: 10px
+            a.fa-thumbs-up
+              color: $color_text_light
+              text-decoration: none
+              position: relative
+              &.liked_post
+                color: $color_blue
+              &:before
+                margin-right: 2px
+              .users_liked
+                display: none
+                color: #898989
+              &:hover
+                color: $color_blue
           .comment_reply
             border: 1px solid $color_border
             font-size: 13px
