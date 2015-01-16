@@ -3,48 +3,32 @@
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
     .modal-title Subscribe Now
     span Review your subscription order
-
   .modal-body.subscribe_container.existing_billing
-
-    /Order Summary Column
     .order_summary
       .heading Your Order Summary
-
-      /Item Row
       .item_row style='margin-bottom: 15px' #{@owner.profile_name}
-
-      /Total Cost
       .total_cost
         .pull-left Total Monthly Cost
         .pull-right.cost= cents_to_dollars @owner.subscription_cost
         .clearfix
-
       .note.bg-warning style='text-align: center; margin: 10px 0 0 0' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
-
       a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) style="width: 100%; margin-top: 15px;" Subscribe
-
 - else
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
     .modal-title.hidden-xs Create an account & subscribe
     span.hidden-xs Checkout will create an account for you to login and view your subscriptions
-
   .modal-body.subscribe_container.new_subscriber
-
-    /Account Payment Column
     form.pull-left.Form action=via_register_user_subscriptions_path(@owner) method='POST'
-
       - if mobile_phone_device?
         .order_summary style='min-height: 50px'
           .heading style='margin: 0;' Your Order Summary
-          .item_row style='margin: 5px 0 0 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; height: 18px;' #{@owner.profile_name}
+          .item_row style='margin: 5px 0 0 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; height: 14px;' #{@owner.profile_name}
           .total_cost style='margin: 5px 0 0 0;'
             .pull-left Total Monthly Cost
             .pull-right.cost= cents_to_dollars @owner.subscription_cost
             .clearfix
-
         hr style='margin: 0 0 5px 0; padding: 0'
-
         .account_payment
           .form-group
             label.control-label Account Information
@@ -61,7 +45,6 @@
             label.control-label Billing Information
             input.form-control.input-sm type='text' name='number' placeholder='Credit Card Number' validate='cc_number'
             //span.error data-field='number'
-
           .form-group style='margin-bottom: 15px;'
             select.form-control.input-sm.pull-left data-error_field='expiry_date' name='expiry_month' style='width: 100px; margin-right: 10px;'
               option value='' Month
@@ -77,7 +60,6 @@
               option value='10' 10 - October
               option value='11' 11 - November
               option value='12' 12 - December
-
             select.form-control.input-sm.pull-left type='text' data-error_field='expiry_date' name='expiry_year' style='width: 70px; margin-right: 10px;'
               option value='' Year
               option value='14' 2014
@@ -97,56 +79,27 @@
               option value='28' 2028
               option value='29' 2029
               option value='30' 2030
-
             input.form-control.input-sm type='number' name='cvc' placeholder='CVC' maxlength='4' style='width: 60px;' validate='cvc'
             //span.error data-field='cvc'
-
             .form-group
               input.form-control.input-sm type='text' name='address_line_1' placeholder='Street Address' validate='require'
               span.error data-field='address_line_1'
-
             .form-group
               input.form-control.input-sm type='text' name='address_line_2' placeholder='Address 2'
               span.error data-field='address_line_2'
-
             .form-group.pull-left style='width: 88px; margin-right: 10px;'
               input.form-control.input-sm.pull-left type='text' name='city' placeholder='City' validate='require'
               span.error data-field='city'
-
             .form-group.pull-left style='width: 70px; margin-right: 10px;'
               input.form-control.input-sm type='text' name='state' placeholder='State' validate='require'
               span.error data-field='state'
-
             .form-group.pull-left style='width: 80px;'
               input.form-control.input-sm.pull-left type='text' name='zip' placeholder='ZIP Code' validate='require'
               span.error data-field='zip'
           .clearfix
-
       - else
-        /Order Summary Column
-        .order_summary.pull-right style='width: 315px; background-color: #FFFFFF; padding: 0 15px 0 15px; margin: 0 0 15px 0;'
-          .heading Your Order Summary
-
-          /Item Row
-          .item_row style='height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;' #{@owner.profile_name}
-
-          /Transaction Fee
-          //.transaction_fee
-            .pull-left Service Fee
-            .pull-right
-              strong= cents_to_dollars @owner.subscription_fees
-            .clearfix
-
-          /Total Cost
-          .total_cost
-            .pull-left Total Monthly Cost
-            .pull-right.cost= cents_to_dollars @owner.subscription_cost
-            .clearfix
-
-          .note.bg-warning style='margin: 10px 0 15px' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
-
-        .account_payment.pull-left style='padding: 10px 15px 15px 15px;'
-          label style='font-size: 13px; margin-bottom: 10px' Account Information
+        .account_payment.pull-left style='padding: 10px 15px 15px 15px; min-height: 210px;'
+          label style='font-size: 13px; margin-bottom: 10px;' Account Information
           .clearfix
           .form-group
             input.form-control type='text' name='full_name' validate='require' placeholder='Full Name on Card' style='width: 300px;'
@@ -158,10 +111,19 @@
             input.form-control.password type='password' name='password' placeholder='Create Password' validate='require,min_length:5' style='width: 300px; margin-top: 15px'
             span.error data-field='password'
           .clearfix
-        .clearfix style='height: 0;'
+
+        .order_summary.pull-right style='width: 310px; background-color: #FFFFFF; padding: 0 0 0 15px; margin: 0 0 0 0;'
+          .heading Your Order Summary
+          .item_row style='height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;' #{@owner.profile_name}
+          .total_cost
+            .pull-left Total Monthly Cost
+            .pull-right.cost= cents_to_dollars @owner.subscription_cost
+            .clearfix
+          .note.bg-warning style='margin: 10px 0 15px' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
+        .clearfix
 
         .account_payment style='width: 100%; padding: 0 15px 15px 15px;'
-          label style='font-size: 13px; margin: 0 0 15px 0;' Billing Information
+          label style='font-size: 13px; margin-bottom: 10px' Billing Information
           .clearfix
           .form-group.cc_row.pull-left
             ul.cc_images
