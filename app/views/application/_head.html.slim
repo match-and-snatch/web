@@ -10,11 +10,6 @@ link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" re
 = stylesheet_link_tag '//fonts.googleapis.com/css?family=Open+Sans:300,400,600|Dosis:400,600,700'
 = stylesheet_link_tag 'application', media: 'all'
 
-<!--[if lt IE 9]>
-  = stylesheet_link_tag 'ie'
-  script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js'
-<![endif]-->
-
 - if Rails.application.config.assets.use_cdn
   script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'
   script type='text/javascript' src='//code.jquery.com/jquery-1.11.0.min.js'
@@ -24,10 +19,17 @@ link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" re
 
 = javascript_include_tag 'application'
 script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.js'
+
+<!--[if lt IE 9]>
+  = stylesheet_link_tag 'ie'
+  script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js'
+<![endif]-->
+
 <!--[if (gte IE 6)&(lte IE 8)]>
   script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js'
   script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr.js'
 <![endif]-->
+
 = csrf_meta_tags
 
 javascript:
