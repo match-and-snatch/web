@@ -6,6 +6,8 @@ class bud.widgets.Hover extends bud.Widget
 
   initialize: ->
     @$target = bud.get(@$container.data('target')) || @$container
+    @url = @data('url')
+    @remote_content_loaded = false
     @$container.click @on_hover
     @$container.hover @on_hover
     @$container.mouseleave @on_out
@@ -25,7 +27,18 @@ class bud.widgets.Hover extends bud.Widget
   on_hover: (e) =>
     e.stopPropagation()
     @$target.show()
+    if @need_remote_content()
+      bud.Ajax.get(@url, {}, {success: @render_remote_content})
+    false
 
   on_link_touch: (e) =>
     e.stopPropagation()
     window.location = $(e.currentTarget).attr('href')
+
+  need_remote_content: ->
+    @url && !@remote_content_loaded
+
+  render_remote_content: (response) =>
+    @remote_content_loaded = true
+    bud.replace_html(@$target, response['html'])
+

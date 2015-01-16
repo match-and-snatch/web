@@ -44,7 +44,7 @@ class CommentsController < ApplicationController
 
   def like
     LikesManager.new(current_user.object).toggle(@comment)
-    json_render partial: 'like', locals: {comment: @comment}
+    json_replace partial: 'like_small', locals: {comment: @comment}
   end
 
   private

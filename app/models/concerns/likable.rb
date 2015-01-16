@@ -6,21 +6,18 @@ module Concerns::Likable
   end
 
   # @todo move to decorator
-  def likers_text
+  # @return [Hash]
+  def likers_data
     likes_count = likes.count
+    likes_scope = likes.order('likes.created_at DESC').joins(:user).select('users.full_name as name')
 
-    if likes_count > 0
-      recent_likes = likes.order('likes.created_at DESC').limit(2).joins(:user).select('users.full_name as name').map(&:name)
-      recent_likes = recent_likes.join(', ')
-      likes_count -= 2
-
-      if likes_count < 1
-        recent_likes
-      elsif likes_count == 1
-        "#{recent_likes} and 1 other"
-      else
-        "#{recent_likes} and #{likes_count} others"
-      end
+    case likes_count
+    when 2
+      {recent_liker: likes_scope.map(&:name).join(', '), more_count: 0}
+    when -> (count) { count > 0 }
+      {recent_liker: likes_scope.first.name, more_count: likes_count - 1}
+    else
+      {}
     end
   end
 end

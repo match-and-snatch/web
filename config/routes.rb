@@ -57,6 +57,7 @@ BuddyPlatform::Application.routes.draw do
         put :hide
       end
     end
+    resources :likes, only: [:index, :create], defaults: {type: 'comment'}
   end
 
   resources :contributions, only: [:create, :new, :destroy] do
@@ -71,7 +72,7 @@ BuddyPlatform::Application.routes.draw do
       put :hide
     end
     resources :comments, only: [:create, :index]
-    resources :likes, only: :create
+    resources :likes, only: [:index, :create], defaults: {type: 'post'}
   end
 
   resource :pending_post, only: [:update]

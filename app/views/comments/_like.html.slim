@@ -3,6 +3,7 @@ div data-identifier="comment-likes-#{comment.id}"
     a.AjaxFormLink.fa.fa-thumbs-up.pull-left data-target="comment-likes-#{comment.id}" data-_method='PUT' href=like_comment_path(comment) class='#{'liked_post' if current_user.likes?(comment)}'
   - else
     a.fa.fa-thumbs-up.pull-left.PopupTrigger data-target='subscription'
-  .users_liked.pull-left= comment.likers_text
+  .users_liked.pull-left= likes_text comment
+  span data-identifier=likable_id(comment)
   .clearfix
 

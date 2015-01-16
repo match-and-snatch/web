@@ -3,5 +3,6 @@ span.like_small.pull-left data-identifier="likes-#{post.id}"
     a.AjaxFormLink.fa.fa-thumbs-up.pull-left data-target="likes-#{post.id}" href=post_likes_path(post) class='#{'liked_post' if current_user.likes?(post)}'
   - else
     a.fa.fa-thumbs-up.pull-left.PopupTrigger data-target='subscription'
-  span.users_liked= post.likers_text
+  span.users_liked= likes_text post
+  span data-identifier=likable_id(post)
   .clearfix

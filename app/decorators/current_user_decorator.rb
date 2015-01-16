@@ -36,7 +36,7 @@ class CurrentUserDecorator < UserDecorator
     when Comment
       case action
       when :delete, :manage then subject.user_id == object.id || subject.post_user_id == object.id
-      when :like            then subject.user_id == object.id || subscribed_to?(subject.post_user)
+      when :like            then subject.user_id == object.id || subject.post_user_id == object.id || subscribed_to?(subject.post_user)
       else
         raise ArgumentError, "No such action #{action}"
       end
