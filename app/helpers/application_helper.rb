@@ -13,6 +13,30 @@ module ApplicationHelper
     end
   end
 
+  # @param likale [Concerns::Likable]
+  # @return [String, nil]
+  def likes_text(likable)
+    data = likable.likers_data
+    return if data.empty?
+
+    more_count = data[:more_count]
+    recent_liker = data[:recent_liker]
+
+    case more_count
+    when 0
+      recent_liker
+    when 1, 2
+      "#{recent_liker} likes"
+    else
+      path = likable.is_a?(Post) ? post_likes_path(likable) : polymorphic_path([likable, :likes])
+      "#{recent_liker} and #{link_to "#{more_count} other likes", path, target: '_blank', class: 'Hover', data: {url: path, target: likable_id(likable)}}"
+    end.try(:html_safe)
+  end
+
+  def likable_id(likable)
+    "other-likers-#{likable.class.name}-#{likable.id}"
+  end
+
   def object_checker_tag(object, field_name, options = {})
     data = {}
     data[:checked_url]   = options.delete(:checked_url) || polymorphic_path(["enable_#{field_name}", object])

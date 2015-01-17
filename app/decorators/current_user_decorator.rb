@@ -33,9 +33,10 @@ class CurrentUserDecorator < UserDecorator
       case action
       when :manage then subject.user_id == object.id
       end
-      when Comment
+    when Comment
       case action
       when :delete, :manage then subject.user_id == object.id || subject.post_user_id == object.id
+      when :like            then subject.user_id == object.id || subject.post_user_id == object.id || subscribed_to?(subject.post_user)
       else
         raise ArgumentError, "No such action #{action}"
       end
@@ -79,8 +80,16 @@ class CurrentUserDecorator < UserDecorator
     object.posts.any?
   end
 
-  def likes?(post)
-    object.likes.where(post_id: post.id).any?
+  # @param likable [Post, Comment]
+  def likes?(likable)
+    case likable
+    when Post
+      object.likes.where(post_id: likable.id).any?
+    when Comment
+      object.likes.where(comment_id: likable.id).any?
+    else
+      raise ArgumentError
+    end
   end
 
   def has_subscriptions?

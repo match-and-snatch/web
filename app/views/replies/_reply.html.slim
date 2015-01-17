@@ -31,5 +31,7 @@
         = link_to_user reply.user
       .comment_text= format_comment_message(reply)
       .cleaffix
-      .post_date Posted #{time_ago_in_words reply.created_at} ago
+      .post_date
+        span.pull-left Posted #{time_ago_in_words reply.created_at} ago
+        = render 'comments/like_small', comment: reply
     .clearfix
