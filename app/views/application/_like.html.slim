@@ -4,5 +4,5 @@ div data-identifier="likes-#{post.id}"
   - else
     a.fa.fa-thumbs-up.pull-left.PopupTrigger data-target='subscription'
   .users_liked.pull-left= likes_text post
-  span data-identifier=likable_id(post)
+  span.hidden data-identifier=likable_id(post)
   .clearfix

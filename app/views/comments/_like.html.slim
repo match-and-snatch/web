@@ -4,6 +4,6 @@ div data-identifier="comment-likes-#{comment.id}"
   - else
     a.fa.fa-thumbs-up.pull-left.PopupTrigger data-target='subscription'
   .users_liked.pull-left= likes_text comment
-  span data-identifier=likable_id(comment)
+  span.hidden data-identifier=likable_id(comment)
   .clearfix
 
