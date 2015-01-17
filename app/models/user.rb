@@ -198,9 +198,7 @@ class User < ActiveRecord::Base
       cost = cost.to_i
       fees = 0
 
-      if cost <= 300
-        fees = 79
-      elsif cost <= 500
+      if cost <= 500
         fees = 99
       elsif cost >= 600 && cost <= 2000
         fees = 199
