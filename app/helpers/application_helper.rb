@@ -29,7 +29,7 @@ module ApplicationHelper
       "#{recent_liker} likes"
     else
       path = likable.is_a?(Post) ? post_likes_path(likable) : polymorphic_path([likable, :likes])
-      "#{recent_liker} and #{link_to "#{more_count} other likes", path, target: '_blank', class: 'Hover', data: {url: path, target: likable_id(likable)}}"
+      "#{recent_liker} and #{content_tag :span, "#{more_count} other likes", class: 'Hover tmp', data: {url: path, target: likable_id(likable)}}"
     end.try(:html_safe)
   end
 

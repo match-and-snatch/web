@@ -4,6 +4,6 @@ span.like_small.pull-left data-identifier="comment-likes-#{comment.id}"
   - else
     a.fa.fa-thumbs-up.pull-left.PopupTrigger data-target='subscription'
   span.users_liked= likes_text comment
-  span.hidden data-identifier=likable_id(comment)
+  div style="display: none; position: relative; bottom: -20px; border: 2px solid black; z-index: 9999; width: 200px; padding: 0px 0px 5px 10px; border-radius: 5px; color: white; text-shadow: none; left: 100px; background: rgba(0, 0, 0, 0.819608); font-size: 9pt" data-identifier=likable_id(comment)
   .clearfix
 
