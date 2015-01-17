@@ -29,7 +29,7 @@ class bud.widgets.Hover extends bud.Widget
     @$target.show()
     if @need_remote_content()
       bud.Ajax.get(@url, {}, {success: @render_remote_content})
-    false
+    true
 
   on_link_touch: (e) =>
     e.stopPropagation()
