@@ -2,6 +2,7 @@ class Admin::UploadsController < Admin::BaseController
 
   def index
     @users = User.joins(:source_uploads).
+      where("uploads.removed = 'f'").
       select('users.*, SUM(uploads.filesize) as uploaded_bytes').
       group('users.id').
       having('SUM(uploads.filesize) > 0').
