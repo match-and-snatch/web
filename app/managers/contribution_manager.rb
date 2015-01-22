@@ -26,7 +26,9 @@ class ContributionManager < BaseManager
   # Creates child from recurring contribution
   def create_child
     raise ArgumentError, 'Requires recurring contribution' unless @contribution.try(:recurring?)
-    create_contribution(target_user: @contribution.target_user, amount: @contribution.amount, recurring: false, parent: @contribution)
+    create_contribution(target_user: @contribution.target_user, amount: @contribution.amount, recurring: false, parent: @contribution).tap do
+      @contribution.touch
+    end
   end
 
   def delete
