@@ -1,16 +1,14 @@
 - content_for :custom_heading do
   strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 28px; line-height: 100%;' Contribution Notice
 
-- content_for :preheader do
-  'Congratulations, #{link_to_user @contribution.target_user.name}!
+div
+  b Congratulations, #{@contribution.target_user.name}!
 
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
-  |#{link_to_user @contribution.user.name} has contributed one-time payment to your profile
+  |#{link_to_user @contribution.user} has contributed one-time payment to your profile
 
 img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-hr.png' border='0' height='1px' width='458px' alt='divider' title='divider' style='display: block; border: none; padding: 0; margin: 0 0 15px 0;'
 
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 11px; line-height: 150%; padding: 0; margin: 0 0 15px 0;'
   | Contribution cost: #{cents_to_dollars @contribution.amount, use_ceil: true},
-  | Contribution date: #{@contribution.created_at.to_s(:long)}
-
-img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-noreply-2x.png' border='0' height='25px' width='350px' alt='Please note that this is only a notification, please login to view content' title='Please note that this is only a notification, please login to view content' style='display: block; border: none; padding: 0; margin: 0 0 15px 0;'
+  | Contribution date: #{@contribution.created_at.to_date.to_s(:long)}
