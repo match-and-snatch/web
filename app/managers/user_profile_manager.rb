@@ -250,6 +250,7 @@ class UserProfileManager < BaseManager
                      address_line_1: nil, address_line_2: nil, state: nil, city: nil, zip: nil)
     card = CreditCard.new number: number,
                           cvc: cvc,
+                          holder_name: user.full_name,
                           expiry_month: expiry_month,
                           expiry_year: expiry_year,
                           address_line_1: address_line_1,

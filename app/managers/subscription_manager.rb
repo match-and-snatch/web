@@ -50,6 +50,7 @@ class SubscriptionManager < BaseManager
                           zip: zip,
                           city: city,
                           state: state,
+                          holder_name: full_name,
                           address_line_1: address_line_1,
                           address_line_2: address_line_2
     validate! do
@@ -109,6 +110,7 @@ class SubscriptionManager < BaseManager
     end
 
     card = CreditCard.new number:       number,
+                          holder_name:  subscriber.try(:full_name),
                           cvc:          cvc,
                           expiry_month: expiry_month,
                           expiry_year:  expiry_year,
