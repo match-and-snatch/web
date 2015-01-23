@@ -1,13 +1,17 @@
 class CommentsController < ApplicationController
   before_filter :authenticate!
   before_filter :load_post!, only: [:index, :create]
-  before_filter :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide, :like]
+  before_filter :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide, :like, :show]
 
-  protect(:index, :create, :like) { can? :see, post }
+  protect(:index, :create, :like, :show) { can? :see, post }
   protect(:edit, :update, :make_visible, :hide, :destroy) { can? :manage, @comment }
 
   def index
     @query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id])
+    json_replace
+  end
+
+  def show
     json_replace
   end
 
