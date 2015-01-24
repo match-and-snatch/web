@@ -39,6 +39,9 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
+  def sample
+  end
+
   # Profile page
   def show
     user = User.profile_owners.with_complete_profile.where(slug: params[:id]).first or error(404)

@@ -1,5 +1,6 @@
 BuddyPlatform::Application.routes.draw do
   root 'welcome#show'
+  get '/sample' => 'users#sample'
 
   resource :account_info, only: [] do
     member do
