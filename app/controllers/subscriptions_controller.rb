@@ -17,13 +17,13 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    SubscriptionManager.new(subscriber: current_user.object).subscribe_and_pay_for(@owner)
+    SubscriptionManager.new(subscriber: current_user.object).subscribe_and_pay_for(@target_user)
     json_reload
   end
 
   def via_register
     SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
-      manager.register_subscribe_and_pay target:       @owner,
+      manager.register_subscribe_and_pay target:       @target_user,
                                          email:        params[:email],
                                          password:     params[:password],
                                          full_name:    params[:full_name],
@@ -43,7 +43,7 @@ class SubscriptionsController < ApplicationController
 
   def via_update_cc_data
     SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
-      manager.update_cc_subscribe_and_pay target:       @owner,
+      manager.update_cc_subscribe_and_pay target:       @target_user,
                                           number:       params[:number],
                                           cvc:          params[:cvc],
                                           expiry_month: params[:expiry_month],
@@ -91,7 +91,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def load_owner!
-    @owner = User.where(slug: params[:user_id]).first or error(404)
+    @target_user = User.where(slug: params[:user_id]).first or error(404)
   end
 
   def filter_card_params

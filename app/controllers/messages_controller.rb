@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+  include Concerns::PublicProfileHandler
+
   before_filter :load_target_user!
 
   protect { can? :send_message_to, @target_user }
@@ -11,20 +13,6 @@ class MessagesController < ApplicationController
     MessagesManager.new(user: current_user.object).create(target_user: @target_user,
                                                           message: params[:message])
     json_success notice: :new_message
-  end
-
-  protected
-
-  # @overload
-  def process_http_code_error(error)
-    case error.code
-    when 401
-      @owner = @target_user
-      template = current_user.authorized? ? '/subscriptions/new' : '/subscriptions/new_unauthorized'
-      json_popup popup: render_to_string(template: template, layout: false)
-    else
-      super
-    end
   end
 
   private

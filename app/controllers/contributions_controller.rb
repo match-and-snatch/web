@@ -1,7 +1,11 @@
 class ContributionsController < ApplicationController
-  before_filter :authenticate!
-  before_filter :load_contribution!, only: [:cancel, :destroy]
+  include Concerns::PublicProfileHandler
 
+  before_filter :authenticate!, except: [:new, :create]
+  before_filter :load_contribution!, only: [:cancel, :destroy]
+  before_filter :load_target_user!
+
+  protect(:create) { can? :make, Contribution.new }
   protect(:destroy) { can? :delete, @contribution }
 
   def new
@@ -9,7 +13,6 @@ class ContributionsController < ApplicationController
   end
 
   def create
-    target_user = User.find_by_id(params[:target_user_id]) or error(400)
 
     if params[:amount].to_i.zero?
       amount = params[:custom_amount].to_i * 100
@@ -32,6 +35,10 @@ class ContributionsController < ApplicationController
   end
 
   private
+
+  def load_target_user!
+    @target_user = User.find_by_id(params[:target_user_id]) or error(400)
+  end
 
   def load_contribution!
     @contribution = Contribution.where(id: params[:id]).first or error(404)

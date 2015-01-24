@@ -1,4 +1,6 @@
 class LikesController < ApplicationController
+  include Concerns::PublicProfileHandler
+
   before_filter :authenticate!
   before_filter :load_likable!
 

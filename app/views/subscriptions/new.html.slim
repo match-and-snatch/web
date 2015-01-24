@@ -11,17 +11,17 @@
       .heading Your Order Summary
 
       /Item Row
-      .item_row style='height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 15px;' #{@owner.profile_name}
+      .item_row style='height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 15px;' #{@target_user.profile_name}
 
       /Total Cost
       .total_cost
         .pull-left Total Monthly Cost
-        .pull-right.cost= cents_to_dollars @owner.subscription_cost
+        .pull-right.cost= cents_to_dollars @target_user.subscription_cost
         .clearfix
 
       .note.bg-warning style='text-align: center; margin: 10px 0 0 0' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
 
-      a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) style="width: 100%; margin-top: 15px;" Subscribe
+      a.btn.blue.AjaxFormLink href=user_subscriptions_path(@target_user) style="width: 100%; margin-top: 15px;" Subscribe
 
 - else
   .modal-header
@@ -36,17 +36,17 @@
       .heading Your Order Summary
 
       /Item Row
-      .item_row #{@owner.profile_name}
+      .item_row #{@target_user.profile_name}
 
       /Total Cost
       .total_cost
         .pull-left Total Monthly Cost
-        .pull-right.cost= cents_to_dollars @owner.subscription_cost
+        .pull-right.cost= cents_to_dollars @target_user.subscription_cost
         .clearfix
 
       .note.bg-warning style='margin: 10px 0 15px; text-align: center' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
 
-    form.Form action=via_update_cc_data_user_subscriptions_path(@owner) method='POST' style='width: 100%'
+    form.Form action=via_update_cc_data_user_subscriptions_path(@target_user) method='POST' style='width: 100%'
       - if mobile_phone_device?
         hr style='margin: -10px 0 5px 0; padding: 0'
         .account_payment

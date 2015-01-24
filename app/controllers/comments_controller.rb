@@ -1,9 +1,11 @@
 class CommentsController < ApplicationController
-  before_filter :authenticate!, except: [:show]
+  include Concerns::PublicProfileHandler
+
+  before_filter :authenticate!, except: [:show, :create]
   before_filter :load_post!, only: [:index, :create]
   before_filter :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide, :like, :show]
 
-  protect(:index, :create, :like, :show) { can? :see, post }
+  protect(:index, :create, :like, :show) { can? :comment, post }
   protect(:edit, :update, :make_visible, :hide, :destroy) { can? :manage, @comment }
 
   def index
@@ -49,6 +51,13 @@ class CommentsController < ApplicationController
   def like
     LikesManager.new(current_user.object).toggle(@comment)
     json_replace partial: 'like_small', locals: {comment: @comment}
+  end
+
+  protected
+
+  # @overload
+  def load_public_user!
+    @target_user ||= @comment.try(:post_user) || @post.try(:user)
   end
 
   private
