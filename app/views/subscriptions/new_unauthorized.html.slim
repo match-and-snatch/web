@@ -1,6 +1,6 @@
 - if current_user.has_cc_payment_account?
   .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
+    i.PopupTrigger.fa.fa-times-circle.close type="button" aria-hidden="true"
     .modal-title Subscribe Now
     span Review your subscription order
   .modal-body.subscribe_container.existing_billing
@@ -15,7 +15,7 @@
       a.btn.blue.AjaxFormLink href=user_subscriptions_path(@owner) style="width: 100%; margin-top: 15px;" Subscribe
 - else
   .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="subscription" aria-hidden="true"
+    i.PopupTrigger.fa.fa-times-circle.close type="button" aria-hidden="true"
     .modal-title.hidden-xs Create an account & subscribe
     span.hidden-xs Checkout will create an account for you to login and view your subscriptions
   .modal-body.subscribe_container.new_subscriber

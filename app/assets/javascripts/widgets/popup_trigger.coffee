@@ -3,7 +3,7 @@ class bud.widgets.PopupTrigger extends bud.Widget
   @SELECTOR: '.PopupTrigger'
 
   initialize: ->
-    @target = @$container.data('target')
+    @target = @$container.data('target') or @$container.parents('.Popup, .RemotePopup, .AjaxPopup, .ConfirmationPopup').data('identifier')
     @$container.click @on_click
     @$container.on 'touchstart', @on_click
 

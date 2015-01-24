@@ -13,6 +13,20 @@ class MessagesController < ApplicationController
     json_success notice: :new_message
   end
 
+  protected
+
+  # @overload
+  def process_http_code_error(error)
+    case error.code
+    when 401
+      @owner = @target_user
+      template = current_user.authorized? ? '/subscriptions/new' : '/subscriptions/new_unauthorized'
+      json_popup popup: render_to_string(template: template, layout: false)
+    else
+      super
+    end
+  end
+
   private
 
   def load_target_user!

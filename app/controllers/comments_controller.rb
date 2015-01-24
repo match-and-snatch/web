@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_filter :authenticate!
+  before_filter :authenticate!, except: [:show]
   before_filter :load_post!, only: [:index, :create]
   before_filter :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide, :like, :show]
 

@@ -42,7 +42,7 @@ class CurrentUserDecorator < UserDecorator
       end
     when Post
       case action
-      when :see            then object.id == subject.user_id || subscribed_to?(subject.user)
+      when :see            then object.id == subject.user_id || subscribed_to?(subject.user) || subject.user.has_public_profile?
       when :delete         then object.id == subject.user_id
       when :like, :comment then object.id == subject.user_id || subscribed_to?(subject.user)
       else
@@ -50,9 +50,9 @@ class CurrentUserDecorator < UserDecorator
       end
     when Contribution
       case action
-        when :delete then object.id == subject.user_id
-        else
-          raise ArgumentError, "No such action #{action}"
+      when :delete then object.id == subject.user_id
+      else
+        raise ArgumentError, "No such action #{action}"
       end
     when Subscription
       case action
