@@ -23,7 +23,7 @@ h2 Contributions (#{cents_to_dollars @contributions.total_amount})
           td= cents_to_dollars contribution.amount
           td= contribution.will_repeat? ? 'yes' : 'no'
     tr.warning
-      td colspan=3
+      td colspan=2
         strong Total:
       td colspan=2
         strong= cents_to_dollars @contributions.total_amount
