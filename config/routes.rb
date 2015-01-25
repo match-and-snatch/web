@@ -61,7 +61,7 @@ BuddyPlatform::Application.routes.draw do
     resources :likes, only: [:index, :create], defaults: {type: 'comment'}
   end
 
-  resources :contributions, only: [:create, :new, :destroy] do
+  resources :contributions, only: [:index, :create, :new, :destroy] do
     member do
       get :cancel
     end

@@ -3,10 +3,15 @@ class ContributionsController < ApplicationController
 
   before_filter :authenticate!, except: [:new, :create]
   before_filter :load_contribution!, only: [:cancel, :destroy]
-  before_filter :load_target_user!
+  before_filter :load_target_user!, except: [:index]
 
   protect(:create) { can? :make, Contribution.new }
   protect(:destroy) { can? :delete, @contribution }
+
+  def index
+    @contributions = Contribution.where(target_user_id: current_user.id)
+    json_render
+  end
 
   def new
     json_popup
