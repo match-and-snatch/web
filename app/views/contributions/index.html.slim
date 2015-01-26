@@ -12,78 +12,11 @@ table.table.table-hover.table-striped
         b Total Value
       th width=''
   tbody
-    tr
-      td May
-      td style='text-align: center;' 4
-      td style='text-align: center;' $25.00
-      td style='text-align: right;'
-        a.PopupTrigger data-target='view_contributions' style='cursor: pointer;' View Contributors
-    tr
-      td June
-      td style='text-align: center;' 0
-      td style='text-align: center;' $0
-      td style='text-align: right;'
-        a.PopupTrigger data-target='view_contributions' style='cursor: pointer;' View Contributors
-    tr
-      td July
-      td style='text-align: center;' 15
-      td style='text-align: center;' $255.00
-      td style='text-align: right;'
-        a.PopupTrigger data-target='view_contributions' style='cursor: pointer;' View Contributors
-
-hr
-
-// .table-responsive
-  table.table.table-striped
-    th
-      strong Subscriber Name
-    th
-      strong Date/Time
-    th
-      strong Amount
-    th
-      strong Recurring?
-
     - @contributions.each_year_month do |year_month, contributions|
-      tr.info
-        td colspan=2
-          strong= year_month
-        td colspan=2
-          strong= cents_to_dollars contributions.sum(&:amount)
-      - contributions.each do |contribution|
-        tr
-          td= link_to_user contribution.user
-          td= contribution.created_at.to_s(:short)
-          td= cents_to_dollars contribution.amount
-          td= contribution.will_repeat? ? 'yes' : 'no'
-    tr.warning
-      td colspan=2
-        strong Total:
-      td colspan=2
-        strong= cents_to_dollars @contributions.total_amount
-
-// Popup with list of contributors
-
-.Popup.popup.modal-content data-identifier='view_contributions' style="width: 600px"
-  .modal-header
-    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="view_contributions" aria-hidden="true"
-    .modal-title Contributor List
-
-  .modal-body style="text-align: left; margin-bottom: 15px"
-    table.table.table-striped
-      thead
-        tr
-          th
-            b Subscriber Name
-          th
-            b Date/Time
-          th
-            b Amount
-          th style='text-align: right;'
-            b Recurring?
-      tbody
-        tr
-          td Slava Popov
-          td TIMESTAMP
-          td $25.00
-          th style='text-align: right;' Yes/No
+      tr
+        td= year_month
+        td style='text-align: center;'= contributions.count
+        td style='text-align: center;'= cents_to_dollars contributions.sum(&:amount)
+        td style='text-align: right;'
+          a.AjaxLink href=contributors_path(year_month: year_month) View Contributors
+hr

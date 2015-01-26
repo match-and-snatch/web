@@ -42,6 +42,9 @@ gem 'rails_autolink'
 gem 'daemons'
 gem 'delayed_job_active_record'
 
+# Play with time
+gem 'chronic'
+
 # Credit cards, billing, charges, payments
 gem 'stripe-rails'
 
