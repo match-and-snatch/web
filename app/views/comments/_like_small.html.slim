@@ -1,7 +1,7 @@
 span.like_small.pull-left data-identifier="comment-likes-#{comment.id}"
   - if current_user.can?(:like, comment)
     a.AjaxFormLink.like.pull-left data-target="comment-likes-#{comment.id}" data-_method='PUT' href=like_comment_path(comment) class='#{'liked_post' if current_user.likes?(comment)}'
-      span Like
+      span= current_user.likes?(comment) ? 'Unlike' : 'Like'
       '&nbsp;&middot;
       .fa.fa-thumbs-up
   - else
