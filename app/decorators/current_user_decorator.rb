@@ -51,7 +51,7 @@ class CurrentUserDecorator < UserDecorator
       end
     when Contribution
       case action
-      when :make   then subscribed_to?(subject.user)
+      when :make   then subscribed_to?(subject.target_user)
       when :delete then object.id == subject.user_id
       else
         raise ArgumentError, "No such action #{action}"

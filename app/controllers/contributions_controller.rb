@@ -5,7 +5,7 @@ class ContributionsController < ApplicationController
   before_filter :load_contribution!, only: [:cancel, :destroy]
   before_filter :load_target_user!, except: [:index]
 
-  protect(:create) { can? :make, Contribution.new }
+  protect(:create) { can? :make, Contribution.new(target_user: @target_user) }
   protect(:destroy) { can? :delete, @contribution }
 
   def index
@@ -18,14 +18,13 @@ class ContributionsController < ApplicationController
   end
 
   def create
-
     if params[:amount].to_i.zero?
       amount = params[:custom_amount].to_i * 100
     else
       amount = params[:amount]
     end
 
-    manager.create({target_user: target_user, amount: amount, recurring: params.bool(:recurring), message: params[:message]})
+    manager.create({target_user: @target_user, amount: amount, recurring: params.bool(:recurring), message: params[:message]})
     json_reload(notice: 'Thanks for you contribution!')
   end
 
