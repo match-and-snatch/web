@@ -1,5 +1,39 @@
-h2 Contributions (#{cents_to_dollars @contributions.total_amount})
-.table-responsive
+h2
+  'Contributions
+  span style='color: #555555;'(#{cents_to_dollars @contributions.total_amount})
+table.table.table-hover.table-striped
+  thead
+    tr
+      th width='140px'
+        b Month
+      th width='160px' style='text-align: center;'
+        b Contribution Count
+      th width='160px' style='text-align: center;'
+        b Total Value
+      th width=''
+  tbody
+    tr
+      td May
+      td style='text-align: center;' 4
+      td style='text-align: center;' $25.00
+      td style='text-align: right;'
+        a.PopupTrigger data-target='view_contributions' style='cursor: pointer;' View Contributors
+    tr
+      td June
+      td style='text-align: center;' 0
+      td style='text-align: center;' $0
+      td style='text-align: right;'
+        a.PopupTrigger data-target='view_contributions' style='cursor: pointer;' View Contributors
+    tr
+      td July
+      td style='text-align: center;' 15
+      td style='text-align: center;' $255.00
+      td style='text-align: right;'
+        a.PopupTrigger data-target='view_contributions' style='cursor: pointer;' View Contributors
+
+hr
+
+// .table-responsive
   table.table.table-striped
     th
       strong Subscriber Name
@@ -27,3 +61,29 @@ h2 Contributions (#{cents_to_dollars @contributions.total_amount})
         strong Total:
       td colspan=2
         strong= cents_to_dollars @contributions.total_amount
+
+// Popup with list of contributors
+
+.Popup.popup.modal-content data-identifier='view_contributions' style="width: 600px"
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="view_contributions" aria-hidden="true"
+    .modal-title Contributor List
+
+  .modal-body style="text-align: left; margin-bottom: 15px"
+    table.table.table-striped
+      thead
+        tr
+          th
+            b Subscriber Name
+          th
+            b Date/Time
+          th
+            b Amount
+          th style='text-align: right;'
+            b Recurring?
+      tbody
+        tr
+          td Slava Popov
+          td TIMESTAMP
+          td $25.00
+          th style='text-align: right;' Yes/No
