@@ -1133,11 +1133,23 @@
           @media screen and (max-width: 767px)
             font-size: 10px
             padding-top: 2px
-
           .tmp
-            color: #428bca
+            color: $color_blue
             cursor: pointer
             text-decoration: none
+        .more_liked_hover
+          @include border-radius(5px)
+          background: rgba(0, 0, 0, 0.9)
+          color: $color_background
+          display: none
+          padding: 5px 10px 7px 10px
+          position: absolute
+          text-shadow: none
+          font-size: 11px
+          bottom: 30px
+          left: 110px
+          z-index: 9999
+          width: 350px
 
     // Mobile
 
@@ -1285,19 +1297,41 @@
           width: 100%
           .like_small
             margin-left: 10px
-            a.fa-thumbs-up
+            position: relative
+            a.like
               color: $color_text_light
               text-decoration: none
               position: relative
               &.liked_post
                 color: $color_blue
-              &:before
-                margin-right: 2px
-              .users_liked
-                display: none
-                color: #898989
               &:hover
                 color: $color_blue
+                span
+                  text-decoration: underline
+                .fa.fa-thumbs-up
+                  text-decoration: none
+            .users_liked
+              //display: none
+              color: #898989
+              padding-left: 5px
+            .tmp
+              color: $color_blue
+              cursor: pointer
+              text-decoration: none
+            .more_liked_hover
+              @include border-radius(5px)
+              background: rgba(0, 0, 0, 0.9)
+              color: $color_background
+              display: none
+              padding: 5px 10px 7px 10px
+              position: absolute
+              text-shadow: none
+              font-size: 11px
+              bottom: 15px
+              left: 0
+              z-index: 9999
+              width: 300px
+              line-height: 15px
           .comment_reply
             border: 1px solid $color_border
             font-size: 13px

@@ -1,9 +1,12 @@
 span.like_small.pull-left data-identifier="comment-likes-#{comment.id}"
   - if current_user.can?(:like, comment)
-    a.AjaxFormLink.fa.fa-thumbs-up.pull-left data-target="comment-likes-#{comment.id}" data-_method='PUT' href=like_comment_path(comment) class='#{'liked_post' if current_user.likes?(comment)}'
+    a.AjaxFormLink.like.pull-left data-target="comment-likes-#{comment.id}" data-_method='PUT' href=like_comment_path(comment) class='#{'liked_post' if current_user.likes?(comment)}'
+      span Like
+      '&nbsp;&middot;
+      .fa.fa-thumbs-up
   - else
     a.fa.fa-thumbs-up.pull-left.PopupTrigger data-target='subscription'
   span.users_liked= likes_text comment
-  div style="display: none; position: relative; bottom: -20px; border: 2px solid black; z-index: 9999; width: 200px; padding: 0px 0px 5px 10px; border-radius: 5px; color: white; text-shadow: none; left: 100px; background: rgba(0, 0, 0, 0.819608); font-size: 9pt" data-identifier=likable_id(comment)
+  .more_liked_hover data-identifier=likable_id(comment)
   .clearfix
 

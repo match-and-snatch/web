@@ -31,7 +31,7 @@ module PostsHelper
 
     if full_comment
       container_id = "comment-text-#{full_comment.id}"
-      comment_link = link_to 'more', comment_path(full_comment), class: 'AjaxLink', data: {target: container_id}
+      comment_link = link_to 'See More', comment_path(full_comment), class: 'AjaxLink', data: {target: container_id}
       "<span data-identifier='#{container_id}'>#{result} &nbsp; #{comment_link}</span>".html_safe
     else
       result

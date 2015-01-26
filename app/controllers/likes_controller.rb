@@ -9,7 +9,7 @@ class LikesController < ApplicationController
                                      select('likes.user_id').
                                      includes(:user).
                                      map(&:user).map(&:name).
-                                     join('<br/>').
+                                     join(', ').
                                      html_safe
   end
 
