@@ -1298,6 +1298,10 @@
           .like_small
             margin-left: 10px
             position: relative
+            @media screen and (max-width: 767px)
+              margin: 5px 0 0 0
+              display: block
+              width: 100%
             a.like
               color: $color_text_light
               text-decoration: none
@@ -1558,7 +1562,7 @@
             height: 55px
           .fa
             padding: 6px 0 0 0
-            width: 65px
+            width: 40px
             &:before
               font-size: 30px
         &:hover
