@@ -1,22 +1,23 @@
-h2
-  'Contributions
-  span style='color: #555555;'(#{cents_to_dollars @contributions.total_amount})
-table.table.table-hover.table-striped
-  thead
-    tr
-      th width='140px'
-        b Month
-      th width='160px' style='text-align: center;'
-        b Contribution Count
-      th width='160px' style='text-align: center;'
-        b Total Value
-      th width=''
-  tbody
-    - @contributions.each_year_month do |year_month, contributions|
+- if @contributions.any?
+  h2
+    'Contributions
+    span style='color: #555555;'(#{cents_to_dollars @contributions.total_amount})
+  table.table.table-hover.table-striped
+    thead
       tr
-        td= year_month
-        td style='text-align: center;'= contributions.count
-        td style='text-align: center;'= cents_to_dollars contributions.sum(&:amount)
-        td style='text-align: right;'
-          a.AjaxLink href=contributors_path(year_month: year_month) View Contributors
-hr
+        th width='140px'
+          b Month
+        th width='160px' style='text-align: center;'
+          b Contribution Count
+        th width='160px' style='text-align: center;'
+          b Total Value
+        th width=''
+    tbody
+      - @contributions.each_year_month do |year_month, contributions|
+        tr
+          td= year_month
+          td style='text-align: center;'= contributions.count
+          td style='text-align: center;'= cents_to_dollars contributions.sum(&:amount)
+          td style='text-align: right;'
+            a.AjaxLink href=contributors_path(year_month: year_month) View Contributors
+  hr
