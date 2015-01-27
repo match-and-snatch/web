@@ -2166,7 +2166,7 @@
 // Sample Profile Viewport
 
 @media screen and (min-width: 992px)
-  .sample_profile
+  .sample_profile_desktop
     position: relative
     //img
       @include border-radius($border_radius)
@@ -2258,3 +2258,8 @@
           height: 73px
           width: 81px
           margin: 0
+
+@media screen and (max-width: 991px)
+  .sample_profile_desktop
+    .note
+      display: none
