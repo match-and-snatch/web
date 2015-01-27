@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-  before_filter :authenticate!, except: %i(index search mentions create show activate)
+  before_filter :authenticate!, except: %i(index search mentions create show activate sample)
   before_filter :redirect_invalid_slug, only: :show
 
   def index
@@ -40,6 +40,7 @@ class UsersController < ApplicationController
   end
 
   def sample
+    return redirect_to '/sampleprofile' if tablet_device?
   end
 
   # Profile page

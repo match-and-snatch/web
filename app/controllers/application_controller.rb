@@ -56,13 +56,17 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  def tablet_device?
+    request_variant.include?(:tablet)
+  end
+
   def mobile_phone_device?
     request_variant.include?(:phone)
   end
   helper_method :mobile_phone_device?
 
   def mobile_device?
-    request_variant.include?(:tablet) || mobile_phone_device?
+    tablet_device? || mobile_phone_device?
   end
   helper_method :mobile_device?
 
