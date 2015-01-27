@@ -8,13 +8,13 @@
   .clearfix
 
 .col-md-12
-
   - if @user.subscriptions_count > 0
-
     h2 Subscriber Monthly Growth
     div style='padding: 15px'
       .graph.Graph#chart style='padding: 0px' data-label='Subscriptions' data-data=@user.graph_data.to_json Please wait...
     hr
+
+  .AjaxContainer data-url=contributions_path
 
   h2 Change Profile Page URL
 
@@ -62,6 +62,7 @@
   .item_block
     h2 Away Mode
     p Click here to enable away mode for your profile. While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. When you come back from away mode, you can disable away mode at this same location.
+
     - if @user.vacation_enabled?
       .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_deactivation_account_info_path Disable Away Mode
     - else

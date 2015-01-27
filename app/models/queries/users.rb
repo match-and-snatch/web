@@ -15,7 +15,12 @@ module Queries
           result[letter] ||= []
         end
 
-        result.merge!(base_query.order('LOWER(profile_name)').limit(1000).group_by { |user| user.name[0].upcase })
+        result.merge!(base_query.
+                        where(has_public_profile: false).
+                        order('LOWER(profile_name)').
+                        limit(1000).
+                        group_by { |user| user.name[0].upcase })
+
         result['0-9'] = []
 
         ('0'..'9').each do |number|

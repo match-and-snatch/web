@@ -1,23 +1,30 @@
 class ContributionsController < ApplicationController
-  before_filter :authenticate!
-  before_filter :load_contribution!, only: [:cancel, :destroy]
+  include Concerns::PublicProfileHandler
 
+  before_filter :authenticate!, except: [:new, :create]
+  before_filter :load_contribution!, only: [:cancel, :destroy]
+  before_filter :load_target_user!, except: [:index]
+
+  protect(:create) { can? :make, Contribution.new(target_user: @target_user) }
   protect(:destroy) { can? :delete, @contribution }
+
+  def index
+    @contributions = Contribution.where(target_user_id: current_user.id)
+    json_render
+  end
 
   def new
     json_popup
   end
 
   def create
-    target_user = User.find_by_id(params[:target_user_id]) or error(400)
-
     if params[:amount].to_i.zero?
       amount = params[:custom_amount].to_i * 100
     else
       amount = params[:amount]
     end
 
-    manager.create({target_user: target_user, amount: amount, recurring: params.bool(:recurring), message: params[:message]})
+    manager.create({target_user: @target_user, amount: amount, recurring: params.bool(:recurring), message: params[:message]})
     json_reload(notice: 'Thanks for you contribution!')
   end
 
@@ -32,6 +39,10 @@ class ContributionsController < ApplicationController
   end
 
   private
+
+  def load_target_user!
+    @target_user = User.find_by_id(params[:target_user_id]) or error(400)
+  end
 
   def load_contribution!
     @contribution = Contribution.where(id: params[:id]).first or error(404)

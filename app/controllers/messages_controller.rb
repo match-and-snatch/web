@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+  include Concerns::PublicProfileHandler
+
   before_filter :load_target_user!
 
   protect { can? :send_message_to, @target_user }

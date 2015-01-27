@@ -1,0 +1,23 @@
+.modal-header
+  i.PopupTrigger.fa.fa-times-circle.close type="button" aria-hidden="true"
+  .modal-title Contributor List
+
+  .modal-body style="text-align: left; margin-bottom: 15px"
+    table.table.table-striped
+      thead
+        tr
+          th
+            b Subscriber Name
+          th
+            b Date/Time
+          th
+            b Amount
+          th style='text-align: right;'
+            b Recurring?
+      tbody
+        - @contributions.each do |contribution|
+          tr
+            td= link_to_user contribution.user
+            td= contribution.created_at.to_s(:short)
+            td= cents_to_dollars contribution.amount
+            td= contribution.will_repeat? ? 'Yes' : 'No'

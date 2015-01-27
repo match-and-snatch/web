@@ -13,16 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from HttpCodeError do |error|
-    respond_to do |wants|
-      wants.json do
-        json_response error.code, {}, error.code
-      end
-
-      wants.any do
-        response.headers["Content-Type"] = "text/html"
-        render status: error.code, template: "errors/#{error.code}", layout: 'application', formats: [:html]
-      end
-    end
+    process_http_code_error(error)
   end
 
   def self.protect(*actions, &block)
@@ -65,19 +56,37 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  def tablet_device?
+    request_variant.include?(:tablet)
+  end
+
   def mobile_phone_device?
     request_variant.include?(:phone)
   end
   helper_method :mobile_phone_device?
 
   def mobile_device?
-    request_variant.include?(:tablet) || mobile_phone_device?
+    tablet_device? || mobile_phone_device?
   end
   helper_method :mobile_device?
 
   # @param code [Integer]
   def error(code)
     raise HttpCodeError, code
+  end
+
+  # @param error [HttpCodeError]
+  def process_http_code_error(error)
+    respond_to do |wants|
+      wants.json do
+        json_response error.code, {}, error.code
+      end
+
+      wants.any do
+        response.headers["Content-Type"] = "text/html"
+        render status: error.code, template: "errors/#{error.code}", layout: 'application', formats: [:html]
+      end
+    end
   end
 
   def layout
@@ -141,7 +150,7 @@ class ApplicationController < ActionController::Base
 
   # @param [String, Symbol]
   def json_popup(json = {})
-    unless json[:html]
+    unless json[:popup]
       template = json.delete(:template) || action_name
       json[:popup] = render_to_string(action: template, layout: false, formats: [:html])
     end

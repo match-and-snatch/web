@@ -1,9 +1,9 @@
 div style="color: #ea2e49; font-size: 24px; -webkit-text-size-adjust: none;" Bummer
 p style="color: #464646; font-size: 14px; -webkit-text-size-adjust: none;"
   ' You have unsubscribed from
-  a href=profile_url(@owner) style="color: #ea2e49; -webkit-text-size-adjust: none;"= @owner.name
+  a href=profile_url(@target_user) style="color: #ea2e49; -webkit-text-size-adjust: none;"= @target_user.name
   |&nbsp;on&nbsp;
   b= Time.zone.now.to_s(:long)
 
-  - unless @owner.is_profile_owner?
+  - unless @target_user.is_profile_owner?
     b &nbsp; (user has deleted his profile page)

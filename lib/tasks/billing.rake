@@ -1,6 +1,7 @@
 namespace :billing do
   task cycle: :environment do
     Billing::ChargeJob.perform
+    Billing::ContributeJob.perform
   end
 
   task duplicates: :environment do

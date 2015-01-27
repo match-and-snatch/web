@@ -7,6 +7,8 @@ class Contribution < ActiveRecord::Base
 
   validates :amount, presence: true
 
+  scope :to_charge, -> { where(recurring: true).where('updated_at <= ?', 1.month.ago) }
+
   def self.each_year_month(&block)
     self.reorder('contributions.created_at DESC').to_a.group_by(&:year_month).each(&block)
   end

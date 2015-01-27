@@ -1,5 +1,6 @@
 BuddyPlatform::Application.routes.draw do
   root 'welcome#show'
+  get '/sample' => 'users#sample'
 
   resource :account_info, only: [] do
     member do
@@ -45,7 +46,7 @@ BuddyPlatform::Application.routes.draw do
     end
   end
 
-  resources :comments, only: [:edit, :update, :destroy] do
+  resources :comments, only: [:show, :edit, :update, :destroy] do
     member do
       put :make_visible
       put :hide
@@ -60,11 +61,13 @@ BuddyPlatform::Application.routes.draw do
     resources :likes, only: [:index, :create], defaults: {type: 'comment'}
   end
 
-  resources :contributions, only: [:create, :new, :destroy] do
+  resources :contributions, only: [:index, :create, :new, :destroy] do
     member do
       get :cancel
     end
   end
+
+  resources :contributors, only: [:index]
 
   resources :posts, only: [:show, :edit, :update, :destroy] do
     member do

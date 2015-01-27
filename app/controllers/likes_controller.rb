@@ -1,4 +1,6 @@
 class LikesController < ApplicationController
+  include Concerns::PublicProfileHandler
+
   before_filter :authenticate!
   before_filter :load_likable!
 
@@ -7,7 +9,7 @@ class LikesController < ApplicationController
                                      select('likes.user_id').
                                      includes(:user).
                                      map(&:user).map(&:name).
-                                     join('<br/>').
+                                     join(', ').
                                      html_safe
   end
 

@@ -4,6 +4,12 @@ class NotificationManager < BaseManager
       :mail
     end
 
+    # @param contribution [Contribution]
+    def notify_contributed(contribution)
+      ContributionsMailer.received(contribution).deliver
+      ContributionsMailer.sent(contribution).deliver
+    end
+
     # @param post [Post]
     def notify_post_created(post)
       if post.user.notifications_debug_enabled?

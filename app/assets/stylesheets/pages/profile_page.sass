@@ -1133,11 +1133,23 @@
           @media screen and (max-width: 767px)
             font-size: 10px
             padding-top: 2px
-
           .tmp
-            color: #428bca
+            color: $color_blue
             cursor: pointer
             text-decoration: none
+        .more_liked_hover
+          @include border-radius(5px)
+          background: rgba(0, 0, 0, 0.9)
+          color: $color_background
+          display: none
+          padding: 5px 10px 7px 10px
+          position: absolute
+          text-shadow: none
+          font-size: 11px
+          bottom: 30px
+          left: 110px
+          z-index: 9999
+          width: 350px
 
     // Mobile
 
@@ -1285,19 +1297,45 @@
           width: 100%
           .like_small
             margin-left: 10px
-            a.fa-thumbs-up
+            position: relative
+            @media screen and (max-width: 767px)
+              margin: 5px 0 0 0
+              display: block
+              width: 100%
+            a.like
               color: $color_text_light
               text-decoration: none
               position: relative
               &.liked_post
                 color: $color_blue
-              &:before
-                margin-right: 2px
-              .users_liked
-                display: none
-                color: #898989
               &:hover
                 color: $color_blue
+                span
+                  text-decoration: underline
+                .fa.fa-thumbs-up
+                  text-decoration: none
+            .users_liked
+              //display: none
+              color: #898989
+              padding-left: 5px
+            .tmp
+              color: $color_blue
+              cursor: pointer
+              text-decoration: none
+            .more_liked_hover
+              @include border-radius(5px)
+              background: rgba(0, 0, 0, 0.9)
+              color: $color_background
+              display: none
+              padding: 5px 10px 7px 10px
+              position: absolute
+              text-shadow: none
+              font-size: 11px
+              bottom: 15px
+              left: 0
+              z-index: 9999
+              width: 300px
+              line-height: 15px
           .comment_reply
             border: 1px solid $color_border
             font-size: 13px
@@ -1524,7 +1562,7 @@
             height: 55px
           .fa
             padding: 6px 0 0 0
-            width: 65px
+            width: 40px
             &:before
               font-size: 30px
         &:hover
@@ -2129,3 +2167,102 @@
           font-size: 11px !important
           padding: 5px !important
 
+// Sample Profile Viewport
+
+@media screen and (min-width: 992px)
+  .sample_profile_desktop
+    position: relative
+    //img
+      @include border-radius($border_radius)
+      margin: 0 auto
+      width: 575px
+    .note
+      position: absolute
+      top: 0
+      font-size: 11px
+      line-height: 150%
+      width: 140px
+      text-align: center
+    .n1
+      margin-top: 40px
+      left: -135px
+    .n2
+      margin-top: 362px
+      left: -135px
+    .n3
+      margin-top: 546px
+      left: -135px
+    .n4
+      margin-top: 760px
+      left: -135px
+    .n5
+      margin-top: 936px
+      left: -135px
+    .n6
+      margin-top: 40px
+      right: -135px
+      a
+        color: $color_pink
+    .n7
+      margin-top: 315px
+      right: -135px
+    .n8
+      margin-top: 590px
+      right: -135px
+    .n9
+      margin-top: 1300px
+      right: -135px
+
+    .note
+      .arrow
+        background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows-desktop.png")
+        &.n1
+          background-position: 0 0
+          height: 68px
+          width: 81px
+          margin: 5px 0 0 54px
+        &.n2
+          background-position: 0 138px
+          height: 44px
+          width: 57px
+          margin: 0 0 3px 78px
+        &.n3
+          background-position: 0 0
+          height: 68px
+          width: 81px
+          margin: 5px 0 0 54px
+        &.n4
+          background-position: 0 138px
+          height: 44px
+          width: 57px
+          margin: 0 0 0px 60px
+        &.n5
+          background-position: 100px 0px
+          height: 64px
+          width: 67px
+          margin: 0 0 0px 68px
+        &.n6
+          background-position: 105px -61px
+          height: 64px
+          width: 99px
+          margin: 0
+        &.n7
+          background-position: -79px -65px
+          height: 37px
+          width: 69px
+          margin: 0 0 10px 0
+        &.n8
+          background-position: 200px -110px
+          height: 73px
+          width: 81px
+          margin: 0
+        &.n9
+          background-position: 200px -110px
+          height: 73px
+          width: 81px
+          margin: 0
+
+@media screen and (max-width: 991px)
+  .sample_profile_desktop
+    .note
+      display: none

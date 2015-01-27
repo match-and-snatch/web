@@ -26,7 +26,9 @@ class ContributionManager < BaseManager
   # Creates child from recurring contribution
   def create_child
     raise ArgumentError, 'Requires recurring contribution' unless @contribution.try(:recurring?)
-    create_contribution(target_user: @contribution.target_user, amount: @contribution.amount, recurring: false, parent: @contribution)
+    create_contribution(target_user: @contribution.target_user, amount: @contribution.amount, recurring: false, parent: @contribution).tap do
+      @contribution.touch
+    end
   end
 
   def delete
@@ -45,6 +47,7 @@ class ContributionManager < BaseManager
                                                   metadata: {target_id: contribution.id, target_type: contribution.class.name, user_id: @user.id})
     EventsManager.contribution_created(user: @user, contribution: contribution)
     ContributionFeedEvent.create! subscription_target_user: @user, target_user: target_user, target: contribution, data: {recurring: recurring, amount: (amount / 100).to_i}
+    NotificationManager.delay.notify_contributed(contribution)
     contribution
   rescue Stripe::StripeError => e
     EventsManager.contribution_failed(user: @user, contribution: contribution)
