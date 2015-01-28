@@ -4,7 +4,8 @@ class RssFeedsController < ApplicationController
   before_filter :set_http_content_headers
 
   def index
-    @posts = Post.where(user_id: @current_user.subscriptions.pluck(:target_user_id), hidden: false)
+    subscription_ids = @current_user.subscriptions.not_removed.where(rejected: false).pluck(:target_user_id)
+    @posts = Post.where(user_id: subscription_ids, hidden: false)
                  .order('posts.created_at DESC').limit(50)
     render layout: false, formats: ['atom']
   end
