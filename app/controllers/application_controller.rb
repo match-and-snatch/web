@@ -41,6 +41,22 @@ class ApplicationController < ActionController::Base
     current_user.authorized? or error(401)
   end
 
+  # @return [User] authenticated user
+  def request_basic_http_auth!
+    viewer = authenticate_with_http_basic do |u, p|
+      begin
+        session_manager.login(u, p)
+      rescue ManagerError
+      end
+    end
+
+    unless viewer
+      request_http_basic_authentication
+    end
+
+    viewer
+  end
+
   # @param action [Symbol]
   # @param subject
   # @raise [ArgumentError] if action or subject are not registered
