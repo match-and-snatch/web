@@ -30,7 +30,7 @@ class UserDecorator < BaseDecorator
   # Returns profile types string
   # @return [String]
   def types
-    @types ||= profile_types.pluck(:title).join('&nbsp;/&nbsp;').html_safe
+    @types ||= profile_types.pluck(:title).join(' / ').html_safe
   end
 
   def types_text
