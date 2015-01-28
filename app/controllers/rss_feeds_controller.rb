@@ -19,22 +19,12 @@ class RssFeedsController < ApplicationController
     @user = User.where(id: params[:user_id], rss_enabled: true).first or error(404)
   end
 
+  protected
+
+  # @return [User] authenticated user
   def request_basic_http_auth!
-    viewer = authenticate_with_http_basic do |u, p|
-      begin
-        session_manager.login(u, p)
-      rescue ManagerError
-      end
-    end
-
-    unless viewer
-      return request_http_basic_authentication
-    end
-
+    viewer = super or return
     viewer = CurrentUserDecorator.new(viewer)
-
-    unless viewer.can?(:see, @user)
-      request_http_basic_authentication
-    end
+    request_http_basic_authentication unless viewer.can?(:see, @user)
   end
 end
