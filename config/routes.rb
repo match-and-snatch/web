@@ -2,7 +2,6 @@ BuddyPlatform::Application.routes.draw do
   root 'welcome#show'
   get '/sample' => 'users#sample'
   get '/feed/itunes' => 'rss_feeds#index', defaults: {format: :atom, itunes: true}, as: :itunes_feed
-  get '/feed' => 'rss_feeds#index', defaults: {format: :atom}
 
   resource :account_info, only: [] do
     member do
