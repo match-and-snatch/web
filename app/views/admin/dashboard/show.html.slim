@@ -12,6 +12,11 @@
       hr style='margin: 10px 0'
       ul.nav.nav-sidebar
         li
+          a target='_blank' href=itunes_feed_url(protocol: 'itpc', format: :xml) Test iTunes Feed
+
+      hr style='margin: 10px 0'
+      ul.nav.nav-sidebar
+        li
           a.HashLink data-use_anchor='true' data-target='admin-panel' href=admin_contributions_path Contributions
         li
           a.HashLink data-use_anchor='true' data-target='admin-panel' href=admin_payment_failures_path Failed Transactions
@@ -38,3 +43,4 @@
 
     .content.col-lg-10.col-md-10.col-sm-10.col-xs-12
       .AjaxContainer data-use_anchor='true' data-identifier='admin-panel' data-url=admin_users_path
+
