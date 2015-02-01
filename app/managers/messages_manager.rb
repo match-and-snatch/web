@@ -12,14 +12,19 @@ class MessagesManager < BaseManager
 
   # @param target_user [User]
   # @param message [String]
+  # @param contribution [Contribution] Related contribution
   # @return [Message]
-  def create(target_user: , message: )
+  def create(target_user: , message: , contribution: nil)
     fail_with! message: :empty if message.blank?
     fail_with! message: :too_long if message.length > 1000
 
     @dialogue = Dialogue.pick(user, target_user)
 
-    @message = Message.new(user: user, target_user: target_user, message: message, dialogue: @dialogue)
+    @message = Message.new(user: user,
+                           target_user: target_user,
+                           message: message,
+                           dialogue: @dialogue,
+                           contribution: contribution)
     @message.save!
 
     EventsManager.message_created(user: @user, message: @message)

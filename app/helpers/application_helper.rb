@@ -13,6 +13,14 @@ module ApplicationHelper
     end
   end
 
+  def contribution_text(contribution)
+    if contribution.recurring?
+      "Monthly recurring contribution #{cents_to_dollars(contribution.amount)}"
+    else
+      "One-time contribution #{cents_to_dollars(contribution.amount)}"
+    end
+  end
+
   # @param likale [Concerns::Likable]
   # @return [String, nil]
   def likes_text(likable)

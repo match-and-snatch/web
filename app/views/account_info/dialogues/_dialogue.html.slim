@@ -23,7 +23,13 @@
             br
           span= dialogue.recent_message.message
         - else
-          .sender_color= dialogue.recent_message.message
+          .sender_color dialogue.recent_message.message
+
+        - if dialogue.recent_message.contribution_id
+          span.timestamp
+            b.blue_text style='color: #8dc63f'
+              | [#{contribution_text(dialogue.recent_message.contribution)}]
+            | &nbsp;
 
         .clearfix
       /- if dialogue.unread?

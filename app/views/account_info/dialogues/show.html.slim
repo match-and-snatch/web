@@ -12,8 +12,13 @@
           img src=message.user.comment_picture_url width=50 height=50 border=0
 
         .pull-left.details
-          span.name= message.user.name 
+          span.name= message.user.name
           span.timestamp #{time_ago_in_words(message.created_at)} ago
+          - if message.contribution_id
+            span.timestamp
+              b.blue_text style='color: #8dc63f'
+                | [#{contribution_text(message.contribution)}]
+              | &nbsp;
           .clearfix
           .message= message.message
         .clearfix
