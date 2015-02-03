@@ -134,7 +134,7 @@
         .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
           = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
 
-  .mobile_nav.hidden-md.hidden-sm.col-xs-12= render 'navigation_mobile'
+  .mobile_nav.HidesOnMobileInput.hidden-md.hidden-sm.col-xs-12= render 'navigation_mobile'
 
   .AjaxPopup.popup.mobile_create_popup.status.modal-content data-identifier='status-post-mobile' data-url=new_status_post_path
   .AjaxPopup.popup.mobile_create_popup.media.modal-content data-identifier='audio-post-mobile' data-url=new_audio_post_path

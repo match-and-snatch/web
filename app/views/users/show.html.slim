@@ -155,7 +155,7 @@
 
           = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
 
-  .mobile_nav.hidden-md.hidden-sm.col-xs-12= render 'navigation_mobile'
+  .mobile_nav.HidesOnMobileInput.hidden-md.hidden-sm.col-xs-12= render 'navigation_mobile'
 
 .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(@profile.object)
 .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(@profile.object)
