@@ -33,8 +33,6 @@ module ApplicationHelper
     case more_count
     when 0
       recent_liker
-    when 1, 2
-      "#{recent_liker} likes"
     else
       path = likable.is_a?(Post) ? post_likes_path(likable) : polymorphic_path([likable, :likes])
       "#{recent_liker} and #{content_tag :span, "#{more_count} other likes", class: 'Hover tmp', data: {url: path, target: likable_id(likable)}}"
