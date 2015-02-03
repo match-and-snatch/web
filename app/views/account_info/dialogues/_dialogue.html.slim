@@ -10,6 +10,9 @@
     // Sender Name & Timestamp
     .pull-left.message_container
       span.name= antiuser.name
+      - if dialogue.recent_message.contribution_id
+        span.contribute_label
+          | #{contribution_text(dialogue.recent_message.contribution)}
       span.timestamp #{time_ago_in_words(dialogue.recent_message_at)} ago
       .clearfix
 
@@ -24,13 +27,6 @@
           span= dialogue.recent_message.message
         - else
           .sender_color dialogue.recent_message.message
-
-        - if dialogue.recent_message.contribution_id
-          span.timestamp
-            b.blue_text style='color: #8dc63f'
-              | [#{contribution_text(dialogue.recent_message.contribution)}]
-            | &nbsp;
-
         .clearfix
       /- if dialogue.unread?
         a.btn.pink.AjaxFormLink data-target='dialogue-#{dialogue.id}' data-_method='PUT' href=mark_as_read_account_info_dialogue_path(dialogue.id) Mark as read
