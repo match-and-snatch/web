@@ -51,7 +51,8 @@
     .clearfix
 
 .hidden-md.hidden-sm.col-xs-12
-  = render 'navigation_mobile'
+  .mobile_nav.col-xs-12.hidden-md.hidden-sm
+    = render 'navigation_mobile'
 
 div.hidden-xs style='position: fixed; bottom: 0; width: 100%'
   = render 'footer'

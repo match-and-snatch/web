@@ -5,7 +5,12 @@
 
 .modal-body style="text-align: center; margin-bottom: 15px; width: 600px"
   form.Form action=contributions_path method='post'
-    input type='hidden' name='target_user_id' value=params[:target_user_id]
+    - if params[:target_user_id]
+      input type='hidden' name='target_user_id' value=params[:target_user_id]
+    - else
+      select name='target_user_id'
+        = options_for_select(current_user.recent_subscriptions_options, params[:selected_user_id])
+
     .form-group
       span style='width: auto; font-size: 13px;' Amount:
 
