@@ -1547,6 +1547,39 @@
       margin: 0 auto
       width: 100%
 
+    .cost_visitor
+      display: block
+      float: right
+      padding: 0
+      margin: 15px 0 0
+      .btn
+        @include border-radius($border_radius 0 0 10px)
+        cursor: default
+        float: right
+        width: 65px
+      .amount
+        @include border-radius(0 $border_radius $border_radius 0)
+        background-color: #FFFFFF
+        border-top: 1px solid $color_border
+        border-right: 1px solid $color_border
+        border-bottom: 1px solid $color_border
+        color: $color_pink
+        cursor: default
+        float: left
+        font-size: 32px
+        font-weight: bold
+        overflow: hidden
+        padding: 5px
+        height: 60px
+        width: 80%
+        .month
+          font-size: 20px
+      span.btn.pink.fa.fa-usd.fa-2x
+        float: left
+        font-size: 32px
+        height: 60px
+        width: 20%
+
 // Mobile
 
 @media screen and (max-width: 767px)
