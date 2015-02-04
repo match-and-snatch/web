@@ -26,7 +26,7 @@
             br
           span= dialogue.recent_message.message
         - else
-          .sender_color dialogue.recent_message.message
+          .sender_color= dialogue.recent_message.message
         .clearfix
       /- if dialogue.unread?
         a.btn.pink.AjaxFormLink data-target='dialogue-#{dialogue.id}' data-_method='PUT' href=mark_as_read_account_info_dialogue_path(dialogue.id) Mark as read
