@@ -23,18 +23,18 @@
         /Profile Type
         span.profile_type= @profile.types
 
-      // Hide this container if visitor profile has welcome video or welcome audio.
-      .col-md-5.col-sm-5.col-xs-12
-        .subscribe_cont
-          a.cost_visitor
-            .amount
-              span
-                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-              span.month
-                |/month
-            .btn.pink.fa.fa-usd.fa-2x
-            .clearfix
-          a.subscribe.PopupTrigger data-target='subscription' Subscribe
+      - unless @profile.has_welcome_media?
+        .col-md-5.col-sm-5.col-xs-12
+          .subscribe_cont
+            a.cost_visitor
+              .amount
+                span
+                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+                span.month
+                  |/month
+              .btn.pink.fa.fa-usd.fa-2x
+              .clearfix
+            a.subscribe.PopupTrigger data-target='subscription' Subscribe
 
     /RSS
     - if @profile.rss_enabled?

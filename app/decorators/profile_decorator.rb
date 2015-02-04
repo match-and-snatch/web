@@ -50,4 +50,8 @@ class ProfileDecorator < UserDecorator
   def created_at
     object.created_at.to_date.to_s(:full)
   end
+
+  def has_welcome_media?
+    welcome_video.present? || welcome_audio.present?
+  end
 end
