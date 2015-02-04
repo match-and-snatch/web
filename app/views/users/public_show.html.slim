@@ -23,21 +23,18 @@
         /Profile Type
         span.profile_type= @profile.types
 
-      - if mobile_phone_device?
-        .col-md-5.col-sm-5.col-xs-12
-
-      - else
-        .col-md-5.col-sm-5.col-xs-12
-          .subscribe_cont
-            a.cost_visitor
-              .amount
-                span
-                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-                span.month
-                  |/month
-              .btn.pink.fa.fa-usd.fa-2x
-              .clearfix
-            a.subscribe.PopupTrigger data-target='subscription' Subscribe
+      // Hide this container if visitor profile has welcome video or welcome audio.
+      .col-md-5.col-sm-5.col-xs-12
+        .subscribe_cont
+          a.cost_visitor
+            .amount
+              span
+                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+              span.month
+                |/month
+            .btn.pink.fa.fa-usd.fa-2x
+            .clearfix
+          a.subscribe.PopupTrigger data-target='subscription' Subscribe
 
     /RSS
     - if @profile.rss_enabled?
