@@ -14,6 +14,9 @@ ul
       i.fa.fa-bars.more_link_parent More
 
       ul.more_sub_cont data-identifier='more-dropdown'
+        / Only show if profile owner. Take to My Account Profile Details.
+        li
+          a href='' Profile Details
         li
           / NOTE(SZ): do not change tag to <a>
           span.green.AjaxLink href=new_contribution_path(selected_user_id: @profile.try(:object).try(:id)) style='text-align: right; padding: 10px; display: block;' Contribute

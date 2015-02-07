@@ -1,78 +1,88 @@
-.stats.row-fluid
-  .col-md-6.col-sm-6.col-xs-6
-    .value= @user.subscriptions_count
-    span Active Subscriptions
-  .col-md-6.col-sm-6.col-xs-6
-    .value= cents_to_dollars(@user.monthly_earnings, use_ceil: true)
-    span Monthly Earnings
-  .clearfix
-
-.col-md-12
-  - if @user.subscriptions_count > 0
-    h2 Subscriber Monthly Growth
-    div style='padding: 15px'
-      .graph.Graph#chart style='padding: 0px' data-label='Subscriptions' data-data=@user.graph_data.to_json Please wait...
-    hr
-
-  .AjaxContainer data-url=contributions_path
-
-  h2 Change Profile Page URL
-
-  form.Form action=update_slug_account_info_path method='post'
-    input type='hidden' name='_method' value='put'
-
-    .form-group
-      label.pull-left Profile URL
-      input.form-control.pull-right type='text' name='slug' value=@user.slug validate='require,slug'
-      .clearfix
-      .error data-field='slug'
-
-    .example_url.bg-warning.pull-right
-      |www.ConnectPal.com/
-      span YourProfileURL
+- if mobile_phone_device?
+  .stats.row-fluid style='margin-bottom: 15px;'
+    .col-md-12.col-sm-12.col-xs-12 style='margin: 0 0 60px; padding: 0;'
+      .value= @user.subscriptions_count
+      span Active Subscriptions
+    .col-md-12.col-sm-12.col-xs-12 style='margin: 0; padding: 0;'
+      .value= cents_to_dollars(@user.monthly_earnings, use_ceil: true)
+      span Monthly Earnings
+    .clearfix
+- else
+  .stats.row-fluid
+    .col-md-6.col-sm-6.col-xs-6
+      .value= @user.subscriptions_count
+      span Active Subscriptions
+    .col-md-6.col-sm-6.col-xs-6
+      .value= cents_to_dollars(@user.monthly_earnings, use_ceil: true)
+      span Monthly Earnings
     .clearfix
 
-    input.btn.pink.pull-right type='submit' value='Update Profile URL' style="margin-bottom: 15px"
-    .clearfix
+  .col-md-12
+    - if @user.subscriptions_count > 0
+      h2 Subscriber Monthly Growth
+      div style='padding: 15px'
+        .graph.Graph#chart style='padding: 0px' data-label='Subscriptions' data-data=@user.graph_data.to_json Please wait...
+      hr
 
-  .item_block
-    h2 Profile Display Settings
-    p Specify which features will be shown/hidden for users on your profile page.
-    .form-group.profile_display_settings
-      label for='rss_checker' Enable RSS
-      = checker_tag(current_user.object, :rss, :account_info)
-      .clearfix
-    .form-group.profile_display_settings
-      label for='downloads_checker' Enable Audio Download
-      = checker_tag(current_user.object, :downloads, :account_info)
-      .clearfix
-    .form-group.profile_display_settings
-      label for='itunes_checker' Enable iTunes Download
-      = checker_tag(current_user.object, :itunes, :account_info)
-      .clearfix
+    .AjaxContainer data-url=contributions_path
 
-  .item_block
-    h2 Notification Settings
-    p Specify which notifications you want to enable/disable.
-    .form-group.profile_display_settings
-      label for='notifications_debug_checker' style='width: 250px' Receive my post notifications
-      = checker_tag(current_user.object, :notifications_debug, :account_info)
+    h2 Change Profile Page URL
+
+    form.Form action=update_slug_account_info_path method='post'
+      input type='hidden' name='_method' value='put'
+
+      .form-group
+        label.pull-left Profile URL
+        input.form-control.pull-right type='text' name='slug' value=@user.slug validate='require,slug'
+        .clearfix
+        .error data-field='slug'
+
+      .example_url.bg-warning.pull-right
+        |www.ConnectPal.com/
+        span YourProfileURL
       .clearfix
 
-  .item_block
-    h2 Away Mode
-    p Click here to enable away mode for your profile. While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. When you come back from away mode, you can disable away mode at this same location.
+      input.btn.pink.pull-right type='submit' value='Update Profile URL' style="margin-bottom: 15px"
+      .clearfix
 
-    - if @user.vacation_enabled?
-      .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_deactivation_account_info_path Disable Away Mode
-    - else
-      .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_activation_account_info_path Enable Away Mode
-    .clearfix
-
-  - if @user.has_profile_page?
     .item_block
-      h2 Delete Profile
-      p You can delete your profile at anytime. Please note that doing this will remove your profile page from our system. We cannot do anything to bring your profile back. Please think twice.
-      .btn.pink.pull-right.AjaxLink href=confirm_profile_page_removal_account_info_path Delete My Profile Page
+      h2 Profile Display Settings
+      p Specify which features will be shown/hidden for users on your profile page.
+      .form-group.profile_display_settings
+        label for='rss_checker' Enable RSS
+        = checker_tag(current_user.object, :rss, :account_info)
+        .clearfix
+      .form-group.profile_display_settings
+        label for='downloads_checker' Enable Audio Download
+        = checker_tag(current_user.object, :downloads, :account_info)
+        .clearfix
+      .form-group.profile_display_settings
+        label for='itunes_checker' Enable iTunes Download
+        = checker_tag(current_user.object, :itunes, :account_info)
+        .clearfix
+
+    .item_block
+      h2 Notification Settings
+      p Specify which notifications you want to enable/disable.
+      .form-group.profile_display_settings
+        label for='notifications_debug_checker' style='width: 250px' Receive my post notifications
+        = checker_tag(current_user.object, :notifications_debug, :account_info)
+        .clearfix
+
+    .item_block
+      h2 Away Mode
+      p Click here to enable away mode for your profile. While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. When you come back from away mode, you can disable away mode at this same location.
+
+      - if @user.vacation_enabled?
+        .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_deactivation_account_info_path Disable Away Mode
+      - else
+        .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_activation_account_info_path Enable Away Mode
       .clearfix
+
+    - if @user.has_profile_page?
+      .item_block
+        h2 Delete Profile
+        p You can delete your profile at anytime. Please note that doing this will remove your profile page from our system. We cannot do anything to bring your profile back. Please think twice.
+        .btn.pink.pull-right.AjaxLink href=confirm_profile_page_removal_account_info_path Delete My Profile Page
+        .clearfix
 
