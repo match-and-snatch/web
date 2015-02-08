@@ -23,7 +23,7 @@
         /Profile Type
         span.profile_type= @profile.types
 
-      - if @profile.has_welcome_media? || mobile_phone_devise?
+      - if @profile.has_welcome_media? || mobile_phone_device?
         .col-md-5.col-sm-5.col-xs-12
           .subscribe_cont
             a.cost_visitor
