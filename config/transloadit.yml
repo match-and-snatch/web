@@ -202,7 +202,7 @@ development:
             - 'full_size'
             - 'preview'
           bucket: 'buddy-assets'
-          path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          path: 'uploads/post_photos/${fields.slug}/${assembly.id}/${unique_prefix}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_document:
       steps:
@@ -376,7 +376,7 @@ test:
             - 'full_size'
             - 'preview'
           bucket: 'buddy-assets'
-          path: 'uploads/post_photos/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          path: 'uploads/post_photos/${fields.slug}/${assembly.id}/${unique_prefix}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_document:
       steps:
@@ -555,7 +555,7 @@ staging:
           use:
             - 'full_size'
             - 'preview'
-          path: 'photos/${fields.slug}/${assembly.id}__${file.meta.width}x${file.meta.height}____${file.url_name}'
+          path: 'photos/${fields.slug}/${assembly.id}/${unique_prefix}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_document:
       steps:
@@ -729,7 +729,7 @@ production:
           use:
             - 'full_size'
             - 'preview'
-          path: 'photos/${fields.slug}/${assembly.id}__${file.meta.width}x${file.meta.height}____${file.url_name}'
+          path: 'photos/${fields.slug}/${assembly.id}/${unique_prefix}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_document:
       steps:
