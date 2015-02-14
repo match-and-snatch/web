@@ -9,7 +9,7 @@ module Concerns::Likable
   # @return [Hash]
   def likers_data
     likes_count = likes.count
-    likes_scope = likes.order('likes.created_at DESC').joins(:user).select('users.full_name as name')
+    likes_scope = likes.order('likes.created_at DESC').joins(:user).select('coalesce(users.profile_name, users.full_name) as name')
 
     case likes_count
     when 1, 2
