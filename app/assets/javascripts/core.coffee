@@ -19,6 +19,8 @@ class (window.bud or= {}).Core
       catch error
         bud.Logger.error(error)
 
+    parent_container.find('.Emoji').minEmojiSVG() if parent_container
+
   @destroy_widgets: (parent_container) ->
     _.each parent_container.find('.js-widget'), (widget_container) ->
       try

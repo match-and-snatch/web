@@ -11,6 +11,7 @@
 # about supported directives.
 
 #= require jquery_extensions
+#= require emoji
 #= require core
 #= require helpers
 #= require_tree .
