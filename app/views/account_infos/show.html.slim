@@ -36,7 +36,6 @@
         - if @user.has_profile_page?
           a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
             li Delete Profile Page
-        - if @user.complete_profile?
           a.HashLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
             li Profile Details
           a.HashLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
