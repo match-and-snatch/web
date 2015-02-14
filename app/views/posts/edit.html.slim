@@ -1,11 +1,12 @@
 .edit_post_popup
   form.form.PopupForm action=post_path(@post.id) data-target='post-#{@post.id}' method='post'
     input type='hidden' name='_method' value='PUT'
-      
-      label Edit Title
-      input.form-control.edit_field name='title' placeholder="Post Title" value=@post.title
-      .error data-field='title'
-      .clearfix
+
+      - unless @post.status?
+        label Edit Title
+        input.form-control.edit_field name='title' placeholder="Post Title" value=@post.title
+        .error data-field='title'
+        .clearfix
 
       label style="margin-top: 15px" Edit Description
       textarea.form-control.edit_field name='message' placeholder='Description'

@@ -21,10 +21,10 @@ class PostManager < BaseManager
     @post
   end
 
-  def update(title: , message: )
+  def update(title: :unset, message: )
     fail_with! message: :empty if message.blank?
 
-    @post.title = title
+    @post.title = title unless title == :unset
     @post.message = CGI.escapeHTML(message)
     @post.save or fail_with!(@post.errors)
     EventsManager.post_updated(user: @user, post: @post)
