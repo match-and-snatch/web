@@ -14,13 +14,13 @@
 
         var defaults = {
             safari:		false,
-            svg_path:	'//connectpal-assets.s3.amazonaws.com/emoji/'
+            svg_path:	'//connectpal-assets.s3.amazonaws.com/emoji/svg/'
         };
 
         var options = $.extend({}, defaults, options);
 
         return (is_safari && !options.safari)?s:s.replace(regx, function (a, b){
-            return '<span class="emj" style="background:url('+options.svg_path+emoji[b]+'.png);"></span>';
+            return '<span class="emj" style="background:url('+options.svg_path+emoji[b]+'.svg);"></span>';
         });
     }
     $.fn.minEmojiSVG = function(options){
