@@ -10,7 +10,7 @@
     // Sender Name & Timestamp
     .pull-left.message_container
       span.name= antiuser.name
-      - if dialogue.recent_message.contribution_id
+      - if dialogue.recent_message.contribution
         span.contribute_label
           | #{contribution_text(dialogue.recent_message.contribution)}
       span.timestamp #{time_ago_in_words(dialogue.recent_message_at)} ago
