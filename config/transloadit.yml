@@ -35,8 +35,8 @@ video_filter: &video_filter
       - ["${file.ext}", "regex", '^(mp4|m4v|f4v|mov|flv|mkv)$']
     error_on_decline: true
 
-video_1080p_encoder: &video_1080p_encoder
-  files_1080p:
+hd_video_encoder: &hd_video_encoder
+  hd_files:
     use: ":original"
     robot: '/file/filter'
     condition_type: 'and'
@@ -46,7 +46,7 @@ video_1080p_encoder: &video_1080p_encoder
 
   encode_hd:
     robot: "/video/encode"
-    use: files_1080p
+    use: hd_files
     ffmpeg_stack: "v2.2.3"
     preset: "ipad-high"
     width: null
@@ -58,7 +58,7 @@ video_1080p_encoder: &video_1080p_encoder
       vf: "scale=-1:'min(ih,1080)'"
 
 hd_video: &hd_video
-  <<: *video_1080p_encoder
+  <<: *hd_video_encoder
 
 video_or_audio_filter: &video_or_audio_filter
   files:
@@ -690,8 +690,8 @@ production:
           robot: '/image/resize'
           width: 180
           height: 180
-          strip: true
           resize_strategy: 'fillcrop'
+          strip: true
         thumb_50x50:
           robot: '/image/resize'
           width: 50
