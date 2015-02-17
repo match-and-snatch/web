@@ -4,7 +4,7 @@ class VideosController < UploadsController
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Accept-Ranges'] = 'bytes'
 
-    render text: @upload.to_m3u8 #, content_type: 'audio/x-mpegurl'
+    render text: @upload.to_m3u8, content_type: 'audio/x-mpegurl'
   end
 
   def create
