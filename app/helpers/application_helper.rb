@@ -128,10 +128,11 @@ module ApplicationHelper
                 class: 'VideoPlayer',
                 data: { file:     video.rtmp_path,
                         hdfile:   video.hd_rtmp_path,
-                        playlist: video.playlist_url,
+                        #playlist: 'http://playertest.longtailvideo.com/adaptive/bbbfull/bbbfull.m3u8',#video.playlist_url,
+                        playlist: 'http://localhost:3001/videos/6234/playlist.m3u8',
                         original: video.original_url,
                         image:    video.preview_url,
-                        primary: 'html5' }) if video
+                        primary: 'flash' }) if video
   end
 
   # @param audio [Audio]

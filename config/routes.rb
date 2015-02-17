@@ -112,7 +112,11 @@ BuddyPlatform::Application.routes.draw do
       post :reorder
     end
   end
-  resources :videos, only: [:create, :destroy]
+  resources :videos, only: [:create, :destroy] do
+    member do
+      get :playlist
+    end
+  end
   resources :photos, only: [:show, :create, :destroy]
   resources :documents, only: [:create, :destroy]
 
