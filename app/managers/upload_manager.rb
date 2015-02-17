@@ -233,6 +233,14 @@ class UploadManager < BaseManager
     end
   end
 
+  # @param upload [Upload]
+  # @param post [Post]
+  def remove_upload(upload: , post: nil)
+    upload.delete
+    EventsManager.upload_removed(user: user, upload: upload)
+    PostManager.new(user: user, post: post).turn_to_status_post if post
+  end
+
   private
 
   def get_file_path(url = '')

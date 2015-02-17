@@ -1,0 +1,9 @@
+ul.edit_post_audio
+  - post.uploads.each do |upload|
+    li data-identifier='upload-#{upload.id}'
+      /i.fa.fa-arrows-v.icon.pull-left.dragger
+      .file_name.pull-left= upload.filename
+      a.delete_button.AjaxFormLink href=destroy_upload_post_path(post) data-upload_id=upload.id data-_method='DELETE' data-target='post-#{post.id}'
+        span.delete_button.fa.fa-times.Toggler data-target='upload-#{upload.id}'
+          | &nbsp;
+      .clearfix

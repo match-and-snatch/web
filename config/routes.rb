@@ -89,6 +89,7 @@ BuddyPlatform::Application.routes.draw do
     member do
       put :make_visible
       put :hide
+      delete :destroy_upload
     end
     resources :comments, only: [:create, :index]
     resources :likes, only: [:index, :create], defaults: {type: 'post'}

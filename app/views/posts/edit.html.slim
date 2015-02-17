@@ -2,17 +2,19 @@
   form.form.PopupForm action=post_path(@post.id) data-target='post-#{@post.id}' method='post'
     input type='hidden' name='_method' value='PUT'
 
-      - unless @post.status?
-        label Edit Title
-        input.form-control.edit_field name='title' placeholder="Post Title" value=@post.title
-        .error data-field='title'
-        .clearfix
-
-      label style="margin-top: 15px" Edit Description
-      textarea.form-control.edit_field name='message' placeholder='Description'
-        = restore_message_format(@post.message)
+    - unless @post.status? && @post.title.blank?
+      label Edit Title
+      input.form-control.edit_field name='title' placeholder="Post Title" value=@post.title
+      .error data-field='title'
       .clearfix
-      .error data-field='message'
 
-      input.btn.blue.pull-right type='Submit' value='Update Post' style="margin-top: 15px"
-      .clearfix
+    = render 'post_editable_uploads', post: @post
+
+    label style="margin-top: 15px" Edit Description
+    textarea.form-control.edit_field name='message' placeholder='Description'
+      = restore_message_format(@post.message)
+    .clearfix
+    .error data-field='message'
+
+    input.btn.blue.pull-right type='Submit' value='Update Post' style="margin-top: 15px"
+    .clearfix

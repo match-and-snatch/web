@@ -146,6 +146,16 @@ class PostManager < BaseManager
     post.destroy
   end
 
+  # @return [StatusPost, nil]
+  def turn_to_status_post
+    unless @post.status?
+      if @post.uploads.count.zero?
+        @post.type = 'StatusPost'
+        @post.save or fail_with! @post.errors
+      end
+    end
+  end
+
   private
 
   def make_pending_blank

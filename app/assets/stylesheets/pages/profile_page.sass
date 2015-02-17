@@ -1895,6 +1895,55 @@
     font-size: 13px
   textarea.edit_field
     height: 100px
+  .edit_post_photo
+    margin: 0
+    li
+      display: inline-block
+      position: relative
+      height: 102px
+      overflow: hidden
+      margin: 15px 15px 0 0
+      img
+        border: 1px solid $color_border
+      .delete_photo
+        @include border-radius(0 0 0 5px)
+        position: absolute
+        top: 0px
+        right: 0px
+        text-decoration: none
+        height: 17px
+        width: 17px
+        &:before
+          background-color: #FFFFFF
+          padding: 3px
+
+  .edit_post_audio, .edit_post_doc
+    @include border-radius(5px)
+    border: 1px solid $color_border
+    margin: 15px 0 0 0
+    overflow: hidden
+    li
+      background-color: #FFFFFF
+      border-bottom: 1px solid $color_border
+      border-top: 1px solid $color_border
+      border-right: 1px dotted $color_border
+      border-left: 1px dotted $color_border
+      font-size: 12px
+      padding: 5px
+      width: 100%
+      .fa-arrows-v
+        cursor: pointer
+        font-size: 11px
+        padding: 3px 3px 0
+      .delete_button
+        margin-left: 5px
+        text-decoration: none
+
+  .edit_post_video
+    margin: 15px 0 0 0
+    li
+      img
+        width: 100%
 
 // Compose Message Popup
 

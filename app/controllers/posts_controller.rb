@@ -1,8 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate!, except: [:index, :show]
   before_action :load_user!, only: :index
-  before_action :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide]
-
+  before_action :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide, :destroy_upload]
   before_action :detect_device_format, only: [:create]
 
   protect(:index) { can? :see, @user }
@@ -67,6 +66,12 @@ class PostsController < ApplicationController
   def destroy
     PostManager.new(user: current_user.object).delete(@post)
     json_replace
+  end
+
+  def destroy_upload
+    @upload = @post.uploads.find(params[:upload_id])
+    UploadManager.new(current_user.object).remove_upload(upload: @upload, post: @post)
+    json_replace html: post_html
   end
 
   private
