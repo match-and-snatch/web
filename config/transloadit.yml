@@ -486,7 +486,7 @@ staging:
     url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
     path: '${assembly.id}__${file.id}____${file.url_name}'
 
-  user_picture: &user_picture
+  profile_image: &profile_image
     <<: *s3
     use:
       - 'resize'
@@ -525,7 +525,7 @@ staging:
           resize_strategy: 'fillcrop'
           use: thumb_180x180
         store:
-          <<: *user_picture
+          <<: *profile_image
           use:
             - 'thumb_180x180'
             - 'thumb_50x50'
@@ -541,7 +541,7 @@ staging:
           strip: true
           resize_strategy: 'fit'
         store:
-          <<: *user_picture
+          <<: *profile_image
           use:
             - resized
             - ":original"
@@ -653,20 +653,86 @@ staging:
           path: 'documents/${fields.slug}/${assembly.id}__${file.url_name}'
 
 production:
-  attachment: &attachment
+  s3_uploads_bucket: &s3_uploads_bucket
     <<: *s3
-    use: ':original'
     bucket: 'connectpal-uploads'
 
-  media: &media
+  s3_media_bucket: &s3_media_bucket
     <<: *s3
-    url_prefix: 'https://s3kch7itxilxuh.cloudfront.net/'
     bucket: 'connectpal-media'
+
+  s3_media_file: &s3_media_file
+    <<: *s3_media_bucket
     path: '${assembly.id}__${file.id}____${file.url_name}'
 
-  user_picture: &user_picture
-    <<: *s3
-    bucket: 'connectpal-uploads'
+  media: &media
+    <<: *s3_media_file
+    url_prefix: 'https://s3kch7itxilxuh.cloudfront.net/'
+
+  video_steps: &video_steps
+    thumbs:
+      use: ":original"
+      robot: "/video/thumbs"
+      offsets: ['42%']
+    s3_thumb:
+      <<: *s3_uploads_bucket
+      use: 'thumbs'
+      path: 'uploads/video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
+    encode:
+      robot: "/video/encode"
+      use: ":original"
+      ffmpeg_stack: "v2.2.3"
+      preset: "ipad"
+      width: null
+      height: null
+      segment: true
+      ffmpeg:
+        b: "700k"
+        r: "25"
+        vf: "scale=-1:'min(ih,480)'"
+    <<: *hd_video
+    store_original:
+      <<: &media
+      use: ':original'
+    store_low:
+      <<: *s3_media_file
+      use: 'encode'
+    store_high:
+      <<: *s3_media_file
+      use: 'encode_hd'
+    high_playlist:
+      robot: '/media/playlist'
+      use:
+        steps: 'store_high'
+        bundle_steps: true
+      resolution: '1920x1080'
+      bandwidth: 1600000
+      name: high_playlist.m3u8
+    low_playlist:
+      robot: '/media/playlist'
+      use:
+        steps: 'store_low'
+        bundle_steps: true
+      resolution: '1280x740'
+      bandwidth: 320000
+      name: low_playlist.m3u8
+    store_low_playlist:
+      <<: *s3_media_file
+      use: 'low_playlist'
+    store_high_playlist:
+      <<: *s3_media_file
+      use: 'high_playlist'
+    playlist:
+      robot: '/media/playlist'
+      use:
+        steps:
+          - 'high_playlist'
+          - 'low_playlist'
+        bundle_steps: true
+    store_playlist:
+      <<: *s3_media_file
+      use: 'playlist'
+      path: '${assembly.id}__playlist.m3u8'
 
   # the jquery_sdk version you want to use, read up on it here:
   # https://transloadit.com/blog/2013/02/transloadit-javascript-plugin-and-jquery-1-9
@@ -700,12 +766,12 @@ production:
           resize_strategy: 'fillcrop'
           use: thumb_180x180
         store:
-          <<: *user_picture
+          <<: *s3_uploads_bucket
           use:
             - 'thumb_180x180'
             - 'thumb_50x50'
             - ':original'
-          path: 'profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          path: 'uploads/profile_pictures/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     cover_picture:
       steps:
@@ -716,67 +782,21 @@ production:
           strip: true
           resize_strategy: 'fit'
         store:
-          <<: *user_picture
+          <<: *s3_uploads_bucket
           use:
             - resized
             - ":original"
-          path: 'profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          path: 'uploads/profile_covers/${fields.slug}/${assembly.id}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     welcome_media:
       steps:
         <<: *video_or_audio_filter
-        thumbs:
-          use: ":original"
-          robot: "/video/thumbs"
-          offsets: ['43%']
-        s3_thumb:
-          <<: *s3
-          use: 'thumbs'
-          bucket: 'connectpal-uploads'
-          path: 'video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
-        encode:
-          robot: "/video/encode"
-          use: ":original"
-          ffmpeg_stack: "v2.0.0"
-          preset: "ipad"
-          width: null
-          height: null
-          ffmpeg:
-            b: "700k"
-            vf: "scale='min(iw,1280)':-1"
-        store:
-          <<: *media
-          use:
-            - 'encode'
-            - ':original'
+        <<: *video_steps
 
     post_video:
       steps:
         <<: *video_filter
-        thumbs:
-          use: ":original"
-          robot: "/video/thumbs"
-          offsets: ['43%']
-        s3_thumb:
-          <<: *s3
-          use: 'thumbs'
-          bucket: 'connectpal-uploads'
-          path: 'video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
-        encode:
-          robot: "/video/encode"
-          use: ":original"
-          ffmpeg_stack: "v2.0.0"
-          preset: "ipad"
-          width: null
-          height: null
-          ffmpeg:
-            b: "700k"
-            vf: "scale='min(iw,1280)':-1"
-        store:
-          <<: *media
-          use:
-            - 'encode'
-            - ':original'
+        <<: *video_steps
 
     post_audio:
       steps:
@@ -805,11 +825,12 @@ production:
           strip: true
           resize_strategy: 'fillcrop'
         store:
-          <<: *attachment
+          <<: *s3_uploads_bucket
           use:
+            - ':original'
             - 'full_size'
             - 'preview'
-          path: 'photos/${fields.slug}/${assembly.id}/${unique_prefix}____${file.meta.width}x${file.meta.height}____${file.url_name}'
+          path: 'uploads/photos/${fields.slug}/${assembly.id}/${unique_prefix}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_document:
       steps:
@@ -820,8 +841,8 @@ production:
           width: 200
           resize_strategy: "fit"
         store:
-          <<: *attachment
+          <<: *s3_uploads_bucket
           use:
             - ':original'
             - 'preview'
-          path: 'documents/${fields.slug}/${assembly.id}__${file.url_name}'
+          path: 'uploads/documents/${fields.slug}/${assembly.id}__${file.url_name}'
