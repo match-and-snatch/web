@@ -41,7 +41,7 @@ video_1080p_encoder: &video_1080p_encoder
     robot: '/file/filter'
     condition_type: 'and'
     declines:
-      - ["${file.meta.height}", "<", "100"]
+      - ["${file.meta.height}", "<", "480"]
     error_on_decline: false
 
   encode_hd:
@@ -182,8 +182,9 @@ development:
           height: null
           segment: true
           ffmpeg:
-            b: "1200k"
-            vf: "scale=-1:'min(ih,720)'"
+            b: "700k"
+            r: "25"
+            vf: "scale=-1:'min(ih,480)'"
         <<: *hd_video
         store_original:
           <<: *s3
