@@ -127,6 +127,8 @@ module ApplicationHelper
                 id: "Upload__#{video.id}",
                 class: 'VideoPlayer',
                 data: { file:     video.rtmp_path,
+                        hdfile:   video.hd_rtmp_path,
+                        playlist: video.playlist_url,
                         original: video.original_url,
                         image:    video.preview_url,
                         primary: 'html5' }) if video

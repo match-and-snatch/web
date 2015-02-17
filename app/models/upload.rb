@@ -39,12 +39,16 @@ class Upload < ActiveRecord::Base
     "https://#{host}#{path}"
   end
 
-  def rtmp_path
-    return if url.blank?
-    uri = URI(url)
+  def rtmp_path(video_url: url)
+    return if video_url.blank?
+    uri = URI(video_url)
     host = uri.host
     path = uri.path
     "rtmp://#{host}/cfx/st#{path}"
+  end
+
+  def hd_rtmp_path
+    rtmp_path(video_url: hd_url)
   end
 
   def secure_url

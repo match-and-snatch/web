@@ -9,7 +9,7 @@ div data-identifier='pending-videos'
       .clearfix
       span.supported_files
         | What file extensions are supported?
-        .file_types .mp4, .m4v, .f4v, .mov, .flv
+        .file_types .mp4, .m4v, .f4v, .mov, .flv .mkv
       .clearfix
       - if current_user.pending_videos.empty?
         form.UploadForm action=videos_path method='post' data-target='pending-videos'
@@ -17,7 +17,7 @@ div data-identifier='pending-videos'
           .select_file_container
             .btn.green.multi.fa.fa-plus
               |&nbsp;Add Video
-            input.hide_btn type='file' name='post_videos' accept='.avi,.mp4,.flv,.m4v,.f4v,.mov'
+            input.hide_btn type='file' name='post_videos' accept='.avi,.mp4,.flv,.m4v,.f4v,.mov,.mkv'
             input type='hidden' name='slug' value=current_user.slug
       - else
         p style="color: #898989;" Your video is uploaded. You can only post 1 video per post.

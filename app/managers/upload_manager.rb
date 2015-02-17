@@ -153,13 +153,21 @@ class UploadManager < BaseManager
   def create_video(transloadit_data, uploadable: user, template: 'post_video', attributes: {})
     thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
     encode = transloadit_data['results']['encode'][0]
+
+    hd_step = transloadit_data['results']['encode_hd']
+    encode_hd = hd_step[0] if hd_step
+
+    playlist = (transloadit_data['results']['playlist'] || transloadit_data['results']['low_playlist'])[0]
+
     original = transloadit_data['results'][':original'][0]
 
+    hd_url = encode_hd['ssl_url'] if encode_hd
+
     preview_bucket = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['s3_thumb']['bucket']
-    videos_bucket  = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store']['bucket']
+    videos_bucket  = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store_low']['bucket']
 
     s3_paths = { preview_bucket => [{ key: get_file_path(thumb['ssl_url']) }],
-                 videos_bucket  => [encode['ssl_url'], original['ssl_url']].map { |e| { key: get_file_path(e) } } }
+                 videos_bucket  => [hd_url, encode['ssl_url'], original['ssl_url']].compact.map { |e| { key: get_file_path(e) } } }
 
     upload = Video.new transloadit_data: transloadit_data.to_hash,
                        s3_paths:         s3_paths,
@@ -174,6 +182,8 @@ class UploadManager < BaseManager
                        width:            transloadit_data['uploads'][0]['meta']['width'],
                        height:           transloadit_data['uploads'][0]['meta']['height'],
                        url:              encode['ssl_url'],
+                       playlist_url:     playlist['ssl_url'],
+                       hd_url:           hd_url,
                        preview_url:      thumb['ssl_url']
     upload.attributes = attributes
     save_or_die! upload

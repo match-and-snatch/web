@@ -32,8 +32,33 @@ video_filter: &video_filter
     condition_type: 'and'
     accepts:
       - ["${file.mime}", "regex", "video"]
-      - ["${file.ext}", "regex", '^(mp4|m4v|f4v|mov|flv)$']
+      - ["${file.ext}", "regex", '^(mp4|m4v|f4v|mov|flv|mkv)$']
     error_on_decline: true
+
+video_1080p_encoder: &video_1080p_encoder
+  files_1080p:
+    use: ":original"
+    robot: '/file/filter'
+    condition_type: 'and'
+    declines:
+      - ["${file.meta.height}", "<", "100"]
+    error_on_decline: false
+
+  encode_hd:
+    robot: "/video/encode"
+    use: files_1080p
+    ffmpeg_stack: "v2.2.3"
+    preset: "ipad-high"
+    width: null
+    height: null
+    segment: true
+    ffmpeg:
+      r: null
+      b: "1200k"
+      vf: "scale=-1:'min(ih,1080)'"
+
+hd_video: &hd_video
+  <<: *video_1080p_encoder
 
 video_or_audio_filter: &video_or_audio_filter
   files:
@@ -142,7 +167,7 @@ development:
         thumbs:
           use: ":original"
           robot: "/video/thumbs"
-          offsets: ['43%']
+          offsets: ['42%']
         s3_thumb:
           <<: *s3
           use: 'thumbs'
@@ -151,21 +176,77 @@ development:
         encode:
           robot: "/video/encode"
           use: ":original"
-          ffmpeg_stack: "v2.0.0"
+          ffmpeg_stack: "v2.2.3"
           preset: "ipad"
           width: null
           height: null
+          segment: true
           ffmpeg:
-            b: "700k"
-            vf: "scale='min(iw,1280)':-1"
-        store:
+            b: "1200k"
+            vf: "scale=-1:'min(ih,720)'"
+        <<: *hd_video
+        store_original:
           <<: *s3
           use:
-            - 'encode'
             - ':original'
           url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
           bucket: 'buddy-video-assets'
           path: '${assembly.id}__${file.id}____${file.url_name}'
+        store_high:
+          <<: *s3
+          use:
+            - 'encode_hd'
+          url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
+          bucket: 'buddy-video-assets'
+          path: '${assembly.id}__${file.id}___high____${file.url_name}'
+        store_low:
+          <<: *s3
+          use:
+            - 'encode'
+          url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
+          bucket: 'buddy-video-assets'
+          path: '${assembly.id}__${file.id}___low____${file.url_name}'
+        high_playlist:
+          robot: '/media/playlist'
+          use:
+            steps: 'store_high'
+            bundle_steps: true
+          resolution: '1920x1080'
+          bandwidth: 1600000
+          name: high_playlist.m3u
+        low_playlist:
+          robot: '/media/playlist'
+          use:
+            steps: 'store_low'
+            bundle_steps: true
+          resolution: '1280x740'
+          bandwidth: 320000
+          name: low_playlist.m3u
+        store_low_playlist:
+          <<: *s3
+          use:
+            - 'low_playlist'
+          bucket: 'buddy-video-assets'
+          path: '${assembly.id}__${file.id}___low_playlist____${file.url_name}'
+        store_high_playlist:
+          <<: *s3
+          use:
+            - 'high_playlist'
+          bucket: 'buddy-video-assets'
+          path: '${assembly.id}__${file.id}___high_playlist____${file.url_name}'
+        playlist:
+          robot: '/media/playlist'
+          use:
+            steps:
+              - 'high_playlist'
+              - 'low_playlist'
+            bundle_steps: true
+        store_playlist:
+          <<: *s3
+          use:
+            - 'playlist'
+          bucket: 'buddy-video-assets'
+          path: '${assembly.id}__playlist.m3u8'
 
     post_audio:
       steps:
