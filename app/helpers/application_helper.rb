@@ -129,7 +129,7 @@ module ApplicationHelper
                 data: { file:     video.rtmp_path,
                         hdfile:   video.hd_rtmp_path,
                         #playlist: 'http://playertest.longtailvideo.com/adaptive/bbbfull/bbbfull.m3u8',#video.playlist_url,
-                        playlist: 'http://localhost:3001/videos/6234/playlist.m3u8',
+                        playlist: playlist_video_path(video.id, format: 'm3u8'),
                         original: video.original_url,
                         image:    video.preview_url,
                         primary: 'flash' }) if video

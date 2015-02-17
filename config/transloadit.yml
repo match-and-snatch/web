@@ -196,14 +196,12 @@ development:
           <<: *s3
           use:
             - 'encode_hd'
-          url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
           bucket: 'buddy-video-assets'
           path: '${assembly.id}__${file.id}___high____${file.url_name}'
         store_low:
           <<: *s3
           use:
             - 'encode'
-          url_prefix: 'https://s1y5uslj4plb.cloudfront.net/'
           bucket: 'buddy-video-assets'
           path: '${assembly.id}__${file.id}___low____${file.url_name}'
         high_playlist:
@@ -213,7 +211,7 @@ development:
             bundle_steps: true
           resolution: '1920x1080'
           bandwidth: 1600000
-          name: high_playlist.m3u
+          name: high_playlist.m3u8
         low_playlist:
           robot: '/media/playlist'
           use:
@@ -221,19 +219,19 @@ development:
             bundle_steps: true
           resolution: '1280x740'
           bandwidth: 320000
-          name: low_playlist.m3u
+          name: low_playlist.m3u8
         store_low_playlist:
           <<: *s3
           use:
             - 'low_playlist'
           bucket: 'buddy-video-assets'
-          path: '${assembly.id}__${file.id}___low_playlist____${file.url_name}'
+          path: '${assembly.id}__${file.id}____${file.url_name}'
         store_high_playlist:
           <<: *s3
           use:
             - 'high_playlist'
           bucket: 'buddy-video-assets'
-          path: '${assembly.id}__${file.id}___high_playlist____${file.url_name}'
+          path: '${assembly.id}__${file.id}____${file.url_name}'
         playlist:
           robot: '/media/playlist'
           use:
