@@ -157,7 +157,9 @@ class UploadManager < BaseManager
     hd_step = transloadit_data['results']['encode_hd']
     encode_hd = hd_step[0] if hd_step
 
-    playlist = (transloadit_data['results']['playlist'] || transloadit_data['results']['low_playlist'])[0]
+    playlist = transloadit_data['results']['playlist'].try(:[], 0) || {}
+    low_playlist = transloadit_data['results']['low_playlist'][0]
+    high_playlist = transloadit_data['results']['high_playlist'].try(:[], 0) || {}
 
     original = transloadit_data['results'][':original'][0]
 
@@ -182,7 +184,9 @@ class UploadManager < BaseManager
                        width:            transloadit_data['uploads'][0]['meta']['width'],
                        height:           transloadit_data['uploads'][0]['meta']['height'],
                        url:              encode['ssl_url'],
-                       playlist_url:     playlist['ssl_url'],
+                       playlist_url:     playlist['ssl_url'], # TODO: fix transloadit issue, always nil
+                       low_quality_playlist_url: low_playlist['ssl_url'],
+                       high_quality_playlist_url: high_playlist['ssl_url'], # TODO: Change ssl_url to url?
                        hd_url:           hd_url,
                        preview_url:      thumb['ssl_url']
     upload.attributes = attributes

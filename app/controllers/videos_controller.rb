@@ -1,16 +1,29 @@
 class VideosController < UploadsController
 
   def playlist
+    if @upload.high_quality_playlist_url
+      hq_playlist = <<-HQ_PLAYLIST
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=1677946,RESOLUTION=1920x1080
+#{@upload.high_quality_playlist_url.sub('https:', 'http:')}
+HQ_PLAYLIST
+    end
+
+    if @upload.low_quality_playlist_url
+      lq_playlist = <<-LQ_PLAYLIST
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=707099,RESOLUTION=1280x720
+#{@upload.low_quality_playlist_url.sub('https:', 'http:')}
+LQ_PLAYLIST
+    end
+
     playlist =<<-PLAYLIST
 #EXTM3U
 #EXT-X-VERSION:3
-#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=1677946,RESOLUTION=1920x1080
-http://buddy-video-assets.s3.amazonaws.com/8489c040b69511e4aee09f1afec3c8eb___high_playlist____high_playlist.m3u8
-#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=707099,RESOLUTION=1280x720
-http://buddy-video-assets.s3.amazonaws.com/8489c040b69511e4aee09f1afec3c8eb___low_playlist____low_playlist.m3u8
+#{hq_playlist}#{lq_playlist}
 PLAYLIST
+
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Accept-Ranges'] = 'bytes'
+
     render text: playlist, content_type: 'audio/x-mpegurl'
   end
 
