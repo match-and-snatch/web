@@ -35,31 +35,6 @@ video_filter: &video_filter
       - ["${file.ext}", "regex", '^(mp4|m4v|f4v|mov|flv|mkv)$']
     error_on_decline: true
 
-hd_video_encoder: &hd_video_encoder
-  hd_files:
-    use: ":original"
-    robot: '/file/filter'
-    condition_type: 'and'
-    declines:
-      - ["${file.meta.height}", "<", "480"]
-    error_on_decline: false
-
-  encode_hd:
-    robot: "/video/encode"
-    use: hd_files
-    ffmpeg_stack: "v2.2.3"
-    preset: "ipad-high"
-    width: null
-    height: null
-    segment: true
-    ffmpeg:
-      r: null
-      b: "1200k"
-      vf: "scale=-1:'min(ih,1080)'"
-
-hd_video: &hd_video
-  <<: *hd_video_encoder
-
 video_or_audio_filter: &video_or_audio_filter
   files:
     robot: '/file/filter'
@@ -690,7 +665,25 @@ production:
         b: "700k"
         r: "25"
         vf: "scale=-1:'min(ih,480)'"
-    <<: *hd_video
+    hd_files:
+      use: ":original"
+      robot: '/file/filter'
+      condition_type: 'and'
+      declines:
+        - ["${file.meta.height}", "<", "480"]
+      error_on_decline: false
+    encode_hd:
+      robot: "/video/encode"
+      use: hd_files
+      ffmpeg_stack: "v2.2.3"
+      preset: "ipad-high"
+      width: null
+      height: null
+      segment: true
+      ffmpeg:
+        r: null
+        b: "1200k"
+        vf: "scale=-1:'min(ih,1080)'"
     store_original:
       <<: &media
       use: ':original'
