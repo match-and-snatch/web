@@ -95,7 +95,7 @@ transloadit_config: &transloadit_config
       ffmpeg:
         b: "700k"
         r: "25"
-        vf: "scale=-1:'min(ih,480)'"
+        vf: "scale='trunc(iw/2)*2':'min(ih,480)'"
     hd_files:
       use: ":original"
       robot: '/file/filter'
@@ -113,8 +113,8 @@ transloadit_config: &transloadit_config
       segment: true
       ffmpeg:
         r: null
-        b: "1200k"
-        vf: "scale=-1:'min(ih,1080)'"
+        b: "2500k"
+        vf: "scale='trunc(iw/2)*2':'min(ih,1080)'"
     store_original:
       <<: *media
       use: ':original'
