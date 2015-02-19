@@ -148,11 +148,11 @@ class PostManager < BaseManager
 
   # @return [StatusPost, nil]
   def turn_to_status_post
-    unless @post.status?
-      if @post.uploads.count.zero?
-        @post.type = 'StatusPost'
-        @post.save or fail_with! @post.errors
-      end
+    fail_with! 'Post already is StatusPost' if @post.status?
+
+    if @post.uploads.count.zero?
+      @post.type = 'StatusPost'
+      @post.save or fail_with! @post.errors
     end
   end
 

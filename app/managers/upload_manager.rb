@@ -235,10 +235,10 @@ class UploadManager < BaseManager
 
   # @param upload [Upload]
   # @param post [Post]
-  def remove_upload(upload: , post: nil)
+  def remove_upload(upload: , post: upload.uploadable)
     upload.delete
     EventsManager.upload_removed(user: user, upload: upload)
-    PostManager.new(user: user, post: post).turn_to_status_post if post
+    PostManager.new(user: user, post: post).turn_to_status_post unless post.try(:status?)
   end
 
   private

@@ -4,8 +4,10 @@ class PostsController < ApplicationController
   before_action :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide, :destroy_upload]
   before_action :detect_device_format, only: [:create]
 
-  protect(:index) { can? :see, @user }
+  protect(:index, :show) { can? :see, @user }
   protect(:destroy) { can? :delete, @post }
+  protect(:destroy_upload) { can? :manage, @post }
+  protect(:edit, :update, :hide, :make_visible) { can? :manage, @post }
 
   def index
     query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], start_id: params[:last_post_id])
@@ -70,7 +72,7 @@ class PostsController < ApplicationController
 
   def destroy_upload
     @upload = @post.uploads.find(params[:upload_id])
-    UploadManager.new(current_user.object).remove_upload(upload: @upload, post: @post)
+    UploadManager.new(current_user.object).remove_upload(upload: @upload)
     json_replace html: post_html
   end
 
