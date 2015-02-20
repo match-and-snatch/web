@@ -18,7 +18,7 @@ describe UploadManager do
   end
 
   describe '#create_photo' do
-    let(:photo) { subject.create_photo(ActionController::ManagebleParameters.new(transloadit_photo_data_params)) }
+    let(:photo) { subject.create_photo(ActionController::ManagebleParameters.new(JSON.parse(profile_picture_data_params['transloadit'])), template: 'profile_picture') }
 
     it { expect(photo.transloadit_data.class).to eq(Hash) }
   end

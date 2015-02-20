@@ -14,7 +14,7 @@ describe NotificationManager do
     end
 
     specify do
-      expect(PostsMailer).not_to receive(:created)
+      expect(PostsMailer).not_to receive(:created).with(status_post, subscriber)
       notify
     end
 
@@ -30,7 +30,7 @@ describe NotificationManager do
         before { SubscriptionManager.new(subscription: subscription).unsubscribe }
 
         specify do
-          expect(PostsMailer).not_to receive(:created)
+          expect(PostsMailer).not_to receive(:created).with(status_post, subscriber)
           notify
         end
       end
@@ -39,7 +39,7 @@ describe NotificationManager do
         before { SubscriptionManager.new(subscription: subscription).disable_notifications }
 
         specify do
-          expect(PostsMailer).not_to receive(:created)
+          expect(PostsMailer).not_to receive(:created).with(status_post, subscriber)
           notify
         end
       end
