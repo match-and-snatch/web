@@ -29,7 +29,7 @@
 
       .profile_name data-identifier='profile-name'
         = link_to_user reply.user
-      .comment_text= format_comment_message(reply)
+      .comment_text.Emoji= format_comment_message(reply)
       .cleaffix
       .post_date
         span.pull-left Posted #{time_ago_in_words reply.created_at} ago

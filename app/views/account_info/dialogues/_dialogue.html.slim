@@ -16,7 +16,7 @@
       span.timestamp #{time_ago_in_words(dialogue.recent_message_at)} ago
       .clearfix
 
-      .message_preview class="#{'unread' if dialogue.unread? && dialogue.recent_message.user != current_user.object}"
+      .message_preview.Emoji class="#{'unread' if dialogue.unread? && dialogue.recent_message.user != current_user.object}"
         - if dialogue.recent_message.user == current_user.object
           /.photo.pull-left style='margin-right: 10px; margin-top: 4px'
             img src=dialogue.recent_message.user.comment_picture_url width=32 height=32 border=0
