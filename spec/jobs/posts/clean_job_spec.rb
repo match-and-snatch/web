@@ -7,7 +7,7 @@ describe Posts::CleanJob do
     let(:user) { create_profile }
 
     before do
-      UploadManager.new(user).create_pending_photos(JSON.parse(transloadit_photo_data_params['transloadit']))
+      UploadManager.new(user).create_pending_photos(transloadit_photo_data_params)
       PostManager.new(user: user).create_photo_post(title: 'test', message: 'test')
     end
 

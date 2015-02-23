@@ -6,6 +6,9 @@ defaults: &defaults
   admins:
     - szinin@gmail.com
     - s.popov.design@gmail.com
+  transloadit:
+    uploads_bucket: 'buddy-assets'
+    media_bucket: 'buddy-video-assets'
 
 jwplayer: &jwplayer
   jwplayer:
@@ -25,6 +28,9 @@ production:
   javascript:
     log_level: 0
     <<: *jwplayer
+  transloadit:
+    uploads_bucket: 'connectpal-uploads'
+    media_bucket: 'connectpal-media'
 
 staging:
   <<: *defaults

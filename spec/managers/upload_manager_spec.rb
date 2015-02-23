@@ -6,7 +6,7 @@ describe UploadManager do
   subject { described_class.new(user) }
 
   describe '#create_pending_photos' do
-    let(:photos) { subject.create_pending_photos(ActionController::ManagebleParameters.new(JSON.parse(transloadit_photo_data_params['transloadit']))) }
+    let(:photos) { subject.create_pending_photos(ActionController::ManagebleParameters.new(transloadit_photo_data_params)) }
 
     it { expect(photos.first.transloadit_data.class).to eq(Hash) }
   end
@@ -18,13 +18,13 @@ describe UploadManager do
   end
 
   describe '#create_photo' do
-    let(:photo) { subject.create_photo(ActionController::ManagebleParameters.new(JSON.parse(transloadit_photo_data_params['transloadit']))) }
+    let(:photo) { subject.create_photo(ActionController::ManagebleParameters.new(transloadit_photo_data_params)) }
 
     it { expect(photo.transloadit_data.class).to eq(Hash) }
   end
 
   describe '#create_video' do
-    let(:video) { subject.create_video(ActionController::ManagebleParameters.new(JSON.parse(transloadit_video_data_params['transloadit']))) }
+    let(:video) { subject.create_video(ActionController::ManagebleParameters.new(transloadit_video_data_params)) }
 
     it { expect(video.transloadit_data.class).to eq(Hash) }
   end

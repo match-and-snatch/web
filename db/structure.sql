@@ -821,7 +821,11 @@ CREATE TABLE uploads (
     updated_at timestamp without time zone,
     removed boolean DEFAULT false,
     removed_at timestamp without time zone,
-    s3_paths text
+    s3_paths text,
+    hd_url text,
+    playlist_url text,
+    high_quality_playlist_url text,
+    low_quality_playlist_url text
 );
 
 
@@ -1502,4 +1506,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150108160914');
 INSERT INTO schema_migrations (version) VALUES ('20150114171839');
 
 INSERT INTO schema_migrations (version) VALUES ('20150201145937');
+
+INSERT INTO schema_migrations (version) VALUES ('20150216164150');
+
+INSERT INTO schema_migrations (version) VALUES ('20150216190226');
+
+INSERT INTO schema_migrations (version) VALUES ('20150217120737');
 
