@@ -84,18 +84,6 @@ transloadit_config: &transloadit_config
       <<: *s3_uploads_bucket
       use: 'thumbs'
       path: 'uploads/video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
-    encode:
-      robot: "/video/encode"
-      use: ":original"
-      ffmpeg_stack: "v2.2.3"
-      preset: "ipad"
-      width: null
-      height: null
-      segment: true
-      ffmpeg:
-        b: "700k"
-        r: "25"
-        vf: "scale='trunc(iw/2)*2':'min(ih,480)'"
     hd_files:
       use: ":original"
       robot: '/file/filter'
@@ -110,20 +98,34 @@ transloadit_config: &transloadit_config
       preset: "ipad-high"
       width: null
       height: null
+      resize_strategy: "fit"
       segment: true
       ffmpeg:
-        r: null
-        b: "2500k"
-        vf: "scale='trunc(iw/2)*2':'min(ih,1080)'"
+        crf: 10
+        tune: film
+        preset: slow
+        vf: "scale='trunc(iw/2)*2':'min(ih,1280)'"
+    encode:
+      robot: "/video/encode"
+      use: ":original"
+      ffmpeg_stack: "v2.2.3"
+      preset: "ipad"
+      width: null
+      height: null
+      segment: true
+      ffmpeg:
+        #b: "700k"
+        r: "25"
+        vf: "scale='trunc(iw/2)*2':'min(ih,480)'"
     store_original:
       <<: *media
       use: ':original'
-    store_low:
-      <<: *s3_media_file
-      use: 'encode'
     store_high:
       <<: *s3_media_file
       use: 'encode_hd'
+    store_low:
+      <<: *s3_media_file
+      use: 'encode'
     high_playlist:
       robot: '/media/playlist'
       use:
@@ -140,12 +142,12 @@ transloadit_config: &transloadit_config
       resolution: '1280x740'
       bandwidth: 320000
       name: low_playlist.m3u8
-    store_low_playlist:
-      <<: *s3_media_file
-      use: 'low_playlist'
     store_high_playlist:
       <<: *s3_media_file
       use: 'high_playlist'
+    store_low_playlist:
+      <<: *s3_media_file
+      use: 'low_playlist'
     playlist:
       robot: '/media/playlist'
       use:
