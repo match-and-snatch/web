@@ -184,7 +184,7 @@ class UploadManager < BaseManager
                        width:            transloadit_data['uploads'][0]['meta']['width'],
                        height:           transloadit_data['uploads'][0]['meta']['height'],
                        url:              encode['ssl_url'],
-                       playlist_url:     playlist['ssl_url'], # TODO: fix transloadit issue, always nil
+                       playlist_url:     playlist['ssl_url'],
                        low_quality_playlist_url: low_playlist['ssl_url'],
                        high_quality_playlist_url: high_playlist['ssl_url'], # TODO: Change ssl_url to url?
                        hd_url:           hd_url,
