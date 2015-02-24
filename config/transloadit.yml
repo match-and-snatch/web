@@ -98,13 +98,13 @@ transloadit_config: &transloadit_config
       preset: "ipad-high"
       width: null
       height: null
-      resize_strategy: "fit"
+      resize_strategy: "pad"
       segment: true
       ffmpeg:
         crf: 10
         tune: film
         preset: slow
-        vf: "scale='trunc(iw/2)*2':'min(ih,1280)'"
+        vf: "scale='iw*sar:min(ih,1280)', pad='max(iw,ih*(16/9)):ow/(16/9):(ow-iw)/2:(oh-ih)/2'"
     encode:
       robot: "/video/encode"
       use: ":original"
@@ -112,11 +112,12 @@ transloadit_config: &transloadit_config
       preset: "ipad"
       width: null
       height: null
+      resize_strategy: "pad"
       segment: true
       ffmpeg:
         #b: "700k"
         r: "25"
-        vf: "scale='trunc(iw/2)*2':'min(ih,480)'"
+        vf: "scale='iw*sar:min(ih,720)', pad='max(iw,ih*(16/9)):ow/(16/9):(ow-iw)/2:(oh-ih)/2'"
     store_original:
       <<: *media
       use: ':original'
