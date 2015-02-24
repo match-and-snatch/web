@@ -13,6 +13,14 @@ module ApplicationHelper
     end
   end
 
+  def contribution_text(contribution)
+    if contribution.recurring?
+      "Monthly recurring contribution #{cents_to_dollars(contribution.amount)}"
+    else
+      "One-time contribution #{cents_to_dollars(contribution.amount)}"
+    end
+  end
+
   # @param likale [Concerns::Likable]
   # @return [String, nil]
   def likes_text(likable)
@@ -25,8 +33,6 @@ module ApplicationHelper
     case more_count
     when 0
       recent_liker
-    when 1, 2
-      "#{recent_liker} likes"
     else
       path = likable.is_a?(Post) ? post_likes_path(likable) : polymorphic_path([likable, :likes])
       "#{recent_liker} and #{content_tag :span, "#{more_count} other likes", class: 'Hover tmp', data: {url: path, target: likable_id(likable)}}"
@@ -117,13 +123,19 @@ module ApplicationHelper
   # @param video [Video]
   # @return [String, nil]
   def video_player(video)
+    if video.low_quality_playlist_url
+      playlist_url = playlist_video_path(video.id, format: 'm3u8')
+    end
+
     content_tag(:div, nil,
                 id: "Upload__#{video.id}",
                 class: 'VideoPlayer',
                 data: { file:     video.rtmp_path,
+                        hdfile:   video.hd_rtmp_path,
+                        playlist: playlist_url,
                         original: video.original_url,
                         image:    video.preview_url,
-                        primary: 'html5' }) if video
+                        primary: 'flash' }) if video
   end
 
   # @param audio [Audio]

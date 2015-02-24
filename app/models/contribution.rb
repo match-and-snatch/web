@@ -4,6 +4,7 @@ class Contribution < ActiveRecord::Base
   belongs_to :parent, class_name: 'Contribution'
 
   has_many :children, class_name: 'Contribution', foreign_key: 'parent_id'
+  has_one :message, inverse_of: :contribution
 
   validates :amount, presence: true
 

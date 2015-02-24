@@ -1,6 +1,6 @@
 .post.box data-identifier='post-#{post.id}' style='#{"opacity: 0.5" if post.hidden?}'
   - if can?(:delete, post)
-    i.fa.fa-gear.edit_post.pull-right.Toggler.hidden-xs data-target='edit-post-#{post.id}'
+    i.fa.fa-gear.edit_post.pull-right.Toggler data-target='edit-post-#{post.id}'
       .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
         ul
           a.AjaxLink.delete_btn href=edit_post_path(post.id)
@@ -13,12 +13,12 @@
                 |&nbsp; Close
 
   - if post.title
-    .post_title= post.title
+    .post_title.Emoji= post.title
   .date Posted #{time_ago_in_words(post.created_at)} ago
 
   = render 'post_uploads', post: post
 
-  .message= super_highlight(format_post_message(post.message))
+  .message.Emoji= super_highlight(format_post_message(post.message))
   .action_bar= render 'like', post: post
 
   .comment_container

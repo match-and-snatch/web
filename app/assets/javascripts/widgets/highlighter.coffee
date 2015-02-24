@@ -5,8 +5,9 @@ class bud.widgets.Highlighter extends bud.Widget
     @$textarea   = bud.get(@$container.data('target'))
     @$users_list = bud.get(@$container.data('target_list'))
 
-    @$textarea.on 'keydown', @on_keydown
-    @$textarea.on 'keyup', @on_keyup
+    unless bud.is_mobile.Android()
+      @$textarea.on 'keydown', @on_keydown
+      @$textarea.on 'keyup', @on_keyup
 
     @mentions = []
     @mentions_data = {}
@@ -74,6 +75,7 @@ class bud.widgets.Highlighter extends bud.Widget
 
   on_keydown: =>
     @update()
+    true
 
   update_autocomplete: ->
     return unless @mentions_enabled

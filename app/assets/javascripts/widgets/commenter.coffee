@@ -11,7 +11,10 @@ class bud.widgets.Commenter extends bud.widgets.Form
     @$highlighter = bud.get(@$container.data('highlighter'))
     @$textarea    = @$container.find('textarea')
 
-    @$textarea.on 'keydown', @on_keyup
+    if bud.is_mobile.Android()
+      @$textarea.on 'input change', _.debounce(@on_android_keyup, 0)
+    else
+      @$textarea.on 'keydown', @on_keyup
 
   on_submit: =>
     return false if _.isEmpty(@$textarea.val())
@@ -21,6 +24,12 @@ class bud.widgets.Commenter extends bud.widgets.Form
     super
     if @highlighter()
       @highlighter().cleanup()
+
+  on_android_keyup: =>
+    if @$textarea.val().indexOf("\n") != -1
+      @$container.submit()
+      return false
+    return true
 
   on_keyup: (e) =>
     if e.which == 13 && !e.shiftKey

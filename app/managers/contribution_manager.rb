@@ -14,10 +14,13 @@ class ContributionManager < BaseManager
   def create(target_user: , amount: nil, recurring: false, message: nil)
     amount = amount.to_i
     fail_with! amount: :zero if amount < 1
-    @contribution = create_contribution(target_user: target_user, amount: amount, recurring: recurring)
-
+    @contribution = create_contribution(target_user: target_user,
+                                        amount: amount,
+                                        recurring: recurring)
     if message.present?
-      MessagesManager.new(user: @user).create(target_user: target_user, message: message)
+      MessagesManager.new(user: @user).create(target_user: target_user,
+                                              message: message,
+                                              contribution: @contribution)
     end
 
     @contribution
@@ -26,7 +29,10 @@ class ContributionManager < BaseManager
   # Creates child from recurring contribution
   def create_child
     raise ArgumentError, 'Requires recurring contribution' unless @contribution.try(:recurring?)
-    create_contribution(target_user: @contribution.target_user, amount: @contribution.amount, recurring: false, parent: @contribution).tap do
+    create_contribution(target_user: @contribution.target_user,
+                        amount: @contribution.amount,
+                        recurring: false,
+                        parent: @contribution).tap do
       @contribution.touch
     end
   end

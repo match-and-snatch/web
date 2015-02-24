@@ -3,7 +3,8 @@ class ContributionsController < ApplicationController
 
   before_filter :authenticate!, except: [:new, :create]
   before_filter :load_contribution!, only: [:cancel, :destroy]
-  before_filter :load_target_user!, except: [:index]
+  before_filter :load_target_user, only: [:new]
+  before_filter :load_target_user!, except: [:index, :new]
 
   protect(:create) { can? :make, Contribution.new(target_user: @target_user) }
   protect(:destroy) { can? :delete, @contribution }
@@ -40,8 +41,12 @@ class ContributionsController < ApplicationController
 
   private
 
+  def load_target_user
+    @target_user = User.find_by_id(params[:target_user_id]) if params[:target_user_id]
+  end
+
   def load_target_user!
-    @target_user = User.find_by_id(params[:target_user_id]) or error(400)
+    load_target_user or error(400)
   end
 
   def load_contribution!

@@ -47,3 +47,16 @@ window.bud.get = (identifier) ->
     return elem
   else
     return null
+
+bud.is_mobile =
+  Android: ->
+    /Android/i.test navigator.userAgent
+  BlackBerry: ->
+    /BlackBerry/i.test navigator.userAgent
+  iOS: ->
+    /iPhone|iPad|iPod/i.test navigator.userAgent
+  Windows: ->
+    /IEMobile/i.test navigator.userAgent
+  any: ->
+    isMobile.Android() or isMobile.BlackBerry() or isMobile.iOS() or isMobile.Windows()
+

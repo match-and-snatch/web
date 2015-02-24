@@ -67,13 +67,23 @@ class CurrentUserDecorator < UserDecorator
     end
   end
 
+
   # @return [Array]
-  def latest_subscriptions
+  def recent_subscriptions_options
+    recent_subscriptions.map { |s| [s.target_user.name, s.target_user_id] }
+  end
+
+  # @return [ActiveRecord::Relation]
+  def recent_subscriptions
     object.subscriptions.
       includes(:target_user).
       order('created_at DESC').
-      where(["subscriptions.removed = 'f' OR (subscriptions.removed = 't' AND subscriptions.charged_at > ?)", 1.month.ago]).
-      limit(10).map do |subscription|
+      where(["subscriptions.removed = 'f' OR (subscriptions.removed = 't' AND subscriptions.charged_at > ?)", 1.month.ago])
+  end
+
+  # @return [Array]
+  def latest_subscriptions
+    recent_subscriptions.limit(10).map do |subscription|
       [subscription, ProfileDecorator.new(subscription.target_user)]
     end
   end

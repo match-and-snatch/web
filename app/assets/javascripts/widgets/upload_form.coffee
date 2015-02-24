@@ -35,7 +35,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       fields: "input[name=slug]"
       modal: false
       onProgress: (bytesReceived, bytesExpected, assembly) =>
-        @change_progress (bytesReceived / bytesExpected * 100).toFixed(2)
+        @change_progress if bytesExpected == 0 then 0 else (bytesReceived / bytesExpected * 100).toFixed(2)
       onUpload: (upload, assembly) =>
         #@$target.prepend("<div>#{upload.name} is uploaded.</div>")
       onSuccess: (assembly) =>

@@ -36,7 +36,6 @@
         - if @user.has_profile_page?
           a.hidden.AjaxFormLink data-_method='put' href=delete_profile_page_account_info_path
             li Delete Profile Page
-        - if @user.complete_profile?
           a.HashLink data-use_anchor='true' data-target='account-info' href=details_account_info_path
             li Profile Details
           a.HashLink data-use_anchor='true' data-target='account-info' href=edit_payment_information_account_info_path
@@ -51,7 +50,8 @@
     .clearfix
 
 .hidden-md.hidden-sm.col-xs-12
-  = render 'navigation_mobile'
+  .mobile_nav.HidesOnMobileInput.col-xs-12.hidden-md.hidden-sm
+    = render 'navigation_mobile'
 
 div.hidden-xs style='position: fixed; bottom: 0; width: 100%'
   = render 'footer'

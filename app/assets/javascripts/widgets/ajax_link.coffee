@@ -14,7 +14,8 @@ class bud.widgets.AjaxLink extends bud.Widget
     @location_changed()
     bud.sub('window.hashchange', @location_changed) if @use_anchor
 
-    @$container.click @link_clicked
+    @$container.on 'click', @link_clicked
+    @$container.on 'touchstart', @link_clicked
 
   destroy: ->
     bud.unsub('window.hashchange', @location_changed)
@@ -31,7 +32,7 @@ class bud.widgets.AjaxLink extends bud.Widget
       else
         @$container.removeClass('active pending')
 
-  link_clicked: =>
+  link_clicked: (e) =>
     if "##{@hash}" != window.location.hash
       $(bud.widgets.AjaxLink.SELECTOR).removeClass('active pending')
 
@@ -44,7 +45,8 @@ class bud.widgets.AjaxLink extends bud.Widget
     else
       @render_path(@href)
 
-    return false
+    return false if @$container.is('a')
+    return true
 
   make_active: ->
     @$container.removeClass('pending')

@@ -2,6 +2,7 @@ BuddyPlatform::Application.routes.draw do
   root 'welcome#show'
   get '/sample' => 'users#sample'
   get '/feed/itunes' => 'rss_feeds#index', defaults: {format: :atom, itunes: true}, as: :itunes_feed
+  get '/crossdomain' => 'pages#crossdomain', default: {format: :xml}
 
   resource :account_info, only: [] do
     member do
@@ -112,7 +113,11 @@ BuddyPlatform::Application.routes.draw do
       post :reorder
     end
   end
-  resources :videos, only: [:create, :destroy]
+  resources :videos, only: [:create, :destroy] do
+    member do
+      get :playlist
+    end
+  end
   resources :photos, only: [:show, :create, :destroy]
   resources :documents, only: [:create, :destroy]
 

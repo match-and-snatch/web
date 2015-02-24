@@ -18,3 +18,10 @@
 $(document).ready ->
   bud.Core.initialize()
 
+$(document).on 'focus', 'input, textarea', ->
+  if (navigator.userAgent.match(/Mobi/))
+    $('.HidesOnMobileInput').css('position', 'absolute')
+
+$(document).on 'focusout', 'input, textarea', ->
+  if (navigator.userAgent.match(/Mobi/))
+    $('.HidesOnMobileInput').css('position', 'fixed')
