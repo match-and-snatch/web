@@ -54,7 +54,9 @@ class bud.widgets.Popup extends bud.Widget
     bud.pub("popup.show", [@]);
 
     # Show this popup
+    @$container.css('position', 'absolute')
     @$container.show()
+    window.scrollTo(0, 2)
     @autoplace()
 
     # Show overlay
@@ -63,6 +65,7 @@ class bud.widgets.Popup extends bud.Widget
     @autoplacer = setInterval(@autoplace, 200)
 
   hide: =>
+    @$container.css('position', 'fixed')
     @$container.hide()
     bud.pub("popup.hide")
     clearInterval(@autoplacer) if @autoplacer
