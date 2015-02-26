@@ -43,8 +43,9 @@ class bud.widgets.Popup extends bud.Widget
     if Math.abs(@current_popup_height - popup_height) > 1
       @current_popup_height = popup_height
 
-      top_margin = (if popup_height > window_height then window_height else popup_height) / 2
-      @$container.css('margin-top', "-#{top_margin}px")
+      unless bud.is_mobile.any()
+        top_margin = (if popup_height > window_height then window_height else popup_height) / 2
+        @$container.css('margin-top', "-#{top_margin}px")
 
   show: =>
     @current_popup_height = 0
@@ -54,9 +55,8 @@ class bud.widgets.Popup extends bud.Widget
     bud.pub("popup.show", [@]);
 
     # Show this popup
-    @$container.css('position', 'absolute')
+    @$container.css('position', 'absolute').css('top', window.scrollY + 2) if bud.is_mobile.any()
     @$container.show()
-    window.scrollTo(0, 2)
     @autoplace()
 
     # Show overlay
