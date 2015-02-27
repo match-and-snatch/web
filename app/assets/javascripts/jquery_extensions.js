@@ -62,14 +62,20 @@ $.fn.selectRange = function(start, end) {
         };
 
         var options = $.extend({}, defaults, options);
-
-        return (is_safari && !options.safari)?s:s.replace(regx, function (a, b){
+        return (is_safari && !options.safari) ? s : s.replace(regx, function (a, b){
             return '<span class="emj" style="background:url('+options.svg_path+emoji[b]+'.svg);"></span>';
         });
     }
     $.fn.minEmojiSVG = function(options){
         return this.each(function() {
-            $(this).html(ei($(this).html(),options))
+            var t = $(this);
+
+            if (t.html().match(regx)) {
+                bud.Core.destroy_widgets(t);
+
+                var updated_html = ei(t.html(), options);
+                if (updated_html) { bud.replace_html(t, updated_html); }
+            }
         });
     };
 })(jQuery);
