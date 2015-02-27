@@ -26,7 +26,7 @@ class bud.widgets.Overlay extends bud.Widget
     @hide()
 
   show: =>
-    $('body').css('overflow', 'hidden')
+    $('body').css('overflow', 'hidden') unless bud.is_mobile.any()
     @$container.show()
 
   hide: =>
