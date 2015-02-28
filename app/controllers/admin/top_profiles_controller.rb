@@ -2,6 +2,7 @@ class Admin::TopProfilesController < Admin::BaseController
   before_filter :load_users, except: :search
 
   def index
+    json_render
   end
 
   def search
@@ -10,18 +11,23 @@ class Admin::TopProfilesController < Admin::BaseController
   end
 
   def create
-    TopProfile.create!(params[:user_id])
+    TopProfile.create!(user_id: params[:user_id])
     json_replace template: 'index'
   end
 
   def update_list
-    TopProfile.update_list(params[:user_ids])
-    json_replace template: 'index'
+    TopProfile.update_list(params[:ids])
+    json_success
   end
 
   def destroy
     TopProfile.find(params[:id]).destroy!
-    json_replace template: 'index'
+
+    if params[:template]
+      json_replace partial: params[:template], locals: {users: @users}
+    else
+      json_replace template: 'index'
+    end
   end
 
   private

@@ -1,9 +1,10 @@
-div data-identifier='top-profiles-list'
+div data-identifier='top-profiles-page'
   h1 Top Profiles
-  ul.Sorter data-url=update_list_admin_top_profiles_path
-    - @users.each do |user|
-      li data-oid
-        i.fa.fa-arrows-v.icon.pull-left.dragger
-        i.fa.fa-music.icon.pull-left
-        .file_name.pull-left= user.name
-        a.delete_button.fa.fa-times.AjaxFormLink href=admin_top_profile_path(user.top_profile) data-_method='DELETE' data-target='top-profiles-list'
+
+  form.Form action=search_admin_top_profiles_path method='get' data-target='search-users-list'
+    input.Autocomplete.form-control type="text" name='q' placeholder="Search profiles"
+
+  div data-identifier='search-users-list'
+
+  br
+  = render 'profiles_list', users: @users

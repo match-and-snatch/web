@@ -1,0 +1,12 @@
+div data-identifier='top-profiles-list'
+  - if users.any?
+    h2 Profile owners:
+    ul.Sorter data-url=update_list_admin_top_profiles_path
+      - users.each do |user|
+        li data-oid=user.id
+          i.fa.fa-arrows-v.icon.pull-left.dragger
+          i.fa.fa-music.icon.pull-left
+          .file_name.pull-left= user.name
+          a.delete_button.fa.fa-times.AjaxFormLink href=admin_top_profile_path(user.top_profile) data-_method='DELETE' data-target='top-profiles-list' data-template='profiles_list'
+  - else
+    h2 No profiles in the list

@@ -181,7 +181,7 @@ BuddyPlatform::Application.routes.draw do
     resources :top_profiles, only: [:index, :create, :destroy] do
       collection do
         get :search
-        put :update_list
+        post :update_list
       end
     end
     resources :contributions, only: :index
