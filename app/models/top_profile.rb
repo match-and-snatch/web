@@ -1,6 +1,6 @@
 class TopProfile < ActiveRecord::Base
   belongs_to :user
-  scope :ordered, -> { order(:position) }
+  scope :ordered, -> { order(:position, :created_at) }
 
   # Rebuilds list of top user profiles
   # @param user_ids [Array<Ingeter, String>]

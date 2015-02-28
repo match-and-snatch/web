@@ -819,7 +819,9 @@ ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
 CREATE TABLE top_profiles (
     id integer NOT NULL,
     user_id integer,
-    "position" integer DEFAULT 0 NOT NULL
+    "position" integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -1576,6 +1578,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150216190226');
 INSERT INTO schema_migrations (version) VALUES ('20150217120737');
 
 INSERT INTO schema_migrations (version) VALUES ('20150228065448');
+
+INSERT INTO schema_migrations (version) VALUES ('20150228082413');
 
 INSERT INTO schema_migrations (version) VALUES ('20150301060034');
 
