@@ -17,6 +17,7 @@ class bud.Widget
     return unless widget
 
     window.bud.Widget.instances = _.without(window.bud.Widget.instances, widget)
+    $widget_container.removeClass('js-widget')
     widget.destroy()
     delete $widget_container.data('js-widget')
     $widget_container.data('js-widget', null)
