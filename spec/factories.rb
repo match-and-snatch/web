@@ -12,6 +12,10 @@ def create_user(_params = {})
   AuthenticationManager.new(params.slice(:is_profile_owner, :email,
                                          :password, :password_confirmation,
                                          :first_name, :last_name)).register.tap do |user|
+    if params[:api_token]
+      user.api_token = params[:api_token]
+    end
+
     if params[:profile_picture_url]
       user.profile_picture_url = params[:profile_picture_url]
     end

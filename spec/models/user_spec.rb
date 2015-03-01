@@ -21,6 +21,38 @@ describe User do
     end
   end
 
+  describe '#generate_api_token!' do
+    subject(:user) { create_user }
+
+    it do
+      expect { user.generate_api_token! }.to change { user.reload.api_token }.from(nil)
+    end
+
+    context 'already generated' do
+      before { user.generate_api_token! }
+
+      it do
+        expect { user.generate_api_token! }.not_to change { user.reload.api_token }
+      end
+    end
+  end
+
+  describe '#regenerate_api_token!' do
+    subject(:user) { create_user }
+
+    it do
+      expect { user.regenerate_api_token! }.to change { user.reload.api_token }.from(nil)
+    end
+
+    context 'already generated' do
+      before { user.generate_api_token! }
+
+      it do
+        expect { user.regenerate_api_token! }.to change { user.reload.api_token }
+      end
+    end
+  end
+
   describe '#complete_profile?' do
     subject { described_class.new(is_profile_owner: true, profile_name: profile_name, slug: slug, cost: cost, holder_name: holder_name, routing_number: routing_number, account_number: account_number).complete_profile? }
 

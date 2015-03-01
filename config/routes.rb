@@ -4,6 +4,11 @@ BuddyPlatform::Application.routes.draw do
   get '/feed/itunes' => 'rss_feeds#index', defaults: {format: :atom, itunes: true}, as: :itunes_feed
   get '/crossdomain' => 'pages#crossdomain', default: {format: :xml}
 
+  namespace :api, defaults: {format: :json} do
+    resources :sessions, only: [:create]
+    resources :users, only: [:show]
+  end
+
   resource :account_info, only: [] do
     member do
       put :update_payment_information

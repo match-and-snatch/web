@@ -73,6 +73,16 @@ class User < ActiveRecord::Base
     self.password_hash = generate_password_hash(new_password)
   end
 
+  def generate_api_token!
+    return if api_token.present?
+    regenerate_api_token!
+  end
+
+  def regenerate_api_token!
+    self.api_token = SecureRandom.uuid.gsub(/\-/,'')
+    save!
+  end
+
   # @param some_password [String]
   # @return [String]
   def generate_password_hash(some_password)

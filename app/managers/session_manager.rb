@@ -1,7 +1,7 @@
 class SessionManager < BaseManager
 
   # @param session [Hash]
-  def initialize(session)
+  def initialize(session = {})
     @session = session
   end
 
@@ -9,13 +9,13 @@ class SessionManager < BaseManager
   # @param password [String]
   # @param remember_me [true, false, nil]
   # @return [User, nil]
-  def login(email, password, remember_me = false)
+  def login(email, password, remember_me: false, use_api_token: false)
     validate! do
       email.present? or fail_with(email: :empty)
       password.present? or fail_with(password: :empty)
     end
 
-    AuthenticationManager.new(email: email, password: password).authenticate.tap do |user|
+    AuthenticationManager.new(email: email, password: password).authenticate(generate_api_token: use_api_token).tap do |user|
       if remember_me
         @session.permanent[:auth_token] = user.auth_token
       else

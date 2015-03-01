@@ -35,7 +35,7 @@ class AuthenticationManager < BaseManager
   end
 
   # @return [User]
-  def authenticate
+  def authenticate(generate_api_token: false)
     _user = nil
 
     User.by_email(email).find_each do |user|
@@ -48,7 +48,10 @@ class AuthenticationManager < BaseManager
       end
     end
 
-    _user or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)}) #or raise AuthenticationError.new(message: t(:invalid_login))
+    _user or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
+
+    _user.generate_api_token! if generate_api_token
+
     EventsManager.user_logged_in(user: _user)
     _user
   end

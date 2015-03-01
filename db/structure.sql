@@ -797,6 +797,38 @@ ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
 
 
 --
+-- Name: top_profiles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE top_profiles (
+    id integer NOT NULL,
+    user_id integer,
+    "position" integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: top_profiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE top_profiles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: top_profiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE top_profiles_id_seq OWNED BY top_profiles.id;
+
+
+--
 -- Name: uploads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -910,7 +942,8 @@ CREATE TABLE users (
     billing_address_line_1 text,
     billing_address_line_2 text,
     contributions_enabled boolean DEFAULT true NOT NULL,
-    notifications_debug_enabled boolean DEFAULT true
+    notifications_debug_enabled boolean DEFAULT true,
+    api_token character varying(255)
 );
 
 
@@ -1071,6 +1104,13 @@ ALTER TABLE ONLY subscription_daily_count_change_events ALTER COLUMN id SET DEFA
 --
 
 ALTER TABLE ONLY subscriptions ALTER COLUMN id SET DEFAULT nextval('subscriptions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY top_profiles ALTER COLUMN id SET DEFAULT nextval('top_profiles_id_seq'::regclass);
 
 
 --
@@ -1245,6 +1285,14 @@ ALTER TABLE ONLY subscription_daily_count_change_events
 
 ALTER TABLE ONLY subscriptions
     ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: top_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY top_profiles
+    ADD CONSTRAINT top_profiles_pkey PRIMARY KEY (id);
 
 
 --
@@ -1512,4 +1560,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150216164150');
 INSERT INTO schema_migrations (version) VALUES ('20150216190226');
 
 INSERT INTO schema_migrations (version) VALUES ('20150217120737');
+
+INSERT INTO schema_migrations (version) VALUES ('20150228065448');
+
+INSERT INTO schema_migrations (version) VALUES ('20150228082413');
+
+INSERT INTO schema_migrations (version) VALUES ('20150301060034');
 
