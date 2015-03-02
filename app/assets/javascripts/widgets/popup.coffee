@@ -61,7 +61,13 @@ class bud.widgets.Popup extends bud.Widget
 
     # Show overlay
     bud.pub("popup.show.overlay");
+
+    YPosition = window.pageYOffset
     @$container.find('input:first').focus()
+    setTimeout ->
+      window.scrollTo(0, YPosition)
+    , 500
+
     @autoplacer = setInterval(@autoplace, 200)
 
   hide: =>

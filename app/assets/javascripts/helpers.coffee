@@ -58,5 +58,5 @@ bud.is_mobile =
   Windows: ->
     /IEMobile/i.test navigator.userAgent
   any: ->
-    this.Android() or this.BlackBerry() or this.iOS() or this.Windows()
+    @Android() or @BlackBerry() or @iOS() or @Windows()
 
