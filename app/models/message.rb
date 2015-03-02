@@ -5,4 +5,6 @@ class Message < ActiveRecord::Base
   belongs_to :contribution, inverse_of: :message
 
   validate :message, presence: true
+
+  scope :recent, -> { order(created_at: :desc).limit(30).reverse }
 end
