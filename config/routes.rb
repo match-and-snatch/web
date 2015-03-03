@@ -207,6 +207,7 @@ BuddyPlatform::Application.routes.draw do
     end
     resources :profile_types, only: [:index, :create, :destroy]
     resources :charts, only: [:index, :show]
+    resources :payout_breakdown, only: [:index]
     resources :cost_change_requests, only: :index do
       member do
         get :confirm_reject
