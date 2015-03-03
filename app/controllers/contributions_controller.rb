@@ -4,7 +4,7 @@ class ContributionsController < ApplicationController
   before_filter :authenticate!, except: [:new, :create]
   before_filter :load_contribution!, only: [:cancel, :destroy]
   before_filter :load_target_user, only: [:new]
-  before_filter :load_target_user!, except: [:index, :new]
+  before_filter :load_target_user!, except: [:index, :new, :cancel, :destroy]
 
   protect(:create) { can? :make, Contribution.new(target_user: @target_user) }
   protect(:destroy) { can? :delete, @contribution }
