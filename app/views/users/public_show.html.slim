@@ -23,7 +23,7 @@
         /Profile Type
         span.profile_type= @profile.types
 
-      - if (!@profile.has_welcome_media? && mobile_phone_device?) || !mobile_phone_device?
+      - unless mobile_phone_device?
         .col-md-5.col-sm-5.col-xs-12
           .subscribe_cont
             a.cost_visitor
@@ -96,7 +96,7 @@
 
   - else
     - if mobile_phone_device?
-      .row
+      #visitor.width_audio.row
         .col-xs-12.cost_visitor
           span.btn.pink.fa.fa-usd.fa-2x
           .amount
