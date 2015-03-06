@@ -151,3 +151,13 @@ hr
             td= subscription.created_at < 1.months.ago ? 'Recurring' : 'New'
             td= subscription.removed_at.try(:to_date).try(:to_s, :long) || 'N/A'
 
+.row
+  .col-md-12
+    h2
+      strong Custom profile CSS
+    form.Form action=admin_profile_owner_path(@user.id) method='POST'
+      input type='hidden' name='_method' value='PUT'
+      textarea style='border: 1px solid black; width: 600px; height: 200px' name='user[custom_profile_page_css]'
+        = @user.object.custom_profile_page_css
+      br
+      input.btn.pink type='submit' value='Set Custom CSS'
