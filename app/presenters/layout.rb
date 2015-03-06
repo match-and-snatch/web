@@ -23,4 +23,12 @@ class Layout < Hash
   def js_data
     self[:js_data] ||= { error_messages: I18n.t('errors').except(:messages) }
   end
+
+  def custom_css
+    self[:custom_css]
+  end
+
+  def custom_css=(val)
+    self[:custom_css] = val.presence
+  end
 end

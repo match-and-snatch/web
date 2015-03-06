@@ -21,6 +21,12 @@ class Admin::ProfileOwnersController < Admin::BaseController
     json_render
   end
 
+  def update
+    @user = User.where(id: params[:id]).first or error(404)
+    @user.update_attributes!(params.require(:user).permit(:custom_profile_page_css))
+    json_success notice: 'CSS Updated Successfully'
+  end
+
   def total_subscribed
     date = Date.parse(params[:date])
     period = date.beginning_of_month..date

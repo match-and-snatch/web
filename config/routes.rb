@@ -175,7 +175,7 @@ BuddyPlatform::Application.routes.draw do
     end
     resources :uploads, only: :index
     resources :recent_profiles, only: :index
-    resources :profile_owners, only: [:index, :show] do
+    resources :profile_owners, only: [:index, :show, :update] do
       resources :transfers, only: [:index, :create]
       member do
         get :total_subscribed

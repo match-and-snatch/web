@@ -49,6 +49,7 @@ class UsersController < ApplicationController
     @profile = ProfileDecorator.new(user)
 
     layout.title = "#{@profile.name} - ConnectPal.com"
+    layout.custom_css = @profile.custom_profile_page_css
 
     if current_user.can?(:manage, user)
       @profile_types = ProfileType.where(user_id: nil).order(:title).pluck(:title)

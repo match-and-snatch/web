@@ -910,7 +910,8 @@ CREATE TABLE users (
     billing_address_line_1 text,
     billing_address_line_2 text,
     contributions_enabled boolean DEFAULT true NOT NULL,
-    notifications_debug_enabled boolean DEFAULT true
+    notifications_debug_enabled boolean DEFAULT true,
+    custom_profile_page_css text
 );
 
 
@@ -1512,4 +1513,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150216164150');
 INSERT INTO schema_migrations (version) VALUES ('20150216190226');
 
 INSERT INTO schema_migrations (version) VALUES ('20150217120737');
+
+INSERT INTO schema_migrations (version) VALUES ('20150306183346');
 
