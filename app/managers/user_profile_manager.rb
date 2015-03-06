@@ -568,11 +568,15 @@ class UserProfileManager < BaseManager
 
     save_or_die!(user).tap do
       # Charge users who have been subscribed for more than 1 month
-      user.source_subscriptions.not_removed.where(rejected: false).been_charged.where(["subscriptions.created_at <= ?", vacation_enabled_at - 1.month]).
-        update_all(["charged_at = charged_at + interval '? days'", (Time.zone.now.to_date - vacation_enabled_at.to_date).to_i])
+      affected_users_count = user.source_subscriptions
+                                 .not_removed
+                                 .where(rejected: false)
+                                 .been_charged
+                                 .where(["subscriptions.created_at <= ?", vacation_enabled_at - 1.month])
+                                 .update_all(["charged_at = charged_at + interval '? days'", (Time.zone.now.to_date - vacation_enabled_at.to_date).to_i])
 
       NotificationManager.delay.notify_vacation_disabled(user)
-      EventsManager.vacation_mode_disabled(user: user)
+      EventsManager.vacation_mode_disabled(user: user, affected_users_count: affected_users_count)
     end
   end
 

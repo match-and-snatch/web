@@ -63,6 +63,7 @@ hr
         span style="color: #ea2e49;"= cents_to_dollars @user.total_paid_out
     .clearfix
 
+.AjaxContainer data-identifier='vacations' data-url=admin_profile_owner_vacations_path(@user.id)
 .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
 
 .row
