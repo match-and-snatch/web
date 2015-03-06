@@ -10,24 +10,37 @@ class UserStatsManager < BaseManager
   # Denormalizes into users table, saves stats in events
   # @return [SubscriptionDailyCountChangeEvent]
   def log_subscriptions_count
-    count = user.source_subscriptions.not_removed.where(rejected: false).count
-    user.subscribers_count = count
+    subscriptions_count   = user.source_subscriptions.not_removed.where(rejected: false).count
+    unsubscribers_count   = (user.source_subscriptions.where(removed_at: current_month, removed: true) | user.source_subscriptions.where(rejected_at: current_month, rejected: true)).count
+    failed_payments_count = user.source_subscriptions
+                                .joins(:user)
+                                .where(users: { billing_failed: true, billing_failed_at: current_month }).count
+
+    user.subscribers_count = subscriptions_count
     save_or_die! user
 
     stat_entry = SubscriptionDailyCountChangeEvent.where(created_on: current_date, user_id: user.id).first
 
     if stat_entry
-      stat_entry.subscriptions_count = count
+      stat_entry.subscriptions_count   = subscriptions_count
+      stat_entry.unsubscribers_count   = unsubscribers_count
+      stat_entry.failed_payments_count = failed_payments_count
+
       save_or_die! stat_entry
-      stat_entry
     else
       SubscriptionDailyCountChangeEvent.create! created_on: current_date,
                                                 user: user,
-                                                subscriptions_count: count
+                                                subscriptions_count: subscriptions_count,
+                                                unsubscribers_count: unsubscribers_count,
+                                                failed_payments_count: failed_payments_count
     end
   end
 
   private
+
+  def current_month
+    Time.zone.now.beginning_of_month..Time.zone.now
+  end
 
   def current_date
     Time.zone.now.to_date

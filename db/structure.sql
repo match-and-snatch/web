@@ -38,6 +38,20 @@ COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance betwe
 
 
 --
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
+--
 -- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -730,7 +744,9 @@ CREATE TABLE subscription_daily_count_change_events (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     created_on date,
-    user_id integer
+    user_id integer,
+    unsubscribers_count integer DEFAULT 0,
+    failed_payments_count integer DEFAULT 0
 );
 
 
@@ -881,8 +897,8 @@ CREATE TABLE users (
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees integer,
     cost integer,
-    has_public_profile boolean DEFAULT false,
     password_reset_token character varying(255),
+    has_public_profile boolean DEFAULT false,
     company_name character varying(255),
     small_profile_picture_url text,
     account_picture_url text,
@@ -1515,6 +1531,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150216190226');
 INSERT INTO schema_migrations (version) VALUES ('20150217120737');
 
 INSERT INTO schema_migrations (version) VALUES ('20150301060034');
+
+INSERT INTO schema_migrations (version) VALUES ('20150305053822');
 
 INSERT INTO schema_migrations (version) VALUES ('20150306183346');
 
