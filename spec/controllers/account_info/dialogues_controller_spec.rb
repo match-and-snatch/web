@@ -41,6 +41,7 @@ describe AccountInfo::DialoguesController, type: :controller do
       before { sign_in user }
 
       context 'dialogue exists' do
+        its(:status) { should eq(200) }
         it { should be_success }
 
         context 'sender reads recently sent message' do
