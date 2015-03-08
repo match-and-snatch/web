@@ -11,8 +11,13 @@ module Concerns::PublicProfileHandler
     case error.code
     when 401
       load_public_user!
-      template = current_user.authorized? ? '/subscriptions/new' : '/subscriptions/new_unauthorized'
-      json_popup popup: render_to_string(template: template, layout: false)
+
+      if @target_user.try(:has_public_profile?)
+        template = current_user.authorized? ? '/subscriptions/new' : '/subscriptions/new_unauthorized'
+        json_popup popup: render_to_string(template: template, layout: false)
+      else
+        super
+      end
     else
       super
     end
