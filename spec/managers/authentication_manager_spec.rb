@@ -6,12 +6,14 @@ describe AuthenticationManager do
   let(:password_confirmation) { 'qwerty' }
   let(:first_name) { 'sergei' }
   let(:last_name) { 'zinin' }
+  let(:api_token) { 'invalid' }
 
   subject(:manager) { described_class.new(email: email,
                                           password: password,
                                           password_confirmation: password_confirmation,
                                           first_name: first_name,
-                                          last_name: last_name) }
+                                          last_name: last_name,
+                                          api_token: api_token) }
 
   describe '#register' do
     subject(:register) { manager.register }
@@ -90,6 +92,27 @@ describe AuthenticationManager do
       specify do
         expect { described_class.new(email: email, password: 'wrong_password').authenticate rescue nil }.not_to create_event(:logged_in)
       end
+    end
+  end
+
+  describe '#authenticate_api' do
+    subject(:authenticate) { manager.authenticate_api }
+
+    context 'token is not provided' do
+      let(:api_token) { nil }
+      specify { expect { authenticate }.to raise_error(AuthenticationError) }
+    end
+
+    context 'invalid token provided' do
+      let(:api_token) { 'invalid' }
+      specify { expect { authenticate }.to raise_error(AuthenticationError) }
+    end
+
+    context 'valid token' do
+      let(:user) { create_user api_token: 'test' }
+      let(:api_token) { user.api_token }
+
+      specify { expect(authenticate).to eq(user) }
     end
   end
 end

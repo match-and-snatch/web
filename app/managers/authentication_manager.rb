@@ -15,7 +15,8 @@ class AuthenticationManager < BaseManager
                  password_confirmation: nil,
                  full_name: nil,
                  first_name: nil,
-                 last_name: nil)
+                 last_name: nil,
+                 api_token: nil)
     @is_profile_owner      = is_profile_owner
     @email                 = email.to_s
     @password              = password
@@ -23,6 +24,7 @@ class AuthenticationManager < BaseManager
     @first_name            = first_name.strip.humanize if first_name
     @last_name             = last_name.strip.humanize if last_name
     @full_name             = full_name || "#@first_name #@last_name"
+    @api_token             = api_token
   end
 
   # @param token [String]
@@ -43,6 +45,12 @@ class AuthenticationManager < BaseManager
     EventsManager.user_logged_in(user: user)
 
     user
+  end
+
+  # @return [User]
+  def authenticate_api
+    @api_token or raise AuthenticationError.new(errors: {api_token: 'required'})
+    User.where(api_token: @api_token).first or raise AuthenticationError.new(errors: {api_token: 'invalid'})
   end
 
   # @return [User]

@@ -2,7 +2,7 @@ class SessionManager < BaseManager
 
   # @param session [Hash]
   def initialize(session = {})
-    @session = session
+    @session = session || {}
   end
 
   # @param email [String]
