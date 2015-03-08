@@ -1,9 +1,9 @@
 class LikesController < ApplicationController
   include Concerns::PublicProfileHandler
 
-  before_filter :load_likable!
-  before_filter :load_public_user!
-  before_filter :authenticate!
+  before_action :load_likable!
+  before_action :load_public_user!
+  before_action :authenticate!
 
   protect { can? :like, @likable }
 

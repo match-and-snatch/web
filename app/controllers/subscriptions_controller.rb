@@ -1,8 +1,8 @@
 class SubscriptionsController < ApplicationController
-  before_filter :authenticate!, except: [:new, :via_register]
-  before_filter :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
-  before_filter :filter_card_params, only: [:via_register, :via_update_cc_data]
-  before_filter :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore, :retry_payment]
+  before_action :authenticate!, except: [:new, :via_register]
+  before_action :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
+  before_action :filter_card_params, only: [:via_register, :via_update_cc_data]
+  before_action :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore, :retry_payment]
 
   protect(:destroy) { can? :delete, @subscription }
 

@@ -1,5 +1,5 @@
 class Admin::ProfileOwnersController < Admin::BaseController
-  before_filter :load_user!, only: [:show, :total_subscribed, :total_new_subscribed,
+  before_action :load_user!, only: [:show, :total_subscribed, :total_new_subscribed,
                                     :total_unsubscribed, :failed_billing_subscriptions,
                                     :enable_billing, :disable_billing]
 

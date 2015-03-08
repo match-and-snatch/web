@@ -1,5 +1,5 @@
 class Admin::ProfilesController < Admin::BaseController
-  before_filter :load_user!, only: %i(make_public make_private show)
+  before_action :load_user!, only: %i(make_public make_private show)
 
   def index
     @users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text

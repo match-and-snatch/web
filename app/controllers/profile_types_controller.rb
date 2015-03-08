@@ -1,5 +1,5 @@
 class ProfileTypesController < ApplicationController
-  before_filter :authenticate!
+  before_action :authenticate!
 
   def index
     query = Queries::ProfileTypes.new(user: current_user.object, query: params[:q])

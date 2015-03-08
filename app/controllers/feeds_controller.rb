@@ -1,5 +1,5 @@
 class FeedsController < ApplicationController
-  before_filter :authenticate!
+  before_action :authenticate!
 
   # TODO: refactor
   def show

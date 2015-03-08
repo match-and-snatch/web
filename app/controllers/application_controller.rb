@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     http_basic_authenticate_with ___access_config.symbolize_keys
   end
 
-  before_filter do
+  before_action do
     if current_user.billing_failed? && referrer_host != request.host
       notice(:billing_failed)
     end

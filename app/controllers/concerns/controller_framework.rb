@@ -17,7 +17,7 @@ module Concerns::ControllerFramework
   module ClassMethods
     def protect(*actions, &block)
       filter_options = actions.any? ? [{only: actions}] : []
-      before_filter(*filter_options) { instance_eval(&block) or error(401) }
+      before_action(*filter_options) { instance_eval(&block) or error(401) }
     end
   end
 

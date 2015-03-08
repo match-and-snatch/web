@@ -1,5 +1,5 @@
 class AccountInfo::MessagesController < AccountInfo::BaseController
-  before_filter :load_target_user!
+  before_action :load_target_user!
 
   def create
     @message = MessagesManager.new(user: current_user.object).

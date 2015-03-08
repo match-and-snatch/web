@@ -1,5 +1,5 @@
 class Admin::ProfileTypesController < Admin::BaseController
-  before_filter :load_profile_type!, only: :destroy
+  before_action :load_profile_type!, only: :destroy
 
   def index
     @profile_types = ProfileType.limit(100).to_a

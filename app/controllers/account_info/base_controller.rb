@@ -1,3 +1,3 @@
 class AccountInfo::BaseController < ApplicationController
-  before_filter :authenticate!
+  before_action :authenticate!
 end

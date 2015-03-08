@@ -1,6 +1,6 @@
 class Owner::BaseController < ApplicationController
-  before_filter :authenticate!
-  before_filter :load_user
+  before_action :authenticate!
+  before_action :load_user
 
   protected
 

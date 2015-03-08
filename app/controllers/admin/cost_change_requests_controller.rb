@@ -1,5 +1,5 @@
 class Admin::CostChangeRequestsController < Admin::BaseController
-  before_filter :initialize_cost_change_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
+  before_action :initialize_cost_change_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
 
   def index
     @cost_change_requests = CostChangeRequest.pending.limit(100).to_a

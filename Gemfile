@@ -46,6 +46,7 @@ gem 'delayed_job_active_record'
 gem 'chronic'
 
 # Credit cards, billing, charges, payments
+gem 'stripe', '1.16.0'
 gem 'stripe-rails'
 
 # Amazon S3
@@ -66,7 +67,7 @@ group :test do
   gem 'guard-rspec', require: false
   gem 'guard-cucumber', require: false
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
-  gem 'stripe-ruby-mock', '~> 1.10.1.7'
+  gem 'stripe-ruby-mock', '1.10.1.7'
   gem 'timecop'
   gem 'cucumber-rails', require: false
   gem 'capybara-webkit'

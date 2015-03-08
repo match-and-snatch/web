@@ -1,5 +1,5 @@
 class PasswordsController < ApplicationController
-  before_filter :load_user!, only: [:edit, :update]
+  before_action :load_user!, only: [:edit, :update]
 
   def restore
     reset_session

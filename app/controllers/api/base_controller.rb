@@ -3,8 +3,8 @@ class Api::BaseController < ActionController::Base
 
   rescue_from(AuthenticationError) { |e| json_response 'failed', {message: e.message}, 401 }
 
-  skip_before_filter :verify_authenticity_token
-  before_filter :authenticate_by_api_token
+  skip_before_action :verify_authenticity_token
+  before_action :authenticate_by_api_token
 
   protected
 

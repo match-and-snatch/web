@@ -1,9 +1,9 @@
 class RepliesController < ApplicationController
   include Concerns::PublicProfileHandler
 
-  before_filter :authenticate!, except: [:create]
-  before_filter :load_comment!, only: [:create, :edit, :update]
-  before_filter :load_reply!, only: [:edit, :update, :make_visible, :hide]
+  before_action :authenticate!, except: [:create]
+  before_action :load_comment!, only: [:create, :edit, :update]
+  before_action :load_reply!, only: [:edit, :update, :make_visible, :hide]
 
   protect(:create) { can? :comment, @comment.post }
   protect(:edit, :update) { can? :delete, @reply }
