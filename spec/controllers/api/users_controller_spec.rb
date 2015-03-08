@@ -65,7 +65,7 @@ describe Api::UsersController, type: :controller do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(user.api_token)
       end
 
-      subject { post 'update_profile_picture', {id: user.slug}.merge(profile_picture_data_params) }
+      subject { post 'update_profile_picture', id: user.slug, transloadit: profile_picture_data_params }
 
       its(:status) { is_expected.to eq(200) }
       it { expect { subject }.to change { user.reload.profile_picture_url } }

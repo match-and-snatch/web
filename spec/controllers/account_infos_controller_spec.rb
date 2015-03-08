@@ -52,7 +52,7 @@ describe AccountInfosController, type: :controller do
   end
 
   describe 'PUT #update_account_picture' do
-    subject { put 'update_account_picture', profile_picture_data_params }
+    subject { put 'update_account_picture', transloadit: profile_picture_data_params.to_json }
 
     context 'not authorized' do
       its(:status) { should == 401 }
