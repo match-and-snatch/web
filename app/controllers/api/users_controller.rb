@@ -1,5 +1,7 @@
 class Api::UsersController < Api::BaseController
-  before_action :load_user!, only: [:show, :update_name, :update_profile_picture]
+  before_action :load_user!, only: %i[show update_profile_name update_profile_picture]
+
+  protect(:update_profile_name, :update_profile_picture) { current_user == @user }
 
   def search
     users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text
@@ -10,7 +12,7 @@ class Api::UsersController < Api::BaseController
     respond_with_user_data
   end
 
-  def update_name
+  def update_profile_name
     manager.update_profile_name(params[:name])
     respond_with_user_data
   end

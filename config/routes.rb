@@ -10,6 +10,11 @@ BuddyPlatform::Application.routes.draw do
       collection do
         get :search
       end
+
+      member do
+        post :update_profile_name
+        post :update_profile_picture
+      end
     end
   end
 
