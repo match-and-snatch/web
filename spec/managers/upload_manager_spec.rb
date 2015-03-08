@@ -12,13 +12,13 @@ describe UploadManager do
   end
 
   describe '#create_pending_documents' do
-    let(:documents) { subject.create_pending_documents(ActionController::ManagebleParameters.new(JSON.parse(transloadit_document_data_params['transloadit']))) }
+    let(:documents) { subject.create_pending_documents(ActionController::ManagebleParameters.new(transloadit_document_data_params)) }
 
     it { expect(documents.first.transloadit_data.class).to eq(Hash) }
   end
 
   describe '#create_photo' do
-    let(:photo) { subject.create_photo(ActionController::ManagebleParameters.new(JSON.parse(profile_picture_data_params['transloadit'])), template: 'profile_picture') }
+    let(:photo) { subject.create_photo(ActionController::ManagebleParameters.new(profile_picture_data_params), template: 'profile_picture') }
 
     it { expect(photo.transloadit_data.class).to eq(Hash) }
   end
@@ -30,7 +30,7 @@ describe UploadManager do
   end
 
   describe '#create_audio' do
-    let(:audios) { subject.create_audio(ActionController::ManagebleParameters.new(JSON.parse(transloadit_audio_data_params['transloadit']))) }
+    let(:audios) { subject.create_audio(ActionController::ManagebleParameters.new(transloadit_audio_data_params)) }
 
     it { expect(audios.first.transloadit_data.class).to eq(Hash) }
   end

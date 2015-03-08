@@ -630,8 +630,8 @@ describe UserProfileManager do
   end
 
   describe '#update_welcome_media' do
-    let(:welcome_audio_data) { JSON.parse(welcome_audio_data_params['transloadit']) }
-    let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }
+    let(:welcome_audio_data) { welcome_audio_data_params }
+    let(:welcome_video_data) { welcome_video_data_params }
 
     context 'with video file' do
       specify do
@@ -751,8 +751,8 @@ describe UserProfileManager do
   end
 
   describe '#remove_welcome_media!' do
-    let(:welcome_audio_data) { JSON.parse(welcome_audio_data_params['transloadit']) }
-    let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }
+    let(:welcome_audio_data) { welcome_audio_data_params }
+    let(:welcome_video_data) { welcome_video_data_params }
 
     specify do
       expect(manager.remove_welcome_media!).to eq(user)

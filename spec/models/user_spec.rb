@@ -185,7 +185,7 @@ describe User do
     its(:welcome_audio) { should be_nil }
 
     context 'with welcome audio' do
-      let(:welcome_audio_data) { JSON.parse(welcome_audio_data_params['transloadit']) }
+      let(:welcome_audio_data) { welcome_audio_data_params }
       let(:welcome_audio) { UploadManager.new(user).create_audio(welcome_audio_data).first }
 
       its(:welcome_audio) { should eq(welcome_audio) }
@@ -198,7 +198,7 @@ describe User do
     its(:welcome_video) { should be_nil }
 
     context 'with welcome video' do
-      let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }
+      let(:welcome_video_data) { welcome_video_data_params }
       let(:welcome_video) { UploadManager.new(user).create_video(welcome_video_data) }
 
       its(:welcome_video) { should eq(welcome_video) }
