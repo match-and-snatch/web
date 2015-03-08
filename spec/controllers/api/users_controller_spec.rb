@@ -1,6 +1,39 @@
 require 'spec_helper'
 
 describe Api::UsersController, type: :controller do
+  describe 'GET #search' do
+    before { create_profile_owner first_name: 'sergei', last_name: 'zinin', is_profile_owner: true, profile_name: 'serge zinin', cost: '123.0' }
+    before { create_profile_owner first_name: 'serge', last_name: 'zeenin', email: 'serge@zee.ru', is_profile_owner: true }
+    before { create_profile_owner first_name: 'dmitry', last_name: 'jakovlev', email: 'dimka@jak.com', is_profile_owner: true }
+
+    subject { get 'search', q: 'serge zi' }
+
+    specify do
+      expect(JSON.parse(subject.body)).to include("data" => [
+        {
+          "access"=>{"owner"=>false, "subscribed"=>false},
+          "name"=>"serge zinin",
+          "slug"=>"sergeizinin",
+          "types"=>[],
+          "subscription_cost"=>13407,
+          "cost"=>12300,
+          "profile_picture_url"=>"set",
+          "cover_picture_url"=>nil,
+          "cover_picture_position"=>0},
+        {
+          "access"=>{"owner"=>false, "subscribed"=>false},
+          "name"=>"test",
+          "slug"=>"sergezeenin",
+          "types"=>[],
+          "subscription_cost"=>2199,
+          "cost"=>2000,
+          "profile_picture_url"=>"set",
+          "cover_picture_url"=>nil,
+          "cover_picture_position"=>0}
+      ])
+    end
+  end
+
   describe 'GET #show' do
     let(:user) { create_user first_name: 'sergei', last_name: 'zinin', is_profile_owner: true }
 
