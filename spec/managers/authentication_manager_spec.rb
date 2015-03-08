@@ -21,7 +21,6 @@ describe AuthenticationManager do
     it { should_not be_a_new_record }
     its(:email) { should == email }
     its(:password_hash) { should_not be_blank }
-    its(:password_salt) { should_not be_blank }
     its(:full_name) { should == 'Sergei Zinin' }
     its(:auth_token) { should_not be_blank }
 

@@ -36,24 +36,13 @@ class AuthenticationManager < BaseManager
 
   # @return [User]
   def authenticate(generate_api_token: false)
-    _user = nil
+    user = User.by_email(email).first or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
+    BCrypt::Password.new(user.password_hash) == password or raise AuthenticationError.new(errors: {password: t(:invalid_password)})
 
-    User.by_email(email).find_each do |user|
-      begin
-        scope = User.by_email(email)
-        _user = scope.first or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
-        _user = scope.where(password_hash: user.generate_password_hash(password)).first or raise AuthenticationError.new(errors: {password: t(:invalid_password)})
-      rescue BCrypt::Errors::InvalidSalt
-        next
-      end
-    end
+    user.generate_api_token! if generate_api_token
+    EventsManager.user_logged_in(user: user)
 
-    _user or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
-
-    _user.generate_api_token! if generate_api_token
-
-    EventsManager.user_logged_in(user: _user)
-    _user
+    user
   end
 
   # @return [User]
