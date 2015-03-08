@@ -2,7 +2,7 @@ class Api::UsersController < Api::BaseController
   before_action :load_user!, only: :show
 
   def show
-    json_susccess(
+    json_success(
       access: {
         owner: current_user == @user,
         subscribed: current_user.subscribed_to?(@user)

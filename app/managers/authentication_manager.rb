@@ -49,7 +49,7 @@ class AuthenticationManager < BaseManager
 
   # @return [User]
   def authenticate_api
-    @api_token or raise AuthenticationError.new(errors: {api_token: 'required'})
+    @api_token.presence or raise AuthenticationError.new(errors: {api_token: 'required'})
     User.where(api_token: @api_token).first or raise AuthenticationError.new(errors: {api_token: 'invalid'})
   end
 
