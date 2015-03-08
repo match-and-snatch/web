@@ -69,14 +69,17 @@ class User < ActiveRecord::Base
 
   # @param new_password [String]
   def set_new_password(new_password)
-    self.password_salt = BCrypt::Engine.generate_salt
-    self.password_hash = generate_password_hash(new_password)
+    self.password_hash = BCrypt::Password.create(new_password)
   end
 
-  # @param some_password [String]
-  # @return [String]
-  def generate_password_hash(some_password)
-    BCrypt::Engine.hash_secret(some_password, password_salt)
+  def generate_api_token!
+    return if api_token.present?
+    regenerate_api_token!
+  end
+
+  def regenerate_api_token!
+    self.api_token = SecureRandom.uuid.gsub(/\-/,'')
+    save!
   end
 
   # @return [String]

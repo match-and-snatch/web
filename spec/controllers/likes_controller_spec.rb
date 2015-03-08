@@ -6,17 +6,21 @@ describe LikesController, type: :controller do
   let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
 
   describe 'POST #create' do
-    subject { post 'create', post_id: _post.id }
-
-    context 'unauthorized access' do
-      its(:status) { should == 401 }
-      pending 'when user is logged in, but not subscribed (security bug)'
-    end
+    subject { post 'create', post_id: _post.id, type: 'post' }
 
     context 'authorized access' do
       before { sign_in visitor }
-      its(:body) { should match_regex /success/ }
-      it { should be_success }
+
+      context 'subscribed' do
+        before { SubscriptionManager.new(subscriber: visitor).subscribe_to(poster) }
+
+        its(:status) { should eq(200) }
+        its(:body) { should match_regex /replace/ }
+      end
+
+      context 'not subscribed' do
+        its(:status) { should eq(401) }
+      end
     end
   end
 end

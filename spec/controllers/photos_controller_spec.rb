@@ -30,7 +30,7 @@ describe PhotosController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', transloadit: transloadit_photo_data_params }
+    subject { post 'create', transloadit: transloadit_photo_data_params.to_json }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }

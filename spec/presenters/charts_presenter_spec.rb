@@ -6,7 +6,7 @@ describe ChartsPresenter do
   end
 
   describe '#chart_data' do
-    let(:event_date) { Event.where(action: 'registered').first.created_at.to_date.to_time.utc.beginning_of_day.to_i }
+    let(:event_date) { Event.where(action: 'registered').first.created_at.utc.beginning_of_day.to_i }
     let!(:profile_owner) { create_profile email: 'profile_owner@mail.com', cost: 5 }
 
     specify do
@@ -24,7 +24,7 @@ describe ChartsPresenter do
     context 'gross sales graph with payments' do
       let(:subscriber) { create_user email: 'subscriber@mail.com' }
       let(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(profile_owner) }
-      let(:payment_date) { Payment.last.created_at.beginning_of_month.to_i }
+      let(:payment_date) { Payment.last.created_at.utc.beginning_of_month.to_i }
 
       before { StripeMock.start }
       after { StripeMock.stop }

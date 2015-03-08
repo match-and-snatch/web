@@ -1,9 +1,12 @@
 module Billing
   class ChargeJob
     def self.perform
-      puts "============================"
-      puts "       SUBSCRIPTIONS"
-      puts "============================"
+      unless Rails.env.test?
+        puts "============================"
+        puts "       SUBSCRIPTIONS"
+        puts "============================"
+      end
+
       Subscription.to_charge.find_each do |subscription|
         p "Paying for subscription ##{subscription.id}" unless Rails.env.test?
         PaymentManager.new.pay_for(subscription) if subscription.user
