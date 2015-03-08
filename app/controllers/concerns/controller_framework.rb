@@ -55,7 +55,7 @@ module Concerns::ControllerFramework
 
   # @return [SessionManager]
   def session_manager
-    @session_manager ||= SessionManager.new(cookies)
+    @session_manager ||= SessionManager.new(cookies.signed)
   end
 
   # @param error [HttpCodeError]
