@@ -7,8 +7,8 @@ describe Api::UsersController, type: :controller do
     subject { get 'show', id: user.slug }
 
     context 'token is not provided' do
-      its(:status) { is_expected.to eq(401) }
-      its(:body) { is_expected.to include 'required' }
+      its(:status) { is_expected.to eq(200) }
+      its(:body) { is_expected.to include 'data' }
     end
 
     context 'token provided' do
@@ -20,7 +20,7 @@ describe Api::UsersController, type: :controller do
         let(:token) { ActionController::HttpAuthentication::Token.encode_credentials('invalid') }
 
         its(:status) { is_expected.to eq(401) }
-        its(:body) { is_expected.to include 'invalid' }
+        its(:body) { is_expected.to include 'failed' }
       end
 
       context 'valid token' do
@@ -29,6 +29,7 @@ describe Api::UsersController, type: :controller do
 
         its(:status) { is_expected.to eq(200) }
         its(:body) { is_expected.to include 'success' }
+        its(:body) { is_expected.to include 'data' }
       end
     end
   end
