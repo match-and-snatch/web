@@ -65,9 +65,10 @@ hr
 
 .AjaxContainer data-identifier='vacations' data-url=admin_profile_owner_vacations_path(@user.id)
 .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
+.AjaxContainer data-identifier='current-month-details' data-url=admin_profile_owner_current_month_details_path(@user.id)
 
 .row
-  .col-md-12
+  .col-md-8
     hr
     h2
       strong Send Payout Transfer
@@ -82,6 +83,19 @@ hr
         label style='margin-right: 5px' Month
         = select_month Time.zone.now.month, use_month_keys: true, field_name: 'month'
       input.btn.pink type='submit' value='Transfer'
+    .clearfix
+  .col-md-4
+    hr
+    ul.payout_detail_list
+      li
+        strong Account Name:
+        span= @user.holder_name
+      li
+        strong Account Number:
+        span= @user.account_number
+      li
+        strong Routing Number:
+        span= @user.routing_number
     .clearfix
 
 / Subscriber Information

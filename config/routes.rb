@@ -192,11 +192,14 @@ BuddyPlatform::Application.routes.draw do
     resources :profile_owners, only: [:index, :show, :update] do
       resources :transfers, only: [:index, :create]
       resources :vacations, only: [:index]
+      resources :current_month_details, only: [:index]
       member do
         get :total_subscribed
         get :total_new_subscribed
         get :total_unsubscribed
+        get :this_month_subscribers_unsubscribers
         get :failed_billing_subscriptions
+        get :pending_payments
       end
     end
     resources :profiles, only: [:index, :show] do

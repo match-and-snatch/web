@@ -1,0 +1,21 @@
+h2
+  strong Current Month Details
+
+.table-responsive
+  table.table.table-striped
+    tr
+      th
+        strong Day
+      th
+        strong Pending Payments
+      th
+        strong Payments
+
+    - @current_month.each_day do |day|
+      tr
+        td
+          = day.name
+        td
+          = day.pending_payments_count
+        td
+          = day.payments_count

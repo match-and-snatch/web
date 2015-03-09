@@ -1,0 +1,27 @@
+.modal-header
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
+  .modal-title
+    'Unsubscribers who subscribed this month:
+    span= @subscriptions.count
+
+.modal-body style="margin-bottom: 15px; height: 400px; overflow: scroll"
+  .table-responsive
+    table.table.table-striped
+      tr
+        th
+          strong ID #
+        th
+          strong Full Name
+        th
+          strong Date of Cancellation
+        th
+          strong Next Billing Cycle
+      - @subscriptions.each do |subscription|
+        tr
+          td= subscription.id
+          td
+            = link_to_user subscription.user
+          td
+            = subscription.removed_at.to_date.to_s(:long)
+          td
+            = subscription.next_billing_date
