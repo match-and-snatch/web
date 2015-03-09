@@ -1,0 +1,29 @@
+h2 Payout Breakdown for #{Time.zone.now.strftime('%B')}
+
+.table-responsive
+  table.table.table-striped
+    th
+      strong Profile Name
+    th
+      strong Active Subscribers
+    th
+      strong Unsubscribers
+    th
+      strong Successful Payments
+    /th
+      strong Pending
+    th
+      strong Payout (Estimated)
+    th
+
+    - @users.each do |user|
+      tr
+        td
+          a href=profile_path(user) target='_blank' = user.name
+        td= "#{user.subscribers_count} / #{cents_to_dollars user.subscribers_count * user.cost}"
+        td= "#{user.unsubscribers_count} / #{cents_to_dollars user.unsubscribers_count * user.cost}"
+        td= "#{user.payments_count} / #{cents_to_dollars user.payments_amount}"
+        /td N/A
+        td= "#{cents_to_dollars (user.estimated_payout) - (user.unsubscribers_count * user.cost)} (#{cents_to_dollars user.cost}/month)"
+        td
+          a.HashLink href=admin_profile_owner_path(user.id) Payout
