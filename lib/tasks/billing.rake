@@ -17,4 +17,9 @@ namespace :billing do
 
   task fix: :environment do
   end
+
+  desc 'Set charge date to subscriptions'
+  task populate_charge_date: :environment do
+    Billing::PopulateChargeDateJob.perform
+  end
 end

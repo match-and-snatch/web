@@ -43,6 +43,7 @@ class PaymentManager < BaseManager
                               subscription_cost: subscription.total_cost
 
     subscription.charged_at = Time.zone.now
+    subscription.charge_date = subscription.charged_at.next_month
 
     save_or_die!(subscription).tap do
       subscription.restore!
