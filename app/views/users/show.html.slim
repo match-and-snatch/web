@@ -151,6 +151,13 @@
 
       /Recent Posts
       .pull-right.col-md-8.col-sm-12.col-xs-12
+        /Contribute
+        - if @profile.contributions_enabled?
+          a.btn.green.hidden-md.hidden-xs.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id) style='margin-bottom: 30px; width: 100%; font-size: 20px; padding: 10px;'
+            i.fa.fa-usd
+            span style='margin-left: 10px;' Make a contribution, support this profile!
+          .clearfix
+
         .PostsContainer.recent_posts data-identifier='posts' data-url=user_posts_path(@profile.object)
 
           = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
