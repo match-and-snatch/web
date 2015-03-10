@@ -9,19 +9,30 @@
     table.table.table-striped
       tr
         th
+          strong #
+        th
           strong ID #
         th
           strong Full Name
         th
-          strong Date of Payment
+          strong Create Date
+        th
+          strong Charge Date
+        th
+          strong Next Charge
         th
           strong New Subscriber?
-      - @subscriptions.each do |subscription|
+      - @subscriptions.each_with_index do |subscription, index|
         tr
+          td= index + 1
           td= subscription.id
           td
             = link_to_user subscription.user
           td
             = subscription.created_at.to_date.to_s(:long)
+          td
+            = subscription.charged_at.to_date.to_s(:long)
+          td
+            = subscription.billing_date.to_date.to_s(:long)
           td
             strong style="color: #ea2e49;"= subscription.new? ? 'YES' : 'no'

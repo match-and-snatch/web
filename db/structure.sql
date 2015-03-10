@@ -789,8 +789,7 @@ CREATE TABLE subscriptions (
     rejected_at timestamp without time zone,
     cost integer,
     fees integer,
-    total_cost integer,
-    charge_date timestamp without time zone
+    total_cost integer
 );
 
 
@@ -1538,6 +1537,4 @@ INSERT INTO schema_migrations (version) VALUES ('20150305053822');
 INSERT INTO schema_migrations (version) VALUES ('20150306183346');
 
 INSERT INTO schema_migrations (version) VALUES ('20150308055851');
-
-INSERT INTO schema_migrations (version) VALUES ('20150309035722');
 

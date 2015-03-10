@@ -193,6 +193,11 @@ BuddyPlatform::Application.routes.draw do
       resources :transfers, only: [:index, :create]
       resources :vacations, only: [:index]
       resources :current_month_details, only: [:index]
+      resources :payments, only: [] do
+        collection do
+          get :pending
+        end
+      end
       member do
         get :total_subscribed
         get :total_new_subscribed

@@ -1,7 +1,7 @@
 class SubscriptionDecorator < BaseDecorator
   attr_reader :subscription, :date
 
-  delegate :id, :user, :created_at, :removed_at, to: :subscription
+  delegate :id, :user, :created_at, :removed_at, :charged_at, :billing_date, to: :subscription
 
   def initialize(subscription, current_date = nil)
     @subscription = subscription

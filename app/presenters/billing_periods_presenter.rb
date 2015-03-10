@@ -103,7 +103,10 @@ class BillingPeriodsPresenter
     end
 
     def pending_payments_count
-      @user.source_subscriptions.not_removed.where(charge_date: @period, rejected: false).count
+      @user.source_subscriptions.
+          not_removed.
+          not_rejected.
+          where(["(charged_at + INTERVAL '1 month') BETWEEN ? AND ?", @period.begin, @period.end]).count
     end
 
     private
@@ -117,7 +120,7 @@ class BillingPeriodsPresenter
     end
 
     def payments
-      @payments ||= Payment.where(target_user_id: @user.id, created_at: @period)
+      @payments ||= @user.source_payments.where(created_at: @period)
     end
 
     def stats_entry

@@ -11,7 +11,7 @@ class CurrentMonthPresenter
 
   def collection
     period.map do |day|
-      Day.new(date: day, pending_payments: pending_payments, payments: payments)
+      Day.new(day: day, pending_payments: pending_payments, payments: payments)
     end
   end
 
@@ -26,11 +26,16 @@ class CurrentMonthPresenter
   end
 
   def pending_payments
+    month  = Time.zone.now.prev_month
+    start  = month.beginning_of_month
+    finish = month.end_of_month
     @pending_payments ||= {}.tap do |pending_payments|
       user.source_subscriptions.
-          where(charge_date: date_time_period, removed: false, rejected: false).
-          group('DATE(charge_date)').count.each do |date, count|
-        pending_payments[date] = count
+          not_removed.
+          not_rejected.
+          where(charged_at: start..finish).
+          group_by { |s| s.charged_at.next_month.to_date }.each do |date, subscriptions|
+        pending_payments[date] = subscriptions.count
       end
     end
   end
@@ -39,31 +44,35 @@ class CurrentMonthPresenter
     @payments ||= {}.tap do |payments|
       user.source_payments.
           where(created_at: date_time_period).
-          group('DATE(created_at)').count.each do |date, count|
-        payments[date] = count
+          group_by { |p| p.created_at.to_date }.each do |date, asd|
+        payments[date] = asd.count
       end
     end
   end
 
   class Day
-    attr_reader :date, :pending_payments, :payments
+    attr_reader :day, :pending_payments, :payments
 
-    def initialize(date: , pending_payments: , payments:)
-      @date = date
+    def initialize(day: , pending_payments: , payments:)
+      @day = day
       @pending_payments = pending_payments
       @payments = payments
     end
 
     def name
-      date.strftime('%b %d')
+      day.strftime('%b %d')
+    end
+
+    def date
+      day.to_time.to_i
     end
 
     def pending_payments_count
-      pending_payments[date] || 0
+      pending_payments[day] || 0
     end
 
     def payments_count
-      payments[date] || 0
+      payments[day] || 0
     end
   end
 end

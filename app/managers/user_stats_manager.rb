@@ -11,7 +11,7 @@ class UserStatsManager < BaseManager
   # @return [SubscriptionDailyCountChangeEvent]
   def log_subscriptions_count
     subscriptions_count   = user.source_subscriptions.not_removed.where(rejected: false).count
-    unsubscribers_count   = (user.source_subscriptions.where(removed_at: current_month, removed: true) | user.source_subscriptions.where(rejected_at: current_month, rejected: true)).count
+    unsubscribers_count   = user.source_subscriptions.where(removed_at: current_month, removed: true).count
     failed_payments_count = user.source_subscriptions
                                 .joins(:user)
                                 .where(users: { billing_failed: true, billing_failed_at: current_month }).count

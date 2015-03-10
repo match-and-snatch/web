@@ -5,13 +5,13 @@ h2 Payout Breakdown for #{Time.zone.now.strftime('%B')}
     th
       strong Profile Name
     th
+      strong Pending Payments
+    th
       strong Active Subscribers
     th
       strong Unsubscribers
     th
       strong Successful Payments
-    /th
-      strong Pending
     th
       strong Payout (Estimated)
     th
@@ -20,10 +20,14 @@ h2 Payout Breakdown for #{Time.zone.now.strftime('%B')}
       tr
         td
           a href=profile_path(user) target='_blank' = user.name
+        td
+          a.AjaxLink href=admin_profile_owner_current_month_details_path(user.id) data-target="#{user.slug}-details-table"
+            span.Toggler data-target="#{user.slug}-details" = "#{user.pending_payments_count} / #{cents_to_dollars user.pending_payments_count * user.cost}"
         td= "#{user.subscribers_count} / #{cents_to_dollars user.subscribers_count * user.cost}"
-        td= "#{user.unsubscribers_count} / #{cents_to_dollars user.unsubscribers_count * user.cost}"
+        td= "#{user.unsubscribers_count} / -#{cents_to_dollars user.unsubscribers_count * user.cost}"
         td= "#{user.payments_count} / #{cents_to_dollars user.payments_amount}"
-        /td N/A
         td= "#{cents_to_dollars (user.estimated_payout) - (user.unsubscribers_count * user.cost)} (#{cents_to_dollars user.cost}/month)"
         td
           a.HashLink href=admin_profile_owner_path(user.id) Payout
+      tr style='display: none' data-identifier="#{user.slug}-details"
+        td colspan="7" data-identifier="#{user.slug}-details-table"

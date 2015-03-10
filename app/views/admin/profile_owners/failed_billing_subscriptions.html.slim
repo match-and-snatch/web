@@ -1,5 +1,5 @@
 .modal-header
-  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="total-failed" aria-hidden="true"
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
   .modal-title
     'Total Failed Recurring (this month):
     span= @users.count
@@ -9,6 +9,8 @@
     table.table.table-striped
       tr
         th
+          strong #
+        th
           strong ID #
         th
           strong Full Name
@@ -16,8 +18,9 @@
           strong Failed Date
         th
           strong Reason
-      - @users.find_each do |user|
+      - @users.find_each.with_index do |user, index|
         tr
+          td= index + 1
           td= user.id
           td
             = link_to_user user

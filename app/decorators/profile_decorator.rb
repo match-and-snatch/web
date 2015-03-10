@@ -44,6 +44,10 @@ class ProfileDecorator < UserDecorator
     @pending_post ||= object.pending_post || PendingPost.new
   end
 
+  def pending_payments_count
+    object.pending_subs_count || 0
+  end
+
   def plain_profile_types
     object.profile_types.map(&:title).join(' / ').html_safe
   end

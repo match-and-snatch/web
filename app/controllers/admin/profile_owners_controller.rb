@@ -28,12 +28,13 @@ class Admin::ProfileOwnersController < Admin::BaseController
   end
 
   def total_subscribed
-    @subscriptions = Subscription.
-      includes(:user).
-      where(users: { billing_failed: false }).
-      where(target_user_id: @user.id).
-      where(["removed_at > ? OR removed = 'f'", period.end]).
-      where(['subscriptions.created_at <= ?', period.end]).map { |s| SubscriptionDecorator.new(s, date) }
+    @subscriptions = @user.object.
+        source_subscriptions.
+        includes(:user).
+        where(users: { billing_failed: false }).
+        where(["removed_at > ? OR removed = 'f'", period.end]).
+        where(['subscriptions.created_at <= ?', period.end]).
+        order(:charged_at).map { |s| SubscriptionDecorator.new(s, date) }
     json_popup
   end
 
@@ -42,21 +43,28 @@ class Admin::ProfileOwnersController < Admin::BaseController
         source_subscriptions.
         includes(:user).
         where(created_at: period).
-        where.not(user_id: nil).map { |s| SubscriptionDecorator.new(s, date) }
+        where.not(user_id: nil).
+        order(:charged_at)
     json_popup
   end
 
   def total_unsubscribed
-    @subscriptions = Subscription.
-        where(target_user_id: @user.id, removed_at: period, removed: true).
-        where.not(user_id: nil).map { |s| SubscriptionDecorator.new(s, date) }
+    @subscriptions = @user.object.
+        source_subscriptions.
+        includes(:user).
+        where(removed_at: period, removed: true).
+        where.not(user_id: nil).
+        order(:removed_at)
     json_popup
   end
 
   def this_month_subscribers_unsubscribers
-    @subscriptions = Subscription.
-        where(target_user_id: @user.id, removed_at: period, removed: true, created_at: period).
-        where.not(user_id: nil).map { |s| SubscriptionDecorator.new(s, date) }
+    @subscriptions = @user.object.
+        source_subscriptions.
+        includes(:user).
+        where(removed_at: period, removed: true, created_at: period).
+        where.not(user_id: nil).
+        order(:removed_at)
     json_popup
   end
 
@@ -69,8 +77,12 @@ class Admin::ProfileOwnersController < Admin::BaseController
 
   def pending_payments
     @subscriptions = @user.object.
-        source_subscriptions.not_removed.
-        where(charge_date: period, rejected: false).map { |s| SubscriptionDecorator.new(s, date) }
+        source_subscriptions.
+        includes(:user).
+        not_removed.
+        not_rejected.
+        where(["(charged_at + INTERVAL '1 month') BETWEEN ? AND ?", period.begin, period.end]).
+        order(:charged_at)
     json_popup
   end
 
