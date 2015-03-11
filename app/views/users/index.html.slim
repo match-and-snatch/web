@@ -64,70 +64,71 @@
       h1 style='margin-bottom: 25px;' Top 10 Most Popular Profiles
 
       .top_ten
-        // 1
+        / 1
         a.pull-left href='/boortzcast'
           img.photo src='https://connectpal-uploads.s3.amazonaws.com/profile_pictures/the-painful-truth-from-neal-boortz/990f24f04ada11e491a7550d2c01a8df____50x50____51e21180489311e4ab5ed17bddcf2db0____3264x2448____NealCub.jpg' width =50 height=50
           span Neal Boortz
           span.category.hidden-xs
             '&nbsp;(Political Talk, Current Events)
           .clearfix
-        //6
+        / 6
         a.pull-right href='/souljaboy'
           img.photo src='https://connectpal-uploads.s3.amazonaws.com/uploads/profile_pictures/souljaboy/752d7cd0bede11e4a9a5cb6a81f76870____50x50____IMG_0469.jpg' width=50 height=50
           span Soulja Boy
           span.category.hidden-xs
             '&nbsp;(Musician)
           .clearfix
-        // 2
+        / 2
         a.pull-left href='/judgealex'
           img.photo src='https://connectpal-uploads.s3.amazonaws.com/profile_pictures/judgealex/3dceb3c06c6911e48b8cb7a6eb2e3c0f____50x50____AlFe909100-crop.jpg' width=50 height=50
           span Judge Alex
           span.category.hidden-xs
             '&nbsp;(Legal Analysis, Current Events)
           .clearfix
-        // 7
+        / 7
         a.pull-right href='/collinjosephfitness'
           img.photo src='https://connectpal-uploads.s3.amazonaws.com/profile_pictures/collinjosephfitness/87f68780a65111e49c2dd12b64c7a1d4____50x50____IMG_4424.jpg' width=50 height=50
           span Collin Joseph Fitness
           span.category.hidden-xs
             '&nbsp;(Fitness Expert)
           .clearfix
-        // 3
+        / 3
         a.pull-left href='/jordankefit'
           img.photo src='https://connectpal-uploads.s3.amazonaws.com/profile_pictures/jordankefit/5bd060d0b86811e4a1d7a1627bb2f69b____50x50____IMG_4153.jpg' width=50 height=50
           span JordankeFit
           span.category.hidden-xs
             '&nbsp;(Fitness Expert)
           .clearfix
-        // 8
+        / 8
         a.pull-right href='/thedavidtuteraproject'
           img.photo src='https://connectpal-uploads.s3.amazonaws.com/profile_pictures/thedavidtuteraproject/ccaf4780b53911e487ef83072dfd9bfa____50x50____DT-Project-Logo-copy.png' width=50 height=50
           span The David Tutera Project
           span.category.hidden-xs
             '&nbsp;(TV Star, Wedding Expert)
           .clearfix
-        // 4
+        / 4
         a.pull-left href='/darksecretplace'
           img.photo src='https://connectpal-uploads.s3.amazonaws.com/profile_pictures/dark-secret-place/500f3180d4bc11e393753be7af1c3a48____50x50____square-foto.jpg' width=50 height=50
           span Dark Secret Place
           span.category.hidden-xs
             '&nbsp;(Military Analysis)
           .clearfix
-        // 9
+        / 9
         a.pull-right href='/andydean'
           img.photo src='https://connectpal-uploads.s3.amazonaws.com/profile_pictures/andydean/f17d2ed0cb1d11e3bb32d3ced4f53641____50x50____9646f3e0c76a11e399f355076bd8c6c3____250x250____andyprofile.png' width=50 height=50
           span Andy Dean
           span.category.hidden-xs
             '&nbsp;(Political Talk, Current Events)
           .clearfix
-        // 5
-        a.pull-left href='/genospicks'
-          img.photo src='https://connectpal-uploads.s3.amazonaws.com/profile_pictures/geno-s-picks/8ef5fb3077ec11e4b22fdbd3a6c9ba72____50x50____genospicks_Logo.jpg' width=50 height=50
-          span Geno's Picks
-          span.category.hidden-xs
-            '&nbsp;(Sports Tips, Football Picks)
-          .clearfix
-        // 10
+        / 5
+        - if @jane
+          a.pull-left href=profile_path(@jane)
+            img.photo src=@jane.profile_picture_url width=50 height=50
+            span Jane Velez-Mitchell
+            span.category.hidden-xs
+              '&nbsp;(News Commentary)
+            .clearfix
+        / 10
         a.pull-right href='/drmitch'
           img.photo src='https://connectpal-uploads.s3.amazonaws.com/profile_pictures/dr-mitch/e54f9160fe2c11e3b6e7858156129a02____50x50____pic.jpg' width=50 height=50
           span Dr. Mitch
