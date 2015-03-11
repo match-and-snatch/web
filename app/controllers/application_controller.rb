@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   HANDLERS = []
 
+
   def self.create_handler(*types)
     types.each do |type|
       HANDLERS << type.to_s

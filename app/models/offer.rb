@@ -6,6 +6,9 @@ class Offer < ActiveRecord::Base
   has_many :feedbacks
   has_many :subscriptions
   has_many :messages
+  # @ MZ
+  has_one :price
+
 
   # @param user [User]
   def favorited_by?(user)
@@ -16,6 +19,7 @@ class Offer < ActiveRecord::Base
   def liked_by?(user)
     feedbacks.where(positive: true).where(user_id: user.id).exists?
   end
+
 
   # @param user [User]
   def disliked_by?(user)
@@ -39,4 +43,5 @@ class Offer < ActiveRecord::Base
       100.0 - positive_feedback_percentage
     end
   end
+
 end

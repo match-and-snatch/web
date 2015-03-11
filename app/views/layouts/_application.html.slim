@@ -1,0 +1,45 @@
+doctype html
+html
+  head= render 'head'
+  body
+    .heap
+      .logo
+        a href='/'
+          h1 M&Snatch
+      .account_area
+        - if current_user.logged_in?
+          a.AjaxLink href=new_offer_path(mode: :popup)
+            span.fa.fa-plus &nbsp;Add offer
+
+          a href='#'= current_user.email
+
+          a.AjaxFormLink href=session_path(current_user.id) data-_method='DELETE'
+            span.fa.fa-sign-out &nbsp;Logout
+        - else
+          a.AjaxLink href=new_session_path(mode: :popup)
+            snan.fa.fa-sign-in &nbsp;Login
+
+          a.AjaxLink href=new_user_path(mode: :popup)
+            span.fa.fa-users &nbsp;Register
+    .clearfix
+
+    .search_area.bg-primary
+      .container
+        h2 Search
+        small Take control over the world with joy
+
+    .search_field.bg-primary
+      .container
+        .query
+          .search_icon.fa.fa-search
+          input.search_input placeholder='Search for something you really need...'
+          button.close type="button" aria-label="Close"
+            span aria-hidden="true" &times;
+
+    .content
+      .container=yield
+      .RemotePopup.popup.modal-content data-identifier='remote-popup'
+
+    #overlay.Overlay
+    #ClickBlocker
+    = render 'js'

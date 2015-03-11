@@ -1,6 +1,12 @@
 source 'https://rubygems.org'
 ruby '2.2.0'
 
+# MZ - Adding font_assets
+gem 'font_assets'
+gem 'non-stupid-digest-assets'
+gem 'font-awesome-rails'
+gem 'font-awesome-sass', '~> 4.3.0'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 gem 'pg'

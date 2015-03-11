@@ -1,21 +1,31 @@
-title= layout.page_title
-meta name='description' content="Welcome to the World's #1 Most Popular Website"
+meta charset="utf-8" /
+title MATCH + SNATCH
+meta content="width=device-width, initial-scale=1" name="viewport" /
+/! Latest compiled and minified CSS
+link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" /
+/! Optional theme
+link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet" /
+link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" /
 
-meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
+/! GOOGLE FONTS
+= stylesheet_link_tag '//fonts.googleapis.com/css?family=Roboto:400,300,700,900,500,100|Roboto+Condensed:400,300,700|Montserrat:700'
+/! MZ STYLE
+= stylesheet_link_tag 'main', media: 'all'
 
-= content_for :head
+/! FAVICON
+= favicon_link_tag 'favicon.ico'
+= favicon_link_tag 'favicon.png', rel: 'shortcut icon', type: 'image/png'
+/! link:favicon="favicon.ico" rel="icon" type="image/x-icon" /
+/! link:favicon="favicon.ico" rel=("shortcut icon") type="image/x-icon" /
 
-/ link rel="icon" type="image/x-icon" href="//connectpal-assets.s3.amazonaws.com/images/favicon.ico"
-link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet"
-= stylesheet_link_tag '//fonts.googleapis.com/css?family=Open+Sans:300,400,600|Dosis:400,600,700'
-= stylesheet_link_tag 'application', media: 'all'
-
-- if true # Rails.application.config.assets.use_cdn
-  script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'
-  script type='text/javascript' src='//code.jquery.com/jquery-1.11.0.min.js'
-- else
-  = javascript_include_tag 'underscore-min'
-  = javascript_include_tag 'jquery'
-
-= javascript_include_tag 'application'
-= csrf_meta_tags
+javascript:
+      | $(document).ready(
+          | $('.collapse').on('show.bs.collapse hide.bs.collapse', function(e) {
+              | e.preventDefault();
+          | });
+          | $('[data-toggle="collapse"]').on('click', function(e) {
+              | e.preventDefault();
+              | $($(this).data('target')).toggleClass('in');
+          | });
+      | );
+script src="https://code.jquery.com/jquery-1.10.2.js" 

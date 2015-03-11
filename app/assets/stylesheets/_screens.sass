@@ -1,0 +1,532 @@
+
+// MEDIA QUERIES
+@media screen and (max-width: 1200px)
+  #nav
+    padding: 0px 0px 15px
+    position: relative
+    margin: 0
+  .input-group
+    &:after
+      top: -9px
+      left: 320px
+      height: 0px
+    &:before
+      top: -6px
+      left: 322px
+      height: 0px
+      border-width: 0px 8px 8px
+  .subscribe
+    margin: 0
+    padding: 0
+  .publish
+    margin: 20px 10px 0px -10px
+    padding: 0
+  .time
+    width: 6.5%
+    margin: 3px 0px 0px 12px
+  .actionz
+    margin: 0px 0px 0px 5px
+    width: 15%
+  .contact
+    padding: 0 0 0 15px
+  .info-match
+    text-align: left
+    right: 66px
+  .info-snatch
+    text-align: right
+    left: 111px
+
+@media screen and (max-width: 968px)
+  #match, #snatch
+    text-align: center
+    letter-spacing: -3px
+  #match
+    margin: 0 0 30px
+  .lot-title
+    padding: 10px 0
+  .info-match
+    text-align: left
+    right: 66px
+  .info-snatch
+    text-align: right
+    left: 111px
+  .navbar-brand
+    .grey
+      font-size: 2em
+    height: 65px
+  .navbar-header
+    height: 65px
+  .input-group
+    &:after
+      top: -9px
+      left: 320px
+      height: 0px
+    &:before
+      top: -6px
+      left: 321px
+      height: 0px
+      border-width: 0px 9px 9px
+  .col-xs-9
+    width: 75%
+  .time-left
+    margin: 0
+    top: -2px
+    min-width: 60px
+  .time
+    margin: 6px 20px 0px 10px
+  .rep
+    margin: 6px 0px 0px
+    top: 0
+  .actionz
+    width: 20%
+  .subscribe, .publish
+    display: inline-block
+    float: right
+    position: absolute
+    margin: 20px 0 0
+  .subscribe .btn-circle, .publish .btn-circle
+    margin: 0 20px 0 0
+
+@media screen and (max-width: 768px)
+  .navbar-brand span#snatch
+    margin: 0
+  .lot-thumbnail
+    width: 45%
+  #nav
+    padding: 0px 0px 15px
+    position: relative
+    margin: 0
+  #menu
+    margin: 10px 0 0
+  input.search
+    margin: 0
+    display: inline-block
+  #login
+    height: 200px
+    width: 200px
+    border-radius: 100px
+    padding: 45px 0 0
+  .enter_login, .enter_join
+    font-size: 3em
+    height: 80px
+  .navbar-brand, .navbar-header
+    height: 65px
+    margin-left: -5px
+    padding: 0
+  .navbar-default .navbar-toggle
+    padding: 16px 15px
+    margin: 10px 0 0
+    &:hover, &:focus
+      background-color: $primary-color
+    &:hover > .icon-bar
+      background-color: #fff
+  .navbar-toggle
+    &:active > .icon-bar, &:focus > .icon-bar
+      background-color: #fff
+  .navbar > .container .navbar-brand
+    margin: 0 0 0 -8px
+  #nav .cell
+    font-size: 3em
+    letter-spacing: -3px
+    margin: 0 0 0 10px
+  .navbar-brand
+    #match, #snatch
+      font-size: 3em
+      letter-spacing: -3px
+      margin: 0 0 0 10px
+  #nav .cell
+    margin: 0
+  #intro h1
+    font: 100 4em/1.2em $font-stack
+    margin: 20px 0 0
+  #match, #snatch
+    font-size: 4em
+    margin: 0
+    letter-spacing: -9px
+    text-align: center
+  #plus
+    font-size: 4em
+    margin: 0
+    letter-spacing: -9px
+    text-align: center
+    &.row
+      height: 390px
+      background-position: center 50%
+      background-size: auto 80px
+  .input-group
+    &:after
+      top: -9px
+      left: 310px
+      height: 0px
+    &:before
+      top: -6px
+      left: 312px
+      height: 0px
+      border-width: 0px 8px 8px
+  .collapse.in
+    display: block
+    margin: 0px !important
+    position: absolute
+    z-index: 1000
+    background: none repeat scroll 0% 0% #FFF
+    right: 10px
+    border: 2px solid #444
+    padding: 5px
+    top: 65px
+    border-radius: 3px
+    width: 64px
+  .collapsing
+    -webkit-transition: none
+    transition: none
+    height: 0
+    display: none
+  .collapse
+    transition: height 0.01s
+    padding: 0
+    border: 0
+    margin: 0
+  .subscribe .btn-circle
+    margin: 0px 55px 0px 0px
+  .publish .btn-circle
+    margin: 0 15px 0 -15px
+  h2.lot-title
+    letter-spacing: normal
+    font-size: inherit
+  .lot-body p
+    font-size: initial
+    letter-spacing: normal
+  .lot
+    &:after
+      left: 71px
+    &:before
+      left: 74px
+
+@media screen and (max-width: 480px)
+  #nav .cell
+    font-size: 2.4em
+    letter-spacing: -3px
+  .navbar-brand
+    #match, #snatch
+      font-size: 2.4em
+      letter-spacing: -3px
+  .thumbnail, .img-thumbnail
+    width: 100%
+  #nav .cell
+    margin: 0
+  .navbar-brand
+    .grey
+      font-size: 1.6em
+      letter-spacing: -4px
+    height: 55px
+  .navbar-header
+    height: 55px
+  .navbar-brand #snatch
+    margin: 0
+  .navbar > .container .navbar-brand
+    margin: 10px 0px 0px -8px
+  #intro .cell
+    padding: 10px
+  #match, #snatch, #plus
+    height: 85px
+    font-size: 2.4em
+    text-align: center
+    letter-spacing: -3px
+  #snatch.cell
+    top: 60px
+  #plus.row
+    height: 120px
+    background-position: center 60px
+    background-size: auto 33px
+  #enter.row
+    padding: 10px 0 0
+  #login
+    width: 130px
+    height: 130px
+    border-radius: 70px
+    margin: 0 auto
+    padding: 28px 0 0
+  .enter_login, .enter_join
+    font-size: 2em
+    height: 55px
+  #login
+    margin: 20px auto
+  #intro
+    h1
+      font: 300 2.4em/1.2em $font-stack
+      margin: 0 20%
+      > br
+        display: none
+        max-width: 90%
+    &.row
+      margin-bottom: 0
+  .input-group
+    &:after
+      top: -9px
+      left: 57px
+      height: 0px
+    &:before
+      top: -6px
+      left: 60px
+      height: 0px
+      border-width: 0px 8px 8px
+  .row #snatch
+    margin: 0
+  .btn-circle
+    font-size: 1em
+    height: 80px
+    margin: 0
+    width: 80px
+    border-radius: 100px
+    border: 3px solid $primary-color
+  .contact .col-xs-3
+    max-width: inherit
+    min-width: 170px
+  .col-xs-9
+    width: 60%
+  .subscribe, .publish
+    display: block
+    position: relative
+    font-weight: 400
+    border-radius: 30px
+    height: auto
+    width: 100%
+    float: left
+    padding: 0 15px 0 0
+    text-shadow: none
+  .subscribe .btn-circle, .publish .btn-circle
+    font-size: 1.4em
+    font-weight: 500
+    margin: 0
+    float: none
+    clear: both
+    width: 100%
+  .subscribe .btn-circle:hover, .subscribe .btn-circle:focus, .publish .btn-circle:hover, publish .btn-circle:focus
+    font-size: 1.4em
+    font-weight: 500
+  .meta-time-rep
+    width: 50%
+    display: inline-block
+    float: left
+    padding: 0 0 0 15px
+  .actionz
+    width: 47%
+    position: absolute
+    right: 0
+    top: 0
+    .chat, .call
+      font-size: 1.6em
+      float: right
+  .time
+    width: inherit
+    margin: 5px 0 0 0
+  .time-left
+    margin: 5px 0 0
+  .rep
+    margin: 10px 0 5px 0
+    top: 0px
+    padding: 0
+  .subscribe, .publish
+    display: block
+    position: relative
+    margin: 0
+    width: 100%
+    float: left
+  .options
+    padding: 0
+    top: -10px
+  .lot-thumbnail
+    width: 100%
+    margin: 5px 0 20px 0
+    float: none
+    clear: both
+  .short
+    float: left
+    margin: 0 0 10px 0
+    padding: 0
+  .modal-body
+    font-size: 0.9em
+    line-height: 1.3em
+  h2.lot-title
+    letter-spacing: normal
+    font-size: 1em
+  .lot-body p
+    font-size: initial
+    letter-spacing: normal
+  .attach
+    margin: 0px 8px 10px 0
+    text-align: center
+    .btn
+      padding: 0 10px
+  .lot
+    &:after
+      left: 57px
+    &:before
+      left: 60px
+  .lot-body
+    padding: 10px 0px 0px
+  .collapse.in
+    right: 2px
+    top: 53px
+    width: 80px
+    padding: 13px
+    box-shadow: -11px 12px 0px rgba(0, 0, 0, 0.05)
+
+@media screen and (max-width: 320px)
+  .navbar-brand, .navbar-header
+    height: 45px
+  .thumbnail, .img-thumbnail
+    width: 100%
+  #nav .container
+    padding-right: 0
+    padding-left: 0
+  .core
+    padding: 0
+  #nav .cell
+    font-size: 1.6em
+    letter-spacing: -2px
+  .navbar-brand
+    #match, #snatch
+      font-size: 1.6em
+      letter-spacing: -2px
+  .navbar > .container .navbar-brand
+    margin: 16px 0px 0px -8px
+  .navbar-brand
+    #match
+      margin: 0 0 0 10px
+    #snatch
+      margin: 0
+    .grey
+      font-size: 1.3em
+      letter-spacing: -2px
+  #login
+    margin: 0 auto
+  #intro h1
+    font: 300 2.8em/1.1em $font-stack
+    margin: 0 10px
+  #match, #snatch
+    font-size: 2.4em
+    margin: 0
+    padding: 0
+    text-align: center
+  #plus
+    font-size: 2.4em
+    margin: 0
+    padding: 0
+    text-align: center
+    &.row
+      height: 145px
+      background-position: center 62px
+      background-size: auto 30px
+  .input-group
+    &:after
+      top: -9px
+      left: 162px
+      height: 0px
+    &:before
+      top: -6px
+      left: 164px
+      height: 0px
+      border-width: 0px 8px 8px
+  .contact .col-xs-3
+    min-width: 100%
+    max-width: 100%
+    width: 100%
+  .col-xs-9
+    width: 100%
+  .col-xs-5
+    width: 50%
+  .btn-circle
+    width: 120px
+    border-radius: 60px
+    height: 120px
+  .contact
+    .chat, .call
+      font-size: 2em
+      text-shadow: 0 0 1px $primary-color
+    .chat
+      margin: 0 10px 0 0
+    .call
+      margin: 0 0 0 10px
+  h2
+    font-size: 1.4em
+  .collapse.in
+    top: 61px
+  .contact
+    margin: 10px 0 0
+  .actionz
+    float: none
+    width: 100%
+    display: inline-block
+    position: relative
+    margin: 0
+  .meta-time-rep
+    width: 100%
+    float: none
+    padding: 0
+    margin: 0
+  .subscribe, .publish
+    margin: 0
+    padding: 0
+  .subscribe .btn-circle
+    border-radius: 30px
+    height: 60px
+    margin: 20px 0 0
+    font-size: 1em
+    width: 100%
+    padding: 12px 20px
+    text-shadow: none
+    font-weight: 500
+  .publish .btn-circle
+    border-radius: 30px
+    height: 60px
+    margin: 20px 0 0
+    font-size: 1em
+    width: 100%
+    padding: 12px 20px
+    text-shadow: none
+    font-weight: 500
+    margin: 0
+  .subscribe .btn-circle
+    &:hover, &:focus
+      font-size: 1em
+      padding: 12px 20px
+      font-weight: 500
+  .publish .btn-circle
+    &:hover, &:focus
+      font-size: 1em
+      padding: 12px 20px
+      font-weight: 500
+  .short-icon
+    padding: 7px 0 0
+  .modal-body
+    text-align: center
+    font-size: 1em
+    line-height: 1.4em
+  .modal-login
+    width: 100%
+    padding: 0px 0px 20px 0
+  .modal-footer
+    text-align: center
+    .btn-close, .btn-submit
+      width: 45%
+    .btn-close
+      margin: 0 10px 0 0
+    .btn-submit
+      margin: 0 0 0 10px
+  h2.lot-title
+    letter-spacing: 0
+    font-size: 1.4em
+  .attach
+    marhin: 0
+    padding: 10px 0 0
+    height: 50px
+    .btn
+      padding: 0 4px
+  .contact
+    padding: 0
+  .publish .btn-circle
+    font-size: 1.3em
+    &:hover
+      font-size: 1.3em
+    span
+      margin: 2px 8px 0px -4px

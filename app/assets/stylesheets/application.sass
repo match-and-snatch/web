@@ -1,127 +1,13 @@
+
+@import "font-awesome-sprockets"
+
+@import "font-awesome"
+
+@font-face 
+	font-family: 'Glyphicons Halflings'
+	src: url(asset-path('fonts/glyphicons-halflings-regular.eot'))
+	src: url(asset-path('fonts/glyphicons-halflings-regular.eot?#iefix')) format("embedded-opentype"), url(asset-path('fonts/glyphicons-halflings-regular.woff')) format("woff"), url(asset-path('fonts/glyphicons-halflings-regular.ttf')) format("truetype"), url(asset-path('fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular')) format("svg")
+	$icon-font-path: 'bootstrap/';
+
 @import "bootstrap"
-
-$brand-primary: #0f87ff
-$body-bg: #eeeeee
-$text-color: #181818
-$link-color: $brand-primary
-$link-hover-color: darken($link-color, 15%)
-
-$deepest_depth: 1000 // Z-Index start for elements displaying on top of others
-$border_radius: 10px
-
-@import "mixins/**/*"
-@import "pages/**/*"
-
-html
-  max-height: 1000000px
-
-body
-  background-color: $body-bg
-  color: $text-color
-  font-family: 'Open Sans', Arial, sans-serif !important
-
-.dosis
-  font-family: 'Dosis', 'Open Sans', Arial !important
-
-a
-  color: $link-color
-  text-decoration: underline
-  &:hover
-    color: $link-hover-color
-    text-decoration: none
-
-img
-  border: none
-
-p
-  font-size: 13px
-
-h1, h2, h3, h4, h5
-  line-height: 100%
-
-h1
-  font-size: 2em
-h2
-  font-size: 1.5em
-h3
-  font-size: 1.17em
-h4
-  font-size: 0.83em
-h5
-  font-size: 0.75em
-
-input
-  font-size: 13px !important
-
-.hidden
-  display: none
-
-.pod
-  width: 650px
-  background: #fff
-  padding: 25px
-  box-sizing: border-box
-  margin: 17px 0px 0px 0px
-  box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24)
-
-  &:first-child
-    margin: 0px
-
-  h3
-    margin-bottom: 15px
-
-// Popup Overlay
-
-#overlay
-  z-index: $deepest_depth + 10000
-  background: black
-  display: none
-  position: fixed
-  bottom: 0
-  left: 0
-  right: 0
-  top: 0
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"
-  filter: alpha(opacity=50)
-  -moz-opacity: 0.5
-  -khtml-opacity: 0.5
-  opacity: 0.5
-
-// Popup
-
-.popup
-  @include border-radius($border_radius)
-  border: 1px solid #464646
-  display: none
-  min-height: 50px
-  min-width: 200px
-  overflow: hidden
-  position: fixed
-  left: 50%
-  top: 50%
-  z-index: $deepest_depth + 10001
-
-  // Mobile
-
-  @media screen and (max-width: 767px)
-    @include border-radius(0)
-
-// Required by JS
-
-#ClickBlocker
-  z-index: $deepest_depth + 10002
-  top: 0
-  right: 0
-  left: 0
-  bottom: 0
-  background: white
-  position: fixed
-  opacity: 0.6
-
-.js-highlight
-  border: 2px solid red
-  display: visible
-
-.pending
-  opacity: 0.3
 

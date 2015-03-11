@@ -1,0 +1,68 @@
+doctype html
+html lang="en" 
+  = render "head"
+body
+header
+  .container
+    /! INTRO
+    #intro.row
+      .cell
+        h1
+          | The only marketspace
+          sup *
+          br/
+          | where real requests
+          br/
+          | meet real offers
+          br/
+          | instantly.
+  section
+.container
+  /! MATCH+SNATCH
+  #plus.row
+    .col-md-12
+      .col-md-6
+        #match.cell
+          a href=matches_path MATCH
+      .col-md-6
+        #snatch.cell
+          a href=snatches_path SNATCH
+  /! LOGIN+JOIN
+  #enter.row
+    .col-md-12
+      .col-md-2.cell
+      .col-md-3.cell.hidden-sm.hidden-xs.info-match
+        a href=matches_path Click match to Offer
+        br/
+        | whatever you have to offer
+        br/
+        | or to share.
+      .col-md-2.cell
+        #login
+          .enter_login
+            a href="#"  Login
+          .enter_join
+            a href="#"  Join
+      .col-md-3.cell.hidden-sm.hidden-xs.info-snatch
+        a href=snatches_path Click snatch to Search
+        br/
+        | for anything you really
+        br/
+        | need to find
+      .col-md-2.cell
+
+    /! MZ TEST
+    .col-md-12 style="text-align: center;
+display: block; padding: 50px 0 0;"
+      h3
+        a href=chats_path TEST CHAT 
+/! end wrapper
+footer
+  .footer
+    .container
+      /! FOOTER
+      .row
+        .col-md-12
+          .cell matchandsnatch.com&nbsp;&nbsp;&copy;&nbsp;&nbsp;2015
+    /! end container
+  /! end footer

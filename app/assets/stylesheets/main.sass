@@ -1,0 +1,811 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,700,900,500,100)
+
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700)
+
+@import url(http://fonts.googleapis.com/css?family=Montserrat:700)
+
+@import "font-awesome"
+@import "bootstrap-sprockets"
+@import "bootstrap"
+
+$font-brand: Montserrat, Helvetica, sans-serif
+$font-stack: Roboto, Helvetica, Arial, sans-serif
+
+$primary-color: #ffb637
+$body-bg: #fff
+$text-color: #333
+$link-color: #ffb637
+$link-hover-color: darken($text-color, 10%)
+$focus_color: darken($text-color, 10%)
+
+*
+  margin: 0
+
+*:focus
+  outline: none
+
+html, body
+  height: 100%
+
+
+.wrapper
+  position: relative
+  min-height: 100%
+  margin: 0 auto
+
+.footer
+  width: 100%
+  height: 30px
+  position: absolute
+  bottom: 0
+  left: 0
+
+body
+  font: 300 1em/1.2em $font-stack
+  background-color: #f9f9f9
+  background-image: image-url("/images/ms_background_01.png")
+  background-size: 100%
+  background-position: center
+  background-repeat: repeat-y
+
+sup
+  color: #ff6600
+
+option
+  padding: 8px 10px
+  border-bottom: 1px dotted #ededed
+
+input
+  &::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder
+    color: #e1e1e1
+  &.form-control
+    &::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder
+      color: #e1e1e1
+
+textarea, input
+  &:focus
+    outline: none
+
+footer
+  text-align: center
+  font-size: 1.4em
+
+a
+  &:link
+  text-decoration: none
+  outline: 0
+  outline: none
+  color: #666
+  &:hover, &:active, &:focus
+    outline: 0
+    outline: none
+    color: $link-hover-color
+
+.glyphicon
+  line-height: 1em
+
+// GLOBAL
+
+.row
+  margin: 0 0 10px 0
+
+.btn
+  &:hover, &:focus, &:active
+    color: inherit
+
+#intro
+  h1
+    font: 100 4em/1.2em $font-stack
+    margin-top: 20px
+    text-align: center
+    color: #999
+  .cell
+    padding: 0
+
+#match, #snatch, #plus
+  font: 700 3em/1.2em $font-brand
+  letter-spacing: -2px
+  color: #444
+  padding: 0
+
+#match
+  text-align: right
+  margin: 0 20px 0 0
+
+#snatch
+  text-align: left
+  margin: 0 0 0 20px
+
+#match a:link, #snatch a:link, #match a:visited, #snatch a:visited
+  color: #666
+
+#match a:hover, #snatch a:hover, #match a:active, #snatch a:active
+  color: $primary-color
+
+#plus.row
+  background: url("bolt.svg")
+  background-position: center
+  background-repeat: no-repeat
+  background-size: 60px 60px
+
+#login
+  background-color: $primary-color
+  width: 130px
+  height: 130px
+  border-radius: 70px
+  margin: 0 auto
+  padding: 28px 0 0
+  text-align: center
+
+.enter_login, .enter_join
+  font: 700 2em/1.2em $font-stack
+  text-transform: uppercase
+  width: 100%
+  z-index: 1000
+  height: 55px
+
+.enter_login a, .enter_join a
+  color: #fff
+  text-decoration: none
+  display: block
+
+.enter_login a:hover, .enter_join a:hover
+  color: #fff
+  text-decoration: underline
+  cursor: pointer
+
+.enter_login:after
+  display: block
+  content: "---------♦---------"
+  color: #fc9
+  text-align: center
+  height: 25px
+  font-weight: 100
+  font-size: 1em
+
+.info-match, .info-snatch
+  font: 300 1.4em/1.3em $font-stack
+
+.info-match
+  text-align: left
+  right: 0px
+
+.info-snatch
+  text-align: right
+  left: 50px
+
+.info-match a, .info-snatch a
+  text-transform: uppercase
+  color: $primary-color
+  text-decoration: underline
+  font-weight: 500
+
+// NAVIGATION
+
+.navbar-brand
+  height: 65px
+  font: 900 1.8em/1em $font-brand
+  color: $primary-color !important
+  letter-spacing: -1px
+  padding: 0 15px
+  .grey a:link
+    color: #ededed
+  a
+    color: #ededed !important
+    &:hover
+      color: $primary-color !important
+  span
+    &#match, &#snatch
+      position: relative
+      color: $primary-color
+
+.grey
+  color: #ededed
+
+.navbar-brand .grey
+  font-size: 2em
+  padding: 0
+  margin: 0
+  display: inline-block
+  position: relative
+
+#nav
+  padding: 0px 0px 15px
+  position: relative
+  margin: 0
+
+#menu .btn-lg
+  border-radius: 50%
+
+#nav
+  .row
+    margin-bottom: 0
+  .cell
+    padding: 0
+    margin: 0
+    border: none
+
+.navbar-brand
+  #match, #snatch
+    padding: 0
+    margin: 0
+    border: none
+
+.icon-bar
+  color: #444
+
+.navbar-default
+  background-color: #fff
+  background-image: none
+  border: none
+  border-radius: 3px
+  margin-right: 0
+  .navbar-toggle
+    background-color: #fff
+    background-image: none
+    border: none
+    border-radius: 3px
+    margin-right: 0
+    padding: 15px
+
+#menu
+  margin: 10px 0 0
+
+.navbar .btn
+  margin: 0
+
+// SEARCH
+
+.input-prepend .add-on
+  display: inline-block
+  width: auto
+  height: 20px
+  min-width: 16px
+  padding: 4px 5px
+  font-size: 14px
+  font-weight: normal
+  line-height: 20px
+  text-align: center
+  float: left
+
+input
+  &[type="text"]
+    -webkit-appearance: none
+    box-shadow: none
+    &:focus
+      border: 2px solid #666
+      height: 48px
+      margin: 0
+      box-shadow: none
+      -webkit-appearance: none
+  &.search
+    font: 400 2em/1.4em $font-stack
+    padding: 7px 20px 8px
+    border: 2px solid #666
+    border-radius: 3px
+    box-shadow: none
+    height: 48px
+    margin: 0px
+    float: left
+    display: inline-block
+    width: 100%
+
+#input-offer
+  padding: 10px 20px
+  border: 2px solid #666
+  border-radius: 3px
+  box-shadow: none
+  height: 100%
+  margin: 0px
+  width: 100%
+  background-color: #fff
+
+.lot-name
+  font-weight: bolder
+
+.lot-body p
+  font-size: 1.6em
+  line-height: 1.4em
+
+.lot
+  &:after
+    content: ""
+    position: absolute
+    border-style: solid
+    border-width: 0px 11px 11px
+    border-color: #666 transparent
+    display: block
+    width: 0px
+    z-index: 1
+    top: -9px
+    left: 74px
+    height: 0px
+  &:before
+    content: ""
+    position: absolute
+    border-style: solid
+    border-width: 0px 11px 11px
+    border-color: #FFF transparent
+    display: block
+    width: 0px
+    z-index: 2
+    top: -6px
+    left: 74px
+    height: 0px
+
+.lot-title
+  padding: 0
+  margin: 0
+  display: block
+
+.lot-body
+  padding: 15px 0 0
+  margin: 10px 0 0
+  border-top: 1px dashed #adadad
+  display: inline-block
+
+.premium-icon
+  color: #666
+  margin: 0
+  font-size: 0.7em
+  display: inline-block
+  padding: 6px 0px 0px !important
+
+.premium-btn
+  font-size: 1em
+  padding: 3px 0px 2px 5px !important
+
+h2.lot-title
+  display: block
+  margin-top: 0
+  padding: 0
+  color: #444
+
+.input-group, #input-offer
+  position: relative
+  width: 100%
+
+.input-group
+  &:after
+    content: ""
+    position: absolute
+    border-style: solid
+    border-width: 0px 11px 11px
+    border-color: #666 transparent
+    display: block
+    width: 0px
+    z-index: 1
+    top: -9px
+    left: 312px
+    height: 0px
+  &:before
+    content: ""
+    position: absolute
+    border-style: solid
+    border-width: 0px 11px 11px
+    border-color: #FFF transparent
+    display: block
+    width: 0px
+    z-index: 2
+    top: -6px
+    left: 312px
+    height: 0px
+
+.input-group-btn:last-child > .btn
+  border: 2px solid #666
+  background-color: #666
+  color: #adadad
+  &:hover, &:focus, &:active
+    border: 2px solid $primary-color
+    background-color: $primary-color
+    color: #fff
+    outline: none
+
+.btn-lg
+  font-size: 24px
+  padding: 5px
+  border-radius: 3px
+
+.btn
+  padding: 8px 12px 4px
+  background-color: #fff
+  color: #ccc
+  text-shadow: none
+  box-shadow: none
+  -webkit-box-shadow: none
+  -ms-box-shadow: none
+  -moz-box-shadow: none
+  &:hover, &:focus, &:active
+    background-color: $primary-color
+    color: #fff
+  &:active, &.active, &:active
+    box-shadow: none
+
+.collapse
+  transition: height 0.01s
+  padding: 0
+  border: 0
+  margin: 0
+
+.input-group-btn:last-child >
+  .btn, .btn-group
+    margin-left: -3px
+
+.lupa
+  position: absolute
+  width: auto
+  display: inline-block
+  right: 0
+
+// MAIN
+
+#main.container
+  font-size: 1.6em
+  line-height: 1.4em
+  color: #444
+  padding: 0 20px 20px
+
+// LOT
+
+.options
+  padding: 0 15px
+  hr
+    margin-top: 10px
+    margin-bottom: 0
+
+.subscribe
+  padding: 0
+
+.publish
+  padding: 15px 0 0
+
+.subscribe .btn-circle span, .publish .btn-circle span
+  margin: 2px 15px 0 -7px
+  float: left
+
+.subscribe .btn-circle, .publish .btn-circle
+  width: auto
+  float: right
+  padding: 12px 25px
+  font-weight: 600
+
+.subscribe .btn-circle
+  &:hover, &:focus, &:active
+    font-weight: 600
+    border: 3px solid $primary-color
+    padding: 10px 25px
+    outline: none
+
+.publish .btn-circle
+  &:hover, &:focus, &:active
+    font-weight: 600
+    border: 3px solid $primary-color
+    padding: 10px 25px
+
+.btn-primary
+  &:hover, &:focus, &:active
+    background-color: none
+
+.btn-circle, .face-circle img
+  height: 60px
+  width: 60px
+  border-radius: 35px
+  border: 4px solid $primary-color
+  color: $primary-color
+  font-size: 1.3em
+
+.round
+  padding: 12px 14px !important
+
+.round span
+  margin: 0 !important
+  float: left
+  padding: 0px 3px
+
+.contact
+  .col-xs-2, .col-xs-3, .col-xs-5, .col-xs-4, .col-xs-6, .col-xs-9
+    padding: 0
+    margin: 0
+  .col-xs-3
+    max-width: 180px
+
+.col-xs-9
+  width: 80%
+
+.time
+  margin: 4px 0px 0px 8px
+  height: 15px
+  width: 6.5%
+
+.time-icon, .rep-icon, .short-icon, .premium-icon, .rep-indi, .rep-indi-bad, .rep-indi-good, .time, .rep
+  padding: 0px
+
+.time-icon
+  color: #666
+  margin: 0 5px 0 0
+  font-size: 1em
+  display: inline-block
+
+.time-left, .short-btn a:link, .premium-btn a:link
+  font-size: 0.7em
+  font-weight: 600
+  margin: 0
+  padding: 0
+  color: #09F
+
+.short, .premium
+  height: 20px
+  float: right
+  width: 160px
+
+.short-icon
+  color: #666
+  margin: 0
+  font-size: 0.8em
+  display: inline-block
+  padding: 4px 0px 0px
+
+.short-btn, .premium-btn
+  position: absolute
+  height: 15px
+  padding: 2px 0 2px 5px
+  display: inline-block
+
+.short-btn, .premium-btn
+  text-transform: uppercase
+  text-decoration: underline
+  color: #09F
+  font-weight: 600
+  letter-spacing: 0.5px
+
+.short-btn a
+  &:link, &:visited
+    text-transform: uppercase
+    text-decoration: underline
+    color: #09F
+    font-weight: 600
+    letter-spacing: 0.5px
+
+.premium-btn a
+  &:link, &:visited
+    text-transform: uppercase
+    text-decoration: underline
+    color: #09F
+    font-weight: 600
+    letter-spacing: 0.5px
+
+.short-btn a
+  &:hover, &:active, &:active
+    text-decoration: underline
+    color: #09F
+
+.rep
+  margin: 5px 0 0
+  height: 15px
+
+.rep-icon
+  color: #666
+  font-size: 0.8em
+  display: inline-block
+  float: left
+  position: relative
+  margin: -1px 2px 0 0
+
+.rep-indi-bad
+  height: 6px
+
+.rep-indi-good
+  height: 6px
+  background-color: #9f6
+  margin: 7px 0 0 3px
+
+.rep-indi-bad
+  background-color: #f99
+  margin: 7px 0 0 5px
+
+.actionz
+  margin: 0
+  padding: 0
+
+.lot-thumbnail
+  width: 250px
+  float: left
+  margin: 5px 20px 10px 0
+
+.thumbnail, .img-thumbnail
+  box-shadow: none
+  border-radius: 3px
+
+.img-thumbnail img
+  width: 100%
+
+.attach
+  margin: 0px 8px 0px -8px
+  padding: 20px 0 0 15px
+  height: 60px
+  .btn
+    background-color: transparent
+    padding: 5px
+    line-height: 1em
+    &:hover, &:focus, &:active
+      color: $primary-color
+
+//  MODAL
+
+.modal-dialog
+  width: auto
+
+.modal-open .modal
+  z-index: 10000
+
+.modal-backdrop
+  z-index: 9999
+
+.modal-sm
+  max-width: 500px
+
+.modal-content
+  padding: 0 20px
+
+.modal-footer .glyphicon
+  margin: 0 10px 0 -10px
+
+.input-group-addon:first-child
+  background-color: #666
+  border: 2px solid #666
+  padding: 7px 15px 14px 15px
+  color: #adadad
+  border-radius: 3px
+  font-weight: 600
+  font-size: 1.4em
+
+.modal-footer
+  .btn-close, .btn-submit, .btn-close:hover, .btn-submit :hover
+    width: auto
+    padding: 5px 20px
+    font-size: 1em
+    border: 2px solid $primary-color
+    height: 40px
+    font-weight: 400
+  padding: 15px 0px 20px 0
+  margin: 15px 0 0
+
+.modal-body, .modal-header
+  padding: 15px 0
+  font-weight: 300
+
+.btn-primary, .btn-default
+  background-image: none
+
+.modal-footer .btn-close
+  border: 2px solid #ededed
+  color: #ededed
+  &:hover
+    color: #fff
+
+input.form-control
+  &:before, &:after
+    display: none
+  border: 2px solid #666
+  height: 48px
+  border-radius: 3px
+  font: 400 1.3em/1.4em $font-stack
+  margin: 0 0 0 -3px
+  &:focus
+    margin: 0 0 0 -3px
+
+select.form-control
+  font: 300 1.3em/1.4em $font-stack
+  padding: 8px 10px
+  height: 2.4em
+  box-shadow: none
+  border-radius: 3px !important
+  border: 2px solid #666
+
+.modal-login
+  display: inline-block
+  float: left
+  padding: 7px 0
+  font-weight: 400
+  a
+    color: $primary-color
+    font-weight: 600
+    text-decoration: underline
+
+.modal-content .input-group
+  &:before, &:after
+    display: none
+
+.date-time
+  color: #09F
+  font: 700 14px/1.4em Arial, sans-serif
+  margin: 0px 0px 10px
+  text-transform: uppercase
+  letter-spacing: normal
+
+.modal-body 
+option
+  &:hover, &:focus, &:active
+    background-color: $primary-color !important
+
+
+
+// CHAT
+
+input.chat
+  font: 300 1.4em/1.4em $font-stack
+  border: 3px solid $primary-color
+  border-radius: 30px
+  height: 60px
+  padding: 12px 24px
+  width: 100%
+  &:focus, &:active
+    border: 3px solid $primary-color
+    height: 60px
+
+
+.face-circle
+  padding: 0
+  overflow: visible
+
+.face-circle img
+  &:hover, &:active
+    filter: none
+    -webkit-filter: none
+    opacity:  1
+
+.empty
+  hr
+    margin-top: 0
+    margin-bottom: 0
+    padding-top: 0
+    padding-bottom: 0
+    height: 1px
+
+.inactive
+  position: absolute
+  background: none
+  filter: grayscale(100%)
+  -webkit-filter: grayscale(100%)
+  opacity:  0.3
+  z-index: 999
+  &:hover, &:focus, &:active
+    filter: none
+    -webkit-filter: none
+    opacity:  1
+    background: none
+    outline: none
+
+.inactive img
+  &:hover
+    filter: none
+    -webkit-filter: none
+    opacity:  1
+
+.active
+  &:before
+    display: none
+  &:hover, &:focus, &:active
+    background: none
+    outline: none
+
+.count
+  &:before
+    content: "6"
+    position: absolute
+    display: block
+    width: 22px
+    height: 22px
+    background-color: #F00
+    top: 0
+    left: 0
+    border-radius: 15px
+    color: #FFF
+    text-align: center
+    opacity:  1
+    z-index: 1000
+    font-size: 12px
+    font-weight: 600
+    padding: 3px 1px
+
+@import screens
