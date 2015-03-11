@@ -9,7 +9,11 @@ h2
       th
         strong Pending Payments
       th
-        strong Payments
+        strong Delayed Payments
+      th
+        strong Failed Payments
+      th
+        strong Success Payments
 
     - @current_month.each_day do |day|
       tr
@@ -19,4 +23,8 @@ h2
         td
           = day.pending_payments_count
         td
-          = day.payments_count
+          = day.delayed_payments_count
+        td
+          = day.failed_payments_count
+        td
+          = day.success_payments_count

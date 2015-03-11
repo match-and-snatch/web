@@ -42,7 +42,7 @@ h2
         td
           = cents_to_dollars month.payout
 
-      tr style='display: #{month.current? ? 'table-row' : 'none'}' data-identifier="#{month.name}-details"
+      tr style='display: none' data-identifier="#{month.name}-details"
         td colspan="8"
           .row
             .col-md-4
@@ -81,3 +81,7 @@ h2
                     a.AjaxLink href=pending_payments_admin_profile_owner_path(@user.id, date: month.end_date) style="text-decoration: underline;" Penging Payments (this month):
                   |&nbsp;
                   span= month.pending_payments_count
+          - if month.current?
+            .row
+              .col-md-12
+                .AjaxContainer data-identifier='current-month-details' data-url=admin_profile_owner_current_month_details_path(@user.id)

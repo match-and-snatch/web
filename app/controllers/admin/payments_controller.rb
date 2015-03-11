@@ -11,10 +11,18 @@ class Admin::PaymentsController < Admin::BaseController
 
   def pending
     day = Time.at(params[:date].to_i).to_date.prev_month
+    @failed_payments = @user.source_subscriptions.
+        not_removed.
+        where(rejected: true).
+        where(['rejected_at <= ?', day.next_month.end_of_day]).
+        order(:rejected_at)
+
     @pending_payments = @user.source_subscriptions.
+        includes(:user).
         not_removed.
         not_rejected.
-        where(charged_at: day.beginning_of_day..day.end_of_day)
+        where(['charged_at <= ?', day.end_of_day]).
+        order(:charged_at)
     json_popup
   end
 
