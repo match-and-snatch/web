@@ -27,8 +27,8 @@ class Api::BaseController < ActionController::Base
   end
 
   # @override [Concerns::ControllerFramework]
-  def json_response(status, data = {}, response_status = 200)
-    super(status, {data: data}, response_status)
+  def json_response(status, data = {}, api_token = nil, response_status = 200)
+    super(status, {data: data, api_token: api_token}, response_status)
   end
 
   private
