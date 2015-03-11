@@ -17,9 +17,12 @@ h2 Payout Breakdown for #{Time.zone.now.strftime('%B')}
     th
 
     - @users.each do |user|
-      tr
+      tr style="background-color:##{user.vacation_enabled? ? 'dddddd' : 'ffffff'}"
         td
           a href=profile_path(user) target='_blank' = user.name
+          - if user.vacation_enabled?
+            |&nbsp;
+            span on vacation
         td
           a.AjaxLink href=admin_profile_owner_current_month_details_path(user.id) data-target="#{user.slug}-details-table"
             span.Toggler data-target="#{user.slug}-details" = "#{user.pending_payments_count} / #{cents_to_dollars user.pending_payments_count * user.cost}"
