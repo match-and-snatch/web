@@ -1,6 +1,6 @@
 class PendingPostsController < ApplicationController
-  before_filter :authenticate!
-  before_filter :init_profile, only: [:new, :cancel]
+  before_action :authenticate!
+  before_action :init_profile, only: [:new, :cancel]
 
   before_action :detect_device_format, only: [:new, :create]
 

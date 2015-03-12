@@ -1,9 +1,9 @@
 class CommentsController < ApplicationController
   include Concerns::PublicProfileHandler
 
-  before_filter :authenticate!, except: [:show, :create]
-  before_filter :load_post!, only: [:index, :create]
-  before_filter :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide, :like, :show]
+  before_action :authenticate!, except: [:show, :create]
+  before_action :load_post!, only: [:index, :create]
+  before_action :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide, :like, :show]
 
   protect(:index, :create, :like, :show) { can? :comment, post }
   protect(:edit, :update, :make_visible, :hide, :destroy) { can? :manage, @comment }

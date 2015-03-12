@@ -15,7 +15,7 @@ ul
 
       ul.more_sub_cont data-identifier='more-dropdown'
         / Only show if profile owner. Take to My Account Profile Details.
-        - if current_user.complete_profile?
+        - if current_user.object.has_profile_page?
           li
             a href=account_info_url(anchor: details_account_info_path) Profile Details
         li

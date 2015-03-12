@@ -62,7 +62,7 @@ describe PaymentManager do
 
         it 'marks as rejected and sets rejected date' do
           expect(subscription.rejected).to eq(true)
-          expect(subscription.rejected_at.utc.to_s).to eq(Time.zone.now.to_s)
+          expect(subscription.rejected_at.to_s).to eq(Time.zone.now.to_s)
         end
 
         it 'does not create event about new payment' do

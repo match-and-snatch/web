@@ -44,7 +44,7 @@ class ChartsPresenter
                     else
                       [].tap do |result|
                         Event.where(action: @action).group('DATE(created_at)').order('date_created_at ASC').count.each do |date, count|
-                          result << { x: date.to_time.utc.beginning_of_day.to_i, y: count }
+                          result << { x: date.to_time(:utc).beginning_of_day.to_i, y: count }
                         end
                       end
                     end

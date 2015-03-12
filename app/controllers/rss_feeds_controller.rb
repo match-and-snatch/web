@@ -1,7 +1,7 @@
 class RssFeedsController < ApplicationController
-  before_filter :load_user!, only: [:show]
-  before_filter :request_basic_http_auth!, only: [:index]
-  before_filter :set_http_content_headers
+  before_action :load_user!, only: [:show]
+  before_action :request_basic_http_auth!, only: [:index]
+  before_action :set_http_content_headers
 
   def index
     subscription_ids = @current_user.subscriptions.not_removed.where(rejected: false).pluck(:target_user_id)

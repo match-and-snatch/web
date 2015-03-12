@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-  before_filter :authenticate!, except: %i(index search mentions create show activate sample)
-  before_filter :redirect_invalid_slug, only: :show
+  before_action :authenticate!, except: %i(index search mentions create show activate sample)
+  before_action :redirect_invalid_slug, only: :show
 
   def index
     layout.title = 'ConnectPal.com - Profile Directory'
@@ -50,6 +50,7 @@ class UsersController < ApplicationController
     @profile = ProfileDecorator.new(user)
 
     layout.title = "#{@profile.name} - ConnectPal.com"
+    layout.custom_css = @profile.custom_profile_page_css
 
     if current_user.can?(:manage, user)
       @profile_types = ProfileType.where(user_id: nil).order(:title).pluck(:title)

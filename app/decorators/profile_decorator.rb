@@ -1,5 +1,5 @@
 class ProfileDecorator < UserDecorator
-  delegate :transfer, to: :object
+  delegate :transfer, :custom_profile_page_css, to: :object
 
   # @param user [User]
   def initialize(user)

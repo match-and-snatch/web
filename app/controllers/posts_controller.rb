@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
-  before_filter :authenticate!, except: [:index, :show]
-  before_filter :load_user!, only: :index
-  before_filter :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide]
+  before_action :authenticate!, except: [:index, :show]
+  before_action :load_user!, only: :index
+  before_action :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide]
 
   before_action :detect_device_format, only: [:create]
 

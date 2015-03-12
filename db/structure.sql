@@ -856,7 +856,6 @@ CREATE TABLE users (
     id integer NOT NULL,
     slug character varying(255),
     email character varying(255),
-    password_salt character varying(255),
     password_hash character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -910,7 +909,9 @@ CREATE TABLE users (
     billing_address_line_1 text,
     billing_address_line_2 text,
     contributions_enabled boolean DEFAULT true NOT NULL,
-    notifications_debug_enabled boolean DEFAULT true
+    notifications_debug_enabled boolean DEFAULT true,
+    api_token character varying(255),
+    custom_profile_page_css text
 );
 
 
@@ -1512,4 +1513,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150216164150');
 INSERT INTO schema_migrations (version) VALUES ('20150216190226');
 
 INSERT INTO schema_migrations (version) VALUES ('20150217120737');
+
+INSERT INTO schema_migrations (version) VALUES ('20150301060034');
+
+INSERT INTO schema_migrations (version) VALUES ('20150306183346');
+
+INSERT INTO schema_migrations (version) VALUES ('20150308055851');
 

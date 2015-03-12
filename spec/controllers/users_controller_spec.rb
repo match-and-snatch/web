@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UsersController, type: :controller do
+describe ::UsersController, type: :controller do
   describe 'POST #create' do
     context 'nothing passed' do
       subject { post 'create' }
@@ -102,7 +102,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'PUT #update_cover_picture' do
-    subject { put 'update_cover_picture', cover_picture_data_params }
+    subject { put 'update_cover_picture', id: profile.id, transloadit: cover_picture_data_params.to_json }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -132,7 +132,7 @@ describe UsersController, type: :controller do
 
   describe 'PUT #update_welcome_media' do
     context 'with welcome video' do
-      subject { put 'update_welcome_media', welcome_video_data_params }
+      subject { put 'update_welcome_media', id: profile.id, transloadit: welcome_video_data_params.to_json }
 
       context 'authorized access' do
         before { sign_in profile }
@@ -146,7 +146,7 @@ describe UsersController, type: :controller do
     end
 
     context 'with welcome audio' do
-      subject { put 'update_welcome_media', welcome_audio_data_params }
+      subject { put 'update_welcome_media', id: profile.id, transloadit: welcome_audio_data_params.to_json }
 
       context 'authorized access' do
         before { sign_in profile }
@@ -175,7 +175,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'PUT #update_profile_picture' do
-    subject { put 'update_profile_picture', profile_picture_data_params }
+    subject { put 'update_profile_picture', id: profile.id, transloadit: profile_picture_data_params.to_json }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -189,7 +189,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'PUT #update_profile_picture' do
-    subject { put 'update_profile_picture', profile_picture_data_params }
+    subject { put 'update_profile_picture', id: profile.id, transloadit: profile_picture_data_params.to_json }
 
     context 'authorized access' do
       before { sign_in profile }

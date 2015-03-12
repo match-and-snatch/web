@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::BaseController
-  before_filter :load_user!, only: %i(make_admin drop_admin login_as)
+  before_action :load_user!, only: %i(make_admin drop_admin login_as)
 
   def index
     @overview = OverviewPresenter.new

@@ -1,8 +1,8 @@
 class UploadsController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-  before_filter :authenticate!, except: [:show, :playlist]
-  before_filter :load_upload, only: [:show, :destroy, :playlist]
+  before_action :authenticate!, except: [:show, :playlist]
+  before_action :load_upload, only: [:show, :destroy, :playlist]
 
   protect(:destroy) { can? :manage, @upload }
 

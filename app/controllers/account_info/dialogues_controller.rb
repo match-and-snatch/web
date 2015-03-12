@@ -1,5 +1,5 @@
 class AccountInfo::DialoguesController < AccountInfo::BaseController
-  before_filter :load_dialogue!, only: [:show, :confirm_removal, :destroy]
+  before_action :load_dialogue!, only: [:show, :confirm_removal, :destroy]
 
   protect(:show) { can? :see, @dialogue }
   protect(:destroy) { can? :manage, @dialogue }

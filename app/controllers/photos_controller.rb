@@ -1,6 +1,6 @@
 class PhotosController < UploadsController
-  before_filter :load_user!, only: [:profile_picture, :cover_picture]
-  skip_before_filter :authenticate!, only: [:profile_picture, :cover_picture]
+  before_action :load_user!, only: [:profile_picture, :cover_picture]
+  skip_before_action :authenticate!, only: [:profile_picture, :cover_picture]
 
   def show
     @photo = Photo.find(params[:id])

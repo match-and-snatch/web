@@ -10,6 +10,10 @@ link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" re
 = stylesheet_link_tag '//fonts.googleapis.com/css?family=Open+Sans:300,400,600|Dosis:400,600,700'
 = stylesheet_link_tag 'application', media: 'all'
 
+- if layout.custom_css
+  style type='text/css'
+    = layout.custom_css
+
 - if Rails.application.config.assets.use_cdn
   script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'
   script type='text/javascript' src='//code.jquery.com/jquery-1.11.0.min.js'

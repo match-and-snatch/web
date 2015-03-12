@@ -1,5 +1,5 @@
 class Admin::ChartsController < Admin::BaseController
-  before_filter :initialize_statistics!
+  before_action :initialize_statistics!
 
   def index
     json_render

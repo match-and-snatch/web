@@ -21,6 +21,38 @@ describe User do
     end
   end
 
+  describe '#generate_api_token!' do
+    subject(:user) { create_user }
+
+    it do
+      expect { user.generate_api_token! }.to change { user.reload.api_token }.from(nil)
+    end
+
+    context 'already generated' do
+      before { user.generate_api_token! }
+
+      it do
+        expect { user.generate_api_token! }.not_to change { user.reload.api_token }
+      end
+    end
+  end
+
+  describe '#regenerate_api_token!' do
+    subject(:user) { create_user }
+
+    it do
+      expect { user.regenerate_api_token! }.to change { user.reload.api_token }.from(nil)
+    end
+
+    context 'already generated' do
+      before { user.generate_api_token! }
+
+      it do
+        expect { user.regenerate_api_token! }.to change { user.reload.api_token }
+      end
+    end
+  end
+
   describe '#complete_profile?' do
     subject { described_class.new(is_profile_owner: true, profile_name: profile_name, slug: slug, cost: cost, holder_name: holder_name, routing_number: routing_number, account_number: account_number).complete_profile? }
 
@@ -153,7 +185,7 @@ describe User do
     its(:welcome_audio) { should be_nil }
 
     context 'with welcome audio' do
-      let(:welcome_audio_data) { JSON.parse(welcome_audio_data_params['transloadit']) }
+      let(:welcome_audio_data) { welcome_audio_data_params }
       let(:welcome_audio) { UploadManager.new(user).create_audio(welcome_audio_data).first }
 
       its(:welcome_audio) { should eq(welcome_audio) }
@@ -166,7 +198,7 @@ describe User do
     its(:welcome_video) { should be_nil }
 
     context 'with welcome video' do
-      let(:welcome_video_data) { JSON.parse(welcome_video_data_params['transloadit']) }
+      let(:welcome_video_data) { welcome_video_data_params }
       let(:welcome_video) { UploadManager.new(user).create_video(welcome_video_data) }
 
       its(:welcome_video) { should eq(welcome_video) }
@@ -193,21 +225,20 @@ describe User do
     subject(:user) { User.new }
 
     context 'invalid cost' do
-      specify { expect { user.cost =  301 }.to raise_error(ArgumentError, /Invalid cost/) }
-      specify { expect { user.cost =  701 }.to raise_error(ArgumentError, /Invalid cost/) }
+      specify { expect { user.cost =  501 }.to raise_error(ArgumentError, /Invalid cost/) }
       specify { expect { user.cost = 2001 }.to raise_error(ArgumentError, /Invalid cost/) }
     end
 
     context 'float cost' do
       specify { expect { user.cost = 300.5 }.to change { user.cost }.from(nil).to(300) }
-      specify { expect { user.cost = 300.5 }.to change { user.subscription_cost }.from(nil).to(379) }
-      specify { expect { user.cost = 300.5 }.to change { user.subscription_fees }.from(nil).to(79) }
+      specify { expect { user.cost = 300.5 }.to change { user.subscription_cost }.from(nil).to(399) }
+      specify { expect { user.cost = 300.5 }.to change { user.subscription_fees }.from(nil).to(99) }
     end
 
     context 'cost <= $3' do
       specify { expect { user.cost = 300 }.to change { user.cost }.from(nil).to(300) }
-      specify { expect { user.cost = 300 }.to change { user.subscription_cost }.from(nil).to(379) }
-      specify { expect { user.cost = 300 }.to change { user.subscription_fees }.from(nil).to(79) }
+      specify { expect { user.cost = 300 }.to change { user.subscription_cost }.from(nil).to(399) }
+      specify { expect { user.cost = 300 }.to change { user.subscription_fees }.from(nil).to(99) }
     end
 
     context 'cost >= $4 and <= $7' do
@@ -216,18 +247,18 @@ describe User do
       specify { expect { user.cost = 400 }.to change { user.subscription_fees }.from(nil).to(99) }
 
       specify { expect { user.cost = 700 }.to change { user.cost }.from(nil).to(700) }
-      specify { expect { user.cost = 700 }.to change { user.subscription_cost }.from(nil).to(799) }
-      specify { expect { user.cost = 700 }.to change { user.subscription_fees }.from(nil).to(99) }
+      specify { expect { user.cost = 700 }.to change { user.subscription_cost }.from(nil).to(899) }
+      specify { expect { user.cost = 700 }.to change { user.subscription_fees }.from(nil).to(199) }
     end
 
     context 'cost >= $8 and <= $20' do
       specify { expect { user.cost = 800 }.to change { user.cost }.from(nil).to(800) }
-      specify { expect { user.cost = 800 }.to change { user.subscription_cost }.from(nil).to(995) }
-      specify { expect { user.cost = 800 }.to change { user.subscription_fees }.from(nil).to(195) }
+      specify { expect { user.cost = 800 }.to change { user.subscription_cost }.from(nil).to(999) }
+      specify { expect { user.cost = 800 }.to change { user.subscription_fees }.from(nil).to(199) }
 
       specify { expect { user.cost = 2000 }.to change { user.cost }.from(nil).to(2000) }
-      specify { expect { user.cost = 2000 }.to change { user.subscription_cost }.from(nil).to(2195) }
-      specify { expect { user.cost = 2000 }.to change { user.subscription_fees }.from(nil).to(195) }
+      specify { expect { user.cost = 2000 }.to change { user.subscription_cost }.from(nil).to(2199) }
+      specify { expect { user.cost = 2000 }.to change { user.subscription_fees }.from(nil).to(199) }
     end
 
     context 'cost >= $21' do

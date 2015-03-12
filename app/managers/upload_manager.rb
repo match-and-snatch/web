@@ -200,7 +200,10 @@ class UploadManager < BaseManager
   # @param attributes [Hash] upload attributes
   # @return [Array<Upload>]
   def create_audio(transloadit_data, uploadable: user, template: 'post_audio', attributes: {})
-    bucket = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store']['bucket']
+    steps = Transloadit::Rails::Engine.configuration['templates'][template]['steps']
+    bucket_source = steps['store'] || steps['store_original']
+    bucket = bucket_source['bucket']
+
     transloadit_data['uploads'].each_with_index.map do |upload_data, index|
       original = transloadit_data['results'][':original'][index]
       # TODO: fetch track name

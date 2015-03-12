@@ -1,5 +1,5 @@
 class Admin::TransfersController < Admin::BaseController
-  before_filter :load_user!
+  before_action :load_user!
 
   def index
     load_transfers

@@ -4,6 +4,20 @@ BuddyPlatform::Application.routes.draw do
   get '/feed/itunes' => 'rss_feeds#index', defaults: {format: :atom, itunes: true}, as: :itunes_feed
   get '/crossdomain' => 'pages#crossdomain', default: {format: :xml}
 
+  namespace :api, defaults: {format: :json} do
+    resources :sessions, only: [:create]
+    resources :users, only: [:show] do
+      collection do
+        get :search
+      end
+
+      member do
+        post :update_profile_name
+        post :update_profile_picture
+      end
+    end
+  end
+
   resource :account_info, only: [] do
     member do
       put :update_payment_information
@@ -175,7 +189,7 @@ BuddyPlatform::Application.routes.draw do
     end
     resources :uploads, only: :index
     resources :recent_profiles, only: :index
-    resources :profile_owners, only: [:index, :show] do
+    resources :profile_owners, only: [:index, :show, :update] do
       resources :transfers, only: [:index, :create]
       member do
         get :total_subscribed
@@ -207,6 +221,7 @@ BuddyPlatform::Application.routes.draw do
     end
     resources :profile_types, only: [:index, :create, :destroy]
     resources :charts, only: [:index, :show]
+    resources :payout_breakdown, only: [:index]
     resources :cost_change_requests, only: :index do
       member do
         get :confirm_reject

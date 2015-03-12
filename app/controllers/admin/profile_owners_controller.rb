@@ -1,5 +1,5 @@
 class Admin::ProfileOwnersController < Admin::BaseController
-  before_filter :load_user!, only: [:show, :total_subscribed, :total_new_subscribed,
+  before_action :load_user!, only: [:show, :total_subscribed, :total_new_subscribed,
                                     :total_unsubscribed, :failed_billing_subscriptions,
                                     :enable_billing, :disable_billing]
 
@@ -19,6 +19,12 @@ class Admin::ProfileOwnersController < Admin::BaseController
 
   def show
     json_render
+  end
+
+  def update
+    @user = User.where(id: params[:id]).first or error(404)
+    @user.update_attributes!(params.require(:user).permit(:custom_profile_page_css))
+    json_success notice: 'CSS Updated Successfully'
   end
 
   def total_subscribed

@@ -1,5 +1,5 @@
 class ContributorsController < ApplicationController
-  before_filter :authenticate!
+  before_action :authenticate!
 
   def index
     @contributions = Contribution.includes(:user).where(target_user_id: current_user.id).order('contributions.created_at DESC')

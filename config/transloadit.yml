@@ -89,7 +89,7 @@ transloadit_config: &transloadit_config
       robot: '/file/filter'
       condition_type: 'and'
       declines:
-        - ["${file.meta.height}", "<", "480"]
+        - ["${file.meta.height}", "<", "48000"] # Reject all HD files
       error_on_decline: false
     encode_hd:
       robot: "/video/encode"
@@ -109,14 +109,12 @@ transloadit_config: &transloadit_config
       robot: "/video/encode"
       use: ":original"
       ffmpeg_stack: "v2.2.3"
-      preset: "ipad"
+      preset: "ipad-high"
       width: null
       height: null
       resize_strategy: "pad"
       segment: true
       ffmpeg:
-        #b: "700k"
-        r: "25"
         vf: "scale='iw*sar:min(ih,720)', pad='max(iw,ih*(16/9)):ow/(16/9):(ow-iw)/2:(oh-ih)/2'"
     store_original:
       <<: *media

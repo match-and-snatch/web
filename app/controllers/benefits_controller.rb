@@ -1,6 +1,6 @@
 class BenefitsController < ApplicationController
-  before_filter :authenticate!
-  before_filter :load_user!
+  before_action :authenticate!
+  before_action :load_user!
 
   def create
     UserProfileManager.new(@user).update_benefits(params['benefits'])

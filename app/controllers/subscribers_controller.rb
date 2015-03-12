@@ -1,6 +1,6 @@
 class SubscribersController < ApplicationController
-  before_filter :authenticate!
-  before_filter :load_subscriber!, :load_subscription!, only: :destroy
+  before_action :authenticate!
+  before_action :load_subscriber!, :load_subscription!, only: :destroy
 
   def index
     @subscribers = current_user.object.subscribers

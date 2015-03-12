@@ -1,8 +1,8 @@
 class AccountInfosController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-  before_filter :authenticate!
-  before_filter :load_user
+  before_action :authenticate!
+  before_action :load_user
 
   def show
     layout.title = 'Account - ConnectPal.com'
