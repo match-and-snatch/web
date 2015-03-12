@@ -1,7 +1,7 @@
 .modal-header
   i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
   .modal-title
-    'Total Unsubscribed (this month):
+    'Pending Payments (this month):
     span= @subscriptions.count
 
 .modal-body style="margin-bottom: 15px; height: 400px; overflow: scroll"
@@ -17,7 +17,7 @@
         th
           strong Create Date
         th
-          strong Date of Cancellation
+          strong Last Charge Date
         th
           strong Next Charge Date
       - @subscriptions.each_with_index do |subscription, index|
@@ -29,6 +29,6 @@
           td
             = subscription.created_at.to_date.to_s(:long)
           td
-            = subscription.removed_at.to_date.to_s(:long)
+            = subscription.charged_at.to_date.to_s(:long)
           td
             = subscription.billing_date.to_date.to_s(:long)

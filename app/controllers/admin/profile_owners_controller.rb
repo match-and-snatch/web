@@ -1,7 +1,7 @@
 class Admin::ProfileOwnersController < Admin::BaseController
   before_action :load_user!, only: [:show, :total_subscribed, :total_new_subscribed,
                                     :total_unsubscribed, :failed_billing_subscriptions,
-                                    :enable_billing, :disable_billing]
+                                    :pending_payments, :this_month_subscribers_unsubscribers]
 
   def index
     query = User.profile_owners.includes(:profile_types).where('users.subscription_cost IS NOT NULL').limit(1000)
@@ -28,38 +28,73 @@ class Admin::ProfileOwnersController < Admin::BaseController
   end
 
   def total_subscribed
-    date = Date.parse(params[:date])
-    period = date.beginning_of_month..date
-    @subscriptions = Subscription.
-      includes(:user).
-      where(users: {billing_failed: false}).
-      where(target_user_id: @user.id).
-      where(["removed_at > ? OR removed = 'f'", period.end]).
-      where(['subscriptions.created_at <= ?', period.end]).map { |s| SubscriptionDecorator.new(s, date) }
+    @subscriptions = @user.object.
+        source_subscriptions.
+        includes(:user).
+        where(users: { billing_failed: false }).
+        where(["removed_at > ? OR removed = 'f'", period.end]).
+        where(['subscriptions.created_at <= ?', period.end]).
+        order(:charged_at).map { |s| SubscriptionDecorator.new(s, date) }
     json_popup
   end
 
   def total_new_subscribed
-    date = Date.parse(params[:date])
-    @subscriptions = @user.object.source_subscriptions.includes(:user).where(['subscriptions.created_at <= ? AND subscriptions.created_at >= ?', date, (date.beginning_of_month)]).where.not(user_id: nil).map { |s| SubscriptionDecorator.new(s, date) }
+    @subscriptions = @user.object.
+        source_subscriptions.
+        includes(:user).
+        where(created_at: period).
+        where.not(user_id: nil).
+        order(:charged_at)
     json_popup
   end
 
   def total_unsubscribed
-    date = Date.parse(params[:date])
-    period = date.beginning_of_month..date
-    @subscriptions = Subscription.where(target_user_id: @user.id, removed_at: period, removed: true).where.not(user_id: nil).map { |s| SubscriptionDecorator.new(s, date) }
+    @subscriptions = @user.object.
+        source_subscriptions.
+        includes(:user).
+        where(removed_at: period, removed: true).
+        where.not(user_id: nil).
+        order(:removed_at)
+    json_popup
+  end
+
+  def this_month_subscribers_unsubscribers
+    @subscriptions = @user.object.
+        source_subscriptions.
+        includes(:user).
+        where(removed_at: period, removed: true, created_at: period).
+        where.not(user_id: nil).
+        order(:removed_at)
     json_popup
   end
 
   def failed_billing_subscriptions
-    date = Date.parse(params[:date])
-    period = date.beginning_of_month..date
-    @users = User.joins(:subscriptions).where(subscriptions: {target_user_id: @user.id}, billing_failed_at: period)
+    @users = User.
+        joins(:subscriptions).
+        where(subscriptions: {target_user_id: @user.id}, billing_failed_at: period)
+    json_popup
+  end
+
+  def pending_payments
+    @subscriptions = @user.object.
+        source_subscriptions.
+        includes(:user).
+        not_removed.
+        not_rejected.
+        where(["(charged_at + INTERVAL '1 month') BETWEEN ? AND ?", period.begin, period.end]).
+        order(:charged_at)
     json_popup
   end
 
   private
+
+  def date
+    Time.zone.parse(params[:date])
+  end
+
+  def period
+    date.beginning_of_month..date
+  end
 
   def load_user!
     @user = User.where(id: params[:id]).first or error(404)

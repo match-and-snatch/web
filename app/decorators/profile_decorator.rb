@@ -1,5 +1,6 @@
 class ProfileDecorator < UserDecorator
-  delegate :transfer, :custom_profile_page_css, to: :object
+  delegate :transfer, :custom_profile_page_css, :payments_count,
+           :payments_amount, :unsubscribers_count, to: :object
 
   # @param user [User]
   def initialize(user)
@@ -43,6 +44,10 @@ class ProfileDecorator < UserDecorator
     @pending_post ||= object.pending_post || PendingPost.new
   end
 
+  def pending_payments_count
+    object.pending_subs_count || 0
+  end
+
   def plain_profile_types
     object.profile_types.map(&:title).join(' / ').html_safe
   end
@@ -53,5 +58,9 @@ class ProfileDecorator < UserDecorator
 
   def has_welcome_media?
     welcome_video.present? || welcome_audio.present?
+  end
+
+  def estimated_payout
+    @estimated_payout ||= object.cost * object.subscribers_count
   end
 end

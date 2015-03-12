@@ -1,0 +1,20 @@
+h2
+  strong Vacations Details
+
+.table-responsive
+  table.table.table-striped
+    tr
+      th
+        strong Start date
+      th
+        strong End date
+      th
+        strong Length (days)
+      th
+        strong Affected Users
+    - @vacations.each do |vacation|
+      tr
+        td= vacation.start_date
+        td= vacation.finish_date
+        td= distance_of_time_in_words(vacation.length) if vacation.length
+        td= vacation.affected_users_count

@@ -9,10 +9,11 @@ class Subscription < ActiveRecord::Base
 
   validates :user, :target, :target_user, presence: true
 
-  scope :by_target, -> (target) { where(target_type: target.class.name, target_id: target.id) }
-  scope :not_removed, -> { where(removed: false) }
-  scope :been_charged, -> { where('charged_at IS NOT NULL') }
-  scope :to_charge, -> { on_charge.not_removed.where(users: { vacation_enabled: false }) }
+  scope :by_target,    -> (target) { where(target_type: target.class.name, target_id: target.id) }
+  scope :not_removed,  -> { where(removed: false) }
+  scope :not_rejected, -> { where(rejected: false) }
+  scope :been_charged, -> { where.not(charged_at: nil) }
+  scope :to_charge,    -> { on_charge.not_removed.where(users: { vacation_enabled: false }) }
 
   # Returns upcoming billing date
   # @return [Date]

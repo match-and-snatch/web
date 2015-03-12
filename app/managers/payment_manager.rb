@@ -50,6 +50,7 @@ class PaymentManager < BaseManager
       EventsManager.payment_created(user: user, payment: payment)
       user_manager = UserManager.new(subscription.customer)
       user_manager.remove_mark_billing_failed
+      UserStatsManager.new(subscription.target_user).log_subscriptions_count
       user_manager.activate # Anybody who paid us should be activated
     end
   rescue Stripe::StripeError => e
@@ -67,6 +68,7 @@ class PaymentManager < BaseManager
     UserManager.new(subscription.customer).mark_billing_failed
     PaymentsMailer.delay.failed(failure) if subscription.notify_about_payment_failure?
     EventsManager.payment_failed(user: user, payment_failure: failure)
+    UserStatsManager.new(subscription.target_user).log_subscriptions_count
     failure
   end
 

@@ -1,0 +1,63 @@
+.modal-header
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
+  .modal-title
+    'Pending Payments (this month):
+    span= @pending_payments.count
+
+.modal-body style="margin-bottom: 15px; height: 400px; overflow: scroll"
+  h2
+    strong Delayed payments
+  .table-responsive
+    table.table.table-striped
+      tr
+        th
+          strong #
+        th
+          strong ID #
+        th
+          strong Full Name
+        th
+          strong Last Charge Date
+        th
+          strong Next Charge Date
+      - @pending_payments.each_with_index do |subscription, index|
+        tr
+          td= index + 1
+          td= subscription.id
+          td
+            = link_to_user subscription.user
+          td
+            = subscription.charged_at.to_s(:long)
+          td
+            = subscription.billing_date.to_s(:long)
+
+  - if @failed_payments.any?
+    h2
+      strong Failed payments
+    .table-responsive
+      table.table.table-striped
+        tr
+          th
+            strong #
+          th
+            strong ID #
+          th
+            strong Full Name
+          th
+            strong Date of Cancelation
+          th
+            strong Last Charge Date
+          th
+            strong Next Charge Date
+        - @failed_payments.each_with_index do |subscription, index|
+          tr
+            td= index + 1
+            td= subscription.id
+            td
+              = link_to_user subscription.user
+            td
+              = subscription.rejected_at.to_date.to_s(:long)
+            td
+              = subscription.charged_at.to_date.to_s(:long)
+            td
+              = subscription.billing_date.to_s(:long)

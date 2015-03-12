@@ -191,11 +191,20 @@ BuddyPlatform::Application.routes.draw do
     resources :recent_profiles, only: :index
     resources :profile_owners, only: [:index, :show, :update] do
       resources :transfers, only: [:index, :create]
+      resources :vacations, only: [:index]
+      resources :current_month_details, only: [:index]
+      resources :payments, only: [] do
+        collection do
+          get :pending
+        end
+      end
       member do
         get :total_subscribed
         get :total_new_subscribed
         get :total_unsubscribed
+        get :this_month_subscribers_unsubscribers
         get :failed_billing_subscriptions
+        get :pending_payments
       end
     end
     resources :profiles, only: [:index, :show] do
@@ -221,7 +230,7 @@ BuddyPlatform::Application.routes.draw do
     end
     resources :profile_types, only: [:index, :create, :destroy]
     resources :charts, only: [:index, :show]
-    resources :payout_breakdown, only: [:index]
+    resources :payout_breakdowns, only: [:index]
     resources :cost_change_requests, only: :index do
       member do
         get :confirm_reject

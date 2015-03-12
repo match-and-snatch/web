@@ -61,7 +61,7 @@ module Concerns::Events::AccountTracker
   # @param user [User]
   # @yield
   # @return [Event]
-  def vacation_mode_disabled(user: , &block)
-    Event.create! user: user, action: 'vacation_mode_disabled', &block
+  def vacation_mode_disabled(user: , affected_users_count: 0, &block)
+    Event.create! user: user, action: 'vacation_mode_disabled', data: { affected_users_count: affected_users_count }, &block
   end
 end
