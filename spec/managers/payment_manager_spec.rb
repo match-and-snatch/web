@@ -33,6 +33,7 @@ describe PaymentManager do
       before do
         UserManager.new(user).mark_billing_failed
         SubscriptionManager.new(subscriber: user, subscription: subscription).reject
+        UserStatsManager.new(target_user).log_subscriptions_count
       end
 
       context 'payment passes' do
@@ -50,6 +51,16 @@ describe PaymentManager do
 
         it 'creates payment_created event' do
           expect { subject.pay_for(subscription) }.to create_event(:payment_created)
+        end
+
+        it 'increases subscriptions count daily statistic' do
+          expect { subject.pay_for(subscription) }.to change { target_user.subscription_daily_count_change_events.last.subscriptions_count }.from(0).to(1)
+        end
+        it 'dos not change unsubscribers count daily statistic' do
+          expect { subject.pay_for(subscription) }.not_to change { target_user.subscription_daily_count_change_events.last.unsubscribers_count }.from(0)
+        end
+        it 'decreases failed payments count daily statistic' do
+          expect { subject.pay_for(subscription) }.to change { target_user.subscription_daily_count_change_events.last.failed_payments_count }.from(1).to(0)
         end
       end
 
@@ -71,6 +82,16 @@ describe PaymentManager do
 
         it 'creates payment_failed event' do
           expect { subject.pay_for(subscription) }.to create_event(:payment_failed)
+        end
+
+        it 'does not change subscriptions count daily statistic' do
+          expect { subject.pay_for(subscription) }.not_to change { target_user.subscription_daily_count_change_events.last.subscriptions_count }.from(0)
+        end
+        it 'dos not change unsubscribers count daily statistic' do
+          expect { subject.pay_for(subscription) }.not_to change { target_user.subscription_daily_count_change_events.last.unsubscribers_count }.from(0)
+        end
+        it 'does not change failed payments count daily statistic' do
+          expect { subject.pay_for(subscription) }.not_to change { target_user.subscription_daily_count_change_events.last.failed_payments_count }.from(1)
         end
 
         context 'on a day when payment fails first time' do
@@ -174,6 +195,16 @@ describe PaymentManager do
 
             it 'unsubscribes user' do
               expect { pay }.to change { subscription.reload.removed? }.from(false).to(true)
+            end
+
+            it 'does not change subscriptions count daily statistic' do
+              expect { pay }.not_to change { target_user.subscription_daily_count_change_events.last.subscriptions_count }.from(0)
+            end
+            it 'increase unsubscribers count daily statistic' do
+              expect { pay }.to change { target_user.subscription_daily_count_change_events.last.unsubscribers_count }.from(0).to(1)
+            end
+            it 'does not change failed payments count daily statistic' do
+              expect { pay }.not_to change { target_user.subscription_daily_count_change_events.last.failed_payments_count }.from(1)
             end
           end
 
