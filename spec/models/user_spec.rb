@@ -53,6 +53,50 @@ describe User do
     end
   end
 
+  describe '.top' do
+    subject { described_class.top }
+
+    let(:top_user) do
+      create_user(is_profile_owner: true).tap do |user|
+        user.create_top_profile!
+      end
+    end
+
+    let(:non_profile_owner) do
+      create_user(is_profile_owner: false).tap do |user|
+        user.create_top_profile!
+      end
+    end
+
+    let(:non_top_user) { create_user is_profile_owner: true }
+
+    it { is_expected.to include(top_user) }
+    it { is_expected.not_to include(non_top_user) }
+    it { is_expected.not_to include(non_profile_owner) }
+
+    describe 'ordering' do
+      let!(:middle_user) do
+        create_user(is_profile_owner: true, email: 'middle@middle.com').tap do |user|
+          user.create_top_profile! position: 1
+        end
+      end
+
+      let!(:top_user) do
+        create_user(is_profile_owner: true, email: 'top@top.com').tap do |user|
+          user.create_top_profile! position: 0
+        end
+      end
+
+      let!(:bottom_user) do
+        create_user(is_profile_owner: true, email: 'bottom@bottom.com').tap do |user|
+          user.create_top_profile! position: 2
+        end
+      end
+
+      it { is_expected.to eq([top_user, middle_user, bottom_user]) }
+    end
+  end
+
   describe '#complete_profile?' do
     subject { described_class.new(is_profile_owner: true, profile_name: profile_name, slug: slug, cost: cost, holder_name: holder_name, routing_number: routing_number, account_number: account_number).complete_profile? }
 

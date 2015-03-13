@@ -178,6 +178,12 @@ BuddyPlatform::Application.routes.draw do
   resources :profile_types, only: [:index, :create, :destroy]
 
   namespace :admin do
+    resources :top_profiles, except: [:show, :new] do
+      collection do
+        get :search
+        post :update_list
+      end
+    end
     resources :contributions, only: :index
     resources :duplicates, only: :index
     resources :payment_failures , only: :index

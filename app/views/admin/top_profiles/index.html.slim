@@ -1,0 +1,10 @@
+div data-identifier='top-profiles-page'
+  h1 Top Profiles
+
+  form.Form action=search_admin_top_profiles_path method='get' data-target='search-users-list'
+    input.Autocomplete.form-control type="text" name='q' placeholder="Search profiles"
+
+  div data-identifier='search-users-list'
+
+  br
+  = render 'profiles_list', users: @users
