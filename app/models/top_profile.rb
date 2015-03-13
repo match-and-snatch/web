@@ -9,4 +9,14 @@ class TopProfile < ActiveRecord::Base
       where(user_id: user_id).update_all(position: index)
     end
   end
+
+  # @return [String]
+  def name
+    profile_name.presence || user.profile_name
+  end
+
+  # @return [String]
+  def types
+    profile_types_text.presence || user.profile_types.first.try(:title)
+  end
 end

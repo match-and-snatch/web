@@ -1,7 +1,7 @@
 class Admin::TopProfilesController < Admin::BaseController
   before_filter :load_users, except: :search
   before_filter :load_user, only: [:create]
-  before_filter :load_top_profile, only: [:edit, :update]
+  before_filter :load_top_profile, only: [:edit, :update, :destroy]
 
   def index
     json_render
@@ -14,7 +14,7 @@ class Admin::TopProfilesController < Admin::BaseController
 
   def create
     @user.create_top_profile!(profile_name: @user.profile_name,
-                              profile_types: @user.profile_types.first.try(:title))
+                              profile_types_text: @user.profile_types.first.try(:title))
     json_replace template: 'index'
   end
 
@@ -23,7 +23,7 @@ class Admin::TopProfilesController < Admin::BaseController
   end
 
   def update
-    @top_profile.update(params.slice(:profile_name, :profile_types))
+    @top_profile.update(params.slice(:profile_name, :profile_types_text))
     json_replace partial: 'profiles_list', locals: {users: @users}
   end
 
@@ -33,7 +33,7 @@ class Admin::TopProfilesController < Admin::BaseController
   end
 
   def destroy
-    TopProfile.find(params[:id]).destroy!
+    @top_profile.destroy!
 
     if params[:template]
       json_replace partial: params[:template], locals: {users: @users}
@@ -45,7 +45,7 @@ class Admin::TopProfilesController < Admin::BaseController
   private
 
   def load_top_profile
-    @top_profile = TopProfile.find(params[:id])
+    @top_profile = TopProfile.where(id: params[:id]).first or error(404)
   end
 
   def load_user

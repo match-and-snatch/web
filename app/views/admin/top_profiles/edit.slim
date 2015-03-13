@@ -8,10 +8,10 @@
     .clearfix
 
     label style="margin-top: 15px" Edit Profile Types
-    textarea.form-control.edit_field name='profile_types' placeholder='Profile Types'
-      = @top_profile.profile_types
+    textarea.form-control.edit_field name='profile_types_text' placeholder='Profile Types'
+      = @top_profile.profile_types_text
     .clearfix
-    .error data-field='profile_types'
+    .error data-field='profile_types_text'
 
     input.btn.blue.pull-right type='Submit' value='Update Top Profile' style="margin-top: 15px"
     .clearfix

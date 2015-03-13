@@ -67,9 +67,8 @@
         - @top_users.each do |user|
           a.pull-left href=profile_path(user)
             img.photo src=user.small_profile_picture_url width=50 height=50
-            span= user.top_profile.profile_name.presence || user.profile_name
-            - if user.top_profile.profile_types.present?
-              span.category.hidden-xs=< "(#{user.top_profile.profile_types})"
+            span= user.top_profile.name
+            span.category.hidden-xs=< user.top_profile.types
             .clearfix
         .clearfix
 
