@@ -5,10 +5,8 @@ class TopProfile < ActiveRecord::Base
   # Rebuilds list of top user profiles
   # @param user_ids [Array<Ingeter, String>]
   def self.update_list(user_ids)
-    delete_all
-
     user_ids.each_with_index do |user_id, index|
-      create!(user_id: user_id, position: index)
+      where(user_id: user_id).update_all(position: index)
     end
   end
 end

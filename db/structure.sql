@@ -821,7 +821,9 @@ CREATE TABLE top_profiles (
     user_id integer,
     "position" integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    profile_name character varying(255),
+    profile_types text
 );
 
 
@@ -1588,4 +1590,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150305053822');
 INSERT INTO schema_migrations (version) VALUES ('20150306183346');
 
 INSERT INTO schema_migrations (version) VALUES ('20150308055851');
+
+INSERT INTO schema_migrations (version) VALUES ('20150313072158');
 

@@ -6,7 +6,9 @@ div data-identifier='top-profiles-list'
         li data-oid=user.id
           i.fa.fa-arrows-v.icon.pull-left.dragger
           i.fa.fa-music.icon.pull-left
-          .file_name.pull-left= user.name
+          .file_name.pull-left= user.top_profile.profile_name
+          .file_name.pull-left= user.top_profile.profile_types
+          a.AjaxLink href=edit_admin_top_profile_path(user.top_profile) Edit
           a.delete_button.fa.fa-times.AjaxFormLink href=admin_top_profile_path(user.top_profile) data-_method='DELETE' data-target='top-profiles-list' data-template='profiles_list'
   - else
     h2 No profiles in the list

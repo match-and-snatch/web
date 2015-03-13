@@ -1,5 +1,7 @@
 class Admin::TopProfilesController < Admin::BaseController
   before_filter :load_users, except: :search
+  before_filter :load_user, only: [:create]
+  before_filter :load_top_profile, only: [:edit, :update]
 
   def index
     json_render
@@ -11,8 +13,18 @@ class Admin::TopProfilesController < Admin::BaseController
   end
 
   def create
-    TopProfile.create!(user_id: params[:user_id])
+    @user.create_top_profile!(profile_name: @user.profile_name,
+                              profile_types: @user.profile_types.first.try(:title))
     json_replace template: 'index'
+  end
+
+  def edit
+    json_popup
+  end
+
+  def update
+    @top_profile.update(params.slice(:profile_name, :profile_types))
+    json_replace partial: 'profiles_list', locals: {users: @users}
   end
 
   def update_list
@@ -31,6 +43,14 @@ class Admin::TopProfilesController < Admin::BaseController
   end
 
   private
+
+  def load_top_profile
+    @top_profile = TopProfile.find(params[:id])
+  end
+
+  def load_user
+    @user = User.includes(:profile_types).find(params[:user_id])
+  end
 
   def load_users
     @users = User.top

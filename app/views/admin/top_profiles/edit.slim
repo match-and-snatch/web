@@ -1,0 +1,17 @@
+.edit_post_popup
+  form.form.PopupForm action=admin_top_profile_path(@top_profile) data-target='top-profiles-list' method='post'
+    input type='hidden' name='_method' value='PUT'
+
+    label Edit Profile Name
+    input.form-control.edit_field name='profile_name' placeholder="Profile Name" value=@top_profile.profile_name
+    .error data-field='profile_name'
+    .clearfix
+
+    label style="margin-top: 15px" Edit Profile Types
+    textarea.form-control.edit_field name='profile_types' placeholder='Profile Types'
+      = @top_profile.profile_types
+    .clearfix
+    .error data-field='profile_types'
+
+    input.btn.blue.pull-right type='Submit' value='Update Top Profile' style="margin-top: 15px"
+    .clearfix
