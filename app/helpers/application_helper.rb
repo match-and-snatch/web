@@ -123,19 +123,13 @@ module ApplicationHelper
   # @param video [Video]
   # @return [String, nil]
   def video_player(video)
-    if video.low_quality_playlist_url
-      playlist_url = playlist_video_path(video.id, format: 'm3u8')
-    end
-
     content_tag(:div, nil,
                 id: "Upload__#{video.id}",
                 class: 'VideoPlayer',
                 data: { file:     video.rtmp_path,
-                        hdfile:   video.hd_rtmp_path,
-                        playlist: playlist_url,
                         original: video.original_url,
                         image:    video.preview_url,
-                        primary: 'flash' }) if video
+                        primary: 'html5' }) if video
   end
 
   # @param audio [Audio]

@@ -7,9 +7,7 @@ class bud.widgets.VideoPlayer extends bud.Widget
     data = @$container.data()
 
     @file        = data['file']
-    @hd_file     = data['hdfile']
-    @playlist    = data['playlist']
-    @original    = data['original']
+    @original    = data['original'] || @file
     @image       = data['image']
     @width       = data['width'] || '585'
     @height      = data['height'] || '330'
@@ -20,8 +18,11 @@ class bud.widgets.VideoPlayer extends bud.Widget
     bud.Ajax.getScript(window.bud.config.jwplayer.script_path).done(@on_script_loaded)
     bud.sub('player.play', @stop)
 
-  destroy: -> bud.unsub('player.play', @stop)
-  on_play: => bud.pub('player.play', [@])
+  destroy: ->
+    bud.unsub('player.play', @stop)
+
+  on_play: =>
+    bud.pub('player.play', [@])
 
   stop: (e, player) =>
     if player != @ && @player
@@ -29,25 +30,14 @@ class bud.widgets.VideoPlayer extends bud.Widget
 
   on_script_loaded: =>
     @player = jwplayer(@id).setup({
-      sources: @sources(),
+      playlist: [{
+        sources: [{file: @file}, {file: @original}],
+        image: @image
+      }],
       width: @width,
-      image: @image,
       height: @height,
       aspectratio: @aspectratio,
       primary: @primary,
-      androidhls: true
       skin: @skin
-    });
+    })
     @player.onPlay(@on_play)
-
-  sources: ->
-    if @playlist
-      [{file: @playlist, image: @image}, {file: @original, image: @image}]
-    else
-      if @hd_file
-        [
-          {file: @file, label: 'low', default: false},
-          {file: @hd_file, label: 'HD', default: true}
-        ]
-      else
-        [{file: @file, image: @image}, {file: @original, image: @image}]

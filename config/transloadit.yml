@@ -84,27 +84,6 @@ transloadit_config: &transloadit_config
       <<: *s3_uploads_bucket
       use: 'thumbs'
       path: 'uploads/video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
-    hd_files:
-      use: ":original"
-      robot: '/file/filter'
-      condition_type: 'and'
-      declines:
-        - ["${file.meta.height}", "<", "48000"] # Reject all HD files
-      error_on_decline: false
-    encode_hd:
-      robot: "/video/encode"
-      use: hd_files
-      ffmpeg_stack: "v2.2.3"
-      preset: "ipad-high"
-      width: null
-      height: null
-      resize_strategy: "pad"
-      segment: true
-      ffmpeg:
-        crf: 10
-        tune: film
-        preset: slow
-        vf: "scale='iw*sar:min(ih,1280)', pad='max(iw,ih*(16/9)):ow/(16/9):(ow-iw)/2:(oh-ih)/2'"
     encode:
       robot: "/video/encode"
       use: ":original"
@@ -113,51 +92,14 @@ transloadit_config: &transloadit_config
       width: null
       height: null
       resize_strategy: "pad"
-      segment: true
       ffmpeg:
         vf: "scale='iw*sar:min(ih,720)', pad='max(iw,ih*(16/9)):ow/(16/9):(ow-iw)/2:(oh-ih)/2'"
     store_original:
       <<: *media
       use: ':original'
-    store_high:
-      <<: *s3_media_file
-      use: 'encode_hd'
     store_low:
       <<: *s3_media_file
       use: 'encode'
-    high_playlist:
-      robot: '/media/playlist'
-      use:
-        steps: 'store_high'
-        bundle_steps: true
-      resolution: '1920x1080'
-      bandwidth: 1600000
-      name: high_playlist.m3u8
-    low_playlist:
-      robot: '/media/playlist'
-      use:
-        steps: 'store_low'
-        bundle_steps: true
-      resolution: '1280x740'
-      bandwidth: 320000
-      name: low_playlist.m3u8
-    store_high_playlist:
-      <<: *s3_media_file
-      use: 'high_playlist'
-    store_low_playlist:
-      <<: *s3_media_file
-      use: 'low_playlist'
-    playlist:
-      robot: '/media/playlist'
-      use:
-        steps:
-          - 'high_playlist'
-          - 'low_playlist'
-        bundle_steps: true
-    store_playlist:
-      <<: *s3_media_file
-      use: 'playlist'
-      path: '${assembly.id}__playlist.m3u8'
 
   # the jquery_sdk version you want to use, read up on it here:
   # https://transloadit.com/blog/2013/02/transloadit-javascript-plugin-and-jquery-1-9
