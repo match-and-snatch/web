@@ -15,7 +15,10 @@ BuddyPlatform::Application.routes.draw do
         post :update_profile_name
         post :update_profile_picture
       end
+
+      resources :posts, only: [:index]
     end
+    match '*path' => 'cors#preflight', via: :options
   end
 
   resource :account_info, only: [] do
