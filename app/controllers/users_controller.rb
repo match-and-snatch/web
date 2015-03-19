@@ -6,8 +6,8 @@ class UsersController < ApplicationController
 
   def index
     layout.title = 'ConnectPal.com - Profile Directory'
+    @top_users = User.top
     @users = Queries::Users.new(user: current_user).grouped_by_first_letter
-    @jane = User.find_by_registration_token('bRxirxcbMuLQdB3rzlA-aQ')
   end
 
   def search

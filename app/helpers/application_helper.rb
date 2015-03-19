@@ -135,7 +135,7 @@ module ApplicationHelper
                         playlist: playlist_url,
                         original: video.original_url,
                         image:    video.preview_url,
-                        primary: 'flash' }) if video
+                        primary: 'html5' }) if video
   end
 
   # @param audio [Audio]

@@ -7,8 +7,10 @@ class bud.widgets.AjaxFormLink extends bud.Widget
     @url = @$container.attr('href')
     @event = @$container.data('event')
     @data = @$container.data()
-    @$target = bud.get(@$container.data('target')) || @$container
     @$container.click @link_clicked
+
+  target: ->
+    bud.get(@$container.data('target')) || @$container
 
   link_clicked: =>
     return false if @$container.hasClass('pending')
@@ -26,9 +28,9 @@ class bud.widgets.AjaxFormLink extends bud.Widget
   render_link: (response) =>
     @$container.removeClass('pending')
     @$container.addClass('active')
-    bud.replace_html(@$target, response['html'])
+    bud.replace_html(@target(), response['html'])
 
   on_replace: (response) =>
     @$container.removeClass('pending')
     @$container.addClass('active')
-    bud.replace_container(@$target, response['html'])
+    bud.replace_container(@target(), response['html'])

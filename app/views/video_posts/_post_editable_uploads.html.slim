@@ -1,0 +1,5 @@
+ul.edit_post_video
+  - post.uploads.each do |upload|
+    li data-identifier='upload-#{upload.id}'
+      img src=upload.preview_url
+          

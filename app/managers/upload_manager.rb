@@ -154,22 +154,22 @@ class UploadManager < BaseManager
     thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
     encode = transloadit_data['results']['encode'][0]
 
-    hd_step = transloadit_data['results']['encode_hd']
-    encode_hd = hd_step[0] if hd_step
+    #hd_step = transloadit_data['results']['encode_hd']
+    #encode_hd = hd_step[0] if hd_step
 
-    playlist = transloadit_data['results']['playlist'].try(:[], 0) || {}
-    low_playlist = transloadit_data['results']['low_playlist'][0]
-    high_playlist = transloadit_data['results']['high_playlist'].try(:[], 0) || {}
+    #playlist = transloadit_data['results']['playlist'].try(:[], 0) || {}
+    #low_playlist = transloadit_data['results']['low_playlist'][0]
+    #high_playlist = transloadit_data['results']['high_playlist'].try(:[], 0) || {}
 
     original = transloadit_data['results'][':original'][0]
 
-    hd_url = encode_hd['ssl_url'] if encode_hd
+    #hd_url = encode_hd['ssl_url'] if encode_hd
 
     preview_bucket = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['s3_thumb']['bucket']
     videos_bucket  = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store_low']['bucket']
 
     s3_paths = { preview_bucket => [{ key: get_file_path(thumb['ssl_url']) }],
-                 videos_bucket  => [hd_url, encode['ssl_url'], original['ssl_url']].compact.map { |e| { key: get_file_path(e) } } }
+                 videos_bucket  => [encode['ssl_url'], original['ssl_url']].compact.map { |e| { key: get_file_path(e) } } }
 
     upload = Video.new transloadit_data: transloadit_data.to_hash,
                        s3_paths:         s3_paths,
@@ -184,10 +184,10 @@ class UploadManager < BaseManager
                        width:            transloadit_data['uploads'][0]['meta']['width'],
                        height:           transloadit_data['uploads'][0]['meta']['height'],
                        url:              encode['ssl_url'],
-                       playlist_url:     playlist['ssl_url'],
-                       low_quality_playlist_url: low_playlist['ssl_url'],
-                       high_quality_playlist_url: high_playlist['ssl_url'], # TODO: Change ssl_url to url?
-                       hd_url:           hd_url,
+                       #playlist_url:     playlist['ssl_url'],
+                       #low_quality_playlist_url: low_playlist['ssl_url'],
+                       #high_quality_playlist_url: high_playlist['ssl_url'], # TODO: Change ssl_url to url?
+                       #hd_url:           hd_url,
                        preview_url:      thumb['ssl_url']
     upload.attributes = attributes
     save_or_die! upload
@@ -231,6 +231,14 @@ class UploadManager < BaseManager
     Upload.where(id: ids).find_each do |upload|
       upload.delete_s3_files!
     end
+  end
+
+  # @param upload [Upload]
+  # @param post [Post]
+  def remove_upload(upload: , post: upload.uploadable)
+    upload.delete
+    EventsManager.upload_removed(user: user, upload: upload)
+    PostManager.new(user: user, post: post).turn_to_status_post unless post.try(:status?)
   end
 
   private

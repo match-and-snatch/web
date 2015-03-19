@@ -89,6 +89,7 @@ BuddyPlatform::Application.routes.draw do
     member do
       put :make_visible
       put :hide
+      delete :destroy_upload
     end
     resources :comments, only: [:create, :index]
     resources :likes, only: [:index, :create], defaults: {type: 'post'}
@@ -177,6 +178,12 @@ BuddyPlatform::Application.routes.draw do
   resources :profile_types, only: [:index, :create, :destroy]
 
   namespace :admin do
+    resources :top_profiles, except: [:show, :new] do
+      collection do
+        get :search
+        post :update_list
+      end
+    end
     resources :contributions, only: :index
     resources :duplicates, only: :index
     resources :payment_failures , only: :index
@@ -191,11 +198,20 @@ BuddyPlatform::Application.routes.draw do
     resources :recent_profiles, only: :index
     resources :profile_owners, only: [:index, :show, :update] do
       resources :transfers, only: [:index, :create]
+      resources :vacations, only: [:index]
+      resources :current_month_details, only: [:index]
+      resources :payments, only: [] do
+        collection do
+          get :pending
+        end
+      end
       member do
         get :total_subscribed
         get :total_new_subscribed
         get :total_unsubscribed
+        get :this_month_subscribers_unsubscribers
         get :failed_billing_subscriptions
+        get :pending_payments
       end
     end
     resources :profiles, only: [:index, :show] do
@@ -221,7 +237,7 @@ BuddyPlatform::Application.routes.draw do
     end
     resources :profile_types, only: [:index, :create, :destroy]
     resources :charts, only: [:index, :show]
-    resources :payout_breakdown, only: [:index]
+    resources :payout_breakdowns, only: [:index]
     resources :cost_change_requests, only: :index do
       member do
         get :confirm_reject

@@ -43,11 +43,15 @@ class BillingPeriodsPresenter
     end
 
     def end_date
-      @period.end.to_s(:db)
+      @period.end.to_s
     end
 
     def name
       Date::MONTHNAMES[@period.begin.month]
+    end
+
+    def current?
+      @period.cover? Time.zone.now
     end
 
     def total_gross
@@ -71,22 +75,19 @@ class BillingPeriodsPresenter
     end
 
     def total_subscribed_count
-      failed_billing_count = Subscription.
-          joins(:user).
-          where(['users.billing_failed_at <= ?', @period.end]).
-          where(target_user_id: @user.id).count
-      Subscription.
-        where(target_user_id: @user.id).
-        where(["removed_at > ? OR removed = 'f'", @period.end]).
-        where(['subscriptions.created_at <= ?', @period.end]).count - failed_billing_count
+      stats_entry.try(:subscriptions_count) || 0
     end
 
     def subscribed_count
-      Subscription.where(target_user_id: @user.id, created_at: @period).count
+      @user.source_subscriptions.where(created_at: @period).count
     end
 
     def unsubscribed_count
-      removed_subscriptions.count
+      stats_entry.try(:unsubscribers_count) || 0
+    end
+
+    def this_month_subscribers_unsubscribers_count
+      (@user.source_subscriptions.where(created_at: @period, removed: true) | @user.source_subscriptions.where(created_at: @period, rejected: true)).count
     end
 
     def payout
@@ -94,11 +95,18 @@ class BillingPeriodsPresenter
     end
 
     def billing_failed_count
-      @bfc ||= begin
-         Subscription.
-           joins(:user).
-           where(users: {billing_failed_at: @period}, target_user_id: @user.id).count
-      end
+      stats_entry.try(:failed_payments_count) || 0
+    end
+
+    def successful_payments_count
+      payments.count
+    end
+
+    def pending_payments_count
+      @user.source_subscriptions.
+          not_removed.
+          not_rejected.
+          where(["(charged_at + INTERVAL '1 month') BETWEEN ? AND ?", @period.begin, @period.end]).count
     end
 
     private
@@ -112,7 +120,11 @@ class BillingPeriodsPresenter
     end
 
     def payments
-      @payments ||= Payment.where(target_user_id: @user.id, created_at: @period)
+      @payments ||= @user.source_payments.where(created_at: @period)
+    end
+
+    def stats_entry
+      @stats_entry ||= @user.subscription_daily_count_change_events.where(created_at: @period).order(created_at: :desc).first
     end
   end
 end

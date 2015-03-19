@@ -28,16 +28,29 @@ class bud.widgets.VideoPlayer extends bud.Widget
       @player.stop()
 
   on_script_loaded: =>
-    @player = jwplayer(@id).setup({
-      sources: @sources(),
-      width: @width,
-      image: @image,
-      height: @height,
-      aspectratio: @aspectratio,
-      primary: @primary,
-      androidhls: true
-      skin: @skin
-    });
+    if @hd_file || @playlist
+      @player = jwplayer(@id).setup({
+        sources: @sources(),
+        image: @image,
+        width: @width,
+        height: @height,
+        aspectratio: @aspectratio,
+        androidhls: true,
+        primary: @primary,
+        skin: @skin
+      })
+    else
+      @player = jwplayer(@id).setup({
+        playlist: [{
+          sources: [{file: @file}, {file: @original}],
+          image: @image
+        }],
+        width: @width,
+        height: @height,
+        aspectratio: @aspectratio,
+        primary: @primary,
+        skin: @skin
+      })
     @player.onPlay(@on_play)
 
   sources: ->

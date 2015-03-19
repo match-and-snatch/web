@@ -9,19 +9,26 @@
     table.table.table-striped
       tr
         th
+          strong #
+        th
           strong ID #
         th
           strong Full Name
         th
+          strong Create Date
+        th
           strong Date of Cancellation
         th
-          strong Next Billing Cycle
-      - @subscriptions.each do |subscription|
+          strong Next Charge Date
+      - @subscriptions.each_with_index do |subscription, index|
         tr
+          td= index + 1
           td= subscription.id
           td
             = link_to_user subscription.user
           td
+            = subscription.created_at.to_date.to_s(:long)
+          td
             = subscription.removed_at.to_date.to_s(:long)
           td
-            = subscription.next_billing_date
+            = subscription.billing_date.to_date.to_s(:long)

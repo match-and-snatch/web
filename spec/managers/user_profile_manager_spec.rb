@@ -161,6 +161,10 @@ describe UserProfileManager do
               expect { disable_vacation_mode }.to change { subscription.reload.charged_at }.from(charge_time).to(charge_time + 28.days)
             end
           end
+
+          it 'creates vacation_mode_disabled event with affected users count' do
+            expect { disable_vacation_mode }.to create_event(:vacation_mode_disabled).including_data(affected_users_count: 1)
+          end
         end
       end
     end

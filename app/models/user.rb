@@ -32,7 +32,9 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :events
   has_many :cost_change_requests
+  has_many :subscription_daily_count_change_events
 
+  has_one :top_profile
   has_one :pending_post
 
   validates :full_name, :email, presence: true
@@ -44,6 +46,7 @@ class User < ActiveRecord::Base
   scope :subscribers, -> { where(is_profile_owner: false) }
   scope :with_complete_profile, -> { where(has_complete_profile: true) }
   scope :by_email, -> (email) { where(['email ILIKE ?', email]) }
+  scope :top, -> { profile_owners.joins(:top_profile).order('top_profiles.position') }
 
   pg_search_scope :search_by_text_fields, against: [:full_name, :profile_name, :profile_types_text],
                                         using: [:tsearch, :dmetaphone, :trigram],

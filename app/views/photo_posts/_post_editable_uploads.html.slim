@@ -1,0 +1,7 @@
+ul.edit_post_photo
+  - post.uploads.each do |upload|
+    li data-identifier='upload-#{upload.id}'
+      img src=upload.preview_url
+        a.AjaxFormLink href=destroy_upload_post_path(post) data-upload_id=upload.id data-_method='DELETE' data-target='post-#{post.id}'
+          span.delete_photo.fa.fa-times.Toggler data-target='upload-#{upload.id}'
+.clearfix

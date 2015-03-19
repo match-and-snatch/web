@@ -1,0 +1,30 @@
+h2
+  strong Current Month Details
+
+.table-responsive
+  table.table.table-striped
+    tr
+      th
+        strong Day
+      th
+        strong Pending Payments
+      th
+        strong Delayed Payments
+      th
+        strong Failed Payments
+      th
+        strong Success Payments
+
+    - @current_month.each_day do |day|
+      tr
+        td
+          strong
+            a.AjaxLink href=pending_admin_profile_owner_payments_path(@current_month.user.id, date: day.date) = day.name
+        td
+          = day.pending_payments_count
+        td
+          = day.delayed_payments_count
+        td
+          = day.failed_payments_count
+        td
+          = day.success_payments_count
