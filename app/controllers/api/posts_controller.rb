@@ -4,9 +4,9 @@ class Api::PostsController < Api::BaseController
   protect(:index) { can? :see, @user }
 
   def index
-    query = Queries::Posts.new(user: @user, current_user: current_user.object)
+    query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], start_id: params[:last_post_id])
     @posts = query.results.map { |p| post_data(p) }
-    json_success @posts
+    json_success posts: @posts, last_post_id: query.last_post_id
   end
 
   private
