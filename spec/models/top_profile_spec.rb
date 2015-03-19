@@ -29,4 +29,36 @@ describe TopProfile do
       end
     end
   end
+
+  describe '#profile_types_text=' do
+    context 'whitespaces around' do
+      before do
+        subject.profile_types_text = " truncate me please   "
+      end
+
+      its(:profile_types_text) { is_expected.to eq("truncate me please") }
+
+      context 'after save' do
+        before do
+          subject.save!
+          subject.reload
+        end
+
+        its(:profile_types_text) { is_expected.to eq("truncate me please") }
+      end
+    end
+
+    context 'nil given' do
+      before { subject.profile_types_text = nil }
+      its(:profile_types_text) { is_expected.to eq(nil) }
+    end
+
+    context 'no whitespaces around' do
+      before do
+        subject.profile_types_text = "truncate me please"
+      end
+
+      its(:profile_types_text) { is_expected.to eq("truncate me please") }
+    end
+  end
 end

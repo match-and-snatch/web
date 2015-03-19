@@ -10,6 +10,10 @@ class TopProfile < ActiveRecord::Base
     end
   end
 
+  def profile_types_text=(val)
+    write_attribute(:profile_types_text, val.try(:strip).presence)
+  end
+
   # @return [String]
   def name
     profile_name.presence || user.profile_name
