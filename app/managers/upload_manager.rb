@@ -45,18 +45,25 @@ class UploadManager < BaseManager
   # @param transloadit_data [Hash]
   # @return [Array<Upload>]
   def create_pending_photos(transloadit_data)
+    transloadit_data['results']['preview']   or fail_with! 'Invalid transloadit data'
+    transloadit_data['results']['full_size'] or fail_with! 'Invalid transloadit data'
+
     attributes = { uploadable_type: 'Post', uploadable_id: nil }
     bucket = Transloadit::Rails::Engine.configuration['templates']['post_photo']['steps']['store']['bucket']
 
-    transloadit_data['uploads'].each_with_index.map do |upload_data, index|
-      transloadit_data['results']['preview']   or fail_with! 'Invalid image'
-      transloadit_data['results']['full_size'] or fail_with! 'Invalid image'
+    search_related = lambda { |collection, original_id|
+      collection.find { |item| item['original_id'] == original_id }
+    }
 
-      original = transloadit_data['results']['full_size'][index]
+    transloadit_data['uploads'].each.map do |upload_data|
+      original_id = upload_data['original_id']
+      original = search_related.call(transloadit_data['results']['full_size'], original_id)
 
       if original
-        preview  = transloadit_data['results']['preview'][index]
+        preview = search_related.call(transloadit_data['results']['preview'], original_id)
+
         s3_paths = { bucket => [original['ssl_url'], preview['ssl_url']].map { |e| { key: get_file_path(e) } } }
+
         upload = Photo.new transloadit_data: transloadit_data.to_hash,
                            s3_paths:         s3_paths,
                            user_id:          user.id,
@@ -68,6 +75,7 @@ class UploadManager < BaseManager
                            width:            upload_data['meta']['width'],
                            height:           upload_data['meta']['height'],
                            url:              original['ssl_url']
+
         upload.attributes = attributes.merge(preview_url: preview['ssl_url'])
         save_or_die! upload
         EventsManager.file_uploaded(user: user, file: upload)
