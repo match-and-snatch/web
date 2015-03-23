@@ -20,8 +20,8 @@ $(document).ready ->
 
 $(document).on 'focus', 'input, textarea', ->
   if (navigator.userAgent.match(/Mobi/))
-    $('.HidesOnMobileInput').css('position', 'absolute')
+    $('.HidesOnMobileInput').css('display', 'none')
 
 $(document).on 'focusout', 'input, textarea', ->
   if (navigator.userAgent.match(/Mobi/))
-    $('.HidesOnMobileInput').css('position', 'fixed')
+    $('.HidesOnMobileInput').css('display', 'block')
