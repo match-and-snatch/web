@@ -51,16 +51,12 @@ class UploadManager < BaseManager
     attributes = { uploadable_type: 'Post', uploadable_id: nil }
     bucket = Transloadit::Rails::Engine.configuration['templates']['post_photo']['steps']['store']['bucket']
 
-    search_related = lambda { |collection, original_id|
-      collection.find { |item| item['original_id'] == original_id }
-    }
-
     transloadit_data['uploads'].each.map do |upload_data|
       original_id = upload_data['original_id']
-      original = search_related.call(transloadit_data['results']['full_size'], original_id)
+      original = search_related_result(transloadit_data['results']['full_size'], original_id)
 
       if original
-        preview = search_related.call(transloadit_data['results']['preview'], original_id)
+        preview = search_related_result(transloadit_data['results']['preview'], original_id)
 
         s3_paths = { bucket => [original['ssl_url'], preview['ssl_url']].map { |e| { key: get_file_path(e) } } }
 
@@ -94,33 +90,39 @@ class UploadManager < BaseManager
     attributes = { uploadable_type: 'Post', uploadable_id: nil }
     bucket = Transloadit::Rails::Engine.configuration['templates']['post_document']['steps']['store']['bucket']
 
-    transloadit_data['uploads'].each_with_index.map do |upload_data, index|
-      original = transloadit_data['results'][':original'][index]
-      s3_paths = { bucket => [{ key: get_file_path(original['ssl_url']) }]}
-      if transloadit_data['results']['preview']
-        preview  = transloadit_data['results']['preview'][index]
-        s3_paths[bucket] << { key: get_file_path(preview['ssl_url']) }
+    transloadit_data['uploads'].each.map do |upload_data|
+      original_id = upload_data['original_id']
+      original = search_related_result(transloadit_data['results'][':original'], original_id)
+
+      if original
+        s3_paths = { bucket => [{ key: get_file_path(original['ssl_url']) }]}
+
+        if transloadit_data['results']['preview']
+          preview = search_related_result(transloadit_data['results']['preview'], original_id)
+          s3_paths[bucket] << { key: get_file_path(preview['ssl_url']) }
+        end
+
+        upload = Document.new transloadit_data: transloadit_data.to_hash,
+                              s3_paths:         s3_paths,
+                              user_id:          user.id,
+                              type:             'Document',
+                              duration:         upload_data['meta']['duration'],
+                              mime_type:        upload_data['mime'],
+                              filename:         upload_data['name'],
+                              filesize:         upload_data['size'],
+                              basename:         upload_data['basename'],
+                              width:            upload_data['meta']['width'],
+                              height:           upload_data['meta']['height'],
+                              url:              original['ssl_url']
+        if preview
+          upload.attributes = attributes.merge(preview_url: preview['ssl_url'])
+        else
+          upload.attributes = attributes
+        end
+        save_or_die! upload
+        EventsManager.file_uploaded(user: user, file: upload)
+        upload
       end
-      upload = Document.new transloadit_data: transloadit_data.to_hash,
-                            s3_paths:         s3_paths,
-                            user_id:          user.id,
-                            type:             'Document',
-                            duration:         upload_data['meta']['duration'],
-                            mime_type:        upload_data['mime'],
-                            filename:         upload_data['name'],
-                            filesize:         upload_data['size'],
-                            basename:         upload_data['basename'],
-                            width:            upload_data['meta']['width'],
-                            height:           upload_data['meta']['height'],
-                            url:              original['ssl_url']
-      if preview
-        upload.attributes = attributes.merge(preview_url: preview['ssl_url'])
-      else
-        upload.attributes = attributes
-      end
-      save_or_die! upload
-      EventsManager.file_uploaded(user: user, file: upload)
-      upload
     end
   end
 
@@ -250,6 +252,10 @@ class UploadManager < BaseManager
   end
 
   private
+
+  def search_related_result(collection = [], original_id)
+    collection.find { |item| item['original_id'] == original_id }
+  end
 
   def get_file_path(url = '')
     URI(url).path.sub('/', '')
