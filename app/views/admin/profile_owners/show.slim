@@ -158,7 +158,8 @@ hr
         - @user.target_subscriptions.find_each do |subscription|
           tr
             td
-              a href="#" style="font-weight: bold; color: #3b9fd1"= link_to_user subscription.target_user
+              - if subscription.target_user
+                a href="#" style="font-weight: bold; color: #3b9fd1"= link_to_user subscription.target_user
             td= subscription.created_at.to_date.to_s(:long)
             td
               strong style="color: #ea2e49;"= cents_to_dollars subscription.cost
