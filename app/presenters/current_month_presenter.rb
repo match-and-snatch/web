@@ -101,11 +101,11 @@ class CurrentMonthPresenter
     end
 
     def delayed_payments_count
-      count = 0
-      day.beginning_of_month.upto(day) do |_day|
-        count += pending_payments[_day] || 0
+      end_date = [day, Date.current].min
+
+      day.beginning_of_month.upto(end_date).inject(0) do |count, _day|
+        count + pending_payments[_day].to_i
       end
-      count
     end
   end
 end
