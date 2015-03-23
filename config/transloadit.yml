@@ -14,7 +14,7 @@ audio_filter: &audio_filter
     robot: '/file/filter'
     condition_type: 'and'
     accepts:
-      - ["${file.mime}", "regex", "audio"]
+      - ["${file.mime}", "regex", "(audio|mp4)"]
       - ["${file.ext}", "regex", '^(aac|m4a|mp3|ogg|oga)$']
     error_on_decline: true
 

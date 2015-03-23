@@ -17,7 +17,7 @@ class UploadManager < BaseManager
   def create_pending_audios(transloadit_data)
     transloadit_data['uploads']                       or fail_with! 'Nothing uploaded'
     transloadit_data['uploads'][0]                    or fail_with! 'No uploads'
-    transloadit_data['uploads'][0]['type'] == 'audio' or fail_with! 'Uploaded file is not an audio'
+    # transloadit_data['uploads'][0]['type'] == 'audio' or fail_with! 'Uploaded file is not an audio' NOTE(SZ): condition fails with m4a
 
     if AudioPost.pending_uploads_for(user).count > 15
       fail_with! "You can't upload more than 15 tracks."
