@@ -9,6 +9,13 @@ class Api::PostsController < Api::BaseController
     json_success posts: @posts, last_post_id: query.last_post_id
   end
 
+  def feed
+    @posts = Post.joins(user: :source_subscriptions).where(subscriptions: {user_id: current_user.id})
+                 .includes(:uploads)
+    @posts = @posts.map { |p| post_data(p) }
+    json_success posts: @posts
+  end
+
   private
 
   def load_user!
@@ -22,7 +29,11 @@ class Api::PostsController < Api::BaseController
       title: post.title,
       message: post.message,
       created_at: post.created_at,
-      uploads: post_uploads_data(post)
+      uploads: post_uploads_data(post),
+      user: {
+        id: post.user.id,
+        small_profile_picture_url: post.user.small_profile_picture_url
+      }
     }
   end
 

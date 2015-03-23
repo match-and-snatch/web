@@ -18,6 +18,13 @@ BuddyPlatform::Application.routes.draw do
 
       resources :posts, only: [:index]
     end
+
+    resources :posts, only: [] do
+      collection do
+        get :feed
+      end
+    end
+
     match '*path' => 'cors#preflight', via: :options
   end
 
