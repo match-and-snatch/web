@@ -15,7 +15,7 @@ common: &default_settings
   # You must specify the license key associated with your New Relic
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
-  license_key: '5a2cd9f94d6d37510166ad20dda065b9de1bd6e2'
+  license_key: '57d3d86c0adc3653e113e6bece0d129ad43e9127'
 
   # Agent Enabled (Ruby/Rails Only)
   # Use this setting to force the agent to run or not run.
@@ -42,7 +42,7 @@ common: &default_settings
   #       - Ajax Service
   #       - All Services
   #
-  app_name: My Application
+  app_name: Connectpal
 
   # When "true", the agent collects performance data about your
   # application and reports this data to the New Relic service at
@@ -109,7 +109,7 @@ common: &default_settings
   # Java: create a config setting called "ignored_params" and set it to
   #     a comma separated list of HTTP parameter names.
   #     ex: ignored_params: credit_card, ssn, password
-  capture_params: false
+  capture_params: true
 
   # Transaction tracer captures deep information about slow
   # transactions and sends this to the New Relic service once a
@@ -224,4 +224,4 @@ production:
 staging:
   <<: *default_settings
   monitor_mode: true
-  # app_name: My Application (Staging)
+  app_name: Connectpal (Staging)
