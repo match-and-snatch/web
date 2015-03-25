@@ -14,4 +14,8 @@ class Comment < ActiveRecord::Base
   def mentioned_users
     User.where(id: mentions.keys)
   end
+
+  def target_user
+    post_user
+  end
 end
