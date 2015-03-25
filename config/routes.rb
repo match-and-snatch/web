@@ -24,8 +24,8 @@ BuddyPlatform::Application.routes.draw do
       collection do
         get :feed
       end
+      resources :likes, only: [:index, :create], defaults: { type: 'post' }
     end
-
     match '*path' => 'cors#preflight', via: :options
   end
 
