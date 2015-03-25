@@ -33,7 +33,8 @@ class Api::PostsController < Api::BaseController
       user: {
         id: post.user.id,
         small_profile_picture_url: post.user.small_profile_picture_url
-      }
+      },
+      likes: post.likers_data.merge(liked: current_user.likes?(post))
     }
   end
 
