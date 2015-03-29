@@ -1,5 +1,8 @@
 class ChatsController < ApplicationController
 	def index
 	end
-	layout 'chat'
+
+	def show
+	end
+	
 end

@@ -1,0 +1,159 @@
+/! POPUP PUBLISH
+.popup.Popup data-identifier="popup_publish" 
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_publish" type="button"
+        span aria-hidden="true"  &times;
+      h3.modal-title Well done!
+    #intro.modal-body
+      | Your lot
+      span.lot-name  "Hollywood Pub Crawl" was published successfully
+      br/
+      | and is going to be available to Snatch for the next
+    .input-group
+      select#plan.form-control.input-lg
+        option 24 hours - FREE
+        option 48 hours - ¢10
+        option 72 hours - ¢50
+        option 1 week - $3
+        option 1 month - $10
+    .modal-footer
+      .modal-login
+        a href="#"  Unpublish?
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_publish" type="button"  Done
+      button.btn.btn-primary.btn-circle.btn-submit type="button" 
+        | Receive related searches
+
+/! POPUP IMAGE
+.popup.Popup data-identifier="popup_image" 
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_image" type="button"
+        span aria-hidden="true"  &times;
+      h3.modal-title Upload image
+    #intro.modal-body
+      | Upload images to illustrate your offer.
+      | Browse and add JPG, PNG, GIF up to 6 files under 5 MB each.
+    .row
+      .col-lg-12
+        .col-md-4
+          .img-thumbnail = image_tag "hcc.jpg"
+        .col-md-4
+          .img-thumbnail = image_tag "hcc.jpg"
+        .col-md-4
+          .img-thumbnail = image_tag "hcc.jpg"
+    .row
+      .col-lg-12
+        .col-md-4
+          .img-thumbnail = image_tag "hcc.jpg"
+        .col-md-4
+          .img-thumbnail = image_tag "hcc.jpg"
+        .col-md-4
+          .img-thumbnail = image_tag "hcc.jpg"
+    .input-group
+      input#fileupload multiple="" name="files[]" type="file" /
+    .modal-footer
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_image" type="button"  Done
+      button.btn.btn-primary.btn-circle.btn-submit type="button" 
+        | Finish
+
+/! POPUP SOUND
+.popup.Popup data-identifier="popup_sound" 
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_sound" type="button"
+        span aria-hidden="true"  &times;
+      h3.modal-title Upload sound
+    #intro.modal-body
+      | Upload audiofiles to make your offer available to listen.
+      br/
+      | Browse and add MP3, AIF, WMA or OGG up to 6 files under 5 MB each.
+    .input-group
+      input#fileupload multiple="" name="files[]" type="file" /
+    .modal-footer
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_sound" type="button"  Done
+      button.btn.btn-primary.btn-circle.btn-submit type="button" 
+        | Finish
+
+/! POPUP VIDEO
+.popup.Popup data-identifier="popup_video" 
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_video" type="button"
+        span aria-hidden="true"  &times;
+      h3.modal-title Upload video
+    #intro.modal-body
+      | Make your offer more attractive by uploading video.
+      br/
+      | Browse and add AVI, FLV, WMV or OGG up to 3 files under 5 MB each.
+    .input-group
+      input.custom-file-input#fileupload multiple="" name="files[]" type="file" /
+    .modal-footer
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_video" type="button"  Done
+      button.btn.btn-primary.btn-circle.btn-submit type="button" 
+        | Finish
+
+/! POPUP TAGS
+.popup.Popup data-identifier="popup_tags" 
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_tags" type="button"
+        span aria-hidden="true"  &times;
+      h3.modal-title Add tags
+    #intro.modal-body
+      | Add up to 5 descriptive one-word tags to your offer: tags will help potetial Contacts to find your match faster. Just enter tag and press "Enter"
+    form#bootstrapTagsInputForm.form-horizontal method="post" 
+      .input-group
+        input.search.form-control data-role="tagsinput" name="countries" type="text" value="clubs" /
+    .modal-footer
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_tags" type="button"  Done
+      button.btn.btn-primary.btn-circle.btn-submit type="submit" 
+        | Finish
+
+/! POPUP CALENDAR
+.popup.Popup data-identifier="popup_calendar" 
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_calendar" type="button"
+        span aria-hidden="true"  &times;
+      h3.modal-title Set date
+    #intro.modal-body
+      | If applicable, add start date and end dates and times for your event.
+    .datetimepicker
+      .form-group
+        #datetimepicker-start.DateTimePicker.input-group.date
+          span.input-group-addon
+            span.fa.fa-calendar-o.fa-lg.fa-fw
+          input.form-control placeholder=("← Pick start date and time") type="text" /
+      .form-group
+        #datetimepicker-end.DateTimePicker.input-group.date
+          span.input-group-addon
+            span.fa.fa-calendar.fa-lg.fa-fw
+          input.form-control placeholder=("← Pick end date and time") type="text" /
+    .modal-footer
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_calendar" type="button"  Cancel
+      button.btn.btn-primary.btn-circle.btn-submit type="button" 
+        | Set
+
+/! POPUP LOCATION
+.popup.Popup data-identifier="popup_location" 
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_location" type="button"
+        span aria-hidden="true"  &times;
+      h3.modal-title Set location
+    #intro.modal-body
+      | Add location of your offer to help potetial Contacts 
+      | to find if your match in an convenient area.
+    .form-group.form-horizontal
+      .input-group 
+        input#geocomplete.PlacePicker.form-control placeholder=("Street, City, ZIP, State") type="text" /
+      .options-mini
+        #trigger-map.Toggler.input-addon data-target="map_canvas" type="button"
+          span.tiny See on map
+    #map-canvas data-identifier="map_canvas"
+    .modal-footer
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_location" type="button"  Cancel
+      button.btn.btn-primary.btn-circle.btn-submit type="button" 
+        | Set
+

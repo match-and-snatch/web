@@ -1,5 +1,9 @@
 class HomeController < ApplicationController
 	def home
 	end
-	layout 'home'
+
+	def show
+	end
+	
+	layout "home"
 end

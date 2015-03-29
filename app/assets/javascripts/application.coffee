@@ -10,10 +10,14 @@
 # Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 # about supported directives.
 
+#= require moment
+#= require bootstrap-datetimepicker
 #= require jquery_extensions
 #= require core
 #= require helpers
 #= require_tree .
+
+
 
 $(document).ready ->
   bud.Core.initialize()

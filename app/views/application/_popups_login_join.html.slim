@@ -1,0 +1,66 @@
+/! POPUP LOGIN
+.popup.Popup data-identifier="popup_login" 
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_login" type="button"
+        span aria-hidden="true"  &times;
+      h3.modal-title Login
+    #intro.modal-body
+      | Securely login to your existing "Match & Snatch" account to use 
+      a href="#" advanced features
+      |  and store matches and snatches for the future references.
+    .input-group
+      span.input-group-addon
+        span.fa.fa-user.fa-lg.fa-fw
+      input#username.form-control placeholder="Username or Email" type="text" /
+    .input-group
+      span.input-group-addon
+        span.fa.fa-key.fa-lg.fa-fw
+      input#password.form-control placeholder="Password" type="password" /
+    .options-mini
+      .PopupTrigger.input-addon data-target="popup_reminder" type="button"
+        span.tiny Remind password
+    .modal-footer
+      .modal-login
+        | Not registered yet?
+        a.PopupTrigger data-target="popup_join" href="#" Join now!
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_login" type="button"  Close
+      button.btn.btn-primary.btn-circle.btn-submit type="button"  
+        | Login
+
+/! POPUP JOIN
+.popup.Popup data-identifier="popup_join"
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_join" type="button" 
+        span aria-hidden="true"  &times;
+      h3#msModalLabel.modal-title Join "Match & Snatch"
+    #intro.modal-body
+      | Please, provide us with your valid E-mail address so we can send you a registration confirmation letter with a temporary password - you can change it at any time. 
+    #email-enter.input-group
+      span.input-group-addon
+        span.fa.fa-envelope-o.fa-lg.fa-fw 
+      input.form-control aria-describedby="modal-email" placeholder="Email" type="text" /
+    .options-mini
+      .PopupTrigger.input-addon data-target="extra_leagal" type="button"
+        span.tiny Privacy policy
+    .modal-footer
+      .modal-login
+        | Already joined?
+        a.PopupTrigger data-target="popup_login" href="#"  Login now
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_join" type="button"  Close
+      button.PopupTrigger.btn.btn-primary.btn-circle.btn-submit data-target="popup_join_thankyou" type="button" 
+        | Proceed
+
+/! POPUP JOIN THANK YOU
+.popup.Popup data-identifier="popup_join_thankyou"
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_join_thankyou" type="button" 
+        span aria-hidden="true"  &times;
+      h3#msModalLabel.modal-title Thank you for joining millions matchers and snatchers!
+    #intro.modal-body
+      | Please, check your inbox in 1 minute or so - you will receive a registration confirmation letter. 
+      |  Follow the link in the letter and you will be taken to your personal Profile where you can change E-mail, password and other data.
+    .modal-footer
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-submit data-target="popup_join_thankyou" type="button"  Close

@@ -1,0 +1,16 @@
+section
+    nav.offcanvas data-identifier="nav_offcanvas_initial"
+      a.Toggler href="#" data-target="nav_offcanvas_initial"
+        button.btn.btn-lg type="button" 
+          span.glyphicon.glyphicon-remove aria-hidden="false" 
+      h2 = "Options"
+      .host
+        .avatar
+          span.fa.fa-user.fa-lg.fa-fw
+        .name = "Hello, Guest!"
+        br/
+        a.PopupTrigger data-target="popup_login" href="#" Login
+        | &nbsp;&nbsp;or&nbsp;&nbsp; 
+        a.PopupTrigger data-target="popup_join" href="#" Join
+
+= render "popups_login_join"

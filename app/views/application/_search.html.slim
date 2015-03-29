@@ -1,34 +1,41 @@
-header
-    #nav.navbar.navbar-default.navbar-fixed-top
-      .container
-        .row
-          .col-xs-12
-            .navbar-header
-              /! LOGO
-              .navbar-brand
-                a#match href=matches_path MATCH
-                span.grey
-                  a href=root_path 
-                    span.glyphicon.glyphicon-flash aria-hidden="true" 
-                span#snatch SNATCH
-              /! MENU COLLAPSED
-              button.navbar-toggle data-target="#menu" data-toggle="collapse" type="button" 
-                span.icon-bar
-                span.icon-bar
-                span.icon-bar
-            /! MENU EXPANDED
-            #menu.collapse.navbar-collapse.navbar-right.navbar-btn
-              button.btn.btn-lg type="button" 
-                span.glyphicon.glyphicon-record aria-hidden="false" 
-              button.btn.btn-lg type="button" 
-                span.glyphicon.glyphicon-heart-empty aria-hidden="false" 
-              button.btn.btn-lg type="button" 
-                span.glyphicon.glyphicon-cog aria-hidden="false" 
-        .row
-          .col-lg-12
-            /! SEARCH
-            .input-group
-              input.search placeholder=("Search for...") type="text" /
-              span.input-group-btn.lupa
-                button.btn.btn-lg type="button" 
-                  i.glyphicon.glyphicon-search
+#nav.navbar.navbar-default.navbar-fixed-top
+  .container
+    .row
+      .col-xs-12
+        .navbar-header
+          /! LOGO
+          .navbar-brand
+            span#match.grey
+              a href=matches_path MATCH
+            span.grey
+              a href=root_path 
+                span.glyphicon.glyphicon-flash aria-hidden="true"
+            span#snatch SNATCH
+          /! MENU COLLAPSED
+          button.navbar-toggle data-target="#menu" data-toggle="collapse" type="button" 
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        /! MENU EXPANDED
+        #menu.collapse.navbar-collapse.navbar-right.navbar-btn
+            a.button.btn.btn-lg href=radars_path type="button" 
+              span.fa.fa-dot-circle-o.fa-md.fa-fw
+            a.button.btn.btn-lg href=favorites_path type="button" 
+              span.fa.fa-star.fa-md.fa-fw
+            a.button.Toggler.btn.btn-lg href="#" type="button" data-target="nav_offcanvas"
+              span.fa.fa-bars.fa-md.fa-fw type="button" 
+    .row
+      /! SEARCH
+      .input-group.searchenter
+        input.search placeholder=("Search for...") type="text" /
+        span.input-group-btn.lupa
+          button.btn.btn-lg type="button" 
+            i.glyphicon.glyphicon-search
+    .row
+      .col-sm-12.core
+        /! LOT
+        .lot-title
+          a href="#" 
+            h2 Fujifilm X-E2 16.3 MP Mirrorless Digital Camera
+    = render "chatusers"
+        

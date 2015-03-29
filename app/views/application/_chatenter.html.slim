@@ -1,9 +1,7 @@
-.row.cell
-.col-sm-12.contact.cell
-  .col-sm-11.actionz.cell
-  	/! CHAT INPUT
-	input.chat placeholder=("Type your message here") type="text" /
-  .col-sm-1.subscribe.cell
-    /! CHAT OK
-    button.btn.btn-lg.btn-circle.round.cell type="button" 
-      | OK
+.container
+	.row
+		.input-group.chatenter
+		  input.chat placeholder=("Type your message here") type="text" /
+		  span.input-group-btn.send
+		    button.btn.btn-lg type="button"
+		    	i.glyphicon.glyphicon-send

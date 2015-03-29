@@ -6,26 +6,61 @@ link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css
 /! Optional theme
 link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet" /
 link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" /
+link href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css" rel="stylesheet" /
 
-/! GOOGLE FONTS
 = stylesheet_link_tag '//fonts.googleapis.com/css?family=Roboto:400,300,700,900,500,100|Roboto+Condensed:400,300,700|Montserrat:700'
-/! MZ STYLE
 = stylesheet_link_tag 'main', media: 'all'
-
-/! FAVICON
 = favicon_link_tag 'favicon.ico'
 = favicon_link_tag 'favicon.png', rel: 'shortcut icon', type: 'image/png'
-/! link:favicon="favicon.ico" rel="icon" type="image/x-icon" /
-/! link:favicon="favicon.ico" rel=("shortcut icon") type="image/x-icon" /
+
+script type='text/javascript' src="//code.jquery.com/jquery-1.10.2.js" 
+
+script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js" 
+
+script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+
+script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"
+
+script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'
+
+script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false&language=en&libraries=places"
+
+script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
+
+script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/geocomplete/1.4/jquery.geocomplete.js"
+
+script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/geocomplete/1.4/jquery.geocomplete.min.js"
+
+script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"
+
+script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"
+
 
 javascript:
-      | $(document).ready(
-          | $('.collapse').on('show.bs.collapse hide.bs.collapse', function(e) {
-              | e.preventDefault();
-          | });
-          | $('[data-toggle="collapse"]').on('click', function(e) {
-              | e.preventDefault();
-              | $($(this).data('target')).toggleClass('in');
-          | });
-      | );
-script src="https://code.jquery.com/jquery-1.10.2.js" 
+  $(function() {
+  $('#datetimepicker-start').datetimepicker();
+  $('#datetimepicker-end').datetimepicker();
+  $("#datetimepicker-start").on("dp.change",function (end) {
+    $('#datetimepicker-end').data("DateTimePicker").minDate(end.date);
+  });
+  $("#datetimepicker-end").on("dp.change",function (end) {
+    $('#datetimepicker-start').data("DateTimePicker").maxDate(end.date);
+  });
+  });
+
+javascript:
+  $(function() {
+    var options = {
+      map: "#map-canvas",
+      types: ["geocode", "establishment"],
+    };
+    map = $("#geocomplete").geocomplete(options)
+    map.bind("geocode:result", function(event, result) {
+      $.log = ("Result: " + result.formatted_address);
+    });
+    $("#trigger-map").click(function() {
+      google.maps.event.trigger(map, 'resize');
+    });
+  });
+
+= javascript_include_tag 'application'

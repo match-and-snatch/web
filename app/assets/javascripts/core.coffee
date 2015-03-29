@@ -14,10 +14,7 @@ class (window.bud or= {}).Core
 
   @init_widgets: (parent_container) ->
     _.each window.bud.widgets, (widget_class) ->
-      try
-        widget_class.init(parent_container)
-      catch error
-        bud.Logger.error(error)
+      widget_class.init(parent_container)
 
   @destroy_widgets: (parent_container) ->
     _.each parent_container.find('.js-widget'), (widget_container) ->

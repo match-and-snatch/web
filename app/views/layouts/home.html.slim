@@ -40,9 +40,9 @@ header
       .col-md-2.cell
         #login
           .enter_login
-            a href="#"  Login
+            a.PopupTrigger data-target="popup_login" href="#"  Login
           .enter_join
-            a href="#"  Join
+            a.PopupTrigger data-target="popup_join" href="#"  Join
       .col-md-3.cell.hidden-sm.hidden-xs.info-snatch
         a href=snatches_path Click snatch to Search
         br/
@@ -54,8 +54,9 @@ header
     /! MZ TEST
     .col-md-12 style="text-align: center;
 display: block; padding: 50px 0 0;"
-      h3
+      h4
         a href=chats_path TEST CHAT 
+
 /! end wrapper
 footer
   .footer
@@ -66,3 +67,7 @@ footer
           .cell matchandsnatch.com&nbsp;&nbsp;&copy;&nbsp;&nbsp;2015
     /! end container
   /! end footer
+
+= render "popups_login_join"
+
+.popup-overlay.Overlay

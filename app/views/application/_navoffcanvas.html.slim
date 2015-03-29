@@ -1,0 +1,54 @@
+section
+    nav.offcanvas data-identifier="nav_offcanvas"
+      a.Toggler href="#" data-target="nav_offcanvas"
+        button.btn.btn-lg type="button" 
+          span.glyphicon.glyphicon-remove aria-hidden="false" 
+      h2 = "Options"
+      .host
+        .avatar = image_tag "host-face.jpg"
+        .name = "Hello, RedWorker!"
+        br/
+        a.Toggler data-target="edit_profile" href="#" Edit profile
+        .profile data-identifier="edit_profile"
+          .input-group
+            span.input-group-addon.fa.fa-user.fa-lg.fa-fw
+            input.form-control placeholder="Username" type="text" /
+          .input-group
+            span.input-group-addon.fa.fa-key.fa-lg.fa-fw
+            input.form-control placeholder="Password" type="text" /
+          .input-group
+            span.input-group-addon.fa.fa-envelope.fa-lg.fa-fw
+            input.form-control placeholder="E-mail" type="text" /
+          .input-group
+            span.input-group-addon.fa.fa-phone.fa-lg.fa-fw
+            input.form-control placeholder="Phone" type="text" /
+          a.PopupTrigger.change-avatar href="#" Change avatar
+          button.btn.btn-lg.btn-circle.btn-submit type="button" 
+            | Save
+          button.Toggler.btn-lg.btn-circle.btn-close data-target="edit_profile"  Cancel
+
+      hr/
+      ul.nav-side
+        li 
+          a href="#" Matches 
+          span.badge 14
+        li
+          a href="#" Snatches
+          span.badge 6
+        li
+          a href=radars_path Nearby
+          span.badge 32
+      hr/
+      ul.nav-side
+        li
+          a href=favorites_path Shortlist
+          span.badge 2
+        li
+          a href="#" Blacklist
+          span.badge 
+      hr/
+      ul.nav-side
+        li: a href="#" Settings
+      hr/
+      ul.nav-side
+        li: a href="#" Log Out

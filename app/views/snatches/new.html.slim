@@ -1,0 +1,94 @@
+header
+  #nav.navbar.navbar-default.navbar-fixed-top
+    .container
+      .row
+        .col-xs-12
+          .navbar-header
+            /! LOGO
+            .navbar-brand
+              span#match.grey
+                a href=matches_path MATCH
+              span.grey
+                a href=root_path 
+                  span.glyphicon.glyphicon-flash aria-hidden="true"
+              span#snatch SNATCH
+            /! MENU COLLAPSED
+            button.navbar-toggle data-target="#menu" data-toggle="collapse" type="button" 
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+          /! MENU EXPANDED
+          #menu.collapse.navbar-collapse.navbar-right.navbar-btn
+            a.button.btn.btn-lg href=radars_path type="button" 
+              span.fa.fa-dot-circle-o.fa-md.fa-fw
+            a.button.btn.btn-lg href=favorites_path type="button" 
+              span.fa.fa-star.fa-md.fa-fw
+            a.button.Toggler.btn.btn-lg href="#" type="button" data-target="nav_offcanvas"
+              span.fa.fa-bars.fa-md.fa-fw type="button" 
+      .row
+        .col-lg-12
+          /! SEARCH
+          .input-group.searchenter
+            input.search placeholder=("Search for...") type="text" /
+            span.input-group-btn.lupa
+              button.btn.btn-lg type="button" 
+                i.glyphicon.glyphicon-search
+section
+  #main.container
+    .row
+      .col-sm-12
+        /! LOT
+        .lot-title
+           h2 Fujifilm X-E2 16.3 MP Mirrorless Digital Camera
+        .lot-thumbnail
+          .img-thumbnail = image_tag "fuji.jpg" 
+        .lot-options
+          .time-left
+            .time-icon
+              span.glyphicon.glyphicon-time
+            | 10:27
+          .rep
+            .rep-icon
+              i.fa.fa-rocket
+            .rep-indi-bad
+            .rep-indi-good
+        .lot-text
+          p Mint condition. Megapixels :16.3MP. Screen Size : 3.0". ISO : ISO AUTO 200-6400. Warranty : 1 Year. Accessories : Li-ion battery NP-W126; Battery charger BC-W126; Shoulder strap; Body cap; Metal strap clip; Protective cover; Clip attaching tool; CD-ROM. Asking $740 OBO. We accept all credit card payments through Paypal..Contact us via M&amp;S if you have any questions. We will ONLY ship to the (confirmed) address specified in paypal. Payment must be received within 7 days after the end of auction. 
+    .row
+      .col-sm-12.contact
+        .col-sm-3.actionz
+          .col-xs-6
+            /! CONNECT
+            button.btn.btn-lg.btn-circle.chat type="button" 
+              span.glyphicon.glyphicon-comment aria-hidden="true" 
+              | Chat
+          .col-xs-6
+            button.btn.btn-lg.btn-circle.call type="button" 
+              span.glyphicon.glyphicon-earphone aria-hidden="true" 
+              | Call
+        /! REMINDER
+        .col-sm-9.subscribe
+          button.PopupTrigger.btn.btn-lg.btn-circle data-target="popup_subscribe" type="button" 
+            span.glyphicon.glyphicon-flash aria-hidden="true" 
+            | Get more offers like this
+
+/! POPUP REGISTER
+.popup.Popup data-identifier="popup_subscribe"
+  .modal-content
+    .modal-header
+      button.PopupTrigger.close aria-label="Close" data-target="popup_subscribe" type="button" 
+        span aria-hidden="true"  &times;
+      h3#msModalLabel.modal-title You're almost there!
+    #intro.modal-body
+      | Please, provide us with your valid E-mail address so potential Contacts can reach you. We promiss: no spam, no BS. 
+      | Check your inbox in 1 min - you will receive a confirmation letter.
+    #email-enter.input-group
+      span.input-group-addon
+        span.fa.fa-envelope-o.fa-lg.fa-fw 
+      input.form-control aria-describedby="modal-email" placeholder="Email" type="text" /
+    .modal-footer
+      .modal-login
+        | Already joined?
+        a href="#"  Login now
+      button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_subscribe" type="button"  Close
+      button.btn.btn-primary.btn-circle.btn-submit type="button"  Proceed

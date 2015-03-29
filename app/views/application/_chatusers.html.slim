@@ -1,20 +1,40 @@
-  .row.cell
-    .col-sm-12.contact.cell
-      .col-sm-5.actionz.cell
-		/! CHAT FACES
-        .col-xs-2.cell
-          button.btn.btn-lg.face-circle.inactive.chat type="button" = image_tag "user_01.jpg"
-        .col-xs-2.cell
-          button.btn.btn-lg.face-circle.active.chat type="button" = image_tag "user_02.jpg"
-        .col-xs-2.cell
-          button.btn.btn-lg.face-circle.inactive.chat type="button" = image_tag "user_03.jpg" 
-        .col-xs-2.cell
-          button.btn.btn-lg.face-circle.inactive.count.chat type="button" = image_tag "user_04.jpg"
-        .col-xs-2.cell
-          button.btn.btn-lg.face-circle.inactive.chat type="button" = image_tag "user_05.jpg" 
-        .col-xs-2.cell
-          button.btn.btn-lg.face-circle.inactive.count.chat type="button" = image_tag "user_06.jpg"
-      .col-sm-7.subscribe.cell
-        /! REMINDER
-        button.btn.btn-lg.btn-circle.round.cell data-target="#msModal" data-toggle="modal" type="button"
-          span.glyphicon.glyphicon-flash aria-hidden="true"
+.row.cell
+  .col-sm-12.cell
+    /! CHAT FACES
+    .col-sm-5.users.cell
+      .col-xs-2.cell
+        button.btn.btn-lg.face-circle.inactive.chat type="button" = image_tag "user_01.jpg"
+      .col-xs-2.cell
+        button.btn.btn-lg.face-circle.active.chat type="button" = image_tag "user_02.jpg"
+      .col-xs-2.cell
+        button.btn.btn-lg.face-circle.inactive.chat type="button" = image_tag "user_03.jpg" 
+      .col-xs-2.cell
+        button.btn.btn-lg.face-circle.inactive.count.chat type="button" = image_tag "user_04.jpg"
+      .col-xs-2.cell
+        button.btn.btn-lg.face-circle.inactive.chat type="button" = image_tag "user_05.jpg" 
+      .col-xs-2.cell
+        button.btn.btn-lg.face-circle.inactive.count.chat type="button" = image_tag "user_06.jpg"
+    /! REMINDER
+    .col-sm-7.subscribe.cell
+      button.PopupTrigger.btn.btn-lg.btn-circle.round.cell data-target="popup_subscribe" type="button"
+        span.glyphicon.glyphicon-flash aria-hidden="true"
+      /! POPUP
+      .popup.Popup data-identifier="popup_subscribe"
+        .modal-content
+          .modal-header
+            button.PopupTrigger.close aria-label="Close" data-target="popup_subscribe" type="button" 
+              span aria-hidden="true"  &times;
+            h3#msModalLabel.modal-title You're almost there!
+          #intro.modal-body
+            | Please, provide us with your valid E-mail address so potential Contacts can reach you. We promiss: no spam, no BS.
+            br/
+            | Check your inbox in 1 min - you will receive a confirmation letter.
+          .input-group
+            span#modal-email.input-group-addon @
+            input.form-control aria-describedby="modal-email" placeholder="Email" type="text" /
+          .modal-footer
+            .modal-login
+              | Already joined?
+              a href="#"  Login now
+            button.PopupTrigger.btn.btn-default.btn-circle.btn-close data-target="popup_subscribe" type="button"  Close
+            button.btn.btn-primary.btn-circle.btn-submit type="button"  Proceed

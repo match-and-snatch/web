@@ -1,3 +1,4 @@
+= render "navoffcanvas_initial" 
 = render "popups_match"
 
 header
@@ -30,13 +31,18 @@ header
       .row
         .col-lg-12
           /! LOT
-          .lot.cell
+          .lot
             .match-bubble
-              input.lot-title placeholder="Enter title here" type="text"
-              textarea.lot-body rows="3" placeholder="Enter details of your offer here" type="text"
-                
+              .lot-title 
+                h2 Hollywood Club Crawl
+              .lot-thumbnail
+                .img-thumbnail = image_tag "hcc.jpg"
+              .lot-text
+                .date-time Every Friday and Saturday
+                p 4 Clubs / 1 night / $25  - Join the Hollywood Club Crawl.
+                p The Hollywood Club Crawl averages 50 to 100+ locals, singles, tourists, and groups joining us for a legendary night out in Hollywood! A mass of new people to meet. No cover charges at any clubs and no waiting in lines. Our Club Crawl hosts escort the group straight in, VIP style.
 section
-  #main.container style="padding: 0; margin: -10px auto;"
+  #main.container style="padding: 0; margin: -10px auto 0;"
     .row.cell
       .col-sm-12.contact.cell
         .col-sm-6.attach.cell
@@ -56,12 +62,3 @@ section
           button.PopupTrigger.btn.btn-lg.btn-circle.cell data-target="popup_publish" type="button" 
             span.glyphicon.glyphicon-flash aria-hidden="true" 
             | Publish
-
-section 
-  #main.container data-identifier="help_match"
-    .row.core
-      .col-lg-12.Toggler data-target="help_match" type="button"
-        .help = image_tag "help_02.svg"
-      .col-lg-12.igotit
-        button.Toggler.btn.btn-lg.ok.btn-circle data-target="help_match" type="button"
-          | I got it

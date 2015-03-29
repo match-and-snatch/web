@@ -1,22 +1,62 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,700,900,500,100)
-
-@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700)
-
-@import url(http://fonts.googleapis.com/css?family=Montserrat:700)
-
+@import "bootstrap-datetimepicker"
 @import "font-awesome"
 @import "bootstrap-sprockets"
 @import "bootstrap"
 
+@keyframes effect-fade-in
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@-webkit-keyframes effect-fade-in
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes effect-slide-in
+  from
+    right: -30%
+  to
+    right: 0
+
+@-webkit-keyframes effect-slide-in
+  from
+    right: -30%
+  to
+    right: 0
+
+@keyframes effect-rost-vniz
+  from
+    height: 0%
+  to
+    height: 100%
+
+@-webkit-keyframes effect-rost-vniz
+  from
+    height: 0%
+  to
+    height: 100%
+
 $font-brand: Montserrat, Helvetica, sans-serif
 $font-stack: Roboto, Helvetica, Arial, sans-serif
+$font-modal: 300 1.6em/1.4em $font-stack
+$font-search: 400 24px/1.6em $font-stack
+$font-small: 400 0.9em/1em Verdana, Arial, sans-serif
+$font-modal-buttons: 600 1.8em/1.2em $font-stack
+$font-modal-login: 400 1.4em/1.4em $font-stack
 
 $primary-color: #ffb637
+$light-gray-color: #dadada
 $body-bg: #fff
 $text-color: #333
 $link-color: #ffb637
+$link-color-danger: red
+$link-small-color: #0099ff
 $link-hover-color: darken($text-color, 10%)
-$focus_color: darken($text-color, 10%)
+$focus-color: darken($text-color, 10%)
+$grey-color: #d9d9d9
 
 *
   margin: 0
@@ -27,23 +67,10 @@ $focus_color: darken($text-color, 10%)
 html, body
   height: 100%
 
-
-.wrapper
-  position: relative
-  min-height: 100%
-  margin: 0 auto
-
-.footer
-  width: 100%
-  height: 30px
-  position: absolute
-  bottom: 0
-  left: 0
-
 body
   font: 300 1em/1.2em $font-stack
-  background-color: #f9f9f9
-  background-image: image-url("/images/ms_background_01.png")
+  background-color: $light-gray-color
+  background-image: image-url("ms_background_01.png")
   background-size: 100%
   background-position: center
   background-repeat: repeat-y
@@ -62,8 +89,8 @@ input
     &::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder
       color: #e1e1e1
 
-textarea, input
-  &:focus
+textarea, input, select
+  &:focus, &:active
     outline: none
 
 footer
@@ -81,17 +108,42 @@ a
     outline: none
     color: $link-hover-color
 
+.core
+  padding: 10px 0 0
+
 .glyphicon
   line-height: 1em
 
-// GLOBAL
+.col-lg-12, .col-sm-12, .col-xs-12
+  padding-left: 0
+  padding-right: 0
+
+.wrapper
+  position: relative
+  min-height: 100%
+  margin: 0 auto
+
+.footer
+  display: none
+  width: 100%
+  height: 30px
+  position: absolute
+  bottom: 0
+  left: 0
 
 .row
-  margin: 0 0 10px 0
+  margin: 0
 
 .btn
   &:hover, &:focus, &:active
     color: inherit
+    cursor: pointer
+    outline: none
+
+.input-group, .input-group .form-control
+  width: 100%
+  height: 48px
+  font-size: 22px
 
 #intro
   h1
@@ -99,8 +151,6 @@ a
     margin-top: 20px
     text-align: center
     color: #999
-  .cell
-    padding: 0
 
 #match, #snatch, #plus
   font: 700 3em/1.2em $font-brand
@@ -123,7 +173,7 @@ a
   color: $primary-color
 
 #plus.row
-  background: url("bolt.svg")
+  background: image-url("bolt.svg")
   background-position: center
   background-repeat: no-repeat
   background-size: 60px 60px
@@ -162,6 +212,7 @@ a
   height: 25px
   font-weight: 100
   font-size: 1em
+  cursor: default
 
 .info-match, .info-snatch
   font: 300 1.4em/1.3em $font-stack
@@ -209,27 +260,37 @@ a
   display: inline-block
   position: relative
 
-#nav
-  padding: 0px 0px 15px
-  position: relative
-  margin: 0
 
 #menu .btn-lg
-  border-radius: 50%
+  border-radius: 30px
+  padding: 3px
+  margin: 5px 10px 0 0
+  outline: none
+  display: inline-block
+  &:hover
+    background-color: #FFB637
+    color: #FFF
+    display: inline-block
 
 #nav
+  padding: 0 0 10px 0
+  margin: 0
+  height: auto
   .row
     margin-bottom: 0
-  .cell
-    padding: 0
-    margin: 0
-    border: none
 
 .navbar-brand
   #match, #snatch
     padding: 0
     margin: 0
     border: none
+    cursor: default
+    a.active
+      color: $link-color !important
+  .grey 
+    a
+      &:hover
+        cursor: pointer
 
 .icon-bar
   color: #444
@@ -253,6 +314,9 @@ a
 
 .navbar .btn
   margin: 0
+  &.active
+    color: $link-color
+    background-color: none
 
 // SEARCH
 
@@ -279,35 +343,85 @@ input
       box-shadow: none
       -webkit-appearance: none
   &.search
-    font: 400 2em/1.4em $font-stack
-    padding: 7px 20px 8px
+    font: $font-search
+    padding: 8px 20px
     border: 2px solid #666
     border-radius: 3px
     box-shadow: none
     height: 48px
-    margin: 0px
     float: left
     display: inline-block
     width: 100%
 
-#input-offer
+.match-bubble
   padding: 10px 20px
   border: 2px solid #666
   border-radius: 3px
   box-shadow: none
   height: 100%
-  margin: 0px
+  margin: 0 0 10px 0
   width: 100%
   background-color: #fff
+  overflow: auto
 
 .lot-name
   font-weight: bolder
 
-.lot-body p
-  font-size: 1.6em
-  line-height: 1.4em
+textarea.lot-body
+  padding: 0
+  margin: 10px 0 0
+  border-left: none
+  font-size: 18px
+  line-height: 24px
+  resize: vertical
+  
+.lot-title
+  margin: 0 0 10px
+  border-bottom: 1px dashed #dadada !important
+  h2
+    display: block
+    margin-top: 10px
+    padding: 0
+    color: #444
+
+input.lot-title, textarea.lot-body
+  width: 100%
+  border: none
+  padding: 12px 0
+  display: block
+  width: 100%
+  height: inherit
+  &:hover, &:focus, &:active
+    border: none
+
+input.lot-title
+  font: $font-search
+  font-weight: 500
+  font-size: 30px
+  height: 48px  
+
+
+select#plan
+  -webkit-appearance: none
+  -moz-appearance: none
+  background-image: image-url("arr_bl_dwn.png")
+  background-position: 410px 20px
+  background-repeat: no-repeat
+  outline: none
+
+.lot-text, .match-bubble
+  font-size: 18px
+  line-height: 24px
+
+.lot-text
+  display: block
+
+.lot-options
+  margin: 15px 0
 
 .lot
+  position: relative
+  height: 100%
   &:after
     content: ""
     position: absolute
@@ -318,7 +432,7 @@ input
     width: 0px
     z-index: 1
     top: -9px
-    left: 74px
+    left: 59px
     height: 0px
   &:before
     content: ""
@@ -329,20 +443,10 @@ input
     display: block
     width: 0px
     z-index: 2
-    top: -6px
-    left: 74px
+    top: -5px
+    left: 59px
     height: 0px
 
-.lot-title
-  padding: 0
-  margin: 0
-  display: block
-
-.lot-body
-  padding: 15px 0 0
-  margin: 10px 0 0
-  border-top: 1px dashed #adadad
-  display: inline-block
 
 .premium-icon
   color: #666
@@ -355,17 +459,8 @@ input
   font-size: 1em
   padding: 3px 0px 2px 5px !important
 
-h2.lot-title
-  display: block
-  margin-top: 0
-  padding: 0
-  color: #444
-
-.input-group, #input-offer
-  position: relative
-  width: 100%
-
 .input-group
+  margin: 0 0 10px
   &:after
     content: ""
     position: absolute
@@ -387,14 +482,17 @@ h2.lot-title
     display: block
     width: 0px
     z-index: 2
-    top: -6px
+    top: -5px
     left: 312px
     height: 0px
+  input.search
+    width: 100%
 
-.input-group-btn:last-child > .btn
+.lupa:last-child > .btn
   border: 2px solid #666
-  background-color: #666
-  color: #adadad
+  background-color: #fff
+  color: #ccc
+  border-left: none
   &:hover, &:focus, &:active
     border: 2px solid $primary-color
     background-color: $primary-color
@@ -431,49 +529,58 @@ h2.lot-title
   .btn, .btn-group
     margin-left: -3px
 
-.lupa
-  position: absolute
-  width: auto
+.lupa, .send
+  position: relative
+  width: 0
   display: inline-block
-  right: 0
+  left: -48px
 
 // MAIN
 
+.container
+  padding-left: 0
+  padding-right: 0
+
 #main.container
-  font-size: 1.6em
-  line-height: 1.4em
+  font-size: 16px
+  line-height: 14px
   color: #444
-  padding: 0 20px 20px
+  height: 100%
+  padding: 135px 0 0
+
 
 // LOT
 
-.options
-  padding: 0 15px
-  hr
-    margin-top: 10px
-    margin-bottom: 0
-
-.subscribe
+.subscribe, .publish
   padding: 0
 
-.publish
-  padding: 15px 0 0
+.btn-circle
+  height: 60px
+  width: auto
+  padding: 12px 25px
+  border-radius: 35px
+  border: 4px solid $primary-color
+  color: $primary-color
+  font-size: 1.3em
+  font-weight: 600
 
-.subscribe .btn-circle span, .publish .btn-circle span
+.attach .btn
+  color: #999
+
+.subscribe .btn-circle span, .publish .btn-circle span, .actionz .btn-circle span
   margin: 2px 15px 0 -7px
   float: left
 
-.subscribe .btn-circle, .publish .btn-circle
+.subscribe .btn-circle, .publish .btn-circle, .actionz .btn-circle 
   width: auto
-  float: right
-  padding: 12px 25px
-  font-weight: 600
+  padding: 13px 25px
 
-.subscribe .btn-circle
+.subscribe .btn-circle, .publish .btn-circle
+  float: right
   &:hover, &:focus, &:active
     font-weight: 600
-    border: 3px solid $primary-color
-    padding: 10px 25px
+    border: 4px solid $primary-color
+    padding: 12px 25px
     outline: none
 
 .publish .btn-circle
@@ -486,23 +593,46 @@ h2.lot-title
   &:hover, &:focus, &:active
     background-color: none
 
-.btn-circle, .face-circle img
+.btn-circle .round, .face-circle img
   height: 60px
   width: 60px
   border-radius: 35px
   border: 4px solid $primary-color
   color: $primary-color
-  font-size: 1.3em
+  font-size: 14px
 
-.round
-  padding: 12px 14px !important
+.round, .round:hover
+  padding: 12px !important
+  height: 60px
+  width: 60px
+  font-size: 14px
 
 .round span
   margin: 0 !important
   float: left
-  padding: 0px 3px
+
+.round .glyphicon, .round:hover .glyphicon 
+  font-size:  1.8em
+  padding: 0 2px 0 3px
+
+.subscribe .round:hover
+  &:before
+    content: "Subscribe to similar offers"
+    width: 100px
+    height: 100px
+    font: 400 1.4em/1.2em $font-stack
+    color: #444
+    position: absolute
+    text-align: right
+    right: 180px
+    -webkit-animation-name: effect-fade-in
+    animation-name: effect-fade-in
+    animation-duration: 0.5s
 
 .contact
+  padding: 10px 0 0
+  margin: 10px 0 0
+  border-top: 1px solid #dadada
   .col-xs-2, .col-xs-3, .col-xs-5, .col-xs-4, .col-xs-6, .col-xs-9
     padding: 0
     margin: 0
@@ -517,7 +647,7 @@ h2.lot-title
   height: 15px
   width: 6.5%
 
-.time-icon, .rep-icon, .short-icon, .premium-icon, .rep-indi, .rep-indi-bad, .rep-indi-good, .time, .rep
+.time-icon, .rep-icon, .premium-icon, .rep-indi, .rep-indi-bad, .rep-indi-good, .time, .rep
   padding: 0px
 
 .time-icon
@@ -526,45 +656,26 @@ h2.lot-title
   font-size: 1em
   display: inline-block
 
-.time-left, .short-btn a:link, .premium-btn a:link
+.time-left, .premium-btn a:link
   font-size: 0.7em
   font-weight: 600
-  margin: 0
-  padding: 0
   color: #09F
 
-.short, .premium
+.premium
   height: 20px
   float: right
   width: 160px
 
-.short-icon
-  color: #666
-  margin: 0
-  font-size: 0.8em
-  display: inline-block
-  padding: 4px 0px 0px
-
-.short-btn, .premium-btn
+.premium-btn
   position: absolute
   height: 15px
   padding: 2px 0 2px 5px
   display: inline-block
-
-.short-btn, .premium-btn
   text-transform: uppercase
   text-decoration: underline
   color: #09F
   font-weight: 600
   letter-spacing: 0.5px
-
-.short-btn a
-  &:link, &:visited
-    text-transform: uppercase
-    text-decoration: underline
-    color: #09F
-    font-weight: 600
-    letter-spacing: 0.5px
 
 .premium-btn a
   &:link, &:visited
@@ -573,11 +684,6 @@ h2.lot-title
     color: #09F
     font-weight: 600
     letter-spacing: 0.5px
-
-.short-btn a
-  &:hover, &:active, &:active
-    text-decoration: underline
-    color: #09F
 
 .rep
   margin: 5px 0 0
@@ -589,26 +695,27 @@ h2.lot-title
   display: inline-block
   float: left
   position: relative
-  margin: -1px 2px 0 0
+  margin: 3px 9px 0 0
 
-.rep-indi-bad
+.rep-indi-bad, .rep-indi-good
   height: 6px
-
-.rep-indi-good
-  height: 6px
-  background-color: #9f6
-  margin: 7px 0 0 3px
+  margin: 0
+  display: inline-block
 
 .rep-indi-bad
   background-color: #f99
-  margin: 7px 0 0 5px
+  width: 2%
+
+.rep-indi-good
+  background-color: #9f6
+  width: 5%
 
 .actionz
   margin: 0
   padding: 0
 
 .lot-thumbnail
-  width: 250px
+  width: 270px
   float: left
   margin: 5px 20px 10px 0
 
@@ -620,8 +727,8 @@ h2.lot-title
   width: 100%
 
 .attach
-  margin: 0px 8px 0px -8px
-  padding: 20px 0 0 15px
+  margin: 0
+  padding: 10px 0 0 20px
   height: 60px
   .btn
     background-color: transparent
@@ -631,6 +738,18 @@ h2.lot-title
       color: $primary-color
 
 //  MODAL
+.modal-title
+  margin: 10px 0 5px
+  line-height: 1.1em
+
+.modal-body
+  font: $font-modal
+  a
+    color: #444
+    text-decoration: underline
+    white-space: nowrap
+    &:hover, &:focus
+      color: $link-color
 
 .modal-dialog
   width: auto
@@ -650,29 +769,29 @@ h2.lot-title
 .modal-footer .glyphicon
   margin: 0 10px 0 -10px
 
-.input-group-addon:first-child
-  background-color: #666
-  border: 2px solid #666
-  padding: 7px 15px 14px 15px
-  color: #adadad
-  border-radius: 3px
-  font-weight: 600
-  font-size: 1.4em
+.input-group-addon
+  width: 60px
+  &:first-child
+    background-color: #666
+    border: 2px solid #666
+    color: #adadad
+    border-radius: 3px
+    font-weight: 600
+    font-size: 18px
+    padding: 4px 14px 7px 12px
 
 .modal-footer
-  .btn-close, .btn-submit, .btn-close:hover, .btn-submit :hover
+  padding: 15px 0
+  margin: 5px 0 0
+  .btn-close, .btn-submit, .btn-close:hover, .btn-submit:hover
+    font: $font-modal-buttons
     width: auto
-    padding: 5px 20px
-    font-size: 1em
     border: 2px solid $primary-color
     height: 40px
-    font-weight: 400
-  padding: 15px 0px 20px 0
-  margin: 15px 0 0
+    padding: 6px 20px
 
 .modal-body, .modal-header
-  padding: 15px 0
-  font-weight: 300
+  padding: 10px 0
 
 .btn-primary, .btn-default
   background-image: none
@@ -680,6 +799,7 @@ h2.lot-title
 .modal-footer .btn-close
   border: 2px solid #ededed
   color: #ededed
+  margin: 0 5px 0 20px
   &:hover
     color: #fff
 
@@ -702,15 +822,25 @@ select.form-control
   border-radius: 3px !important
   border: 2px solid #666
 
+.form-horizontal .input-group-btn
+  position: absolute
+  top: -1px
+  right: 50px
+  &:last-child > .btn
+    padding: 6px 11px
+    margin: 1px 0 0
+    z-index: 100
+
 .modal-login
   display: inline-block
   float: left
   padding: 7px 0
-  font-weight: 400
+  font: $font-modal-login
   a
     color: $primary-color
     font-weight: 600
     text-decoration: underline
+    margin: 0 0 0 5px
 
 .modal-content .input-group
   &:before, &:after
@@ -724,17 +854,49 @@ select.form-control
   letter-spacing: normal
 
 .modal-body 
-option
-  &:hover, &:focus, &:active
-    background-color: $primary-color !important
+  option
+    &:hover, &:focus, &:active
+      background-color: $primary-color !important
 
+.label
+  line-height: 2 !important
+  font-size: 100%
+
+.form-group
+  margin-bottom: 10px
+
+.form-group
+  .form-horizontal
+    margin-left: 0
+    margin-right: 0
+
+.bootstrap-tagsinput
+  width: 560px
+  border: 2px solid #666 !important
+  box-shadow: none
+  display: inline-block
+  padding: 5px 10px !important
+  border-radius: 3px !important
+  margin-bottom: 0 !important
+  cursor: text
+  top: 0
+  position: relative
+  .tag
+    padding: 3px 10px
+  input:focus
+    height: inherit
+    border: none
+
+.input-daterange
+  input.form-control
+    margin-left: 0 !important
 
 
 // CHAT
 
 input.chat
   font: 300 1.4em/1.4em $font-stack
-  border: 3px solid $primary-color
+  border: 4px solid $primary-color
   border-radius: 30px
   height: 60px
   padding: 12px 24px
@@ -743,10 +905,10 @@ input.chat
     border: 3px solid $primary-color
     height: 60px
 
-
 .face-circle
   padding: 0
   overflow: visible
+  background: none
 
 .face-circle img
   &:hover, &:active
@@ -782,7 +944,11 @@ input.chat
     -webkit-filter: none
     opacity:  1
 
+a.active
+  color: $link-color
+
 .active
+  color: $link-color
   &:before
     display: none
   &:hover, &:focus, &:active
@@ -807,5 +973,772 @@ input.chat
     font-size: 12px
     font-weight: 600
     padding: 3px 1px
+
+.chat-user, .chat-host
+  font: 300 1.2em/1.2em $font-stack
+  width: auto
+  padding: 12px 24px
+  margin: 0
+  clear: both
+  display: block
+  max-width:  70%
+  text-decoration: none
+  &:hover, &:focus, &:active
+    text-decoration: none
+
+.chat-user
+  border-radius: 30px 30px 30px 0
+  float: left
+  position: relative
+  background: #f8f0e2
+  &:after
+    content: ""
+    width: 0px
+    height: 0px
+    border: 33px
+    border-style: solid
+    border-color: transparent transparent transparent #F8F0E2
+    padding: 0px
+    margin: 0px
+    bottom: -24px
+    left: 0
+    position: absolute
+    background: none repeat scroll 0% 0% transparent
+
+.chat-host
+  border-radius: 30px 30px 0 30px
+  float: right
+  position: relative
+  background: #ededed
+  &:after
+    content: ""
+    width: 0px
+    height: 0px
+    border: 33px
+    border-style: solid
+    border-color: transparent #ededed transparent transparent
+    padding: 0px
+    margin: 0px
+    bottom: -24px
+    right: 0
+    position: absolute
+    background: none
+
+.options-user
+  float: left
+
+.options-host
+  float: right
+
+.options-user, .options-host
+  text-align: left
+  border-radius: 0
+  height: 20px
+  display: block
+  clear: both
+  padding: 0
+  margin: 5px 20px 10px 20px
+  width:  auto
+  height: auto
+  position: relative
+  font: $font-small
+
+.time-posted, .copy, .save, .share, .delete, .delete-all
+  display: inline-block
+  margin: 0
+  padding: 0px 7px 0 10px
+  border-left: 1px solid #adadad
+  text-transform: uppercase
+
+.copy a, .save a, .share a, .delete a, .delete-all a
+  &:hover, &:focus, &:active
+    text-decoration: underline
+
+.time-posted
+  border: none
+  width: auto
+  margin: 0
+  padding: 0
+
+.copy a, .save a, .share a
+  color: $link-small-color
+  text-decoration: none
+
+.delete a, .delete-all a
+  color: $link-color-danger
+  text-decoration: none
+
+.options-user .glyphicon, .options-host .glyphicon
+  font-size: $font-small
+  padding: 5px
+  margin: 0
+  top: 2px
+  color: #ccc
+
+.hidden-options
+  display: none
+  float: right
+  position: relative
+  top: 7px
+  left: 10px
+
+.hidden-popup
+  display: none
+
+a .Toggler .chat-host, a .Toggler .chat-user
+  text-decoration: none
+  &:hover, &:focus, &:active
+    text-decoration: none
+
+
+.searchenter, .chatenter
+  width: 100%
+
+.chatenter
+  position: fixed
+  background: #fff
+  bottom: -10px
+  left: 0
+  right: 0
+  padding: 10px 11%
+  box-shadow: 0px -1px 0px rgba(255, 255, 255, 0.15) inset, 0px -1px 5px rgba(0, 0, 0, 0.075)
+  &:before, &:after
+    display: none
+
+// OFF CANVAS
+
+.offcanvas
+  display: none
+  position: fixed
+  margin: 0 0 0 60%
+  width: 40%
+  right: 0
+  top: 0
+  bottom: 0
+  background-color: #333
+  z-index: 30000
+  -webkit-animation-name: effect-slide-in
+  animation-name: effect-slide-in
+  animation-duration: 3s
+  animation-timing-function: linear
+  hr
+    margin: 0 30px
+    padding: 0
+    border-top: 4px solid #3E3E3E
+    clear: both
+  h2
+    color: $link-color
+    padding: 0 30px
+    text-transform: uppercase
+    font: 300 32px/1em $font-brand
+  button.btn-lg
+    position: absolute
+    background-color: #333
+    left: -23px
+    font-size: 16px
+    border-radius: 50%
+    top: 12px
+    width: 50px
+    height: 50px
+    &:hover, &:active, &:focus
+      color: $link-color
+
+span.badge
+  display: inline-block
+  float: right
+  margin: 15px 0
+
+.profile
+  display: none
+  width: 100%
+  float: left
+  padding: 15px 0px 15px 20px
+  -webkit-animation-name: effect-fade-in
+  animation-name: effect-fade-in
+  animation-duration: 2s
+  button.btn-close, button.btn-close:hover, button.btn-submit, button.btn-submit:hover
+    position: relative
+    width: auto
+    border-radius: 30px
+    border-width: 3px
+    font-size: 2em
+    font-weight: 500
+    padding: 2px 20px
+    top: 0
+    left: auto
+  button.btn-submit, button.btn-submit:hover
+    float: right
+    right: 0
+  button.btn-close, button.btn-close:hover
+    float: right
+    margin: 0 20px 0 0
+    color: #666
+    border-color: #666
+  button.btn-submit:hover, button.btn-close:hover
+    color: #fff
+    background-color: $link-color
+    border-color: $link-color
+  input.form-control
+    border-width: 2px
+    border-color: #333
+    border-radius: 3px
+  .input-group
+    border-color: #333
+    margin: 0 0 10px
+    &:before, &:after
+      display: none
+  span.input-group-addon
+    background: none
+    border: none
+    padding: 0px 30px 10px 0px
+
+.nav-side
+  font: 300 20px/1em $font-stack
+  padding: 0 30px
+  margin: 0
+  text-align: left
+  position: relative
+  li
+    border-top: 1px dashed #4B4B4B
+    height: 50px
+    padding: 0 80% 0 0
+    list-style: none
+    width: 100%
+    clear: both
+    &:first-child
+      border: none
+    a
+      color: #fff
+      width: 100%
+      padding: 14px 0
+      margin: 0
+      position: absolute
+      &:hover
+        text-decoration: none
+        color: $link-color
+
+.host
+  height: 60px
+  padding: 0 30px
+  margin: 0 0 10px 0
+  color: #ededed
+  .enter_login
+    &:after
+      display: none
+  .name
+    font: $font-search
+    color: $link-color
+    display: inline-block
+    cursor: default
+  a
+    font: 100 11px/12px Verdana !important
+    text-transform: uppercase
+    letter-spacing: 1px
+    color: #666
+    color: #adadad
+    text-decoration: underline
+    &:hover
+      color: $link-color
+
+.avatar 
+  display: inline-block
+  float: left
+  margin: 0 20px 0 0
+  img, span
+    width: 60px
+    height: 60px
+    border-radius: 50%
+    border: 3px solid $link-color
+    font-size: 24px
+  span.fa-fw
+    padding: 16px
+    color: $link-color
+
+.profile > .change-avatar, .profile > .change-avatar a
+  font-size: 18px
+  font-weight: 500
+  display: inline-block
+  margin: 20px 0 20px 60px
+  text-decoration: underline
+  color: #666
+  &:hover, &:focus, &:active
+    color: $link-color
+
+.popup
+  z-index: 30000
+  position: fixed
+  width: auto
+  height: auto
+  max-width: 600px
+  min-width: 400px
+  margin: 0 auto
+  display: none
+  top: 64px
+  left: 50%
+  bottom: 100%
+  animation-name: none !important
+  .col-md-4
+    padding: 0 3px
+    &:first-child
+      padding: 0 5px 0 0
+    &:last-child
+      padding: 0 0 0 5px
+
+.popup-overlay
+  z-index: 2000
+  background: black
+  display: none 
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  top: 0
+  filter: alpha(opacity=50)
+  -moz-opacity: 0.5
+  -khtml-opacity: 0.5
+  opacity: 0.5
+
+input#fileupload
+  padding: 12px 0px 0
+  font-size: 16px
+  color: #f99
+  margin: 5px 0
+  border-top: 1px dashed #dadada
+  width: 100%
+
+input.custom-file-input
+  &:-webkit-file-upload-button
+    visibility: hidden
+  &:before
+    content: 'Select some files'
+    display: inline-block
+    background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3)
+    border: 1px solid #999
+    border-radius: 3px
+    padding: 10px 16px
+    outline: none
+    white-space: nowrap
+    -webkit-user-select: none
+    cursor: pointer
+    text-shadow: 1px 1px #fff
+    font-weight: 700
+    font-size: 10pt
+  &:hover:before
+    border-color: black
+  &:active:before
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9)
+
+
+// RADAR
+
+.input-group-radar, .input-group-fav
+  &:after, &:before
+    content: ""
+    position: absolute
+    border-style: solid
+    border-width: 0px 11px 11px
+    border-color: #666 transparent
+    display: block
+    width: 0px
+    z-index: 1
+    top: -9px
+    left: auto
+    right: 117px
+    height: 0px
+  &:before
+    border-color: #FFF transparent
+    z-index: 2
+    top: -5px
+
+.radar-wrapper
+  position: fixed
+  margin: 0
+  width: auto
+  left: 0px
+  right: 0px
+  bottom: 0px
+  top: 120px
+  overflow: hidden
+  height: 450px
+
+.radar-circle_01, .radar-circle_02, .radar-circle_03, .radar-circle_00
+  background: image-url("circle.svg")
+  position: relative
+  width: 100%
+  height: 100%
+  background-position: center center
+  background-repeat: no-repeat
+
+.radar-circle_00
+  background-size: 10% auto
+
+.radar-circle_01
+  background-size: 25% auto
+
+.radar-circle_02
+  background-size: 55% auto
+
+.radar-circle_03
+  background-size: 85% auto
+
+.radar-circle_view
+  background: image-url("circle_sector.svg")
+  position: absolute
+  width: 100%
+  height: 100%
+  background-position: center center
+  background-repeat: no-repeat
+  background-size: 120% auto
+
+.distance_00, .distance_01, .distance_02, .distance_03
+  position: absolute
+  font: $font-small
+  opacity: 0.5
+  top: 50%
+
+.distance_00
+  left: 43.5%
+.distance_01
+  left: 36.5%
+.distance_02
+  left: 21%
+.distance_03
+  left: 6%
+
+#radar-control
+  position: fixed
+  bottom: 0
+  width: 100%
+  margin: auto
+  box-shadow: 0px -1px 0px rgba(255, 255, 255, 0.15) inset, 0px -1px 5px rgba(0, 0, 0, 0.075)
+  background-color: #fff
+  height: 68px
+  text-align: center
+
+.radar-choise
+  padding: 12px 0 6px 0
+  box-shadow: none
+  left: 0px
+  float: left
+  display: inline-block
+  text-align: left
+  .btn-group-lg > .btn
+    font-size: 24px
+    border-radius: 60px
+    padding: 5px 20px
+    border: 2px solid #666
+    color: #444 !important
+  .btn:hover, .btn:focus, .btn:active
+    color: #FFF !important
+    border: 2px solid $link-color
+    -moz-border-top-colors: none
+    -moz-border-right-colors: none
+    -moz-border-bottom-colors: none
+    -moz-border-left-colors: none
+    border-image: none
+
+.distance-control
+  display: block
+  padding: 20px 0px
+  box-shadow: none
+  float: none
+  width: 25%
+  margin: 0 auto
+  &:before
+    content: ""
+    left: -14px
+    width: 17px
+    height: 17px
+    top: 29px
+    z-index: 900
+  &:after
+    content: ""
+    right: -24px
+    width: 30px
+    height: 30px
+    top: 22px
+    z-index: 900
+  &:before, &:after
+    position: absolute
+    display: inline-block
+    font: bold 20px/0 $font-brand
+    background-color: #fff
+    cursor: default
+    border-radius: 50%
+    border: 5px solid #ededed
+
+input[type=range].distance-slider
+  -webkit-appearance: none
+  width: 100%
+  margin: 10.8px 0
+  position: absolute
+  z-index: 1000
+  &:focus, &:hover
+    outline: none
+    z-index: 1000
+  &::-webkit-slider-runnable-track
+    width: 100%
+    height: 6px
+    cursor: pointer
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d
+    background: #ededed
+    border-radius: 0px
+    border: 0px solid rgba(0, 0, 0, 0)
+    z-index: 800
+  &::-webkit-slider-thumb
+    position: absolute
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0)
+    border: 0px solid #000000
+    height: 30px
+    width: 30px
+    border-radius: 30px
+    background: $link-color
+    cursor: pointer
+    -webkit-appearance: none
+    margin-top: -10.8px
+    cursor: move
+    z-index: 1000
+  &:focus::-webkit-slider-runnable-track, &:hover::-webkit-slider-runnable-track
+    background: #ffffff
+  &::-moz-range-track
+    width: 100%
+    height: 6px
+    cursor: pointer
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d
+    background: #ededed
+    border-radius: 0px
+    border: 0px solid rgba(0, 0, 0, 0)
+    z-index: 800
+  &::-moz-range-thumb
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0)
+    border: 0px solid #000000
+    height: 30px
+    width: 30px
+    border-radius: 30px
+    background: $link-color
+    cursor: move
+    z-index: 1000
+  &::-ms-track
+    width: 100%
+    height: 6px
+    cursor: pointer
+    background: transparent
+    border-color: transparent
+    color: transparent
+    z-index: 800
+  &::-ms-fill-lower
+    background: #a3a3a3
+    border: 0px solid rgba(0, 0, 0, 0)
+    border-radius: 0px
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d
+  &::-ms-fill-upper
+    background: #ededed
+    border: 0px solid rgba(0, 0, 0, 0)
+    border-radius: 0px
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d
+  &::-ms-thumb
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0)
+    border: 0px solid #000000
+    height: 30px
+    width: 30px
+    border-radius: 30px
+    background: $link-color
+    cursor: move
+    height: 6px
+    z-index: 1000
+  &:focus, &:hover
+    &::-ms-fill-lower
+      background: #ededed
+    &::-ms-fill-upper
+      background: #000
+
+.dot-match, .dot-snatch
+  position: absolute
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  background-color: #fff
+  border: 3px solid #444
+  text-align: center
+  font: $font-small
+  font-weight: 600
+  padding: 10px 0
+  z-index: 1000
+
+.dot-match
+  left: 23%
+  top: 40%
+.dot-snatch
+  left: 70%
+  top: 60%
+
+
+// FAVORITES
+
+.search-favorites
+  .input-group
+    &:before, &:after
+      left: inherit
+      right: 68px
+
+ul.lot-list
+  list-style-type: none
+  padding: 0
+  width: 100%
+  li
+    width: 100%
+    padding: 0
+  h3
+    padding-left: 10px
+  h3, .fa-star
+    display: inline-block
+    margin-top: 5px
+    margin-bottom: 5px
+    .grey
+      background-color: $grey-color
+      color: inherit
+      width: 96%
+      padding: 10px
+  .fa-star
+    margin: 0 10px 0 0
+    width: 100%
+    &:before
+      margin: 0 10px 0
+      position: relative
+      top: -3px
+    &:hover
+      color: $link-color
+
+// DATE TIME PICKER
+
+.datetimepicker
+  width: 100%
+  span.input-group-addon
+    clear: left
+    border: medium none
+    padding: 14px
+    display: inline-block
+    float: left
+    text-align: left
+    margin: 0
+    height: 48px
+    background: #666
+    border-radius: 3px 0 0 3px
+  .form-group
+    margin-bottom: 0
+
+#datetimepicker-start, #datetimepicker-end
+  input
+    padding-right: 10px
+    float: left
+    position: relative
+    display: inline-block
+    width: 87%
+  span.input-group-addon
+    &:hover, &:active, &:focus
+      background: $link-color
+      color: #fff
+      border-right: 3px solid $link-color
+
+#email-enter.input-group
+  margin: 0 0 10px
+
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover
+  background-color: $link-color
+  color: #444
+  font-weight: 500
+
+.bootstrap-datetimepicker-widget.dropdown-menu
+  margin: 10px 0 0
+  border: 2px solid #666
+  padding: 15px
+
+.bootstrap-datetimepicker-widget.dropdown-menu.bottom:before
+  content: ""
+  position: absolute
+  border-style: solid
+  border-width: 0px 11px 11px
+  border-color: #666 transparent
+  display: block
+  width: 0px
+  top: -11px
+  left: 17px
+
+.bootstrap-datetimepicker-widget.dropdown-menu.bottom:after
+  content: ""
+  position: absolute
+  border-style: solid
+  border-width: 0px 11px 11px
+  border-color: #FFF transparent
+  display: block
+  width: 0px
+  top: -7px
+  left: 17px
+
+// GEOPICKER
+
+.pac-container
+  z-index: 30000
+  width: 558px !important
+  border-radius: 3px
+  border: 2px solid #666
+  border-top: 1px dashed #666
+  margin: -4px 0px 0px
+  padding: 0 15px 5px
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2)
+  &:after
+    display: none
+  .pac-item
+    padding: 5px 4px 0
+    .pac-item-query, .pac-matched, span
+      font: 300 16px/16px $font-stack
+    .pac-item-query
+      margin: 0 5px 0 0
+
+#map-canvas
+  width: 555px
+  height: 240px
+  padding: 0
+  margin: 0 0 10px 0 
+  display: none
+
+.options-mini
+  display: block
+  padding: 3px 0 5px
+  span.tiny
+    font: 400 14px/16px $font-stack
+    width: auto
+    display: inline-block
+    text-decoration: underline
+    cursor: pointer
+    &:hover, &:focus
+      color: $link-color
+
+.igotit
+  position: fixed
+  bottom: 0px
+  padding: 20px
+  margin: 0 auto
+  width: auto
+  z-index: 21000
+
+.help
+  position: fixed
+  z-index: 20000
+  top: 0
+  width: 100%
+  height: auto
+  -webkit-animation-name: effect-fade-in
+  animation-name: effect-fade-in
+  animation-duration: 3s
+
+.send:last-child > .btn
+  top: -3px
+  border-radius: 25px
+  height: 44px
+  width: 44px
+  right: 3px
+  font-size: 20px
+  padding: 3px 4px 0px 0px
 
 @import screens

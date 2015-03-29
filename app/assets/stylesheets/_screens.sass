@@ -1,6 +1,26 @@
 
 // MEDIA QUERIES
-@media screen and (max-width: 1200px)
+@media screen and (max-width: 1920px)
+  .settings
+    position: absolute
+    width: 100%
+    margin: 0
+    padding: 0 
+  .radar-wrapper
+    height: 100%
+
+@media screen and (max-width: 1600px)
+  .radar-wrapper
+    height: 100%
+
+@media screen and (max-width: 1280px)
+  .settings  
+    position: absolute
+    margin: 0px
+    padding: 0
+    width: 100%
+  #main.container
+    padding: 15px 0 0 !important
   #nav
     padding: 0px 0px 15px
     position: relative
@@ -19,7 +39,7 @@
     margin: 0
     padding: 0
   .publish
-    margin: 20px 10px 0px -10px
+    margin: 0
     padding: 0
   .time
     width: 6.5%
@@ -28,7 +48,7 @@
     margin: 0px 0px 0px 5px
     width: 15%
   .contact
-    padding: 0 0 0 15px
+    padding: 0
   .info-match
     text-align: left
     right: 66px
@@ -36,7 +56,14 @@
     text-align: right
     left: 111px
 
-@media screen and (max-width: 968px)
+
+@media screen and (max-width: 980px)
+  .radar-wrapper
+    top: 0
+  .settings
+    width: 100%
+  #main.container
+    padding: 15px 0 0!important
   #match, #snatch
     text-align: center
     letter-spacing: -3px
@@ -164,17 +191,7 @@
       height: 0px
       border-width: 0px 8px 8px
   .collapse.in
-    display: block
-    margin: 0px !important
-    position: absolute
     z-index: 1000
-    background: none repeat scroll 0% 0% #FFF
-    right: 10px
-    border: 2px solid #444
-    padding: 5px
-    top: 65px
-    border-radius: 3px
-    width: 64px
   .collapsing
     -webkit-transition: none
     transition: none
@@ -353,7 +370,8 @@
     font-size: initial
     letter-spacing: normal
   .attach
-    margin: 0px 8px 10px 0
+    margin: 0
+    padding: 0 0 0 20px
     text-align: center
     .btn
       padding: 0 10px
