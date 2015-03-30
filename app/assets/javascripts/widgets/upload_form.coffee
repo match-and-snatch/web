@@ -8,6 +8,8 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     super
     @allowed_extensions = (@$container.find('input[type=file]').attr('accept') || '').toLowerCase().split(',')
     @$target = bud.get(@$container.data('target'))
+    @upload_ticks_count = 0
+    @processing_ticks_count = 0
     bud.sub('post', @on_post)
     bud.sub('attachment.cancel', @on_cancel)
     bud.Ajax.getScript(bud.widgets.UploadForm.TRANSLOADIT_SCRIPT_PATH).done(@on_script_loaded)
@@ -39,10 +41,13 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       onUpload: (upload, assembly) =>
         #@$target.prepend("<div>#{upload.name} is uploaded.</div>")
       onSuccess: (assembly) =>
-        $('.Progress').addClass('hidden')
-        @change_progress 0
-        bud.pub('attachment.uploaded')
-        @$container.find('.select_file_container').removeClass('hidden')
+        @finalize()
+        setTimeout(=>
+          $('.Progress').addClass('hidden')
+          @change_progress 0
+          bud.pub('attachment.uploaded')
+          @$container.find('.select_file_container').removeClass('hidden')
+        , 1000)
       onStart: (assembly) =>
         bud.pub('upload_form.set_uploading_state', [true])
         @$container.find('.select_file_container').addClass('hidden')
@@ -82,15 +87,31 @@ class bud.widgets.UploadForm extends bud.widgets.Form
   change_progress: (progress) ->
     progress_bar = $("#progressbar")
     status_label = $("#uploading-status")
-    progress_bar.width("#{progress}%")
-    $("#uploading-percentage").text("#{progress}%")
+    percentage_label = $("#uploading-percentage")
 
     if progress < 100
+      @upload_ticks_count += 1
+      percentage_label.text("#{progress}%")
+      progress_bar.width("#{progress}%")
       status_label.text('Uploading...')
       progress_bar.removeClass('progress-bar-success').addClass('progress-bar-info')
     else
-      status_label.text('Processing...')
+      @processing_ticks_count += 1
+
+      if @processing_ticks_count < @upload_ticks_count
+        progress = (@processing_ticks_count * 100 / @upload_ticks_count).toFixed(2)
+        percentage_label.text("#{progress}%")
+        progress_bar.width("#{progress}%")
+        status_label.text('Processing...')
+      else
+        @finalize()
+
       progress_bar.removeClass('progress-bar-info').addClass('progress-bar-success')
+
+  finalize: ->
+    $("#uploading-percentage").text("100%")
+    $("#progressbar").width("100%")
+    $("#uploading-status").text('Finalizing...')
 
   reinit: () =>
     $(@$container).unbind('submit.transloadit');
@@ -109,3 +130,4 @@ class bud.widgets.UploadForm extends bud.widgets.Form
   notify_file_invalid: (message) ->
     @$container.find('.select_file_container').removeClass('hidden')
     alert(message || 'Sorry, but the file you are trying to upload is invalid')
+
