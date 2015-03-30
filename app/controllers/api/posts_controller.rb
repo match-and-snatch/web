@@ -46,11 +46,24 @@ class Api::PostsController < Api::BaseController
 
   def post_uploads_data(post)
     post.uploads.map do |upload|
-      {
+      common_data = {
         id: upload.id,
+        file_url: upload.rtmp_path,
         preview_url: upload.preview_url,
-        url: upload.url
+        original_url: upload.original_url
       }
+      video_data = if upload.video?
+                     playlist_url = if upload.low_quality_playlist_url
+                                       playlist_video_path(upload.id, format: 'm3u8')
+                                     end
+                     {
+                       hdfile_url:   upload.hd_rtmp_path,
+                       playlist_url: playlist_url
+                     }
+                   else
+                     {}
+                   end
+      common_data.merge(video_data)
     end
   end
 end
