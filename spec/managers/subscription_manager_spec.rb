@@ -102,11 +102,12 @@ describe SubscriptionManager do
   end
 
   describe '#restore' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
     let!(:subscription) do
       manager.subscribe_to(another_user)
     end
-    before { StripeMock.start }
-    after { StripeMock.stop }
 
     context 'removed subscription' do
       before do
@@ -129,12 +130,45 @@ describe SubscriptionManager do
     end
 
     context 'rejected subscription' do
+    let(:subscriber) do
+      create_user(email: 'szinin@gmail.com').tap do |u|
+        UserProfileManager.new(u).update_cc_data(number: '4242424242424242', cvc: '123', expiry_month: 12, expiry_year: 19,
+          address_line_1: 'test', address_line_2: 'test', state: 'test', city: 'test', zip: '12345')
+      end
+    end
+
       before do
         manager.reject
       end
 
       it 'tries to retry payment' do
         expect { manager.restore }.to change { subscription.rejected? }.from(true).to(false)
+      end
+
+      context 'paid subscription' do
+        let!(:subscription) do
+          manager.subscribe_and_pay_for(another_user)
+        end
+
+        before do
+          manager.reject
+        end
+
+        it 'restores subscription' do
+          expect { manager.restore }.to change { subscription.rejected? }.from(true).to(false)
+        end
+
+        it do
+          expect { manager.restore }.to change { subscription.rejected_at }.to(nil)
+        end
+
+        it do
+          expect { manager.restore }.not_to change { Payment.count }
+        end
+
+        it do
+          expect { manager.restore }.not_to change { PaymentFailure.count }
+        end
       end
     end
   end
