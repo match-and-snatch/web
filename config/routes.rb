@@ -32,6 +32,23 @@ BuddyPlatform::Application.routes.draw do
       resources :replies, only: [:create]
       resources :likes, only: [:index, :create], defaults: { type: 'comment' }
     end
+
+    resource :account_info, only: [] do
+      member do
+        get :settings
+        put :update_account_picture
+        put :update_general_information
+        put :update_cc_data
+        put :update_bank_account_data
+        put :enable_rss
+        put :disable_rss
+        put :enable_downloads
+        put :disable_downloads
+        put :enable_itunes
+        put :disable_itunes
+      end
+    end
+
     match '*path' => 'cors#preflight', via: :options
   end
 
