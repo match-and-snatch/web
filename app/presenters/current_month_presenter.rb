@@ -84,6 +84,10 @@ class CurrentMonthPresenter
       day.to_time.to_i
     end
 
+    def current_day?
+      day == Date.current
+    end
+
     def pending_payments_count
       delayed_payments_count + failed_payments_count
     end

@@ -16,7 +16,7 @@ h2
         strong Success Payments
 
     - @current_month.each_day do |day|
-      tr
+      tr class="#{'current-day' if day.current_day?}"
         td
           strong
             a.AjaxLink href=pending_admin_profile_owner_payments_path(@current_month.user.id, date: day.date) = day.name
