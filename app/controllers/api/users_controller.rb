@@ -1,9 +1,9 @@
 class Api::UsersController < Api::BaseController
   include Transloadit::Rails::ParamsDecoder
 
-  before_action :load_user!, only: %i[show update_profile_name update_profile_picture update_cover_picture]
+  before_action :load_user!, only: %i[show update_profile_name update_profile_picture update_cover_picture update_cost]
 
-  protect(:update_profile_name, :update_profile_picture, :update_cover_picture) { current_user == @user }
+  protect(:update_profile_name, :update_profile_picture, :update_cover_picture, :update_cost) { current_user == @user }
 
   def search
     users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text
@@ -11,6 +11,14 @@ class Api::UsersController < Api::BaseController
   end
 
   def show
+    respond_with_user_data
+  end
+
+  def update_cost
+    manager.update_cost(params[:cost], update_existing_subscriptions: params.bool(:update_existing))
+    if manager.cost_change_request_submited?
+      notice(:cost_change_request_submited)
+    end
     respond_with_user_data
   end
 

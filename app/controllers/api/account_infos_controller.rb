@@ -73,6 +73,7 @@ enable_itunes disable_itunes]) do
     {
       slug: user.slug,
       is_profile_owner: user.is_profile_owner?,
+      cost: user.cost,
       account_info: {
         full_name: user.full_name,
         email: user.email,
