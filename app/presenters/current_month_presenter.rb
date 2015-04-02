@@ -19,6 +19,22 @@ class CurrentMonthPresenter
     end
   end
 
+  def total_pending_payments_count
+    total_delayed_payments_count + total_failed_payments_count
+  end
+
+  def total_delayed_payments_count
+    pending_payments.values.sum
+  end
+
+  def total_failed_payments_count
+    failed_payments.values.sum
+  end
+
+  def total_success_payments_count
+    success_payments.values.sum
+  end
+
   private
 
   def period
@@ -30,13 +46,19 @@ class CurrentMonthPresenter
     month  = Time.zone.now.prev_month
     start  = month.beginning_of_month
     finish = month.end_of_month
+
+    @out_of_period_pending_count ||= user.source_subscriptions.
+        not_removed.
+        not_rejected.
+        where(['charged_at < ?', start]).count
+
     @pending_payments ||= {}.tap do |pending_payments|
       user.source_subscriptions.
           not_removed.
           not_rejected.
           where(charged_at: start..finish).
           group_by { |s| s.billing_date }.each do |date, subscriptions|
-        pending_payments[date] = subscriptions.count
+        pending_payments[date] = subscriptions.count + @out_of_period_pending_count
       end
     end
   end
@@ -56,11 +78,18 @@ class CurrentMonthPresenter
       user.source_subscriptions.
           not_removed.
           where(rejected: true).
-          where(['rejected_at <= ?', period.end]).
+          where(rejected_at: period).
           group_by { |p| p.rejected_at.try(:to_date) }.each do |date, payments|
         failed_payments[date] = payments.count
       end
     end
+
+    @failed_payments[:out_of_period_failed_count] ||= user.source_subscriptions.
+        not_removed.
+        where(rejected: true).
+        where(['rejected_at < ?', period.begin]).count
+
+    @failed_payments
   end
 
   class Day
@@ -84,8 +113,12 @@ class CurrentMonthPresenter
       day.to_time.to_i
     end
 
+    def current_day?
+      day == Date.current
+    end
+
     def pending_payments_count
-      delayed_payments_count + failed_payments_count
+      delayed_payments_count + failed_payments_count + failed_payments[:out_of_period_failed_count]
     end
 
     def success_payments_count
@@ -101,7 +134,7 @@ class CurrentMonthPresenter
     end
 
     def delayed_payments_count
-      end_date = [day, Date.current].min
+      end_date = [day, Date.current].max
 
       day.beginning_of_month.upto(end_date).inject(0) do |count, _day|
         count + pending_payments[_day].to_i
