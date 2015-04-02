@@ -19,6 +19,7 @@ BuddyPlatform::Application.routes.draw do
       end
 
       resources :posts, only: [:index]
+      resources :benefits, only: :create
     end
 
     resources :posts, only: [] do

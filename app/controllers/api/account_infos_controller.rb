@@ -91,7 +91,8 @@ enable_itunes disable_itunes]) do
         itunes_enabled: user.itunes_enabled,
         rss_enabled: user.rss_enabled,
         downloads_enabled: user.downloads_enabled
-      }
+      },
+      benefits: user.benefits.order(:ordering).pluck(:message)
     }
   end
 
