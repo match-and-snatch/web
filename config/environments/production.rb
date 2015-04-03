@@ -94,6 +94,6 @@ BuddyPlatform::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   # Redirect to www.connectpal.com any invalid request
-  # config.middleware.use Redirector
+  config.middleware.use Redirector
   config.stripe.secret_key = 'sk_live_4MV1tr0ikLzw9ZdYO9HbErpH'
 end
