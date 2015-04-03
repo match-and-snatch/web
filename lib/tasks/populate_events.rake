@@ -13,4 +13,11 @@ namespace :events do
   task populate_profile_created_events: :environment do
     Events::RepopulateProfileCreatedEventsJob.perform
   end
+
+  desc 'Remove duplicates events'
+  task remove_duplicates: :environment do
+    puts "<<<=== STARTED #{Time.zone.now}"
+    Events::RemoveDuplicatesJob.perform
+    puts ">>>=== FINISHED #{Time.zone.now}"
+  end
 end
