@@ -5,10 +5,14 @@ class Redirector
   end
 
   def call(env)
-    if env['HTTP_HOST'] != 'www.connectpal.com'
-      [301, { 'Location' => 'https://www.connectpal.com' }, ['Redirecting you to the main domain...']]
-    else
+    request = Rack::Request.new(env)
+    if request.host.starts_with?('www.')
       @app.call env
+    else
+      [301, { 'Location' => request.url.sub('//', '//www.') }, self]
     end
+  end
+
+  def each
   end
 end
