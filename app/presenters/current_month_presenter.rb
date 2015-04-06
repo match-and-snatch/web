@@ -11,7 +11,7 @@ class CurrentMonthPresenter
 
   def collection
     current_day = Date.current
-    (current_day.beginning_of_month..current_day.end_of_month).map do |day|
+    @collection ||= (current_day.beginning_of_month..current_day.end_of_month).map do |day|
       Day.new(day: day,
               pending_payments: pending_payments,
               success_payments: success_payments,
@@ -20,11 +20,11 @@ class CurrentMonthPresenter
   end
 
   def total_pending_payments_count
-    total_delayed_payments_count + total_failed_payments_count
+    pending_payments.values.sum
   end
 
   def total_delayed_payments_count
-    pending_payments.values.sum
+    collection.sum(&:delayed_payments_count)
   end
 
   def total_failed_payments_count
@@ -118,7 +118,7 @@ class CurrentMonthPresenter
     end
 
     def pending_payments_count
-      delayed_payments_count + failed_payments_count + failed_payments[:out_of_period_failed_count]
+      (pending_payments[day] || 0) + failed_payments_count + failed_payments[:out_of_period_failed_count]
     end
 
     def success_payments_count
@@ -134,7 +134,7 @@ class CurrentMonthPresenter
     end
 
     def delayed_payments_count
-      end_date = [day, Date.current].max
+      end_date = [day, Date.current].min
 
       day.beginning_of_month.upto(end_date).inject(0) do |count, _day|
         count + pending_payments[_day].to_i
