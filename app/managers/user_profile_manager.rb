@@ -33,6 +33,13 @@ class UserProfileManager < BaseManager
     profile_type
   end
 
+  # Hides/shows users in search results
+  def toggle
+    @user.hidden = !@user.hidden
+    @user.save!
+    @user
+  end
+
   # @param profile_type [ProfileType]
   def remove_profile_type(profile_type)
     raise ArgumentError unless profile_type.is_a?(ProfileType)

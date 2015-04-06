@@ -4,8 +4,9 @@ module Queries
 
     # @param query [String]
     # @param user [User]
-    def initialize(query: '', user: nil)
+    def initialize(query: '', user: nil, include_hidden: false)
       @query = query.to_s
+      @include_hidden = include_hidden
       @user = user or raise ArgumentError, 'User is not set'
     end
 
@@ -85,8 +86,14 @@ module Queries
     private
 
     def base_query
-      User.profile_owners.with_complete_profile.
+      result = User.profile_owners.with_complete_profile.
         where('users.subscribers_count > 0 OR users.profile_picture_url IS NOT NULL')
+
+      unless @include_hidden
+        result = result.where(hidden: false)
+      end
+
+      result
     end
   end
 end
