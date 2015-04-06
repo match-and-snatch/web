@@ -1,8 +1,8 @@
 class Admin::ProfilesController < Admin::BaseController
-  before_action :load_user!, only: %i(make_public make_private show)
+  before_action :load_user!, only: %i(make_public make_private show toggle)
 
   def index
-    @users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text
+    @users = Queries::Users.new(user: current_user, query: params[:q], include_hidden: true).profile_owners_by_text
     json_replace
   end
 

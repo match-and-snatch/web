@@ -3,6 +3,8 @@
     .col-md-12
       h1 Profiles directory
 
+      .AjaxContainer data-url=public_admin_profiles_path
+
       ul.search_directory
         li
           a href='#A' A
@@ -80,9 +82,9 @@
                     '  (NO POSTS)
                 .pull-right
                   - if user.hidden?
-                    button.AjaxFormLink.btn.pink data-_method="put" href=toggle_admin_directory_user_path(user) Show
+                    button.AjaxFormLink.btn.pink data-identifier="toggle-user-#{user.id}" data-target="toggle-user-#{user.id}" data-_method="put" href=toggle_admin_directory_user_path(user) Show
                   - else
-                    button.AjaxFormLink.btn.blue data-_method="put" href=toggle_admin_directory_user_path(user) Hide
+                    button.AjaxFormLink.btn.blue data-identifier="toggle-user-#{user.id}" data-target="toggle-user-#{user.id}" data-_method="put" href=toggle_admin_directory_user_path(user) Hide
                 .clearfix
         hr
       a.search_top.TopJumper href="#top" Back to Top
