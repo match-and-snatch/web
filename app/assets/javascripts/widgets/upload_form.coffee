@@ -9,7 +9,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     @allowed_extensions = (@$container.find('input[type=file]').attr('accept') || '').toLowerCase().split(',')
     @$target = bud.get(@$container.data('target'))
     @upload_ticks_count = 0
-    @processing_ticks_count = 0
+    @processing_ticks_count = 0.0
     bud.sub('post', @on_post)
     bud.sub('attachment.cancel', @on_cancel)
     bud.Ajax.getScript(bud.widgets.UploadForm.TRANSLOADIT_SCRIPT_PATH).done(@on_script_loaded)
@@ -96,9 +96,9 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       status_label.text('Uploading...')
       progress_bar.removeClass('progress-bar-success').addClass('progress-bar-info')
     else
-      @processing_ticks_count += 1
+      @processing_ticks_count += 0.5
 
-      if @processing_ticks_count < @upload_ticks_count
+      if @processing_ticks_count < @upload_ticks_count - 1
         progress = (@processing_ticks_count * 100 / @upload_ticks_count).toFixed(2)
         percentage_label.text("#{progress}%")
         progress_bar.width("#{progress}%")
@@ -109,9 +109,9 @@ class bud.widgets.UploadForm extends bud.widgets.Form
       progress_bar.removeClass('progress-bar-info').addClass('progress-bar-success')
 
   finalize: ->
-    $("#uploading-percentage").text("100%")
+    $("#uploading-percentage").text("Finalizing...")
     $("#progressbar").width("100%")
-    $("#uploading-status").text('Finalizing...')
+    $("#uploading-status").text('Processing...')
 
   reinit: () =>
     $(@$container).unbind('submit.transloadit');
