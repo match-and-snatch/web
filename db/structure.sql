@@ -775,7 +775,8 @@ CREATE TABLE subscriptions (
     rejected_at timestamp without time zone,
     cost integer,
     fees integer,
-    total_cost integer
+    total_cost integer,
+    charge_date timestamp without time zone
 );
 
 
@@ -946,8 +947,9 @@ CREATE TABLE users (
     billing_address_line_2 text,
     contributions_enabled boolean DEFAULT true NOT NULL,
     notifications_debug_enabled boolean DEFAULT true,
+    custom_profile_page_css text,
     api_token character varying(255),
-    custom_profile_page_css text
+    hidden boolean DEFAULT false NOT NULL
 );
 
 
@@ -1577,5 +1579,9 @@ INSERT INTO schema_migrations (version) VALUES ('20150306183346');
 
 INSERT INTO schema_migrations (version) VALUES ('20150308055851');
 
+INSERT INTO schema_migrations (version) VALUES ('20150309035722');
+
 INSERT INTO schema_migrations (version) VALUES ('20150313072158');
+
+INSERT INTO schema_migrations (version) VALUES ('20150406094929');
 

@@ -1,0 +1,4 @@
+- if @user.hidden?
+  button.AjaxFormLink.btn.pink data-_method="put" href=toggle_admin_directory_user_path(@user) Show
+- else
+  button.AjaxFormLink.btn.blue data-_method="put" href=toggle_admin_directory_user_path(@user) Hide
