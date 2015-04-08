@@ -2,6 +2,8 @@ class Post < ActiveRecord::Base
   include PgSearch
   include Concerns::Likable
 
+  LIKABLE_TYPE = 'Post'.freeze
+
   belongs_to :user
   has_many :comments
   has_many :uploads, as: :uploadable
@@ -16,6 +18,10 @@ class Post < ActiveRecord::Base
   # @return [Array<Upload>]
   def self.pending_uploads_for(user)
     raise NotImplementedError
+  end
+
+  def likable_type
+    LIKABLE_TYPE
   end
 
   def comments_query

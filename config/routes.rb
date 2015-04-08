@@ -194,6 +194,13 @@ BuddyPlatform::Application.routes.draw do
         get :search
       end
     end
+    resource :directory do
+      scope module: :directories do
+        resources :users, only: [] do
+          put :toggle, on: :member
+        end
+      end
+    end
     resources :uploads, only: :index
     resources :recent_profiles, only: :index
     resources :profile_owners, only: [:index, :show, :update] do

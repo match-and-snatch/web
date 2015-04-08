@@ -16,7 +16,7 @@ h2
         strong Success Payments
 
     - @current_month.each_day do |day|
-      tr
+      tr class="#{'current-day' if day.current_day?}"
         td
           strong
             a.AjaxLink href=pending_admin_profile_owner_payments_path(@current_month.user.id, date: day.date) = day.name
@@ -28,3 +28,15 @@ h2
           = day.failed_payments_count
         td
           = day.success_payments_count
+
+    tr
+      td
+        strong Total
+      td
+        = @current_month.total_pending_payments_count
+      td
+        = @current_month.total_delayed_payments_count
+      td
+        = @current_month.total_failed_payments_count
+      td
+        = @current_month.total_success_payments_count

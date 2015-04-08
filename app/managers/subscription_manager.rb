@@ -189,7 +189,11 @@ class SubscriptionManager < BaseManager
   def restore
     @subscription.actualize_cost! or fail_with! @subscription.errors
 
-    PaymentManager.new.pay_for!(@subscription, 'Payment for subscription') unless @subscription.paid?
+    if @subscription.paid?
+      accept if @subscription.rejected?
+    else
+      PaymentManager.new.pay_for!(@subscription, 'Payment for subscription')
+    end
 
     if @subscription.removed?
       @subscription.restore!

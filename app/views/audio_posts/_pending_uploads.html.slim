@@ -12,7 +12,7 @@ div data-identifier='pending-audios'
             .clearfix
       span.supported_files
         | What file extensions are supported?
-        .file_types .mp3, .aac, .m4a, .ogg, .oga
+        .file_types .mp3, .aac
       .clearfix
       - if current_user.pending_audios.count < 16
         form.UploadForm action=audios_path method='post' data-target='pending-audios'
@@ -20,7 +20,7 @@ div data-identifier='pending-audios'
           .select_file_container
             .btn.green.multi.fa.fa-plus
               |&nbsp;Add Audio Files
-            input.hide_btn type='file' accept='.mp3,.aac,.m4a,.ogg,.oga' name='post_audios' multiple='multiple'
+            input.hide_btn type='file' accept='.mp3,.aac' name='post_audios' multiple='multiple'
             input type='hidden' name='slug' value=current_user.slug
       - else
         p You can only upload 15 files per post.

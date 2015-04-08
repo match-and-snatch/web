@@ -21,7 +21,7 @@ class Admin::PayoutBreakdownsController < Admin::BaseController
 
       SELECT
         users.*,
-        stat_events.unsubscribers_count AS unsubscribers_count,
+        COALESCE(stat_events.unsubscribers_count, 0) AS unsubscribers_count,
         pending_subs.pending_count AS pending_subs_count,
         COUNT(CASE
                 WHEN (payments.created_at BETWEEN '#{beginning_of_month}' AND '#{end_of_month}')
