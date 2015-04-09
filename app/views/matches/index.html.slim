@@ -1,5 +1,20 @@
 = render "popups_match"
 
+section 
+  #main.container data-identifier="help_match" style="padding: 0;"
+    .row
+      .col-lg-12.Toggler data-target="help_match" type="button"
+        .help_02
+          h2 
+           | And title and description for the  
+           | goods or events you would want to offer.
+           br / 
+           br /
+           | Add photos, sound, video, tags, start and end time and location if needed.
+      .col-lg-12.igotit
+        button.Toggler.btn.btn-lg.ok.btn-circle data-target="help_match" type="button"
+          | I got it
+
 header
   #nav.navbar.navbar-default.navbar-fixed-top style="position: relative;"
     .container
@@ -16,9 +31,7 @@ header
                 a href=snatches_path SNATCH
             /! MENU COLLAPSED
             button.navbar-toggle data-target="#menu" data-toggle="collapse" type="button" 
-              span.icon-bar
-              span.icon-bar
-              span.icon-bar
+              span.fa.fa-bars.fa-md.fa-fw type="button"
           /! MENU EXPANDED
           #menu.collapse.navbar-collapse.navbar-right.navbar-btn
             a.button.btn.btn-lg href=radars_path type="button" 
@@ -26,20 +39,20 @@ header
             a.button.btn.btn-lg href=favorites_path type="button" 
               span.fa.fa-star.fa-md.fa-fw
             a.button.Toggler.btn.btn-lg href="#" type="button" data-target="nav_offcanvas_initial"
-              span.fa.fa-bars.fa-md.fa-fw type="button" 
-      .row
+              span.fa.fa-cog.fa-md.fa-fw type="button" 
+      .row.lot-match
         .col-lg-12
           /! LOT
-          .lot.cell
-            .match-bubble
-              input.lot-title placeholder="Enter title here" type="text"
-              textarea.lot-body rows="3" placeholder="Enter details of your offer here" type="text"
+          .match-bubble
+            input.lot-title placeholder="Enter title here" type="text"
+            .lot-body contenteditable="" Enter description here
+
                 
 section
   #main.container style="padding: 0; margin: -10px auto;"
     .row.cell
-      .col-sm-12.contact.cell
-        .col-sm-6.attach.cell
+      .col-sm-12.contact
+        .col-sm-6.attach
           button.PopupTrigger.btn.btn-lg data-target="popup_image" type="button" 
             i.fa.fa-picture-o.fa-md.fa-fw
           button.PopupTrigger.btn.btn-lg data-target="popup_sound"type="button" 
@@ -52,16 +65,7 @@ section
             i.fa.fa-calendar.fa-md.fa-fw
           button.PopupTrigger.btn.btn-lg data-target="popup_location" type="button" 
             i.fa.fa-map-marker.fa-md.fa-fw
-        .col-sm-6.publish.cell
-          button.PopupTrigger.btn.btn-lg.btn-circle.cell data-target="popup_publish" type="button" 
+        .col-sm-6.publish
+          button.PopupTrigger.btn.btn-lg.btn-circle data-target="popup_publish" type="button" 
             span.glyphicon.glyphicon-flash aria-hidden="true" 
             | Publish
-
-section 
-  #main.container data-identifier="help_match"
-    .row.core
-      .col-lg-12.Toggler data-target="help_match" type="button"
-        .help = image_tag "help_02.svg"
-      .col-lg-12.igotit
-        button.Toggler.btn.btn-lg.ok.btn-circle data-target="help_match" type="button"
-          | I got it

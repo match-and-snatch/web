@@ -15,9 +15,7 @@ header
                 a.active href=snatches_path SNATCH
             /! MENU COLLAPSED
             button.navbar-toggle data-target="#menu" data-toggle="collapse" type="button" 
-              span.icon-bar
-              span.icon-bar
-              span.icon-bar
+              span.fa.fa-bars.fa-md.fa-fw type="button"
           /! MENU EXPANDED
           #menu.collapse.navbar-collapse.navbar-right.navbar-btn
             a.button.btn.btn-lg href=radars_path type="button" 
@@ -25,7 +23,7 @@ header
             button.btn.btn-lg.active
               span.fa.fa-star.fa-md.fa-fw
             a.button.Toggler.btn.btn-lg href="#" type="button" data-target="nav_offcanvas"
-              span.fa.fa-cog.fa-md.fa-fw type="button" 
+              span.fa.fa-cog.fa-md.fa-fw type="button"  
       .row
         .col-lg-12.search-favorites
           /! SEARCH
@@ -34,28 +32,50 @@ header
             span.input-group-btn.lupa
               button.btn.btn-lg type="button" 
                 i.glyphicon.glyphicon-search
-section
+
+section#favorites
   #main.container
-    h1 Shortlist
-    .row.cell
-        /! LOTS LIST
-        .col-sm-12.core
-          ul.lot-list 
-            li.fa.fa-star: h3.grey = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
-            li.fa.fa-star: h3 = link_to '1960s Bundeswehr Military 3H Hand Winding Chronographen Watch', new_snatch_path
-            li.fa.fa-star: h3.grey = link_to 'CONTAX G1 Film Camera with CARL ZEISS PLANAR G 45mm f/2 Lens', new_snatch_path
-            li.fa.fa-star: h3 = link_to 'Parnis PAM Homage Marina Militare Black PVD Power Reserve Automatic Watch', new_snatch_path
-            li.fa.fa-star: h3.grey = link_to 'CONTAX G2 w/ CONTAX Zeiss Planar 45mm F2 [Excellent] from Japan', new_snatch_path
-            li.fa.fa-star: h3 = link_to 'New boxed FUJIFILM X-E2 XE2 camera / cilver + XF 18-55mm F/2.8-4 R LM OIS lens', new_snatch_path
-            li.fa.fa-star: h3.grey = link_to 'CONTAX G Carl Zeiss BIOGON 28mm F/2.8 AF Lens For G1, G2 Excellent From JAPAN', new_snatch_path
-            li.fa.fa-star: h3 = link_to '40MM parnis black dial Submariner automatic STAINLESS STEEL mens watch P206', new_snatch_path
-            li.fa.fa-star: h3.grey = link_to 'TAC FORCE Black Spring Assisted Open SAWBACK BOWIE Tactical Rescue Pocket Knife', new_snatch_path
-            li.fa.fa-star: h3 = link_to '1960s Bundeswehr Military 3H Hand Winding Chronographen Watch', new_snatch_path
-            li.fa.fa-star: h3.grey = link_to 'CONTAX G1 Film Camera with CARL ZEISS PLANAR G 45mm f/2 Lens', new_snatch_path
-            li.fa.fa-star: h3 = link_to 'Parnis PAM Homage Marina Militare Black PVD Power Reserve Automatic Watch', new_snatch_path
-            li.fa.fa-star: h3.grey = link_to 'CONTAX G2 w/ CONTAX Zeiss Planar 45mm F2 [Excellent] from Japan', new_snatch_path
-            li.fa.fa-star: h3 = link_to 'New boxed FUJIFILM X-E2 XE2 camera / cilver + XF 18-55mm F/2.8-4 R LM OIS lens', new_snatch_path
-            li.fa.fa-star: h3.grey = link_to 'CONTAX G Carl Zeiss BIOGON 28mm F/2.8 AF Lens For G1, G2 Excellent From JAPAN', new_snatch_path
-            li.fa.fa-star: h3 = link_to '40MM parnis black dial Submariner automatic STAINLESS STEEL mens watch P206', new_snatch_path
-            li.fa.fa-star: h3.grey = link_to 'TAC FORCE Black Spring Assisted Open SAWBACK BOWIE Tactical Rescue Pocket Knife', new_snatch_path
+    .row
+      #filters.col-sm-12
+        h1 Shortlist
+        .btn-toolbar aria-label="filters" role="toolbar" 
+          .btn-group role="group" 
+            button.btn.btn-default.dropdown-toggle aria-expanded="false" data-toggle="dropdown" type="button" 
+              | Sort by ...   
+              span.caret
+            ul.dropdown-menu role="menu" 
+              li
+                a href="#"  A-Z
+              li
+                a href="#"  Time left
+              li
+                a href="#"  DIstance
+              li
+                a href="#"  Color    
+          .btn-group aria-label="display" role="group" 
+            button.btn.btn-default.active type="button"
+              i.fa.fa-list
+            a.button.btn.btn-default href=new_favorite_path type="button"
+              i.fa.fa-th-large
+    .row
+      /! LOTS LIST
+      .col-sm-12.core
+        ul.lot-list 
+          li.fa.fa-star: h3 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+          li.fa.fa-star: h3 = link_to '1960s Bundeswehr Military 3H Hand Winding Chronographen Watch', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'CONTAX G1 Film Camera with CARL ZEISS PLANAR G 45mm f/2 Lens', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'Parnis PAM Homage Marina Militare Black PVD Power Reserve Automatic Watch', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'CONTAX G2 w/ CONTAX Zeiss Planar 45mm F2 [Excellent] from Japan', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'New boxed FUJIFILM X-E2 XE2 camera / cilver + XF 18-55mm F/2.8-4 R LM OIS lens', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'CONTAX G Carl Zeiss BIOGON 28mm F/2.8 AF Lens For G1, G2 Excellent From JAPAN', new_snatch_path
+          li.fa.fa-star: h3 = link_to '40MM parnis black dial Submariner automatic STAINLESS STEEL mens watch P206', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'TAC FORCE Black Spring Assisted Open SAWBACK BOWIE Tactical Rescue Pocket Knife', new_snatch_path
+          li.fa.fa-star: h3 = link_to '1960s Bundeswehr Military 3H Hand Winding Chronographen Watch', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'CONTAX G1 Film Camera with CARL ZEISS PLANAR G 45mm f/2 Lens', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'Parnis PAM Homage Marina Militare Black PVD Power Reserve Automatic Watch', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'CONTAX G2 w/ CONTAX Zeiss Planar 45mm F2 [Excellent] from Japan', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'New boxed FUJIFILM X-E2 XE2 camera / cilver + XF 18-55mm F/2.8-4 R LM OIS lens', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'CONTAX G Carl Zeiss BIOGON 28mm F/2.8 AF Lens For G1, G2 Excellent From JAPAN', new_snatch_path
+          li.fa.fa-star: h3 = link_to '40MM parnis black dial Submariner automatic STAINLESS STEEL mens watch P206', new_snatch_path
+          li.fa.fa-star: h3 = link_to 'TAC FORCE Black Spring Assisted Open SAWBACK BOWIE Tactical Rescue Pocket Knife', new_snatch_path
            

@@ -1,22 +1,23 @@
-.row.cell
-  .col-sm-12.cell
+.row
+  .col-sm-12
     /! CHAT FACES
-    .col-sm-5.users.cell
-      .col-xs-2.cell
+    .col-sm-11.users
+      .col-xs-1.user
         button.btn.btn-lg.face-circle.inactive.chat type="button" = image_tag "user_01.jpg"
-      .col-xs-2.cell
+      .col-xs-1.user
         button.btn.btn-lg.face-circle.active.chat type="button" = image_tag "user_02.jpg"
-      .col-xs-2.cell
+      .col-xs-1.user
         button.btn.btn-lg.face-circle.inactive.chat type="button" = image_tag "user_03.jpg" 
-      .col-xs-2.cell
+      .col-xs-1.user
         button.btn.btn-lg.face-circle.inactive.count.chat type="button" = image_tag "user_04.jpg"
-      .col-xs-2.cell
+      .col-xs-1.user
         button.btn.btn-lg.face-circle.inactive.chat type="button" = image_tag "user_05.jpg" 
-      .col-xs-2.cell
+      .col-xs-1.user
         button.btn.btn-lg.face-circle.inactive.count.chat type="button" = image_tag "user_06.jpg"
+      .col-xs-6
     /! REMINDER
-    .col-sm-7.subscribe.cell
-      button.PopupTrigger.btn.btn-lg.btn-circle.round.cell data-target="popup_subscribe" type="button"
+    .col-sm-1.subscribe
+      button.PopupTrigger.btn.btn-lg.btn-circle.round data-target="popup_subscribe" type="button"
         span.glyphicon.glyphicon-flash aria-hidden="true"
       /! POPUP
       .popup.Popup data-identifier="popup_subscribe"

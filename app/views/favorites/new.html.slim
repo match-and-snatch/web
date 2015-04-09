@@ -1,0 +1,128 @@
+header
+  #nav.navbar.navbar-default.navbar-fixed-top
+    .container
+      .row
+        .col-xs-12
+          .navbar-header
+            /! LOGO
+            .navbar-brand
+              span#match
+                a.active href=matches_path MATCH
+              span.grey
+                a href=root_path 
+                  span.glyphicon.glyphicon-flash aria-hidden="true"
+              span#snatch
+                a.active href=snatches_path SNATCH
+            /! MENU COLLAPSED
+            button.navbar-toggle data-target="#menu" data-toggle="collapse" type="button" 
+              span.fa.fa-bars.fa-md.fa-fw type="button"
+          /! MENU EXPANDED
+          #menu.collapse.navbar-collapse.navbar-right.navbar-btn
+            a.button.btn.btn-lg href=radars_path type="button" 
+              span.fa.fa-dot-circle-o.fa-md.fa-fw
+            button.btn.btn-lg.active
+              span.fa.fa-star.fa-md.fa-fw
+            a.button.Toggler.btn.btn-lg href="#" type="button" data-target="nav_offcanvas"
+              span.fa.fa-cog.fa-md.fa-fw type="button" 
+      .row
+        .col-lg-12.search-favorites
+          /! SEARCH
+          .input-group
+            input.search placeholder=("Search in shortlist: ...") type="text" /
+            span.input-group-btn.lupa
+              button.btn.btn-lg type="button" 
+                i.glyphicon.glyphicon-search
+
+section#favorites
+  #main.container
+    .row
+      #filters.col-sm-12
+        h1 Shortlist
+        .btn-toolbar aria-label="filters" role="toolbar" 
+          .btn-group role="group" 
+            button.btn.btn-default.dropdown-toggle aria-expanded="false" data-toggle="dropdown" type="button" 
+              | Sort by ...   
+              span.caret
+            ul.dropdown-menu role="menu" 
+              li
+                a href="#"  A-Z
+              li
+                a href="#"  Time left
+              li
+                a href="#"  DIstance
+              li
+                a href="#"  Color    
+          .btn-group aria-label="display" role="group" 
+            a.button.btn.btn-default href=favorites_path type="button"
+              i.fa.fa-list
+            button.btn.btn-default.active type="button"
+              i.fa.fa-th-large
+	.row
+      	/! LOTS LIST
+		.col-sm-12.grid
+			.col-sm-4
+		    	.thumbnail
+		    		a href=new_snatch_path
+		    			= image_tag "fuji.jpg" 
+		    	.caption
+		      		span.fa.fa-star 
+		      		h4 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+		    .col-sm-4
+		    	.thumbnail
+		    		a href=new_snatch_path
+		    			= image_tag "fuji.jpg" 
+		    	.caption
+		      		span.fa.fa-star 
+		      		h4 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+		    .col-sm-4
+		    	.thumbnail
+		    		a href=new_snatch_path
+		    			= image_tag "fuji.jpg" 
+		    	.caption
+		      		span.fa.fa-star 
+		      		h4 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+		.col-sm-12.grid
+			.col-sm-4
+		    	.thumbnail
+		    		a href=new_snatch_path
+		    			= image_tag "fuji.jpg" 
+		    	.caption
+		      		span.fa.fa-star 
+		      		h4 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+		    .col-sm-4
+		    	.thumbnail
+		    		a href=new_snatch_path
+		    			= image_tag "fuji.jpg" 
+		    	.caption
+		      		span.fa.fa-star 
+		      		h4 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+		    .col-sm-4
+		    	.thumbnail
+		    		a href=new_snatch_path
+		    			= image_tag "fuji.jpg" 
+		    	.caption
+		      		span.fa.fa-star 
+		      		h4 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+		.col-sm-12.grid
+			.col-sm-4
+		    	.thumbnail
+		    		a href=new_snatch_path
+		    			= image_tag "fuji.jpg" 
+		    	.caption
+		      		span.fa.fa-star 
+		      		h4 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+		    .col-sm-4
+		    	.thumbnail
+		    		a href=new_snatch_path
+		    			= image_tag "fuji.jpg" 
+		    	.caption
+		      		span.fa.fa-star 
+		      		h4 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+		    .col-sm-4
+		    	.thumbnail
+		    		a href=new_snatch_path
+		    			= image_tag "fuji.jpg" 
+		    	.caption
+		      		span.fa.fa-star 
+		      		h4 = link_to 'Fujifilm X-E2 16.3 MP Mirrorless Digital Camera', new_snatch_path
+         
