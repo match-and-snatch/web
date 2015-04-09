@@ -7,7 +7,7 @@ describe PostsController, type: :controller do
     subject { get 'index', user_id: poster.slug }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { should eq(401) }
     end
 
     context 'authorized access' do
@@ -20,7 +20,7 @@ describe PostsController, type: :controller do
     subject { post 'create', user_id: poster.slug, message: 'Reply', format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { should eq(401) }
     end
 
     context 'authorized access' do
@@ -32,24 +32,33 @@ describe PostsController, type: :controller do
   describe 'GET #show' do
     let(:post) { PostManager.new(user: poster).create_status_post(message: 'test') }
 
-    context 'when not audio post' do
-      subject { get 'show', id: post.id}
-      its(:status) { should == 404 }
+    context 'unauthorized access' do
+      subject { get 'show', id: post.id }
+      its(:status) { should eq(401) }
     end
 
-    let(:audio_post) do
-      create_audio_upload poster
-      PostManager.new(user: poster).create_audio_post(message: 'test', title: 'test')
-    end
+    context 'authorized access' do
+      before { sign_in poster }
 
-    context 'when requests html' do
-      subject { get 'show', id: audio_post.id }
-      its(:status) { should == 404 }
-    end
+      context 'when not audio post' do
+        subject { get 'show', id: post.id }
+        its(:status) { should eq(404) }
+      end
 
-    context 'when requests xml' do
-      subject { get 'show',  id: audio_post.id , format: 'xml' }
-      it { should be_success }
+      let(:audio_post) do
+        create_audio_upload poster
+        PostManager.new(user: poster).create_audio_post(message: 'test', title: 'test')
+      end
+
+      context 'when requests html' do
+        subject { get 'show', id: audio_post.id }
+        its(:status) { should eq(404) }
+      end
+
+      context 'when requests xml' do
+        subject { get 'show',  id: audio_post.id , format: 'xml' }
+        it { should be_success }
+      end
     end
   end
 
@@ -62,13 +71,13 @@ describe PostsController, type: :controller do
 
     context 'no post present' do
       subject { delete 'destroy', id: 0 }
-      its(:status) { should == 404 }
+      its(:status) { should eq(404) }
     end
 
     context 'unauthorized access' do
       let(:another_poster) { create_user email: 'anther@poster.ru' }
       let(:post) { PostManager.new(user: another_poster).create_status_post(message: 'test') }
-      its(:status) { should == 401 }
+      its(:status) { should eq(401) }
     end
   end
 end

@@ -5,7 +5,13 @@ class PhotosController < UploadsController
   def show
     @photo = Photo.find(params[:id])
     @post = @photo.uploadable
-    photos = @post.uploads.ordered.to_a
+    photos = if @post
+               @post.uploads
+             else
+               Photo.where(uploadable_id: @photo.uploadable_id,
+                           uploadable_type: @photo.uploadable_type)
+             end
+    photos = photos.ordered.to_a
     if photos.count > 1
       index = photos.index(@photo)
       @prev_photo = photos[index - 1]
