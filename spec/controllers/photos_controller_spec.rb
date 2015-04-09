@@ -4,18 +4,10 @@ describe PhotosController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'GET #show' do
-    let(:photo) { UploadManager.new(owner).create_pending_photos(transloadit_photo_data_params).first }
+    let!(:photo) { UploadManager.new(owner).create_pending_photos(transloadit_photo_data_params).first }
     let(:_post) { PostManager.new(user: owner).create_photo_post(title: 'test', message: 'test') }
 
-    # before do
-    #   photo
-    #   _post
-    # end
-
     subject { get 'show', id: photo.id }
-
-    context 'unauthorized access' do
-    end
 
     context 'authorized access' do
       before { sign_in owner }
@@ -24,7 +16,6 @@ describe PhotosController, type: :controller do
 
       context 'removed post' do
         before do
-          photo
           PostManager.new(user: owner).delete(_post)
         end
 
