@@ -2,6 +2,7 @@ class Api::PostsController < Api::BaseController
   before_action :load_user!, only: :index
 
   protect(:index) { can? :see, @user }
+  protect(:create) { current_user.authorized? }
 
   def index
     query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], start_id: params[:last_post_id])
@@ -20,6 +21,11 @@ class Api::PostsController < Api::BaseController
                  .limit(100)
     @posts = @posts.map { |p| post_data(p).merge(likes_count: p.likes_count) }
     json_success posts: @posts
+  end
+
+  def create
+    @post = PostManager.new(user: current_user.object).create_status_post(message: params[:message], notify: params.bool(:notify))
+    json_success post_data(@post)
   end
 
   private

@@ -18,7 +18,7 @@ BuddyPlatform::Application.routes.draw do
         put :update_cost
       end
 
-      resources :posts, only: [:index]
+      resources :posts, only: [:index, :create]
       resources :benefits, only: :create
     end
 
@@ -29,6 +29,24 @@ BuddyPlatform::Application.routes.draw do
       resources :comments, only: [:create, :index]
       resources :likes, only: [:index, :create], defaults: { type: 'post' }
     end
+
+    resource :pending_post, only: [:update]
+
+    resources :status_posts, only: [:new, :create]
+    resources :audio_posts, only: [:new, :create] do
+      delete :cancel, on: :collection
+    end
+    resources :video_posts, only: [:new, :create] do
+      delete :cancel, on: :collection
+    end
+    resources :photo_posts, only: [:new, :create]do
+      delete :cancel, on: :collection
+    end
+    resources :document_posts, only: [:new, :create] do
+      delete :cancel, on: :collection
+    end
+
+    resources :videos, only: [:create, :destroy]
 
     resources :comments, only: [:destroy] do
       resources :replies, only: [:create]
