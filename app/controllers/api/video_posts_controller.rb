@@ -4,14 +4,14 @@ class Api::VideoPostsController < Api::MediaPostsController
   end
 
   def cancel
-    PostManager.new(user: current_user.object).cancel_pending_videos
+    manager.cancel_pending_videos
     json_success
   end
 
   protected
 
   def create_post
-    PostManager.new(user: current_user.object).create_video_post(params.slice(%i(title keyword_text message)).merge({ notify: params.bool(:notify) }))
+    manager.create_video_post(params.slice(%i(title keyword_text message)).merge({ notify: params.bool(:notify) }))
   end
 
   def pending_video_post_data

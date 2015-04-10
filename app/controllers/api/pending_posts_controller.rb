@@ -1,7 +1,7 @@
 class Api::PendingPostsController < Api::BaseController
   before_action :init_profile, only: [:new, :cancel]
 
-  protect(:new, :create, :update, :cancel) { current_user.authorized? }
+  protect(:new, :create, :update, :cancel) { current_user.authorized? } # TODO (DJ): FIX ME
 
   def create
     create_post
@@ -26,5 +26,9 @@ class Api::PendingPostsController < Api::BaseController
 
   def init_profile
     @profile = ProfileDecorator.new(current_user.object)
+  end
+
+  def manager
+    @manager ||= PostManager.new(user: current_user.object)
   end
 end
