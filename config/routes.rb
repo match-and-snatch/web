@@ -46,7 +46,14 @@ BuddyPlatform::Application.routes.draw do
       delete :cancel, on: :collection
     end
 
-    resources :videos, only: [:create, :destroy]
+    resources :videos,    only: [:create, :destroy]
+    resources :photos,    only: [:create, :destroy]
+    resources :documents, only: [:create, :destroy]
+    resources :audios,    only: [:create, :destroy] do
+      collection do
+        post :reorder
+      end
+    end
 
     resources :comments, only: [:destroy] do
       resources :replies, only: [:create]

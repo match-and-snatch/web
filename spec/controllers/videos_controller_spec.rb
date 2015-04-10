@@ -4,10 +4,10 @@ describe VideosController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'POST #create' do
-    subject { post 'create', {'transloadit' => transloadit_video_data_params.to_json} }
+    subject { post 'create', { transloadit: transloadit_video_data_params.to_json} }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { should eq(401) }
     end
 
     context 'authorized access' do
@@ -21,7 +21,7 @@ describe VideosController, type: :controller do
     subject { delete 'destroy', id: video_upload.id }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { should eq(401) }
     end
 
     context 'authorized access' do

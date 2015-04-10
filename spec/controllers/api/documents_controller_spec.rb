@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Api::VideosController, type: :controller do
+describe Api::DocumentsController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true, api_token: 'token' }
 
   describe 'POST #create' do
-    subject { post 'create', transloadit: transloadit_video_data_params.to_json }
+    subject { post 'create', transloadit: transloadit_document_data_params.to_json }
 
     context 'unauthorized access' do
       its(:status) { should eq(401) }
@@ -18,9 +18,9 @@ describe Api::VideosController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:video_upload) { create_video_upload  owner }
+    let(:document_upload) { create_document_upload(owner).first  }
 
-    subject { delete 'destroy', id: video_upload.id }
+    subject { delete 'destroy', id: document_upload.id }
 
     context 'unauthorized access' do
       its(:status) { should eq(401) }

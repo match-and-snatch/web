@@ -4,7 +4,7 @@ class Api::UploadsController < Api::BaseController
   before_action :load_upload!, only: [:destroy]
 
   protect(:destroy) { can? :manage, @upload }
-  protect(:create) { current_user.authorized? }
+  protect(:create) { current_user.authorized? } # TODO (DJ): FIX IT
 
   def create
     raise NotImplementedError
