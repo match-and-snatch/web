@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  FAKE_TOKEN = 'fake'.freeze
+
   include PgSearch
   include Concerns::Subscribable
 
@@ -60,6 +62,27 @@ class User < ActiveRecord::Base
 
   def self.random_public_profile
     where(has_public_profile: true).order("random()").first
+  end
+
+  def self.fake
+    fake_user = User.where(registration_token: FAKE_TOKEN).first
+    return fake_user if fake_user
+
+    User.create! :account_number => nil,
+                 :activated => true,
+                 :email => 'fake@connectpal.com',
+                 :full_name => 'Fake User',
+                 :has_complete_profile => false,
+                 :has_public_profile => false,
+                 :hidden => true,
+                 :holder_name => 'Fake User',
+                 :is_admin => false,
+                 :is_profile_owner => false,
+                 :profile_name => 'Fake User',
+                 :registration_token => FAKE_TOKEN,
+                 :subscribers_count => 0,
+                 :subscription_cost => 0,
+                 :subscription_fees => 0
   end
 
   def admin?

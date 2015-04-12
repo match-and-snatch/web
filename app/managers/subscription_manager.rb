@@ -149,7 +149,7 @@ class SubscriptionManager < BaseManager
 
   # @param target [Concerns::Subscribable]
   # @return [Subscription]
-  def subscribe_to(target)
+  def subscribe_to(target, fake: false)
     unless target.is_a?(Concerns::Subscribable)
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"
     end
@@ -162,12 +162,16 @@ class SubscriptionManager < BaseManager
       @subscription = removed_subscription
       restore
     else
-      fail_with! 'Already subscribed' if @subscriber.subscriptions.by_target(target).not_removed.any?
+      unless fake
+        fail_with! 'Already subscribed' if @subscriber.subscriptions.by_target(target).not_removed.any?
+        subscription = @subscriber.subscriptions.by_target(target).first
+      end
 
-      subscription = @subscriber.subscriptions.by_target(target).first || Subscription.new
+      subscription ||= Subscription.new
       subscription.user = @subscriber
       subscription.target = target
       subscription.target_user = target.subscription_source_user
+      subscription.fake = fake
 
       save_or_die! subscription
 
@@ -175,8 +179,10 @@ class SubscriptionManager < BaseManager
       @subscription.actualize_cost! or fail_with! @subscription.errors
 
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
-      SubscribedFeedEvent.create! target_user: target, target: @subscriber
-      SubscriptionsMailer.delay.subscribed(subscription)
+      unless fake
+        SubscribedFeedEvent.create! target_user: target, target: @subscriber
+        SubscriptionsMailer.delay.subscribed(subscription)
+      end
       EventsManager.subscription_created(user: @subscriber, subscription: @subscription)
     end
 
