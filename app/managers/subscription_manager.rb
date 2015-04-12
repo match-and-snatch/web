@@ -5,6 +5,18 @@ class SubscriptionManager < BaseManager
 
   attr_reader :subscriber, :subscription
 
+  # @param count [Integer]
+  # @param target_user [User] profile owner
+  def self.create_fakes(count: , target_user: )
+    Subscription.where(target_user_id: target_user.id, fake: true).each do |s|
+      self.new(subscriber: s.user, subscription: s).unsubscribe
+    end
+
+    count.times do
+      self.new(subscriber: User.fake).subscribe_to(target_user, fake: true)
+    end
+  end
+
   # @param subscriber [User]
   # @param subscription [Subscription]
   def initialize(subscriber: nil, subscription: nil)
@@ -220,7 +232,9 @@ class SubscriptionManager < BaseManager
     if @subscription.rejected?
       # TODO: create another type of event
     else
-      UnsubscribedFeedEvent.create! target_user: target_user, target: @subscriber
+      unless @subscription.fake?
+        UnsubscribedFeedEvent.create! target_user: target_user, target: @subscriber
+      end
       EventsManager.subscription_cancelled(user: @subscriber, subscription: @subscription)
     end
   end

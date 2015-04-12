@@ -1,6 +1,11 @@
 class UserStatsDecorator < UserDecorator
   delegate :full_name, to: :object
 
+  def fakes_count
+    count = object.source_subscriptions.where(fake: true).count
+    "#{count} ($#{count * object.cost / 100.0})"
+  end
+
   def target_subscriptions_count
     object.subscriptions.count
   end
