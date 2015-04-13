@@ -1,5 +1,5 @@
 class Admin::ProfileOwnersController < Admin::BaseController
-  before_action :load_user!, only: [:show, :update, :add_fake_subscriptions, :total_subscribed,
+  before_action :load_user!, only: [:show, :update, :change_fake_subscriptions_number, :total_subscribed,
                                     :total_new_subscribed, :total_unsubscribed, :failed_billing_subscriptions,
                                     :pending_payments, :this_month_subscribers_unsubscribers]
 
@@ -27,7 +27,7 @@ class Admin::ProfileOwnersController < Admin::BaseController
     json_success notice: 'CSS Updated Successfully'
   end
 
-  def add_fake_subscriptions
+  def change_fake_subscriptions_number
     SubscriptionManager.create_fakes(count: params[:count], target_user: @user)
     json_reload notice: 'Fake Subscriptions Were Successfully Added'
   end

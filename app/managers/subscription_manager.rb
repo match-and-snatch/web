@@ -11,6 +11,7 @@ class SubscriptionManager < BaseManager
     count = count.to_i
     subscriptions = Subscription.where(target_user_id: target_user.id, fake: true, removed: false)
     difference = subscriptions.count - count
+
     if difference > 0
       subscriptions.limit(difference).each do |s|
         self.new(subscriber: s.user, subscription: s).unsubscribe
