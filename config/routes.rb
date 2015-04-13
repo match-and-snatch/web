@@ -219,6 +219,7 @@ BuddyPlatform::Application.routes.draw do
         get :this_month_subscribers_unsubscribers
         get :failed_billing_subscriptions
         get :pending_payments
+        post :add_fake_subscriptions
       end
     end
     resources :profiles, only: [:index, :show] do

@@ -8,12 +8,17 @@ class SubscriptionManager < BaseManager
   # @param count [Integer]
   # @param target_user [User] profile owner
   def self.create_fakes(count: , target_user: )
-    Subscription.where(target_user_id: target_user.id, fake: true).each do |s|
-      self.new(subscriber: s.user, subscription: s).unsubscribe
-    end
-
-    count.times do
-      self.new(subscriber: User.fake).subscribe_to(target_user, fake: true)
+    count = count.to_i
+    subscriptions = Subscription.where(target_user_id: target_user.id, fake: true, removed: false)
+    difference = subscriptions.count - count
+    if difference > 0
+      subscriptions.limit(difference).each do |s|
+        self.new(subscriber: s.user, subscription: s).unsubscribe
+      end
+    else
+      difference.abs.times do
+        self.new(subscriber: User.fake).subscribe_to(target_user, fake: true)
+      end
     end
   end
 
@@ -168,7 +173,8 @@ class SubscriptionManager < BaseManager
 
     fail_with! "Can't subscribe to self" if @subscriber == target
 
-    removed_subscription = @subscriber.subscriptions.by_target(target).where(removed: true).first
+    # Never restore removed fake subscriptions
+    removed_subscription = @subscriber.subscriptions.by_target(target).where(removed: true, fake: false).first
 
     if removed_subscription
       @subscription = removed_subscription
