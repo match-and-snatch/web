@@ -12,7 +12,8 @@ class Api::DocumentsController < Api::UploadsController
 
   def document_data(document)
     {
-      id: document.id
+      id: document.id,
+      filename: document.filename
     }
   end
 end

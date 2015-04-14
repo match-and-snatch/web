@@ -24,7 +24,8 @@ class Api::DocumentPostsController < Api::MediaPostsController
 
   def document_data(document)
     {
-      id: document.id
+      id: document.id,
+      filename: document.filename
     }
   end
 end

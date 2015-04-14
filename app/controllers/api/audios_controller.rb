@@ -19,7 +19,8 @@ class Api::AudiosController < Api::UploadsController
 
   def audio_data(audio)
     {
-      id: audio.id
+      id: audio.id,
+      filename: audio.filename
     }
   end
 end

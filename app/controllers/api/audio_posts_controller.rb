@@ -24,7 +24,8 @@ class Api::AudioPostsController < Api::MediaPostsController
 
   def audio_data(audio)
     {
-      id: audio.id
+      id: audio.id,
+      filename: audio.filename
     }
   end
 end
