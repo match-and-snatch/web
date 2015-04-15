@@ -16,7 +16,7 @@ class Api::PhotoPostsController < Api::MediaPostsController
 
   def pending_photos_post_data
     photos_post_data = {
-      post_type: 'PhotosPost',
+      post_type: 'PhotoPost',
       photos: current_user.pending_photos.map { |photo| photo_data(photo) }
     }
     pending_post_data.merge(photos_post_data)
@@ -24,7 +24,8 @@ class Api::PhotoPostsController < Api::MediaPostsController
 
   def photo_data(photo)
     {
-      id: photo.id
+      id: photo.id,
+      preview_url: photo.preview_url
     }
   end
 end

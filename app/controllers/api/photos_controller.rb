@@ -12,7 +12,8 @@ class Api::PhotosController < Api::UploadsController
 
   def photo_data(photo)
     {
-      id: photo.id
+      id: photo.id,
+      preview_url: photo.preview_url
     }
   end
 end
