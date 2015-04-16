@@ -68,3 +68,7 @@ def sign_in(user = nil)
   user ||= create_user(email: 'email@gmail.com', password: 'password', password_confirmation: 'password')
   cookies.signed[:auth_token] = user.auth_token
 end
+
+def sign_in_with_token(token = nil)
+  request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(token)
+end

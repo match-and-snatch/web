@@ -80,6 +80,29 @@ describe Api::UsersController, type: :controller do
     end
   end
 
+  describe 'POST #update_cost' do
+    let(:user) { create_profile_owner api_token: 'set' }
+
+    context 'authorized' do
+      before do
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(user.api_token)
+      end
+
+      subject { post 'update_cost', id: user.slug, cost: 10 }
+
+      its(:status) { is_expected.to eq(200) }
+      it { expect { subject }.to change { user.reload.cost }.from(2000).to(1000) }
+      it { expect(subject.body).to include("data") }
+    end
+
+    context 'non authorized' do
+      subject { post 'update_cost', id: user.slug, cost: 10 }
+
+      its(:status) { is_expected.to eq(401) }
+      it { expect { subject }.not_to change { user.reload.cost } }
+    end
+  end
+
   describe 'GET #show' do
     let(:user) { create_user first_name: 'sergei', last_name: 'zinin', is_profile_owner: true }
 

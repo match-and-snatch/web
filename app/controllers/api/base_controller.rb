@@ -1,12 +1,16 @@
 class Api::BaseController < ActionController::Base
   include Concerns::ControllerFramework
 
-  rescue_from(AuthenticationError) { |e| json_response 'failed', {message: e.message}, 401 }
+  rescue_from(AuthenticationError) { |e| json_response 'failed', {message: e.message}, nil, 401 }
 
   skip_before_action :verify_authenticity_token
-  before_action :authenticate_by_api_token
+  before_action :allow_cors, :authenticate_by_api_token
 
   protected
+
+  def allow_cors
+    headers['Access-Control-Allow-Origin'] = '*'
+  end
 
   # @return [CurrentUserDecorator]
   def authenticate_by_api_token

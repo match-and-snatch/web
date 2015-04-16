@@ -14,8 +14,78 @@ BuddyPlatform::Application.routes.draw do
       member do
         post :update_profile_name
         post :update_profile_picture
+        post :update_cover_picture
+        put :update_cost
+      end
+
+      resources :posts, only: [:index, :create]
+      resources :benefits, only: :create
+    end
+
+    resources :posts, only: [] do
+      collection do
+        get :feed
+      end
+      resources :comments, only: [:create, :index]
+      resources :likes, only: [:index, :create], defaults: { type: 'post' }
+    end
+
+    resource :pending_post, only: [:update]
+
+    resources :status_posts, only: [:new, :create]
+    resources :audio_posts, only: [:new, :create] do
+      delete :cancel, on: :collection
+    end
+    resources :video_posts, only: [:new, :create] do
+      delete :cancel, on: :collection
+    end
+    resources :photo_posts, only: [:new, :create]do
+      delete :cancel, on: :collection
+    end
+    resources :document_posts, only: [:new, :create] do
+      delete :cancel, on: :collection
+    end
+
+    resources :videos,    only: [:create, :destroy]
+    resources :photos,    only: [:create, :destroy]
+    resources :documents, only: [:create, :destroy]
+    resources :audios,    only: [:create, :destroy] do
+      collection do
+        post :reorder
       end
     end
+
+    resources :comments, only: [:update, :destroy] do
+      member do
+        put :make_visible
+        put :hide
+      end
+      resources :replies, only: [:create, :update] do
+        member do
+          put :make_visible
+          put :hide
+        end
+      end
+      resources :likes, only: [:index, :create], defaults: { type: 'comment' }
+    end
+
+    resource :account_info, only: [] do
+      member do
+        get :settings
+        put :update_account_picture
+        put :update_general_information
+        put :update_cc_data
+        put :update_bank_account_data
+        put :enable_rss
+        put :disable_rss
+        put :enable_downloads
+        put :disable_downloads
+        put :enable_itunes
+        put :disable_itunes
+      end
+    end
+
+    match '*path' => 'cors#preflight', via: :options
   end
 
   resource :account_info, only: [] do
