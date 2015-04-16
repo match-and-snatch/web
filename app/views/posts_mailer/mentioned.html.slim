@@ -1,12 +1,12 @@
 - content_for :custom_heading do
-  strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 28px; line-height: 100%;' You were mentioned!
+  strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 28px; line-height: 100%;'
+    | You were mentioned!&nbsp;
 
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
   a href=profile_url(@mentioner) style="color: #ea2e49; -webkit-text-size-adjust: none;"= @mentioner.name
-  |&nbsp;
-  |has mentioned you in a post on&nbsp;
-  a href=profile_url(@post_user) style="color: #ea2e49; -webkit-text-size-adjust: none;" #{@post_user.name}'s
-  |&nbsp;profile page.
+  |&nbsp;has mentioned you in a post on&nbsp;
+  a href=profile_url(@post_user) style="color: #ea2e49; -webkit-text-size-adjust: none;" #{@post_user.name}
+  |'s profile page.
 
 img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-hr.png' border='0' height='1px' width='458px' alt='divider' title='divider' style='display: block; border: none; padding: 0; margin: 0 0 15px 0;'
 
