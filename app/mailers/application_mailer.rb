@@ -1,6 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
   layout 'mail'
-  default from: 'Connectpal <noreply@connectpal.com>'
+  default from: 'ConnectPal <noreply@connectpal.com>'
 
   def self.queue
     :mail
