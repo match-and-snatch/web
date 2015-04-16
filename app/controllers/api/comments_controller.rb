@@ -1,9 +1,9 @@
 class Api::CommentsController < Api::BaseController
   before_action :load_post!, only: [:index, :create]
-  before_action :load_comment!, only: [:destroy]
+  before_action :load_comment!, only: [:update, :destroy, :make_visible, :hide]
 
   protect(:index, :create) { can? :comment, post }
-  protect(:destroy) { can? :manage, @comment }
+  protect(:update, :destroy, :make_visible, :hide) { can? :manage, @comment }
 
   def index
     query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id], limit: 9999)
@@ -16,10 +16,26 @@ class Api::CommentsController < Api::BaseController
     json_success comment_data(comment)
   end
 
+  def update
+    @comment.update_attributes(message: params[:message])
+    EventsManager.comment_updated(user: current_user.object, comment: @comment)
+    json_success comment_data(@comment)
+  end
+
   def destroy
     @comment.destroy
     EventsManager.comment_removed(user: current_user.object, comment: @comment)
     json_success
+  end
+
+  def make_visible
+    comment = CommentManager.new(user: current_user.object, comment: @comment).show
+    json_success comment_data(comment)
+  end
+
+  def hide
+    comment = CommentManager.new(user: current_user.object, comment: @comment).hide
+    json_success comment_data(comment)
   end
 
   private
@@ -29,6 +45,7 @@ class Api::CommentsController < Api::BaseController
       id: comment.id,
       message: comment.message,
       created_at: comment.created_at,
+      hidden: comment.hidden,
       user: {
         slug: comment.user.slug,
         name: comment.user.name,

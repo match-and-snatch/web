@@ -55,8 +55,17 @@ BuddyPlatform::Application.routes.draw do
       end
     end
 
-    resources :comments, only: [:destroy] do
-      resources :replies, only: [:create]
+    resources :comments, only: [:update, :destroy] do
+      member do
+        put :make_visible
+        put :hide
+      end
+      resources :replies, only: [:create, :update] do
+        member do
+          put :make_visible
+          put :hide
+        end
+      end
       resources :likes, only: [:index, :create], defaults: { type: 'comment' }
     end
 
