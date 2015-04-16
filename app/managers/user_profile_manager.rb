@@ -137,30 +137,37 @@ class UserProfileManager < BaseManager
   end
 
   # @return [User]
-  def update_payment_information(holder_name: nil, routing_number: nil, account_number: nil)
+  def update_payment_information(holder_name: nil, routing_number: nil, account_number: nil, prefer_paypal: false, paypal_email: nil)
     holder_name    = holder_name.to_s.strip
     routing_number = routing_number.to_s.strip
     account_number = account_number.to_s.strip
+    paypal_email   = paypal_email.to_s.strip
 
     validate! do
-      fail_with holder_name: :empty if holder_name.blank?
-
-      if routing_number.match ONLY_DIGITS
-        fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
+      if prefer_paypal
+        validate_email(paypal_email, check_if_taken: false)
       else
-        fail_with routing_number: :not_an_integer
-      end
+        fail_with holder_name: :empty if holder_name.blank?
 
-      if account_number.match ONLY_DIGITS
-        fail_with account_number: :not_an_account_number unless (3..20).include?(account_number.try(:length))
-      else
-        fail_with account_number: :not_an_integer
+        if routing_number.match ONLY_DIGITS
+          fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
+        else
+          fail_with routing_number: :not_an_integer
+        end
+
+        if account_number.match ONLY_DIGITS
+          fail_with account_number: :not_an_account_number unless (3..20).include?(account_number.try(:length))
+        else
+          fail_with account_number: :not_an_integer
+        end
       end
     end
 
     user.holder_name    = holder_name
     user.routing_number = routing_number
     user.account_number = account_number
+    user.paypal_email   = paypal_email
+    user.prefers_paypal = prefer_paypal
 
     save_or_die! user
 

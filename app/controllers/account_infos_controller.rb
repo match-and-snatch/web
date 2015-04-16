@@ -48,8 +48,8 @@ class AccountInfosController < ApplicationController
   end
 
   def update_bank_account_data
-    manager.update_payment_information(params.slice(:holder_name, :routing_number, :account_number))
-    json_success
+    manager.update_payment_information(params.slice(:holder_name, :routing_number, :account_number, :paypal_email).merge(prefer_paypal: params.bool(:prefer_paypal)))
+    json_reload notice: 'Successfully updated your payout information'
   end
 
   def edit_cc_data
