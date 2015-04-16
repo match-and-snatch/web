@@ -220,9 +220,9 @@ class User < ActiveRecord::Base
 
   # Sets costs and fees
   # Logic:
-  # $5 or less = $0.99
-  # $6 - $20 = $1.99
-  # $21 and above = 9% of subscription price
+  # $4 or less = $0.99
+  # $5 - $15 = $1.99
+  # $16 and above = 15% of subscription price
   #
   # @param val [Integer]
   # @return [S]
@@ -231,12 +231,12 @@ class User < ActiveRecord::Base
       cost = cost.to_i
       fees = 0
 
-      if cost <= 500
+      if cost <= 400
         fees = 99
-      elsif cost >= 600 && cost <= 2000
+      elsif cost >= 500 && cost <= 1500
         fees = 199
-      elsif cost >= 2100
-        fees = cost / 100 * 9
+      elsif cost >= 1600
+        fees = cost / 100 * 15
       else
         raise ArgumentError, 'Invalid cost'
       end
