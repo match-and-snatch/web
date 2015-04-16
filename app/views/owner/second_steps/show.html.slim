@@ -19,7 +19,7 @@
         .bar
         .number.img-circle.pull-left
           span.two 2
-        .number_title.pull-left Profile Details & Payout
+        .number_title.pull-left Profile Details
         .clearfix
 
 .container.steps_container.step_two
@@ -89,42 +89,10 @@
 
       hr
 
-      .col-md-12.col-sm-12.col-xs-12
-        .row_label style="margin-bottom: 10px;"
-          'Payout Information
-          span style="display: inline-block; padding: 0; margin: 0; color: #464646; font-weight: bold" (If you want, you can fill out your bank info later. To continue to your profile, click on finish registration.)
-        p
-          | This is where we will send your money. You can add/update this information at any time. Payments will be electronically transferred to your account on the 1st of the month and they will appear within 7 days on your bank statement.
-          span.bg-warning * Direct deposit is available for US ONLY at this time.
-
-      .col-md-12.col-sm-12.col-xs-12
-        .check
-          .inside_cont
-            .col-md-12.col-sm-12.col-xs-12
-              .pay_to_name
-                label Pay to the order of:
-                input.form-control data-identifier='holder-name-input' type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name validate='require'
-            .clearfix
-            .col-md-12.col-sm-12.col-xs-12.payout_numbers
-              label.pull-left Routing Number
-              input.form-control.pull-left type='text' name='routing_number' placeholder='123456789' value=@user.routing_number style="width: 100px; margin-right: 30px" validate='routing_number'
-              label.pull-left Account Number
-              input.form-control.pull-left type='text' name='account_number' placeholder='000123456789' value=@user.account_number style="width: 125px" validate='account_number'
-            .clearfix
-        .clearfix
-
-        // I think we can remove this
-        / NO WE CAN't
-        / User can enter invalid data and you don't notify him about the failed operation
-        .error_cont
-          .error data-field='holder_name'
-          .error data-field='routing_number'
-          .error data-field='account_number'
-
       // Continue to Profile
       .col-md-12.col-sm-12.col-xs-12.finish_registration
         input type='hidden' name='authenticity_token' value=form_authenticity_token
-        input.btn.pink type='submit' value='Finish Registration'
+        input.btn.pink type='submit' value='Take Me to My Profile!'
 
   .Popup.popup.modal-content data-identifier='pricing-popup' style="width: 610px"
     .modal-header

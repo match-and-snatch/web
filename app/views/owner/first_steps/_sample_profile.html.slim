@@ -1,15 +1,9 @@
 .container-fluid.registration_steps
   .container
-
-    /* Header Content */
-
     .row
       .col-md-12.col-sm-12.col-xs-12.reg_head
         .reg_title Your profile is almost complete!
         .reg_text In order to take your profile live, just 2 more quick things!
-
-    /* Steps 1 - 3 row */
-
     .row.steps_row
       .col-md-6.col-sm-6.col-xs-6.active.HashLink data-use_anchor='true' data-default='true' data-target='steps-container' href=first_step_path
         .bar
@@ -21,51 +15,45 @@
         .bar
         .number.img-circle.pull-left
           span.two 2
-        .number_title.pull-left Profile Details & Payout
+        .number_title.pull-left Profile Details
         .clearfix
-
 .container.steps_container
   .step_one.row.box style="padding: 15px 0;"
     .col-md-12.col-sm-12.col-xs-12
-      a.btn.pink.HashLink data-use_anchor='true' data-target='steps-container' href=second_step_path style="font-size: 16px; padding: 10px 30px;" I’m ready to continue to step 2
+      a.btn.pink.HashLink data-use_anchor='true' data-target='steps-container' href=second_step_path style="font-size: 16px; padding: 10px 30px;" Click here to continue to Step 2
       .clearfix
 
-      / Sample Profile
-      .sample_profile
-
-        / left arrows
+      .sample_profile.step_one
         .col-md-2.col-sm-2.col-xs-2 style="padding: 0;"
-          .note.n1
-            p Add custom cover photo and profile picture
-            .arrow.n1
-          .note.n2
-            .arrow.n2
+          .note.photo_note
+            p Add custom cover photo and profile picture.
+            .arrow.photo_note
+          .note.benefits_note
+            .arrow.benefits_note
             p Tell your subscribers what benefits they get by subscribing to you.
-          .note.n3
-            .arrow.n3
-            p Connect with your subscribers via direct message or social media
+          .note.notify_note
+            .arrow.notify_note
+            p Market your profile to potential subscribers.
 
-        / img
         .col-md-8.col-sm-8.col-xs-8
-          img src="//connectpal-assets.s3.amazonaws.com/images/mozart-sample-profile.jpg"
+          img.sample_profile src="//connectpal-assets.s3.amazonaws.com/images/mozart-sample-profile.jpg"
 
-        / right arrow
         .col-md-2.col-sm-2.col-xs-2 style="padding: 0;"
-          .note.n4
+          .note.price_note
             p
               |Set your monthly price for people to access your profile. You keep&nbsp;
               strong 100%
               |&nbsp;of the price you set. At ConnectPal, there are no startup or hosting fees, and you can cancel anytime. ConnectPal adds a service fee on top of your subscription price to keep our platform running.
               '&nbsp;
               a.PopupTrigger data-target='pricing-breakdown' href="#" Check out the fee breakdown here.
-            .arrow.n4
-          .note.n5
-            .arrow.n5
+            .arrow.price_note
+          .note.post_note
+            .arrow.post_note
             p Post updates, add audio or video files, photos, and documents.
-          .note.n6
+          .note.engage_note
             p Engage in discussions with your audience.
-            .arrow.n6
+            .arrow.engage_note
         .clearfix
       .clearfix
 
-      a.btn.pink.HashLink data-target='steps-container' data-use_anchor='true' href=second_step_path style="font-size: 16px; padding: 10px 30px;" I’m ready to continue to step 2
+      a.btn.pink.HashLink data-target='steps-container' data-use_anchor='true' href=second_step_path style="font-size: 16px; padding: 10px 30px;" Click here to continue to Step 2

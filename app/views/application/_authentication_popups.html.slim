@@ -5,6 +5,7 @@
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="registration" aria-hidden="true"
     .modal-title Let’s Get Started!
+    span.register_tagline You're only 55 seconds away from your profile!
 
   // Body Area
   .modal-body
@@ -26,14 +27,9 @@
         p.text-danger data-field='email'
 
       .form-group
-        label Password
+        label Create Password
         input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off' validate='require,min_length:5'
         p.text-danger data-field='password'
-
-      .form-group
-        label Retype Password
-        input.form-control.password type='password' name='password_confirmation' validate='require,match_password:password'
-        p.text-danger data-field='password_confirmation'
 
       .form-group style="margin: 15px 0"
         .terms_text.pull-left
@@ -74,17 +70,14 @@
       .form-group style="margin-top: 15px"
         input.btn.blue.login_btn type='submit' value='Login'
         .pull-left
-          .checkbox
+          .checkbox style='margin: 7px 0 0 0'
             label.remember_me
-              input name='remember_me' type="checkbox" Remember Me
+              input name='remember_me' type="checkbox" style='margin-top: 3px' Remember Me
         .clearfix
-      .text-danger.Error style="margin-bottom: 15px;"
+      .text-danger.Error style="margin-bottom: 15px"
 
   // Footer Area
   .modal-footer
-    span.hidden-xs Not registered yet?&nbsp;
-    a.PopupTrigger.hidden-xs style='text-decoration: underline' href='#' data-target='registration' Click here to register!
-    .clearfix
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='forgot-password' Forgot Password
 
 
@@ -109,9 +102,6 @@
 
   // Footer Area
   .modal-footer
-    span.hidden-xs Not registered yet?&nbsp;
-    a.PopupTrigger.hidden-xs style='text-decoration: underline' href='#' data-target='registration' Click here to register!
-    .clearfix
     span Already have an account? &nbsp;
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
 

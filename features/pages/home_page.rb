@@ -3,12 +3,11 @@ class HomePage < BasePage
   def generate_user(credentials = {})
     create_user(credentials)
   end
-  
+
   def sign_up(credentials = {})
     visit_home_page
 
     click_link 'Login'
-    click_link 'Click here to register!'
 
     fill_in 'first_name',            with: credentials['first_name']
     fill_in 'last_name',             with: credentials['last_name']
