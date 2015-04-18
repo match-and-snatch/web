@@ -11,7 +11,7 @@
 
     /Details Container
     .details_container.row
-      .col-md-8.col-sm-7.col-xs-12.profile_details
+      .col-md-8.col-sm-8.col-xs-12.profile_details
 
         /Profile Name
         span.profile_name.visitor = @profile.profile_name
@@ -24,7 +24,7 @@
         span.profile_type= @profile.types
 
       - unless mobile_phone_device?
-        .col-md-4.col-sm-5.col-xs-12
+        .col-md-4.col-sm-4.col-xs-12
           .subscribe_cont
             a.cost_visitor
               .amount

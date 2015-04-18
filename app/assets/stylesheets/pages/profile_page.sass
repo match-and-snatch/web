@@ -167,7 +167,12 @@
         word-wrap: break-word
         span
           float: left
-          width: 490px
+          @media screen and (max-width: 767px)
+            width: 100%
+          @media screen and (min-width: 768px) and (max-width: 991px)
+            width: 425px
+          @media screen and (min-width: 992px)
+            width: 490px
         &.visitor
           cursor: default
         .fa
