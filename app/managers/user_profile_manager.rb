@@ -107,10 +107,10 @@ class UserProfileManager < BaseManager
     end
 
     user.cost           = (cost.to_f * 100).to_i
-    user.profile_name   = profile_name
-    user.holder_name    = holder_name
-    user.routing_number = routing_number
-    user.account_number = account_number
+    user.profile_name   = profile_name.try(:strip)
+    user.holder_name    = holder_name.try(:strip)
+    user.routing_number = routing_number.try(:strip)
+    user.account_number = account_number.try(:strip)
     user.generate_slug
 
     save_or_die! user
@@ -163,10 +163,10 @@ class UserProfileManager < BaseManager
       end
     end
 
-    user.holder_name    = holder_name
-    user.routing_number = routing_number
-    user.account_number = account_number
-    user.paypal_email   = paypal_email
+    user.holder_name    = holder_name.try(:strip)
+    user.routing_number = routing_number.try(:strip)
+    user.account_number = account_number.try(:strip)
+    user.paypal_email   = paypal_email.try(:strip)
     user.prefers_paypal = prefer_paypal
 
     save_or_die! user
@@ -186,7 +186,7 @@ class UserProfileManager < BaseManager
     fail_with! profile_name: :too_long if profile_name.length > 140
     fail_with! profile_name: :taken    if (/connect.?pal/i).match(profile_name)
 
-    user.profile_name = profile_name
+    user.profile_name = profile_name.try(:strip)
     save_or_die! user
     EventsManager.profile_name_changed(user: user, name: profile_name)
   end
@@ -352,8 +352,8 @@ class UserProfileManager < BaseManager
       validate_email(email) if email != user.email
     end
 
-    user.full_name    = full_name
-    user.company_name = company_name
+    user.full_name    = full_name.try(:strip)
+    user.company_name = company_name.try(:strip)
     user.email        = email
 
     save_or_die! user

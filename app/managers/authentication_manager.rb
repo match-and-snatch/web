@@ -58,8 +58,8 @@ class AuthenticationManager < BaseManager
     validate! { validate_input }
 
     user.is_profile_owner = is_profile_owner
-    user.full_name = full_name
-    user.email = email
+    user.full_name = full_name.try(:strip)
+    user.email = email.try(:strip)
     user.set_new_password(password)
     user.generate_auth_token
     user.generate_registration_token
