@@ -6,7 +6,7 @@ BuddyPlatform::Application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
     resources :sessions, only: [:create]
-    resources :users, only: [:show] do
+    resources :users, only: [:create, :show] do
       collection do
         get :search
       end

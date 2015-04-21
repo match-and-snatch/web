@@ -14,6 +14,16 @@ class Api::UsersController < Api::BaseController
     respond_with_user_data
   end
 
+  # Registers new profile __owner__ (not just subscriber)
+  def create
+    user = AuthenticationManager.new(
+        params.slice(%i(email first_name last_name password)).merge(is_profile_owner: true, password_confirmation: params[:password])
+    ).register
+
+    session_manager.login(user.email, params[:password], use_api_token: true)
+    json_success user_data(user.reload)
+  end
+
   def update_cost
     manager.update_cost(params[:cost], update_existing_subscriptions: params.bool(:update_existing))
     if manager.cost_change_request_submited?
@@ -59,12 +69,14 @@ class Api::UsersController < Api::BaseController
       },
       name: user.name,
       slug: user.slug,
-      types: user.profile_types.map(&:title),
+      types: user.profile_types.order(:ordering).map(&:title),
+      benefits: user.benefits.order(:ordering).map(&:message),
       subscription_cost: user.subscription_cost,
       cost: user.cost,
       profile_picture_url: user.profile_picture_url,
       cover_picture_url: user.cover_picture_url,
-      cover_picture_position: user.cover_picture_position
+      cover_picture_position: user.cover_picture_position,
+      api_token: user.api_token
     }
   end
 end
