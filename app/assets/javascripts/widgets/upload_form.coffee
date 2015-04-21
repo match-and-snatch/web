@@ -23,6 +23,7 @@ class bud.widgets.UploadForm extends bud.widgets.Form
     @$container.transloadit.i18n.en =
       'errors.BORED_INSTANCE_ERROR': 'Something went wrong. Please restart your upload process.'
       'errors.CONNECTION_ERROR': 'Sorry, your upload failed due to connection issues. Please restart your upload process.'
+      'errors.MAX_SIZE_EXCEEDED': 'Your video file size is too large. Please keep files under 2GB.'
       'errors.unknown': 'There was an internal error. Please restart your upload process.'
       'errors.tryAgain': 'Please restart your upload process.'
       'errors.troubleshootDetails': 'If you would like our help to troubleshoot this, please email us this information:'
@@ -63,7 +64,11 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         $('.Progress').addClass('hidden')
         @change_progress 0
         bud.pub('attachment.uploaded')
-        @notify_file_invalid(error.message)
+
+        if error.error == 'MAX_SIZE_EXCEEDED'
+          @notify_file_invalid('Your video file size is too large. Please keep files under 2GB.')
+        else
+          @notify_file_invalid(error.message)
     )
 
   on_cancel: =>
