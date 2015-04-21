@@ -1,7 +1,7 @@
 xml.instruct! :xml, version: '1.0'
 xml.rss version: '2.0' do
   xml.channel do
-    xml.title "#{@user.name}'s news feed!!"
+    xml.title "#{@user.name.possessive} news feed!!"
     xml.language 'en-US'
     xml.managingEditor 'support@connectpal.com'
 

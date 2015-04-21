@@ -79,7 +79,7 @@
 
       .col-md-4.col-sm-4.col-xs-12.pull-left.no_pad
         .box style='padding: 15px; min-height: 352px;'
-          .title Welcome to #{@profile.profile_name}'s profile page.
+          .title Welcome to #{@profile.profile_name.possessive} profile page.
 
           = render 'welcome_benefits'
 
@@ -113,7 +113,7 @@
       .row
         .col-md-12.col-sm-12.col-xs-12
 
-          .title Welcome to #{@profile.profile_name}'s profile page
+          .title Welcome to #{@profile.profile_name.possessive} profile page
 
           .audio_container
             = audio_player(@profile.welcome_audio)
