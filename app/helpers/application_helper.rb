@@ -115,9 +115,15 @@ module ApplicationHelper
 
   # @param user [User]
   # @return [String]
-  def link_to_user(user)
+  def link_to_user(user, possessive: false)
     user = user.object if user.kind_of? BaseDecorator
-    link_to_if user.has_profile_page?, user.name.first(40).gsub(/ /, '&nbsp;').html_safe, profile_url(user)
+    name = user.name
+
+    if possessive
+      name = name.possessive
+    end
+
+    link_to_if user.has_profile_page?, name.first(40).gsub(/ /, '&nbsp;').html_safe, profile_url(user)
   end
 
   # @param video [Video]
