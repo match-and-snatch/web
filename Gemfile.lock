@@ -170,7 +170,7 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     pg (0.18.1)
-    pg_search (0.7.9)
+    pg_search (1.0.0)
       activerecord (>= 3.1)
       activesupport (>= 3.1)
       arel
@@ -334,7 +334,7 @@ DEPENDENCIES
   mailcatcher
   newrelic_rpm
   pg
-  pg_search
+  pg_search (~> 1.0.0)
   puma
   rails (= 4.1.0)
   rails_autolink

@@ -50,8 +50,12 @@ class User < ActiveRecord::Base
   scope :by_email, -> (email) { where(['email ILIKE ?', email]) }
   scope :top, -> { profile_owners.joins(:top_profile).order('top_profiles.position') }
 
-  pg_search_scope :search_by_text_fields, against: [:full_name, :profile_name, :profile_types_text],
-                                        using: [:tsearch, :dmetaphone, :trigram],
+  pg_search_scope :search_by_text_fields, against: [[:full_name, 'B'], [:profile_name, 'A'], [:profile_types_text, 'C']],
+                                        using: {
+                                          :tsearch => {:prefix => true, :any_word => true},
+                                          :dmetaphone => {},
+                                          :trigram => {}
+                                        },
                                         ignoring: :accents,
                                         ranked_by: ":dmetaphone + (0.25 * :trigram) + (0.25 * users.subscribers_count)"
 

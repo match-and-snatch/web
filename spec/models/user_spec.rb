@@ -219,7 +219,7 @@ describe User do
     let!(:not_mathing) { create_user first_name: 'slava', last_name: 'popov', email: 'slava@gmail.com' }
 
     specify do
-      expect(described_class.search_by_text_fields('sergei')).to eq [matching_by_full_name, matching_by_profile_name]
+      expect(described_class.search_by_text_fields('sergei')).to eq [matching_by_profile_name, matching_by_full_name]
     end
   end
 
