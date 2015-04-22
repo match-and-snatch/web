@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 
   pg_search_scope :search_by_text_fields, against: [[:full_name, 'B'], [:profile_name, 'A'], [:profile_types_text, 'C']],
                                         using: {
-                                          :tsearch => {:prefix => true, :any_word => true},
+                                          :tsearch => {:prefix => true},
                                           :dmetaphone => {},
                                           :trigram => {}
                                         },
