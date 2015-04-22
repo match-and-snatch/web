@@ -1281,6 +1281,26 @@ footer
           width: 498px
           img
             background-color: #FFFFFF
+          .profile_name
+            padding-top: 15px
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
+            // Mobile
+            @media screen and (max-width: 767px)
+              width: 380px
+            // Apple iPhone 4 & 5
+            @media screen and (max-width: 320px)
+              width: 190px
+            // Apple iPhone 6
+            @media screen and (min-width: 321px) and (max-width: 375px)
+              width: 250px
+            // Apple iPhone 6 Plus
+            @media screen and (min-width: 376px) and (max-width: 414px)
+              width: 290px
+            // Tablet & Desktop
+            @media screen and (min-width: 768px)
+              width: 400px
           &:hover
             background-color: $color_pink
             color: #FFFFFF
