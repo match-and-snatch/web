@@ -74,6 +74,7 @@ class Api::UsersController < Api::BaseController
       subscription_cost: user.subscription_cost,
       cost: user.cost,
       profile_picture_url: user.profile_picture_url,
+      small_profile_picture_url: user.small_profile_picture_url,
       cover_picture_url: user.cover_picture_url,
       cover_picture_position: user.cover_picture_position,
       api_token: user.api_token
