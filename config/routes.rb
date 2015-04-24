@@ -20,6 +20,13 @@ BuddyPlatform::Application.routes.draw do
 
       resources :posts, only: [:index, :create]
       resources :benefits, only: :create
+
+      resources :subscriptions, only: [:new, :create] do
+        collection do
+          post :via_register
+          post :via_update_cc_data
+        end
+      end
     end
 
     resources :posts, only: [] do
