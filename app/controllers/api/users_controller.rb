@@ -77,7 +77,34 @@ class Api::UsersController < Api::BaseController
       small_profile_picture_url: user.small_profile_picture_url,
       cover_picture_url: user.cover_picture_url,
       cover_picture_position: user.cover_picture_position,
-      api_token: user.api_token
+      api_token: user.api_token,
+      welcome_media: {
+        welcome_audio: welcome_media_data(user.welcome_audio),
+        welcome_video: welcome_media_data(user.welcome_video)
+      }
     }
+  end
+
+  def welcome_media_data(upload)
+    return {} unless upload
+
+    common_data = {
+        id: upload.id,
+        file_url: upload.rtmp_path,
+        preview_url: upload.preview_url,
+        original_url: upload.original_url
+    }
+    video_data = if upload.video?
+                   playlist_url = if upload.low_quality_playlist_url
+                                    playlist_video_url(upload.id, format: 'm3u8')
+                                  end
+                   {
+                       hdfile_url:   upload.hd_rtmp_path,
+                       playlist_url: playlist_url
+                   }
+                 else
+                   {}
+                 end
+    common_data.merge(video_data)
   end
 end
