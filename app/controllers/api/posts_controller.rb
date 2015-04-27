@@ -1,13 +1,19 @@
 class Api::PostsController < Api::BaseController
   before_action :load_user!, only: :index
+  before_action :load_post!, only: :show
 
   protect(:index) { can? :see, @user }
+  protect(:show) { can? :see, @post }
   protect(:create) { current_user.authorized? }
 
   def index
     query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], start_id: params[:last_post_id])
     @posts = query.results.map { |p| post_data(p) }
     json_success posts: @posts, last_post_id: query.last_post_id
+  end
+
+  def show
+    json_success post_data(@post)
   end
 
   def feed
@@ -32,6 +38,10 @@ class Api::PostsController < Api::BaseController
 
   def load_user!
     @user = User.where(slug: params[:user_id]).first or error(404)
+  end
+
+  def load_post!
+    @post = Post.where(id: params[:id]).first or error(404)
   end
 
   def post_data(post)

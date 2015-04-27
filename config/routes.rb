@@ -29,7 +29,7 @@ BuddyPlatform::Application.routes.draw do
       end
     end
 
-    resources :posts, only: [] do
+    resources :posts, only: [:show] do
       collection do
         get :feed
       end
