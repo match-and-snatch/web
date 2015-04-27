@@ -26,6 +26,7 @@ class Api::SubscriptionsController < Api::BaseController
   end
 
   def via_register
+    user = {}
     SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
       manager.register_subscribe_and_pay target:       @target_user,
                                          email:        params[:email],
@@ -40,9 +41,9 @@ class Api::SubscriptionsController < Api::BaseController
                                          address_line_1: params[:address_line_1],
                                          address_line_2: params[:address_line_2],
                                          state:          params[:state]
-      session_manager.login(params[:email], params[:password])
+      user = session_manager.login(params[:email], params[:password], use_api_token: true)
     end
-    json_success
+    json_success({ api_token: user.api_token })
   end
 
   private
