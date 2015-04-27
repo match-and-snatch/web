@@ -1,5 +1,5 @@
 class Api::SubscriptionsController < Api::BaseController
-  before_action :load_owner!, only: [:create, :via_update_cc_data]
+  before_action :load_owner!, only: [:create, :via_register, :via_update_cc_data]
   before_action :filter_card_params, only: [:via_register, :via_update_cc_data]
 
   protect(:create) { current_user.authorized? } # TODO (DJ): FIX IT
