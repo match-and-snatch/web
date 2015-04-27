@@ -254,6 +254,11 @@ BuddyPlatform::Application.routes.draw do
         post :update_list
       end
     end
+    resources :credit_card_declines, only: [:index, :create, :destroy] do
+      collection do
+        get :search
+      end
+    end
     resources :contributions, only: :index
     resources :duplicates, only: :index
     resources :payment_failures , only: :index

@@ -1,0 +1,19 @@
+h2 CC Declines
+
+form.Form action=search_admin_credit_card_declines_path method='get' data-target='declines'
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search users by email"
+
+div data-identifier='declines'
+
+- if @declines.any?
+  table.table
+    th Name
+    th Email
+    th
+
+    - @declines.each do |decline|
+      tr
+        td= decline.user.name
+        td= decline.user.email
+        td
+          button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' data-email=decline.user.email href=admin_credit_card_decline_path(decline.id) Restore CC

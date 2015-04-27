@@ -336,6 +336,26 @@ class UserProfileManager < BaseManager
     fail_with! number: 'Generic Stripe error'
   end
 
+  def decline_credit_card
+    fail_with! email: 'Already declined' if @user.cc_declined?
+
+    customer = Stripe::Customer.retrieve(@user.stripe_user_id)
+    card = customer.sources.retrieve(@user.stripe_card_id)
+    fingerprint = card.fingerprint
+
+    CreditCardDecline.create!(stripe_fingerprint: fingerprint, user_id: @user.id)
+    EventsManager.credit_card_declined(user: @user, data: { email: @user.email, stripe_fingerprint: fingerprint })
+  end
+
+  def restore_credit_card
+    fail_with! email: 'Not declined' unless @user.cc_declined?
+
+    @user.credit_card_declines.each do |decline|
+      decline.destroy
+      EventsManager.credit_card_restored(user: @user, data: { email: @user.email, stripe_fingerprint: decline.stripe_fingerprint })
+    end
+  end
+
   # @param full_name [String]
   # @param company_name [String]
   # @param email [String]
