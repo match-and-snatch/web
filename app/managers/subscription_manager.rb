@@ -160,8 +160,10 @@ class SubscriptionManager < BaseManager
       raise ArgumentError, 'Subscriber does not have CC accout'
     end
 
+    fail_with! 'Credit card is declined' if @subscriber.cc_declined?
+
     subscribe_to(target).tap do |subscription|
-      PaymentManager.new.pay_for(subscription, 'Payment for subscription') unless subscription.paid?
+      PaymentManager.new(user: @subscriber).pay_for(subscription, 'Payment for subscription') unless subscription.paid?
     end
   end
 
@@ -217,7 +219,7 @@ class SubscriptionManager < BaseManager
     if @subscription.paid?
       accept if @subscription.rejected?
     else
-      PaymentManager.new.pay_for!(@subscription, 'Payment for subscription')
+      PaymentManager.new(user: @subscriber).pay_for!(@subscription, 'Payment for subscription')
     end
 
     if @subscription.removed?

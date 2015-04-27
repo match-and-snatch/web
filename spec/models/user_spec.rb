@@ -174,7 +174,7 @@ describe User do
         before do
           StripeMock.start
           StripeMock.prepare_card_error(:card_declined)
-          PaymentManager.new.pay_for(subscription)
+          PaymentManager.new(user: user).pay_for(subscription)
         end
         after { StripeMock.stop }
 

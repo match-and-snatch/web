@@ -95,7 +95,11 @@ class User < ActiveRecord::Base
   end
 
   def cc_declined?
-    credit_card_declines.any?
+    if stripe_card_fingerprint.present?
+      CreditCardDecline.where(stripe_fingerprint: stripe_card_fingerprint).any?
+    else
+      credit_card_declines.any?
+    end
   end
 
   def comment_picture_url

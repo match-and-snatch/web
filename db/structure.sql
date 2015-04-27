@@ -983,7 +983,8 @@ CREATE TABLE users (
     custom_profile_page_css text,
     hidden boolean DEFAULT false NOT NULL,
     prefers_paypal boolean DEFAULT false NOT NULL,
-    paypal_email character varying(255)
+    paypal_email character varying(255),
+    stripe_card_fingerprint character varying(255)
 );
 
 
@@ -1639,4 +1640,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150412040011');
 INSERT INTO schema_migrations (version) VALUES ('20150421092204');
 
 INSERT INTO schema_migrations (version) VALUES ('20150427135922');
+
+INSERT INTO schema_migrations (version) VALUES ('20150427143207');
 
