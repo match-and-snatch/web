@@ -3,13 +3,23 @@ class bud.widgets.BackgroundScroller extends bud.Widget
 
   initialize: ->
     @url = @$container.data('url')
+    @base_height = @$container.data('base_height')
     @$target = bud.get(@$container.data('target'))
     @$focus_target = bud.get(@$container.data('focus_target')) || @$target
 
     @$target.css('background-repeat', 'repeat-y')
-    @$target.css('background-position', "center #{@$container.data('position')}px")
 
-    @$container.click @enable_editing
+    position = @$container.data('position')
+
+    if @is_reduced()
+      position = 0.47 * position / (@base_height / @$target.height()) # 204 / (208  / 84) = 82.38
+    # 4,5144230769
+    # new height: 63,795527157
+
+    @$target.css('background-position', "center #{position}px")
+
+    if @url
+      @$container.click @enable_editing
 
   enable_editing: =>
     window.scrollTo(0, 0);
@@ -48,3 +58,5 @@ class bud.widgets.BackgroundScroller extends bud.Widget
     bud.Ajax.post(@url, {_method: 'PUT', cover_picture_position: @y_position} )
 
     false
+
+  is_reduced: -> @base_height > @$target.height()
