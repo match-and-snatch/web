@@ -80,6 +80,11 @@ enable_itunes disable_itunes]) do
         account_picture_url: user.account_picture_url
       },
       billing_info: {
+        address_line_1: user.billing_address_line_1,
+        address_line_2: user.billing_address_line_2,
+        city: user.billing_address_city,
+        state: user.billing_address_state,
+        zip: user.billing_address_zip,
         last_four_cc_numbers: user.last_four_cc_numbers
       },
       payout_info: {
