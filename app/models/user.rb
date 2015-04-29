@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :benefits
   has_many :posts
   has_many :comments
+  has_many :credit_card_declines
   has_many :subscriptions
   has_many :source_subscriptions, class_name: 'Subscription', foreign_key: 'target_user_id'
   has_many :uploads, as: :uploadable
@@ -91,6 +92,14 @@ class User < ActiveRecord::Base
 
   def admin?
     is_admin? || APP_CONFIG['admins'].include?(email)
+  end
+
+  def cc_declined?
+    if stripe_card_fingerprint.present?
+      CreditCardDecline.where(stripe_fingerprint: stripe_card_fingerprint).any?
+    else
+      credit_card_declines.any?
+    end
   end
 
   def comment_picture_url

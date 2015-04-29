@@ -226,6 +226,38 @@ ALTER SEQUENCE cost_change_requests_id_seq OWNED BY cost_change_requests.id;
 
 
 --
+-- Name: credit_card_declines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE credit_card_declines (
+    id integer NOT NULL,
+    user_id integer,
+    stripe_fingerprint character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: credit_card_declines_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE credit_card_declines_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: credit_card_declines_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE credit_card_declines_id_seq OWNED BY credit_card_declines.id;
+
+
+--
 -- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -776,7 +808,6 @@ CREATE TABLE subscriptions (
     cost integer,
     fees integer,
     total_cost integer,
-    charge_date timestamp without time zone,
     fake boolean DEFAULT false NOT NULL
 );
 
@@ -948,11 +979,12 @@ CREATE TABLE users (
     billing_address_line_2 text,
     contributions_enabled boolean DEFAULT true NOT NULL,
     notifications_debug_enabled boolean DEFAULT true,
-    custom_profile_page_css text,
     api_token character varying(255),
+    custom_profile_page_css text,
     hidden boolean DEFAULT false NOT NULL,
     prefers_paypal boolean DEFAULT false NOT NULL,
-    paypal_email character varying(255)
+    paypal_email character varying(255),
+    stripe_card_fingerprint character varying(255)
 );
 
 
@@ -1001,6 +1033,13 @@ ALTER TABLE ONLY contributions ALTER COLUMN id SET DEFAULT nextval('contribution
 --
 
 ALTER TABLE ONLY cost_change_requests ALTER COLUMN id SET DEFAULT nextval('cost_change_requests_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY credit_card_declines ALTER COLUMN id SET DEFAULT nextval('credit_card_declines_id_seq'::regclass);
 
 
 --
@@ -1166,6 +1205,14 @@ ALTER TABLE ONLY contributions
 
 ALTER TABLE ONLY cost_change_requests
     ADD CONSTRAINT cost_change_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: credit_card_declines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY credit_card_declines
+    ADD CONSTRAINT credit_card_declines_pkey PRIMARY KEY (id);
 
 
 --
@@ -1582,8 +1629,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150306183346');
 
 INSERT INTO schema_migrations (version) VALUES ('20150308055851');
 
-INSERT INTO schema_migrations (version) VALUES ('20150309035722');
-
 INSERT INTO schema_migrations (version) VALUES ('20150313072158');
 
 INSERT INTO schema_migrations (version) VALUES ('20150406094929');
@@ -1593,4 +1638,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150409102628');
 INSERT INTO schema_migrations (version) VALUES ('20150412040011');
 
 INSERT INTO schema_migrations (version) VALUES ('20150421092204');
+
+INSERT INTO schema_migrations (version) VALUES ('20150427135922');
+
+INSERT INTO schema_migrations (version) VALUES ('20150427143207');
 

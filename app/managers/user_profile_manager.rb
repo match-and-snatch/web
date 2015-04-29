@@ -298,6 +298,7 @@ class UserProfileManager < BaseManager
     card_data = customer['cards']['data'][0]
     user.stripe_user_id = customer['id']
     user.stripe_card_id = card_data['id']
+    user.stripe_card_fingerprint = card_data['fingerprint']
     user.last_four_cc_numbers = card_data['last4']
     user.card_type = card_data['type']
     user.billing_address_zip = card_data['address_zip']
@@ -334,6 +335,32 @@ class UserProfileManager < BaseManager
     fail_with! number: 'Stripe API connection error'
   rescue Stripe::StripeError
     fail_with! number: 'Generic Stripe error'
+  end
+
+  def decline_credit_card
+    fail_with! email: 'Already declined' if @user.cc_declined?
+
+    if @user.stripe_card_fingerprint.present?
+      fingerprint = @user.stripe_card_fingerprint
+    else
+      customer = Stripe::Customer.retrieve(@user.stripe_user_id)
+      card = customer.sources.retrieve(@user.stripe_card_id)
+      fingerprint = card.fingerprint
+      @user.stripe_card_fingerprint = fingerprint
+      @user.save!
+    end
+
+    CreditCardDecline.create!(stripe_fingerprint: fingerprint, user_id: @user.id)
+    EventsManager.credit_card_declined(user: @user, data: { email: @user.email, stripe_fingerprint: fingerprint })
+  end
+
+  def restore_credit_card
+    fail_with! email: 'Not declined' unless @user.cc_declined?
+
+    @user.credit_card_declines.each do |decline|
+      decline.destroy
+      EventsManager.credit_card_restored(user: @user, data: { email: @user.email, stripe_fingerprint: decline.stripe_fingerprint })
+    end
   end
 
   # @param full_name [String]
