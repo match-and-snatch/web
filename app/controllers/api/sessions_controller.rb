@@ -64,7 +64,7 @@ class Api::SessionsController < Api::BaseController
       billing_address_line_1: user.billing_address_line_1,
       billing_address_line_2: user.billing_address_line_2,
       contributions_enabled: user.contributions_enabled,
-      api_token: user.api_token,
+      api_token: user.api_token
     }
   end
 end
