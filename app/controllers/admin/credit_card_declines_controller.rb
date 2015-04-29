@@ -20,10 +20,4 @@ class Admin::CreditCardDeclinesController < Admin::BaseController
     UserProfileManager.new(user).restore_credit_card
     json_reload
   end
-
-  private
-
-  def manager
-
-  end
 end
