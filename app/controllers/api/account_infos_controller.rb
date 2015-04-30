@@ -97,6 +97,9 @@ enable_itunes disable_itunes]) do
         rss_enabled: user.rss_enabled,
         downloads_enabled: user.downloads_enabled
       },
+      profile_info: {
+        profile_name: user.profile_name
+      },
       benefits: user.benefits.order(:ordering).pluck(:message)
     }
   end
