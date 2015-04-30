@@ -15,21 +15,30 @@ describe Api::UsersController, type: :controller do
           "name"=>"serge zinin",
           "slug"=>"sergeizinin",
           "types"=>[],
+          "benefits" => [],
           "subscription_cost"=>13407,
           "cost"=>12300,
           "profile_picture_url"=>"set",
+          "small_profile_picture_url"=>nil,
           "cover_picture_url"=>nil,
-          "cover_picture_position"=>0},
+          "cover_picture_position"=>0,
+          "api_token"=>nil,
+          "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}}},
         {
           "access"=>{"owner"=>false, "subscribed"=>false},
           "name"=>"test",
           "slug"=>"sergezeenin",
           "types"=>[],
+          "benefits" => [],
           "subscription_cost"=>2199,
           "cost"=>2000,
           "profile_picture_url"=>"set",
+          "small_profile_picture_url"=>nil,
           "cover_picture_url"=>nil,
-          "cover_picture_position"=>0}
+          "cover_picture_position"=>0,
+          "api_token"=>nil,
+          "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}}
+        }
       ])
     end
   end
@@ -38,15 +47,30 @@ describe Api::UsersController, type: :controller do
     let(:user) { create_profile_owner api_token: 'set' }
 
     context 'authorized' do
-      before do
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(user.api_token)
-      end
+      before { sign_in_with_token(user.api_token) }
 
       subject { post 'update_profile_name', id: user.slug, name: 'serezha' }
 
       its(:status) { is_expected.to eq(200) }
       it { expect { subject }.to change { user.reload.name }.to 'serezha' }
-      it { expect(JSON.parse(subject.body)).to include({"data" => {"access" => {"owner" => true, "subscribed" => false}, "name" => "serezha", "slug" => "sergeizinin", "types" => [], "subscription_cost" => 2199, "cost" => 2000, "profile_picture_url" => "set", "cover_picture_url" => nil, "cover_picture_position" => 0}})}
+      it { expect(JSON.parse(subject.body)).to include({"data" =>
+                                                            {
+                                                                "access" => {"owner" => true, "subscribed" => false},
+                                                                "name" => "serezha",
+                                                                "slug" => "sergeizinin",
+                                                                "types" => [],
+                                                                "benefits" => [],
+                                                                "subscription_cost" => 2199,
+                                                                "cost" => 2000,
+                                                                "profile_picture_url" => "set",
+                                                                "small_profile_picture_url"=>nil,
+                                                                "cover_picture_url" => nil,
+                                                                "cover_picture_position" => 0,
+                                                                "api_token"=>"set",
+                                                                "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}}
+                                                            }
+                                                       })
+      }
     end
 
     context 'non authorized' do
@@ -61,9 +85,7 @@ describe Api::UsersController, type: :controller do
     let(:user) { create_profile_owner api_token: 'set' }
 
     context 'authorized' do
-      before do
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(user.api_token)
-      end
+      before { sign_in_with_token(user.api_token) }
 
       subject { post 'update_profile_picture', id: user.slug, transloadit: profile_picture_data_params }
 
@@ -84,9 +106,7 @@ describe Api::UsersController, type: :controller do
     let(:user) { create_profile_owner api_token: 'set' }
 
     context 'authorized' do
-      before do
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(user.api_token)
-      end
+      before { sign_in_with_token(user.api_token) }
 
       subject { post 'update_cost', id: user.slug, cost: 10 }
 
@@ -104,7 +124,7 @@ describe Api::UsersController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:user) { create_user first_name: 'sergei', last_name: 'zinin', is_profile_owner: true }
+    let!(:user) { create_profile email: 'owner@gmail.com', first_name: 'sergei', last_name: 'zinin' }
 
     subject { get 'show', id: user.slug }
 
@@ -114,12 +134,10 @@ describe Api::UsersController, type: :controller do
     end
 
     context 'token provided' do
-      before do
-        request.env['HTTP_AUTHORIZATION'] = token
-      end
+      before { sign_in_with_token(token) }
 
       context 'invalid token' do
-        let(:token) { ActionController::HttpAuthentication::Token.encode_credentials('invalid') }
+        let(:token) { 'invalid' }
 
         its(:status) { is_expected.to eq(401) }
         its(:body) { is_expected.to include 'failed' }
@@ -127,7 +145,7 @@ describe Api::UsersController, type: :controller do
 
       context 'valid token' do
         let(:api_user) { create_user email: 'api@user.ru', api_token: 'test_token' }
-        let(:token) { ActionController::HttpAuthentication::Token.encode_credentials(api_user.api_token) }
+        let(:token) { api_user.api_token }
 
         its(:status) { is_expected.to eq(200) }
         its(:body) { is_expected.to include 'success' }

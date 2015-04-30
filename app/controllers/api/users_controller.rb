@@ -11,17 +11,16 @@ class Api::UsersController < Api::BaseController
   end
 
   def show
+    @user = User.profile_owners.with_complete_profile.where(slug: params[:id]).first or error(404)
     respond_with_user_data
   end
 
   # Registers new profile __owner__ (not just subscriber)
   def create
-    user = AuthenticationManager.new(
+    AuthenticationManager.new(
         params.slice(%i(email first_name last_name password)).merge(is_profile_owner: true, password_confirmation: params[:password])
     ).register
-
-    session_manager.login(user.email, params[:password], use_api_token: true)
-    json_success user_data(user.reload)
+    json_success
   end
 
   def update_cost

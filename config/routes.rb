@@ -76,6 +76,12 @@ BuddyPlatform::Application.routes.draw do
       resources :likes, only: [:index, :create], defaults: { type: 'comment' }
     end
 
+    resource :profile_info, only: [] do
+      member do
+        post :create_profile
+      end
+    end
+
     resource :account_info, only: [] do
       member do
         get :settings
