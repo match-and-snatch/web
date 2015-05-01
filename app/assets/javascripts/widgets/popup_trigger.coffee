@@ -4,10 +4,14 @@ class bud.widgets.PopupTrigger extends bud.Widget
 
   initialize: ->
     @target = @$container.data('target') or @$container.parents('.Popup, .RemotePopup, .AjaxPopup, .ConfirmationPopup').data('identifier')
-    @$container.click @on_click
+    #if bud.is_mobile.any()
     @$container.on 'touchstart', @on_click
+    #else
+    @$container.click @on_click
 
-  on_click: =>
+  on_click: (e) =>
+    if bud.is_mobile.any()
+      e.stopPropagation()
+      e.preventDefault()
     bud.pub("popup.toggle.#{@target}")
-    return false if @$container.is('a')
-    return true
+    return !@$container.is('a')
