@@ -1,11 +1,11 @@
 class Api::PostsController < Api::BaseController
   before_action :load_user!, only: :index
-  before_action :load_post!, only: [:show, :destroy]
+  before_action :load_post!, only: [:show, :update, :destroy, :destroy_upload]
 
   protect(:index) { can? :see, @user }
   protect(:show) { can? :see, @post }
-  protect(:create) { current_user.authorized? }
   protect(:destroy) { can? :delete, @post }
+  protect(:destroy_upload) { can? :manage, @post }
 
   def index
     query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], start_id: params[:last_post_id])
@@ -30,9 +30,9 @@ class Api::PostsController < Api::BaseController
     json_success posts: @posts
   end
 
-  def create
-    @post = manager.create_status_post(message: params[:message], notify: params.bool(:notify))
-    json_success post_data(@post)
+  def update
+    post = manager(post: @post).update params.slice(:title, :message)
+    json_success post_data(post)
   end
 
   def destroy
@@ -40,10 +40,16 @@ class Api::PostsController < Api::BaseController
     json_success
   end
 
+  def destroy_upload
+    @upload = @post.uploads.find(params[:upload_id])
+    post = UploadManager.new(current_user.object).remove_upload(upload: @upload)
+    json_success post_data(post)
+  end
+
   private
 
-  def manager
-    PostManager.new(user: current_user.object)
+  def manager(post: nil)
+    PostManager.new(user: current_user.object, post: post)
   end
 
   def load_user!
@@ -74,6 +80,7 @@ class Api::PostsController < Api::BaseController
     post.uploads.map do |upload|
       common_data = {
         id: upload.id,
+        filename: upload.filename,
         file_url: upload.rtmp_path,
         preview_url: upload.preview_url,
         original_url: upload.original_url

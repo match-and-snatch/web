@@ -11,7 +11,7 @@ class Api::VideoPostsController < Api::MediaPostsController
   protected
 
   def create_post
-    manager.create_video_post(params.slice(%i(title keyword_text message)).merge({ notify: params.bool(:notify) }))
+    manager.create_video_post params.slice(:title, :keyword_text, :message).merge(notify: params.bool(:notify))
   end
 
   def pending_video_post_data

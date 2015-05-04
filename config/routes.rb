@@ -18,7 +18,7 @@ BuddyPlatform::Application.routes.draw do
         put :update_cost
       end
 
-      resources :posts, only: [:index, :create]
+      resources :posts, only: [:index]
       resources :benefits, only: :create
 
       resources :subscriptions, only: [:new, :create] do
@@ -29,7 +29,10 @@ BuddyPlatform::Application.routes.draw do
       end
     end
 
-    resources :posts, only: [:show, :destroy] do
+    resources :posts, only: [:show, :update, :destroy] do
+      member do
+        delete :destroy_upload
+      end
       collection do
         get :feed
       end

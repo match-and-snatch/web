@@ -18,4 +18,18 @@ describe Api::StatusPostsController, type: :controller do
       it { should be_success }
     end
   end
+
+  describe 'POST #create' do
+    subject { post 'create', message: 'Reply' }
+
+    context 'unauthorized access' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized access' do
+      before { sign_in_with_token(owner.api_token) }
+
+      it { should be_success }
+    end
+  end
 end
