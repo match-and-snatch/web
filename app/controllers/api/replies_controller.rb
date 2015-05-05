@@ -33,6 +33,10 @@ class Api::RepliesController < Api::BaseController
       message: reply.message,
       created_at: reply.created_at,
       hidden: reply.hidden,
+      access: {
+        owner: current_user == reply.user,
+        post_owner: current_user == reply.post_user
+      },
       user: {
         slug: reply.user.slug,
         name: reply.user.name,

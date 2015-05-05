@@ -46,6 +46,10 @@ class Api::CommentsController < Api::BaseController
       message: comment.message,
       created_at: comment.created_at,
       hidden: comment.hidden,
+      access: {
+        owner: current_user == comment.user,
+        post_owner: current_user == comment.post_user
+      },
       user: {
         slug: comment.user.slug,
         name: comment.user.name,
