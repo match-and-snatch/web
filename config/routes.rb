@@ -101,6 +101,8 @@ BuddyPlatform::Application.routes.draw do
       end
     end
 
+    get '/mentions' => 'users#mentions', as: :mentions
+
     match '*path' => 'cors#preflight', via: :options
   end
 

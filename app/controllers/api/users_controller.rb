@@ -46,6 +46,11 @@ class Api::UsersController < Api::BaseController
     respond_with_user_data
   end
 
+  def mentions
+    @users = User.where.not(id: current_user.id).search_by_text_fields(params[:q]).limit(5).to_a
+    json_success mentions_data(@users)
+  end
+
   private
 
   def manager
@@ -58,6 +63,17 @@ class Api::UsersController < Api::BaseController
 
   def respond_with_user_data
     json_success(user_data(@user.reload))
+  end
+
+  def mentions_data(users = [])
+    users.map do |user|
+      {
+          id: user.id,
+          name: user.name,
+          slug: user.slug,
+          picture_url: user.comment_picture_url
+      }
+    end
   end
 
   def user_data(user)
