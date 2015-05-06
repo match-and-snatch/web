@@ -29,6 +29,13 @@ BuddyPlatform::Application.routes.draw do
       end
     end
 
+    resources :subscriptions, only: [:index] do
+      member do
+        put :enable_notifications
+        put :disable_notifications
+      end
+    end
+
     resources :posts, only: [:show, :update, :destroy] do
       member do
         delete :destroy_upload

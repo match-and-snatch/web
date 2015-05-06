@@ -1,9 +1,18 @@
 class Api::SubscriptionsController < Api::BaseController
   before_action :load_owner!, only: [:create, :via_register, :via_update_cc_data]
   before_action :filter_card_params, only: [:via_register, :via_update_cc_data]
+  before_action :load_subscription!, only: [:enable_notifications, :disable_notifications]
 
   protect(:create) { current_user.authorized? } # TODO (DJ): FIX IT
-  
+
+  def index
+    @subscriptions = current_user.object.subscriptions.
+        where(removed: false).
+        where("rejected_at is NULL OR rejected_at > ?", 1.month.ago).
+        joins(:target_user)
+    json_success subscriptions_data(@subscriptions)
+  end
+
   def create
     SubscriptionManager.new(subscriber: current_user.object).subscribe_and_pay_for(@target_user)
     json_success
@@ -46,7 +55,21 @@ class Api::SubscriptionsController < Api::BaseController
     json_success({ api_token: user.api_token })
   end
 
+  def enable_notifications
+    SubscriptionManager.new(subscription: @subscription).enable_notifications
+    json_success
+  end
+
+  def disable_notifications
+    SubscriptionManager.new(subscription: @subscription).disable_notifications
+    json_success
+  end
+
   private
+
+  def load_subscription!
+    @subscription = Subscription.where(id: params[:id]).first or error(404)
+  end
 
   def load_owner!
     @target_user = User.where(slug: params[:user_id]).first or error(404)
@@ -57,6 +80,23 @@ class Api::SubscriptionsController < Api::BaseController
       month, year = params[:expiry_date].split(/\s*\/\s*/)
       params[:expiry_month] = month
       params[:expiry_year] = year
+    end
+  end
+
+  def subscriptions_data(subscriptions = [])
+    subscriptions.map do |subscription|
+      {
+        id: subscription.id,
+        cost: subscription.total_cost,
+        notifications_enabled: subscription.notifications_enabled,
+        created_at: subscription.created_at,
+        user: {
+            profile_owner: subscription.target_user.is_profile_owner?,
+            slug: subscription.target_user.slug,
+            name: subscription.target_user.name,
+            picture_url: subscription.target_user.profile_picture_url
+        }
+      }
     end
   end
 end
