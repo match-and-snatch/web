@@ -1,0 +1,26 @@
+.col-md-12
+  h2 Logs
+
+  - if @logs.any?
+    table.table
+      th #ID
+      th Time
+      th Action
+      /th Message
+      /th Additional data
+
+      - @logs.each do |log|
+        tr
+          td= log.id
+          td= log.time
+          td= log.action
+          /td= log.message
+
+          /- if log.data.present?
+            table.table
+              - log.data.each do |k, v|
+                tr
+                  td= k
+                  td= v
+  - else
+    .well style='text-align: center;' You do not have any logs at this time.

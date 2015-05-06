@@ -129,6 +129,7 @@ BuddyPlatform::Application.routes.draw do
           get :confirm_removal
         end
       end
+      resources :logs, only: [:index]
     end
   end
 
