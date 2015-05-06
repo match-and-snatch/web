@@ -1464,6 +1464,32 @@ input.file
 .error_pages
   padding: 0px 15px 15px 15px
 
+.deleted
+  -moz-animation: Deleted 0s ease-in 5s forwards
+  -webkit-animation: Deleted 0s ease-in 5s forwards
+  -o-animation: Deleted 0s ease-in 5s forwards
+  animation: Deleted 0s ease-in 5s forwards
+  -webkit-animation-fill-mode: forwards
+  animation-fill-mode: forwards
+  opacity: 1
+  height: 40px
+  text-align: center
+  font-weight: bold
+  font-size: 13px
+
+@keyframes Deleted
+  to
+    width: 0
+    height: 0
+    overflow: hidden
+
+
+@-webkit-keyframes Deleted
+  to
+    width: 0
+    height: 0
+    visibility: hidden
+
 // Sample Profile Views Desktop
 
 @media screen and (min-width: 992px)
