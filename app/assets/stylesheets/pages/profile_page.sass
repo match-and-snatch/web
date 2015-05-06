@@ -503,27 +503,30 @@
         overflow: hidden
         position: relative
 
+        .video_bg_preupload
+          @include border-radius (5px)
+          border: 1px solid $color_border
+          height: 190px
+          background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
+          @media screen and (min-width: 768px) and (max-width: 991px)
+            background-position-x: -60px
+
         // Listed Files
 
         .added_audio, .added_video, .added_photo, .added_document
           overflow: hidden
-          height: 251px
+          height: 270px
           ul
             @include border-radius (5px)
             background-position: 50%
             border: 1px solid $color_border
-            height: 180px
+            height: 190px
             margin: 0
             padding: 0
             overflow: hidden
             overflow-y: scroll
             &.audio_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_audio.png') no-repeat
-              // Tablet
-              @media screen and (min-width: 768px) and (max-width: 991px)
-                background-position-x: -60px
-            &.video_bg
-              background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
               // Tablet
               @media screen and (min-width: 768px) and (max-width: 991px)
                 background-position-x: -60px
@@ -601,7 +604,7 @@
           cursor: pointer
           display: inline-block
           font-size: 12px
-          margin: 10px 0
+          margin: 17px 0 0
           text-decoration: underline
           position: relative
           .file_types
@@ -613,7 +616,7 @@
             font-size: 12px
             padding: 7px 10px 8px
             position: absolute
-            top: 27px
+            top: 29px
             left: 0
             width: 439px
             z-index: 1
@@ -625,17 +628,55 @@
         // Listed Video
 
         .added_video
-          ul
-            overflow-y: hidden !important
+          .heading
+            color: $color_text_light
+            font-size: 14px
+            text-align: center
+            padding: 5px 0 35px
+          ul.video_bg
+            border: none !important
+            overflow: hidden !important
+            height: 130px
             li
-              background-color: #FFFFFF
-              border-bottom: none
-              height: auto
-              padding: 0
+              @include border-radius (5px)
+              border: 1px solid $color_border
+              display: inline-block
+              list-style-type: none
+              margin-right: 24px
+              overflow: hidden
               position: relative
+              height: 130px
+              width: 130px
+              padding: 0
               img
-                margin-top: -30px
-                width: 437px
+                height: 130px
+                width: auto
+              &.custom
+                width: 285px
+                img
+                  height: auto
+                  width: 285px
+              &.upload_custom, &.remove_custom
+                cursor: pointer
+                color: #FFFFFF
+                margin-right: 0
+                text-align: center
+                i.fa.fa-plus, i.fa.fa-times
+                  font-size: 16px
+                  line-height: 20px
+                  margin-top: 30px
+                  &:before
+                    font-size: 36px
+                    display: block
+                    margin-bottom: 10px
+              &.upload_custom
+                @include green-area
+                &:hover
+                  @include linear-gradient(#8dc63f, #a4e052)
+              &.remove_custom
+                @include pink-area
+                &:hover
+                  @include linear-gradient(#ea2f49, #ea4e65)
               a.delete_button
                 @include border-radius (50%)
                 background-color: $color_background
@@ -2183,20 +2224,57 @@
               .delete_button
                 text-decoration: none
                 float: right
+          .heading
+            color: $color_text_light
+            font-size: 13px
+            text-align: center
+            margin-bottom: 15px
           .video_bg
+            margin: 0 auto
+            width: 290px
             li
+              @include border-radius(5px)
+              border: 1px solid $color_border
+              display: inline-block
               position: relative
-              height: 100px
               overflow: hidden
+              height: 90px
+              width: 90px
+              margin-right: 10px
               img
-                margin-top: -35px
+                height: 100%
+                width: auto
+              &.custom
+                width: 190px
+                img
+                  height: auto
+                  width: 100%
+              &.upload_custom, &.remove_custom
+                cursor: pointer
+                color: #FFFFFF
+                margin-right: 0
+                text-align: center
+                i.fa.fa-plus, i.fa.fa-times
+                  font-size: 13px
+                  line-height: 16px
+                  margin-top: 12px
+                  &:before
+                    font-size: 26px
+                    display: block
+                    margin-bottom: 5px
+              &.upload_custom
+                @include green-area
+                &:hover
+                  @include linear-gradient(#8dc63f, #a4e052)
+              &.remove_custom
+                @include pink-area
+                &:hover
+                  @include linear-gradient(#ea2f49, #ea4e65)
               .delete_button
                 position: absolute
                 top: 5px
                 right: 5px
                 text-decoration: none
-              img
-                width: 100%
           .photo_bg
             padding: 5px
             white-space: nowrap
