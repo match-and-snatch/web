@@ -11,7 +11,7 @@ class Api::RepliesController < Api::BaseController
   end
 
   def update
-    @reply.update_attributes(message: params[:message])
+    @reply.update_attributes(params.slice(:message, :mentions))
     json_success reply_data(@reply)
   end
 
