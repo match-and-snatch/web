@@ -89,6 +89,8 @@ BuddyPlatform::Application.routes.draw do
     resource :profile_info, only: [] do
       member do
         post :create_profile
+        post :enable_vacation_mode
+        post :disable_vacation_mode
       end
     end
 

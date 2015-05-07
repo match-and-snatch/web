@@ -1,11 +1,21 @@
 class Api::ProfileInfosController < Api::BaseController
   before_action :load_user!
 
-  protect(:create_profile) { current_user.authorized? }
+  protect(:create_profile, :enable_vacation_mode, :disable_vacation_mode) { current_user.authorized? }
 
   def create_profile
     user = manager.update(params.slice(:cost, :profile_name))
     json_success user_data(user)
+  end
+
+  def enable_vacation_mode
+    manager.enable_vacation_mode(reason: params[:vacation_message])
+    json_success
+  end
+
+  def disable_vacation_mode
+    manager.disable_vacation_mode
+    json_success
   end
 
   private

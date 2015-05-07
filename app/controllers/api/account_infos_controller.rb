@@ -98,7 +98,8 @@ enable_itunes disable_itunes]) do
         downloads_enabled: user.downloads_enabled
       },
       profile_info: {
-        profile_name: user.profile_name
+        profile_name: user.profile_name,
+        vacation_enabled: user.vacation_enabled
       },
       benefits: user.benefits.order(:ordering).pluck(:message)
     }

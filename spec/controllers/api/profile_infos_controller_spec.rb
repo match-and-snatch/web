@@ -20,4 +20,32 @@ describe Api::ProfileInfosController, type: :controller do
       its(:status) { should eq(401) }
     end
   end
+
+  describe 'PUT #enable_vacation_mode' do
+    subject { put 'enable_vacation_mode', vacation_message: 'test' }
+
+    context 'not authorized' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized' do
+      before { sign_in_with_token(user.api_token) }
+
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_vacation_mode' do
+    subject { post 'disable_vacation_mode' }
+
+    context 'not authorized' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized' do
+      before { sign_in_with_token(user.api_token) }
+
+      it { should be_success }
+    end
+  end
 end
