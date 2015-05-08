@@ -86,6 +86,9 @@ BuddyPlatform::Application.routes.draw do
       resources :likes, only: [:index, :create], defaults: { type: 'comment' }
     end
 
+    resources :messages, only: [:create]
+    resources :dialogues, only: [:index, :show, :destroy]
+
     resource :profile_info, only: [] do
       member do
         post :create_profile
