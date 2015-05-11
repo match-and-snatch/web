@@ -91,7 +91,17 @@ BuddyPlatform::Application.routes.draw do
 
     resource :profile_info, only: [] do
       member do
+        get :settings
         post :create_profile
+        put :update_bank_account_data
+        put :enable_rss
+        put :disable_rss
+        put :enable_downloads
+        put :disable_downloads
+        put :enable_itunes
+        put :disable_itunes
+        put :enable_contributions
+        put :disable_contributions
         post :enable_vacation_mode
         post :disable_vacation_mode
       end
@@ -103,13 +113,6 @@ BuddyPlatform::Application.routes.draw do
         put :update_account_picture
         put :update_general_information
         put :update_cc_data
-        put :update_bank_account_data
-        put :enable_rss
-        put :disable_rss
-        put :enable_downloads
-        put :disable_downloads
-        put :enable_itunes
-        put :disable_itunes
       end
     end
 

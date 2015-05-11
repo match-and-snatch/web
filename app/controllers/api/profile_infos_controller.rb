@@ -1,11 +1,65 @@
 class Api::ProfileInfosController < Api::BaseController
   before_action :load_user!
 
-  protect(:create_profile, :enable_vacation_mode, :disable_vacation_mode) { current_user.authorized? }
+  protect(:create_profile, :settings, :update_bank_account_data,
+          :enable_rss, :disable_rss,
+          :enable_downloads, :disable_downloads,
+          :enable_itunes, :disable_itunes,
+          :enable_vacation_mode, :disable_vacation_mode,
+          :enable_contributions, :disable_contributions) { current_user.authorized? }
 
   def create_profile
     user = manager.update(params.slice(:cost, :profile_name))
     json_success user_data(user)
+  end
+
+  def settings
+    respond_with_settings_data
+  end
+  
+  def update_bank_account_data
+    manager.update_payment_information(params.slice(:holder_name, :routing_number, :account_number))
+    respond_with_settings_data
+  end
+
+  def enable_rss
+    manager.enable_rss
+    respond_with_settings_data
+  end
+
+  def disable_rss
+    manager.disable_rss
+    respond_with_settings_data
+  end
+
+  def enable_downloads
+    manager.enable_downloads
+    respond_with_settings_data
+  end
+
+  def disable_downloads
+    manager.disable_downloads
+    respond_with_settings_data
+  end
+
+  def enable_itunes
+    manager.enable_itunes
+    respond_with_settings_data
+  end
+
+  def disable_itunes
+    manager.disable_itunes
+    respond_with_settings_data
+  end
+
+  def enable_contributions
+    manager.enable_contributions
+    respond_with_settings_data
+  end
+
+  def disable_contributions
+    manager.disable_contributions
+    respond_with_settings_data
   end
 
   def enable_vacation_mode
@@ -19,6 +73,32 @@ class Api::ProfileInfosController < Api::BaseController
   end
 
   private
+
+  def respond_with_settings_data
+    json_success settings_data(@user)
+  end
+
+  def settings_data(user)
+    {
+      cost: user.cost,
+      payout_info: {
+        holder_name: user.holder_name,
+        routing_number: user.routing_number,
+        account_number: user.account_number
+      },
+      display_settings: {
+        itunes_enabled: user.itunes_enabled,
+        rss_enabled: user.rss_enabled,
+        downloads_enabled: user.downloads_enabled,
+        contributions_enabled: user.contributions_enabled
+      },
+      profile_info: {
+        profile_name: user.profile_name,
+        vacation_enabled: user.vacation_enabled
+      },
+      benefits: user.benefits.order(:ordering).pluck(:message)
+    }
+  end
 
   def user_data(user)
     {
