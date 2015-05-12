@@ -89,6 +89,9 @@ BuddyPlatform::Application.routes.draw do
     resources :messages, only: [:create]
     resources :dialogues, only: [:index, :show, :destroy]
 
+    resources :contributions, only: [:index, :create, :destroy]
+    resources :contributors, only: [:index]
+
     resource :profile_info, only: [] do
       member do
         get :settings
@@ -110,6 +113,7 @@ BuddyPlatform::Application.routes.draw do
     resource :account_info, only: [] do
       member do
         get :settings
+        get :billing_information
         put :update_account_picture
         put :update_general_information
         put :update_cc_data
