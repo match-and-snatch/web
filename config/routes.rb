@@ -107,6 +107,8 @@ BuddyPlatform::Application.routes.draw do
         put :disable_contributions
         post :enable_vacation_mode
         post :disable_vacation_mode
+        put :update_welcome_media
+        delete :remove_welcome_media
       end
     end
 

@@ -1,4 +1,6 @@
 class Api::ProfileInfosController < Api::BaseController
+  include Transloadit::Rails::ParamsDecoder
+
   before_action :load_user!
 
   protect(:create_profile, :settings, :update_bank_account_data,
@@ -6,7 +8,8 @@ class Api::ProfileInfosController < Api::BaseController
           :enable_downloads, :disable_downloads,
           :enable_itunes, :disable_itunes,
           :enable_vacation_mode, :disable_vacation_mode,
-          :enable_contributions, :disable_contributions) { current_user.authorized? }
+          :enable_contributions, :disable_contributions,
+          :update_welcome_media, :remove_welcome_media) { current_user.authorized? }
 
   def create_profile
     user = manager.update(params.slice(:cost, :profile_name))
@@ -72,6 +75,16 @@ class Api::ProfileInfosController < Api::BaseController
     json_success
   end
 
+  def update_welcome_media
+    manager.update_welcome_media(params[:transloadit])
+    respond_with_settings_data
+  end
+
+  def remove_welcome_media
+    manager.remove_welcome_media!
+    respond_with_settings_data
+  end
+
   private
 
   def respond_with_settings_data
@@ -96,8 +109,35 @@ class Api::ProfileInfosController < Api::BaseController
         profile_name: user.profile_name,
         vacation_enabled: user.vacation_enabled
       },
-      benefits: user.benefits.order(:ordering).pluck(:message)
+      benefits: user.benefits.order(:ordering).pluck(:message),
+      welcome_media: {
+          welcome_audio: welcome_media_data(user.welcome_audio),
+          welcome_video: welcome_media_data(user.welcome_video)
+      }
     }
+  end
+
+  def welcome_media_data(upload)
+    return {} unless upload
+
+    common_data = {
+        id: upload.id,
+        file_url: upload.rtmp_path,
+        preview_url: upload.preview_url,
+        original_url: upload.original_url
+    }
+    video_data = if upload.video?
+                   playlist_url = if upload.low_quality_playlist_url
+                                    playlist_video_url(upload.id, format: 'm3u8')
+                                  end
+                   {
+                       hdfile_url:   upload.hd_rtmp_path,
+                       playlist_url: playlist_url
+                   }
+                 else
+                   {}
+                 end
+    common_data.merge(video_data)
   end
 
   def user_data(user)

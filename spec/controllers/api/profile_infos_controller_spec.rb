@@ -160,4 +160,48 @@ describe Api::ProfileInfosController, type: :controller do
       it { should be_success }
     end
   end
+
+  describe 'PUT #update_welcome_media' do
+    context 'with welcome video' do
+      subject { put 'update_welcome_media', transloadit: welcome_video_data_params.to_json }
+
+      context 'authorized access' do
+        before { sign_in_with_token(user.api_token) }
+
+        it { should be_success }
+      end
+
+      context 'unauthorized access' do
+        its(:status) { should eq(401) }
+      end
+    end
+
+    context 'with welcome audio' do
+      subject { put 'update_welcome_media', transloadit: welcome_audio_data_params.to_json }
+
+      context 'authorized access' do
+        before { sign_in_with_token(user.api_token) }
+
+        it { should be_success }
+      end
+
+      context 'unauthorized access' do
+        its(:status) { should eq(401) }
+      end
+    end
+  end
+
+  describe 'DELETE #remove_welcome_media' do
+    subject { delete 'remove_welcome_media' }
+
+    context 'unauthorized access' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized access' do
+      before { sign_in_with_token(user.api_token) }
+
+      it { should be_success }
+    end
+  end
 end
