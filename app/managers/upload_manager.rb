@@ -161,7 +161,8 @@ class UploadManager < BaseManager
   # @param attributes [Hash] upload attributes
   # @return [Upload]
   def create_video(transloadit_data, uploadable: user, template: 'post_video', attributes: {})
-    thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
+    #thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
+    thumbs = transloadit_data['results']['thumbs'].presence or fail_with! 'No thumb received'
     encode = transloadit_data['results']['encode'][0]
 
     #hd_step = transloadit_data['results']['encode_hd']
@@ -178,8 +179,7 @@ class UploadManager < BaseManager
     preview_bucket = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['s3_thumb']['bucket']
     videos_bucket  = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store_low']['bucket']
 
-    s3_paths = { preview_bucket => [{ key: get_file_path(thumb['ssl_url']) }],
-                 videos_bucket  => [encode['ssl_url'], original['ssl_url']].compact.map { |e| { key: get_file_path(e) } } }
+    s3_paths = { videos_bucket  => [encode['ssl_url'], original['ssl_url']].compact.map { |e| { key: get_file_path(e) } } }
 
     upload = Video.new transloadit_data: transloadit_data.to_hash,
                        s3_paths:         s3_paths,
@@ -193,15 +193,31 @@ class UploadManager < BaseManager
                        basename:         transloadit_data['uploads'][0]['basename'],
                        width:            transloadit_data['uploads'][0]['meta']['width'],
                        height:           transloadit_data['uploads'][0]['meta']['height'],
-                       url:              encode['ssl_url'],
+                       url:              encode['ssl_url']
                        #playlist_url:     playlist['ssl_url'],
                        #low_quality_playlist_url: low_playlist['ssl_url'],
                        #high_quality_playlist_url: high_playlist['ssl_url'], # TODO: Change ssl_url to url?
                        #hd_url:           hd_url,
-                       preview_url:      thumb['ssl_url']
+                       #preview_url:      thumb['ssl_url']
     upload.attributes = attributes
     save_or_die! upload
     EventsManager.file_uploaded(user: user, file: upload)
+
+    thumbs.each do |thumb|
+      preview = PendingVideoPreviewPhoto.new transloadit_data: thumb.to_hash,
+                                             s3_paths:   {preview_bucket => {key: get_file_path(thumb['ssl_url'])}},
+                                             uploadable_type: 'Video',
+                                             user_id:    user.id,
+                                             mime_type:  thumb['mime'],
+                                             filename:   thumb['name'],
+                                             filesize:   thumb['size'],
+                                             basename:   thumb['basename'],
+                                             width:      thumb['meta']['width'],
+                                             height:     thumb['meta']['height'],
+                                             url:        thumb['ssl_url']
+      preview.save!
+    end
+
     upload
   end
 

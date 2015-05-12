@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   has_many :likes
   has_many :source_likes, class_name: 'Like', foreign_key: 'target_user_id'
   has_many :pending_post_uploads, -> { pending.ordered.posts }, class_name: 'Upload'
+  has_many :pending_video_preview_photos, -> { pending.ordered }, class_name: 'PendingVideoPreviewPhoto'
   has_many :profile_types_users
   has_many :profile_types, through: :profile_types_users
   has_many :payments

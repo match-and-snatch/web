@@ -1,36 +1,38 @@
 div data-identifier='pending-videos'
   .pending_video
     .added_video
-      // Show this container below when no video is uploaded
-      .video_bg_preupload
+      - if current_user.pending_video.blank?
+        .video_bg_preupload
+      - else
+        - current_user.pending_video.tap do |upload|
+          .heading Please select a thumbnail below or upload a custom image
 
-      - current_user.pending_videos.each do |upload|
-        .heading Please select a thumbnail below or upload a custom image
+          // Show this container below when a video is uploaded
+          ul.video_bg
+            - current_user.pending_video_previews.each do |preview|
+              li
+                - if current_user.pending_video_previews.first == preview
+                  input type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url checked='checked'
+                - else
+                  input type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url
+                label for='pending_video_preview#{preview.id}'
+                  img src=preview.url
+            li.upload_custom
+              i.fa.fa-plus
+                'Upload
+                br
+                'Custom Image
 
-        // Show this container below when a video is uploaded
-        ul.video_bg
-          li
-            img src=upload.preview_url
-            a.delete_button.fa.fa-times.AjaxFormLink href=video_path(upload) data-_method='DELETE' data-target='pending-videos'
-          li
-            img src=upload.preview_url
-            a.delete_button.fa.fa-times.AjaxFormLink href=video_path(upload) data-_method='DELETE' data-target='pending-videos'
-          li.upload_custom
-            i.fa.fa-plus
-              'Upload
-              br
-              'Custom Image
-
-        // Show this container below when a custom thumbnail is uploaded
-        //ul.video_bg
-          li.custom
-            img src=upload.preview_url
-            a.delete_button.fa.fa-times.AjaxFormLink href=video_path(upload) data-_method='DELETE' data-target='pending-videos'
-          li.remove_custom
-            i.fa.fa-times
-              'Remove
-              br
-              'Custom Image
+          /Show this container below when a custom thumbnail is uploaded
+          /ul.video_bg
+            li.custom
+              img src=upload.preview_url
+              a.delete_button.fa.fa-times.AjaxFormLink href=video_path(upload) data-_method='DELETE' data-target='pending-videos'
+            li.remove_custom
+              i.fa.fa-times
+                'Remove
+                br
+                'Custom Image
       .clearfix
       span.supported_files
         | What file extensions are supported?
