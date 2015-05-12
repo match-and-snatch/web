@@ -26,7 +26,7 @@ class ContributionsController < ApplicationController
     end
 
     manager.create({target_user: @target_user, amount: amount, recurring: params.bool(:recurring), message: params[:message]})
-    json_reload(notice: 'Thanks for you contribution!')
+    json_reload(notice: 'Thanks for your contribution!')
   end
 
   def cancel
