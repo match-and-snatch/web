@@ -42,6 +42,37 @@ class UploadManager < BaseManager
                                                                          uploadable_id: nil })
   end
 
+  def create_pending_video_previews(transloadit_data)
+    transloadit_data['results']['full_size'] or fail_with! 'Invalid transloadit data'
+
+    bucket = Transloadit::Rails::Engine.configuration['templates']['post_video']['steps']['s3_thumb']['bucket']
+
+    transloadit_data['uploads'].each.map do |upload_data|
+      original_id = upload_data['original_id']
+      original = search_related_result(transloadit_data['results']['full_size'], original_id)
+
+      if original
+        s3_paths = { bucket => [original['ssl_url']].map { |e| { key: get_file_path(e) } } }
+
+        upload = PendingVideoPreviewPhoto.new transloadit_data: transloadit_data.to_hash,
+                                              s3_paths:         s3_paths,
+                                              uploadable_type: 'Video',
+                                              user_id:          user.id,
+                                              mime_type:        upload_data['mime'],
+                                              filename:         upload_data['name'],
+                                              filesize:         upload_data['size'],
+                                              basename:         upload_data['basename'],
+                                              width:            upload_data['meta']['width'],
+                                              height:           upload_data['meta']['height'],
+                                              url:              original['ssl_url']
+
+        save_or_die! upload
+        EventsManager.file_uploaded(user: user, file: upload)
+        upload
+      end
+    end
+  end
+
   # @param transloadit_data [Hash]
   # @return [Array<Upload>]
   def create_pending_photos(transloadit_data)

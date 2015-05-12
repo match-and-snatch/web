@@ -9,7 +9,7 @@ div data-identifier='pending-videos'
 
           // Show this container below when a video is uploaded
           ul.video_bg
-            - current_user.object.pending_video_preview_photos(true).each do |preview|
+            - current_user.object.pending_video_preview_photos(true).first(2).each do |preview|
               li
                 - if current_user.pending_video_previews.first == preview
                   input.ValueSetter data-target='video-preview-url' type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url checked='checked'
@@ -17,11 +17,8 @@ div data-identifier='pending-videos'
                   input.ValueSetter data-target='video-preview-url' type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url
                 label for='pending_video_preview#{preview.id}'
                   img src=preview.url
-            li.upload_custom
-              i.fa.fa-plus
-                'Upload
-                br
-                'Custom Image
+
+            = render 'pending_video_previews/preview'
 
           /Show this container below when a custom thumbnail is uploaded
           /ul.video_bg
