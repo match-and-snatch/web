@@ -19,6 +19,7 @@
     form.col-md-6.col-sm-6.col-xs-6.upload_details.Poster action=media_posts_path method='POST' data-target='posts'
       input.bg-color.form-control name='title' placeholder='Title' value=pending_post.title style='margin-top: 0;' validate='require'
       .error data-field='title'
+      input type='hidden' name='preview_url' data-identifier='video-preview-url'
       textarea.bg-color.form-control name='message' placeholder='Description' style='margin-bottom: 8px' validate='require'
         = restore_message_format(pending_post.message)
       .error data-field='message'

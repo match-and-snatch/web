@@ -139,6 +139,6 @@ class CurrentUserDecorator < UserDecorator
   end
 
   def pending_video_previews
-    @pending_video_upreviews ||= object.pending_video_preview_photos.to_a
+    @pending_video_previews ||= object.pending_video_preview_photos.to_a
   end
 end

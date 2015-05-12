@@ -9,12 +9,12 @@ div data-identifier='pending-videos'
 
           // Show this container below when a video is uploaded
           ul.video_bg
-            - current_user.pending_video_previews.each do |preview|
+            - current_user.object.pending_video_preview_photos(true).each do |preview|
               li
                 - if current_user.pending_video_previews.first == preview
-                  input type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url checked='checked'
+                  input.ValueSetter data-target='video-preview-url' type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url checked='checked'
                 - else
-                  input type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url
+                  input.ValueSetter data-target='video-preview-url' type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url
                 label for='pending_video_preview#{preview.id}'
                   img src=preview.url
             li.upload_custom

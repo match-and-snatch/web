@@ -201,8 +201,8 @@ class UploadManager < BaseManager
                        #preview_url:      thumb['ssl_url']
     upload.attributes = attributes
     save_or_die! upload
-    EventsManager.file_uploaded(user: user, file: upload)
 
+    user.pending_video_preview_photos.each(&:destroy)
     thumbs.each do |thumb|
       preview = PendingVideoPreviewPhoto.new transloadit_data: thumb.to_hash,
                                              s3_paths:   {preview_bucket => {key: get_file_path(thumb['ssl_url'])}},
@@ -218,6 +218,7 @@ class UploadManager < BaseManager
       preview.save!
     end
 
+    EventsManager.file_uploaded(user: user, file: upload)
     upload
   end
 
