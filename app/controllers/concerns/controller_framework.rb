@@ -100,4 +100,23 @@ module Concerns::ControllerFramework
   def json_success(response_params = {})
     json_response 'success', response_params
   end
+
+  # @param message [Symbol] i18n Identifier
+  def notice(message, opts = {})
+    if message.is_a?(Symbol)
+      message = translate_message(message, opts)
+      @notice = message
+      flash.notice = message
+    elsif message.is_a?(String)
+      @notice = message
+      flash.notice = message
+    end
+  end
+
+  private
+
+  def translate_message(message, opts = {})
+    raise ArgumentError unless message.is_a? Symbol
+    I18n.t(message, opts.reverse_merge(scope: :messages, default: [:default, message])).html_safe
+  end
 end
