@@ -59,4 +59,4 @@ class bud.widgets.BackgroundScroller extends bud.Widget
 
     false
 
-  is_reduced: -> @base_height > @$target.height()
+  is_reduced: -> Math.abs(@base_height - @$target.height()) > 5
