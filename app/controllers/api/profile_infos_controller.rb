@@ -110,6 +110,12 @@ class Api::ProfileInfosController < Api::BaseController
         vacation_enabled: user.vacation_enabled
       },
       benefits: user.benefits.order(:ordering).pluck(:message),
+      profile_types: user.profile_types.map do |profile_type|
+        {
+          id: profile_type.id,
+          title: profile_type.title
+        }
+      end,
       welcome_media: {
           welcome_audio: welcome_media_data(user.welcome_audio),
           welcome_video: welcome_media_data(user.welcome_video)

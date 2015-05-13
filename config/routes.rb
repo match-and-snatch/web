@@ -92,6 +92,8 @@ BuddyPlatform::Application.routes.draw do
     resources :contributions, only: [:index, :create, :destroy]
     resources :contributors, only: [:index]
 
+    resources :profile_types, only: [:index, :create, :destroy]
+
     resource :profile_info, only: [] do
       member do
         get :settings
