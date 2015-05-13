@@ -6,7 +6,7 @@ class Api::CommentsController < Api::BaseController
   protect(:update, :destroy, :make_visible, :hide) { can? :manage, @comment }
 
   def index
-    query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id], limit: 9999)
+    query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id], limit: 200)
     comments_data = query.results.map { |c| comment_data(c) }
     json_success comments_data
   end
