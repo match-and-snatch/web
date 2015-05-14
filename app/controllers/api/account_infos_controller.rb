@@ -40,6 +40,7 @@ class Api::AccountInfosController < Api::BaseController
   def billing_information_data(subscriptions: [], contributions: [])
     {
       subscriptions: {
+        show_failed_column: subscriptions.show_failed_column?,
         active: subscriptions.active.map do |subscription|
           {
             id: subscription.id,
@@ -51,7 +52,6 @@ class Api::AccountInfosController < Api::BaseController
           {
             id: subscription.id,
             canceled_at: subscription.canceled_at.to_s(:long),
-            show_failed_column: subscription.show_failed_column?,
             removed: subscription.removed?,
             rejected: subscription.rejected?,
             target_user: target_user_data(subscription.target_user)

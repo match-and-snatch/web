@@ -22,6 +22,7 @@ class Api::SessionsController < Api::BaseController
       account_number: user.account_number,
       stripe_user_id: user.stripe_user_id,
       stripe_card_id: user.stripe_card_id,
+      has_cc_payment_account: user.has_cc_payment_account?,
       last_four_cc_numbers: user.last_four_cc_numbers,
       card_type: user.card_type,
       profile_picture_url: user.profile_picture_url,

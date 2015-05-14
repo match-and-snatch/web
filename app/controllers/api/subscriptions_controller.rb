@@ -3,7 +3,7 @@ class Api::SubscriptionsController < Api::BaseController
   before_action :filter_card_params, only: [:via_register, :via_update_cc_data]
   before_action :load_subscription!, only: [:enable_notifications, :disable_notifications]
 
-  protect(:create) { current_user.authorized? } # TODO (DJ): FIX IT
+  protect(:create, :via_update_cc_data) { current_user.authorized? } # TODO (DJ): FIX IT
 
   def index
     @subscriptions = current_user.object.subscriptions.
@@ -35,7 +35,6 @@ class Api::SubscriptionsController < Api::BaseController
   end
 
   def via_register
-    user = {}
     SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
       manager.register_subscribe_and_pay target:       @target_user,
                                          email:        params[:email],
@@ -50,9 +49,8 @@ class Api::SubscriptionsController < Api::BaseController
                                          address_line_1: params[:address_line_1],
                                          address_line_2: params[:address_line_2],
                                          state:          params[:state]
-      user = session_manager.login(params[:email], params[:password], use_api_token: true)
     end
-    json_success({ api_token: user.api_token })
+    json_success
   end
 
   def enable_notifications

@@ -78,7 +78,8 @@ class Api::UsersController < Api::BaseController
     {
       access: {
         owner: current_user == user,
-        subscribed: current_user.subscribed_to?(user)
+        subscribed: current_user.subscribed_to?(user),
+        billing_failed: current_user.billing_failed?
       },
       name: user.name,
       slug: user.slug,
