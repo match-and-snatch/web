@@ -81,6 +81,7 @@ class Api::UsersController < Api::BaseController
         subscribed: current_user.subscribed_to?(user),
         billing_failed: current_user.billing_failed?
       },
+      id: user.id,
       name: user.name,
       slug: user.slug,
       types: user.profile_types.order(:ordering).map(&:title),
@@ -91,6 +92,9 @@ class Api::UsersController < Api::BaseController
       small_profile_picture_url: user.small_profile_picture_url,
       cover_picture_url: user.cover_picture_url,
       cover_picture_position: user.cover_picture_position,
+      downloads_enabled: user.downloads_enabled?,
+      itunes_enabled: user.itunes_enabled?,
+      rss_enabled: user.rss_enabled?,
       api_token: user.api_token,
       welcome_media: {
         welcome_audio: welcome_media_data(user.welcome_audio),
