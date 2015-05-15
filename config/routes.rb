@@ -206,6 +206,7 @@ BuddyPlatform::Application.routes.draw do
   end
   resources :photos, only: [:show, :create, :destroy]
   resources :documents, only: [:create, :destroy]
+  resources :pending_video_previews, only: [:create, :destroy]
 
   resources :users, only: [:index, :create, :edit, :update] do
     collection do

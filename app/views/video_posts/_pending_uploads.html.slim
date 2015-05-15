@@ -1,11 +1,21 @@
 div data-identifier='pending-videos'
   .pending_video
     .added_video
-      ul.video_bg
-        - current_user.pending_videos.each do |upload|
-          li
-            img src=upload.preview_url
-            a.delete_button.fa.fa-times.AjaxFormLink href=video_path(upload) data-_method='DELETE' data-target='pending-videos'
+      - if current_user.pending_video.blank?
+        .video_bg_preupload
+      - else
+        - current_user.pending_video.tap do |upload|
+          .heading Please select a thumbnail below or upload a custom image
+          ul.video_bg
+            - current_user.object.pending_video_preview_photos(true).first(2).each do |preview|
+              li
+                - if current_user.pending_video_previews.first == preview
+                  input.ValueSetter data-target='video-preview-url' type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url checked='checked'
+                - else
+                  input.ValueSetter data-target='video-preview-url' type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url
+                label for='pending_video_preview#{preview.id}'
+                  img src=preview.url
+            = render 'pending_video_previews/preview'
       .clearfix
       span.supported_files
         | What file extensions are supported?

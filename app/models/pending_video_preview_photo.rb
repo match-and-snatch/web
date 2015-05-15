@@ -1,0 +1,2 @@
+class PendingVideoPreviewPhoto < Photo
+end
