@@ -155,6 +155,9 @@
     height: 70px
     margin: 0 15px
     position: relative
+    .neal,
+    .bus,
+    .lights,
     .tagline,
     .alex,
     .soulja,
@@ -164,6 +167,18 @@
       position: absolute
       bottom: 0
       left: 0
+    .neal
+      height: 121px
+      width: 120px
+      z-index: 1
+    .bus
+      height: 90px
+      width: 200px
+      z-index: 0
+      -webkit-transition: 1s ease-in-out
+      -moz-transition: 1s ease-in-out
+      -o-transition: 1s ease-in-out
+      transition: 1s ease-in-out
     .alex
       height: 126px
       width: 288px
@@ -237,10 +252,16 @@
 @media screen and (min-width: 768px)
   .featured_profile
     .btn.black
+      .neal
+        left: 45px
+      .bus
+        left: 95px
       .tagline
         font-size: 18px
         bottom: 23px
         left: 325px
+        &.neal_text
+          left: 355px
         &.alex_text
           left: 365px
         &.soulja_text
@@ -255,6 +276,10 @@
 @media screen and (min-width: 991px)
   .featured_profile
     .btn.black
+      .neal
+        left: 65px
+      .bus
+        left: 115px
       .tagline
         font-size: 30px
         bottom: 13px
