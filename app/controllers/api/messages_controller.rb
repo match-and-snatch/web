@@ -3,8 +3,6 @@ class Api::MessagesController < Api::BaseController
 
   before_action :load_target_user!
 
-  protect { can? :send_message_to, @target_user }
-
   def create
     @message = MessagesManager.new(user: current_user.object).
         create(target_user: @target_user, message: params[:message])
@@ -14,7 +12,8 @@ class Api::MessagesController < Api::BaseController
   private
 
   def load_target_user!
-    @target_user = User.where(slug: params[:user_id]).first or error(404)
+    t = User.arel_table
+    @target_user = User.where(t[:id].eq(params[:user_id]).or(t[:slug].eq(params[:user_id]))).first or error(404)
   end
 
   def message_data(message)
