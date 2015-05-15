@@ -94,6 +94,12 @@ BuddyPlatform::Application.routes.draw do
 
     resources :profile_types, only: [:index, :create, :destroy]
 
+    resource :password, only: [:edit, :update] do
+      member do
+        post :restore
+      end
+    end
+
     resource :profile_info, only: [] do
       member do
         get :settings
