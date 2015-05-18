@@ -42,4 +42,8 @@ class Api::BaseController < ActionController::Base
     authenticate_with_http_token { |t, _| @token = t }
     @token
   end
+
+  def api_response
+    @api_response ||= ApiResponsePresenter.new
+  end
 end

@@ -1,9 +1,10 @@
 class Api::SubscriptionsController < Api::BaseController
   before_action :load_owner!, only: [:create, :via_register, :via_update_cc_data]
   before_action :filter_card_params, only: [:via_register, :via_update_cc_data]
-  before_action :load_subscription!, only: [:enable_notifications, :disable_notifications]
+  before_action :load_subscription!, only: [:enable_notifications, :disable_notifications, :destroy, :restore]
 
   protect(:create, :via_update_cc_data) { current_user.authorized? } # TODO (DJ): FIX IT
+  protect(:destroy) { can? :delete, @subscription }
 
   def index
     @subscriptions = current_user.object.subscriptions.
@@ -61,6 +62,20 @@ class Api::SubscriptionsController < Api::BaseController
   def disable_notifications
     SubscriptionManager.new(subscription: @subscription).disable_notifications
     json_success
+  end
+
+  def destroy
+    SubscriptionManager.new(subscription: @subscription).unsubscribe
+    notice(:subscription_cancelled, profile_name: @subscription.target_user.profile_name)
+    json_success api_response.subscription_data(@subscription)
+  end
+
+  def restore
+    SubscriptionManager.new(subscription: @subscription).restore
+    notice(:restored_subscription)
+    json_success api_response.subscription_data(@subscription)
+  rescue ManagerError
+    json_fail notice: :failed_to_restore_subscription
   end
 
   private

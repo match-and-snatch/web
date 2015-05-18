@@ -40,4 +40,20 @@ describe Api::SubscriptionsController, type: :controller do
       it { should be_success }
     end
   end
+
+  describe 'PUT #enable_notifications' do
+    pending
+  end
+
+  describe 'PUT #disable_notifications' do
+    pending
+  end
+
+  describe 'PUT #restore' do
+    pending
+  end
+
+  describe 'DELETE #destroy' do
+    pending
+  end
 end

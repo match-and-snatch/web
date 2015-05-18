@@ -29,10 +29,11 @@ BuddyPlatform::Application.routes.draw do
       end
     end
 
-    resources :subscriptions, only: [:index] do
+    resources :subscriptions, only: [:index, :destroy] do
       member do
         put :enable_notifications
         put :disable_notifications
+        put :restore
       end
     end
 

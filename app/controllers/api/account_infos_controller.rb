@@ -13,7 +13,7 @@ class Api::AccountInfosController < Api::BaseController
   def billing_information
     @subscriptions = SubscriptionsPresenter.new(user: @user)
     @contributions = Contribution.where(user_id: @user.id, recurring: true).limit(200)
-    json_success billing_information_data(subscriptions: @subscriptions, contributions: @contributions)
+    json_success api_response.billing_information_data(subscriptions: @subscriptions, contributions: @contributions)
   end
 
   def update_account_picture
@@ -35,47 +35,6 @@ class Api::AccountInfosController < Api::BaseController
 
   def respond_with_settings_data
     json_success settings_data(@user)
-  end
-
-  def billing_information_data(subscriptions: [], contributions: [])
-    {
-      subscriptions: {
-        show_failed_column: subscriptions.show_failed_column?,
-        active: subscriptions.active.map do |subscription|
-          {
-            id: subscription.id,
-            billing_date: subscription.billing_date.to_s(:long),
-            target_user: target_user_data(subscription.target_user)
-          }
-        end,
-        canceled: subscriptions.canceled.map do |subscription|
-          {
-            id: subscription.id,
-            canceled_at: subscription.canceled_at.to_s(:long),
-            removed: subscription.removed?,
-            rejected: subscription.rejected?,
-            target_user: target_user_data(subscription.target_user)
-          }
-        end
-      },
-      contributions: contributions.map do |contribution|
-        {
-          id: contribution.id,
-          target_user: target_user_data(contribution.target_user),
-          next_billing_date: contribution.next_billing_date.to_s(:long)
-        }
-      end
-    }
-  end
-
-  def target_user_data(user)
-    {
-      id: user.id,
-      slug: user.slug,
-      name: user.name,
-      is_profile_owner: user.is_profile_owner?,
-      vacation_enabled: user.vacation_enabled?
-    }
   end
 
   def settings_data(user)
