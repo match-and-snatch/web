@@ -61,10 +61,7 @@ class ApiResponsePresenter
       message: post.message,
       created_at: time_ago_in_words(post.created_at),
       uploads: post_uploads_data(post),
-      user: {
-        id: post.user.id,
-        small_profile_picture_url: post.user.small_profile_picture_url
-      },
+      user: user_data(post.user),
       likes: post.likers_data.merge(liked: current_user.likes?(post))
     }
   end
@@ -126,6 +123,23 @@ class ApiResponsePresenter
   end
 
   private
+
+  def user_data(user)
+    {
+      id: user.id,
+      name: user.name,
+      subscription_cost: user.subscription_cost,
+      cost: user.cost,
+      profile_picture_url: user.profile_picture_url,
+      small_profile_picture_url: user.small_profile_picture_url,
+      cover_picture_url: user.cover_picture_url,
+      cover_picture_position: user.cover_picture_position,
+      downloads_enabled: user.downloads_enabled?,
+      itunes_enabled: user.itunes_enabled?,
+      rss_enabled: user.rss_enabled?,
+      vacation_enabled: user.vacation_enabled?
+    }
+  end
 
   def target_user_data(user)
     {
