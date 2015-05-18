@@ -1,4 +1,13 @@
 class ApiResponsePresenter
+  include ActionView::Helpers::DateHelper
+  include Rails.application.routes.url_helpers
+
+  attr_reader :current_user
+
+  def initialize(current_user)
+    @current_user = current_user
+  end
+
   def billing_information_data(subscriptions: [], contributions: [])
     {
       subscriptions: {
@@ -27,6 +36,97 @@ class ApiResponsePresenter
     }
   end
 
+  def subscriptions_data(subscriptions = [])
+    subscriptions.map do |subscription|
+      {
+        id: subscription.id,
+        cost: subscription.total_cost,
+        notifications_enabled: subscription.notifications_enabled,
+        created_at: subscription.created_at.to_date.to_s(:long),
+        user: {
+          profile_owner: subscription.target_user.is_profile_owner?,
+          slug: subscription.target_user.slug,
+          name: subscription.target_user.name,
+          picture_url: subscription.target_user.profile_picture_url
+        }
+      }
+    end
+  end
+
+  def post_data(post)
+    {
+      id: post.id,
+      type: post.type,
+      title: post.title,
+      message: post.message,
+      created_at: time_ago_in_words(post.created_at),
+      uploads: post_uploads_data(post),
+      user: {
+        id: post.user.id,
+        small_profile_picture_url: post.user.small_profile_picture_url
+      },
+      likes: post.likers_data.merge(liked: current_user.likes?(post))
+    }
+  end
+
+  def comment_data(comment)
+    {
+      id: comment.id,
+      message: comment.message,
+      created_at: time_ago_in_words(comment.created_at),
+      hidden: comment.hidden,
+      mentions: comment.mentions,
+      access: {
+        owner: current_user == comment.user,
+        post_owner: current_user == comment.post_user
+      },
+      user: {
+        slug: comment.user.slug,
+        name: comment.user.name,
+        picture_url: comment.user.comment_picture_url,
+        has_profile: comment.user.has_profile_page?
+      },
+      replies: comment.replies.map { |r| comment_data(r) },
+      likes: comment.likers_data.merge(liked: current_user.likes?(comment))
+    }
+  end
+
+  def dialogue_data(dialogue)
+    antiuser = dialogue.antiuser(current_user.object)
+    {
+      id: dialogue.id,
+      antiuser: {
+        id: antiuser.id,
+        name: antiuser.name,
+        slug: antiuser.slug,
+        picture_url: antiuser.comment_picture_url,
+        has_complete_profile: antiuser.has_complete_profile
+      },
+      recent_message: dialogue.recent_message.message,
+      recent_message_at: time_ago_in_words(dialogue.recent_message_at),
+      recent_message_contribution: dialogue.recent_message.contribution.present?,
+      recent_mesasge_sent_by_me: dialogue.recent_message.user == current_user.object,
+      unread: dialogue.unread?
+    }
+  end
+
+  def messages_data(messages = [])
+    messages.recent.map do |message|
+      {
+        id: message.id,
+        created_at: time_ago_in_words(message.created_at),
+        message: message.message,
+        contribution: message.contribution.present?,
+        user: {
+          name: message.user.name,
+          picture_url: message.user.comment_picture_url
+        }
+      }
+    end
+  end
+
+  private
+
   def target_user_data(user)
     {
       id: user.id,
@@ -35,5 +135,29 @@ class ApiResponsePresenter
       is_profile_owner: user.is_profile_owner?,
       vacation_enabled: user.vacation_enabled?
     }
+  end
+
+  def post_uploads_data(post)
+    post.uploads.map do |upload|
+      common_data = {
+        id: upload.id,
+        filename: upload.filename,
+        file_url: upload.rtmp_path,
+        preview_url: upload.preview_url,
+        original_url: upload.original_url
+      }
+      video_data = if upload.video?
+                     playlist_url = if upload.low_quality_playlist_url
+                                      playlist_video_url(upload.id, format: 'm3u8', host: 'https://www.connectpal.com')
+                                    end
+                     {
+                       hdfile_url:   upload.hd_rtmp_path,
+                       playlist_url: playlist_url
+                     }
+                   else
+                     {}
+                   end
+      common_data.merge(video_data)
+    end
   end
 end

@@ -44,6 +44,6 @@ class Api::BaseController < ActionController::Base
   end
 
   def api_response
-    @api_response ||= ApiResponsePresenter.new
+    @api_response ||= ApiResponsePresenter.new(current_user)
   end
 end

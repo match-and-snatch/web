@@ -11,7 +11,7 @@ class Api::SubscriptionsController < Api::BaseController
         where(removed: false).
         where("rejected_at is NULL OR rejected_at > ?", 1.month.ago).
         joins(:target_user)
-    json_success subscriptions_data(@subscriptions)
+    json_success api_response.subscriptions_data(@subscriptions)
   end
 
   def create
@@ -93,23 +93,6 @@ class Api::SubscriptionsController < Api::BaseController
       month, year = params[:expiry_date].split(/\s*\/\s*/)
       params[:expiry_month] = month
       params[:expiry_year] = year
-    end
-  end
-
-  def subscriptions_data(subscriptions = [])
-    subscriptions.map do |subscription|
-      {
-        id: subscription.id,
-        cost: subscription.total_cost,
-        notifications_enabled: subscription.notifications_enabled,
-        created_at: subscription.created_at,
-        user: {
-            profile_owner: subscription.target_user.is_profile_owner?,
-            slug: subscription.target_user.slug,
-            name: subscription.target_user.name,
-            picture_url: subscription.target_user.profile_picture_url
-        }
-      }
     end
   end
 end

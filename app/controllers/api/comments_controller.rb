@@ -7,19 +7,19 @@ class Api::CommentsController < Api::BaseController
 
   def index
     query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id], limit: 200)
-    comments_data = query.results.map { |c| comment_data(c) }
+    comments_data = query.results.map { |c| api_response.comment_data(c) }
     json_success comments_data
   end
 
   def create
     comment = CommentManager.new(user: current_user.object, post: @post).create(params.slice(:message, :mentions))
-    json_success comment_data(comment)
+    json_success api_response.comment_data(comment)
   end
 
   def update
     @comment.update_attributes(params.slice(:message, :mentions))
     EventsManager.comment_updated(user: current_user.object, comment: @comment)
-    json_success comment_data(@comment)
+    json_success api_response.comment_data(@comment)
   end
 
   def destroy
@@ -30,37 +30,15 @@ class Api::CommentsController < Api::BaseController
 
   def make_visible
     comment = CommentManager.new(user: current_user.object, comment: @comment).show
-    json_success comment_data(comment)
+    json_success api_response.comment_data(comment)
   end
 
   def hide
     comment = CommentManager.new(user: current_user.object, comment: @comment).hide
-    json_success comment_data(comment)
+    json_success api_response.comment_data(comment)
   end
 
   private
-
-  def comment_data(comment)
-    {
-      id: comment.id,
-      message: comment.message,
-      created_at: comment.created_at,
-      hidden: comment.hidden,
-      mentions: comment.mentions,
-      access: {
-        owner: current_user == comment.user,
-        post_owner: current_user == comment.post_user
-      },
-      user: {
-        slug: comment.user.slug,
-        name: comment.user.name,
-        picture_url: comment.user.comment_picture_url,
-        has_profile: comment.user.has_profile_page?
-      },
-      replies: comment.replies.map { |r| comment_data(r) },
-      likes: comment.likers_data.merge(liked: current_user.likes?(comment))
-    }
-  end
 
   def post
     @post || comment.post
