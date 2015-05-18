@@ -19,6 +19,10 @@ class Api::ProfileInfosController < Api::BaseController
   def settings
     respond_with_settings_data
   end
+
+  def details
+    json_success api_response.profile_details_data
+  end
   
   def update_bank_account_data
     manager.update_payment_information(params.slice(:holder_name, :routing_number, :account_number))

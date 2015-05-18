@@ -7,11 +7,6 @@ class Api::ContributionsController < Api::BaseController
   protect(:create) { can? :make, Contribution.new(target_user: @target_user) }
   protect(:destroy) { can? :delete, @contribution }
 
-  def index
-    @contributions = Contribution.where(target_user_id: current_user.id)
-    json_success contributions_data(@contributions)
-  end
-
   def create
     if params[:amount].to_i.zero?
       amount = params[:custom_amount].to_i * 100
@@ -29,22 +24,6 @@ class Api::ContributionsController < Api::BaseController
   end
 
   private
-
-  def contributions_data(contributions = [])
-    data = { present: contributions.any? }
-    if contributions.any?
-      data[:total_amount] = contributions.total_amount
-      data[:contributions] = []
-      contributions.each_year_month do |year_month, contributions|
-        data[:contributions] << {
-          date: year_month.to_s,
-          count: contributions.count,
-          amount: contributions.sum(&:amount)
-        }
-      end
-    end
-    data
-  end
 
   def load_target_user!
     @target_user = User.where(slug: params[:target_user_id]).first or error(400)

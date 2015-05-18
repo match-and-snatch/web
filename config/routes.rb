@@ -90,8 +90,7 @@ BuddyPlatform::Application.routes.draw do
     resources :messages, only: [:create]
     resources :dialogues, only: [:index, :show, :destroy]
 
-    resources :contributions, only: [:index, :create, :destroy]
-    resources :contributors, only: [:index]
+    resources :contributions, only: [:create, :destroy]
 
     resources :profile_types, only: [:index, :create, :destroy]
 
@@ -104,6 +103,7 @@ BuddyPlatform::Application.routes.draw do
     resource :profile_info, only: [] do
       member do
         get :settings
+        get :details
         post :create_profile
         put :update_bank_account_data
         put :enable_rss

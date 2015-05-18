@@ -122,7 +122,32 @@ class ApiResponsePresenter
     end
   end
 
+  def profile_details_data
+    user = UserStatsDecorator.new(current_user)
+    {
+      subscribers_count: user.subscriptions_count,
+      monthly_earnings: user.monthly_earnings,
+      contributions: contributions_data
+    }
+  end
+
   private
+
+  def contributions_data
+    { total_amount: 0, contributions: [] }.tap do |data|
+      contributions = Contribution.where(target_user_id: current_user.id)
+      if contributions.any?
+        data[:total_amount] = contributions.total_amount
+        data[:contributions].concat(contributions.each_year_month.map do |year_month, contributions|
+          {
+            date: year_month.to_s,
+            count: contributions.count,
+            amount: contributions.sum(&:amount)
+          }
+        end)
+      end
+    end
+  end
 
   def user_data(user)
     {
