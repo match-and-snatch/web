@@ -101,7 +101,8 @@ class Api::UsersController < Api::BaseController
       welcome_media: {
         welcome_audio: welcome_media_data(user.welcome_audio),
         welcome_video: welcome_media_data(user.welcome_video)
-      }
+      },
+      dialogue_id: user.dialogues.by_user(current_user.object).first.try(:id)
     }
   end
 

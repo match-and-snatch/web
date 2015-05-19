@@ -6,7 +6,7 @@ class Api::MessagesController < Api::BaseController
   def create
     @message = MessagesManager.new(user: current_user.object).
         create(target_user: @target_user, message: params[:message])
-    json_success message_data(@message)
+    json_success api_response.message_data(@message)
   end
 
   private
@@ -14,18 +14,5 @@ class Api::MessagesController < Api::BaseController
   def load_target_user!
     t = User.arel_table
     @target_user = User.where(t[:id].eq(params[:user_id]).or(t[:slug].eq(params[:user_id]))).first or error(404)
-  end
-
-  def message_data(message)
-    {
-      id: message.id,
-      created_at: message.created_at,
-      message: message.message,
-      contribution: message.contribution.present?,
-      user: {
-        name: message.user.name,
-        picture_url: message.user.comment_picture_url
-      }
-    }
   end
 end

@@ -99,27 +99,27 @@ class ApiResponsePresenter
         picture_url: antiuser.comment_picture_url,
         has_complete_profile: antiuser.has_complete_profile
       },
-      recent_message: dialogue.recent_message.message,
-      recent_message_at: time_ago_in_words(dialogue.recent_message_at),
-      recent_message_contribution: dialogue.recent_message.contribution.present?,
-      recent_mesasge_sent_by_me: dialogue.recent_message.user == current_user.object,
-      unread: dialogue.unread?
+      recent_message: message_data(dialogue.recent_message),
+      unread: dialogue.unread? && dialogue.recent_message.user != current_user.object
     }
   end
 
   def messages_data(messages = [])
-    messages.recent.map do |message|
-      {
-        id: message.id,
-        created_at: time_ago_in_words(message.created_at),
-        message: message.message,
-        contribution: message.contribution.present?,
-        user: {
-          name: message.user.name,
-          picture_url: message.user.comment_picture_url
-        }
+    messages.recent.map { |message| message_data(message) }
+  end
+
+  def message_data(message)
+    {
+      id: message.id,
+      created_at: time_ago_in_words(message.created_at),
+      message: message.message,
+      dialogue_id: message.dialogue_id,
+      contribution: contribution_data(message.contribution),
+      user: {
+        name: message.user.name,
+        picture_url: message.user.comment_picture_url
       }
-    end
+    }
   end
 
   def profile_details_data
@@ -145,6 +145,15 @@ class ApiResponsePresenter
             amount: contributions.sum(&:amount)
           }
         end)
+      end
+    end
+  end
+
+  def contribution_data(contribution = nil)
+    {}.tap do |data|
+      if contribution
+        data[:recuring] = contribution.recurring?
+        data[:amount] = contribution.amount
       end
     end
   end
