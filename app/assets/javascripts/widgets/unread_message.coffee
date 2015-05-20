@@ -4,6 +4,6 @@ class bud.widgets.UnreadMessage extends bud.Widget
   initialize: ->
     unless @$container.hasClass('read')
       @target = @get_target()
-      @count = parseInt(@target.html()) - 1
+      @count = Math.max(parseInt(@target.html()) - 1, 0)
       @target.html(@count)
       @$container.addClass('read')
