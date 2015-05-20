@@ -26,7 +26,7 @@ class BillingPeriodsPresenter
 
     result = [(first_month_date..last_month_date)]
 
-    while first_month_date.month != Time.zone.now.month
+    while first_month_date.month != Time.zone.now.month && first_month_date.year != Time.zone.now.year
       first_month_date += 1.month
       last_month_date = first_month_date.end_of_month
       result << (first_month_date..last_month_date)
