@@ -192,7 +192,8 @@ class ApiResponsePresenter
         filename: upload.filename,
         file_url: upload.rtmp_path,
         preview_url: upload.preview_url,
-        original_url: upload.original_url
+        original_url: upload.original_url,
+        url: upload.url
       }
       video_data = if upload.video?
                      playlist_url = if upload.low_quality_playlist_url
