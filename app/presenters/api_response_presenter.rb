@@ -60,7 +60,7 @@ class ApiResponsePresenter
       title: post.title,
       message: post.message,
       created_at: time_ago_in_words(post.created_at),
-      uploads: post_uploads_data(post),
+      uploads: post.uploads.map { |upload| upload_data(upload) },
       user: user_data(post.user),
       likes: post.likers_data.merge(liked: current_user.likes?(post))
     }
@@ -131,6 +131,40 @@ class ApiResponsePresenter
     }
   end
 
+  def profile_settings_data(user)
+    {
+      cost: user.cost,
+      payout_info: {
+        holder_name: user.holder_name,
+        routing_number: user.routing_number,
+        account_number: user.account_number,
+        prefer_paypal: user.prefers_paypal?,
+        paypal_email: user.paypal_email
+      },
+      display_settings: {
+        itunes_enabled: user.itunes_enabled,
+        rss_enabled: user.rss_enabled,
+        downloads_enabled: user.downloads_enabled,
+        contributions_enabled: user.contributions_enabled
+      },
+      profile_info: {
+        profile_name: user.profile_name,
+        vacation_enabled: user.vacation_enabled
+      },
+      benefits: user.benefits.order(:ordering).pluck(:message),
+      profile_types: user.profile_types.map do |profile_type|
+        {
+          id: profile_type.id,
+          title: profile_type.title
+        }
+      end,
+      welcome_media: {
+        welcome_audio: upload_data(user.welcome_audio),
+        welcome_video: upload_data(user.welcome_video)
+      }
+    }
+  end
+
   private
 
   def contributions_data
@@ -185,28 +219,21 @@ class ApiResponsePresenter
     }
   end
 
-  def post_uploads_data(post)
-    post.uploads.map do |upload|
-      common_data = {
-        id: upload.id,
-        filename: upload.filename,
-        file_url: upload.rtmp_path,
-        preview_url: upload.preview_url,
-        original_url: upload.original_url,
-        url: upload.url
-      }
-      video_data = if upload.video?
-                     playlist_url = if upload.low_quality_playlist_url
-                                      playlist_video_url(upload.id, format: 'm3u8', host: 'https://www.connectpal.com')
-                                    end
-                     {
-                       hdfile_url:   upload.hd_rtmp_path,
-                       playlist_url: playlist_url
-                     }
-                   else
-                     {}
-                   end
-      common_data.merge(video_data)
+  def upload_data(upload)
+    return {} unless upload
+
+    {
+      id: upload.id,
+      filename: upload.filename,
+      file_url: upload.rtmp_path,
+      preview_url: upload.preview_url,
+      original_url: upload.original_url,
+      url: upload.url
+    }.tap do |data|
+      if upload.video?
+        data[:hdfile_url] = upload.hd_rtmp_path
+        data[:playlist_url] = (upload.low_quality_playlist_url ? playlist_video_url(upload.id, format: 'm3u8', host: 'https://www.connectpal.com') : nil)
+      end
     end
   end
 end

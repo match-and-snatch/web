@@ -25,7 +25,7 @@ class Api::ProfileInfosController < Api::BaseController
   end
   
   def update_bank_account_data
-    manager.update_payment_information(params.slice(:holder_name, :routing_number, :account_number))
+    manager.update_payment_information params.slice(:holder_name, :routing_number, :account_number, :paypal_email).merge(prefer_paypal: params.bool(:prefer_paypal))
     respond_with_settings_data
   end
 
@@ -92,62 +92,7 @@ class Api::ProfileInfosController < Api::BaseController
   private
 
   def respond_with_settings_data
-    json_success settings_data(@user)
-  end
-
-  def settings_data(user)
-    {
-      cost: user.cost,
-      payout_info: {
-        holder_name: user.holder_name,
-        routing_number: user.routing_number,
-        account_number: user.account_number
-      },
-      display_settings: {
-        itunes_enabled: user.itunes_enabled,
-        rss_enabled: user.rss_enabled,
-        downloads_enabled: user.downloads_enabled,
-        contributions_enabled: user.contributions_enabled
-      },
-      profile_info: {
-        profile_name: user.profile_name,
-        vacation_enabled: user.vacation_enabled
-      },
-      benefits: user.benefits.order(:ordering).pluck(:message),
-      profile_types: user.profile_types.map do |profile_type|
-        {
-          id: profile_type.id,
-          title: profile_type.title
-        }
-      end,
-      welcome_media: {
-          welcome_audio: welcome_media_data(user.welcome_audio),
-          welcome_video: welcome_media_data(user.welcome_video)
-      }
-    }
-  end
-
-  def welcome_media_data(upload)
-    return {} unless upload
-
-    common_data = {
-        id: upload.id,
-        file_url: upload.rtmp_path,
-        preview_url: upload.preview_url,
-        original_url: upload.original_url
-    }
-    video_data = if upload.video?
-                   playlist_url = if upload.low_quality_playlist_url
-                                    playlist_video_url(upload.id, format: 'm3u8')
-                                  end
-                   {
-                       hdfile_url:   upload.hd_rtmp_path,
-                       playlist_url: playlist_url
-                   }
-                 else
-                   {}
-                 end
-    common_data.merge(video_data)
+    json_success api_response.profile_settings_data(@user)
   end
 
   def user_data(user)
