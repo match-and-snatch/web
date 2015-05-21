@@ -85,7 +85,7 @@ class PaymentManager < BaseManager
   # Pays for any random subscription on charge to check if billing fails
   # Changes billing status to "failed" if payment is not passed
   def perform_test_payment
-    subscription = user.subscriptions.on_charge.not_removed.first
+    subscription = user.subscriptions.to_charge.first
     pay_for(subscription) if subscription
   end
 end
