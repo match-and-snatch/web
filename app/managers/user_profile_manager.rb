@@ -145,7 +145,7 @@ class UserProfileManager < BaseManager
 
     validate! do
       if prefer_paypal
-        validate_email(paypal_email, check_if_taken: false)
+        validate_email(paypal_email, check_if_taken: false, field_name: :paypal_email)
       else
         fail_with holder_name: :empty if holder_name.blank?
 
