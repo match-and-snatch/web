@@ -2,16 +2,17 @@ require 'spec_helper'
 
 describe Api::UsersController, type: :controller do
   describe 'GET #search' do
-    before { create_profile_owner first_name: 'sergei', last_name: 'zinin', is_profile_owner: true, profile_name: 'serge zinin', cost: '123.0' }
-    before { create_profile_owner first_name: 'serge', last_name: 'zeenin', email: 'serge@zee.ru', is_profile_owner: true }
-    before { create_profile_owner first_name: 'dmitry', last_name: 'jakovlev', email: 'dimka@jak.com', is_profile_owner: true }
+    let(:user_one) { create_profile_owner first_name: 'sergei', last_name: 'zinin', is_profile_owner: true, profile_name: 'serge zinin', cost: '123.0' }
+    let(:user_two) { create_profile_owner first_name: 'serge', last_name: 'zeenin', email: 'serge@zee.ru', is_profile_owner: true }
+    let(:user_three) { create_profile_owner first_name: 'dmitry', last_name: 'jakovlev', email: 'dimka@jak.com', is_profile_owner: true }
 
     subject { get 'search', q: 'serge zi' }
 
     specify do
       expect(JSON.parse(subject.body)).to include("data" => [
         {
-          "access"=>{"owner"=>false, "subscribed"=>false},
+          "access"=>{"owner"=>false, "subscribed"=>false, "billing_failed"=>false},
+          "id" => user_one.id,
           "name"=>"serge zinin",
           "slug"=>"sergeizinin",
           "types"=>[],
@@ -22,10 +23,18 @@ describe Api::UsersController, type: :controller do
           "small_profile_picture_url"=>nil,
           "cover_picture_url"=>nil,
           "cover_picture_position"=>0,
+          "downloads_enabled" => true,
+          "itunes_enabled" => true,
+          "rss_enabled" => false,
           "api_token"=>nil,
-          "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}}},
+          "vacation_enabled" => false,
+          "vacation_message" => nil,
+          "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
+          "dialogue_id"=>nil
+        },
         {
-          "access"=>{"owner"=>false, "subscribed"=>false},
+          "access"=>{"owner"=>false, "subscribed"=>false, "billing_failed"=>false},
+          "id" => user_two.id,
           "name"=>"test",
           "slug"=>"sergezeenin",
           "types"=>[],
@@ -36,8 +45,14 @@ describe Api::UsersController, type: :controller do
           "small_profile_picture_url"=>nil,
           "cover_picture_url"=>nil,
           "cover_picture_position"=>0,
+          "downloads_enabled" => true,
+          "itunes_enabled" => true,
+          "rss_enabled" => false,
           "api_token"=>nil,
-          "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}}
+          "vacation_enabled" => false,
+          "vacation_message" => nil,
+          "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
+          "dialogue_id"=>nil
         }
       ])
     end
@@ -55,19 +70,26 @@ describe Api::UsersController, type: :controller do
       it { expect { subject }.to change { user.reload.name }.to 'serezha' }
       it { expect(JSON.parse(subject.body)).to include({"data" =>
                                                             {
-                                                                "access" => {"owner" => true, "subscribed" => false},
+                                                                "access" => {"owner" => true, "subscribed" => false, "billing_failed" => false},
+                                                                "id" => user.id,
                                                                 "name" => "serezha",
                                                                 "slug" => "sergeizinin",
                                                                 "types" => [],
                                                                 "benefits" => [],
-                                                                "subscription_cost" => 2199,
+                                                                "subscription_cost" => 2300,
                                                                 "cost" => 2000,
                                                                 "profile_picture_url" => "set",
                                                                 "small_profile_picture_url"=>nil,
                                                                 "cover_picture_url" => nil,
                                                                 "cover_picture_position" => 0,
+                                                                "downloads_enabled" => true,
+                                                                "itunes_enabled" => true,
+                                                                "rss_enabled" => false,
                                                                 "api_token"=>"set",
-                                                                "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}}
+                                                                "vacation_enabled" => false,
+                                                                "vacation_message" => nil,
+                                                                "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
+                                                                "dialogue_id"=>nil
                                                             }
                                                        })
       }

@@ -105,6 +105,7 @@ BuddyPlatform::Application.routes.draw do
         get :settings
         get :details
         post :create_profile
+        put :create_profile_page
         put :update_bank_account_data
         put :enable_rss
         put :disable_rss

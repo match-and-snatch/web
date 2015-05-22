@@ -8,6 +8,73 @@ class ApiResponsePresenter
     @current_user = current_user
   end
 
+  def current_user_data(user)
+    {
+      id: user.id,
+      slug: user.slug,
+      email: user.email,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+      full_name: user.full_name,
+      holder_name: user.holder_name,
+      routing_number: user.routing_number,
+      account_number: user.account_number,
+      stripe_user_id: user.stripe_user_id,
+      stripe_card_id: user.stripe_card_id,
+      has_cc_payment_account: user.has_cc_payment_account?,
+      last_four_cc_numbers: user.last_four_cc_numbers,
+      card_type: user.card_type,
+      profile_picture_url: user.profile_picture_url,
+      small_profile_picture_url: user.small_profile_picture_url,
+      original_profile_picture_url: user.original_profile_picture_url,
+      cover_picture_url: user.cover_picture_url,
+      original_cover_picture_url: user.original_cover_picture_url,
+      cover_picture_position: user.cover_picture_position,
+      is_profile_owner: user.is_profile_owner?,
+      has_complete_profile: user.has_complete_profile?,
+      has_public_profile: user.has_public_profile?,
+      has_profile_page: user.has_profile_page?,
+      complete_profile: user.complete_profile?,
+      profile_disabled: user.profile_disabled?,
+      profile_enabled: user.profile_enabled?,
+      passed_profile_steps: user.passed_profile_steps?,
+      profile_name: user.profile_name,
+      is_admin: user.is_admin,
+      contacts_info: user.contacts_info,
+      cost: user.cost,
+      subscription_fees: user.subscription_fees,
+      subscription_cost: user.subscription_cost,
+      cost_changed_at: user.cost_changed_at,
+      company_name: user.company_name,
+      account_picture_url: user.account_picture_url,
+      small_account_picture_url: user.small_account_picture_url,
+      original_account_picture_url: user.original_account_picture_url,
+      comment_picture_url: user.comment_picture_url,
+      activated: user.activated,
+      rss_enabled: user.rss_enabled,
+      downloads_enabled: user.downloads_enabled,
+      itunes_enabled: user.itunes_enabled,
+      profile_types_text: user.profile_types_text,
+      subscribers_count: user.subscribers_count,
+      billing_failed: user.billing_failed,
+      billing_failed_at: user.billing_failed_at,
+      stripe_recipient_id: user.stripe_recipient_id,
+      vacation_enabled: user.vacation_enabled,
+      vacation_message: user.vacation_message,
+      vacation_enabled_at: user.vacation_enabled_at,
+      last_visited_profile_id: user.last_visited_profile_id,
+      billing_address_city: user.billing_address_city,
+      billing_address_state: user.billing_address_state,
+      billing_address_zip: user.billing_address_zip,
+      billing_address_line_1: user.billing_address_line_1,
+      billing_address_line_2: user.billing_address_line_2,
+      contributions_enabled: user.contributions_enabled,
+      registration_token: user.registration_token,
+      auth_token: user.auth_token,
+      api_token: user.api_token
+    }
+  end
+
   def billing_information_data(subscriptions: [], contributions: [])
     {
       subscriptions: {
@@ -97,7 +164,7 @@ class ApiResponsePresenter
         name: antiuser.name,
         slug: antiuser.slug,
         picture_url: antiuser.comment_picture_url,
-        has_complete_profile: antiuser.has_complete_profile
+        has_profile_page: antiuser.has_profile_page?
       },
       recent_message: message_data(dialogue.recent_message),
       unread: dialogue.unread? && dialogue.recent_message.user != current_user.object
