@@ -85,7 +85,7 @@ class ApiResponsePresenter
       contributions: contributions.map do |contribution|
         {
           id: contribution.id,
-          target_user: target_user_data(contribution.target_user),
+          target_user: user_data(contribution.target_user),
           next_billing_date: contribution.next_billing_date.to_s(:long)
         }
       end
@@ -99,7 +99,7 @@ class ApiResponsePresenter
       canceled_at: subscription.canceled_at ? subscription.canceled_at.to_s(:long) : nil,
       removed: subscription.removed?,
       rejected: subscription.rejected?,
-      target_user: target_user_data(subscription.target_user)
+      target_user: user_data(subscription.target_user)
     }
   end
 
@@ -232,6 +232,38 @@ class ApiResponsePresenter
     }
   end
 
+  def user_data(user)
+    {
+      id: user.id,
+      slug: user.slug,
+      name: user.name,
+      subscription_cost: user.subscription_cost,
+      cost: user.cost,
+      profile_picture_url: user.profile_picture_url,
+      small_profile_picture_url: user.small_profile_picture_url,
+      cover_picture_url: user.cover_picture_url,
+      cover_picture_position: user.cover_picture_position,
+      downloads_enabled: user.downloads_enabled?,
+      itunes_enabled: user.itunes_enabled?,
+      rss_enabled: user.rss_enabled?,
+      is_profile_owner: user.is_profile_owner?,
+      vacation_enabled: user.vacation_enabled?
+    }
+  end
+
+  def profiles_list_data(top_users = [], users = {})
+    {
+      top_profiles: top_users.map do |user|
+        user_data(user).tap do |data|
+          data[:types] = user.profile_types.order(:ordering).map(&:title)
+        end
+      end,
+      profiles: users.each do |k, v|
+        users[k] = v.map { |user| user_data(user) }
+      end
+    }
+  end
+
   private
 
   def contributions_data
@@ -257,33 +289,6 @@ class ApiResponsePresenter
         data[:amount] = contribution.amount
       end
     end
-  end
-
-  def user_data(user)
-    {
-      id: user.id,
-      name: user.name,
-      subscription_cost: user.subscription_cost,
-      cost: user.cost,
-      profile_picture_url: user.profile_picture_url,
-      small_profile_picture_url: user.small_profile_picture_url,
-      cover_picture_url: user.cover_picture_url,
-      cover_picture_position: user.cover_picture_position,
-      downloads_enabled: user.downloads_enabled?,
-      itunes_enabled: user.itunes_enabled?,
-      rss_enabled: user.rss_enabled?,
-      vacation_enabled: user.vacation_enabled?
-    }
-  end
-
-  def target_user_data(user)
-    {
-      id: user.id,
-      slug: user.slug,
-      name: user.name,
-      is_profile_owner: user.is_profile_owner?,
-      vacation_enabled: user.vacation_enabled?
-    }
   end
 
   def upload_data(upload)

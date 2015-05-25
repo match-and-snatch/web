@@ -5,6 +5,12 @@ class Api::UsersController < Api::BaseController
 
   protect(:update_profile_name, :update_profile_picture, :update_cover_picture, :update_cost) { current_user == @user }
 
+  def index
+    top_users = User.top
+    users = Queries::Users.new(user: current_user).grouped_by_first_letter
+    json_success api_response.profiles_list_data(top_users, users)
+  end
+
   def search
     users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text
     json_success(users.map(&method(:user_data)))
