@@ -129,7 +129,8 @@ class ApiResponsePresenter
       created_at: time_ago_in_words(post.created_at),
       uploads: post.uploads.map { |upload| upload_data(upload) },
       user: user_data(post.user),
-      likes: post.likers_data.merge(liked: current_user.likes?(post))
+      likes: post.likers_data.merge(liked: current_user.likes?(post)),
+      comments_count: post.comments.count
     }
   end
 
