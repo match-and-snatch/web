@@ -64,6 +64,8 @@ BuddyPlatform::Application.routes.draw do
       delete :cancel, on: :collection
     end
 
+    resources :pending_video_previews, only: [:create, :destroy]
+
     resources :videos,    only: [:create, :destroy]
     resources :photos,    only: [:create, :destroy]
     resources :documents, only: [:create, :destroy]
