@@ -4,6 +4,7 @@ li.item_feed
   .clearfix
 
   .box
-    ' Bummer,
     = link_to_user event.target
-    |  is no longer subscribed to your profile.
+    '  had failed billing or deleted their account.  If the user had failed billling, a request was sent to
+    = link_to_user event.target
+    '  to update their billing information.
