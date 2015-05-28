@@ -45,7 +45,7 @@ class UploadManager < BaseManager
   def create_pending_video_previews(transloadit_data)
     transloadit_data['results']['full_size'] or fail_with! 'Invalid transloadit data'
 
-    bucket = Transloadit::Rails::Engine.configuration['templates']['post_video']['steps']['s3_thumb']['bucket']
+    bucket = Transloadit::Rails::Engine.configuration['_templates']['post_video']['steps']['s3_thumb']['bucket']
 
     transloadit_data['uploads'].each.map do |upload_data|
       original_id = upload_data['original_id']
@@ -80,7 +80,7 @@ class UploadManager < BaseManager
     transloadit_data['results']['full_size'] or fail_with! 'Invalid transloadit data'
 
     attributes = { uploadable_type: 'Post', uploadable_id: nil }
-    bucket = Transloadit::Rails::Engine.configuration['templates']['post_photo']['steps']['store']['bucket']
+    bucket = Transloadit::Rails::Engine.configuration['_templates']['post_photo']['steps']['store']['bucket']
 
     transloadit_data['uploads'].each.map do |upload_data|
       original_id = upload_data['original_id']
@@ -119,7 +119,7 @@ class UploadManager < BaseManager
     end
 
     attributes = { uploadable_type: 'Post', uploadable_id: nil }
-    bucket = Transloadit::Rails::Engine.configuration['templates']['post_document']['steps']['store']['bucket']
+    bucket = Transloadit::Rails::Engine.configuration['_templates']['post_document']['steps']['store']['bucket']
 
     transloadit_data['uploads'].each.map do |upload_data|
       original_id = upload_data['original_id']
@@ -162,10 +162,10 @@ class UploadManager < BaseManager
   # @param attributes [Hash] upload attributes
   # @return [Upload]
   def create_photo(transloadit_data, uploadable: user, template: 'post_photo', attributes: {})
-    bucket = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store']['bucket']
+    bucket = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['bucket']
 
     s3_paths = { bucket => [] }
-    Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store']['use'].each do |key|
+    Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['use'].each do |key|
       s3_paths[bucket] << { key: get_file_path(transloadit_data['results'][key][0]['ssl_url']) }
     end
 
@@ -208,8 +208,8 @@ class UploadManager < BaseManager
 
     #hd_url = encode_hd['ssl_url'] if encode_hd
 
-    preview_bucket = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['s3_thumb']['bucket']
-    videos_bucket  = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store_low']['bucket']
+    preview_bucket = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['s3_thumb']['bucket']
+    videos_bucket  = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store_low']['bucket']
 
     s3_paths = { videos_bucket  => [encode['ssl_url'], original['ssl_url']].compact.map { |e| { key: get_file_path(e) } } }
 
@@ -259,7 +259,7 @@ class UploadManager < BaseManager
   # @param attributes [Hash] upload attributes
   # @return [Array<Upload>]
   def create_audio(transloadit_data, uploadable: user, template: 'post_audio', attributes: {})
-    steps = Transloadit::Rails::Engine.configuration['templates'][template]['steps']
+    steps = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']
     bucket_source = steps['store'] || steps['store_original']
     bucket = bucket_source['bucket']
 
