@@ -10,7 +10,7 @@ class ApplicationMailer < ActionMailer::Base
     #if Rails.env.production?
     #  ActiveRecord::Base.establish_connection(ENV['HEROKU_POSTGRESQL_PINK_URL'])
     #end
-    super(*args).deliver
+    super(*args).deliver_now
   end
 
   def mail(headers = {}, &block)
