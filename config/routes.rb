@@ -6,7 +6,7 @@ BuddyPlatform::Application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
     resources :sessions, only: [:create]
-    resources :users, only: [:show] do
+    resources :users, only: [:index, :create, :show] do
       collection do
         get :search
       end
@@ -18,11 +18,29 @@ BuddyPlatform::Application.routes.draw do
         put :update_cost
       end
 
-      resources :posts, only: [:index, :create]
+      resources :posts, only: [:index]
       resources :benefits, only: :create
+
+      resources :subscriptions, only: [:new, :create] do
+        collection do
+          post :via_register
+          post :via_update_cc_data
+        end
+      end
     end
 
-    resources :posts, only: [] do
+    resources :subscriptions, only: [:index, :destroy] do
+      member do
+        put :enable_notifications
+        put :disable_notifications
+        put :restore
+      end
+    end
+
+    resources :posts, only: [:show, :update, :destroy] do
+      member do
+        delete :destroy_upload
+      end
       collection do
         get :feed
       end
@@ -45,6 +63,8 @@ BuddyPlatform::Application.routes.draw do
     resources :document_posts, only: [:new, :create] do
       delete :cancel, on: :collection
     end
+
+    resources :pending_video_previews, only: [:create, :destroy]
 
     resources :videos,    only: [:create, :destroy]
     resources :photos,    only: [:create, :destroy]
@@ -69,12 +89,25 @@ BuddyPlatform::Application.routes.draw do
       resources :likes, only: [:index, :create], defaults: { type: 'comment' }
     end
 
-    resource :account_info, only: [] do
+    resources :messages, only: [:create]
+    resources :dialogues, only: [:index, :show, :destroy]
+
+    resources :contributions, only: [:create, :destroy]
+
+    resources :profile_types, only: [:index, :create, :destroy]
+
+    resource :password, only: [:edit, :update] do
+      member do
+        post :restore
+      end
+    end
+
+    resource :profile_info, only: [] do
       member do
         get :settings
-        put :update_account_picture
-        put :update_general_information
-        put :update_cc_data
+        get :details
+        post :create_profile
+        put :create_profile_page
         put :update_bank_account_data
         put :enable_rss
         put :disable_rss
@@ -82,8 +115,26 @@ BuddyPlatform::Application.routes.draw do
         put :disable_downloads
         put :enable_itunes
         put :disable_itunes
+        put :enable_contributions
+        put :disable_contributions
+        post :enable_vacation_mode
+        post :disable_vacation_mode
+        put :update_welcome_media
+        delete :remove_welcome_media
       end
     end
+
+    resource :account_info, only: [] do
+      member do
+        get :settings
+        get :billing_information
+        put :update_account_picture
+        put :update_general_information
+        put :update_cc_data
+      end
+    end
+
+    get '/mentions' => 'users#mentions', as: :mentions
 
     match '*path' => 'cors#preflight', via: :options
   end

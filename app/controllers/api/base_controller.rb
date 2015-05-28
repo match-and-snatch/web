@@ -1,7 +1,7 @@
 class Api::BaseController < ActionController::Base
   include Concerns::ControllerFramework
 
-  rescue_from(AuthenticationError) { |e| json_response 'failed', {message: e.message}, nil, 401 }
+  # rescue_from(AuthenticationError) { |e| json_response 'failed', {message: e.message}, nil, 401 }
 
   skip_before_action :verify_authenticity_token
   before_action :allow_cors, :authenticate_by_api_token
@@ -41,5 +41,9 @@ class Api::BaseController < ActionController::Base
     return @token if defined?(@token)
     authenticate_with_http_token { |t, _| @token = t }
     @token
+  end
+
+  def api_response
+    @api_response ||= ApiResponsePresenter.new(current_user)
   end
 end

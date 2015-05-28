@@ -11,7 +11,7 @@ class Api::DocumentPostsController < Api::MediaPostsController
   protected
 
   def create_post
-    manager.create_document_post(params.slice(%i(title keyword_text message)).merge({ notify: params.bool(:notify) }))
+    manager.create_document_post params.slice(:title, :keyword_text, :message).merge(notify: params.bool(:notify))
   end
 
   def pending_document_post_data
