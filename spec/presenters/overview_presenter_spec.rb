@@ -123,19 +123,19 @@ describe OverviewPresenter do
   end
 
   describe '#total_gross_sales' do
-    specify { expect(subject.total_gross_sales).to eq(599) }
+    specify { expect(subject.total_gross_sales).to eq(699) }
   end
 
   describe '#total_connectpal_fees' do
-    specify { expect(subject.total_connectpal_fees).to eq(51.629) }
+    specify { expect(subject.total_connectpal_fees).to eq(148.72899999999998) }
   end
 
   describe '#total_stripe_fees' do
-    specify { expect(subject.total_stripe_fees).to eq(47.371) }
+    specify { expect(subject.total_stripe_fees).to eq(50.271) }
   end
 
   describe '#daily_gross_sales' do
-    specify { expect(subject.daily_gross_sales).to eq(599) }
+    specify { expect(subject.daily_gross_sales).to eq(699) }
   end
 
   context 'tos fees' do
@@ -159,6 +159,6 @@ describe OverviewPresenter do
   end
 
   describe '#daily_stripe_fees' do
-    specify { expect(subject.daily_stripe_fees).to eq(47.371) }
+    specify { expect(subject.daily_stripe_fees).to eq(50.271) }
   end
 end

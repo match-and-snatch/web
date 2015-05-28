@@ -25,7 +25,7 @@ describe UserStatsDecorator do
 
     describe '#connectpal_and_tos' do
       it 'returns right cost' do
-        expect(subject.connectpal_and_tos).to eq(599)
+        expect(subject.connectpal_and_tos).to eq(699)
       end
     end
   end

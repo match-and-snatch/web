@@ -25,7 +25,7 @@ module Concerns::Events::CommentTracker
   # @param comment [Comment]
   # @return [Integer]
   def comment_shown(user: , comment: )
-    Event.where(user_id: user.id, action: 'comment_hidden', data: data_hash(comment).to_yaml).daily.delete_all
+    Event.where(user_id: user.id, action: 'comment_hidden').where(["events.data = ?", data_hash(comment).to_yaml]).daily.delete_all
   end
 
   # @param user [User]

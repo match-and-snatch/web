@@ -17,9 +17,9 @@ module ActionController
     # @param key [Symbol, String]
     # @return [Boolean, nil]
     def bool(key)
-      if [true, 1, '1', 't'].include?(self[key])
+      if [true, 'true', 1, '1', 't'].include?(self[key])
         true
-      elsif [false, 0, '0', 'f'].include?(self[key])
+      elsif [false, 'false', 0, '0', 'f'].include?(self[key])
         false
       else
         nil

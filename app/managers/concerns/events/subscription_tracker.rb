@@ -30,9 +30,9 @@ module Concerns::Events::SubscriptionTracker
   # @return [Integer]
   def subscription_notifications_enabled(user: , subscription: )
     Event.where(user_id: user.id,
-                action: 'subscription_notifications_disabled',
-                data: { subscription_id: subscription.id,
-                        target_user_id:  subscription.target_user_id }.to_yaml).daily.delete_all
+                action: 'subscription_notifications_disabled')
+         .where(['events.data = ?', { subscription_id: subscription.id,
+                                      target_user_id:  subscription.target_user_id }.to_yaml]).daily.delete_all
   end
 
   # @param user [User]

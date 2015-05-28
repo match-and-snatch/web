@@ -156,6 +156,7 @@ class PostManager < BaseManager
     if @post.uploads.count.zero?
       @post.type = 'StatusPost'
       @post.save or fail_with! @post.errors
+      @post
     end
   end
 
