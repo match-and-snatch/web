@@ -34,7 +34,7 @@ describe ChartsPresenter do
           PaymentManager.new(user: subscriber).pay_for(subscription)
         end
 
-        specify { expect(described_class.new(graph_type: 'gross_sales').chart_data).to eq([{ x: payment_date, y: 5.99 }]) }
+        specify { expect(described_class.new(graph_type: 'gross_sales').chart_data).to eq([{ x: payment_date, y: 6.99 }]) }
       end
 
       context 'next year payments' do
@@ -45,7 +45,7 @@ describe ChartsPresenter do
         end
 
         specify do
-          expect(described_class.new(graph_type: 'gross_sales').chart_data).to eq([{ x: payment_date, y: 5.99 }])
+          expect(described_class.new(graph_type: 'gross_sales').chart_data).to eq([{ x: payment_date, y: 6.99 }])
         end
       end
     end

@@ -598,7 +598,7 @@ describe UserProfileManager do
       end
 
       it 'notify support if new change cost request was changed' do
-        expect(ProfilesMailer).to receive(:cost_change_request).with(user, 199, 599).and_return(double('mailer').as_null_object)
+        expect(ProfilesMailer).to receive(:cost_change_request).with(user, 199, 699).and_return(double('mailer').as_null_object)
         manager.update_cost(5)
       end
 

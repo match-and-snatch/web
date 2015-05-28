@@ -84,6 +84,7 @@ describe EventsManager do
       end
 
       it { expect { manager.comment_shown(user: user, comment: comment) }.to change { Event.where(action: 'comment_hidden').count }.from(1).to(0) }
+      it { expect { manager.comment_shown(user: user, comment: comment) }.not_to change { 1 } }
     end
 
     describe '.comment_hidden' do
