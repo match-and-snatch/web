@@ -2,7 +2,7 @@ module Uploads
   class GenerateS3PathsJob
     def perform
       Document.where(s3_paths: nil).find_each do |document|
-        bucket = Transloadit::Rails::Engine.configuration['templates']['post_document']['steps']['store']['bucket']
+        bucket = Transloadit::Rails::Engine.configuration['_templates']['post_document']['steps']['store']['bucket']
 
         index = document.transloadit_data['results'][':original'].index(document.transloadit_data['results'][':original'].select { |e| e['ssl_url'] == document.url }.first)
 
@@ -21,7 +21,7 @@ module Uploads
 
       Audio.where(s3_paths: nil).find_each do |audio|
         template = audio.uploadable_type == 'User' ? 'welcome_media' : 'post_audio'
-        bucket = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store']['bucket']
+        bucket = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['bucket']
 
         index = audio.transloadit_data['results'][':original'].index(audio.transloadit_data['results'][':original'].select { |e| e['ssl_url'] == audio.url }.first)
 
@@ -37,8 +37,8 @@ module Uploads
       Video.where(s3_paths: nil).find_each do |video|
         template = video.uploadable_type == 'User' ? 'welcome_media' : 'post_video'
 
-        preview_bucket = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['s3_thumb']['bucket']
-        videos_bucket  = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store']['bucket']
+        preview_bucket = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['s3_thumb']['bucket']
+        videos_bucket  = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['bucket']
 
         thumb    = video.transloadit_data['results']['thumbs'][0]
         encode   = video.transloadit_data['results']['encode'][0]
@@ -65,10 +65,10 @@ module Uploads
               s3_paths[bucket] << { key: get_file_path(files[0]['ssl_url']) }
             end
           else
-            bucket = Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store']['bucket']
+            bucket = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['bucket']
 
             s3_paths = { bucket => [] }
-            Transloadit::Rails::Engine.configuration['templates'][template]['steps']['store']['use'].each do |key|
+            Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['use'].each do |key|
               s3_paths[bucket] << { key: get_file_path(photo.transloadit_data['results'][key][0]['ssl_url']) }
             end
           end
@@ -76,7 +76,7 @@ module Uploads
           photo.s3_paths = s3_paths
           photo.save!
         else
-          bucket = Transloadit::Rails::Engine.configuration['templates']['post_photo']['steps']['store']['bucket']
+          bucket = Transloadit::Rails::Engine.configuration['_templates']['post_photo']['steps']['store']['bucket']
 
           index = photo.transloadit_data['results'][':original'].index(photo.transloadit_data['results'][':original'].select { |e| e['ssl_url'] == photo.url }.first)
 
