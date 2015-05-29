@@ -1,3 +1,13 @@
+# I left old inline config in transloadit.yml but with '_templates' key, It doesn't appears to html.
+# If you need to update transloadit config you can use this old inline config
+# (need to rename '_templates' to 'template' of course), change it, test it and generate json for shared
+# template via console like this:
+#
+# >>> Transloadit::Rails::Engine.template(:post_audio, {}).to_json
+#
+# paste this json to form on transloadit site and enjoy.
+# Also we use inline config to get S3 bucket name for specific uploads
+
 s3: &s3
   robot: '/s3/store'
   key: 'AKIAJ5KUIYFXQB5KUD5A'
