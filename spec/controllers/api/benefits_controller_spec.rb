@@ -13,7 +13,7 @@ describe Api::BenefitsController, type: :controller do
 
     context 'authorized' do
       before do
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(user.api_token)
+        sign_in_with_token(user.api_token)
         perform_request
       end
 

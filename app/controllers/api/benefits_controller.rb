@@ -1,7 +1,7 @@
 class Api::BenefitsController < Api::BaseController
   before_action :load_user!
 
-  protect(:create) { current_user == @user }
+  protect(:create) { current_user.authorized? }
 
   def create
     UserProfileManager.new(@user).update_benefits(params['benefits'])

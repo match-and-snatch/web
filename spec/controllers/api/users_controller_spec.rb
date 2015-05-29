@@ -8,6 +8,11 @@ describe Api::UsersController, type: :controller do
 
     subject { get 'search', q: 'serge zi' }
 
+    before do
+      user_one
+      user_two
+    end
+
     specify do
       expect(JSON.parse(subject.body)).to include("data" => [
         {
@@ -17,7 +22,7 @@ describe Api::UsersController, type: :controller do
           "slug"=>"sergeizinin",
           "types"=>[],
           "benefits" => [],
-          "subscription_cost"=>13407,
+          "subscription_cost"=>14145,
           "cost"=>12300,
           "profile_picture_url"=>"set",
           "small_profile_picture_url"=>nil,
@@ -39,7 +44,7 @@ describe Api::UsersController, type: :controller do
           "slug"=>"sergezeenin",
           "types"=>[],
           "benefits" => [],
-          "subscription_cost"=>2199,
+          "subscription_cost"=>2300,
           "cost"=>2000,
           "profile_picture_url"=>"set",
           "small_profile_picture_url"=>nil,
@@ -109,7 +114,7 @@ describe Api::UsersController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      subject { post 'update_profile_picture', id: user.slug, transloadit: profile_picture_data_params }
+      subject { post 'update_profile_picture', id: user.slug, transloadit: profile_picture_data_params.to_json }
 
       its(:status) { is_expected.to eq(200) }
       it { expect { subject }.to change { user.reload.profile_picture_url } }
@@ -161,7 +166,7 @@ describe Api::UsersController, type: :controller do
       context 'invalid token' do
         let(:token) { 'invalid' }
 
-        its(:status) { is_expected.to eq(401) }
+        its(:status) { is_expected.to eq(200) }
         its(:body) { is_expected.to include 'failed' }
       end
 
