@@ -10,7 +10,7 @@ describe NotificationManager do
     subject(:notify) { described_class.notify_post_created(status_post) }
 
     before do
-      stub_const('PostsMailer', double('mailer', created: double('mail', deliver: true)).as_null_object)
+      stub_const('PostsMailer', double('mailer', created: double('mail', deliver_now: true)).as_null_object)
     end
 
     specify do
@@ -52,7 +52,7 @@ describe NotificationManager do
     subject(:notify) { described_class.notify_comment_created(comment) }
 
     before do
-      stub_const('PostsMailer', double('mailer', mentioned: double('mail', deliver: true)).as_null_object)
+      stub_const('PostsMailer', double('mailer', mentioned: double('mail', deliver_now: true)).as_null_object)
       subscription
     end
 
@@ -64,8 +64,8 @@ describe NotificationManager do
 
   context 'vacation mode notifications' do
     before do
-      stub_const('ProfilesMailer', double('mailer', vacation_enabled: double('mail', deliver: true)).as_null_object)
-      stub_const('ProfilesMailer', double('mailer', vacation_disabled: double('mail', deliver: true)).as_null_object)
+      stub_const('ProfilesMailer', double('mailer', vacation_enabled: double('mail', deliver_now: true)).as_null_object)
+      stub_const('ProfilesMailer', double('mailer', vacation_disabled: double('mail', deliver_now: true)).as_null_object)
     end
 
     describe '.notify_vacation_enabled' do

@@ -8,7 +8,7 @@ class Api::VideosController < Api::UploadsController
 
   def video_data(video)
     {
-      preview_url: current_user.pending_video_previews.first.url,
+      preview_url: current_user.pending_video_previews.first.try(:url),
       video: {
         id: video.id,
         preview_url: video.preview_url,

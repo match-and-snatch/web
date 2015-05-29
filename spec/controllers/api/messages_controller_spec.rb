@@ -10,17 +10,13 @@ describe Api::MessagesController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token user.api_token }
 
-      its(:status) { should eq(401) }
+      its(:status) { should eq(200) }
 
       context 'user is subscribed to target user' do
         before { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
         its(:status) { should eq(200) }
       end
-    end
-
-    context 'non authorized' do
-      its(:status) { should eq(401) }
     end
   end
 end
