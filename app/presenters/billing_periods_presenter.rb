@@ -47,7 +47,7 @@ class BillingPeriodsPresenter
     end
 
     def name
-      "#{Date::MONTHNAMES[@period.begin.month]} #{@period.begin.year}"
+      "#{Date::MONTHNAMES[@period.begin.month]}-#{@period.begin.year}"
     end
 
     def current?
