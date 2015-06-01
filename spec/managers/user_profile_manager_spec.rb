@@ -33,7 +33,7 @@ describe UserProfileManager do
 
     it 'saves vacation start date' do
       Timecop.freeze(Time.zone.now) do
-        expect { enable_vacation_mode }.to change { user.reload.vacation_enabled_at }.from(nil).to(Time.zone.now)
+        expect { enable_vacation_mode }.to change { user.reload.vacation_enabled_at.try(:round) }.from(nil).to(Time.zone.now.round)
       end
     end
 
