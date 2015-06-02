@@ -4,8 +4,8 @@ class Api::PendingPostsController < Api::BaseController
   protect(:new, :create, :update, :cancel) { current_user.authorized? } # TODO (DJ): FIX ME
 
   def create
-    create_post
-    json_success
+    post = create_post
+    json_success api_response.post_data(post)
   end
 
   def update
