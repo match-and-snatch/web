@@ -7,10 +7,7 @@ class Api::SubscriptionsController < Api::BaseController
   protect(:destroy) { can? :delete, @subscription }
 
   def index
-    @subscriptions = current_user.object.subscriptions.
-        where(removed: false).
-        where("rejected_at is NULL OR rejected_at > ?", 1.month.ago).
-        joins(:target_user)
+    @subscriptions = current_user.object.subscriptions.active.joins(:target_user)
     json_success api_response.subscriptions_data(@subscriptions)
   end
 

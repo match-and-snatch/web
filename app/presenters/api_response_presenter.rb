@@ -56,6 +56,7 @@ class ApiResponsePresenter
       itunes_enabled: user.itunes_enabled,
       profile_types_text: user.profile_types_text,
       subscribers_count: user.subscribers_count,
+      subscriptions_count: user.subscriptions.active.count,
       billing_failed: user.billing_failed,
       billing_failed_at: user.billing_failed_at,
       stripe_recipient_id: user.stripe_recipient_id,
