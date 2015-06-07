@@ -7,7 +7,11 @@ class FeedsController < ApplicationController
       where(subscriptions: {user_id: current_user.id}).pluck(:target_user_id)
 
     @feed_events = FeedEvent.
-      where('target_user_id = ? OR subscription_target_user_id IN (?)', current_user.id, subscription_user_ids).
+      where("feed_events.target_user_id = ? OR
+             feed_events.subscription_target_user_id IN (?) AND
+             (feed_events.type <> 'SubscribedFeedEvent' OR feed_events.created_at > ?)".squish,
+             current_user.id, subscription_user_ids, 14.days.ago).
+      includes(:subscription_target_user, :target_user).
       order('feed_events.created_at DESC')
 
     if current_user.object.registration_token != "GkTB3tmMC3ivokQWMOXdng" # Wendy
