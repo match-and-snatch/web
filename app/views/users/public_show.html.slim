@@ -2,6 +2,8 @@
   = render 'meta'
 
 .container.mobile
+  = render 'adult_content_warning' if @profile.hidden?
+
   #header.box
     .photo_cover
       - if @profile.cover_picture_url.present?
