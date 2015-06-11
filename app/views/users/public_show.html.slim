@@ -2,8 +2,6 @@
   = render 'meta'
 
 .container.mobile
-  = render 'adult_content_warning' if @profile.hidden?
-
   #header.box
     .photo_cover
       - if @profile.cover_picture_url.present?
@@ -70,7 +68,6 @@
               |/month
           .clearfix
 
-
       .hidden-md.hidden-sm.col-xs-12.pull-right.no_pad style='margin-top: 15px'
         a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
         .clearfix
@@ -89,12 +86,11 @@
       .col-md-8.col-sm-8.hidden-xs.pull-right.no_pad style='margin-top: 15px'
         a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
         .clearfix
-
         span.already_user
           - unless current_user.authorized?
             | Already a member? &nbsp;
             a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
-
+        = render 'adult_content_warning' if @profile.hidden?
       .clearfix
 
   - else
@@ -132,6 +128,8 @@
             - unless current_user.authorized?
               | Already a member? &nbsp;
               a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
+
+          = render 'adult_content_warning' if @profile.hidden?
 
   .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
 

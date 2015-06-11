@@ -2,7 +2,7 @@
   = render 'meta'
 
 .container style="margin-bottom: 73px;"
-  = render 'adult_content_warning' if @profile.hidden?
+
 
   #header.box
     .photo_cover
@@ -57,7 +57,8 @@
         span.sub_heading
           ' In order to fix this, please update your credit card information
           a href="#{account_info_url(anchor: '/account_info/billing_information')}" here
-          '  .
+          ' .
+        = render 'adult_content_warning' if @profile.hidden?
 
 /* Footer */
 
