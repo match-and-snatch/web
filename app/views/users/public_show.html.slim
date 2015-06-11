@@ -2,6 +2,9 @@
   = render 'meta'
 
 .container.mobile
+  .alert.alert-warning.adult_content
+    <strong>Attention:</strong>
+    |  This profile contains 18+ mature content, you must be 18 years of age or older to subscribe to this profile.  By subscribing to this profile, you acknowledge that you are 18 years of age or older.
   #header.box
     .photo_cover
       - if @profile.cover_picture_url.present?
