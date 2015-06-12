@@ -1,0 +1,5 @@
+- if @user.has_mature_content?
+  button.AjaxFormLink.btn.pink data-identifier="toggle-mature-user-#{@user.id}" data-target="toggle-mature-user-#{@user.id}" data-_method="put" href=toggle_mature_content_admin_directory_user_path(@user) Remove 18+ label
+- else
+  button.AjaxFormLink.btn.blue data-identifier="toggle-mature-user-#{@user.id}" data-target="toggle-mature-user-#{@user.id}" data-_method="put" href=toggle_mature_content_admin_directory_user_path(@user) Add 18+ label
+

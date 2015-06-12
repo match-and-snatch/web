@@ -2,8 +2,6 @@
   = render 'meta'
 
 .container style="margin-bottom: 73px;"
-
-
   #header.box
     .photo_cover
       - if @profile.cover_picture_url.present?
@@ -58,7 +56,7 @@
           ' In order to fix this, please update your credit card information
           a href="#{account_info_url(anchor: '/account_info/billing_information')}" here
           ' .
-        = render 'adult_content_warning' if @profile.hidden?
+        = render 'adult_content_warning' if @profile.has_mature_content?
 
 /* Footer */
 

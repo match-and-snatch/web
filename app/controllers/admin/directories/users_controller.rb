@@ -6,6 +6,11 @@ class Admin::Directories::UsersController < Admin::BaseController
     json_replace
   end
 
+  def toggle_mature_content
+    manager.toggle_mature_content
+    json_replace
+  end
+
   private
 
   def manager

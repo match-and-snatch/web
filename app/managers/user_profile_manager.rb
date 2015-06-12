@@ -40,6 +40,13 @@ class UserProfileManager < BaseManager
     @user
   end
 
+  # Displays warning to unsubscribed users
+  def toggle_mature_content
+    @user.has_mature_content = !@user.has_mature_content
+    @user.save!
+    @user
+  end
+
   # @param profile_type [ProfileType]
   def remove_profile_type(profile_type)
     raise ArgumentError unless profile_type.is_a?(ProfileType)

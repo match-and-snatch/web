@@ -325,7 +325,10 @@ BuddyPlatform::Application.routes.draw do
     resource :directory do
       scope module: :directories do
         resources :users, only: [] do
-          put :toggle, on: :member
+          member do
+            put :toggle
+            put :toggle_mature_content
+          end
         end
       end
     end
