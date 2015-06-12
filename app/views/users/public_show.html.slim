@@ -72,6 +72,8 @@
         a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
         .clearfix
 
+        = render 'adult_content_warning' if @profile.has_mature_content?
+
         span.already_user
           - unless current_user.authorized?
             | Already a member? &nbsp;
