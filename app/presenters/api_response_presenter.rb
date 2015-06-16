@@ -131,7 +131,10 @@ class ApiResponsePresenter
       uploads: post.uploads.map { |upload| upload_data(upload) },
       user: user_data(post.user),
       likes: post.likers_data.merge(liked: current_user.likes?(post)),
-      comments_count: post.comments.count
+      comments_count: post.comments.count,
+      access: {
+        owner: post.user == current_user.object
+      }
     }
   end
 
