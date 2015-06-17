@@ -42,7 +42,7 @@ class OverviewPresenter
   end
 
   def total_stripe_fees
-    @total_stripe_fees ||= Payment.count * 30 + self.total_gross_sales * 0.029
+    @total_stripe_fees ||= Payment.count * 30 + self.total_gross_sales * 0.025
   end
 
   def daily_gross_sales
@@ -54,7 +54,7 @@ class OverviewPresenter
   end
 
   def daily_stripe_fees
-    daily_payments.count * 30 + daily_gross_sales * 0.029
+    daily_payments.count * 30 + daily_gross_sales * 0.025
   end
 
   def daily_subscribers_count

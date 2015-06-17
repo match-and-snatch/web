@@ -67,7 +67,7 @@ class BillingPeriodsPresenter
     end
 
     def stripe_fee
-      payments.count * 30 + payments.sum(:amount) * 0.029
+      payments.count * 30 + payments.sum(:amount) * 0.025
     end
 
     def tos_fee
