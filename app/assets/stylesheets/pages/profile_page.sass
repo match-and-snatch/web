@@ -130,12 +130,15 @@
 
   .photo_cover, .photo_profile
     .btn
-      display: block
       position: absolute
       bottom: 15px
       .fa
         &:before
           padding-right: 5px
+      @media screen and (min-width: 991px)
+        display: none
+      @media only screen and (min-device-width : 768px) and (max-device-width : 1024px)
+        display: block
     &.blank, &:hover:not(.editing)
       .btn
         display: block
