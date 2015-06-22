@@ -30,6 +30,9 @@ BuddyPlatform::Application.routes.draw do
     end
 
     resources :subscriptions, only: [:index, :destroy] do
+      collection do
+        get :search_subscribers
+      end
       member do
         put :enable_notifications
         put :disable_notifications

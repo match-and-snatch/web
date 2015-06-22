@@ -115,7 +115,8 @@ class ApiResponsePresenter
           profile_owner: subscription.target_user.is_profile_owner?,
           slug: subscription.target_user.slug,
           name: subscription.target_user.name,
-          picture_url: subscription.target_user.profile_picture_url
+          picture_url: subscription.target_user.profile_picture_url,
+          small_profile_picture_url: subscription.target_user.small_profile_picture_url
         }
       }
     end

@@ -56,4 +56,8 @@ describe Api::SubscriptionsController, type: :controller do
   describe 'DELETE #destroy' do
     pending
   end
+
+  describe 'GET #search_subscribers' do
+    pending
+  end
 end
