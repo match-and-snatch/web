@@ -57,6 +57,7 @@ class ApiResponsePresenter
       profile_types_text: user.profile_types_text,
       subscribers_count: user.subscribers_count,
       subscriptions_count: user.subscriptions.active.count,
+      recurring_contributions_count: user.contributions.where(recurring: true).count,
       billing_failed: user.billing_failed,
       billing_failed_at: user.billing_failed_at,
       stripe_recipient_id: user.stripe_recipient_id,
@@ -291,7 +292,7 @@ class ApiResponsePresenter
   def contribution_data(contribution = nil)
     {}.tap do |data|
       if contribution
-        data[:recuring] = contribution.recurring?
+        data[:recurring] = contribution.recurring?
         data[:amount] = contribution.amount
       end
     end
