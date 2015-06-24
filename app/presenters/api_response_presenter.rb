@@ -56,6 +56,8 @@ class ApiResponsePresenter
       itunes_enabled: user.itunes_enabled,
       profile_types_text: user.profile_types_text,
       subscribers_count: user.subscribers_count,
+      subscriptions_count: user.subscriptions.active.count,
+      recurring_contributions_count: user.contributions.where(recurring: true).count,
       billing_failed: user.billing_failed,
       billing_failed_at: user.billing_failed_at,
       stripe_recipient_id: user.stripe_recipient_id,
@@ -114,7 +116,8 @@ class ApiResponsePresenter
           profile_owner: subscription.target_user.is_profile_owner?,
           slug: subscription.target_user.slug,
           name: subscription.target_user.name,
-          picture_url: subscription.target_user.profile_picture_url
+          picture_url: subscription.target_user.profile_picture_url,
+          small_profile_picture_url: subscription.target_user.small_profile_picture_url
         }
       }
     end
@@ -130,7 +133,10 @@ class ApiResponsePresenter
       uploads: post.uploads.map { |upload| upload_data(upload) },
       user: user_data(post.user),
       likes: post.likers_data.merge(liked: current_user.likes?(post)),
-      comments_count: post.comments.count
+      comments_count: post.comments.count,
+      access: {
+        owner: post.user == current_user.object
+      }
     }
   end
 
@@ -286,7 +292,7 @@ class ApiResponsePresenter
   def contribution_data(contribution = nil)
     {}.tap do |data|
       if contribution
-        data[:recuring] = contribution.recurring?
+        data[:recurring] = contribution.recurring?
         data[:amount] = contribution.amount
       end
     end

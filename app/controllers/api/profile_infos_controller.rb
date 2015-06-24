@@ -4,7 +4,7 @@ class Api::ProfileInfosController < Api::BaseController
   before_action :load_user!
 
   protect(:create_profile, :create_profile_page,
-          :settings, :update_bank_account_data,
+          :settings, :details, :update_bank_account_data,
           :enable_rss, :disable_rss,
           :enable_downloads, :disable_downloads,
           :enable_itunes, :disable_itunes,
