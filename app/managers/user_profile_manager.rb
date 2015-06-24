@@ -422,6 +422,13 @@ class UserProfileManager < BaseManager
     user
   end
 
+  def delete_account_picture
+    user.account_picture_url = nil
+    user.small_account_picture_url = nil
+    user.original_account_picture_url = nil
+    save_or_die! user
+  end
+
   # @param transloadit_data [Hash]
   # @return [User]
   def update_profile_picture(transloadit_data)

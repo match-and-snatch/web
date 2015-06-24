@@ -18,7 +18,12 @@ class Api::AccountInfosController < Api::BaseController
 
   def update_account_picture
     manager.update_account_picture(params[:transloadit])
-    respond_with_settings_data
+    json_success account_picture_url: @user.account_picture_url
+  end
+
+  def delete_account_picture
+    manager.delete_account_picture
+    json_success
   end
 
   def update_general_information
