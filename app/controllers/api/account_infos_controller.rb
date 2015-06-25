@@ -3,8 +3,8 @@ class Api::AccountInfosController < Api::BaseController
 
   before_action :load_user!
 
-  protect(:settings, :billing_information, :update_account_picture, :update_general_information,
-          :update_cc_data) { current_user.authorized? }
+  protect(:settings, :billing_information, :update_account_picture, :change_password,
+          :update_general_information, :update_cc_data) { current_user.authorized? }
 
   def settings
     respond_with_settings_data
@@ -23,6 +23,12 @@ class Api::AccountInfosController < Api::BaseController
 
   def delete_account_picture
     manager.delete_account_picture
+    json_success
+  end
+
+  def change_password
+    manager.change_password(params.slice(:current_password, :new_password, :new_password_confirmation))
+    notice :updated_password
     json_success
   end
 

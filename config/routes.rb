@@ -136,6 +136,7 @@ BuddyPlatform::Application.routes.draw do
         get :billing_information
         put :update_account_picture
         delete :delete_account_picture
+        put :change_password
         put :update_general_information
         put :update_cc_data
       end
