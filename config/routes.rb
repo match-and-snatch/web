@@ -95,6 +95,7 @@ BuddyPlatform::Application.routes.draw do
     resources :messages, only: [:create]
     resources :dialogues, only: [:index, :show, :destroy]
 
+    resources :contributors, only: [:index]
     resources :contributions, only: [:create, :destroy]
 
     resources :profile_types, only: [:index, :create, :destroy]

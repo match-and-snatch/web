@@ -272,6 +272,17 @@ class ApiResponsePresenter
     }
   end
 
+  def contribution_data(contribution = nil)
+    {}.tap do |data|
+      if contribution
+        data[:contributor_name] = contribution.user.name
+        data[:created_at] = contribution.created_at.to_s(:short)
+        data[:recurring] = contribution.recurring?
+        data[:amount] = contribution.amount
+      end
+    end
+  end
+
   private
 
   def contributions_data
@@ -286,15 +297,6 @@ class ApiResponsePresenter
             amount: contributions.sum(&:amount)
           }
         end)
-      end
-    end
-  end
-
-  def contribution_data(contribution = nil)
-    {}.tap do |data|
-      if contribution
-        data[:recurring] = contribution.recurring?
-        data[:amount] = contribution.amount
       end
     end
   end
