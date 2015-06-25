@@ -111,7 +111,10 @@ BuddyPlatform::Application.routes.draw do
         get :details
         post :create_profile
         put :create_profile_page
+        put :update_slug
         put :update_bank_account_data
+        put :enable_notifications_debug
+        put :disable_notifications_debug
         put :enable_rss
         put :disable_rss
         put :enable_downloads

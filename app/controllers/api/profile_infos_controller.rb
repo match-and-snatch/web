@@ -5,12 +5,13 @@ class Api::ProfileInfosController < Api::BaseController
 
   protect(:create_profile, :create_profile_page,
           :settings, :details, :update_bank_account_data,
+          :enable_notifications_debug, :disable_notifications_debug,
           :enable_rss, :disable_rss,
           :enable_downloads, :disable_downloads,
           :enable_itunes, :disable_itunes,
           :enable_vacation_mode, :disable_vacation_mode,
           :enable_contributions, :disable_contributions,
-          :update_welcome_media, :remove_welcome_media) { current_user.authorized? }
+          :update_slug, :update_welcome_media, :remove_welcome_media) { current_user.authorized? }
 
   def create_profile
     user = manager.update(params.slice(:cost, :profile_name))
@@ -33,6 +34,16 @@ class Api::ProfileInfosController < Api::BaseController
   def update_bank_account_data
     manager.update_payment_information params.slice(:holder_name, :routing_number, :account_number, :paypal_email).merge(prefer_paypal: params.bool(:prefer_paypal))
     respond_with_settings_data
+  end
+
+  def enable_notifications_debug
+    manager.enable_notifications_debug
+    json_success notifications_debug_enabled: @user.notifications_debug_enabled
+  end
+
+  def disable_notifications_debug
+    manager.disable_notifications_debug
+    json_success notifications_debug_enabled: @user.notifications_debug_enabled
   end
 
   def enable_rss
@@ -83,6 +94,12 @@ class Api::ProfileInfosController < Api::BaseController
   def disable_vacation_mode
     manager.disable_vacation_mode
     json_success
+  end
+
+  def update_slug
+    manager.update_slug params[:slug]
+    notice :slug_updated
+    json_success slug: @user.slug
   end
 
   def update_welcome_media
