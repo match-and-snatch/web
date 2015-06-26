@@ -30,9 +30,6 @@ BuddyPlatform::Application.routes.draw do
     end
 
     resources :subscriptions, only: [:index, :destroy] do
-      collection do
-        get :search_subscribers
-      end
       member do
         put :enable_notifications
         put :disable_notifications
@@ -92,7 +89,11 @@ BuddyPlatform::Application.routes.draw do
       resources :likes, only: [:index, :create], defaults: { type: 'comment' }
     end
 
-    resources :messages, only: [:create]
+    resources :messages, only: [:create] do
+      collection do
+        get :search_recipients
+      end
+    end
     resources :dialogues, only: [:index, :show, :destroy]
 
     resources :contributors, only: [:index]
