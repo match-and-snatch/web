@@ -99,7 +99,7 @@ class ApiResponsePresenter
     {
       id: subscription.id,
       billing_date: subscription.billing_date.to_s(:long),
-      canceled_at: subscription.canceled_at ? subscription.canceled_at.to_s(:long) : nil,
+      canceled_at: subscription.canceled_at ? subscription.canceled_at.to_date.to_s(:long) : nil,
       removed: subscription.removed?,
       rejected: subscription.rejected?,
       target_user: user_data(subscription.target_user)
