@@ -19,6 +19,8 @@ class ApiResponsePresenter
       holder_name: user.holder_name,
       routing_number: user.routing_number,
       account_number: user.account_number,
+      prefer_paypal: user.prefers_paypal?,
+      paypal_email: user.paypal_email,
       stripe_user_id: user.stripe_user_id,
       stripe_card_id: user.stripe_card_id,
       has_cc_payment_account: user.has_cc_payment_account?,
@@ -209,34 +211,20 @@ class ApiResponsePresenter
   def profile_settings_data(user)
     {
       cost: user.cost,
-      payout_info: {
-        holder_name: user.holder_name,
-        routing_number: user.routing_number,
-        account_number: user.account_number,
-        prefer_paypal: user.prefers_paypal?,
-        paypal_email: user.paypal_email
-      },
-      display_settings: {
-        itunes_enabled: user.itunes_enabled,
-        rss_enabled: user.rss_enabled,
-        downloads_enabled: user.downloads_enabled,
-        contributions_enabled: user.contributions_enabled
-      },
-      profile_info: {
-        profile_name: user.profile_name,
-        vacation_enabled: user.vacation_enabled
-      },
+      contributions_enabled: user.contributions_enabled,
+      downloads_enabled: user.downloads_enabled,
+      itunes_enabled: user.itunes_enabled,
+      rss_enabled: user.rss_enabled,
+      profile_name: user.profile_name,
+      vacation_enabled: user.vacation_enabled,
+      holder_name: user.holder_name,
+      routing_number: user.routing_number,
+      account_number: user.account_number,
+      prefer_paypal: user.prefers_paypal?,
+      paypal_email: user.paypal_email,
       benefits: user.benefits.order(:ordering).pluck(:message),
-      profile_types: user.profile_types.map do |profile_type|
-        {
-          id: profile_type.id,
-          title: profile_type.title
-        }
-      end,
-      welcome_media: {
-        welcome_audio: upload_data(user.welcome_audio),
-        welcome_video: upload_data(user.welcome_video)
-      }
+      profile_types: user.profile_types.map { |profile_type| profile_type_data(profile_type) },
+      welcome_video: upload_data(user.welcome_video)
     }
   end
 
@@ -281,6 +269,13 @@ class ApiResponsePresenter
         data[:amount] = contribution.amount
       end
     end
+  end
+
+  def profile_type_data(profile_type)
+    {
+      id: profile_type.id,
+      title: profile_type.title
+    }
   end
 
   private

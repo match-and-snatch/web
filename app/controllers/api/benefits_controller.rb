@@ -5,7 +5,7 @@ class Api::BenefitsController < Api::BaseController
 
   def create
     UserProfileManager.new(@user).update_benefits(params['benefits'])
-    json_success @user.benefits.order(:ordering).pluck(:message)
+    json_success benefits: @user.benefits.order(:ordering).pluck(:message)
   end
 
   private

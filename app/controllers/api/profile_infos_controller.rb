@@ -88,12 +88,12 @@ class Api::ProfileInfosController < Api::BaseController
 
   def enable_vacation_mode
     manager.enable_vacation_mode(reason: params[:vacation_message])
-    json_success
+    json_success vacation_enabled: @user.vacation_enabled?
   end
 
   def disable_vacation_mode
     manager.disable_vacation_mode
-    json_success
+    json_success vacation_enabled: @user.vacation_enabled?
   end
 
   def update_slug
