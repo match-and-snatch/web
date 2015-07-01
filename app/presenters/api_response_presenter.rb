@@ -166,19 +166,20 @@ class ApiResponsePresenter
   end
 
   def dialogue_data(dialogue)
-    antiuser = dialogue.antiuser(current_user.object)
-    {
-      id: dialogue.id,
-      antiuser: {
-        id: antiuser.id,
-        name: antiuser.name,
-        slug: antiuser.slug,
-        picture_url: antiuser.comment_picture_url,
-        has_profile_page: antiuser.has_profile_page?
-      },
-      recent_message: message_data(dialogue.recent_message),
-      unread: dialogue.unread? && dialogue.recent_message.user != current_user.object
-    }
+    if antiuser = dialogue.antiuser(current_user.object)
+      {
+        id: dialogue.id,
+        antiuser: {
+          id: antiuser.id,
+          name: antiuser.name,
+          slug: antiuser.slug,
+          picture_url: antiuser.comment_picture_url,
+          has_profile_page: antiuser.has_profile_page?
+        },
+        recent_message: message_data(dialogue.recent_message),
+        unread: dialogue.unread? && dialogue.recent_message.user != current_user.object
+      }
+    end
   end
 
   def messages_data(messages = [])

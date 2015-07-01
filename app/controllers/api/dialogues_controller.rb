@@ -8,7 +8,7 @@ class Api::DialoguesController < Api::BaseController
   def index
     @dialogues = current_user.object.dialogues.not_removed.
         includes(recent_message: :user).order(recent_message_at: :desc).limit(200).to_a
-    json_success @dialogues.map { |dialogue| api_response.dialogue_data(dialogue) }
+    json_success (@dialogues.map { |dialogue| api_response.dialogue_data(dialogue) }).compact
   end
 
   def show
