@@ -79,6 +79,10 @@ class UploadManager < BaseManager
     transloadit_data['results']['preview']   or fail_with! 'Invalid transloadit data'
     transloadit_data['results']['full_size'] or fail_with! 'Invalid transloadit data'
 
+    if PhotoPost.pending_uploads_for(user).count + transloadit_data['uploads'].count > 8
+      fail_with! "You can't upload more than 8 photos."
+    end
+
     attributes = { uploadable_type: 'Post', uploadable_id: nil }
     bucket = Transloadit::Rails::Engine.configuration['_templates']['post_photo']['steps']['store']['bucket']
 
