@@ -6,10 +6,16 @@ class bud.widgets.UploadForm extends bud.widgets.Form
 
   initialize: ->
     super
+
+    @limit = @$container.data('limit') || 15
+
     @allowed_extensions = (@$container.find('input[type=file]').attr('accept') || '').toLowerCase().split(',')
+
     @$target = bud.get(@$container.data('target'))
+
     @upload_ticks_count = 0
     @processing_ticks_count = 0.0
+
     bud.sub('post', @on_post)
     bud.sub('attachment.cancel', @on_cancel)
     bud.Ajax.getScript(bud.widgets.UploadForm.TRANSLOADIT_SCRIPT_PATH).done(@on_script_loaded)
@@ -54,10 +60,20 @@ class bud.widgets.UploadForm extends bud.widgets.Form
         @$container.find('.select_file_container').addClass('hidden')
         $('.Progress').removeClass('hidden')
         bud.pub('attachment.uploading')
+
         if @has_invalid_file_extension
           bud.pub('attachment.cancel')
           @notify_file_invalid()
+        else if @reached_limit
+          @reached_limit = false
+          bud.pub('attachment.cancel')
+          @notify_file_invalid("You can't upload more than #{@limit} files.")
+
       onFileSelect: (fileName, $fileInputField) =>
+        files_count = parseInt($fileInputField.get(0).files.length)
+        if files_count > @limit
+          @reached_limit = true
+
         @validate_file_extension(fileName, $fileInputField)
       onError: (error) =>
         console.log(error) if console
