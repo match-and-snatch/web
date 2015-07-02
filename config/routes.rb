@@ -30,9 +30,6 @@ BuddyPlatform::Application.routes.draw do
     end
 
     resources :subscriptions, only: [:index, :destroy] do
-      collection do
-        get :search_subscribers
-      end
       member do
         put :enable_notifications
         put :disable_notifications
@@ -92,9 +89,14 @@ BuddyPlatform::Application.routes.draw do
       resources :likes, only: [:index, :create], defaults: { type: 'comment' }
     end
 
-    resources :messages, only: [:create]
+    resources :messages, only: [:create] do
+      collection do
+        get :search_recipients
+      end
+    end
     resources :dialogues, only: [:index, :show, :destroy]
 
+    resources :contributors, only: [:index]
     resources :contributions, only: [:create, :destroy]
 
     resources :profile_types, only: [:index, :create, :destroy]
@@ -111,7 +113,10 @@ BuddyPlatform::Application.routes.draw do
         get :details
         post :create_profile
         put :create_profile_page
+        put :update_slug
         put :update_bank_account_data
+        put :enable_notifications_debug
+        put :disable_notifications_debug
         put :enable_rss
         put :disable_rss
         put :enable_downloads
@@ -133,6 +138,7 @@ BuddyPlatform::Application.routes.draw do
         get :billing_information
         put :update_account_picture
         delete :delete_account_picture
+        put :change_password
         put :update_general_information
         put :update_cc_data
       end

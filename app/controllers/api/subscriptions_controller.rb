@@ -3,17 +3,12 @@ class Api::SubscriptionsController < Api::BaseController
   before_action :filter_card_params, only: [:via_register, :via_update_cc_data]
   before_action :load_subscription!, only: [:enable_notifications, :disable_notifications, :destroy, :restore]
 
-  protect(:create, :via_update_cc_data, :search_subscribers) { current_user.authorized? } # TODO (DJ): FIX IT
+  protect(:create, :via_update_cc_data) { current_user.authorized? } # TODO (DJ): FIX IT
   protect(:destroy) { can? :delete, @subscription }
 
   def index
     @subscriptions = current_user.object.subscriptions.active.joins(:target_user)
     json_success api_response.subscriptions_data(@subscriptions)
-  end
-
-  def search_subscribers
-    subscriptions = Queries::SourceSubscriptions.new(user: current_user.object, query: params[:q]).by_subscriber_name
-    json_success subscriptions.map {|subscription| api_response.user_data(subscription.user)}
   end
 
   def create

@@ -19,6 +19,8 @@ class ApiResponsePresenter
       holder_name: user.holder_name,
       routing_number: user.routing_number,
       account_number: user.account_number,
+      prefer_paypal: user.prefers_paypal?,
+      paypal_email: user.paypal_email,
       stripe_user_id: user.stripe_user_id,
       stripe_card_id: user.stripe_card_id,
       has_cc_payment_account: user.has_cc_payment_account?,
@@ -51,6 +53,7 @@ class ApiResponsePresenter
       original_account_picture_url: user.original_account_picture_url,
       comment_picture_url: user.comment_picture_url,
       activated: user.activated,
+      notifications_debug_enabled: user.notifications_debug_enabled,
       rss_enabled: user.rss_enabled,
       downloads_enabled: user.downloads_enabled,
       itunes_enabled: user.itunes_enabled,
@@ -98,7 +101,7 @@ class ApiResponsePresenter
     {
       id: subscription.id,
       billing_date: subscription.billing_date.to_s(:long),
-      canceled_at: subscription.canceled_at ? subscription.canceled_at.to_s(:long) : nil,
+      canceled_at: subscription.canceled_at ? subscription.canceled_at.to_date.to_s(:long) : nil,
       removed: subscription.removed?,
       rejected: subscription.rejected?,
       target_user: user_data(subscription.target_user)
@@ -163,19 +166,20 @@ class ApiResponsePresenter
   end
 
   def dialogue_data(dialogue)
-    antiuser = dialogue.antiuser(current_user.object)
-    {
-      id: dialogue.id,
-      antiuser: {
-        id: antiuser.id,
-        name: antiuser.name,
-        slug: antiuser.slug,
-        picture_url: antiuser.comment_picture_url,
-        has_profile_page: antiuser.has_profile_page?
-      },
-      recent_message: message_data(dialogue.recent_message),
-      unread: dialogue.unread? && dialogue.recent_message.user != current_user.object
-    }
+    if antiuser = dialogue.antiuser(current_user.object)
+      {
+        id: dialogue.id,
+        antiuser: {
+          id: antiuser.id,
+          name: antiuser.name,
+          slug: antiuser.slug,
+          picture_url: antiuser.comment_picture_url,
+          has_profile_page: antiuser.has_profile_page?
+        },
+        recent_message: message_data(dialogue.recent_message),
+        unread: dialogue.unread? && dialogue.recent_message.user != current_user.object
+      }
+    end
   end
 
   def messages_data(messages = [])
@@ -208,34 +212,20 @@ class ApiResponsePresenter
   def profile_settings_data(user)
     {
       cost: user.cost,
-      payout_info: {
-        holder_name: user.holder_name,
-        routing_number: user.routing_number,
-        account_number: user.account_number,
-        prefer_paypal: user.prefers_paypal?,
-        paypal_email: user.paypal_email
-      },
-      display_settings: {
-        itunes_enabled: user.itunes_enabled,
-        rss_enabled: user.rss_enabled,
-        downloads_enabled: user.downloads_enabled,
-        contributions_enabled: user.contributions_enabled
-      },
-      profile_info: {
-        profile_name: user.profile_name,
-        vacation_enabled: user.vacation_enabled
-      },
+      contributions_enabled: user.contributions_enabled,
+      downloads_enabled: user.downloads_enabled,
+      itunes_enabled: user.itunes_enabled,
+      rss_enabled: user.rss_enabled,
+      profile_name: user.profile_name,
+      vacation_enabled: user.vacation_enabled,
+      holder_name: user.holder_name,
+      routing_number: user.routing_number,
+      account_number: user.account_number,
+      prefer_paypal: user.prefers_paypal?,
+      paypal_email: user.paypal_email,
       benefits: user.benefits.order(:ordering).pluck(:message),
-      profile_types: user.profile_types.map do |profile_type|
-        {
-          id: profile_type.id,
-          title: profile_type.title
-        }
-      end,
-      welcome_media: {
-        welcome_audio: upload_data(user.welcome_audio),
-        welcome_video: upload_data(user.welcome_video)
-      }
+      profile_types: user.profile_types.map { |profile_type| profile_type_data(profile_type) },
+      welcome_video: upload_data(user.welcome_video)
     }
   end
 
@@ -271,6 +261,24 @@ class ApiResponsePresenter
     }
   end
 
+  def contribution_data(contribution = nil)
+    {}.tap do |data|
+      if contribution
+        data[:contributor_name] = contribution.user.name
+        data[:created_at] = contribution.created_at.to_s(:short)
+        data[:recurring] = contribution.recurring?
+        data[:amount] = contribution.amount
+      end
+    end
+  end
+
+  def profile_type_data(profile_type)
+    {
+      id: profile_type.id,
+      title: profile_type.title
+    }
+  end
+
   private
 
   def contributions_data
@@ -285,15 +293,6 @@ class ApiResponsePresenter
             amount: contributions.sum(&:amount)
           }
         end)
-      end
-    end
-  end
-
-  def contribution_data(contribution = nil)
-    {}.tap do |data|
-      if contribution
-        data[:recurring] = contribution.recurring?
-        data[:amount] = contribution.amount
       end
     end
   end

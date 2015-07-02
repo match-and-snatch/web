@@ -32,12 +32,12 @@ class Api::UsersController < Api::BaseController
   def update_cost
     manager.update_cost(params[:cost], update_existing_subscriptions: params.bool(:update_existing))
     notice(:cost_change_request_submited) if manager.cost_change_request_submited?
-    respond_with_user_data
+    json_success cost: @user.cost
   end
 
   def update_profile_name
     manager.update_profile_name(params[:name])
-    respond_with_user_data
+    json_success profile_name: @user.profile_name
   end
 
   def update_profile_picture
