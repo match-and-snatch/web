@@ -1,7 +1,7 @@
 class Api::UsersController < Api::BaseController
   include Transloadit::Rails::ParamsDecoder
 
-  before_action :load_user!, only: %i[show update_profile_name update_profile_picture update_cover_picture update_cost]
+  before_action :load_user!, only: %i[show update_profile_name update_profile_picture update_cover_picture update_cover_picture_position update_cost]
 
   protect(:update_profile_name, :update_profile_picture, :update_cover_picture, :update_cost) { current_user == @user }
 
@@ -47,6 +47,11 @@ class Api::UsersController < Api::BaseController
 
   def update_cover_picture
     manager.update_cover_picture(params[:transloadit])
+    respond_with_user_data
+  end
+
+  def update_cover_picture_position
+    manager.update_cover_picture_position(params[:cover_picture_position])
     respond_with_user_data
   end
 
