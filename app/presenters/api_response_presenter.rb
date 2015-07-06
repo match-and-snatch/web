@@ -11,11 +11,8 @@ class ApiResponsePresenter
   def current_user_data(user)
     {
       id: user.id,
-      slug: user.slug,
-      email: user.email,
       created_at: user.created_at,
       updated_at: user.updated_at,
-      full_name: user.full_name,
       holder_name: user.holder_name,
       routing_number: user.routing_number,
       account_number: user.account_number,
@@ -24,7 +21,6 @@ class ApiResponsePresenter
       stripe_user_id: user.stripe_user_id,
       stripe_card_id: user.stripe_card_id,
       has_cc_payment_account: user.has_cc_payment_account?,
-      last_four_cc_numbers: user.last_four_cc_numbers,
       card_type: user.card_type,
       profile_picture_url: user.profile_picture_url,
       small_profile_picture_url: user.small_profile_picture_url,
@@ -32,7 +28,6 @@ class ApiResponsePresenter
       cover_picture_url: user.cover_picture_url,
       original_cover_picture_url: user.original_cover_picture_url,
       cover_picture_position: user.cover_picture_position,
-      is_profile_owner: user.is_profile_owner?,
       has_complete_profile: user.has_complete_profile?,
       has_public_profile: user.has_public_profile?,
       has_profile_page: user.has_profile_page?,
@@ -48,7 +43,6 @@ class ApiResponsePresenter
       subscription_cost: user.subscription_cost,
       cost_changed_at: user.cost_changed_at,
       company_name: user.company_name,
-      account_picture_url: user.account_picture_url,
       small_account_picture_url: user.small_account_picture_url,
       original_account_picture_url: user.original_account_picture_url,
       comment_picture_url: user.comment_picture_url,
@@ -68,16 +62,11 @@ class ApiResponsePresenter
       vacation_message: user.vacation_message,
       vacation_enabled_at: user.vacation_enabled_at,
       last_visited_profile_id: user.last_visited_profile_id,
-      billing_address_city: user.billing_address_city,
-      billing_address_state: user.billing_address_state,
-      billing_address_zip: user.billing_address_zip,
-      billing_address_line_1: user.billing_address_line_1,
-      billing_address_line_2: user.billing_address_line_2,
       contributions_enabled: user.contributions_enabled,
       registration_token: user.registration_token,
       auth_token: user.auth_token,
       api_token: user.api_token
-    }
+    }.merge(account_data(user))
   end
 
   def billing_information_data(subscriptions: [], contributions: [])
@@ -206,6 +195,22 @@ class ApiResponsePresenter
       subscribers_count: user.subscriptions_count,
       monthly_earnings: user.monthly_earnings,
       contributions: contributions_data
+    }
+  end
+
+  def account_data(user)
+    {
+      slug: user.slug,
+      is_profile_owner: user.is_profile_owner?,
+      full_name: user.full_name,
+      email: user.email,
+      account_picture_url: user.account_picture_url,
+      billing_address_line_1: user.billing_address_line_1,
+      billing_address_line_2: user.billing_address_line_2,
+      billing_address_city: user.billing_address_city,
+      billing_address_state: user.billing_address_state,
+      billing_address_zip: user.billing_address_zip,
+      last_four_cc_numbers: user.last_four_cc_numbers
     }
   end
 
