@@ -17,11 +17,11 @@ module Concerns::Likable
 
     case likes_count
     when 1, 2
-      {recent_liker: likers_scope.map(&:name).join(', '), more_count: 0}
+      {recent_liker: likers_scope.map(&:name).join(', '), more_count: 0, total_count: likes_count}
     when 0
-        {}
+      {total_count: likes_count}
     else
-      {recent_liker: likers_scope.first.name, more_count: likes_count - 1}
+      {recent_liker: likers_scope.first.name, more_count: likes_count - 1, total_count: likes_count}
     end
   end
 end

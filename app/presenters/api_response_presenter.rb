@@ -279,6 +279,18 @@ class ApiResponsePresenter
     }
   end
 
+  def pending_video_data(video)
+    {
+      id: video.try(:id),
+      previews: current_user.object.pending_video_preview_photos(true).first(2).map do |preview|
+        {
+          id: preview.id,
+          url: preview.url
+        }
+      end
+    }
+  end
+
   private
 
   def contributions_data
