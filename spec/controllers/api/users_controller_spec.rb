@@ -75,32 +75,18 @@ describe Api::UsersController, type: :controller do
 
       its(:status) { is_expected.to eq(200) }
       it { expect { subject }.to change { user.reload.name }.to 'serezha' }
-      it { expect(JSON.parse(subject.body)).to include({"data" =>
-                                                            {
-                                                                "access" => {"owner" => true, "subscribed" => false, "billing_failed" => false},
-                                                                "id" => user.id,
-                                                                "name" => "serezha",
-                                                                "slug" => "sergeizinin",
-                                                                "types" => [],
-                                                                "benefits" => [],
-                                                                "subscription_cost" => 2300,
-                                                                "cost" => 2000,
-                                                                "profile_picture_url" => "set",
-                                                                "small_profile_picture_url"=>nil,
-                                                                "cover_picture_url" => nil,
-                                                                "cover_picture_position" => 0,
-                                                                "downloads_enabled" => true,
-                                                                "itunes_enabled" => true,
-                                                                "rss_enabled" => false,
-                                                                "api_token"=>"set",
-                                                                "vacation_enabled" => false,
-                                                                "vacation_message" => nil,
-                                                                "contributions_enabled"=>true,
-                                                                "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
-                                                                "dialogue_id"=>nil
-                                                            }
-                                                       })
-      }
+
+      specify do
+        expect(JSON.parse(subject.body)).to include({
+          "data" => {"profile_name" => "serezha"},
+          "api_token" => nil,
+          "status" => "success",
+        })
+      end
+
+      specify do
+        expect(JSON.parse(subject.body)).to have_key('token')
+      end
     end
 
     context 'non authorized' do
