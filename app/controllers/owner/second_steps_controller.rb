@@ -9,11 +9,6 @@ class Owner::SecondStepsController < Owner::BaseController
     UserProfileManager.new(@user).
       update(params.slice(:cost, :profile_name, :holder_name, :routing_number, :account_number))
 
-    if @user.has_full_account?
-      notice(:congrats)
-      json_redirect profile_path(@user.reload.slug)
-    else
-      json_success notice: render_to_string(partial: 'notice')
-    end
+    json_redirect profile_path(@user.reload.slug), notice: :congrats
   end
 end

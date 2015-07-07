@@ -11,7 +11,7 @@ div data-identifier='pending-photos'
         | What file extensions are supported?
         .file_types All major photo extensions are supported.
       .clearfix
-      form.UploadForm action=photos_path method='post' data-target='pending-photos'
+      form.UploadForm action=photos_path method='post' data-target='pending-photos' data-limit=8
         = transloadit :post_photo
         .select_file_container
           .btn.green.multi.fa.fa-plus

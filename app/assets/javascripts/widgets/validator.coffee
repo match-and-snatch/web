@@ -19,7 +19,7 @@ class bud.widgets.Validator extends bud.Widget
       return false
 
     setTimeout( =>
-      key_code = e.keyCode || e.which;
+      key_code = e.keyCode || e.which
 
       if key_code == 9
         e.preventDefault()
@@ -44,6 +44,7 @@ class bud.widgets.Validator extends bud.Widget
           when 'routing_number'    then @validate_routing_number()
           when 'account_number'    then @validate_account_number()
           when 'subscription_cost' then @validate_subscription_cost()
+          when 'nothing' then true
           else bud.Logger.error('No validator')
     , 10)
 

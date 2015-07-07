@@ -36,7 +36,7 @@ describe Subscription do
 
     context 'subscription is paid' do
       before do
-        PaymentManager.new.pay_for(subject)
+        PaymentManager.new(user: user).pay_for(subject)
       end
 
       it 'notifies user about payment failure' do
@@ -48,7 +48,7 @@ describe Subscription do
     context 'payment failed' do
       before do
         StripeMock.prepare_card_error(:card_declined)
-        PaymentManager.new.pay_for(subject)
+        PaymentManager.new(user: user).pay_for(subject)
       end
 
       it 'does notify' do
@@ -124,7 +124,7 @@ describe Subscription do
     context 'payment has failed' do
       before do
         StripeMock.prepare_card_error(:card_declined)
-        PaymentManager.new.pay_for(subject)
+        PaymentManager.new(user: user).pay_for(subject)
       end
 
       specify do

@@ -13,7 +13,7 @@ BuddyPlatform::Application.configure do
   config.eager_load = false
 
   # Configure static asset server for tests with Cache-Control for performance.
-  config.serve_static_assets  = true
+  config.serve_static_files  = true
   config.static_cache_control = "public, max-age=3600"
   config.assets.use_cdn = false
 

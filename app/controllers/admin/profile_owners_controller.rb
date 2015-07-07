@@ -1,6 +1,6 @@
 class Admin::ProfileOwnersController < Admin::BaseController
-  before_action :load_user!, only: [:show, :total_subscribed, :total_new_subscribed,
-                                    :total_unsubscribed, :failed_billing_subscriptions,
+  before_action :load_user!, only: [:show, :update, :change_fake_subscriptions_number, :total_subscribed,
+                                    :total_new_subscribed, :total_unsubscribed, :failed_billing_subscriptions,
                                     :pending_payments, :this_month_subscribers_unsubscribers]
 
   def index
@@ -18,17 +18,22 @@ class Admin::ProfileOwnersController < Admin::BaseController
   end
 
   def show
+    @user = UserStatsDecorator.new(@user)
     json_render
   end
 
   def update
-    @user = User.where(id: params[:id]).first or error(404)
     @user.update_attributes!(params.require(:user).permit(:custom_profile_page_css))
     json_success notice: 'CSS Updated Successfully'
   end
 
+  def change_fake_subscriptions_number
+    SubscriptionManager.create_fakes(count: params[:count], target_user: @user)
+    json_reload notice: 'Fake Subscriptions Were Successfully Added'
+  end
+
   def total_subscribed
-    @subscriptions = @user.object.
+    @subscriptions = @user.
         source_subscriptions.
         includes(:user).
         where(users: { billing_failed: false }).
@@ -39,7 +44,7 @@ class Admin::ProfileOwnersController < Admin::BaseController
   end
 
   def total_new_subscribed
-    @subscriptions = @user.object.
+    @subscriptions = @user.
         source_subscriptions.
         includes(:user).
         where(created_at: period).
@@ -49,7 +54,7 @@ class Admin::ProfileOwnersController < Admin::BaseController
   end
 
   def total_unsubscribed
-    @subscriptions = @user.object.
+    @subscriptions = @user.
         source_subscriptions.
         includes(:user).
         where(removed_at: period, removed: true).
@@ -59,7 +64,7 @@ class Admin::ProfileOwnersController < Admin::BaseController
   end
 
   def this_month_subscribers_unsubscribers
-    @subscriptions = @user.object.
+    @subscriptions = @user.
         source_subscriptions.
         includes(:user).
         where(removed_at: period, removed: true, created_at: period).
@@ -76,7 +81,7 @@ class Admin::ProfileOwnersController < Admin::BaseController
   end
 
   def pending_payments
-    @subscriptions = @user.object.
+    @subscriptions = @user.
         source_subscriptions.
         includes(:user).
         not_removed.
@@ -98,6 +103,5 @@ class Admin::ProfileOwnersController < Admin::BaseController
 
   def load_user!
     @user = User.where(id: params[:id]).first or error(404)
-    @user = UserStatsDecorator.new(@user)
   end
 end

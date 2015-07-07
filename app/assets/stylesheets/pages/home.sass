@@ -160,9 +160,9 @@
     .lights,
     .tagline,
     .alex,
-    .aaron,
-    .jane,
-    .david,
+    .soulja,
+    .wendy,
+    .suits,
     .arrow,
     .profile_directory
       position: absolute
@@ -184,18 +184,21 @@
       height: 126px
       width: 288px
       left: 60px
-    .jane
-      height: 128px
-      width: 107px
-      left: 80px
-    .david
-      height: 128px
-      width: 107px
-      left: 120px
-    .aaron
+    .soulja
+      height: 123px
+      width: 171px
+      left: 130px
+      bottom: -1px
+    .wendy
+      height: 129px
+      width: 102px
+      left: 130px
+      bottom: -1px
+    .suits
       height: 125px
-      width: 143px
-      left: 100px
+      width: 150px
+      left: 130px
+      bottom: -1px
     .arrow
       height: 100px
       width: 98px
@@ -266,13 +269,13 @@
         &.neal_text
           left: 355px
         &.alex_text
-          left: 370px
-        &.david_text
+          left: 365px
+        &.soulja_text
+          left: 320px
+        &.wendy_text
           left: 250px
-        &.jane_text
-          left: 220px
-        &.aaron_text
-          left: 290px
+        &.suits_text
+          left: 280px
     .previous
       left: 0
     .next
@@ -293,14 +296,6 @@
       left: -20px
     .next
       right: -20px
-    //&:hover
-      .btn.black
-        .bus
-          -webkit-transform: translate(2.5em,0)
-          -moz-transform: translate(2.5em,0)
-          -o-transform: translate(2.5em,0)
-          -ms-transform: translate(2.5em,0)
-          transform: translate(2.5em,0)
 
 // Button Actions
 
@@ -461,6 +456,7 @@
 .homepage_our_users
   background-color: #FFFFFF
   border-bottom: 1px solid $color_border
+  margin-bottom: -15px
   .description
     padding-top: 60px
     .title
@@ -488,7 +484,7 @@
 // Footer
 
 @media screen and (max-width: 991px)
-  .footer
+  footer
     ul
       font-size: 12px
       text-align: center

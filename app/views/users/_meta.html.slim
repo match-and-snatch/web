@@ -9,3 +9,8 @@ meta property="og:url"         content=url_for(only_path: false)
 
 - if @profile.profile_picture_url
   meta property="og:image" content=@profile.profile_picture_url
+
+- if @profile.custom_head_js.present?
+  - content_for :custom_head_js do
+    javascript:
+      #{@profile.custom_head_js.html_safe}

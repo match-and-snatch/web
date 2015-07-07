@@ -5,26 +5,9 @@ module Users
       cleanup_by_subscriptions
       cleanup_by_creation_date
       cleanup_by_duplicate_subscriptions
-      cleanup_test_com
     end
 
     private
-
-    def cleanup_test_com
-      User.by_email('test@test.com').delete_all
-      User.by_email('test@test.comxxxxxx').delete_all
-      User.by_email('jdbply@gmail.comxxxxxx').delete_all
-      User.where(id: [2481, 2264, 1301, 1345, 1082, 1083, 1079, 1029, 1050]).delete_all
-
-      u_andy = User.where(id: 2356).first
-      u_dark = User.where(id: 2458).first
-
-      if u_andy && u_dark
-        SubscriptionManager.new(subscriber: u_andy).subscribe_to(u_dark.subscriptions.first.target_user)
-        u_dark.subscriptions.delete_all
-        u_dark.delete
-      end
-    end
 
     def cleanup(duplicates)
       duplicates.each do |duplicate|

@@ -133,4 +133,12 @@ class CurrentUserDecorator < UserDecorator
   def pending_videos
     @pending_videos ||= VideoPost.pending_uploads_for(object).to_a
   end
+
+  def pending_video
+    @pending_video ||= pending_videos.first
+  end
+
+  def pending_video_previews
+    @pending_video_previews ||= object.pending_video_preview_photos.to_a
+  end
 end

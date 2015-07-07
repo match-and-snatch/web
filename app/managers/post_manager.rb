@@ -60,12 +60,15 @@ class PostManager < BaseManager
     end
   end
 
-  def create_video_post(*args)
-    if VideoPost.pending_uploads_for(user).many?
-      fail_with! "You can't upload more than one video."
-    end
+  def create_video_post(title: nil, keyword_text: nil, message: nil, preview_url: nil, notify: false)
+    videos = VideoPost.pending_uploads_for(user)
+    fail_with! "You can't upload more than one video." if videos.many?
 
-    create_media_post(VideoPost, *args).tap do |post|
+    video = videos.first
+
+    create_media_post(VideoPost, title: title, keywords_text: keyword_text, message: message, notify: notify).tap do |post|
+      video.preview_url = preview_url
+      video.save!
       VideoFeedEvent.create! subscription_target_user: user, target: post
       EventsManager.post_created(user: user, post: post)
     end
@@ -153,6 +156,7 @@ class PostManager < BaseManager
     if @post.uploads.count.zero?
       @post.type = 'StatusPost'
       @post.save or fail_with! @post.errors
+      @post
     end
   end
 

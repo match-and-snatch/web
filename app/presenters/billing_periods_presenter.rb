@@ -26,7 +26,7 @@ class BillingPeriodsPresenter
 
     result = [(first_month_date..last_month_date)]
 
-    while first_month_date.month != Time.zone.now.month
+    while first_month_date.month != Time.zone.now.month || first_month_date.year != Time.zone.now.year
       first_month_date += 1.month
       last_month_date = first_month_date.end_of_month
       result << (first_month_date..last_month_date)
@@ -47,7 +47,7 @@ class BillingPeriodsPresenter
     end
 
     def name
-      Date::MONTHNAMES[@period.begin.month]
+      "#{Date::MONTHNAMES[@period.begin.month]}-#{@period.begin.year}"
     end
 
     def current?
@@ -67,7 +67,7 @@ class BillingPeriodsPresenter
     end
 
     def stripe_fee
-      payments.count * 30 + payments.sum(:amount) * 0.029
+      payments.count * 30 + payments.sum(:amount) * 0.025
     end
 
     def tos_fee

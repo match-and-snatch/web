@@ -1,3 +1,13 @@
+# I left old inline config in transloadit.yml but with '_templates' key, It doesn't appears to html.
+# If you need to update transloadit config you can use this old inline config
+# (need to rename '_templates' to 'template' of course), change it, test it and generate json for shared
+# template via console like this:
+#
+# >>> Transloadit::Rails::Engine.template(:post_audio, {}).to_json
+#
+# paste this json to form on transloadit site and enjoy.
+# Also we use inline config to get S3 bucket name for specific uploads
+
 s3: &s3
   robot: '/s3/store'
   key: 'AKIAJ5KUIYFXQB5KUD5A'
@@ -79,11 +89,12 @@ transloadit_config: &transloadit_config
     thumbs:
       use: ":original"
       robot: "/video/thumbs"
-      offsets: ['42%']
+      count: 2
+      offsets: ['25%', '75%']
     s3_thumb:
       <<: *s3_uploads_bucket
       use: 'thumbs'
-      path: 'uploads/video_previews/${fields.slug}/${assembly.id}____${file.url_name}'
+      path: 'uploads/video_previews/${fields.slug}/${file.id}____${file.url_name}'
     encode:
       robot: "/video/encode"
       use: ":original"
@@ -110,8 +121,9 @@ transloadit_config: &transloadit_config
     key: 'bd5bea60c06e11e3bf3d4b00c82e3cf7'
     secret: '80d8d557d23c2e6798dc55c6bedfdebaf281fec5' # this is optional, but highly recommended, https://transloadit.com/docs/authentication
     duration: 320000 # 30 minute validity period for signed upload forms
+    max_size: 2000000000 # 2 gigabytes
 
-  templates:
+  _templates:
     # template identified by template_id
     s3_store: 'S3_STORE_TEMPLATE_ID'
 
@@ -215,14 +227,38 @@ transloadit_config: &transloadit_config
           path: 'uploads/documents/${fields.slug}/${assembly.id}__${file.url_name}'
           # bucket: private-assets?
 
+development_templates: &development_templates
+  templates:
+    profile_picture: '599df8f004f211e59e98f52f83d0ec73'
+    cover_picture: '45b86fa004f211e59dafe10c4d93915b'
+    welcome_media: '255df72004f211e5a5f76f6a9552609a'
+    post_video: '2dc260c004ea11e580958fc32c7fa937'
+    post_audio: 'c4909fb004f111e59654552d6283d868'
+    post_photo: 'e7e82b9004f111e5932433d265ebf1d9'
+    post_document: '03f93a9004f211e5a57fc128ee431824'
+
+production_templates: &production_templates
+  templates:
+    profile_picture: '2b4849f004f311e59ad5a39a2d0ec294'
+    cover_picture: '14795c5004f311e5932433d265ebf1d9'
+    welcome_media: '47b0047004f311e59fdb317f1c0ae354'
+    post_video: 'e660ec2004ed11e5a001d564983a15e8'
+    post_audio: 'c247a4a004f211e58a7e4777bf1f9527'
+    post_photo: 'dacb201004f211e5b8f88ff515ee3893'
+    post_document: 'fbef513004f211e5a001d564983a15e8'
+
 development:
   <<: *transloadit_config
+  <<: *development_templates
 
 test:
   <<: *transloadit_config
+  <<: *development_templates
 
 staging:
   <<: *transloadit_config
+  <<: *development_templates
 
 production:
   <<: *transloadit_config
+  <<: *production_templates

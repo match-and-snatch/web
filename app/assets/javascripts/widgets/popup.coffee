@@ -52,18 +52,20 @@ class bud.widgets.Popup extends bud.Widget
     @current_popup_width = 0
 
     # Close other popups
-    bud.pub("popup.show", [@]);
+    bud.pub("popup.show", [@])
 
     # Show this popup
-    @$container.css('position', 'absolute').css('top', window.scrollY + 2) if bud.is_mobile.any()
+    if bud.is_mobile.any()
+      @$container.css('position', 'absolute').css('top', window.scrollY + 2)
     @$container.show()
     @autoplace()
 
     # Show overlay
-    bud.pub("popup.show.overlay");
+    bud.pub("popup.show.overlay")
 
     YPosition = window.pageYOffset
     @$container.find('input:first').focus()
+
     setTimeout ->
       window.scrollTo(0, YPosition)
     , 500
@@ -73,6 +75,7 @@ class bud.widgets.Popup extends bud.Widget
   hide: =>
     @$container.css('position', 'fixed')
     @$container.hide()
+    $(document.activeElement).blur()
     bud.pub("popup.hide")
     clearInterval(@autoplacer) if @autoplacer
 

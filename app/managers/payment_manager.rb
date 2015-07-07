@@ -8,8 +8,10 @@ class PaymentManager < BaseManager
   end
 
   def create_charge(amount: , customer: nil, description: nil, statement_description: nil, metadata: {})
+    fail_with! 'Credit card is declined' if @user.cc_declined?
+
     Stripe::Charge.create amount: amount,
-                          customer: (customer || user),
+                          customer: (customer || user.try(:stripe_user_id)),
                           currency: 'usd',
                           description: description,
                           statement_description: statement_description,
@@ -23,6 +25,8 @@ class PaymentManager < BaseManager
     unless subscription.is_a?(Concerns::Payable)
       raise ArgumentError, "Don't know how to pay for #{subscription.class.name}"
     end
+
+    @user ||= subscription.customer
 
     charge = create_charge amount: subscription.total_cost,
                            customer:    subscription.customer.stripe_user_id,
@@ -81,7 +85,7 @@ class PaymentManager < BaseManager
   # Pays for any random subscription on charge to check if billing fails
   # Changes billing status to "failed" if payment is not passed
   def perform_test_payment
-    subscription = user.subscriptions.on_charge.not_removed.first
+    subscription = user.subscriptions.to_charge.first
     pay_for(subscription) if subscription
   end
 end

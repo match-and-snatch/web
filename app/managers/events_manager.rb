@@ -69,10 +69,10 @@ class EventsManager < BaseManager
     # @return [Integer]
     def like_removed(user: , like: )
       Event.where(user_id: user.id,
-                  action: 'like_created',
-                  data: { likable_id: like.likable_id,
-                          target_user_id: like.target_user_id,
-                          likable_type: like.likable_type }.to_yaml).daily.delete_all
+                  action: 'like_created')
+           .where(['events.data = ?', { likable_id: like.likable_id,
+                                        target_user_id: like.target_user_id,
+                                        likable_type: like.likable_type }.to_yaml]).daily.delete_all
     end
 
     # @param user [User]

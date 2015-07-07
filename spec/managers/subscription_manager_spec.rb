@@ -6,6 +6,26 @@ describe SubscriptionManager do
 
   subject(:manager) { described_class.new(subscriber: subscriber) }
 
+  describe '#unsubscribe' do
+    before { manager.subscribe_to(another_user) }
+
+    it do
+      expect { manager.unsubscribe }.to change { another_user.subscribers_count }.by(-1)
+    end
+
+    context 'fake' do
+      before { manager.subscribe_to(another_user, fake: true) }
+
+      it do
+        expect { manager.unsubscribe }.to change { another_user.subscribers_count }.by(-1)
+      end
+
+      it do
+        expect { manager.unsubscribe }.not_to change { FeedEvent.count }
+      end
+    end
+  end
+
   describe '#subscribe_to' do
     context 'another user' do
       subject { manager.subscribe_to(another_user) }
@@ -16,6 +36,38 @@ describe SubscriptionManager do
 
       specify do
         expect { manager.subscribe_to(another_user) }.to change { Subscription.count }.by(1)
+      end
+
+      context 'fake' do
+        subject { manager.subscribe_to(another_user, fake: true) }
+
+        it { should be_a Subscription }
+        it { should be_valid }
+        it { should_not be_new_record }
+        it { should be_fake }
+
+        specify do
+          expect { subject }.to change { Subscription.count }.by(1)
+        end
+
+        it do
+          expect { subject }.not_to change { FeedEvent.count }
+        end
+
+        context 'with fake user' do
+          let(:subscriber) { User.fake }
+
+          it { should be_a Subscription }
+          it { should be_valid }
+          it { should_not be_new_record }
+          it { should be_fake }
+          its(:user) { should eq(subscriber) }
+          it { expect { subject }.to change { another_user.subscribers_count }.by(1) }
+
+          specify do
+            expect { manager.subscribe_to(another_user) }.to change { Subscription.count }.by(1)
+          end
+        end
       end
 
       it 'creates subscription_created event' do

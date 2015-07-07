@@ -32,6 +32,9 @@ hr
         strong Currently Subscribed:
         span style="color: #ea2e49;"= @user.subscriptions_count
       li
+        strong> Fakes Subscribed:
+        span style="color: #ea2e49;"= @user.fakes_count
+      li
         strong Total Subscribers (all time):
         span style="color: #ea2e49;"= @user.subscribed_ever_count
       li
@@ -61,6 +64,18 @@ hr
       li
         strong Total Paid Out:
         span style="color: #ea2e49;"= cents_to_dollars @user.total_paid_out
+    .clearfix
+
+.row
+  .col-md-12
+    hr
+    h2
+      strong Fake Subscriptions
+    form.form-inline.Form action=change_fake_subscriptions_number_admin_profile_owner_path(@user.id) method='POST'
+      .form-group
+        label style='margin-right: 5px' Subscriptions Count
+        input.form-control type='text' name='count' style='margin-right: 15px; width: 100px' value=@user.fake_subscriptions_count
+      input.btn.pink type='submit' value='Change Number of Fake Subscriptions'
     .clearfix
 
 .AjaxContainer data-identifier='vacations' data-url=admin_profile_owner_vacations_path(@user.id)

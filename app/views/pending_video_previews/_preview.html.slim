@@ -1,0 +1,19 @@
+- if current_user.object.pending_video_preview_photos.count > 2
+  - preview = current_user.object.pending_video_preview_photos.last
+  li.uploaded_custom data-identifier='custom-video-preview'
+    input.ValueSetter data-target='video-preview-url' type='radio' name='preview_url' id='pending_video_preview#{preview.id}' value=preview.url
+    label for='pending_video_preview#{preview.id}'
+      img src=preview.url
+    a.delete_button.AjaxFormLink href=pending_video_preview_path(preview) data-_method='DELETE' data-target='custom-video-preview'
+      i.fa.fa-times Remove
+- else
+  li.upload_custom data-identifier='custom-video-preview'
+    form.UploadForm action=pending_video_previews_path method='post' data-target='custom-video-preview'
+      = transloadit :post_photo
+      .upload_custom_btn
+        i.fa.fa-picture-o
+          'Upload
+          br
+          'Custom Image
+        input.hide_btn.upload_btn type='file' name='post_photos' accept='.jpg,.png,.gif'
+        input type='hidden' name='slug' value=current_user.slug

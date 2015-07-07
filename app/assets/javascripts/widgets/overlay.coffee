@@ -11,7 +11,11 @@ class bud.widgets.Overlay extends bud.Widget
       bud.sub('popup.show.overlay', @show)
       bud.sub('popup.hide.overlay', @hide)
       bud.sub('keyup.esc', @on_esc)
-      @$container.click @on_click
+
+      if bud.is_mobile.any()
+        @$container.on 'touchstart', @on_click
+      else
+        @$container.click @on_click
 
   destroy: ->
     bud.unsub('popup.show.overlay', @show)
@@ -21,7 +25,10 @@ class bud.widgets.Overlay extends bud.Widget
     if @$container.is(':visible')
       @on_click()
 
-  on_click: =>
+  on_click: (e) =>
+    if bud.is_mobile.any()
+      e.stopPropagation()
+      e.preventDefault()
     bud.pub("popup.show")
     @hide()
 

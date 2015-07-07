@@ -40,6 +40,13 @@ class UserProfileManager < BaseManager
     @user
   end
 
+  # Displays warning to unsubscribed users
+  def toggle_mature_content
+    @user.has_mature_content = !@user.has_mature_content
+    @user.save!
+    @user
+  end
+
   # @param profile_type [ProfileType]
   def remove_profile_type(profile_type)
     raise ArgumentError unless profile_type.is_a?(ProfileType)
@@ -107,10 +114,10 @@ class UserProfileManager < BaseManager
     end
 
     user.cost           = (cost.to_f * 100).to_i
-    user.profile_name   = profile_name
-    user.holder_name    = holder_name
-    user.routing_number = routing_number
-    user.account_number = account_number
+    user.profile_name   = profile_name.try(:strip)
+    user.holder_name    = holder_name.try(:strip)
+    user.routing_number = routing_number.try(:strip)
+    user.account_number = account_number.try(:strip)
     user.generate_slug
 
     save_or_die! user
@@ -137,30 +144,37 @@ class UserProfileManager < BaseManager
   end
 
   # @return [User]
-  def update_payment_information(holder_name: nil, routing_number: nil, account_number: nil)
+  def update_payment_information(holder_name: nil, routing_number: nil, account_number: nil, prefer_paypal: false, paypal_email: nil)
     holder_name    = holder_name.to_s.strip
     routing_number = routing_number.to_s.strip
     account_number = account_number.to_s.strip
+    paypal_email   = paypal_email.to_s.strip
 
     validate! do
-      fail_with holder_name: :empty if holder_name.blank?
-
-      if routing_number.match ONLY_DIGITS
-        fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
+      if prefer_paypal
+        validate_email(paypal_email, check_if_taken: false, field_name: :paypal_email)
       else
-        fail_with routing_number: :not_an_integer
-      end
+        fail_with holder_name: :empty if holder_name.blank?
 
-      if account_number.match ONLY_DIGITS
-        fail_with account_number: :not_an_account_number unless (3..20).include?(account_number.try(:length))
-      else
-        fail_with account_number: :not_an_integer
+        if routing_number.match ONLY_DIGITS
+          fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
+        else
+          fail_with routing_number: :not_an_integer
+        end
+
+        if account_number.match ONLY_DIGITS
+          fail_with account_number: :not_an_account_number unless (3..20).include?(account_number.try(:length))
+        else
+          fail_with account_number: :not_an_integer
+        end
       end
     end
 
-    user.holder_name    = holder_name
-    user.routing_number = routing_number
-    user.account_number = account_number
+    user.holder_name    = holder_name.try(:strip)
+    user.routing_number = routing_number.try(:strip)
+    user.account_number = account_number.try(:strip)
+    user.paypal_email   = paypal_email.try(:strip)
+    user.prefers_paypal = prefer_paypal
 
     save_or_die! user
 
@@ -179,7 +193,7 @@ class UserProfileManager < BaseManager
     fail_with! profile_name: :too_long if profile_name.length > 140
     fail_with! profile_name: :taken    if (/connect.?pal/i).match(profile_name)
 
-    user.profile_name = profile_name
+    user.profile_name = profile_name.try(:strip)
     save_or_die! user
     EventsManager.profile_name_changed(user: user, name: profile_name)
   end
@@ -291,6 +305,7 @@ class UserProfileManager < BaseManager
     card_data = customer['cards']['data'][0]
     user.stripe_user_id = customer['id']
     user.stripe_card_id = card_data['id']
+    user.stripe_card_fingerprint = card_data['fingerprint']
     user.last_four_cc_numbers = card_data['last4']
     user.card_type = card_data['type']
     user.billing_address_zip = card_data['address_zip']
@@ -329,6 +344,32 @@ class UserProfileManager < BaseManager
     fail_with! number: 'Generic Stripe error'
   end
 
+  def decline_credit_card
+    fail_with! email: 'Already declined' if @user.cc_declined?
+
+    if @user.stripe_card_fingerprint.present?
+      fingerprint = @user.stripe_card_fingerprint
+    else
+      customer = Stripe::Customer.retrieve(@user.stripe_user_id)
+      card = customer.sources.retrieve(@user.stripe_card_id)
+      fingerprint = card.fingerprint
+      @user.stripe_card_fingerprint = fingerprint
+      @user.save!
+    end
+
+    CreditCardDecline.create!(stripe_fingerprint: fingerprint, user_id: @user.id)
+    EventsManager.credit_card_declined(user: @user, data: { email: @user.email, stripe_fingerprint: fingerprint })
+  end
+
+  def restore_credit_card
+    fail_with! email: 'Not declined' unless @user.cc_declined?
+
+    @user.credit_card_declines.each do |decline|
+      decline.destroy
+      EventsManager.credit_card_restored(user: @user, data: { email: @user.email, stripe_fingerprint: decline.stripe_fingerprint })
+    end
+  end
+
   # @param full_name [String]
   # @param company_name [String]
   # @param email [String]
@@ -345,8 +386,8 @@ class UserProfileManager < BaseManager
       validate_email(email) if email != user.email
     end
 
-    user.full_name    = full_name
-    user.company_name = company_name
+    user.full_name    = full_name.try(:strip)
+    user.company_name = company_name.try(:strip)
     user.email        = email
 
     save_or_die! user
@@ -379,6 +420,13 @@ class UserProfileManager < BaseManager
       EventsManager.account_photo_changed(user: user, photo: upload)
     end
     user
+  end
+
+  def delete_account_picture
+    user.account_picture_url = nil
+    user.small_account_picture_url = nil
+    user.original_account_picture_url = nil
+    save_or_die! user
   end
 
   # @param transloadit_data [Hash]

@@ -20,6 +20,8 @@
             | Messages
             span.badge.pull-right data-identifier='messages-counter' #{@user.unread_messages_count}
             .clearfix
+        / a.HashLink data-use_anchor='true' data-default='true' data-target='account-info' href=account_info_logs_path
+          li Logs
 
       h2.subscriptions My Subscriptions
       ul
@@ -52,6 +54,3 @@
 .hidden-md.hidden-sm.col-xs-12
   .mobile_nav.HidesOnMobileInput.col-xs-12.hidden-md.hidden-sm
     = render 'navigation_mobile'
-
-div.hidden-xs style='position: fixed; bottom: 0; width: 100%'
-  = render 'footer'

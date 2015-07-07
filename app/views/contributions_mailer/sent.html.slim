@@ -2,12 +2,12 @@
   strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 28px; line-height: 100%;' Contribution Receipt
 
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
-  | Congratulations,&nbsp;
+  | &nbsp;Congratulations,&nbsp;
   strong style="color:#ea2e49;"#{@contribution.user.name}
   |!
 
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
-  | You have contributed to #{link_to_user @contribution.target_user}'s profile page.
+  | You have contributed to #{link_to_user @contribution.target_user, possessive: true} profile page.
 
 img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-hr.png' border='0' height='1px' width='458px' alt='divider' title='divider' style='display: block; border: none; padding: 0; margin: 0 0 15px 0;'
 

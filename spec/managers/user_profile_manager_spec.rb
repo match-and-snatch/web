@@ -33,7 +33,7 @@ describe UserProfileManager do
 
     it 'saves vacation start date' do
       Timecop.freeze(Time.zone.now) do
-        expect { enable_vacation_mode }.to change { user.reload.vacation_enabled_at }.from(nil).to(Time.zone.now)
+        expect { enable_vacation_mode }.to change { user.reload.vacation_enabled_at.try(:round) }.from(nil).to(Time.zone.now.round)
       end
     end
 
@@ -598,7 +598,7 @@ describe UserProfileManager do
       end
 
       it 'notify support if new change cost request was changed' do
-        expect(ProfilesMailer).to receive(:cost_change_request).with(user, 199, 599).and_return(double('mailer').as_null_object)
+        expect(ProfilesMailer).to receive(:cost_change_request).with(user, 199, 699).and_return(double('mailer').as_null_object)
         manager.update_cost(5)
       end
 

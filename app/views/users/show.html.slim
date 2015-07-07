@@ -17,7 +17,8 @@
     .photo_cover
       - if @profile.cover_picture_url.present?
         a.PopupTrigger data-target='full-cover-photo' href=@profile.original_cover_picture_url
-          div style='background: url(#{@profile.cover_picture_url}); background-position: 0 #{@profile.cover_picture_position}px; width: 100%; height: 100%'
+          div data-identifier='cover-photo' style='background: url(#{@profile.cover_picture_url}); width: 100%; height: 100%'
+          .BackgroundScroller data-target='cover-photo' data-position=@profile.cover_picture_position data-base_height=208
 
     .photo_profile
       - if @profile.profile_picture_url.present?
@@ -27,7 +28,7 @@
 
     /Details Container
     .details_container.row
-      .col-md-7.col-sm-7.col-xs-12.profile_details
+      .col-md-8.col-sm-8.col-xs-12.profile_details
 
         /Profile Name
         span.profile_name= @profile.profile_name
@@ -39,7 +40,7 @@
         /Profile Type
         span.profile_type= @profile.types
 
-      .col-md-5.col-sm-5.col-xs-12
+      .col-md-4.col-sm-4.col-xs-12
 
         /Subscribe Container
         .subscribe_cont

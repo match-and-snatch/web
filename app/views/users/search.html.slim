@@ -8,9 +8,8 @@
       - @users.each do |user|
         a href=profile_path(user.slug)
           li.list-group-item
-            .pull-left
-              img src=user.small_profile_picture_url width=50 height=50
-            .pull-left style='padding-top: 15px'= super_highlight(user.profile_name)
+            img.pull-left src=user.small_profile_picture_url width=50 height=50
+            .profile_name.pull-left= super_highlight(user.profile_name)
             - if current_user == user
               small.pull-right.text-muted You
             .clearfix

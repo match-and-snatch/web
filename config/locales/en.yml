@@ -18,7 +18,7 @@ en:
     no_such_email: There is no user registered with this email.
     already_changed_today: You are allowed to change it only once a day.
     invalid_token: This token is no longer valid. Please request a new one.
-    not_a_cost: Must contain only digits or dot.
+    not_a_cost: Must be a whole number.
     not_a_whole_number: Must be a whole number.
     pending_request_present: You currently have a price change requested pending.
     user_does_not_exist: There is nobody registered with this email.
@@ -26,7 +26,7 @@ en:
   messages:
     activated: Congratulations, your account has been activated. You are now ready to use our service.
     congrats: "Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!"
-    password_sent: We sent you an email on <strong>%{email}</strong> with futher steps to restore your password.
+    password_sent: We sent you an email to <strong>%{email}</strong> with further steps to restore your password.
     invalid_email_token: Sorry, this link is no longer valid. Please request another one.
     password_set: Success. Now you can login using your new password.
     slug_updated: Your profile URL has been successfully updated.
@@ -47,7 +47,7 @@ en:
     new_message: Your message has been sent. You will be notified when you have a reply.
     new_comment: Thanks for the comment
     updated_cc_data: Your billing info has been updated.
-    cost_change_request_submited: "<span style='font-size: 15px'>Your request has been submitted, we will contact you within 48 hours.</span>"
+    cost_change_request_submited: "Your price change request has been submitted. For security purposes, a ConnectPal representative will contact you within 72 hours to confirm your price change. Thanks."
   feed:
     audios: Just added a new audio file to their profile.
     videos: Just posted a new video to their profile.

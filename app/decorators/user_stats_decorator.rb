@@ -1,6 +1,15 @@
 class UserStatsDecorator < UserDecorator
   delegate :full_name, to: :object
 
+  def fake_subscriptions_count
+    @fake_subscriptions_count ||= object.source_subscriptions.where(fake: true, removed: false).count
+  end
+
+  def fakes_count
+    count = fake_subscriptions_count
+    "#{count} ($#{count * object.cost / 100.0})"
+  end
+
   def target_subscriptions_count
     object.subscriptions.count
   end
@@ -73,7 +82,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def stripe_fee
-    payments.count * 30 + payments.sum(:amount) * 0.029
+    payments.count * 30 + payments.sum(:amount) * 0.025
   end
 
   def total_paid_out

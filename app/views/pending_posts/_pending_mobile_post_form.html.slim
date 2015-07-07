@@ -16,6 +16,8 @@
 
   / Input fields for post title, description, keywords, and post notification
   form.col-md-6.col-sm-6.col-xs-12.upload_details.Poster action=media_posts_path method='POST' data-target='posts'
+    input type='hidden' name='preview_url' data-identifier='video-preview-url'
+
     / Post title
     input.bg-color.form-control name='title' placeholder='Title' value=pending_post.title validate='require'
     .error data-field='title'

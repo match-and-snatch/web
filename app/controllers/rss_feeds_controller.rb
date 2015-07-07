@@ -4,9 +4,15 @@ class RssFeedsController < ApplicationController
   before_action :set_http_content_headers
 
   def index
-    subscription_ids = @current_user.subscriptions.not_removed.where(rejected: false).pluck(:target_user_id)
-    @posts = Post.where(user_id: subscription_ids, hidden: false)
-                 .order('posts.created_at DESC').limit(50)
+    subscriptions = @current_user.subscriptions.not_removed.where(rejected: false)
+
+    if params[:user_id] && @user = User.find_by_id(params[:user_id])
+      subscriptions = subscriptions.where(target_user_id: @user.id)
+    end
+
+    subscription_ids = subscriptions.pluck(:target_user_id)
+
+    @posts = Post.where(user_id: subscription_ids, hidden: false).order('posts.created_at DESC').limit(50)
     render layout: false, formats: ['atom']
   end
 

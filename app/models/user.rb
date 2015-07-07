@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  FAKE_TOKEN = 'fake'.freeze
+
   include PgSearch
   include Concerns::Subscribable
 
@@ -11,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :benefits
   has_many :posts
   has_many :comments
+  has_many :credit_card_declines
   has_many :subscriptions
   has_many :source_subscriptions, class_name: 'Subscription', foreign_key: 'target_user_id'
   has_many :uploads, as: :uploadable
@@ -18,6 +21,7 @@ class User < ActiveRecord::Base
   has_many :likes
   has_many :source_likes, class_name: 'Like', foreign_key: 'target_user_id'
   has_many :pending_post_uploads, -> { pending.ordered.posts }, class_name: 'Upload'
+  has_many :pending_video_preview_photos, -> { pending.ordered }, class_name: 'PendingVideoPreviewPhoto'
   has_many :profile_types_users
   has_many :profile_types, through: :profile_types_users
   has_many :payments
@@ -48,8 +52,12 @@ class User < ActiveRecord::Base
   scope :by_email, -> (email) { where(['email ILIKE ?', email]) }
   scope :top, -> { profile_owners.joins(:top_profile).order('top_profiles.position') }
 
-  pg_search_scope :search_by_text_fields, against: [:full_name, :profile_name, :profile_types_text],
-                                        using: [:tsearch, :dmetaphone, :trigram],
+  pg_search_scope :search_by_text_fields, against: [[:full_name, 'B'], [:profile_name, 'A'], [:profile_types_text, 'C']],
+                                        using: {
+                                          :tsearch => {:prefix => true},
+                                          :dmetaphone => {},
+                                          :trigram => {}
+                                        },
                                         ignoring: :accents,
                                         ranked_by: ":dmetaphone + (0.25 * :trigram) + (0.25 * users.subscribers_count)"
 
@@ -62,8 +70,37 @@ class User < ActiveRecord::Base
     where(has_public_profile: true).order("random()").first
   end
 
+  def self.fake
+    fake_user = User.where(registration_token: FAKE_TOKEN).first
+    return fake_user if fake_user
+
+    User.create! :account_number => nil,
+                 :activated => true,
+                 :email => 'fake@connectpal.com',
+                 :full_name => 'Fake User',
+                 :has_complete_profile => false,
+                 :has_public_profile => false,
+                 :hidden => true,
+                 :holder_name => 'Fake User',
+                 :is_admin => false,
+                 :is_profile_owner => false,
+                 :profile_name => 'Fake User',
+                 :registration_token => FAKE_TOKEN,
+                 :subscribers_count => 0,
+                 :subscription_cost => 0,
+                 :subscription_fees => 0
+  end
+
   def admin?
     is_admin? || APP_CONFIG['admins'].include?(email)
+  end
+
+  def cc_declined?
+    if stripe_card_fingerprint.present?
+      CreditCardDecline.where(stripe_fingerprint: stripe_card_fingerprint).any?
+    else
+      credit_card_declines.any?
+    end
   end
 
   def comment_picture_url
@@ -197,9 +234,9 @@ class User < ActiveRecord::Base
 
   # Sets costs and fees
   # Logic:
-  # $5 or less = $0.99
-  # $6 - $20 = $1.99
-  # $21 and above = 9% of subscription price
+  # $4 or less = $0.99
+  # $5 - $15 = $1.99
+  # $16 and above = 15% of subscription price
   #
   # @param val [Integer]
   # @return [S]
@@ -208,12 +245,12 @@ class User < ActiveRecord::Base
       cost = cost.to_i
       fees = 0
 
-      if cost <= 500
+      if cost <= 400
         fees = 99
-      elsif cost >= 600 && cost <= 2000
+      elsif cost >= 500 && cost <= 1500
         fees = 199
-      elsif cost >= 2100
-        fees = cost / 100 * 9
+      elsif cost >= 1600
+        fees = cost / 100 * 15
       else
         raise ArgumentError, 'Invalid cost'
       end

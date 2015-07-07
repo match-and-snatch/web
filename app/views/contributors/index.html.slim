@@ -2,22 +2,22 @@
   i.PopupTrigger.fa.fa-times-circle.close type="button" aria-hidden="true"
   .modal-title Contributor List
 
-  .modal-body style="text-align: left; margin-bottom: 15px"
-    table.table.table-striped
+  .modal-body.contributors
+    table.table.table-striped style='margin-bottom: 0;'
       thead
         tr
-          th
+          th style='width: 150px;'
             b Subscriber Name
-          th
+          th style='width: 110px; padding-left: 0;'
             b Date/Time
-          th
+          th style='width: 90px; padding-left: 0;'
             b Amount
-          th style='text-align: right;'
+          th style='width: 90px; padding-left: 0;'
             b Recurring?
-      tbody
+      tbody style='font-size: 12px;'
         - @contributions.each do |contribution|
           tr
-            td= link_to_user contribution.user
-            td= contribution.created_at.to_s(:short)
-            td= cents_to_dollars contribution.amount
-            td= contribution.will_repeat? ? 'Yes' : 'No'
+            td.contribution_user= link_to_user contribution.user
+            td.contribution_created= contribution.created_at.to_s(:short)
+            td.contribution_amount= cents_to_dollars contribution.amount
+            td.contribution_repeat= contribution.will_repeat? ? 'Yes' : 'No'

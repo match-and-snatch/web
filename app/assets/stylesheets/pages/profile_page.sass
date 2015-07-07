@@ -51,7 +51,7 @@
       height: 184px
       div
         background-size: 100% !important
-        background-position-y: 0 !important
+        #background-position-y: 0 !important
       .btn
         display: none !important
     // Apple iPhone 4 & 5
@@ -130,12 +130,15 @@
 
   .photo_cover, .photo_profile
     .btn
-      display: none
       position: absolute
       bottom: 15px
       .fa
         &:before
           padding-right: 5px
+      @media screen and (min-width: 991px)
+        display: none
+      @media only screen and (min-device-width : 768px) and (max-device-width : 1024px)
+        display: block
     &.blank, &:hover:not(.editing)
       .btn
         display: block
@@ -151,8 +154,8 @@
     .profile_details
       color: $color_text_dark
       font-weight: 600
-      font-size: 38px
-      line-height: 100%
+      font-size: 34px
+      line-height: 120%
       margin-bottom: 5px
       @media screen and (max-width: 767px)
         font-size: 26px
@@ -160,11 +163,23 @@
       .profile_name
         color: $color_text_dark
         cursor: pointer
+        display: inline-block
+        min-height: 45px
+        margin-top: 10px
         text-decoration: none
         word-wrap: break-word
+        span
+          float: left
+          @media screen and (max-width: 767px)
+            width: 100%
+          @media screen and (min-width: 768px) and (max-width: 991px)
+            width: 425px
+          @media screen and (min-width: 992px)
+            width: 490px
         &.visitor
           cursor: default
         .fa
+          float: left
           max-width: 517px
           word-wrap: break-word
           &:before
@@ -491,27 +506,30 @@
         overflow: hidden
         position: relative
 
+        .video_bg_preupload
+          @include border-radius (5px)
+          border: 1px solid $color_border
+          height: 190px
+          background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
+          @media screen and (min-width: 768px) and (max-width: 991px)
+            background-position-x: -60px
+
         // Listed Files
 
         .added_audio, .added_video, .added_photo, .added_document
           overflow: hidden
-          height: 251px
+          height: 270px
           ul
             @include border-radius (5px)
             background-position: 50%
             border: 1px solid $color_border
-            height: 180px
+            height: 190px
             margin: 0
             padding: 0
             overflow: hidden
             overflow-y: scroll
             &.audio_bg
               background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_audio.png') no-repeat
-              // Tablet
-              @media screen and (min-width: 768px) and (max-width: 991px)
-                background-position-x: -60px
-            &.video_bg
-              background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
               // Tablet
               @media screen and (min-width: 768px) and (max-width: 991px)
                 background-position-x: -60px
@@ -589,7 +607,7 @@
           cursor: pointer
           display: inline-block
           font-size: 12px
-          margin: 10px 0
+          margin: 17px 0 0
           text-decoration: underline
           position: relative
           .file_types
@@ -601,7 +619,7 @@
             font-size: 12px
             padding: 7px 10px 8px
             position: absolute
-            top: 27px
+            top: 29px
             left: 0
             width: 439px
             z-index: 1
@@ -613,24 +631,74 @@
         // Listed Video
 
         .added_video
-          ul
-            overflow-y: hidden !important
+          .heading
+            color: $color_text_light
+            font-size: 14px
+            text-align: center
+            padding: 5px 0 35px
+          ul.video_bg
+            border: none !important
+            overflow: hidden !important
+            height: 130px
             li
-              background-color: #FFFFFF
-              border-bottom: none
-              height: auto
-              padding: 0
+              @include border-radius (5px)
+              border: 1px solid $color_border
+              display: inline-block
+              list-style-type: none
+              margin: 0 16px 0 0
               position: relative
-              img
-                margin-top: -30px
-                width: 437px
-              a.delete_button
-                @include border-radius (50%)
-                background-color: $color_background
-                padding: 4px 5px
+              overflow: hidden
+              height: 130px
+              width: 130px
+              padding: 0
+              input[type=radio]
                 position: absolute
-                top: -3px
-                right: 5px
+                top: 0
+                left: 5px
+              img
+                height: 130px
+              .delete_button
+                @include border-radius(0 0 0 5px)
+                background-color: $color_pink
+                color: #FFFFFF
+                font-size: 11px
+                padding: 2px 5px 3px
+                position: absolute
+                top: -8px
+                right: 0px
+                .fa.fa-times
+                  &:before
+                    padding-right: 3px
+              &.upload_custom
+                background-color: #FFFFFF
+                border: none
+                .upload_custom_btn
+                  @include green-area
+                  cursor: pointer
+                  color: #FFFFFF
+                  height: 130px
+                  margin-right: 0
+                  text-align: center
+                  i.fa.fa-picture-o
+                    font-size: 16px
+                    line-height: 20px
+                    margin-top: 30px
+                    &:before
+                      font-size: 36px
+                      display: block
+                      margin-bottom: 10px
+                  .custom_image
+                    position: absolute
+                    top: -1px
+                    left: -1px
+                  .upload_btn
+                    height: 130px
+                    width: 130px
+                    opacity: 0
+                    position: absolute
+                    top: 0
+                    left: 0
+                    cursor: pointer
 
         // Listed Photo
 
@@ -890,13 +958,6 @@
       @media screen and (max-width: 767px)
         font-size: 14px
         margin-bottom: 80px
-
-    // Deleted
-
-    .deleted
-      margin-bottom: 30px
-      font-weight: bold
-      text-align: center
 
     // Single Post
 
@@ -1264,9 +1325,6 @@
           background: rgb(243, 243, 243)
           color: #428bca
           text-decoration: none
-      .deleted
-        margin-top: 0
-        padding: 15px
       .photo
         background: asset-url('//connectpal-assets.s3.amazonaws.com/images/profile_comment_default.png') no-repeat
         background-size: 100%
@@ -1527,6 +1585,8 @@
       color: $color_text_light
       &:hover
         color: $color_text_dark
+  .adult_content
+    margin-top: 10px
   &.with_video, &.width_audio
     padding: 0 !important
     overflow: hidden
@@ -1546,7 +1606,6 @@
     .jwplayer
       margin: 0 auto
       width: 100%
-
     .cost_visitor
       display: block
       float: right
@@ -1579,6 +1638,8 @@
         font-size: 32px
         height: 60px
         width: 20%
+    .adult_content
+      margin: 0 0 15px
 
 // Mobile
 
@@ -1787,7 +1848,10 @@
       li
         font-size: 12px
     .already_user
+      display: block
       font-size: 12px
+      margin: 0 0 10px
+
 
 // Desktop
 
@@ -2171,20 +2235,77 @@
               .delete_button
                 text-decoration: none
                 float: right
+          .heading
+            color: $color_text_light
+            font-size: 13px
+            text-align: center
+            margin-bottom: 15px
           .video_bg
+            margin: 0 auto
+            width: 290px
             li
+              @include border-radius(5px)
+              border: 1px solid $color_border
+              display: block
               position: relative
-              height: 100px
               overflow: hidden
-              img
-                margin-top: -35px
-              .delete_button
+              float: left
+              height: 90px
+              width: 90px
+              margin-right: 10px
+              input[type=radio]
                 position: absolute
-                top: 5px
-                right: 5px
-                text-decoration: none
+                top: 0
+                left: 5px
               img
-                width: 100%
+                height: 90px
+              .delete_button
+                @include border-radius(5px 5px 0 0)
+                background-color: $color_pink
+                color: #FFFFFF
+                font-size: 11px
+                padding: 4px 7px 6px
+                position: absolute
+                bottom: 0
+                right: 0
+                .fa.fa-times
+                  &:before
+                    padding-right: 3px
+              &.uploaded_custom
+                margin-right: 0
+              &.upload_custom
+                background-color: #FFFFFF
+                border: none
+                margin: 0
+                .upload_custom_btn
+                  @include green-area
+                  color: #FFFFFF
+                  text-align: center
+                  margin: 0
+                  padding: 0
+                  height: 90px
+                  width: 90px
+                  i.fa.fa-picture-o
+                    font-size: 13px
+                    line-height: 16px
+                    margin-top: 5px
+                    &:before
+                      display: block
+                      font-size: 24px
+                      margin: 7px 0
+                  .custom_image
+                    position: absolute
+                    top: -1px
+                    left: -1px
+                  .upload_btn
+                    height: 90px
+                    width: 90px
+                    padding: 0
+                    top: 0
+                    position: absolute
+                    cursor: pointer
+                    opacity: 0
+
           .photo_bg
             padding: 5px
             white-space: nowrap
@@ -2249,103 +2370,3 @@
           margin-bottom: 10px
           font-size: 11px !important
           padding: 5px !important
-
-// Sample Profile Viewport
-
-@media screen and (min-width: 992px)
-  .sample_profile_desktop
-    position: relative
-    //img
-      @include border-radius($border_radius)
-      margin: 0 auto
-      width: 575px
-    .note
-      position: absolute
-      top: 0
-      font-size: 11px
-      line-height: 150%
-      width: 140px
-      text-align: center
-    .n1
-      margin-top: 40px
-      left: -135px
-    .n2
-      margin-top: 362px
-      left: -135px
-    .n3
-      margin-top: 546px
-      left: -135px
-    .n4
-      margin-top: 760px
-      left: -135px
-    .n5
-      margin-top: 936px
-      left: -135px
-    .n6
-      margin-top: 40px
-      right: -135px
-      a
-        color: $color_pink
-    .n7
-      margin-top: 315px
-      right: -135px
-    .n8
-      margin-top: 590px
-      right: -135px
-    .n9
-      margin-top: 1300px
-      right: -135px
-
-    .note
-      .arrow
-        background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows-desktop.png")
-        &.n1
-          background-position: 0 0
-          height: 68px
-          width: 81px
-          margin: 5px 0 0 54px
-        &.n2
-          background-position: 0 138px
-          height: 44px
-          width: 57px
-          margin: 0 0 3px 78px
-        &.n3
-          background-position: 0 0
-          height: 68px
-          width: 81px
-          margin: 5px 0 0 54px
-        &.n4
-          background-position: 0 138px
-          height: 44px
-          width: 57px
-          margin: 0 0 0px 60px
-        &.n5
-          background-position: 100px 0px
-          height: 64px
-          width: 67px
-          margin: 0 0 0px 68px
-        &.n6
-          background-position: 105px -61px
-          height: 64px
-          width: 99px
-          margin: 0
-        &.n7
-          background-position: -79px -65px
-          height: 37px
-          width: 69px
-          margin: 0 0 10px 0
-        &.n8
-          background-position: 200px -110px
-          height: 73px
-          width: 81px
-          margin: 0
-        &.n9
-          background-position: 200px -110px
-          height: 73px
-          width: 81px
-          margin: 0
-
-@media screen and (max-width: 991px)
-  .sample_profile_desktop
-    .note
-      display: none

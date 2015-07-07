@@ -6,7 +6,7 @@ BuddyPlatform::Application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
     resources :sessions, only: [:create]
-    resources :users, only: [:show] do
+    resources :users, only: [:index, :create, :show] do
       collection do
         get :search
       end
@@ -14,8 +14,140 @@ BuddyPlatform::Application.routes.draw do
       member do
         post :update_profile_name
         post :update_profile_picture
+        post :update_cover_picture
+        post :update_cover_picture_position
+        put :update_cost
+      end
+
+      resources :posts, only: [:index]
+      resources :benefits, only: :create
+
+      resources :subscriptions, only: [:new, :create] do
+        collection do
+          post :via_register
+          post :via_update_cc_data
+        end
       end
     end
+
+    resources :subscriptions, only: [:index, :destroy] do
+      member do
+        put :enable_notifications
+        put :disable_notifications
+        put :restore
+      end
+    end
+
+    resources :posts, only: [:show, :update, :destroy] do
+      member do
+        delete :destroy_upload
+      end
+      collection do
+        get :feed
+      end
+      resources :comments, only: [:create, :index]
+      resources :likes, only: [:index, :create], defaults: { type: 'post' }
+    end
+
+    resource :pending_post, only: [:update]
+
+    resources :status_posts, only: [:new, :create]
+    resources :audio_posts, only: [:new, :create] do
+      delete :cancel, on: :collection
+    end
+    resources :video_posts, only: [:new, :create] do
+      delete :cancel, on: :collection
+    end
+    resources :photo_posts, only: [:new, :create]do
+      delete :cancel, on: :collection
+    end
+    resources :document_posts, only: [:new, :create] do
+      delete :cancel, on: :collection
+    end
+
+    resources :pending_video_previews, only: [:create, :destroy]
+
+    resources :videos,    only: [:create, :destroy]
+    resources :photos,    only: [:create, :destroy]
+    resources :documents, only: [:create, :destroy]
+    resources :audios,    only: [:create, :destroy] do
+      collection do
+        post :reorder
+      end
+    end
+
+    resources :comments, only: [:update, :destroy] do
+      member do
+        put :make_visible
+        put :hide
+      end
+      resources :replies, only: [:create, :update] do
+        member do
+          put :make_visible
+          put :hide
+        end
+      end
+      resources :likes, only: [:index, :create], defaults: { type: 'comment' }
+    end
+
+    resources :messages, only: [:create] do
+      collection do
+        get :search_recipients
+      end
+    end
+    resources :dialogues, only: [:index, :show, :destroy]
+
+    resources :contributors, only: [:index]
+    resources :contributions, only: [:create, :destroy]
+
+    resources :profile_types, only: [:index, :create, :destroy]
+
+    resource :password, only: [:edit, :update] do
+      member do
+        post :restore
+      end
+    end
+
+    resource :profile_info, only: [] do
+      member do
+        get :settings
+        get :details
+        post :create_profile
+        put :create_profile_page
+        put :update_slug
+        put :update_bank_account_data
+        put :enable_notifications_debug
+        put :disable_notifications_debug
+        put :enable_rss
+        put :disable_rss
+        put :enable_downloads
+        put :disable_downloads
+        put :enable_itunes
+        put :disable_itunes
+        put :enable_contributions
+        put :disable_contributions
+        post :enable_vacation_mode
+        post :disable_vacation_mode
+        put :update_welcome_media
+        delete :remove_welcome_media
+      end
+    end
+
+    resource :account_info, only: [] do
+      member do
+        get :settings
+        get :billing_information
+        put :update_account_picture
+        delete :delete_account_picture
+        put :change_password
+        put :update_general_information
+        put :update_cc_data
+      end
+    end
+
+    get '/mentions' => 'users#mentions', as: :mentions
+
+    match '*path' => 'cors#preflight', via: :options
   end
 
   resource :account_info, only: [] do
@@ -59,6 +191,7 @@ BuddyPlatform::Application.routes.draw do
           get :confirm_removal
         end
       end
+      resources :logs, only: [:index]
     end
   end
 
@@ -135,6 +268,7 @@ BuddyPlatform::Application.routes.draw do
   end
   resources :photos, only: [:show, :create, :destroy]
   resources :documents, only: [:create, :destroy]
+  resources :pending_video_previews, only: [:create, :destroy]
 
   resources :users, only: [:index, :create, :edit, :update] do
     collection do
@@ -184,6 +318,11 @@ BuddyPlatform::Application.routes.draw do
         post :update_list
       end
     end
+    resources :credit_card_declines, only: [:index, :create, :destroy] do
+      collection do
+        get :search
+      end
+    end
     resources :contributions, only: :index
     resources :duplicates, only: :index
     resources :payment_failures , only: :index
@@ -197,7 +336,10 @@ BuddyPlatform::Application.routes.draw do
     resource :directory do
       scope module: :directories do
         resources :users, only: [] do
-          put :toggle, on: :member
+          member do
+            put :toggle
+            put :toggle_mature_content
+          end
         end
       end
     end
@@ -219,6 +361,7 @@ BuddyPlatform::Application.routes.draw do
         get :this_month_subscribers_unsubscribers
         get :failed_billing_subscriptions
         get :pending_payments
+        post :change_fake_subscriptions_number
       end
     end
     resources :profiles, only: [:index, :show] do

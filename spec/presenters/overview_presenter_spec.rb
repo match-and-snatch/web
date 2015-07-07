@@ -116,26 +116,26 @@ describe OverviewPresenter do
     describe '#total_failed_payments_count' do
       specify { expect(subject.total_failed_payments_count).to eq(1) }
     end
-  
+
     describe '#daily_failed_payments_count' do
       specify { expect(subject.daily_failed_payments_count).to eq(1) }
     end
   end
 
   describe '#total_gross_sales' do
-    specify { expect(subject.total_gross_sales).to eq(599) }
+    specify { expect(subject.total_gross_sales).to eq(699) }
   end
 
   describe '#total_connectpal_fees' do
-    specify { expect(subject.total_connectpal_fees).to eq(51.629) }
+    specify { expect(subject.total_connectpal_fees).to eq(151.525) }
   end
 
   describe '#total_stripe_fees' do
-    specify { expect(subject.total_stripe_fees).to eq(47.371) }
+    specify { expect(subject.total_stripe_fees).to eq(47.475) }
   end
 
   describe '#daily_gross_sales' do
-    specify { expect(subject.daily_gross_sales).to eq(599) }
+    specify { expect(subject.daily_gross_sales).to eq(699) }
   end
 
   context 'tos fees' do
@@ -159,6 +159,6 @@ describe OverviewPresenter do
   end
 
   describe '#daily_stripe_fees' do
-    specify { expect(subject.daily_stripe_fees).to eq(47.371) }
+    specify { expect(subject.daily_stripe_fees).to eq(47.475) }
   end
 end

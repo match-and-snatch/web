@@ -4,7 +4,8 @@ class PostsController < ApplicationController
   before_action :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide, :destroy_upload]
   before_action :detect_device_format, only: [:create]
 
-  protect(:index, :show) { can? :see, @user }
+  protect(:index) { can? :see, @user }
+  protect(:show) { can? :see, @post }
   protect(:destroy) { can? :delete, @post }
   protect(:destroy_upload) { can? :manage, @post }
   protect(:edit, :update, :hide, :make_visible) { can? :manage, @post }

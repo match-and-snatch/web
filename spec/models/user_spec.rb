@@ -174,7 +174,7 @@ describe User do
         before do
           StripeMock.start
           StripeMock.prepare_card_error(:card_declined)
-          PaymentManager.new.pay_for(subscription)
+          PaymentManager.new(user: user).pay_for(subscription)
         end
         after { StripeMock.stop }
 
@@ -219,7 +219,7 @@ describe User do
     let!(:not_mathing) { create_user first_name: 'slava', last_name: 'popov', email: 'slava@gmail.com' }
 
     specify do
-      expect(described_class.search_by_text_fields('sergei')).to eq [matching_by_full_name, matching_by_profile_name]
+      expect(described_class.search_by_text_fields('sergei')).to eq [matching_by_profile_name, matching_by_full_name]
     end
   end
 
@@ -268,11 +268,6 @@ describe User do
   describe '#cost=' do
     subject(:user) { User.new }
 
-    context 'invalid cost' do
-      specify { expect { user.cost =  501 }.to raise_error(ArgumentError, /Invalid cost/) }
-      specify { expect { user.cost = 2001 }.to raise_error(ArgumentError, /Invalid cost/) }
-    end
-
     context 'float cost' do
       specify { expect { user.cost = 300.5 }.to change { user.cost }.from(nil).to(300) }
       specify { expect { user.cost = 300.5 }.to change { user.subscription_cost }.from(nil).to(399) }
@@ -301,14 +296,14 @@ describe User do
       specify { expect { user.cost = 800 }.to change { user.subscription_fees }.from(nil).to(199) }
 
       specify { expect { user.cost = 2000 }.to change { user.cost }.from(nil).to(2000) }
-      specify { expect { user.cost = 2000 }.to change { user.subscription_cost }.from(nil).to(2199) }
-      specify { expect { user.cost = 2000 }.to change { user.subscription_fees }.from(nil).to(199) }
+      specify { expect { user.cost = 2000 }.to change { user.subscription_cost }.from(nil).to(2300) }
+      specify { expect { user.cost = 2000 }.to change { user.subscription_fees }.from(nil).to(300) }
     end
 
     context 'cost >= $21' do
       specify { expect { user.cost = 2100 }.to change { user.cost }.from(nil).to(2100) }
-      specify { expect { user.cost = 2100 }.to change { user.subscription_cost }.from(nil).to(2289) }
-      specify { expect { user.cost = 2100 }.to change { user.subscription_fees }.from(nil).to(189) }
+      specify { expect { user.cost = 2100 }.to change { user.subscription_cost }.from(nil).to(2415) }
+      specify { expect { user.cost = 2100 }.to change { user.subscription_fees }.from(nil).to(315) }
     end
   end
 end

@@ -152,6 +152,11 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
 
 .container
   max-width: 970px
+  .adult_content
+    font-size: 11px
+    margin: 0
+    text-align: center
+    padding: 5px
 
 .box
   @include border-radius($border_radius)
@@ -162,8 +167,8 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
   overflow: hidden
   position: relative
   &.general_page
-    margin: 15px 0 60px
     padding-bottom: 5px
+    margin-top: 15px
     @media screen and (max-width: 767px)
       margin-bottom: 100px
     h1
@@ -753,7 +758,7 @@ footer
   color: $color_text_light
   font-size: 13px
   line-height: 100%
-  margin-top: 30px
+  margin-top: 15px
   padding: 15px 15px 5px 15px
   ul
     float: left
@@ -852,6 +857,9 @@ footer
       display: block
       font-size: 13px
       margin-top: 5px
+      &.register_tagline
+        color: #464646
+        text-decoration: underline
 
     // Mobile
 
@@ -1278,6 +1286,26 @@ footer
           width: 498px
           img
             background-color: #FFFFFF
+          .profile_name
+            padding-top: 15px
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
+            // Mobile
+            @media screen and (max-width: 767px)
+              width: 380px
+            // Apple iPhone 4 & 5
+            @media screen and (max-width: 320px)
+              width: 190px
+            // Apple iPhone 6
+            @media screen and (min-width: 321px) and (max-width: 375px)
+              width: 250px
+            // Apple iPhone 6 Plus
+            @media screen and (min-width: 376px) and (max-width: 414px)
+              width: 290px
+            // Tablet & Desktop
+            @media screen and (min-width: 768px)
+              width: 400px
           &:hover
             background-color: $color_pink
             color: #FFFFFF
@@ -1461,96 +1489,189 @@ input.file
 .error_pages
   padding: 0px 15px 15px 15px
 
-// Sample Profile Viewport
+.deleted
+  -moz-animation: Deleted 0s ease-in 3s forwards
+  -webkit-animation: Deleted 0s ease-in 3s forwards
+  -o-animation: Deleted 0s ease-in 3s forwards
+  animation: Deleted 0s ease-in 3s forwards
+  -webkit-animation-fill-mode: forwards
+  animation-fill-mode: forwards
+  opacity: 1
+  height: 40px
+  text-align: center
+  font-weight: bold
+  font-size: 13px
+
+@keyframes Deleted
+  to
+    width: 0
+    height: 0
+    overflow: hidden
+
+
+@-webkit-keyframes Deleted
+  to
+    width: 0
+    height: 0
+    visibility: hidden
+
+// Sample Profile Views Desktop
 
 @media screen and (min-width: 992px)
-  .box
-    .sample_profile
-      margin: 15px 0
-      position: relative
-      text-align: center
-      img
-        @include border-radius($border_radius)
-        margin: 0 auto
+  .sample_profile
+    &.step_one
+      img.sample_profile
+        margin: 15px 0
         width: 575px
       .note
         p
           font-size: 12px
-      .n1
-        margin-top: 30px
-      .n2
-        margin-top: 140px
-      .n3
-        margin-top: 140px
-      .n4
-        margin-top: 0
-        a
-          color: $color_pink
-      .n5
-        margin-top: 65px
-      .n6
-        margin-top: 140px
-      .note
+          text-align: center
+        &.photo_note
+          margin-top: 30px
+        &.benefits_note
+          margin-top: 140px
+        &.notify_note
+          margin-top: 55px
+        &.price_note
+          margin-top: -28px
+          a
+            color: $color_pink
+        &.post_note
+          margin-top: 85px
+        &.engage_note
+          margin-top: 190px
         .arrow
           background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
-          &.n1
+          &.photo_note
             background-position: 0 0
             height: 68px
             width: 81px
             margin: 0 0 0 75px
-          &.n2
+          &.benefits_note
             background-position: 0 138px
             height: 44px
             width: 57px
             margin: 0 0 10px 99px
-          &.n3
+          &.notify_note
             background-position: 0 95px
-            height: 95px
-            width: 66px
-            margin: 0 0 10px 90px
-          &.n4
+            height: 70px
+            width: 81px
+            margin: 0 0 0 76px
+          &.price_note
             background-position: 99px 0
             height: 54px
             width: 99px
             margin: 0
-          &.n5
+          &.post_note
             background-position: 99px 138px
             height: 37px
             width: 69px
             margin: 0 0 10px 0
-          &.n6
+          &.engage_note
             background-position: 99px 94px
             height: 73px
             width: 81px
             margin: 0
 
-// Tablet
+    // Interactive Sample Profile Desktop
+
+    &.interactive_profile
+      position: relative
+      .note
+        position: absolute
+        top: 0
+        font-size: 11px
+        line-height: 150%
+        width: 140px
+        text-align: center
+        .arrow
+          background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows-desktop.png")
+        &.photo_note
+          margin-top: 40px
+          left: -135px
+        &.benefits_note
+          margin-top: 362px
+          left: -135px
+        &.notify_note
+          margin-top: 546px
+          left: -135px
+        &.contribute_note
+          margin-top: 760px
+          left: -135px
+        &.share_note
+          margin-top: 936px
+          left: -135px
+        &.price_note
+          margin-top: 40px
+          right: -135px
+          a
+            color: $color_pink
+        &.welcome_note
+          margin-top: 315px
+          right: -135px
+        &.post_note
+          margin-top: 590px
+          right: -135px
+        &.engage_note
+          margin-top: 1300px
+          right: -135px
+        .arrow
+          &.photo_note
+            background-position: 0 0
+            height: 68px
+            width: 81px
+            margin: 5px 0 0 54px
+          &.benefits_note
+            background-position: 0 138px
+            height: 44px
+            width: 57px
+            margin: 0 0 3px 78px
+          &.notify_note
+            background-position: 0 0
+            height: 68px
+            width: 81px
+            margin: 5px 0 0 54px
+          &.contribute_note
+            background-position: 0 138px
+            height: 44px
+            width: 57px
+            margin: 0 0 0px 60px
+          &.share_note
+            background-position: 100px 0px
+            height: 64px
+            width: 67px
+            margin: 0 0 0px 68px
+          &.price_note
+            background-position: 105px -61px
+            height: 64px
+            width: 99px
+            margin: 0
+          &.welcome_note
+            background-position: -79px -65px
+            height: 37px
+            width: 69px
+            margin: 0 0 10px 0
+          &.post_note
+            background-position: 200px -110px
+            height: 73px
+            width: 81px
+            margin: 0
+          &.engage_note
+            background-position: 200px -110px
+            height: 73px
+            width: 81px
+            margin: 0
+
+// Sample Profile Views Tablet
 
 @media screen and (max-width: 991px)
-  //nav
-    .navbar-nav
-      li
-        font-size: 11px !important
-        a
-          padding: 12px 10px !important
-        &.my_sub
-          .my_sub_parent
-            padding: 16px 10px !important
-        ul.my_sub_cont
-          padding: 0 !important
 
-  //.modal-body
-    .mobile_message
-      display: block !important
-      font-size: 12px
-      margin-top: 10px
-      padding: 5px 10px
-      width: 300px
-  .box
-    .sample_profile
-      margin: 15px 0
-      position: relative
-      text-align: center
+  .sample_profile
+    margin: 15px 0
+    position: relative
+    text-align: center
+    &.step_one
       img
         @include border-radius($border_radius)
         margin: 0 auto
@@ -1558,50 +1679,58 @@ input.file
       .note
         p
           font-size: 11px
-      .n1
-        margin-top: 0
-      .n2
-        margin-top: 80px
-      .n3
-        margin-top: 60px
-      .n4
-        margin-top: -47px
-        a
-          color: $color_pink
-      .n5
-        margin-top: 15px
-      .n6
-        margin-top: 85px
-      .note
+          line-height: 16px
+        &.photo_note
+          margin-top: 0
+        &.benefits_note
+          margin-top: 80px
+        &.notify_note
+          margin-top: 20px
+        &.price_note
+          margin-top: -60px
+          a
+            color: $color_pink
+        &.post_note
+          margin-top: 15px
+        &.engage_note
+          margin-top: 85px
         .arrow
           background-image: asset-url("//connectpal-assets.s3.amazonaws.com/images/arrows.png")
-          &.n1
+          &.photo_note
             background-position: 0 0
             height: 68px
             width: 81px
             margin: 0 0 0 35px
-          &.n2
+          &.benefits_note
             background-position: 0 138px
             height: 44px
             width: 57px
             margin: 0 0 10px 60px
-          &.n3
+          &.notify_note
             background-position: 0 95px
-            height: 95px
-            width: 66px
-            margin: 0 0 10px 53px
-          &.n4
+            height: 69px
+            width: 81px
+            margin: 0 0 10px 30px
+          &.price_note
             background-position: 99px 0
             height: 54px
             width: 99px
             margin: 0
-          &.n5
+          &.post_note
             background-position: 99px 138px
             height: 37px
             width: 69px
             margin: 0 0 10px 0
-          &.n6
+          &.engage_note
             background-position: 99px 94px
             height: 73px
             width: 81px
             margin: 0
+
+    // Interactive Sample Profile Tablet
+
+    &.interactive_profile
+      margin: 0 auto
+      text-align: left
+      .note
+        display: none
