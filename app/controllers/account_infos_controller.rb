@@ -6,6 +6,14 @@ class AccountInfosController < ApplicationController
 
   def show
     layout.title = 'Account - ConnectPal.com'
+
+    if params[:profile]
+      if @user.has_profile_page?
+        return redirect_to profile_path(@user.slug)
+      else
+        return redirect_to(create_profile_path)
+      end
+    end
   end
 
   def details
