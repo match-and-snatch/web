@@ -25,7 +25,7 @@ module ApplicationHelper
   # @return [String, nil]
   def likes_text(likable)
     data = likable.likers_data
-    return if data.empty?
+    return if data[:total_count].zero?
 
     more_count = data[:more_count]
     recent_liker = data[:recent_liker]
