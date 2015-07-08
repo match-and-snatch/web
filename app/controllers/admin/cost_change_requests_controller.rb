@@ -20,7 +20,7 @@ class Admin::CostChangeRequestsController < Admin::BaseController
   end
 
   def approve
-    @cost_change_request.approve!
+    @cost_change_request.approve!(update_existing_costs: params[:update_existing_subscriptions])
     json_reload
   end
 

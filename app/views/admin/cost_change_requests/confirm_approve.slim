@@ -5,6 +5,12 @@
 
   .modal-body style="padding-bottom: 15px;"
     form.Form action=approve_admin_cost_change_request_path(@cost_change_request) method='post'
+      .form-group
+        - if @cost_change_request.update_existing_subscriptions?
+          input type='checkbox' name='update_existing_subscriptions' checked='checked' value='1' id='cost_checkbox'
+        - else
+          input type='checkbox' name='update_existing_subscriptions' value='1' id='cost_checkbox'
+        label for='cost_checkbox' &nbsp;Update existing subscribers
       .form-group style="margin: 15px 0 0"
         input.btn.pink.pull-left type='submit' value='Approve' style="margin-left: 85px; text-decoration: none;"
         a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
