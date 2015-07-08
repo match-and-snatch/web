@@ -8,7 +8,7 @@ class ApiResponsePresenter
     @current_user = current_user
   end
 
-  def current_user_data(user)
+  def current_user_data(user = current_user.object)
     {
       id: user.id,
       created_at: user.created_at,

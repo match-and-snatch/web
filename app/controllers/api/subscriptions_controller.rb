@@ -13,7 +13,7 @@ class Api::SubscriptionsController < Api::BaseController
 
   def create
     SubscriptionManager.new(subscriber: current_user.object).subscribe_and_pay_for(@target_user)
-    json_success
+    json_success api_response.current_user_data.slice(:subscriptions_count)
   end
 
   def via_update_cc_data
@@ -29,7 +29,7 @@ class Api::SubscriptionsController < Api::BaseController
                                           address_line_2: params[:address_line_2],
                                           state:          params[:state]
     end
-    json_success
+    json_success api_response.current_user_data.slice(:subscriptions_count, :has_cc_payment_account)
   end
 
   def via_register
