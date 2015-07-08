@@ -7,7 +7,7 @@ class Owner::SecondStepsController < Owner::BaseController
 
   def update
     UserProfileManager.new(@user).
-      update(params.slice(:cost, :profile_name, :holder_name, :routing_number, :account_number))
+      finish_owner_registration(params.slice(:cost, :profile_name, :holder_name, :routing_number, :account_number))
 
     json_redirect profile_path(@user.reload.slug), notice: :congrats
   end

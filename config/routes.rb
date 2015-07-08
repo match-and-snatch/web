@@ -411,6 +411,7 @@ BuddyPlatform::Application.routes.draw do
   get '/login' => 'sessions#new', as: :login
   get '/create_profile' => 'owner/first_steps#show', as: :create_profile
   get '/account' => 'account_infos#show', as: :account_info
+  get '/my_profile' => 'account_infos#show', as: :my_profile, defaults: {profile: true}
   put '/create_profile' => 'account_infos#create_profile_page'
 
   scope module: :owner do

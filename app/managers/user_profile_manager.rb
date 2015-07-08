@@ -79,6 +79,22 @@ class UserProfileManager < BaseManager
   # @param routing_number [String]
   # @param account_number [String]
   # @return [User]
+  def finish_owner_registration(*args)
+    had_complete_profile = user.has_complete_profile?
+
+    update(*args).tap do
+      if user.has_profile_page? && !had_complete_profile
+        AuthMailer.delay.registered(user)
+      end
+    end
+  end
+
+  # @param cost [Float, String]
+  # @param profile_name [String]
+  # @param holder_name [String]
+  # @param routing_number [String]
+  # @param account_number [String]
+  # @return [User]
   def update(cost: nil, profile_name: nil, holder_name: nil, routing_number: nil, account_number: nil)
     profile_name   = profile_name.to_s.strip.squeeze(' ')
     holder_name    = holder_name.to_s.strip
