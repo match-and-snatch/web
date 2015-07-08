@@ -14,6 +14,7 @@ class Api::ProfileInfosController < Api::BaseController
           :update_slug, :update_welcome_media, :remove_welcome_media) { current_user.authorized? }
 
   def create_profile
+    manager.create_profile_page
     user = manager.finish_owner_registration(params.slice(:cost, :profile_name))
     json_success api_response.current_user_data(user)
   end
