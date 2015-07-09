@@ -12,7 +12,7 @@ class Post < ActiveRecord::Base
                                       using: [:tsearch, :dmetaphone, :trigram],
                                       ignoring: :accents
 
-  scope :recent, -> { order('created_at DESC, id DESC').limit(5) }
+  scope :recent, -> (limit = 5) { order('created_at DESC, id DESC').limit(limit) }
 
   # @param user [User]
   # @return [Array<Upload>]
