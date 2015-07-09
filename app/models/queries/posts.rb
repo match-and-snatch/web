@@ -4,11 +4,12 @@ module Queries
     # @param user [User]
     # @param query [String, nil]
     # @param start_id [Integer, nil]
-    def initialize(user: nil, current_user: user, query: nil, start_id: nil)
+    def initialize(user: nil, current_user: user, query: nil, start_id: nil, limit: 5)
       @user = user
       @current_user = current_user
       @query = query
       @start_id = start_id
+      @limit = [limit, 50].compact.min
     end
 
     # @return [Array<Post>]
@@ -61,7 +62,7 @@ module Queries
     end
 
     def recent_posts
-      @user.posts.recent
+      @user.posts.recent(@limit)
     end
   end
 end
