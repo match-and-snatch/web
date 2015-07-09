@@ -4,12 +4,12 @@ module Queries
     # @param user [User]
     # @param query [String, nil]
     # @param start_id [Integer, nil]
-    def initialize(user: nil, current_user: user, query: nil, start_id: nil, limit: 5)
+    def initialize(user: nil, current_user: user, query: nil, start_id: nil, limit: nil)
       @user = user
       @current_user = current_user
       @query = query
       @start_id = start_id
-      @limit = [limit, 50].compact.min
+      @limit = [limit.try(:to_i) || 5, 50].compact.min
     end
 
     # @return [Array<Post>]
