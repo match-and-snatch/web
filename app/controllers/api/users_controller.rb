@@ -110,6 +110,7 @@ class Api::UsersController < Api::BaseController
       vacation_enabled: user.vacation_enabled?,
       vacation_message: user.vacation_message,
       contributions_enabled: user.contributions_enabled,
+      has_mature_content: user.has_mature_content?,
       welcome_media: {
         welcome_audio: welcome_media_data(user.welcome_audio),
         welcome_video: welcome_media_data(user.welcome_video)
