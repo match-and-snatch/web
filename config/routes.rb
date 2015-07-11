@@ -76,7 +76,7 @@ BuddyPlatform::Application.routes.draw do
       end
     end
 
-    resources :comments, only: [:update, :destroy] do
+    resources :comments, only: [:show, :update, :destroy] do
       member do
         put :make_visible
         put :hide

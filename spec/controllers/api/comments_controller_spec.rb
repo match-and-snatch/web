@@ -7,6 +7,35 @@ describe Api::CommentsController, type: :controller do
   let(:comment) { CommentManager.new(user: commenter, post: _post).create(message: 'test') }
   let(:anybody_else) { create_user email: 'anybody@gmail.com', api_token: 'anybody_token' }
 
+  describe 'GET #show' do
+    subject { get 'show', id: comment.id }
+
+    before do
+      SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)
+    end
+
+    before { sign_in_with_token(token) }
+
+    context 'unauthorized access' do
+      let(:token) { }
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized access' do
+      context 'as poster' do
+        let(:token) { poster.api_token }
+
+        it { is_expected.to be_success }
+      end
+
+      context 'as subscriber' do
+        let(:token) { commenter.api_token }
+
+        it { is_expected.to be_success }
+      end
+    end
+  end
+
   describe 'GET #index' do
     subject { get 'index', post_id: _post.id }
 

@@ -1,14 +1,18 @@
 class Api::CommentsController < Api::BaseController
   before_action :load_post!, only: [:index, :create]
-  before_action :load_comment!, only: [:update, :destroy, :make_visible, :hide]
+  before_action :load_comment!, only: [:show, :update, :destroy, :make_visible, :hide]
 
-  protect(:index, :create) { can? :comment, post }
+  protect(:index, :create, :show) { can? :comment, post }
   protect(:update, :destroy, :make_visible, :hide) { can? :manage, @comment }
 
   def index
     query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id], limit: 200)
     comments_data = query.results.map { |c| api_response.comment_data(c) }
     json_success comments_data
+  end
+
+  def show
+    json_success api_response.comment_data(@comment)
   end
 
   def create
@@ -41,7 +45,7 @@ class Api::CommentsController < Api::BaseController
   private
 
   def post
-    @post || comment.post
+    @post || @comment.post
   end
 
   def load_post!
