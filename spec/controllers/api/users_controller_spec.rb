@@ -35,6 +35,7 @@ describe Api::UsersController, type: :controller do
           "vacation_enabled" => false,
           "vacation_message" => nil,
           "contributions_enabled"=>true,
+          "has_mature_content"=>false,
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
           "dialogue_id"=>nil
         },
@@ -58,6 +59,7 @@ describe Api::UsersController, type: :controller do
           "vacation_enabled" => false,
           "vacation_message" => nil,
           "contributions_enabled"=>true,
+          "has_mature_content"=>false,
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
           "dialogue_id"=>nil
         }
