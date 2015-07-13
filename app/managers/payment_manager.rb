@@ -14,7 +14,7 @@ class PaymentManager < BaseManager
                           customer: (customer || user.try(:stripe_user_id)),
                           currency: 'usd',
                           description: description,
-                          statement_description: statement_description,
+                          statement_description: statement_description.try(:gsub, /\W+/, ''),
                           metadata: metadata
   end
 
@@ -31,7 +31,7 @@ class PaymentManager < BaseManager
     charge = create_charge amount: subscription.total_cost,
                            customer:    subscription.customer.stripe_user_id,
                            description: description,
-                           statement_description: subscription.target_user.profile_name.first(14).gsub("'", ''),
+                           statement_description: subscription.target_user.profile_name.first(14),
                            metadata: { target_id:   subscription.id,
                                        target_type: subscription.class.name,
                                        user_id:     subscription.customer.id }
