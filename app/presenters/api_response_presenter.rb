@@ -296,6 +296,10 @@ class ApiResponsePresenter
     }
   end
 
+  def audios_data(audios = [])
+    (audios.any? ? audios : current_user.pending_audios).map { |audio| audio_data(audio) }
+  end
+
   private
 
   def contributions_data
@@ -330,5 +334,12 @@ class ApiResponsePresenter
         data[:playlist_url] = (upload.low_quality_playlist_url ? playlist_video_url(upload.id, format: 'm3u8', host: 'https://www.connectpal.com') : nil)
       end
     end
+  end
+
+  def audio_data(audio)
+    {
+      id: audio.id,
+      filename: audio.filename
+    }
   end
 end
