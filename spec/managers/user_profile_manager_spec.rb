@@ -540,7 +540,7 @@ describe UserProfileManager do
 
   describe '#update_cover_picture_position' do
     specify do
-      expect { manager.update_cover_picture_position(10) }.to change { user.reload.cover_picture_position }.from(0).to(10)
+      expect { manager.update_cover_picture_position(10) }.to change { user.reload.cover_picture_position_perc }.from(0).to(10)
     end
 
     context 'position parameter not specified' do

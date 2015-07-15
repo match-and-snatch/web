@@ -989,7 +989,7 @@ CREATE TABLE users (
     custom_head_js text,
     cover_picture_width integer,
     cover_picture_height integer,
-    cover_picture_position_perc double precision
+    cover_picture_position_perc double precision DEFAULT 0.0
 );
 
 
