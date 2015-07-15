@@ -28,6 +28,8 @@ class ApiResponsePresenter
       cover_picture_url: user.cover_picture_url,
       original_cover_picture_url: user.original_cover_picture_url,
       cover_picture_position: user.cover_picture_position,
+      cover_picture_position_perc: user.cover_picture_position_perc,
+      cover_picture_height: user.cover_picture_height,
       has_complete_profile: user.has_complete_profile?,
       has_public_profile: user.has_public_profile?,
       has_profile_page: user.has_profile_page?,
