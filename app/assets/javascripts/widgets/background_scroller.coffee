@@ -3,6 +3,7 @@ class bud.widgets.BackgroundScroller extends bud.Widget
 
   initialize: ->
     @url = @$container.data('url')
+    @background_height = @$container.data('height')
     @$target = bud.get(@$container.data('target'))
     @$focus_target = bud.get(@$container.data('focus_target')) || @$target
 
@@ -16,7 +17,7 @@ class bud.widgets.BackgroundScroller extends bud.Widget
       @$container.click @enable_editing
 
   enable_editing: =>
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
     bud.pub('popup.show.overlay')
 
     $('body').css('cursor', 'move')
@@ -33,9 +34,18 @@ class bud.widgets.BackgroundScroller extends bud.Widget
     delta_y      = e.pageY - @current_y
     @current_y   = e.pageY
 
-    @y_position = parseInt(@$target.css('background-position').replace(/^.* /, '')) + delta_y * 2
-    @y_position = 0 if @y_position > 0
-    @$target.css('background-position', "50% #{@y_position}px")
+    pos = parseInt(@$target.css('background-position').replace(/^.* /, ''))
+    diff = (delta_y * 2.0) / @background_height * 100
+
+    @cpos or= pos
+    @cpos -= diff
+
+    if @cpos > 100
+      @cpos = 100
+    else if @cpos < 0
+      @cpos = 0
+
+    @$target.css('background-position', "50% #{@cpos}%")
 
   disable_editing: =>
     return unless @current_y
@@ -49,6 +59,6 @@ class bud.widgets.BackgroundScroller extends bud.Widget
     bud.pub('popup.hide.overlay')
 
     $(document).unbind 'mousemove', @on_mouse_move
-    bud.Ajax.post(@url, {_method: 'PUT', cover_picture_position: @y_position} )
+    bud.Ajax.post(@url, {_method: 'PUT', cover_picture_position: @cpos} )
 
     false

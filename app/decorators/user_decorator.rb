@@ -13,6 +13,7 @@ class UserDecorator < BaseDecorator
            :contributions_enabled?,
            :cover_picture_position,
            :cover_picture_position_perc,
+           :cover_picture_height,
            :cost, :name, :has_profile_page?,
            :posts, :source_uploads, :account_number, :holder_name, :routing_number,
            :vacation_enabled?,
