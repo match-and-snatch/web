@@ -986,7 +986,10 @@ CREATE TABLE users (
     paypal_email character varying(255),
     stripe_card_fingerprint character varying(255),
     has_mature_content boolean DEFAULT false NOT NULL,
-    custom_head_js text
+    custom_head_js text,
+    cover_picture_width integer,
+    cover_picture_height integer,
+    cover_picture_position_perc double precision
 );
 
 
@@ -1648,4 +1651,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150427143207');
 INSERT INTO schema_migrations (version) VALUES ('20150612142345');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624082959');
+
+INSERT INTO schema_migrations (version) VALUES ('20150715154323');
 
