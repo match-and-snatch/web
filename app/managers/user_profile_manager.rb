@@ -473,7 +473,10 @@ class UserProfileManager < BaseManager
   def update_cover_picture(transloadit_data)
     upload = UploadManager.new(user).create_photo(transloadit_data, template: 'cover_picture')
     user.cover_picture_position = 0
+    user.cover_picture_position_perc = 0
     user.cover_picture_url = upload.url_on_step('resized')
+    user.cover_picture_width = upload.attr_on_step('resized', 'meta')['width']
+    user.cover_picture_height = upload.attr_on_step('resized', 'meta')['height']
     user.original_cover_picture_url = upload.url_on_step(':original')
 
     if user.changes.any?
@@ -490,9 +493,9 @@ class UserProfileManager < BaseManager
     save_or_die! user
   end
 
-  # @param position [Integer] Y-offset
-  def update_cover_picture_position(position)
-    user.cover_picture_position = position
+  # @param position_perc [Integer] Y-offset in %
+  def update_cover_picture_position(position_perc)
+    user.cover_picture_position_perc = position_perc
 
     save_or_die! user if user.changes.any?
     user

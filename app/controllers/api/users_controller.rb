@@ -103,6 +103,8 @@ class Api::UsersController < Api::BaseController
       small_profile_picture_url: user.small_profile_picture_url,
       cover_picture_url: user.cover_picture_url,
       cover_picture_position: user.cover_picture_position,
+      cover_picture_position_perc: user.cover_picture_position_perc,
+      cover_picture_height: user.cover_picture_height,
       downloads_enabled: user.downloads_enabled?,
       itunes_enabled: user.itunes_enabled?,
       rss_enabled: user.rss_enabled?,

@@ -7,7 +7,7 @@ div data-identifier='cover-picture-inner'
       = transloadit :cover_picture
       input.file type='hidden' name='slug' value=current_user.slug
       - if current_user.cover_picture_url.present?
-        #change_position.BackgroundScroller.fa.fa-arrows-v.btn.blue data-target='cover-background' data-focus_target='cover-container' data-position=current_user.cover_picture_position data-base_height=208 data-url=update_cover_picture_position_user_path(current_user.object)
+        #change_position.BackgroundScroller.fa.fa-arrows-v.btn.blue data-target='cover-background' data-focus_target='cover-container' data-position=current_user.cover_picture_position_perc data-height=current_user.cover_picture_height data-url=update_cover_picture_position_user_path(current_user.object)
           |&nbsp;Position
 
         .btn.blue.i.fa.fa-picture-o.replace_photo
