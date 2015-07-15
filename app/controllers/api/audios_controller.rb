@@ -8,19 +8,12 @@ class Api::AudiosController < Api::UploadsController
 
   def reorder
     manager.reorder(params[:ids])
-    json_success
+    json_success audios_data(current_user.pending_audios)
   end
 
   private
 
   def audios_data(audios)
-    { audios: audios.map { |audio| audio_data(audio) } }
-  end
-
-  def audio_data(audio)
-    {
-      id: audio.id,
-      filename: audio.filename
-    }
+    { audios: api_response.audios_data(audios) }
   end
 end

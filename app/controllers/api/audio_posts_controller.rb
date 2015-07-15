@@ -17,15 +17,8 @@ class Api::AudioPostsController < Api::MediaPostsController
   def pending_audio_post_data
     audio_post_data = {
       post_type: 'AudioPost',
-      audios: current_user.pending_audios.map { |audio| audio_data(audio) }
+      audios: api_response.audios_data
     }
     pending_post_data.merge(audio_post_data)
-  end
-
-  def audio_data(audio)
-    {
-      id: audio.id,
-      filename: audio.filename
-    }
   end
 end
