@@ -9,6 +9,7 @@ defaults: &defaults
   transloadit:
     uploads_bucket: 'buddy-assets'
     media_bucket: 'buddy-video-assets'
+  mobile_site_url: 'https://m.connectpal.com'
 
 jwplayer: &jwplayer
   jwplayer:
