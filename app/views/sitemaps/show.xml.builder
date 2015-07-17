@@ -6,7 +6,7 @@ xml.urlset "xmlns" => "http://www.sitemaps.org/schemas/sitemap/0.9", "xmlns:xhtm
     xml.priority 1.0
   end
 
-  %w(about pricing contact_us terms_of_use privacy_policy faq).each do |page|
+  %w(about pricing contact_us terms_of_use privacy_policy faq users).each do |page|
     xml.url do
       xml.loc "#{root_url}#{page}"
       xml.xhtml :link, rel: "alternate", media: "only screen and (max-width: 768px)", href: "#{APP_CONFIG['mobile_site_url']}/#{page}"
