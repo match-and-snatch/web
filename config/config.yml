@@ -41,6 +41,7 @@ staging:
   javascript:
     log_level: 3
     <<: *jwplayer
+  mobile_site_url: 'https://ms.connectpal.com'
 
 test:
   <<: *defaults

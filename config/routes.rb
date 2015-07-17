@@ -3,7 +3,7 @@ BuddyPlatform::Application.routes.draw do
   get '/sample' => 'users#sample'
   get '/feed/itunes' => 'rss_feeds#index', defaults: {format: :atom, itunes: true}, as: :itunes_feed
   get '/crossdomain' => 'pages#crossdomain', default: {format: :xml}
-  get '/sitemap_mobile' => 'sitemaps#sitemap_mobile', default: {format: :xml}
+  get '/sitemap_mobile' => 'sitemaps#sitemap_mobile', as: :sitemap_mobile
 
   namespace :api, defaults: {format: :json} do
     resources :sessions, only: [:create]
