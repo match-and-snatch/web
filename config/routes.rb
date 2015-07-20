@@ -10,6 +10,7 @@ BuddyPlatform::Application.routes.draw do
     resources :users, only: [:index, :create, :show] do
       collection do
         get :search
+        get :fetch_current_user
       end
 
       member do

@@ -175,4 +175,12 @@ describe Api::UsersController, type: :controller do
       end
     end
   end
+
+  describe 'GET #fetch_current_user' do
+    subject { get 'fetch_current_user' }
+
+    its(:status) { is_expected.to eq(200) }
+    its(:body) { is_expected.to include 'success' }
+    its(:body) { is_expected.to include 'data' }
+  end
 end
