@@ -21,6 +21,10 @@ class Api::UsersController < Api::BaseController
     respond_with_user_data
   end
 
+  def fetch_current_user
+    json_success api_response.current_user_data
+  end
+
   # Registers new profile __owner__ (not just subscriber)
   def create
     AuthenticationManager.new(
