@@ -139,8 +139,11 @@ class ApiResponsePresenter
       id: comment.id,
       message: comment.message,
       created_at: time_ago_in_words(comment.created_at),
+      timestamp: comment.created_at.to_i,
       hidden: comment.hidden,
       mentions: comment.mentions,
+      parent_id: comment.parent_id,
+      post_id: comment.post_id,
       access: {
         owner: current_user == comment.user,
         post_owner: current_user == comment.post_user
