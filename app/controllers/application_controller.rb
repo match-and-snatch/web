@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_mobile!
     mobile_host = Rails.env.development? ? "#{request.scheme}://#{request.host}:8080" : APP_CONFIG['mobile_site_url']
-    redirect_to "#{mobile_host}#{request.path}", status: 301
+    redirect_to "#{mobile_host}#{request.fullpath}", status: 301
   end
 
   def tablet_device?
