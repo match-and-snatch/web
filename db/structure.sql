@@ -908,7 +908,8 @@ CREATE TABLE uploads (
     hd_url text,
     playlist_url text,
     high_quality_playlist_url text,
-    low_quality_playlist_url text
+    low_quality_playlist_url text,
+    retina_preview_url character varying
 );
 
 
@@ -1667,6 +1668,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150612142345');
 INSERT INTO schema_migrations (version) VALUES ('20150624082959');
 
 INSERT INTO schema_migrations (version) VALUES ('20150715154323');
+
+INSERT INTO schema_migrations (version) VALUES ('20150722090032');
 
 INSERT INTO schema_migrations (version) VALUES ('20150723081420');
 

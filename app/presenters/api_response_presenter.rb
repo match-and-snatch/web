@@ -332,6 +332,7 @@ class ApiResponsePresenter
       filename: upload.filename,
       file_url: upload.rtmp_path,
       preview_url: upload.preview_url,
+      retina_preview_url: upload.retina_preview_url,
       original_url: upload.original_url,
       url: upload.url
     }.tap do |data|
