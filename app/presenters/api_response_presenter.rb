@@ -144,6 +144,7 @@ class ApiResponsePresenter
       mentions: comment.mentions,
       parent_id: comment.parent_id,
       post_id: comment.post_id,
+      post_user_id: comment.post_user_id,
       access: {
         owner: current_user == comment.user,
         post_owner: current_user == comment.post_user
