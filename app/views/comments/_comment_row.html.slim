@@ -45,7 +45,7 @@
     .reply_post data-identifier='reply-comment-#{comment.id}' style='display: none'
       form.Commenter.reply_container action=comment_replies_path(comment.id) method='POST' data-target="replies-#{comment.id}" data-highlighter='comment-reply-mentions-#{comment.id}' style='padding: 0'
         .comment_section
-          .Highlighter data-identifier='comment-reply-mentions-#{comment.id}' data-target='comment-reply-textarea-#{comment.id}' data-target_list='comment-reply-autocomplete-users-#{comment.id}'
+          .Highlighter data-profile_id=comment.post_user_id data-identifier='comment-reply-mentions-#{comment.id}' data-target='comment-reply-textarea-#{comment.id}' data-target_list='comment-reply-autocomplete-users-#{comment.id}'
           textarea.transparent.reply_input.pull-left data-identifier='comment-reply-textarea-#{comment.id}' name='message' placeholder="Write your reply..."
         // textarea.comment_reply name='message' placeholder="Write your reply..."
         .clearfix
