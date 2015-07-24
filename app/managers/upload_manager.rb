@@ -78,6 +78,7 @@ class UploadManager < BaseManager
   def create_pending_photos(transloadit_data)
     transloadit_data['results']['preview']   or fail_with! 'Invalid transloadit data'
     transloadit_data['results']['full_size'] or fail_with! 'Invalid transloadit data'
+    transloadit_data['results']['retina_preview'] or fail_with! 'Invalid transloadit data'
 
     if PhotoPost.pending_uploads_for(user).count + transloadit_data['uploads'].count > 10
       fail_with! "You can't upload more than 10 photos."
@@ -92,8 +93,9 @@ class UploadManager < BaseManager
 
       if original
         preview = search_related_result(transloadit_data['results']['preview'], original_id)
+        retina_preview = search_related_result(transloadit_data['results']['retina_preview'], original_id)
 
-        s3_paths = { bucket => [original['ssl_url'], preview['ssl_url']].map { |e| { key: get_file_path(e) } } }
+        s3_paths = { bucket => [original['ssl_url'], preview['ssl_url'], retina_preview['ssl_url']].map { |e| { key: get_file_path(e) } } }
 
         upload = Photo.new transloadit_data: transloadit_data.to_hash,
                            s3_paths:         s3_paths,
@@ -107,7 +109,7 @@ class UploadManager < BaseManager
                            height:           upload_data['meta']['height'],
                            url:              original['ssl_url']
 
-        upload.attributes = attributes.merge(preview_url: preview['ssl_url'])
+        upload.attributes = attributes.merge(preview_url: preview['ssl_url'], retina_preview_url: retina_preview['ssl_url'])
         save_or_die! upload
         EventsManager.file_uploaded(user: user, file: upload)
         upload

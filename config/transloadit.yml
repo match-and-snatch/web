@@ -203,12 +203,20 @@ transloadit_config: &transloadit_config
           height: 100
           strip: true
           resize_strategy: 'fillcrop'
+        retina_preview:
+          robot: '/image/resize'
+          use: 'full_size'
+          width: 600
+          height: 600
+          strip: true
+          resize_strategy: 'fit'
         store:
           <<: *s3_uploads_bucket
           use:
             - ':original'
             - 'full_size'
             - 'preview'
+            - 'retina_preview'
           path: 'uploads/photos/${fields.slug}/${assembly.id}/${unique_prefix}____${file.meta.width}x${file.meta.height}____${file.url_name}'
 
     post_document:
