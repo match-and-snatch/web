@@ -9,6 +9,7 @@ class bud.widgets.AjaxContainer extends bud.Widget
   initialize: ->
     @url = @$container.data('url')
     @use_anchor = @$container.data('use_anchor')
+    @redirects = @$container.data('redirects')
     @$container.find('a').click @link_clicked
 
     if @use_anchor
@@ -27,7 +28,11 @@ class bud.widgets.AjaxContainer extends bud.Widget
       @render()
 
   render: ->
-    @render_path(@url) if @url
+    if @url
+      if bud.is_mobile.any()
+        window.location.replace(@redirects?[@url] || @url)
+      else
+        @render_path(@url)
 
   link_clicked: (e) =>
     link = $(e.currentTarget)

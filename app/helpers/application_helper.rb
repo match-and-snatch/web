@@ -164,4 +164,17 @@ module ApplicationHelper
       [APP_CONFIG['mobile_site_url'], path].join('/')
     end
   end
+
+  def mobile_redirects
+    host = if Rails.env.development?
+             "#{request.scheme}://#{request.host}:8080"
+           else
+             APP_CONFIG['mobile_site_url']
+           end
+
+    APP_CONFIG['mobile_redirects'].inject({}) do |redirects, (key, val)|
+      redirects[key] = "#{host}#{val}"
+      redirects
+    end.to_json
+  end
 end
