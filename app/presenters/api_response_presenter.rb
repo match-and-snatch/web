@@ -263,7 +263,7 @@ class ApiResponsePresenter
     {
       top_profiles: top_users.map do |user|
         user_data(user).tap do |data|
-          data[:types] = user.profile_types.order(:ordering).map(&:title)
+          data[:types] = user.top_profile.types
         end
       end,
       profiles: users.each do |k, v|
