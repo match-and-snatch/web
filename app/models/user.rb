@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
 
   has_one :top_profile
   has_one :pending_post
+  has_one :profile_page
 
   validates :full_name, :email, presence: true
   before_create :generate_slug, if: :is_profile_owner? # TODO: move to manager

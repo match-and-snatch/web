@@ -648,6 +648,37 @@ ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
 
 
 --
+-- Name: profile_pages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE profile_pages (
+    id integer NOT NULL,
+    user_id integer,
+    welcome_box text,
+    css text
+);
+
+
+--
+-- Name: profile_pages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE profile_pages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: profile_pages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE profile_pages_id_seq OWNED BY profile_pages.id;
+
+
+--
 -- Name: profile_types; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -894,7 +925,8 @@ CREATE TABLE uploads (
     hd_url text,
     playlist_url text,
     high_quality_playlist_url text,
-    low_quality_playlist_url text
+    low_quality_playlist_url text,
+    retina_preview_url character varying
 );
 
 
@@ -960,7 +992,7 @@ CREATE TABLE users (
     cost_changed_at timestamp without time zone,
     activated boolean DEFAULT false NOT NULL,
     registration_token character varying(255),
-    rss_enabled boolean DEFAULT false NOT NULL,
+    rss_enabled boolean DEFAULT true NOT NULL,
     downloads_enabled boolean DEFAULT true NOT NULL,
     itunes_enabled boolean DEFAULT true NOT NULL,
     profile_types_text text,
@@ -989,7 +1021,9 @@ CREATE TABLE users (
     custom_head_js text,
     cover_picture_width integer,
     cover_picture_height integer,
-    cover_picture_position_perc double precision DEFAULT 0.0
+    cover_picture_position_perc double precision DEFAULT 0.0,
+    has_custom_welcome_message boolean DEFAULT false NOT NULL,
+    has_custom_profile_page_css boolean DEFAULT false NOT NULL
 );
 
 
@@ -1122,6 +1156,13 @@ ALTER TABLE ONLY pending_posts ALTER COLUMN id SET DEFAULT nextval('pending_post
 --
 
 ALTER TABLE ONLY posts ALTER COLUMN id SET DEFAULT nextval('posts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY profile_pages ALTER COLUMN id SET DEFAULT nextval('profile_pages_id_seq'::regclass);
 
 
 --
@@ -1306,6 +1347,14 @@ ALTER TABLE ONLY pending_posts
 
 ALTER TABLE ONLY posts
     ADD CONSTRAINT posts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: profile_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY profile_pages
+    ADD CONSTRAINT profile_pages_pkey PRIMARY KEY (id);
 
 
 --
@@ -1653,4 +1702,14 @@ INSERT INTO schema_migrations (version) VALUES ('20150612142345');
 INSERT INTO schema_migrations (version) VALUES ('20150624082959');
 
 INSERT INTO schema_migrations (version) VALUES ('20150715154323');
+
+INSERT INTO schema_migrations (version) VALUES ('20150722090032');
+
+INSERT INTO schema_migrations (version) VALUES ('20150723081420');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728052541');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728052954');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728053441');
 
