@@ -23,8 +23,8 @@ class Admin::ProfileOwnersController < Admin::BaseController
   end
 
   def update
-    @user.update_attributes!(params.require(:user).permit(:custom_profile_page_css))
-    json_success notice: 'CSS Updated Successfully'
+    @user.update_profile_page!(params.require(:profile_page).permit(:css, :welcome_box))
+    json_success notice: 'Profile page customization updated successfully'
   end
 
   def change_fake_subscriptions_number

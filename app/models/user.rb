@@ -108,6 +108,10 @@ class User < ActiveRecord::Base
     small_account_picture_url || small_profile_picture_url
   end
 
+  def custom_profile_page_css
+    profile_page_data.css
+  end
+
   # @param new_password [String]
   def set_new_password(new_password)
     self.password_hash = BCrypt::Password.create(new_password)
@@ -143,6 +147,10 @@ class User < ActiveRecord::Base
 
   def profile_enabled?
     is_profile_owner? && passed_profile_steps?
+  end
+
+  def profile_page_data
+    @profile_page_data ||= ProfilePageDataProxy.new(self)
   end
 
   # Checks if a user hasn't passed three steps of registration
@@ -283,6 +291,12 @@ class User < ActiveRecord::Base
 
   def unread_messages_count
     dialogues.not_removed.unread.joins(:recent_message).where.not(messages: {user_id: id}).count
+  end
+
+  # @param attributes [Hash]
+  # @return [ProfilePage]
+  def update_profile_page!(attributes)
+    profile_page_data.update!(attributes)
   end
 
   # @return [Video, nil]

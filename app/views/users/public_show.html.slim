@@ -81,9 +81,11 @@
 
       .col-md-4.col-sm-4.col-xs-12.pull-left.no_pad
         .box style='padding: 15px; min-height: 352px;'
-          .title Welcome to #{@profile.profile_name.possessive} profile page.
-
-          = render 'welcome_benefits'
+          - if @profile.custom_welcome_message
+            = @profile.custom_welcome_message
+          - else
+            .title Welcome to #{@profile.profile_name.possessive} profile page.
+            = render 'welcome_benefits'
 
       .col-md-8.col-sm-8.hidden-xs.pull-right.no_pad style='margin-top: 15px'
         a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
@@ -114,14 +116,19 @@
       .row
         .col-md-12.col-sm-12.col-xs-12
 
-          .title Welcome to #{@profile.profile_name.possessive} profile page
+          - if @profile.custom_welcome_message
+            = @profile.custom_welcome_message
+            .audio_container
+              = audio_player(@profile.welcome_audio)
+          - else
+            .title Welcome to #{@profile.profile_name.possessive} profile page
 
-          .audio_container
-            = audio_player(@profile.welcome_audio)
+            .audio_container
+              = audio_player(@profile.welcome_audio)
 
-          span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
+            span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
 
-          = render 'welcome_benefits'
+            = render 'welcome_benefits'
 
           a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='subscription' href='#' Subscribe Now
           .clearfix

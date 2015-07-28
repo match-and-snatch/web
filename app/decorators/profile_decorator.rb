@@ -25,6 +25,12 @@ class ProfileDecorator < UserDecorator
     end
   end
 
+  # Welcome message for the public view
+  # @return [String, nil]
+  def custom_welcome_message
+    object.profile_page_data.welcome_box
+  end
+
   # @return [String]
   def class_for(whatever)
     'pending' if object.contacts_info[whatever].blank?
