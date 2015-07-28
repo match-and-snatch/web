@@ -3,6 +3,7 @@ class CostChangeRequest < ActiveRecord::Base
 
   scope :pending,   -> { where(approved: false, rejected: false, performed: false) }
   scope :approved,  -> { where(approved: true,  rejected: false, performed: false) }
+  scope :not_performed, -> { where(performed: false) }
 
   def reject!
     self.rejected = true
