@@ -19,6 +19,7 @@ class UserDecorator < BaseDecorator
            :vacation_enabled?,
            :last_visited_profile,
            :subscribers_count,
+           :profile_page_data,
            to: :object
 
   # @param object [User]

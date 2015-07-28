@@ -184,10 +184,17 @@ hr
 .row
   .col-md-12
     h2
-      strong Custom profile CSS
+      strong Custom profile page data
     form.Form action=admin_profile_owner_path(@user.id) method='POST'
       input type='hidden' name='_method' value='PUT'
-      textarea style='border: 1px solid black; width: 600px; height: 200px' name='user[custom_profile_page_css]'
-        = @user.object.custom_profile_page_css
+      b Custom CSS
+      br
+      textarea style='border: 1px solid black; width: 600px; height: 200px' name='profile_page[css]'
+        = @user.profile_page_data.css
+      br
+      b Custom Welcome Message
+      br
+      textarea style='border: 1px solid black; width: 600px; height: 200px' name='profile_page[welcome_box]'
+        = @user.profile_page_data.welcome_box
       br
       input.btn.pink type='submit' value='Set Custom CSS'
