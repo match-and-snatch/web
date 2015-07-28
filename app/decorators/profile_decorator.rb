@@ -28,7 +28,7 @@ class ProfileDecorator < UserDecorator
   # Welcome message for the public view
   # @return [String, nil]
   def custom_welcome_message
-    object.profile_page_data.welcome_box
+    object.profile_page_data.welcome_box.html_safe
   end
 
   # @return [String]
