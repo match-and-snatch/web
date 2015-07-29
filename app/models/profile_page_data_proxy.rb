@@ -7,7 +7,7 @@ class ProfilePageDataProxy < Struct.new(:user)
       if profile_page
         profile_page.attributes = attributes
       else
-        @profile_page = ProfilePage.new(attributes, user: user)
+        @profile_page = ProfilePage.new(attributes.merge(user_id: user.id))
       end
 
       profile_page.save!.tap do |result|
