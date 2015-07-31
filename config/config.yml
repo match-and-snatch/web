@@ -12,7 +12,7 @@ defaults: &defaults
 
 jwplayer: &jwplayer
   jwplayer:
-    script_path: //jwpsrv.com/library/i2XZ_MYyEeOEtyIACrqE1A.js
+    script_path: //content.jwplatform.com/libraries/r7YSdLyt.js
 
 development:
   <<: *defaults
