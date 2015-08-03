@@ -48,7 +48,7 @@ window.bud.get = (identifier) ->
   else
     return null
 
-bud.is_mobile =
+window.bud.is_mobile =
   Android: ->
     /Android/i.test navigator.userAgent
   BlackBerry: ->

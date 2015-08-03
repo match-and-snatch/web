@@ -55,3 +55,12 @@ class bud.Widget
     @$container.unbind()
     @$container.removeClass('js-widget')
     bud.Logger.message("Widget: #{@class_name()} destroying")
+
+  # Optimizes jquery.getScript performance
+  load_once: (src, callback) ->
+    @klass.__ext_scripts or= {}
+    return callback() if @klass.__ext_scripts[src]
+
+    bud.Ajax.getScript(src).done =>
+      (@klass.__ext_scripts[src] = callback)()
+
