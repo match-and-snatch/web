@@ -17,7 +17,7 @@ class bud.widgets.VideoPlayer extends bud.Widget
     @primary     = data['primary'] || 'flash'
     @skin        = data['skin'] || 'bekle'
 
-    bud.Ajax.getScript(window.bud.config.jwplayer.script_path).done(@on_script_loaded)
+    @load_once window.bud.config.jwplayer.script_path, @on_script_loaded
     bud.sub('player.play', @stop)
 
   destroy: -> bud.unsub('player.play', @stop)
@@ -37,7 +37,6 @@ class bud.widgets.VideoPlayer extends bud.Widget
         aspectratio: @aspectratio,
         androidhls: true,
         primary: @primary,
-        skin: @skin
       })
     else
       @player = jwplayer(@id).setup({
@@ -45,11 +44,11 @@ class bud.widgets.VideoPlayer extends bud.Widget
           sources: [{file: @file}, {file: @original}],
           image: @image
         }],
+        ga: {},
         width: @width,
         height: @height,
         aspectratio: @aspectratio,
         primary: @primary,
-        skin: @skin
       })
     @player.onPlay(@on_play)
 
