@@ -14,7 +14,7 @@ class bud.widgets.VideoPlayer extends bud.Widget
     @width       = data['width'] || '585'
     @height      = data['height'] || '330'
     @aspectratio = data['aspectratio'] || '16:9'
-    @primary     = data['primary'] || 'flash'
+    @primary     = data['primary'] || 'html5'
     @skin        = data['skin'] || 'bekle'
 
     @load_once window.bud.config.jwplayer.script_path, @on_script_loaded
