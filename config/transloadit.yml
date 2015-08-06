@@ -102,9 +102,7 @@ transloadit_config: &transloadit_config
       preset: "ipad-high"
       width: null
       height: null
-      resize_strategy: "pad"
-      ffmpeg:
-        vf: "scale='iw*sar:min(ih,720)', pad='max(iw,ih*(16/9)):ow/(16/9):(ow-iw)/2:(oh-ih)/2'"
+      resize_strategy: "fit"
     store_original:
       <<: *media
       use: ':original'
