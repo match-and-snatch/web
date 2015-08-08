@@ -359,6 +359,7 @@ DEPENDENCIES
   newrelic_rpm
   pg
   pg_search (~> 1.0.0)
+  pry
   puma
   rails (= 4.2.0)
   rails_autolink

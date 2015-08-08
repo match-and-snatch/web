@@ -76,6 +76,7 @@ group :test do
   gem 'timecop'
   gem 'cucumber-rails', require: false
   gem 'capybara-webkit'
+  gem 'pry'
 end
 
 # Use ActiveModel has_secure_password
