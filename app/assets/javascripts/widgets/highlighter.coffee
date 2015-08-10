@@ -4,6 +4,7 @@ class bud.widgets.Highlighter extends bud.Widget
   initialize: ->
     @$textarea   = bud.get(@$container.data('target'))
     @$users_list = bud.get(@$container.data('target_list'))
+    @profile_id = @data('profile_id')
 
     unless bud.is_mobile.Android()
       @$textarea.on 'keydown', @on_keydown
@@ -86,7 +87,7 @@ class bud.widgets.Highlighter extends bud.Widget
     else
       if autocomplete_text.length > 1 && autocomplete_text.length < 20
         q = autocomplete_text.replace(/@/g, '')
-        bud.Ajax.get '/mentions', {q: q}, {replace: @on_replace}
+        bud.Ajax.get '/mentions', {q: q, profile_id: @profile_id}, {replace: @on_replace}
 
   on_replace: (response) =>
     @$users_list.html(response['html'])

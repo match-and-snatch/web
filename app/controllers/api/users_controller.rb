@@ -21,6 +21,10 @@ class Api::UsersController < Api::BaseController
     respond_with_user_data
   end
 
+  def fetch_current_user
+    json_success api_response.current_user_data
+  end
+
   # Registers new profile __owner__ (not just subscriber)
   def create
     AuthenticationManager.new(
@@ -56,7 +60,7 @@ class Api::UsersController < Api::BaseController
   end
 
   def mentions
-    @users = User.where.not(id: current_user.id).search_by_text_fields(params[:q]).limit(5).to_a
+    @users = User.mentions(current_user: current_user, profile_id: params[:profile_id], query: params[:q]).to_a
     json_success mentions_data(@users)
   end
 
@@ -117,6 +121,7 @@ class Api::UsersController < Api::BaseController
         welcome_audio: welcome_media_data(user.welcome_audio),
         welcome_video: welcome_media_data(user.welcome_video)
       },
+      custom_welcome_message: user.profile_page_data.welcome_box,
       dialogue_id: user.dialogues.by_user(current_user.object).first.try(:id)
     }
   end

@@ -32,13 +32,14 @@ describe Api::UsersController, type: :controller do
           "cover_picture_height"=>nil,
           "downloads_enabled" => true,
           "itunes_enabled" => true,
-          "rss_enabled" => false,
+          "rss_enabled" => true,
           "api_token"=>nil,
           "vacation_enabled" => false,
           "vacation_message" => nil,
           "contributions_enabled"=>true,
           "has_mature_content"=>false,
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
+          "custom_welcome_message"=>nil,
           "dialogue_id"=>nil
         },
         {
@@ -58,13 +59,14 @@ describe Api::UsersController, type: :controller do
           "cover_picture_height"=>nil,
           "downloads_enabled" => true,
           "itunes_enabled" => true,
-          "rss_enabled" => false,
+          "rss_enabled" => true,
           "api_token"=>nil,
           "vacation_enabled" => false,
           "vacation_message" => nil,
           "contributions_enabled"=>true,
           "has_mature_content"=>false,
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
+          "custom_welcome_message"=>nil,
           "dialogue_id"=>nil
         }
       ])
@@ -174,5 +176,13 @@ describe Api::UsersController, type: :controller do
         its(:body) { is_expected.to include 'data' }
       end
     end
+  end
+
+  describe 'GET #fetch_current_user' do
+    subject { get 'fetch_current_user' }
+
+    its(:status) { is_expected.to eq(200) }
+    its(:body) { is_expected.to include 'success' }
+    its(:body) { is_expected.to include 'data' }
   end
 end

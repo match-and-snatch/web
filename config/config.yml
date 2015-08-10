@@ -9,6 +9,13 @@ defaults: &defaults
   transloadit:
     uploads_bucket: 'buddy-assets'
     media_bucket: 'buddy-video-assets'
+  mobile_site_url: 'https://m.connectpal.com'
+  mobile_redirects:
+    "/account_info/settings": "/settings/account/personal"
+    "/account_info/billing_information": "/settings/account/billing"
+    "/account_info/dialogues": "/dialogues"
+    "/account_info/details": "/details"
+    "/account_info/edit_payment_information": "/settings/profile/payout"
 
 jwplayer: &jwplayer
   jwplayer:
@@ -40,6 +47,7 @@ staging:
   javascript:
     log_level: 3
     <<: *jwplayer
+  mobile_site_url: 'https://ms.connectpal.com'
 
 test:
   <<: *defaults

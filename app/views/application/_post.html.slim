@@ -35,7 +35,7 @@
         img src=current_user.comment_picture_url width=50 height=50
 
       .comment_section
-        .Highlighter data-identifier='post-comment-mentions-#{post.id}' data-target='post-comment-textarea-#{post.id}' data-target_list='post-comment-autocomplete-users-#{post.id}'
+        .Highlighter data-profile_id=post.user_id data-identifier='post-comment-mentions-#{post.id}' data-target='post-comment-textarea-#{post.id}' data-target_list='post-comment-autocomplete-users-#{post.id}'
         textarea.transparent.reply_input.pull-left data-identifier='post-comment-textarea-#{post.id}' name='message' placeholder="Write your comment..."
       .clearfix
       .mentioner data-identifier='post-comment-autocomplete-users-#{post.id}'

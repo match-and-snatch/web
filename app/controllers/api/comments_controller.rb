@@ -29,7 +29,7 @@ class Api::CommentsController < Api::BaseController
   def destroy
     @comment.destroy
     EventsManager.comment_removed(user: current_user.object, comment: @comment)
-    json_success
+    json_success api_response.comment_data(@comment)
   end
 
   def make_visible

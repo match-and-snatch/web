@@ -154,4 +154,27 @@ module ApplicationHelper
                         original: audio.original_url,
                         primary: 'html5' }) if audio
   end
+
+  # @param path [String, User]
+  # @return [String]
+  def mobile_url(path = nil)
+    if path.is_a?(User)
+      profile_url(path, host: APP_CONFIG['mobile_site_url'], protocol: :https)
+    else
+      [APP_CONFIG['mobile_site_url'], path].join('/')
+    end
+  end
+
+  def mobile_redirects
+    host = if Rails.env.development?
+             "#{request.scheme}://#{request.host}:8080"
+           else
+             APP_CONFIG['mobile_site_url']
+           end
+
+    APP_CONFIG['mobile_redirects'].inject({}) do |redirects, (key, val)|
+      redirects[key] = "#{host}#{val}"
+      redirects
+    end.to_json
+  end
 end

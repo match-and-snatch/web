@@ -139,8 +139,12 @@ class ApiResponsePresenter
       id: comment.id,
       message: comment.message,
       created_at: time_ago_in_words(comment.created_at),
+      timestamp: comment.created_at.to_i,
       hidden: comment.hidden,
       mentions: comment.mentions,
+      parent_id: comment.parent_id,
+      post_id: comment.post_id,
+      post_user_id: comment.post_user_id,
       access: {
         owner: current_user == comment.user,
         post_owner: current_user == comment.post_user
@@ -259,7 +263,7 @@ class ApiResponsePresenter
     {
       top_profiles: top_users.map do |user|
         user_data(user).tap do |data|
-          data[:types] = user.profile_types.order(:ordering).map(&:title)
+          data[:types] = user.top_profile.types
         end
       end,
       profiles: users.each do |k, v|
@@ -328,6 +332,7 @@ class ApiResponsePresenter
       filename: upload.filename,
       file_url: upload.rtmp_path,
       preview_url: upload.preview_url,
+      retina_preview_url: upload.retina_preview_url,
       original_url: upload.original_url,
       url: upload.url
     }.tap do |data|

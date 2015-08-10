@@ -11,7 +11,18 @@ class Api::LikesController < Api::BaseController
   private
 
   def like_data(like)
-    @likable.likers_data.merge(liked: like.persisted?)
+    @likable.likers_data.merge(liked: like.persisted?, params[:type] => likable_data)
+  end
+
+  def likable_data
+    case @likable
+    when Comment
+      api_response.comment_data(@likable)
+    when Post
+      api_response.post_data(@likable)
+    else
+      {}
+    end
   end
 
   def load_likable!
