@@ -1497,27 +1497,26 @@ input.file
   animation: Deleted 0s ease-in 3s forwards
   -webkit-animation-fill-mode: forwards
   animation-fill-mode: forwards
+  display: block
   opacity: 1
   height: 40px
   text-align: center
   font-weight: bold
   font-size: 13px
-
 @keyframes Deleted
   to
     width: 0
     height: 0
     overflow: hidden
-
-
+    opacity: 0
 @-webkit-keyframes Deleted
   to
     width: 0
     height: 0
-    visibility: hidden
+    overflow: hidden
+    opacity: 0
 
 // Sample Profile Views Desktop
-
 @media screen and (min-width: 992px)
   .sample_profile
     &.step_one
