@@ -56,6 +56,7 @@ class ApiResponsePresenter
       profile_types_text: user.profile_types_text,
       subscribers_count: user.subscribers_count,
       subscriptions_count: user.subscriptions.active.count,
+      only_subscription_path: user.subscriptions.active.count == 1 ? user.subscriptions.active.first.target_user.slug : nil,
       recurring_contributions_count: user.contributions.where(recurring: true).count,
       billing_failed: user.billing_failed,
       billing_failed_at: user.billing_failed_at,
