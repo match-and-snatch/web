@@ -72,7 +72,7 @@ class Api::SubscriptionsController < Api::BaseController
     notice(:restored_subscription)
     json_success api_response.subscription_data(@subscription)
   rescue ManagerError
-    json_fail notice: :failed_to_restore_subscription
+    json_fail notice(:failed_to_restore_subscription)
   end
 
   private
