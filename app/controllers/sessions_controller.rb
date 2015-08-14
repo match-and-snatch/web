@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     user = session_manager.login(params[:email], params[:password], remember_me: params.bool(:remember_me))
 
     if user.billing_failed?
-      json_redirect account_info_url(anchor: '/account_info/billing_information'), notice: :billing_failed
+      json_redirect account_info_url(anchor: '/account_info/billing_information')
     else
       json_reload
     end

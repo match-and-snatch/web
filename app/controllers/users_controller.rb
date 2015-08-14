@@ -59,7 +59,6 @@ class UsersController < ApplicationController
       template = 'show'
     else
       if current_user.billing_failed?
-        notice(:billing_failed)
         template = 'billing_failed_view'
       else
         template = 'public_show'
