@@ -17,6 +17,9 @@ class ContributionManager < BaseManager
     @contribution = create_contribution(target_user: target_user,
                                         amount: amount,
                                         recurring: recurring)
+
+    fail_with! 'Payment has been failed' if @contribution.destroyed?
+
     if message.present?
       MessagesManager.new(user: @user).create(target_user: target_user,
                                               message: message,
@@ -57,6 +60,7 @@ class ContributionManager < BaseManager
     contribution
   rescue Stripe::StripeError => e
     EventsManager.contribution_failed(user: @user, contribution: contribution)
+    UserManager.new(@user).mark_billing_failed
     contribution.try(:destroy)
     contribution
   end
