@@ -58,8 +58,6 @@ class ApiResponsePresenter
       subscriptions_count: user.subscriptions.active.count,
       only_subscription_path: user.subscriptions.active.count == 1 ? user.subscriptions.active.first.target_user.slug : nil,
       recurring_contributions_count: user.contributions.where(recurring: true).count,
-      billing_failed: user.billing_failed,
-      billing_failed_at: user.billing_failed_at,
       stripe_recipient_id: user.stripe_recipient_id,
       vacation_enabled: user.vacation_enabled,
       vacation_message: user.vacation_message,
@@ -217,7 +215,9 @@ class ApiResponsePresenter
       billing_address_city: user.billing_address_city,
       billing_address_state: user.billing_address_state,
       billing_address_zip: user.billing_address_zip,
-      last_four_cc_numbers: user.last_four_cc_numbers
+      last_four_cc_numbers: user.last_four_cc_numbers,
+      billing_failed: user.billing_failed,
+      billing_failed_at: user.billing_failed_at
     }
   end
 
