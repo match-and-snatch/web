@@ -35,6 +35,10 @@ describe ContributionManager do
        expect { manager.create(amount: 1, target_user: target_user)  }.to create_event(:contribution_created)
     end
 
+    it 'creates message' do
+      expect { manager.create(amount: 1, target_user: target_user, message: 'test') }.to change { Message.count }.by(1)
+    end
+
     context 'zero amount' do
       it do
         expect { manager.create(amount: 0, target_user: target_user) }.to raise_error(ManagerError, /zero/)
@@ -59,15 +63,11 @@ describe ContributionManager do
       end
 
       it do
-        expect { manager.create(amount: 1, target_user: target_user) }.not_to change { Contribution.count }
+        expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to change { Contribution.count }
       end
 
-      it do
-        expect(manager.create(amount: 1, target_user: target_user)).to be_a(Contribution)
-      end
-
-      it do
-        expect(manager.create(amount: 1, target_user: target_user).destroyed?).to eq(true)
+      it 'does not create message' do
+        expect { manager.create(amount: 1, target_user: target_user, message: 'test') rescue nil }.not_to change { Message.count }
       end
     end
   end
