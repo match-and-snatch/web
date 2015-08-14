@@ -11,11 +11,6 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :redirect_to_mobile!, if: -> { mobile_device? && !account_page? && !request.xhr? }
-  before_action do
-    if current_user.billing_failed? && referrer_host != request.host
-      notice(:billing_failed)
-    end
-  end
 
   protected
 
@@ -132,10 +127,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-  def referrer_host
-    URI.parse(request.referrer).try(:host) if request.referrer
-  end
 
   def request_variant
     @request_variant ||= request.variant || detect_device_format

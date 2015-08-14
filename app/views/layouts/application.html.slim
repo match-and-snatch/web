@@ -31,6 +31,9 @@ html
           = render 'navigation' if layout.show_navigation?
 
     #content
+      - if current_user.billing_failed?
+        .notification_bar
+          .cont= t('messages.billing_failed').html_safe
       - if flash.notice.present?
         .notification_bar data-identifier='notification-flash-bar'
           .cont= flash.notice
