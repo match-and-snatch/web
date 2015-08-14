@@ -14,7 +14,9 @@ class Subscription < ActiveRecord::Base
   scope :not_rejected, -> { where(rejected: false) }
   scope :been_charged, -> { where.not(charged_at: nil) }
   scope :to_charge,    -> { on_charge.not_removed.where(users: { vacation_enabled: false }) }
-  scope :active,       -> { not_removed.where("rejected_at is NULL OR rejected_at > ?", 1.month.ago) }
+  scope :accessible,   -> { where("rejected_at is NULL OR rejected_at > ?", 1.month.ago) }
+  scope :not_expired,  -> { where("COALESCE(subscriptions.charged_at, subscriptions.created_at) >= ?", 1.month.ago) }
+  scope :active,       -> { not_removed.accessible }
 
   # Returns upcoming billing date
   # @return [Date]

@@ -7,7 +7,7 @@ class Api::SubscriptionsController < Api::BaseController
   protect(:destroy) { can? :delete, @subscription }
 
   def index
-    @subscriptions = current_user.object.subscriptions.active.joins(:target_user)
+    @subscriptions = current_user.object.subscriptions.accessible.not_expired.joins(:target_user)
     json_success api_response.subscriptions_data(@subscriptions)
   end
 
