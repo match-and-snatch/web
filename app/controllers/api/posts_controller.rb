@@ -4,7 +4,7 @@ class Api::PostsController < Api::BaseController
 
   protect(:index) { can? :see, @user }
   protect(:show) { can? :see, @post }
-  protect(:destroy) { can? :delete, @post }
+  protect(:update, :destroy) { can? :manage, @post }
   protect(:destroy_upload) { can? :manage, @post }
 
   def index
@@ -31,7 +31,11 @@ class Api::PostsController < Api::BaseController
   end
 
   def update
-    post = manager(post: @post).update params.slice(:title, :message)
+    post = manager(post: @post).update(params.slice(:title, :message)).tap do |post|
+      post.uploads.where.not(uploads: { id: params[:uploads] }).each do |upload|
+        upload_manager.remove_upload(upload: upload, post: post)
+      end
+    end
     json_success api_response.post_data(post)
   end
 
@@ -42,7 +46,7 @@ class Api::PostsController < Api::BaseController
 
   def destroy_upload
     @upload = @post.uploads.find(params[:upload_id])
-    post = UploadManager.new(current_user.object).remove_upload(upload: @upload)
+    post = upload_manager.remove_upload(upload: @upload)
     json_success api_response.post_data(post)
   end
 
@@ -50,6 +54,10 @@ class Api::PostsController < Api::BaseController
 
   def manager(post: nil)
     PostManager.new(user: current_user.object, post: post)
+  end
+
+  def upload_manager
+    @upload_manager ||= UploadManager.new(current_user.object)
   end
 
   def load_user!
