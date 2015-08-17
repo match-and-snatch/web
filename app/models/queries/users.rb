@@ -19,7 +19,7 @@ module Queries
         result.merge!(base_query.
                         where(has_public_profile: false).
                         order('LOWER(profile_name)').
-                        limit(1000).
+                        limit(2000).
                         group_by { |user| user.name[0].upcase })
 
         result['0-9'] = []
