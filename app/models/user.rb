@@ -267,11 +267,11 @@ class User < ActiveRecord::Base
       cost = cost.to_i
       fees = 0
 
-      if cost <= 400
+      if cost <= 4_00
         fees = 99
-      elsif cost >= 500 && cost <= 1500
-        fees = 199
-      elsif cost >= 1600
+      elsif cost >= 5_00 && cost <= 15_00
+        fees = 1_99
+      elsif cost >= 16_00
         fees = cost / 100 * 15
       else
         raise ArgumentError, 'Invalid cost'
