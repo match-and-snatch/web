@@ -5,6 +5,10 @@ ruby '2.1.2'
 gem 'rails', '4.2.0'
 gem 'responders', '~> 2.0'
 
+# Caching
+gem 'dalli'
+gem 'actionpack-action_caching'
+
 # Use postgresql as the database for Active Record
 gem 'pg'
 gem 'pg_search', '~> 1.0.0'
