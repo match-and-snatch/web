@@ -18,7 +18,7 @@ class ContributionManager < BaseManager
                                         amount: amount,
                                         recurring: recurring)
 
-    fail_with! 'Payment has been failed' if @contribution.destroyed?
+    fail_with! 'Payment has been failed' if @contribution.new_record?
 
     if message.present?
       MessagesManager.new(user: @user).create(target_user: target_user,
@@ -69,6 +69,6 @@ class ContributionManager < BaseManager
     EventsManager.contribution_failed(user: @user, contribution: contribution)
     raise
   ensure
-    contribution
+    return contribution
   end
 end

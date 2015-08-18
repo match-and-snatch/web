@@ -121,7 +121,7 @@ describe ContributionManager do
       end
 
       it do
-        expect(manager.create_child.destroyed?).to eq(true)
+        expect(manager.create_child.new_record?).to eq(true)
       end
     end
   end
