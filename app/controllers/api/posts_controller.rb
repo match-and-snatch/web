@@ -32,8 +32,10 @@ class Api::PostsController < Api::BaseController
 
   def update
     post = manager(post: @post).update(params.slice(:title, :message)).tap do |post|
-      post.uploads.where.not(uploads: { id: params[:uploads] }).each do |upload|
-        upload_manager.remove_upload(upload: upload, post: post)
+      if params[:uploads].is_a?(Array)
+        post.uploads.where.not(uploads: {id: params[:uploads]}).each do |upload|
+          upload_manager.remove_upload(upload: upload, post: post)
+        end
       end
     end
     json_success api_response.post_data(post)

@@ -66,18 +66,33 @@ describe Api::PostsController, type: :controller do
       end
 
       it { should be_success }
-
       specify do
-        expect { perform_request }.to change { _post.uploads.count }.to(0)
+        expect { perform_request }.not_to change { _post.uploads.count }
       end
 
-      context 'remove upload' do
+      context 'removes upload' do
         subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [_post.uploads.first.id] }
 
         it { should be_success }
-
         specify do
           expect { perform_request }.to change { _post.uploads.count }.by(-1)
+        end
+      end
+
+      context 'removes all uploads' do
+        subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [] }
+
+        it { should be_success }
+        specify do
+          expect { perform_request }.to change { _post.uploads.count }.to(0)
+        end
+
+        context 'with 0 as id' do
+          subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [0] }
+
+          specify do
+            expect { perform_request }.to change { _post.uploads.count }.to(0)
+          end
         end
       end
 
@@ -85,7 +100,6 @@ describe Api::PostsController, type: :controller do
         subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: _post.uploads.map(&:id) }
 
         it { should be_success }
-
         specify do
           expect { perform_request }.not_to change { _post.uploads.count }
         end
