@@ -325,7 +325,11 @@ BuddyPlatform::Application.routes.draw do
         get :search
       end
     end
-    resources :contributions, only: :index
+    resources :contributions, only: [:index, :destroy] do
+      member do
+        get :confirm_destroy
+      end
+    end
     resources :duplicates, only: :index
     resources :payment_failures , only: :index
     resources :payments, only: :index
