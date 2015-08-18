@@ -31,7 +31,10 @@ html
           = render 'navigation' if layout.show_navigation?
 
     #content
-      - if current_user.billing_failed?
+      - if current_user.cc_declined?
+        .notification_bar
+          .cont= t('messages.cc_declined').html_safe
+      - elsif current_user.billing_failed?
         .notification_bar
           .cont= t('messages.billing_failed').html_safe
       - if flash.notice.present?

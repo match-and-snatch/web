@@ -48,20 +48,27 @@ class ContributionManager < BaseManager
   private
 
   def create_contribution(target_user: , amount: , recurring: , parent: nil)
-    contribution = Contribution.create!(user: @user, target_user: target_user, amount: amount, recurring: recurring, parent: parent)
-    PaymentManager.new(user: @user).create_charge(amount: amount,
-                                                  customer: @user.stripe_user_id,
-                                                  description: "Contribution #{target_user.profile_name.first(20)}",
-                                                  statement_description: 'Contribution',
-                                                  metadata: {target_id: contribution.id, target_type: contribution.class.name, user_id: @user.id})
-    EventsManager.contribution_created(user: @user, contribution: contribution)
-    ContributionFeedEvent.create! subscription_target_user: @user, target_user: target_user, target: contribution, data: {recurring: recurring, amount: (amount / 100).to_i}
-    NotificationManager.delay.notify_contributed(contribution)
-    contribution
+    contribution = Contribution.new(user: @user, target_user: target_user, amount: amount, recurring: recurring, parent: parent)
+
+    ActiveRecord::Base.transaction do
+      contribution.save!
+      PaymentManager.new(user: @user).create_charge(amount: amount,
+                                                    customer: @user.stripe_user_id,
+                                                    description: "Contribution #{target_user.profile_name.first(20)}",
+                                                    statement_description: 'Contribution',
+                                                    metadata: {target_id: contribution.id, target_type: contribution.class.name, user_id: @user.id})
+      EventsManager.contribution_created(user: @user, contribution: contribution)
+      ContributionFeedEvent.create! subscription_target_user: @user, target_user: target_user, target: contribution, data: {recurring: recurring, amount: (amount / 100).to_i}
+      NotificationManager.delay.notify_contributed(contribution)
+      contribution
+    end
   rescue Stripe::StripeError => e
     EventsManager.contribution_failed(user: @user, contribution: contribution)
     UserManager.new(@user).mark_billing_failed
-    contribution.try(:destroy)
+  rescue ManagerError
+    EventsManager.contribution_failed(user: @user, contribution: contribution)
+    raise
+  ensure
     contribution
   end
 end

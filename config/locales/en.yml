@@ -44,6 +44,7 @@ en:
     post_shown: The post has been made visible to other users
     post_created: Congratulations! Your post was successful!
     billing_failed: Your last payment failed. Please update your credit card on file under <a href='/account#/account_info/billing_information'>billing information</a>.
+    cc_declined: Your billing has been locked by system administrator. Please contact with us to resolve the issue.
     new_message: Your message has been sent. You will be notified when you have a reply.
     new_comment: Thanks for the comment
     updated_cc_data: Your billing info has been updated.
