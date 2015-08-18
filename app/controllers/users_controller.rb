@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
   caches_action :index, expires_in: 1.hour, cache_path: (proc do
-    {logged_in: current_user.logged_in?,
+    {logged_in: current_user.authorized?,
      cc_declined: current_user.cc_declined?,
      billing_failed: current_user.billing_failed?}
   end)
