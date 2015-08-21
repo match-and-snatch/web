@@ -177,4 +177,12 @@ module ApplicationHelper
       redirects
     end.to_json
   end
+
+  def special_offer_message(user)
+    if user && user.has_special_offer?
+      user.profile_page_data.special_offer.try(:html_safe)
+    else
+      'Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.'
+    end
+  end
 end

@@ -22,11 +22,7 @@
             '*
         .clearfix
 
-      .note.bg-warning style='text-align: center; margin: 10px 0 0 0'
-        - if @target_user.has_special_offer
-          = @target_user.profile_page_data.special_offer.try(:html_safe)
-        - else
-          Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
+      .note.bg-warning style='text-align: center; margin: 10px 0 0 0'= special_offer_message(@target_user)
 
       a.btn.blue.AjaxFormLink href=user_subscriptions_path(@target_user) style="width: 100%; margin-top: 15px;" Subscribe
 
@@ -54,11 +50,7 @@
             '*
         .clearfix
 
-      .note.bg-warning style='margin: 10px 0 15px; text-align: center'
-        - if @target_user.has_special_offer
-          = @target_user.profile_page_data.special_offer.try(:html_safe)
-        - else
-          Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
+      .note.bg-warning style='margin: 10px 0 15px; text-align: center'= special_offer_message(@target_user)
 
     form.Form action=via_update_cc_data_user_subscriptions_path(@target_user) method='POST' style='width: 100%'
       - if mobile_phone_device?
