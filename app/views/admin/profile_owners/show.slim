@@ -197,4 +197,9 @@ hr
       textarea style='border: 1px solid black; width: 600px; height: 200px' name='profile_page[welcome_box]'
         = @user.profile_page_data.welcome_box
       br
+      b Special Offer Message
+      br
+      textarea style='border: 1px solid black; width: 600px; height: 200px' name='profile_page[special_offer]'
+        = @user.profile_page_data.special_offer
+      br
       input.btn.pink type='submit' value='Set Custom CSS'

@@ -23,7 +23,7 @@ class Admin::ProfileOwnersController < Admin::BaseController
   end
 
   def update
-    @user.update_profile_page!(params.require(:profile_page).permit(:css, :welcome_box))
+    @user.update_profile_page!(params.require(:profile_page).permit(:css, :welcome_box, :special_offer))
     json_success notice: 'Profile page customization updated successfully'
   end
 

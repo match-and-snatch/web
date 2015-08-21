@@ -31,6 +31,12 @@ class ProfileDecorator < UserDecorator
     object.profile_page_data.welcome_box.try(:html_safe)
   end
 
+  # Special offer message for the public view
+  # @return [String, nil]
+  def special_offer_message
+    object.profile_page_data.special_offer.try(:html_safe)
+  end
+
   # @return [String]
   def class_for(whatever)
     'pending' if object.contacts_info[whatever].blank?
