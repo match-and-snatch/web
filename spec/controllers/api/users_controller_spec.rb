@@ -40,6 +40,7 @@ describe Api::UsersController, type: :controller do
           "has_mature_content"=>false,
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
           "custom_welcome_message"=>nil,
+          "special_offer_message"=>nil,
           "dialogue_id"=>nil
         },
         {
@@ -67,6 +68,7 @@ describe Api::UsersController, type: :controller do
           "has_mature_content"=>false,
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
           "custom_welcome_message"=>nil,
+          "special_offer_message"=>nil,
           "dialogue_id"=>nil
         }
       ])
