@@ -84,7 +84,7 @@
           - if @profile.custom_welcome_message
             = @profile.custom_welcome_message
           - else
-            .title Welcome to #{@profile.profile_name.possessive} profile page.
+            .title Welcome to #{@profile.profile_name.possessive} profile page!
             = render 'welcome_benefits'
 
       .col-md-8.col-sm-8.hidden-xs.pull-right.no_pad style='margin-top: 15px'
@@ -121,7 +121,7 @@
             .audio_container
               = audio_player(@profile.welcome_audio)
           - else
-            .title Welcome to #{@profile.profile_name.possessive} profile page
+            .title Welcome to #{@profile.profile_name.possessive} profile page!
 
             .audio_container
               = audio_player(@profile.welcome_audio)
