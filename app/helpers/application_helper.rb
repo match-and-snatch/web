@@ -179,10 +179,14 @@ module ApplicationHelper
   end
 
   def special_offer_message(user)
-    if user && user.has_special_offer?
+    if user.has_special_offer?
       user.profile_page_data.special_offer.try(:html_safe)
     else
       'Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.'
     end
+  end
+
+  def profile_cost(user)
+    "#{cents_to_dollars(user.subscription_cost)}#{'*' if user.has_special_offer?}"
   end
 end

@@ -16,10 +16,7 @@
       /Total Cost
       .total_cost
         .pull-left Total Monthly Cost
-        .pull-right.cost
-          = cents_to_dollars @target_user.subscription_cost
-          - if @target_user.has_special_offer?
-            '*
+        .pull-right.cost= profile_cost(@target_user)
         .clearfix
 
       .note.bg-warning style='text-align: center; margin: 10px 0 0 0'= special_offer_message(@target_user)
@@ -44,10 +41,7 @@
       /Total Cost
       .total_cost
         .pull-left Total Monthly Cost
-        .pull-right.cost
-          = cents_to_dollars @target_user.subscription_cost
-          - if @target_user.has_special_offer?
-            '*
+        .pull-right.cost= profile_cost(@target_user)
         .clearfix
 
       .note.bg-warning style='margin: 10px 0 15px; text-align: center'= special_offer_message(@target_user)
