@@ -122,6 +122,7 @@ class Api::UsersController < Api::BaseController
         welcome_video: welcome_media_data(user.welcome_video)
       },
       custom_welcome_message: user.profile_page_data.welcome_box,
+      special_offer_message: user.profile_page_data.special_offer,
       dialogue_id: user.dialogues.by_user(current_user.object).first.try(:id)
     }
   end

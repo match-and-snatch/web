@@ -9,9 +9,16 @@
       .item_row style='margin-bottom: 15px' #{@target_user.profile_name}
       .total_cost
         .pull-left Total Monthly Cost
-        .pull-right.cost= cents_to_dollars @target_user.subscription_cost
+        .pull-right.cost
+          = cents_to_dollars @target_user.subscription_cost
+          - if @target_user.has_special_offer?
+            '*
         .clearfix
-      .note.bg-warning style='text-align: center; margin: 10px 0 0 0' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
+      .note.bg-warning style='text-align: center; margin: 10px 0 0 0'
+        - if @target_user.has_special_offer
+          = @target_user.profile_page_data.special_offer.try(:html_safe)
+        - else
+          Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
       a.btn.blue.AjaxFormLink href=user_subscriptions_path(@target_user) style="width: 100%; margin-top: 15px;" Subscribe
 - else
   .modal-header
@@ -26,7 +33,10 @@
           .item_row style='margin: 5px 0 0 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; height: 14px;' #{@target_user.profile_name}
           .total_cost style='margin: 5px 0 0 0;'
             .pull-left Total Monthly Cost
-            .pull-right.cost= cents_to_dollars @target_user.subscription_cost
+            .pull-right.cost
+              = cents_to_dollars @target_user.subscription_cost
+              - if @target_user.has_special_offer?
+                '*
             .clearfix
         hr style='margin: 0 0 5px 0; padding: 0'
         .account_payment
@@ -117,9 +127,16 @@
           .item_row style='height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;' #{@target_user.profile_name}
           .total_cost
             .pull-left Total Monthly Cost
-            .pull-right.cost= cents_to_dollars @target_user.subscription_cost
+            .pull-right.cost
+              = cents_to_dollars @target_user.subscription_cost
+              - if @target_user.has_special_offer?
+                '*
             .clearfix
-          .note.bg-warning style='margin: 10px 0 15px' Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
+          .note.bg-warning style='margin: 10px 0 15px'
+            - if @target_user.has_special_offer
+              = @target_user.profile_page_data.special_offer.try(:html_safe)
+            - else
+              Your monthly payment will be auto-renewed unless you decide to cancel. You can cancel anytime.
         .clearfix
 
         .account_payment style='width: 100%; padding: 0 15px 15px 15px;'
