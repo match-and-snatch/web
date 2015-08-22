@@ -14,13 +14,13 @@
       .col-md-8.col-sm-8.col-xs-12.profile_details
 
         // Profile Name
-        span.profile_name
+        h1.profile_name
           i.fa.fa-gear.PopupTrigger.hidden-xs data-target='name-editor'
           span data-identifier='profile-name'= @profile.profile_name
         .clearfix
 
         // Profile Type
-        .profile_type
+        h3.profile_type
           i.fa.fa-gear.PopupTrigger.hidden-xs data-target='type-editor'
           span= @profile.types_text
 
