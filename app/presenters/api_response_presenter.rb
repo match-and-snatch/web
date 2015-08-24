@@ -127,6 +127,7 @@ class ApiResponsePresenter
       user: user_data(post.user),
       likes: post.likers_data.merge(liked: current_user.likes?(post)),
       comments_count: post.comments.count,
+      timestamp: post.created_at.to_i,
       access: {
         owner: post.user == current_user.object
       }
