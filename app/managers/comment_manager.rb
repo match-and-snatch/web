@@ -2,7 +2,7 @@ class CommentManager < BaseManager
 
   # @param user [User]
   # @param post [Post]
-  def initialize(user: user, post: nil, parent: nil, comment: nil)
+  def initialize(user: , post: nil, parent: nil, comment: nil)
     @user = user
     @post = post
     @parent = parent
