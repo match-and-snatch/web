@@ -20,8 +20,12 @@ class bud.widgets.VideoPlayer extends bud.Widget
     @load_once window.bud.config.jwplayer.script_path, @on_script_loaded
     bud.sub('player.play', @stop)
 
-  destroy: -> bud.unsub('player.play', @stop)
-  on_play: => bud.pub('player.play', [@])
+  on_play: =>
+    bud.pub('player.play', [@])
+
+  destroy: ->
+    bud.unsub('player.play', @stop)
+    @player.remove()
 
   stop: (e, player) =>
     if player != @ && @player

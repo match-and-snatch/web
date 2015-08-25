@@ -21,6 +21,7 @@ class bud.widgets.AudioPlayer extends bud.Widget
 
   destroy: ->
     bud.unsub('player.play', @stop)
+    @player.remove()
 
   stop: (e, player) =>
     if player != @ && @player
