@@ -12,7 +12,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def index
-    @subscriptions = current_user.object.subscriptions.active.joins(:target_user)
+    @subscriptions = current_user.object.subscriptions.active.been_charged.joins(:target_user)
     json_render
   end
 
