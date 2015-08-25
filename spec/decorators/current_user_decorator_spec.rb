@@ -66,7 +66,7 @@ describe CurrentUserDecorator do
 
       let!(:old_subscription) do
         Timecop.freeze 32.days.ago do
-          SubscriptionManager.new(subscriber: user).subscribe_to(create_profile email: 'target2@user.com')
+          SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'target2@user.com')
         end
       end
 
@@ -88,7 +88,7 @@ describe CurrentUserDecorator do
         end
       end
 
-      let!(:recent_subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(create_profile email: 'target@user.com') }
+      let!(:recent_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'target@user.com') }
 
       specify do
         expect(subject.latest_subscriptions.count).to eq(3)
