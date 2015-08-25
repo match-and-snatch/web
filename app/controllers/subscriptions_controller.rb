@@ -12,7 +12,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def index
-    @subscriptions = current_user.object.subscriptions.where(removed: false).where("rejected_at is NULL OR rejected_at > ?", 1.month.ago).joins(:target_user)
+    @subscriptions = current_user.object.subscriptions.active.been_charged.joins(:target_user)
     json_render
   end
 
