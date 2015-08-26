@@ -20,6 +20,12 @@ class ProfilesMailer < ApplicationMailer
   end
 
   # @param user [User]
+  def delete_profile_page_request(user)
+    @user = user
+    mail to: 'business@connectpal.com', subject: 'Notice - New Delete Profile Page Request'
+  end
+
+  # @param user [User]
   # @param cost [Integer]
   def changed_cost_blast(recipient, user, old_cost, cost)
     @user = user

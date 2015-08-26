@@ -72,6 +72,7 @@ class UserProfileManager < BaseManager
         fail_with! 'You currently have a pending request to delete profile page.'
       else
         user.delete_profile_page_requests.create!
+        ProfilesMailer.delay.delete_profile_page_request(user)
         @delete_profile_page_request_submitted = true
       end
     else

@@ -1,0 +1,17 @@
+- content_for :custom_heading do
+  strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 23px; line-height: 100%;'
+    | Notice - New Delete Profile Page Request&nbsp;
+
+  p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13px; line-height: 150%; padding: 0; margin: 0 0 15px 0;'
+
+    // Link to profile URL
+    a href=profile_url(@user) style="color: #ea2e49;" target='_blank' #{@user.name}’s
+    '&nbsp;profile has request to delete profile page.
+
+  img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-hr.png' border='0' height='1px' width='458px' alt='divider' title='divider' style='display: block; border: none; padding: 0; margin: 0 0 15px 0;'
+
+  p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 13px; line-height: 120%; padding: 0; margin: 0 0 15px 0; text-align: center; font-weight: bold;'
+
+    // Link to profile URL
+    a href=profile_url(@user) style="color: #ea2e49;" target='_blank'= @user.name
+    '&nbsp; #{@user.email}
