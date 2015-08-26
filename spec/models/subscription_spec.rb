@@ -21,7 +21,7 @@ describe Subscription do
       profile = create_profile email: 'invalid@one.com'
 
       SubscriptionManager.new(subscriber: user).subscribe_to(profile).tap do
-        UserProfileManager.new(profile).delete_profile_page
+        UserProfileManager.new(profile).delete_profile_page!
       end
     end
 

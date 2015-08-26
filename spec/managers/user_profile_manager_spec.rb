@@ -220,17 +220,51 @@ describe UserProfileManager do
   end
 
   describe '#create_profile_page' do
-    before { manager.delete_profile_page }
+    before { manager.delete_profile_page! }
 
     it { expect { manager.create_profile_page }.to change { user.is_profile_owner }.from(false).to(true) }
   end
 
   describe '#delete_profile_page' do
+    let(:user) { create_profile email: 'profiled@gmail.com' }
+
+    it 'returns user' do
+      expect(manager.delete_profile_page).to eq(user)
+    end
+
+    specify do
+      expect { manager.delete_profile_page }.to change { user.reload.is_profile_owner? }.from(true).to(false)
+    end
+
+    context 'with source subscriptions' do
+      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let!(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(user) }
+
+      it 'creates delete profile page request' do
+        expect { manager.delete_profile_page }.to change { user.delete_profile_page_requests.count }.from(0).to(1)
+      end
+
+      it 'notify support if new delete profile page request was changed' do
+        expect(ProfilesMailer).to receive(:delete_profile_page_request).with(user).and_return(double('mailer').as_null_object)
+        manager.delete_profile_page
+      end
+
+      context 'with pending delete profile page requests' do
+        before { manager.delete_profile_page }
+
+        it 'raises error' do
+          expect { manager.delete_profile_page }.to raise_error(ManagerError) { |e| expect(e.messages[:message]).to eq('You currently have a pending request to delete profile page.') }
+        end
+      end
+    end
+  end
+
+  describe '#delete_profile_page!' do
     before { manager.create_profile_page }
 
-    it { expect { manager.delete_profile_page }.to change { user.is_profile_owner }.from(true).to(false) }
+    it { expect { manager.delete_profile_page! }.to change { user.is_profile_owner }.from(true).to(false) }
 
-    it { expect { manager.delete_profile_page }.to create_event(:profile_page_removed) }
+    it { expect { manager.delete_profile_page! }.to create_event(:profile_page_removed) }
   end
 
   describe '#update' do

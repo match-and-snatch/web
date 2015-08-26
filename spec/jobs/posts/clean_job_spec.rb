@@ -14,14 +14,14 @@ describe Posts::CleanJob do
     specify { expect { perform }.not_to raise_error }
 
     context '30 days not passed after remove profile' do
-      before { UserProfileManager.new(user).delete_profile_page }
+      before { UserProfileManager.new(user).delete_profile_page! }
 
       it { expect { perform }.not_to change { Post.count } }
     end
 
     context '30 days passed since profile removed' do
       before do
-        UserProfileManager.new(user).delete_profile_page
+        UserProfileManager.new(user).delete_profile_page!
         Upload.delete_all
       end
 
