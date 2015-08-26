@@ -269,9 +269,10 @@ class UploadManager < BaseManager
     bucket_source = steps['store'] || steps['store_original']
     bucket = bucket_source['bucket']
 
-    transloadit_data['uploads'].each_with_index.map do |upload_data, index|
-      original = transloadit_data['results'][':original'][index]
-      # TODO: fetch track name
+    transloadit_data['uploads'].each.map do |upload_data|
+      original_id = upload_data['original_id']
+      original = search_related_result(transloadit_data['results'][':original'], original_id)
+
       s3_paths = { bucket => [{ key: get_file_path(original['ssl_url']) }] }
       upload = Audio.new transloadit_data: transloadit_data.to_hash,
                          s3_paths:         s3_paths,
