@@ -48,7 +48,9 @@ en:
     new_message: Your message has been sent. You will be notified when you have a reply.
     new_comment: Thanks for the comment
     updated_cc_data: Your billing info has been updated.
-    cost_change_request_submited: "Your price change request has been submitted.  For security purposes, a ConnectPal representative will contact you within 72 hours to confirm your price change.  Thanks."
+    cost_change_request_submited: "Your price change request has been submitted.  For security purposes, a ConnectPal representative will contact you within 72 hours to confirm your price change. Thanks."
+    delete_profile_page_request_submited: "Your profile page removal request has been submitted.  For security purposes, a ConnectPal representative will contact you within 72 hours to confirm your request. Thanks."
+    profile_page_deleted: Your profile page has been deleted.
   feed:
     audios: Just added a new audio file to their profile.
     videos: Just posted a new video to their profile.

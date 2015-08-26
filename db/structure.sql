@@ -38,6 +38,20 @@ COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance betwe
 
 
 --
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
+--
 -- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -83,7 +97,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: benefits; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: benefits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE benefits (
@@ -114,7 +128,7 @@ ALTER SEQUENCE benefits_id_seq OWNED BY benefits.id;
 
 
 --
--- Name: comments; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE comments (
@@ -151,7 +165,7 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
--- Name: contributions; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: contributions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE contributions (
@@ -186,7 +200,7 @@ ALTER SEQUENCE contributions_id_seq OWNED BY contributions.id;
 
 
 --
--- Name: cost_change_requests; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: cost_change_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE cost_change_requests (
@@ -226,13 +240,13 @@ ALTER SEQUENCE cost_change_requests_id_seq OWNED BY cost_change_requests.id;
 
 
 --
--- Name: credit_card_declines; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: credit_card_declines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE credit_card_declines (
     id integer NOT NULL,
     user_id integer,
-    stripe_fingerprint character varying,
+    stripe_fingerprint character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -258,7 +272,7 @@ ALTER SEQUENCE credit_card_declines_id_seq OWNED BY credit_card_declines.id;
 
 
 --
--- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE delayed_jobs (
@@ -270,8 +284,8 @@ CREATE TABLE delayed_jobs (
     run_at timestamp without time zone,
     locked_at timestamp without time zone,
     failed_at timestamp without time zone,
-    locked_by character varying,
-    queue character varying,
+    locked_by character varying(255),
+    queue character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -297,7 +311,44 @@ ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
 
 
 --
--- Name: dialogues; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: delete_profile_page_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE delete_profile_page_requests (
+    id integer NOT NULL,
+    approved boolean DEFAULT false NOT NULL,
+    rejected boolean DEFAULT false NOT NULL,
+    performed boolean DEFAULT false NOT NULL,
+    user_id integer,
+    approved_at timestamp without time zone,
+    rejected_at timestamp without time zone,
+    performed_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: delete_profile_page_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE delete_profile_page_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: delete_profile_page_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE delete_profile_page_requests_id_seq OWNED BY delete_profile_page_requests.id;
+
+
+--
+-- Name: dialogues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE dialogues (
@@ -331,7 +382,7 @@ ALTER SEQUENCE dialogues_id_seq OWNED BY dialogues.id;
 
 
 --
--- Name: dialogues_users; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: dialogues_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE dialogues_users (
@@ -362,13 +413,13 @@ ALTER SEQUENCE dialogues_users_id_seq OWNED BY dialogues_users.id;
 
 
 --
--- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE events (
     id integer NOT NULL,
-    action character varying,
-    message character varying,
+    action character varying(255),
+    message character varying(255),
     data text,
     user_id integer,
     created_at timestamp without time zone,
@@ -398,14 +449,14 @@ ALTER SEQUENCE events_id_seq OWNED BY events.id;
 
 
 --
--- Name: feed_events; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: feed_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE feed_events (
     id integer NOT NULL,
-    type character varying,
+    type character varying(255),
     target_id integer,
-    target_type character varying,
+    target_type character varying(255),
     target_user_id integer,
     subscription_target_user_id integer,
     data text,
@@ -434,14 +485,14 @@ ALTER SEQUENCE feed_events_id_seq OWNED BY feed_events.id;
 
 
 --
--- Name: likes; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: likes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE likes (
     id integer NOT NULL,
     user_id integer,
     likable_id integer,
-    likable_type character varying,
+    likable_type character varying(255),
     post_id integer,
     target_user_id integer,
     created_at timestamp without time zone,
@@ -470,7 +521,7 @@ ALTER SEQUENCE likes_id_seq OWNED BY likes.id;
 
 
 --
--- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE messages (
@@ -505,14 +556,14 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 
 
 --
--- Name: payment_failures; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: payment_failures; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE payment_failures (
     id integer NOT NULL,
     user_id integer,
     target_id integer,
-    target_type character varying,
+    target_type character varying(255),
     exception_data text,
     stripe_charge_data text,
     description text,
@@ -542,13 +593,13 @@ ALTER SEQUENCE payment_failures_id_seq OWNED BY payment_failures.id;
 
 
 --
--- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE payments (
     id integer NOT NULL,
     target_id integer,
-    target_type character varying,
+    target_type character varying(255),
     user_id integer,
     amount integer,
     stripe_charge_data text,
@@ -582,7 +633,7 @@ ALTER SEQUENCE payments_id_seq OWNED BY payments.id;
 
 
 --
--- Name: pending_posts; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: pending_posts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE pending_posts (
@@ -614,7 +665,7 @@ ALTER SEQUENCE pending_posts_id_seq OWNED BY pending_posts.id;
 
 
 --
--- Name: posts; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: posts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE posts (
@@ -625,7 +676,7 @@ CREATE TABLE posts (
     updated_at timestamp without time zone,
     title character varying(512),
     keywords_text character varying(512),
-    type character varying,
+    type character varying(255),
     hidden boolean DEFAULT false NOT NULL
 );
 
@@ -650,7 +701,7 @@ ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
 
 
 --
--- Name: profile_pages; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: profile_pages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile_pages (
@@ -682,12 +733,12 @@ ALTER SEQUENCE profile_pages_id_seq OWNED BY profile_pages.id;
 
 
 --
--- Name: profile_types; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: profile_types; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile_types (
     id integer NOT NULL,
-    title character varying,
+    title character varying(255),
     ordering integer DEFAULT 0 NOT NULL,
     user_id integer
 );
@@ -713,7 +764,7 @@ ALTER SEQUENCE profile_types_id_seq OWNED BY profile_types.id;
 
 
 --
--- Name: profile_types_users; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: profile_types_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile_types_users (
@@ -744,16 +795,16 @@ ALTER SEQUENCE profile_types_users_id_seq OWNED BY profile_types_users.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
-    version character varying NOT NULL
+    version character varying(255) NOT NULL
 );
 
 
 --
--- Name: stripe_transfers; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: stripe_transfers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE stripe_transfers (
@@ -761,7 +812,7 @@ CREATE TABLE stripe_transfers (
     user_id integer,
     stripe_response text,
     amount integer,
-    description character varying,
+    description character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -787,7 +838,7 @@ ALTER SEQUENCE stripe_transfers_id_seq OWNED BY stripe_transfers.id;
 
 
 --
--- Name: subscription_daily_count_change_events; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: subscription_daily_count_change_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE subscription_daily_count_change_events (
@@ -822,14 +873,14 @@ ALTER SEQUENCE subscription_daily_count_change_events_id_seq OWNED BY subscripti
 
 
 --
--- Name: subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE subscriptions (
     id integer NOT NULL,
     user_id integer,
     target_id integer,
-    target_type character varying,
+    target_type character varying(255),
     target_user_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -866,7 +917,7 @@ ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
 
 
 --
--- Name: top_profiles; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: top_profiles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE top_profiles (
@@ -875,7 +926,7 @@ CREATE TABLE top_profiles (
     "position" integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    profile_name character varying,
+    profile_name character varying(255),
     profile_types_text text
 );
 
@@ -900,22 +951,22 @@ ALTER SEQUENCE top_profiles_id_seq OWNED BY top_profiles.id;
 
 
 --
--- Name: uploads; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: uploads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE uploads (
     id integer NOT NULL,
     uploadable_id integer,
-    uploadable_type character varying,
+    uploadable_type character varying(255),
     transloadit_data text,
     user_id integer,
     duration double precision,
-    type character varying,
-    mime_type character varying,
+    type character varying(255),
+    mime_type character varying(255),
     width integer,
     height integer,
-    preview_url character varying,
-    url character varying,
+    preview_url character varying(255),
+    url character varying(255),
     filename text,
     basename text,
     filesize integer,
@@ -953,25 +1004,25 @@ ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
     id integer NOT NULL,
-    slug character varying,
-    email character varying,
-    password_hash character varying,
+    slug character varying(255),
+    email character varying(255),
+    password_hash character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     full_name character varying(512),
     subscription_cost integer,
-    holder_name character varying,
-    routing_number character varying,
-    account_number character varying,
-    stripe_user_id character varying,
-    stripe_card_id character varying,
-    last_four_cc_numbers character varying,
-    card_type character varying,
+    holder_name character varying(255),
+    routing_number character varying(255),
+    account_number character varying(255),
+    stripe_user_id character varying(255),
+    stripe_card_id character varying(255),
+    last_four_cc_numbers character varying(255),
+    card_type character varying(255),
     profile_picture_url text,
     original_profile_picture_url text,
     cover_picture_url text,
@@ -981,45 +1032,45 @@ CREATE TABLE users (
     profile_name character varying(512),
     is_admin boolean DEFAULT false NOT NULL,
     contacts_info text,
-    auth_token character varying,
+    auth_token character varying(255),
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees integer,
     cost integer,
+    password_reset_token character varying(255),
     has_public_profile boolean DEFAULT false,
-    password_reset_token character varying,
-    company_name character varying,
+    company_name character varying(255),
     small_profile_picture_url text,
     account_picture_url text,
     small_account_picture_url text,
     original_account_picture_url text,
     cost_changed_at timestamp without time zone,
     activated boolean DEFAULT false NOT NULL,
-    registration_token character varying,
+    registration_token character varying(255),
     rss_enabled boolean DEFAULT true NOT NULL,
     downloads_enabled boolean DEFAULT true NOT NULL,
     itunes_enabled boolean DEFAULT true NOT NULL,
     profile_types_text text,
     subscribers_count integer DEFAULT 0 NOT NULL,
     billing_failed boolean DEFAULT false NOT NULL,
-    stripe_recipient_id character varying,
+    stripe_recipient_id character varying(255),
     billing_failed_at timestamp without time zone,
     vacation_enabled boolean DEFAULT false NOT NULL,
     vacation_message text,
     last_visited_profile_id integer,
     vacation_enabled_at timestamp without time zone,
-    billing_address_city character varying,
-    billing_address_state character varying,
-    billing_address_zip character varying,
+    billing_address_city character varying(255),
+    billing_address_state character varying(255),
+    billing_address_zip character varying(255),
     billing_address_line_1 text,
     billing_address_line_2 text,
     contributions_enabled boolean DEFAULT true NOT NULL,
     notifications_debug_enabled boolean DEFAULT true,
-    api_token character varying,
     custom_profile_page_css text,
+    api_token character varying(255),
     hidden boolean DEFAULT false NOT NULL,
     prefers_paypal boolean DEFAULT false NOT NULL,
-    paypal_email character varying,
-    stripe_card_fingerprint character varying,
+    paypal_email character varying(255),
+    stripe_card_fingerprint character varying(255),
     has_mature_content boolean DEFAULT false NOT NULL,
     custom_head_js text,
     cover_picture_width integer,
@@ -1090,6 +1141,13 @@ ALTER TABLE ONLY credit_card_declines ALTER COLUMN id SET DEFAULT nextval('credi
 --
 
 ALTER TABLE ONLY delayed_jobs ALTER COLUMN id SET DEFAULT nextval('delayed_jobs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY delete_profile_page_requests ALTER COLUMN id SET DEFAULT nextval('delete_profile_page_requests_id_seq'::regclass);
 
 
 --
@@ -1226,7 +1284,7 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 
 --
--- Name: benefits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: benefits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY benefits
@@ -1234,7 +1292,7 @@ ALTER TABLE ONLY benefits
 
 
 --
--- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY comments
@@ -1242,7 +1300,7 @@ ALTER TABLE ONLY comments
 
 
 --
--- Name: contributions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: contributions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY contributions
@@ -1250,7 +1308,7 @@ ALTER TABLE ONLY contributions
 
 
 --
--- Name: cost_change_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: cost_change_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY cost_change_requests
@@ -1258,7 +1316,7 @@ ALTER TABLE ONLY cost_change_requests
 
 
 --
--- Name: credit_card_declines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: credit_card_declines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY credit_card_declines
@@ -1266,7 +1324,7 @@ ALTER TABLE ONLY credit_card_declines
 
 
 --
--- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY delayed_jobs
@@ -1274,7 +1332,15 @@ ALTER TABLE ONLY delayed_jobs
 
 
 --
--- Name: dialogues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: delete_profile_page_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY delete_profile_page_requests
+    ADD CONSTRAINT delete_profile_page_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dialogues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY dialogues
@@ -1282,7 +1348,7 @@ ALTER TABLE ONLY dialogues
 
 
 --
--- Name: dialogues_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: dialogues_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY dialogues_users
@@ -1290,7 +1356,7 @@ ALTER TABLE ONLY dialogues_users
 
 
 --
--- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY events
@@ -1298,7 +1364,7 @@ ALTER TABLE ONLY events
 
 
 --
--- Name: feed_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: feed_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY feed_events
@@ -1306,7 +1372,7 @@ ALTER TABLE ONLY feed_events
 
 
 --
--- Name: likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY likes
@@ -1314,7 +1380,7 @@ ALTER TABLE ONLY likes
 
 
 --
--- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY messages
@@ -1322,7 +1388,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: payment_failures_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: payment_failures_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY payment_failures
@@ -1330,7 +1396,7 @@ ALTER TABLE ONLY payment_failures
 
 
 --
--- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY payments
@@ -1338,7 +1404,7 @@ ALTER TABLE ONLY payments
 
 
 --
--- Name: pending_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: pending_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY pending_posts
@@ -1346,7 +1412,7 @@ ALTER TABLE ONLY pending_posts
 
 
 --
--- Name: posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY posts
@@ -1354,7 +1420,7 @@ ALTER TABLE ONLY posts
 
 
 --
--- Name: profile_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: profile_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_pages
@@ -1362,7 +1428,7 @@ ALTER TABLE ONLY profile_pages
 
 
 --
--- Name: profile_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: profile_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_types
@@ -1370,7 +1436,7 @@ ALTER TABLE ONLY profile_types
 
 
 --
--- Name: profile_types_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: profile_types_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_types_users
@@ -1378,7 +1444,7 @@ ALTER TABLE ONLY profile_types_users
 
 
 --
--- Name: stripe_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: stripe_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY stripe_transfers
@@ -1386,7 +1452,7 @@ ALTER TABLE ONLY stripe_transfers
 
 
 --
--- Name: subscription_daily_count_change_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: subscription_daily_count_change_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY subscription_daily_count_change_events
@@ -1394,7 +1460,7 @@ ALTER TABLE ONLY subscription_daily_count_change_events
 
 
 --
--- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY subscriptions
@@ -1402,7 +1468,7 @@ ALTER TABLE ONLY subscriptions
 
 
 --
--- Name: top_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: top_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY top_profiles
@@ -1410,7 +1476,7 @@ ALTER TABLE ONLY top_profiles
 
 
 --
--- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY uploads
@@ -1418,7 +1484,7 @@ ALTER TABLE ONLY uploads
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -1426,14 +1492,14 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -1722,3 +1788,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150808171641');
 INSERT INTO schema_migrations (version) VALUES ('20150821051110');
 
 INSERT INTO schema_migrations (version) VALUES ('20150821051358');
+
+INSERT INTO schema_migrations (version) VALUES ('20150826065253');
+

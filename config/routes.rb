@@ -402,6 +402,14 @@ BuddyPlatform::Application.routes.draw do
         post :approve
       end
     end
+    resources :delete_profile_page_requests, only: :index do
+      member do
+        get :confirm_reject
+        post :reject
+        get :confirm_approve
+        post :approve
+      end
+    end
   end
 
   resource :password, only: [:edit, :update] do

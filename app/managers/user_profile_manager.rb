@@ -57,6 +57,9 @@ class UserProfileManager < BaseManager
 
   # @return [User]
   def create_profile_page
+    @user.delete_profile_page_requests.pending.each do |request|
+      request.reject!
+    end
     @user.is_profile_owner = true
     @user.save!
     @user
@@ -64,13 +67,31 @@ class UserProfileManager < BaseManager
 
   # @return [User]
   def delete_profile_page
-    @user.is_profile_owner = false
-    @user.source_subscriptions.find_each do |subscription|
+    if user.source_subscriptions.active.any?
+      if user.delete_profile_page_requests.pending.any?
+        fail_with! 'You currently have a pending request to delete profile page.'
+      else
+        user.delete_profile_page_requests.create!
+        @delete_profile_page_request_submited = true
+      end
+    else
+      delete_profile_page!
+    end
+
+    user
+  end
+
+  def delete_profile_page!
+    user.is_profile_owner = false
+    user.source_subscriptions.find_each do |subscription|
       SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
     end
-    @user.save!
-    EventsManager.profile_page_removed(user: @user)
-    @user
+    user.save!
+    EventsManager.profile_page_removed(user: user)
+  end
+
+  def delete_profile_page_request_submited?
+    !!@delete_profile_page_request_submited
   end
 
   # @param cost [Float, String]
