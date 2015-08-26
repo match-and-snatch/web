@@ -1,4 +1,6 @@
 class RssFeedsController < ApplicationController
+  skip_before_action :redirect_to_mobile!
+
   before_action :load_user!, only: [:show]
   before_action :request_basic_http_auth!, only: [:index]
   before_action :set_http_content_headers
