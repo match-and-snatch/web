@@ -57,6 +57,9 @@ class UserProfileManager < BaseManager
 
   # @return [User]
   def create_profile_page
+    @user.delete_profile_page_requests.pending.each do |request|
+      request.reject!
+    end
     @user.is_profile_owner = true
     @user.save!
     @user
@@ -64,13 +67,34 @@ class UserProfileManager < BaseManager
 
   # @return [User]
   def delete_profile_page
-    @user.is_profile_owner = false
-    @user.source_subscriptions.find_each do |subscription|
-      SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
+    if user.source_subscriptions.active.any?
+      if user.delete_profile_page_requests.pending.any?
+        fail_with! 'You currently have a pending request to delete profile page.'
+      else
+        user.delete_profile_page_requests.create!
+        @delete_profile_page_request_submitted = true
+      end
+    else
+      delete_profile_page!
     end
-    @user.save!
-    EventsManager.profile_page_removed(user: @user)
-    @user
+
+    user
+  end
+
+  def delete_profile_page!(delete_profile_page_request = nil)
+    if user.is_profile_owner?
+      user.is_profile_owner = false
+      user.source_subscriptions.find_each do |subscription|
+        SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
+      end
+      user.save!
+      EventsManager.profile_page_removed(user: user)
+      delete_profile_page_request.try(:approve!)
+    end
+  end
+
+  def delete_profile_page_request_submitted?
+    !!@delete_profile_page_request_submitted
   end
 
   # @param cost [Float, String]
@@ -230,7 +254,7 @@ class UserProfileManager < BaseManager
                                           new_cost: cost,
                                           update_existing_subscriptions: update_existing_subscriptions || false)
         ProfilesMailer.delay.cost_change_request(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
-        @cost_change_request_submited = true
+        @cost_change_request_submitted = true
       end
     else
       change_cost!(cost: cost, update_existing_subscriptions: update_existing_subscriptions)
@@ -239,8 +263,8 @@ class UserProfileManager < BaseManager
     user
   end
 
-  def cost_change_request_submited?
-    !!@cost_change_request_submited
+  def cost_change_request_submitted?
+    !!@cost_change_request_submitted
   end
 
   # @param cost [Integer]

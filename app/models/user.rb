@@ -36,6 +36,7 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :events
   has_many :cost_change_requests
+  has_many :delete_profile_page_requests
   has_many :subscription_daily_count_change_events
 
   has_one :top_profile
