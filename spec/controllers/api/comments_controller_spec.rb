@@ -151,7 +151,7 @@ describe Api::CommentsController, type: :controller do
   describe 'PUT #make_visible' do
     before do
       SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)
-      CommentManager.new(comment: comment).hide
+      CommentManager.new(user: poster, comment: comment).hide
     end
 
     subject(:perform_request) { put 'make_visible', post_id: _post.id, id: comment.id }

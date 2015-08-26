@@ -70,7 +70,7 @@ describe Api::RepliesController, type: :controller do
 
   describe 'PUT #make_visible' do
     before do
-      CommentManager.new(comment: reply).hide
+      CommentManager.new(user: poster, comment: reply).hide
     end
 
     subject(:perform_request) { put 'make_visible', comment_id: comment.id, id: reply.id }
