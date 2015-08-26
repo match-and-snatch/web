@@ -18,49 +18,31 @@
 
 ### On a virtual machine (preferred way)
 
-- Install [Vagrant](http://www.vagrantup.com/)
-- Install [VirtualBox](https://www.virtualbox.org/)
-- Install [Ansible](http://www.ansible.com/)
-- `git clone git@github.com:subscribebuddy/platform.git`
+- Install [Vagrant](http://www.vagrantup.com/) >= v.1.7.4
+- Install [VirtualBox](https://www.virtualbox.org/) >= v.5.0
+- Install [Ansible](http://www.ansible.com/) from sources >= v.2.0.0
+- `git clone git@github.com:connectpal/connectpal.git`
 - `git checkout development`
+- `git submodule init`
+- `git submodule update`
 - run `vagrant up`
 
 ### Or directly on your local box (not preferred)
 
 - `git clone git@github.com:subscribebuddy/platform.git`.
 - Checkout development branch `git checkout development`.
-- Install [Ruby 2.0](http://rvm.io/).
-- Setup [Postgres App](http://postgresapp.com/).
+- Install [Ruby 2.2.3](http://rvm.io/).
+- Setup [Postgres App](http://postgresapp.com/). >= v.9.3
 - Setup Guard (if you use it).
 - Run `bundle install`.
 - Create `config/database.yml` using [config/database.yml.example](config/database.yml.example) file.
 
-
-## Setting up heroku (not required)
-- Install [Toolbelt](https://devcenter.heroku.com/)
-
-Add your SSH keys:
-
-```bash
-heroku keys:add ~/.ssh/id_rsa.pub
-```
-
 ## Running
 
-#### Virtual Machine (preferred way):
-- `cap vagrant server:restart`
-- enjoy it on [localhost:3001](http://localhost:3001)
-
-You also have commands:
-- `cap vagrant server:stop` which stops your web server
-- `cap vagrant server:start` which starts server without running all the service jobs
-
-#### Directly on your local box:
-- `bundle install`
-- `rake db:create`
-- `rake db:migrate`
+#### Directly on your box:
 - `rails s`
-- enjoy it on [localhost:3000](http://localhost:3000)
+
+The port number will depend on your current configuration. By default it is `3000` for running locally and `3001` forwarding from VirgualBox.
 
 ## Basic workflow
 
@@ -74,6 +56,8 @@ You also have commands:
 > git push my my-new-feature
 
 Create Pull Request on github.
+Assign WIP label if feature is not ready to be merged.
+Remove WIP label if it is ready to be merged.
 
 > git checkout development
 > git pull origin development
@@ -87,15 +71,24 @@ Create Pull Request on github.
 
 ### Deployment instructions
 
-- `git remote add heroku git@heroku.com:subscribebuddy.git`
 - `rake assets:precompile`
 - `git add . && git commit -am "Compressed assets to push" && git push origin your_feature_branch`
+- `git push origin your_feature_branch:staging -f`
 - upload files on S3
-- `git push heroku your_feature_branch:master -f`
+- `git submodule init`
+- `git submodule update`
+- `cd deploy`
+- `./update_staging`
 
 ### Staging server access
 
-Goto [http://subscribebuddy.herokuapp.com/](http://subscribebuddy.herokuapp.com/)
+Goto [https://staging.connectpal.com/](https://staging.connectpal.com/)
+Login: `buddy`
+Password: `staging`
+
+### Mobile staging
+
+Goto [https://ms.connectpal.com/](https://ms.connectpal.com/)
 Login: `buddy`
 Password: `staging`
 
@@ -199,7 +192,6 @@ List of all possible responses:
 
 ### Learn more
 
-- [https://devcenter.heroku.com/](https://devcenter.heroku.com/)
 - [https://www.ruby-lang.org/en/](https://www.ruby-lang.org/en/)
 - [http://www.postgresql.org/](http://www.postgresql.org/)
 - [https://github.com/guard/guard#readme](https://github.com/guard/guard#readme)

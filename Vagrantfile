@@ -16,7 +16,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.verbose = 'vvvv'
     ansible.sudo = true
     ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
-    #ansible.ask_sudo_pass = true
   end
 
   config.vm.network :forwarded_port, guest: 3000, host: 3001
