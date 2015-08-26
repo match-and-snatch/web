@@ -1,5 +1,0 @@
----
-- include: playbooks/packages.yml
-- include: playbooks/postgres.yml
-- include: playbooks/application.yml
-

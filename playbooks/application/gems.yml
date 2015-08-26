@@ -1,5 +1,0 @@
----
-- name: Install Bundler
-  shell: bash -lc "gem install bundler"
-- name: Install application gems
-  shell: bash -lc "bundle install" chdir={{ project_path }}
