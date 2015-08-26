@@ -9,17 +9,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = 'precise32'
-  config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
+  config.vm.box = 'ubuntu/trusty64'
   config.vm.provision 'ansible' do |ansible|
     ansible.playbook = 'deploy/local.yml'
+    ansible.inventory_path = 'deploy/inventory_vagrant'
+    ansible.verbose = 'vvvv'
     ansible.sudo = true
+    ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
+    #ansible.ask_sudo_pass = true
   end
 
   config.vm.network :forwarded_port, guest: 3000, host: 3001
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ['modifyvm', :id, '--memory', '1024', '--name', 'ansible-plaything']
+    vb.customize ['modifyvm', :id, '--memory', '1024', '--name', 'connectpal_dev']
   end
 
   # Every Vagrant virtual environment requires a box to build off of.
