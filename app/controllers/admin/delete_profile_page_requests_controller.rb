@@ -20,8 +20,7 @@ class Admin::DeleteProfilePageRequestsController < Admin::BaseController
   end
 
   def approve
-    UserProfileManager.new(@delete_profile_page_request.user).delete_profile_page!
-    @delete_profile_page_request.approve!
+    UserProfileManager.new(@delete_profile_page_request.user).delete_profile_page!(@delete_profile_page_request)
     json_reload
   end
 

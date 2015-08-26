@@ -35,7 +35,7 @@ class Api::UsersController < Api::BaseController
 
   def update_cost
     manager.update_cost(params[:cost], update_existing_subscriptions: params.bool(:update_existing))
-    notice(:cost_change_request_submited) if manager.cost_change_request_submited?
+    notice(:cost_change_request_submitted) if manager.cost_change_request_submitted?
     json_success cost: @user.cost
   end
 
