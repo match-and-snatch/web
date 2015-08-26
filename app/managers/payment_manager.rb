@@ -10,11 +10,16 @@ class PaymentManager < BaseManager
   def create_charge(amount: , customer: nil, description: nil, statement_description: nil, metadata: {})
     fail_with! 'Credit card is declined' if @user.cc_declined?
 
+    statement = statement_description.to_s.gsub(/\W+/, '')
+                  .gsub('xxx', 'yyy')
+                  .gsub('porn', 'corn')
+                  .gsub('sex', 'cookies')
+
     Stripe::Charge.create amount: amount,
                           customer: (customer || user.try(:stripe_user_id)),
                           currency: 'usd',
                           description: description,
-                          statement_description: statement_description.try(:gsub, /\W+/, ''),
+                          statement_description: statement.first(14),
                           metadata: metadata
   end
 
@@ -31,7 +36,7 @@ class PaymentManager < BaseManager
     charge = create_charge amount: subscription.total_cost,
                            customer:    subscription.customer.stripe_user_id,
                            description: description,
-                           statement_description: subscription.target_user.profile_name.first(14),
+                           statement_description: subscription.target_user.profile_name,
                            metadata: { target_id:   subscription.id,
                                        target_type: subscription.class.name,
                                        user_id:     subscription.customer.id }
