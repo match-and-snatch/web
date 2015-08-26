@@ -81,6 +81,8 @@ class AccountInfosController < ApplicationController
   def delete_profile_page
     manager.delete_profile_page
     json_reload notice: (manager.delete_profile_page_request_submitted? ? :delete_profile_page_request_submitted : :profile_page_deleted)
+  rescue ManagerError => e
+    json_reload notice: e.messages[:message]
   end
 
   def enable_rss
