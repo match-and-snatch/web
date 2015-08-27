@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = 'ubuntu/trusty64'
   config.vm.provision 'ansible' do |ansible|
-    ansible.playbook = 'deploy/local.yml'
+    ansible.playbook = 'deploy/vagrant.yml'
     ansible.inventory_path = 'deploy/inventory_vagrant'
     ansible.verbose = 'vvvv'
     ansible.sudo = true
