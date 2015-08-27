@@ -42,7 +42,13 @@
 #### Directly on your box:
 - `rails s`
 
-The port number will depend on your current configuration. By default it is `3000` for running locally and `3001` forwarding from VirgualBox.
+Accessible on port `3000` by default
+
+#### On vagrant:
+- `cd app`
+- `rails s`
+
+Accessible on guest host port `3001` by default
 
 ## Basic workflow
 
