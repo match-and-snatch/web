@@ -9,17 +9,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = 'precise32'
-  config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
+  config.vm.box = 'ubuntu/trusty64'
   config.vm.provision 'ansible' do |ansible|
-    ansible.playbook = 'playbook.yml'
+    ansible.playbook = 'deploy/vagrant.yml'
+    ansible.inventory_path = 'deploy/inventory_vagrant'
     ansible.sudo = true
+    ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
+    # ansible.verbose = 'vvvv'
   end
 
   config.vm.network :forwarded_port, guest: 3000, host: 3001
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ['modifyvm', :id, '--memory', '1024', '--name', 'ansible-plaything']
+    vb.customize ['modifyvm', :id, '--memory', '1024', '--name', 'connectpal_dev']
   end
 
   # Every Vagrant virtual environment requires a box to build off of.
@@ -51,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder ".", "/home/vagrant/app"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
