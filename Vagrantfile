@@ -13,9 +13,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision 'ansible' do |ansible|
     ansible.playbook = 'deploy/vagrant.yml'
     ansible.inventory_path = 'deploy/inventory_vagrant'
-    ansible.verbose = 'vvvv'
     ansible.sudo = true
     ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
+    # ansible.verbose = 'vvvv'
   end
 
   config.vm.network :forwarded_port, guest: 3000, host: 3001
