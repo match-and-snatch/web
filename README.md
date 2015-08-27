@@ -45,8 +45,8 @@
 Accessible on port `3000` by default
 
 #### On vagrant:
-- `cd app`
-- `rails s`
+- `vagrant ssh`
+- `./run_rails_server`
 
 Accessible on guest host port `3001` by default
 
