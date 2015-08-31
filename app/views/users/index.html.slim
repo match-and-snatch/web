@@ -61,17 +61,17 @@
           a href='#0-9' 0-9
       .clearfix
 
-      h1 style='margin-bottom: 25px;' Top 10 Most Popular Profiles
+      h1 style='margin-bottom: 25px;' Top 20 Most Popular Profiles
 
-      .top_ten
+      ul.top_twenty
         - @top_users.each do |user|
-          a.pull-left href=profile_path(user)
-            img.photo src=user.small_profile_picture_url width=50 height=50
-            span= user.top_profile.name
-            span.category.hidden-xs
-              '&nbsp;(#{user.top_profile.types})
-            .clearfix
-        .clearfix
+          a href=profile_path(user)
+            li
+              img.photo src=user.small_profile_picture_url width=50 height=50
+              span= user.top_profile.name
+              span.category.hidden-xs
+                '&nbsp;(#{user.top_profile.types})
+              .clearfix
 
         hr style='height: 1px'
 
