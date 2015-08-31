@@ -38,6 +38,7 @@ production:
   transloadit:
     uploads_bucket: 'connectpal-uploads'
     media_bucket: 'connectpal-media'
+  assets_bucket: connectpal-assets
 
 staging:
   <<: *defaults
@@ -48,6 +49,7 @@ staging:
     log_level: 3
     <<: *jwplayer
   mobile_site_url: 'https://ms.connectpal.com'
+  assets_bucket: buddy-assets
 
 test:
   <<: *defaults

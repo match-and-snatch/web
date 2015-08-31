@@ -55,7 +55,7 @@ gem 'stripe', '1.16.0'
 gem 'stripe-rails'
 
 # Amazon S3
-gem 'aws-sdk', '~> 2.0.9.pre'
+gem 'aws-sdk', '~> 2.0.48'
 
 # Uploads, assets
 gem 'transloadit-rails'
@@ -63,7 +63,8 @@ gem 'transloadit-rails'
 gem 'mailcatcher', group: :development
 
 group :development, :test do
-  gem 'awesome_print'
+  gem 'jazz_fingers'
+  gem 'pry-rails'
 end
 
 group :test do
