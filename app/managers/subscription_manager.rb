@@ -203,14 +203,8 @@ class SubscriptionManager < BaseManager
       block.try(:call)
 
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
-
-      unless fake
-        UserManager.new(@subscriber).lock if recent_subscriptions_count >= 4
-        SubscribedFeedEvent.create! target_user: target, target: @subscriber
-        SubscriptionsMailer.delay.subscribed(subscription)
-      end
-
-      EventsManager.subscription_created(user: @subscriber, subscription: @subscription)
+      UserManager.new(@subscriber).lock if recent_subscriptions_count >= 4
+      @subscription
     end
 
     # Any subscriber should be activated
@@ -290,7 +284,10 @@ class SubscriptionManager < BaseManager
   def populate_subscription_events(restored: false)
     target_user = @subscription.target_user
     UserStatsManager.new(target_user).log_subscriptions_count
-    SubscribedFeedEvent.create! target_user: target_user, target: @subscriber
+    unless @subscription.fake
+      SubscribedFeedEvent.create!(target_user: target_user, target: @subscriber)
+      SubscriptionsMailer.delay.subscribed(@subscription)
+    end
     EventsManager.subscription_created(user: @subscriber, subscription: @subscription, restored: restored)
   end
 end

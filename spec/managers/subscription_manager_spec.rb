@@ -6,6 +6,95 @@ describe SubscriptionManager do
 
   subject(:manager) { described_class.new(subscriber: subscriber) }
 
+  describe '#register_subscribe_and_pay' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    let(:register_data) do
+      {
+          email: 'tester@tester.com',
+          full_name: 'Tester Ivanovitch',
+          password: 'gfhjkmqe',
+          cvc: '000',
+          expiry_month: '05',
+          expiry_year: '18',
+          zip: nil,
+          city: nil,
+          state: nil,
+          address_line_1: nil,
+          address_line_2: nil
+      }
+    end
+
+    context 'CC fails' do
+      subject(:subscribe) { manager.register_subscribe_and_pay(register_data.merge(number: '4000000000000341', target: another_user)) rescue PaymentError }
+
+      before { StripeMock.prepare_card_error(:card_declined) }
+
+      it 'registers user' do
+        expect { subscribe }.to create_record(User).once.matching(email: register_data[:email])
+      end
+      it 'marks user as billing failed' do
+        subscribe
+        expect(User.where(email: register_data[:email]).last.try(:billing_failed)).to eq(true)
+      end
+      it 'does not create feed event' do
+        expect { subscribe }.not_to create_record(SubscribedFeedEvent)
+      end
+      it 'does not create subscription_created event' do
+        expect { subscribe }.not_to create_event(:subscription_created)
+      end
+      it 'creates rejected subscription' do
+        expect { subscribe }.to create_record(Subscription).once.matching(rejected: true)
+      end
+      it 'does not create payment' do
+        expect { subscribe }.not_to create_record(Payment)
+      end
+      it 'crerates payment failure' do
+        expect { subscribe }.to create_record(PaymentFailure).once
+      end
+      it 'does not sent email about subscription' do
+        expect { subscribe }.not_to deliver_email(to: register_data[:email], subject: /You're now subscribed to/)
+      end
+      it 'sent email about registration' do
+        expect { subscribe }.not_to deliver_email(to: register_data[:email], subject: /Welcome to ConnectPal!/)
+      end
+    end
+
+    context 'payment success' do
+      subject(:subscribe) { manager.register_subscribe_and_pay(register_data.merge(number: '4242424242424242', target: another_user)) }
+
+      it { should be_a Subscription }
+      it { should be_valid }
+      it { should_not be_new_record }
+
+      it 'registers user' do
+        expect { subscribe }.to create_record(User).once.matching(email: register_data[:email], last_four_cc_numbers: '4242')
+      end
+
+      it 'creates subscription' do
+        expect { subscribe }.to create_record(Subscription).once
+      end
+      it 'creates payment' do
+        expect { subscribe }.to create_record(Payment).once
+      end
+
+      it 'creates feed event' do
+        expect { subscribe }.to create_record(SubscribedFeedEvent).once
+      end
+      it 'creates subscription_created event' do
+        expect { subscribe }.to create_event(:subscription_created)
+      end
+
+      it 'about register' do
+        expect { subscribe }.not_to deliver_email(to: register_data[:email], subject: /Welcome to ConnectPal!/)
+      end
+      it 'sends email about subscription' do
+        expect { subscribe }.to deliver_email(to: register_data[:email], subject: /You're now subscribed to/)
+      end
+    end
+  end
+
   describe '#unsubscribe' do
     before { manager.subscribe_to(another_user) }
 
@@ -76,8 +165,8 @@ describe SubscriptionManager do
         end
       end
 
-      it 'creates subscription_created event' do
-        expect { manager.subscribe_to(another_user) }.to create_event(:subscription_created)
+      it 'does not create subscription_created event' do
+        expect { manager.subscribe_to(another_user) }.not_to create_event(:subscription_created)
       end
 
       it 'activates subscriber if he is not yet active' do
@@ -231,12 +320,12 @@ describe SubscriptionManager do
     end
 
     context 'rejected subscription' do
-    let(:subscriber) do
-      create_user(email: 'szinin@gmail.com').tap do |u|
-        UserProfileManager.new(u).update_cc_data(number: '4242424242424242', cvc: '123', expiry_month: 12, expiry_year: 19,
-          address_line_1: 'test', address_line_2: 'test', state: 'test', city: 'test', zip: '12345')
+      let(:subscriber) do
+        create_user(email: 'szinin@gmail.com').tap do |u|
+          UserProfileManager.new(u).update_cc_data(number: '4242424242424242', cvc: '123', expiry_month: 12, expiry_year: 19,
+            address_line_1: 'test', address_line_2: 'test', state: 'test', city: 'test', zip: '12345')
+        end
       end
-    end
 
       before do
         manager.reject
@@ -251,10 +340,6 @@ describe SubscriptionManager do
           manager.subscribe_and_pay_for(another_user)
         end
 
-        before do
-          manager.reject
-        end
-
         it 'restores subscription' do
           expect { manager.restore }.to change { subscription.rejected? }.from(true).to(false)
         end
@@ -264,11 +349,29 @@ describe SubscriptionManager do
         end
 
         it do
-          expect { manager.restore }.not_to change { Payment.count }
+          expect { manager.restore }.not_to create_record(Payment)
         end
 
         it do
-          expect { manager.restore }.not_to change { PaymentFailure.count }
+          expect { manager.restore }.not_to create_record(PaymentFailure)
+        end
+      end
+
+      context 'subscription never charged' do
+        it 'creates feed event' do
+          expect { manager.restore }.to create_record(SubscribedFeedEvent).once
+        end
+        it 'creates subscription_created event' do
+          expect { manager.restore }.to create_event(:subscription_created)
+        end
+        it 'sends email about new subscription' do
+          expect { manager.restore }.to deliver_email(to: subscriber.email, subject: /You're now subscribed to/)
+        end
+        it 'creates payment' do
+          expect { manager.restore }.to create_record(Payment).once
+        end
+        it 'makes subscription active' do
+          expect { manager.restore }.to change { subscription.rejected? }.from(true).to(false)
         end
       end
     end
