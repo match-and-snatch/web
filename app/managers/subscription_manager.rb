@@ -95,8 +95,8 @@ class SubscriptionManager < BaseManager
                                                            state: state,
                                                            address_line_1: address_line_1,
                                                            address_line_2: address_line_2
-        subscribe_and_pay_for target
       end
+      subscribe_and_pay_for target
     else
       fail_with! auth.errors
     end
@@ -162,14 +162,12 @@ class SubscriptionManager < BaseManager
 
     fail_with! 'Credit card is declined' if @subscriber.cc_declined?
 
-    subscribe_to(target).tap do |subscription|
-      PaymentManager.new(user: @subscriber).pay_for(subscription, 'Payment for subscription') unless subscription.paid?
-    end
+    subscribe_to(target, &method(:pay))
   end
 
   # @param target [Concerns::Subscribable]
   # @return [Subscription]
-  def subscribe_to(target, fake: false)
+  def subscribe_to(target, fake: false, &block)
     unless target.is_a?(Concerns::Subscribable)
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"
     end
@@ -202,6 +200,8 @@ class SubscriptionManager < BaseManager
       @subscription = subscription
       @subscription.actualize_cost! or fail_with! @subscription.errors
 
+      block.try(:call)
+
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
 
       unless fake
@@ -219,22 +219,27 @@ class SubscriptionManager < BaseManager
     @subscription
   end
 
+  def pay
+    return if @subscription.paid?
+    been_charged = @subscription.charged_at.present?
+
+    PaymentManager.new(user: @subscriber).pay_for!(@subscription, 'Payment for subscription').tap do
+      populate_subscription_events unless been_charged
+    end
+  end
+
   def restore
     @subscription.actualize_cost! or fail_with! @subscription.errors
 
     if @subscription.paid?
       accept if @subscription.rejected?
     else
-      PaymentManager.new(user: @subscriber).pay_for!(@subscription, 'Payment for subscription')
+      pay
     end
 
     if @subscription.removed?
       @subscription.restore!
-
-      target_user = @subscription.target_user
-      UserStatsManager.new(target_user).log_subscriptions_count
-      SubscribedFeedEvent.create! target_user: target_user, target: @subscriber
-      EventsManager.subscription_created(user: @subscriber, subscription: @subscription, restored: true)
+      populate_subscription_events(restored: true)
     end
   end
 
@@ -278,5 +283,14 @@ class SubscriptionManager < BaseManager
     @subscription.rejected = false
     @subscription.rejected_at = nil
     save_or_die! @subscription
+  end
+
+  private
+
+  def populate_subscription_events(restored: false)
+    target_user = @subscription.target_user
+    UserStatsManager.new(target_user).log_subscriptions_count
+    SubscribedFeedEvent.create! target_user: target_user, target: @subscriber
+    EventsManager.subscription_created(user: @subscriber, subscription: @subscription, restored: restored)
   end
 end
