@@ -18,7 +18,7 @@
     .clearfix
 
   .col-md-12
-    - if @user.subscriptions_count > 0
+    - if @user.subscriptions_chart_visible?
       h2 Subscriber Monthly Growth
       div style='padding: 15px'
         .graph.Graph#chart style='padding: 0px' data-label='Subscriptions' data-data=@user.graph_data.to_json Please wait...

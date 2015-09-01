@@ -1,5 +1,5 @@
 class UserStatsDecorator < UserDecorator
-  delegate :full_name, to: :object
+  delegate :full_name, :subscriptions_chart_visible?, to: :object
 
   def fake_subscriptions_count
     @fake_subscriptions_count ||= object.source_subscriptions.where(fake: true, removed: false).count
@@ -50,6 +50,10 @@ class UserStatsDecorator < UserDecorator
 
   def profile_types
     object.profile_types.map(&:title).join(' / ')
+  end
+
+  def subscriptions_chart_visible?
+    object.subscriptions_chart_visible? && subscriptions_count > 0
   end
 
   # @return [Integer]
