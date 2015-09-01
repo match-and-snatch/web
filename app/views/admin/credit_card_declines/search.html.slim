@@ -9,7 +9,7 @@
           | &nbsp;
           strong= user.email
         - if user.cc_declined?
-          button.AjaxFormLink.btn.pink.pull-right data-_method='delete' data-email=user.email href=admin_credit_card_decline_path(user.credit_card_declines.first) Restore CC
+          button.AjaxFormLink.btn.pink.pull-right data-_method='delete' data-email=user.email href=admin_credit_card_decline_path(user.cc_decline) Restore CC
         - else
           button.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-email=user.email href=admin_credit_card_declines_path Decline CC
         .clearfix

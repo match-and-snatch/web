@@ -6,8 +6,12 @@ class UserStatsDecorator < UserDecorator
   end
 
   def fakes_count
-    count = fake_subscriptions_count
-    "#{count} ($#{count * object.cost / 100.0})"
+    if object.cost
+      count = fake_subscriptions_count
+      "#{count} ($#{count * object.cost / 100.0})"
+    else
+      0
+    end
   end
 
   def target_subscriptions_count

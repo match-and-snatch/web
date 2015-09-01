@@ -83,7 +83,7 @@ class ApplicationMailer < ActionMailer::Base
               when String, Array then @recipient
               when User then @recipient.email
               else
-                raise ArgumentError
+                raise ArgumentError, "Expected recipient, got #{@recipient.inspect}"
               end
 
         instance_eval(&block)

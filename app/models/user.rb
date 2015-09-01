@@ -110,6 +110,15 @@ class User < ActiveRecord::Base
     is_admin? || APP_CONFIG['admins'].include?(email)
   end
 
+  def cc_decline
+    decline = credit_card_declines.first
+    return decline if decline
+
+    if stripe_card_fingerprint.present?
+      CreditCardDecline.where(stripe_fingerprint: stripe_card_fingerprint).first
+    end
+  end
+
   def cc_declined?
     if stripe_card_fingerprint.present?
       CreditCardDecline.where(stripe_fingerprint: stripe_card_fingerprint).any?

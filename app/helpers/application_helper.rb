@@ -114,8 +114,10 @@ module ApplicationHelper
   end
 
   # @param user [User]
-  # @return [String]
+  # @return [String, nil]
   def link_to_user(user, possessive: false)
+    return unless user
+
     user = user.object if user.kind_of? BaseDecorator
     name = user.name
 
