@@ -56,7 +56,7 @@ def create_profile_owner(_params = {})
       UserProfileManager.new(user).enable_itunes
     end
 
-    if params[:hidden]
+    unless params[:hidden]
       UserProfileManager.new(user).toggle
     end
 
