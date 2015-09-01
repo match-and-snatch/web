@@ -173,6 +173,9 @@
         margin: 10px 0 0
         text-decoration: none
         word-wrap: break-word
+        .name
+          font-size: 34px
+          font-weight: bold
         &.visitor
           cursor: default
         .fa
@@ -181,7 +184,7 @@
             font-size: 20px
             padding-right: 5px
             position: relative
-            top: -6px
+            top: -5px
         &:hover
           .fa
             &:before
@@ -191,7 +194,7 @@
           cursor: default
       .profile_type
         color: #898989
-        display: block
+        display: inline
         font-size: 12px
         font-weight: 400
         line-height: 22px
@@ -1860,11 +1863,13 @@
           .amount, .fa
             height: 55px
           .fa.fa-usd
-            width: 65px
+            width: 50px
             &:before
               font-size: 30px
           .fa.fa-gear
-            padding: 10px 0 0 0
+            float: left
+            position: relative
+            top: 0
             width: 35px
             &:before
               font-size: 30px
@@ -1876,7 +1881,7 @@
             width: 240px
 
       .add_welcome_media
-        width: 240px
+        width: 225px
         padding: 10px 0
 
   #create_post_nav
