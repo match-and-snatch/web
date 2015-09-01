@@ -310,6 +310,8 @@ class UserProfileManager < BaseManager
   # @return [User]
   def update_cc_data(number: nil, cvc: nil, expiry_month: nil, expiry_year: nil,
                      address_line_1: nil, address_line_2: nil, state: nil, city: nil, zip: nil)
+    fail_with! "You can't update your credit card since your current one was declined" if user.cc_declined?
+
     card = CreditCard.new number: number,
                           cvc: cvc,
                           holder_name: user.full_name,
