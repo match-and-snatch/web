@@ -38,7 +38,8 @@ def create_profile_owner(_params = {})
                         is_profile_owner:      true,
                         cost:                  20.0,
                         profile_name:          'test',
-                        profile_picture_url:   'set'
+                        profile_picture_url:   'set',
+                        hidden:                false
 
   AuthenticationManager.new(params.slice(:is_profile_owner, :email,
                                          :password, :password_confirmation,
@@ -53,6 +54,10 @@ def create_profile_owner(_params = {})
 
     if params[:itunes_enabled]
       UserProfileManager.new(user).enable_itunes
+    end
+
+    if params[:hidden]
+      UserProfileManager.new(user).toggle
     end
 
     user.save! if user.changed?

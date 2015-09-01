@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Api::UsersController, type: :controller do
   describe 'GET #search' do
-    let(:user_one) { create_profile_owner first_name: 'sergei', last_name: 'zinin', is_profile_owner: true, profile_name: 'serge zinin', cost: '123.0' }
-    let(:user_two) { create_profile_owner first_name: 'serge', last_name: 'zeenin', email: 'serge@zee.ru', is_profile_owner: true }
-    let(:user_three) { create_profile_owner first_name: 'dmitry', last_name: 'jakovlev', email: 'dimka@jak.com', is_profile_owner: true }
+    let(:user_one) { create_profile_owner first_name: 'sergei', last_name: 'zinin', is_profile_owner: true, profile_name: 'serge zinin', cost: '123.0', hidden: false }
+    let(:user_two) { create_profile_owner first_name: 'serge', last_name: 'zeenin', email: 'serge@zee.ru', is_profile_owner: true, hidden: false }
+    let(:user_three) { create_profile_owner first_name: 'dmitry', last_name: 'jakovlev', email: 'dimka@jak.com', is_profile_owner: true, hidden: false }
 
     subject { get 'search', q: 'serge zi' }
 
@@ -76,7 +76,7 @@ describe Api::UsersController, type: :controller do
   end
 
   describe 'POST #update_profile_name' do
-    let(:user) { create_profile_owner api_token: 'set' }
+    let(:user) { create_profile_owner api_token: 'set', hidden: false }
 
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
@@ -108,7 +108,7 @@ describe Api::UsersController, type: :controller do
   end
 
   describe 'POST #update_profile_picture' do
-    let(:user) { create_profile_owner api_token: 'set' }
+    let(:user) { create_profile_owner api_token: 'set', hidden: false }
 
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
@@ -129,7 +129,7 @@ describe Api::UsersController, type: :controller do
   end
 
   describe 'POST #update_cost' do
-    let(:user) { create_profile_owner api_token: 'set' }
+    let(:user) { create_profile_owner api_token: 'set', hidden: false }
 
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
