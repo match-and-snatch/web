@@ -9,7 +9,7 @@ class bud.widgets.AudioPlayer extends bud.Widget
     @file        = data['file']
     @original    = data['original'] || @file
     @width       = data['width'] || '585'
-    @height      = data['height'] || '32'
+    @height      = data['height'] || '30'
     @primary     = data['primary'] || 'flash'
     @skin        = data['skin'] || 'bekle'
 
@@ -29,12 +29,12 @@ class bud.widgets.AudioPlayer extends bud.Widget
 
   on_script_loaded: =>
     @player = jwplayer(@id).setup({
-      ga: {},
       playlist: [{
         sources: [{file: @file}, {file: @original}]
       }],
       width: @width,
       height: @height,
       primary: @primary,
+      skin: @skin
     })
     @player.onPlay(@on_play)
