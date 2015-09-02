@@ -28,7 +28,7 @@ class NotificationManager < BaseManager
     # @param comment [Comment]
     def notify_comment_created(comment)
       comment.mentioned_users.find_each do |user|
-        PostsMailer.mentioned(comment, user).deliver_now
+        PostsMailer.mentioned(user, Flows::Payload.new(subject: comment)).deliver_now
       end
     end
 
