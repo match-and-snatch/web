@@ -1,7 +1,7 @@
 namespace :assets do
   desc 'Uploads compiled assets (public/assets) to Amazon S3'
-  task :upload, [:noop] => ['assets:clean', 'assets:precompile'] do |_, args|
-    args.with_defaults(noop: false)
+  task :upload, [:force, :noop] => ['assets:clean', 'assets:precompile'] do |_, args|
+    args.with_defaults(force: false, noop: false)
 
     Dir.chdir("#{Rails.root}/public") do
       assets = FileList['assets', 'assets/**/*'].inject({}) do |hsh, path|
@@ -24,11 +24,24 @@ namespace :assets do
           puts "Directory #{file}"
           bucket.put_object(key: file) unless args[:noop]
         else
-          if bucket.object(file).exists? && bucket.object(file).etag == "\"#{etag}\""
+          if !args[:force] && bucket.object(file).exists? && bucket.object(file).etag == "\"#{etag}\""
             puts "Skipping #{file} (identical)"
           else
             puts "Uploading #{file}"
-            bucket.put_object(key: file, body: File.open(file), acl: 'public-read') unless args[:noop]
+
+            if file.end_with?('.css')
+              content_type = 'text/css'
+            elsif file.end_with?('.js')
+              content_type = 'text/javascript'
+            end
+
+            opts = {key: file, body: File.open(file), acl: 'public-read'}
+
+            if content_type
+              opts[:content_type] = content_type
+            end
+
+            bucket.put_object(opts) unless args[:noop]
           end
         end
       end
