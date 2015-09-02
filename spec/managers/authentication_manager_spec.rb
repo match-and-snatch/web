@@ -36,9 +36,17 @@ describe AuthenticationManager do
     end
 
     context 'invalid email' do
-      let(:email) { 'whatever' }
-      specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:default)) } }
-      specify { expect { register rescue nil }.not_to create_event(:registered) }
+      context '"whatever"' do
+        let(:email) { 'whatever' }
+        specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:default)) } }
+        specify { expect { register rescue nil }.not_to create_event(:registered) }
+      end
+
+      context '"what ever@gmail.com"' do
+        let(:email) { 'what ever@gmail.com' }
+        specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:default)) } }
+        specify { expect { register rescue nil }.not_to create_event(:registered) }
+      end
     end
 
     context 'empty email' do
