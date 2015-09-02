@@ -822,4 +822,36 @@ describe UserProfileManager do
       end
     end
   end
+
+  describe '#update_general_information' do
+    let(:another_user) { create_user(email: 'another@gmail.com') }
+
+    specify do
+      expect { manager.update_general_information(full_name: 'new', email: 'new_email@gmail.com') }.to change { user.email }.to('new_email@gmail.com')
+    end
+
+    it 'returns user' do
+      expect(manager.update_general_information(full_name: 'new', email: 'new_email@gmail.com')).to eq(user)
+    end
+
+    it 'does not raize error if emails is taken' do
+      expect { manager.update_general_information(full_name: 'new', email: another_user.email) }.not_to raise_error
+    end
+
+    context 'if another user is activated' do
+      before { AuthenticationManager.new.activate(another_user.registration_token) }
+
+      it 'raises an error' do
+        expect { manager.update_general_information(full_name: 'new', email: another_user.email) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) }
+      end
+    end
+
+    context 'another user is admin' do
+      before { UserManager.new(another_user).make_admin }
+
+      it 'raises an error' do
+        expect { manager.update_general_information(full_name: 'new', email: another_user.email) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) }
+      end
+    end
+  end
 end
