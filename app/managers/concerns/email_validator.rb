@@ -11,6 +11,6 @@ module Concerns::EmailValidator
   end
 
   def email_taken?(email = nil)
-    User.by_email(email).where('activated =? OR is_admin = ?', true, true).any?
+    User.by_email(email).where('activated = ? OR is_admin = ?', true, true).any?
   end
 end

@@ -834,7 +834,7 @@ describe UserProfileManager do
       expect(manager.update_general_information(full_name: 'new', email: 'new_email@gmail.com')).to eq(user)
     end
 
-    it 'does not raize error if emails is taken' do
+    it 'does not raise error if email is taken' do
       expect { manager.update_general_information(full_name: 'new', email: another_user.email) }.not_to raise_error
     end
 
