@@ -94,7 +94,8 @@ class Api::UsersController < Api::BaseController
       access: {
         owner: current_user == user,
         subscribed: current_user.subscribed_to?(user),
-        billing_failed: current_user.billing_failed?
+        billing_failed: current_user.billing_failed?,
+        public_profile: user.has_public_profile?
       },
       id: user.id,
       name: user.name,
