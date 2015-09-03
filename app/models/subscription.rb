@@ -17,6 +17,7 @@ class Subscription < ActiveRecord::Base
   scope :accessible,   -> { where("rejected_at is NULL OR rejected_at > ?", 1.month.ago) }
   scope :not_expired,  -> { where("COALESCE(subscriptions.charged_at, subscriptions.created_at) >= ?", 1.month.ago) }
   scope :active,       -> { not_removed.accessible }
+  scope :visible,      -> { not_rejected.where(["subscriptions.removed = ? OR (subscriptions.removed = ? AND subscriptions.charged_at > ?)", false, true, 1.month.ago]) }
 
   # Returns upcoming billing date
   # @return [Date]

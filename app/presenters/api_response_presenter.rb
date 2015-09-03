@@ -55,7 +55,7 @@ class ApiResponsePresenter
       itunes_enabled: user.itunes_enabled,
       profile_types_text: user.profile_types_text,
       subscribers_count: user.subscribers_count,
-      subscriptions_count: user.subscriptions.active.count,
+      subscriptions_count: user.subscriptions.visible.count,
       only_subscription_path: user.subscriptions.active.count == 1 ? user.subscriptions.active.first.target_user.slug : nil,
       recurring_contributions_count: user.contributions.where(recurring: true).count,
       stripe_recipient_id: user.stripe_recipient_id,
