@@ -206,10 +206,19 @@ describe ::UsersController, type: :controller do
     let!(:profile1) { create_profile profile_name: 'serg', profile_picture_url: 'set', is_profile_owner: true }
     subject(:perform_request) { get 'search', q: 'serg' }
 
-    before { perform_request }
+    context 'user is hidden' do
+      before { perform_request }
 
-    specify do
-      expect(assigns('users')).to eq [profile1]
+      specify { expect(assigns('users')).to eq [] }
+    end
+
+    context 'user is not hidden' do
+      before do
+        UserProfileManager.new(profile1).toggle
+        perform_request
+      end
+
+      specify { expect(assigns('users')).to eq [profile1] }
     end
 
     its(:status) { should == 200 }

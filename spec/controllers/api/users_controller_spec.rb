@@ -16,7 +16,7 @@ describe Api::UsersController, type: :controller do
     specify do
       expect(JSON.parse(subject.body)).to include("data" => [
         {
-          "access"=>{"owner"=>false, "subscribed"=>false, "billing_failed"=>false},
+          "access"=>{"owner"=>false, "subscribed"=>false, "billing_failed"=>false, "public_profile"=>false},
           "id" => user_one.id,
           "name"=>"serge zinin",
           "slug"=>"sergeizinin",
@@ -44,7 +44,7 @@ describe Api::UsersController, type: :controller do
           "dialogue_id"=>nil
         },
         {
-          "access"=>{"owner"=>false, "subscribed"=>false, "billing_failed"=>false},
+          "access"=>{"owner"=>false, "subscribed"=>false, "billing_failed"=>false, "public_profile"=>false},
           "id" => user_two.id,
           "name"=>"test",
           "slug"=>"sergezeenin",
