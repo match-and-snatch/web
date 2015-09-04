@@ -148,6 +148,11 @@ describe User do
       context 'from config' do
         subject { User.new email: 'szinin@gmail.com' }
         its(:admin?) { should eq(true) }
+
+        context 'with uppercase letters' do
+          subject { User.new email: 'Szinin@gmail.com' }
+          its(:admin?) { should eq(true) }
+        end
       end
     end
 

@@ -107,7 +107,7 @@ class User < ActiveRecord::Base
   end
 
   def admin?
-    is_admin? || APP_CONFIG['admins'].include?(email)
+    is_admin? || APP_CONFIG['admins'].include?(email.try(:downcase))
   end
 
   def cc_decline

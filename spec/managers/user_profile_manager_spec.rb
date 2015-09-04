@@ -852,6 +852,13 @@ describe UserProfileManager do
       it 'raises an error' do
         expect { manager.update_general_information(full_name: 'new', email: another_user.email) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) }
       end
+
+      context 'admin from config' do
+        it 'raises an error' do
+          expect { manager.update_general_information(full_name: 'new', email: 'szinin@gmail.com') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) }
+          expect { manager.update_general_information(full_name: 'new', email: 'Szinin@gmail.com') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) }
+        end
+      end
     end
   end
 end
