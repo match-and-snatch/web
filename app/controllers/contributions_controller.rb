@@ -27,8 +27,8 @@ class ContributionsController < ApplicationController
 
     manager.create({target_user: @target_user, amount: amount, recurring: params.bool(:recurring), message: params[:message]})
     json_reload(notice: 'Thanks for your contribution!')
-  rescue ManagerError
-    json_reload
+  rescue ManagerError => e
+    e.on?(:amount) ? raise : json_reload
   end
 
   def cancel

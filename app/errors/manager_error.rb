@@ -6,6 +6,10 @@ class ManagerError < StandardError
     @messages = messages
   end
 
+  def on?(key)
+    messages[:errors].present? && messages[:errors].key?(key)
+  end
+
   # @return [String]
   def message
     if messages.many?
