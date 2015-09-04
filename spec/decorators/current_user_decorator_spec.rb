@@ -101,4 +101,69 @@ describe CurrentUserDecorator do
       end
     end
   end
+
+  describe '#recent_subscriptions' do
+    let(:user) { create_user }
+
+    context 'without subscriptions' do
+      specify { expect(subject.recent_subscriptions).to eq([]) }
+    end
+
+    context 'with subscriptions' do
+      before { StripeMock.start }
+      after { StripeMock.stop }
+
+      before do
+        UserProfileManager.new(user).update_cc_data(number: '4242424242424242',
+                                                    cvc: '333',
+                                                    expiry_month: '12',
+                                                    expiry_year: 2018,
+                                                    address_line_1: 'test',
+                                                    zip: '12345',
+                                                    city: 'LA',
+                                                    state: 'CA')
+        user.reload
+      end
+
+      let(:active_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'target@user.com') }
+      let(:rejected_subscription) do
+        manager = SubscriptionManager.new(subscriber: user)
+        manager.subscribe_and_pay_for(create_profile email: 'target3@user.com').tap do
+          manager.reject
+        end
+      end
+      let(:old_removed_subscription) do
+        Timecop.freeze 32.days.ago do
+          manager = SubscriptionManager.new(subscriber: user)
+          manager.subscribe_and_pay_for(create_profile email: 'target3@user.com').tap do
+            manager.unsubscribe
+          end
+        end
+      end
+      let(:recently_removed_subscription) do
+        Timecop.freeze 26.days.ago do
+          manager = SubscriptionManager.new(subscriber: user)
+          manager.subscribe_and_pay_for(create_profile email: 'target4@user.com').tap do
+            manager.unsubscribe
+          end
+        end
+      end
+
+      it 'returns active subscriptions' do
+        expect(subject.recent_subscriptions).to eq([active_subscription])
+      end
+
+      it 'does not return rejected subscriptions' do
+        expect(subject.recent_subscriptions).not_to eq([rejected_subscription])
+      end
+
+      it 'returns canceled not expired subscriptions' do
+        expect(subject.recent_subscriptions).to eq([recently_removed_subscription])
+      end
+
+      it 'does not return canceled expired subscriptions' do
+        expect(subject.recent_subscriptions).not_to eq([old_removed_subscription])
+      end
+    end
+  end
 end

@@ -74,11 +74,7 @@ class CurrentUserDecorator < UserDecorator
 
   # @return [ActiveRecord::Relation]
   def recent_subscriptions
-    object.subscriptions.
-      been_charged.
-      includes(:target_user).
-      order(created_at: :desc).
-      where(["subscriptions.removed = 'f' OR (subscriptions.removed = 't' AND subscriptions.charged_at > ?)", 1.month.ago])
+    object.subscriptions.accessible.includes(:target_user).order(created_at: :desc)
   end
 
   # @return [Array]
