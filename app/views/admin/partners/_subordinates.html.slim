@@ -1,0 +1,36 @@
+- if subordinates.any?
+  h2 Subordinate profiles
+  .table-responsive
+    table.table.table-striped
+      th
+        strong #ID
+      th
+      th
+        strong Profile Name
+      th
+        strong Total Subscribers
+      th
+        strong Created Date
+      th
+        strong Subscription Cost
+      th
+        strong Billing Status
+
+      - subordinates.each do |subordinate|
+        tr
+          td= subordinate.id
+          td
+            img src=subordinate.small_profile_picture_url width=50 height=50
+          td
+            a.HashLink href=admin_profile_owner_path(subordinate.id) = subordinate.name
+          td= subordinate.subscribers_count
+          td style='min-width: 100px'= subordinate.created_at
+          td
+            = cents_to_dollars subordinate.subscription_cost
+          td
+            - if subordinate.vacation_enabled?
+              strong style='color: red; font-size: 14px' Suspended
+            - else
+              small style='color: gray' Active
+
+    .clearfix

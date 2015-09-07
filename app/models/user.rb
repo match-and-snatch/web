@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   has_many :cost_change_requests
   has_many :delete_profile_page_requests
   has_many :subscription_daily_count_change_events
-  has_many :partners, class_name: 'User', foreign_key: 'partner_id'
+  has_many :subordinates, class_name: 'User', foreign_key: 'partner_id'
 
   has_one :top_profile
   has_one :pending_post

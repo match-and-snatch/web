@@ -45,7 +45,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def monthly_earnings
-    @monthly_earnings ||= subscriptions.sum(:cost) - (object.partner.present? ? subscriptions.count * object.partner_fees : 0)
+    @monthly_earnings ||= subscriptions.sum(:cost) - total_partner_fees
   end
 
   def profile_created
@@ -130,5 +130,9 @@ class UserStatsDecorator < UserDecorator
 
   def removed_subscriptions
     Subscription.where(target_user_id: object.id, removed: true)
+  end
+
+  def total_partner_fees
+    object.partner_fees.zero? ? 0 : subscriptions.count * object.partner_fees
   end
 end

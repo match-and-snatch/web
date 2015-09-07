@@ -1,0 +1,16 @@
+- if @users.any?
+  br
+  .list-group-item-heading Search Results
+  ul.list-group
+    - @users.each do |user|
+      li.list-group-item
+        .pull-left= link_to_user(user)
+        button.AjaxFormLink.btn.btn-warning.pull-right data-_method='GET' data-partner_id=user.id href=edit_admin_profile_owner_partner_path(@user.id) Set As Partner
+        .clearfix
+  .clearfix
+- else
+  - if params[:q].present?
+    p.bg-danger
+      |No results for "
+      strong=params[:q]
+      |"

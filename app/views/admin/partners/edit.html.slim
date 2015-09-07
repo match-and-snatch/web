@@ -1,11 +1,10 @@
 .modal-header style='width: 480px;'
   i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
-  .modal-title Add Partner
+  .modal-title Set Partner
 
   .modal-body style="padding-bottom: 15px;"
-    form.form.PopupForm action=admin_profile_owner_partners_path data-target='partners-list' method='POST'
-      input type='hidden' name='partner_id' value=params[:user_id]
-
+    form.form.PopupForm action=admin_profile_owner_partner_path(params[:profile_owner_id]) data-target='partner' method='PUT'
+      input type='hidden' name='partner_id' value=params[:partner_id]
       label Partner Fees, $
       input.form-control.edit_field name='partner_fees' placeholder="Partner fees"
       .error data-field='partner_fees'

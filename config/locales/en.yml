@@ -19,6 +19,7 @@ en:
     already_changed_today: You are allowed to change it only once a day.
     invalid_token: This token is no longer valid. Please request a new one.
     not_a_cost: Must be a whole number.
+    not_a_money: Invalid money format.
     not_a_whole_number: Must be a whole number.
     pending_request_present: You currently have a price change requested pending.
     user_does_not_exist: There is nobody registered with this email.

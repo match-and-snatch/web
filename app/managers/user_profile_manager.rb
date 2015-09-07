@@ -686,7 +686,8 @@ class UserProfileManager < BaseManager
   # @return [User]
   def set_partner!(partner: , partner_fees: )
     raise ArgumentError unless partner.is_a?(User)
-    fail_with! partner_fees: :empty if partner_fees.blank?
+
+    validate_partner_fees! partner_fees
 
     user.partner = partner
     user.partner_fees = partner_fees.to_f * 100
@@ -696,7 +697,7 @@ class UserProfileManager < BaseManager
   # @return [User]
   def remove_partner!
     user.partner = nil
-    user.partner_fees = nil
+    user.partner_fees = 0
     save_or_die!(user)
   end
 
@@ -757,6 +758,22 @@ class UserProfileManager < BaseManager
       fail_with cost: :zero
     elsif (cost.to_f * 100).to_i > 999999
       fail_with cost: :reached_maximum
+    end
+  end
+
+  def validate_partner_fees!(amount)
+    field = :partner_fees
+
+    if amount.blank?
+      fail_with! field => :empty
+    elsif !amount.to_s.strip.match COST_REGEXP
+      fail_with! field => :not_a_money
+    elsif amount.to_f.zero?
+      fail_with! field => :zero
+    elsif (amount.to_f * 100).to_i > 999999
+      fail_with! field => :reached_maximum
+    elsif (amount.to_f * 100).to_i > @user.cost.to_i
+      fail_with! field => :reached_maximum
     end
   end
 

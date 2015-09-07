@@ -1,32 +1,32 @@
 class Admin::PartnersController < Admin::BaseController
-  before_filter :load_user!
-  before_filter :load_partner!, only: [:create]
-
-  def index
-    json_render
-  end
+  before_action :load_user!
+  before_action :load_partner!, only: [:update]
 
   def search
-    @users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text
+    @users = Queries::Users.new(user: current_user, query: params[:q]).potential_partners(@user)
     json_replace
   end
 
-  def new
+  def show
+    json_render
+  end
+
+  def edit
     json_popup
   end
 
-  def create
+  def update
     UserProfileManager.new(@user).set_partner!(partner: @partner, partner_fees: params[:partner_fees])
-    json_replace template: 'index'
+    json_replace template: 'show'
   end
 
-  def confirm_removal
+  def confirm_destroy
     json_popup
   end
 
-  def remove
+  def destroy
     UserProfileManager.new(@user).remove_partner!
-    json_reload
+    json_replace template: 'show'
   end
 
   private
@@ -36,6 +36,6 @@ class Admin::PartnersController < Admin::BaseController
   end
 
   def load_partner!
-    @partner = User.where(id: params[:partner_id]).first or error(404)
+    @partner = User.find(params[:partner_id])
   end
 end

@@ -1081,7 +1081,7 @@ CREATE TABLE users (
     has_special_offer boolean DEFAULT false NOT NULL,
     subscriptions_chart_visible boolean DEFAULT false NOT NULL,
     partner_id integer,
-    partner_fees integer
+    partner_fees integer DEFAULT 0 NOT NULL
 );
 
 
