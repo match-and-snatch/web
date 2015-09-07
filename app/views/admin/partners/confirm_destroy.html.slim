@@ -1,0 +1,9 @@
+.modal-header style='width: 480px;'
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
+  .modal-title Remove Partner
+  p style="font-size: 13px; margin-top: 15px;" Are you sure you want to remove partner from this profile?
+
+  .modal-body style="padding-bottom: 15px;"
+    a.btn.pink.pull-left.AjaxFormLink style="margin-left: 35px; text-decoration: none;" data-event='popup.toggle.remote-popup' data-target='partner' data-_method='DELETE' href=admin_profile_owner_partner_path(@user.id) Remove
+    a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
+    .clearfix

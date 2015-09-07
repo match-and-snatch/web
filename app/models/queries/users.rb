@@ -55,6 +55,11 @@ module Queries
       User.search_by_admin_fields(@query).limit(20).to_a
     end
 
+    # @param user [User] Potential subordinate account
+    def potential_partners(user)
+      by_admin_fields.reject { |u| u.id == user.id }
+    end
+
     def profile_owners_by_text
       case @query.length
       when 0, 1

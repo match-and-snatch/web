@@ -181,6 +181,8 @@ hr
             td= subscription.created_at < 1.months.ago ? 'Recurring' : 'New'
             td= subscription.removed_at.try(:to_date).try(:to_s, :long) || 'N/A'
 
+.AjaxContainer data-identifier='partners' data-url=admin_profile_owner_partner_path(@user.id)
+
 .row
   .col-md-12
     h2

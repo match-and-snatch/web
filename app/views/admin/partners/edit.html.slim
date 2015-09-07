@@ -1,0 +1,16 @@
+.modal-header style='width: 480px;'
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
+  .modal-title Set Partner
+
+  .modal-body style="padding-bottom: 15px;"
+    form.form.PopupForm action=admin_profile_owner_partner_path(params[:profile_owner_id]) data-target='partner' method='PUT'
+      input type='hidden' name='partner_id' value=params[:partner_id]
+      label Partner Fees, $
+      input.form-control.edit_field name='partner_fees' placeholder="Partner fees"
+      .error data-field='partner_fees'
+      .clearfix
+
+      .form-group style="margin: 15px 0 0"
+        input.btn.pink.pull-left type='submit' value='Set Partner' style="margin-left: 85px; text-decoration: none;"
+        a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
+        .clearfix
