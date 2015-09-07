@@ -49,52 +49,40 @@ describe ContributionManager do
       end
     end
 
-    context 'to mature content profile' do
-      before do
-        UserProfileManager.new(target_user).toggle_mature_content
-      end
-
-      it 'allows to make contributions less than $100 a day' do
-        expect { manager.create(amount: 9900, target_user: target_user) }.to create_record(Contribution).matching(user: user, target_user: target_user, amount: 9900)
-      end
-    end
-
     context 'huge contribution' do
-      it 'has no limits' do
-        expect { manager.create(amount: 100000, target_user: target_user) }.to create_record(Contribution).matching(amount: 100000, target_user: target_user)
+      it 'has $100 limit' do
+        expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
       end
 
-      context 'to mature content profile' do
+      it do
+        expect { manager.create(amount: 10001, target_user: target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
+      end
+
+      context 'multiple contributions' do
         before do
-          UserProfileManager.new(target_user).toggle_mature_content
+          manager.create(amount: 6000, target_user: target_user)
         end
 
         it 'has $100 limit' do
-          expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+          expect { manager.create(amount: 4001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
         end
 
         it do
-          expect { manager.create(amount: 10001, target_user: target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
+          expect { manager.create(amount: 4001, target_user: target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
         end
 
-        context 'multiple contributions' do
-          before do
-            manager.create(amount: 6000, target_user: target_user)
-          end
-
-          it 'has $100 limit' do
-            expect { manager.create(amount: 4001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
-          end
+        context 'to multiple profiles' do
+          let(:another_target_user) { create_profile email: 'another_target@gmail.com' }
 
           it do
-            expect { manager.create(amount: 4001, target_user: target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
+            expect { manager.create(amount: 4001, target_user: another_target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
           end
+        end
 
-          context 'made with 24 hours interval' do
-            it 'resets daily limit' do
-              Timecop.travel 24.hours.since do
-                expect { manager.create(amount: 9900, target_user: target_user) }.to create_record(Contribution).matching(user: user, target_user: target_user, amount: 9900)
-              end
+        context 'made with 24 hours interval' do
+          it 'resets daily limit' do
+            Timecop.travel 24.hours.since do
+              expect { manager.create(amount: 9900, target_user: target_user) }.to create_record(Contribution).matching(user: user, target_user: target_user, amount: 9900)
             end
           end
         end

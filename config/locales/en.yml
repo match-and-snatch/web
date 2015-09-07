@@ -24,7 +24,7 @@ en:
     pending_request_present: You currently have a price change requested pending.
     user_does_not_exist: There is nobody registered with this email.
     invalid_password: This password is incorrect.
-    contribution_limit_reached: You can't contribute more than $100 a day to this profile.
+    contribution_limit_reached: "We're sorry, your total contributions amount exceeds our daily $100 contribution limit.<br>Please try again tomorrow or get in touch with us: <a href=\"mailto:help@connectpal.com\">help@connectpal.com</a>"
   messages:
     activated: Congratulations, your account has been activated. You are now ready to use our service.
     congrats: "Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!"
