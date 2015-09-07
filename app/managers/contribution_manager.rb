@@ -1,4 +1,5 @@
 class ContributionManager < BaseManager
+  DAILY_MATURE_CONTENT_CONTRIBUTIONS_LIMIT = 10000
 
   # @param user [User]
   # @param target_user [User]
@@ -14,6 +15,8 @@ class ContributionManager < BaseManager
   def create(target_user: , amount: nil, recurring: false, message: nil)
     amount = amount.to_i
     fail_with! amount: :zero if amount < 1
+    fail_with! amount: :contribution_limit_reached if mature_limit_reached?(target_user, amount)
+
     @contribution = create_contribution(target_user: target_user,
                                         amount: amount,
                                         recurring: recurring)
@@ -47,6 +50,20 @@ class ContributionManager < BaseManager
 
   private
 
+  def mature_limit_reached?(target_user, amount)
+    return false unless target_user.has_mature_content?
+
+    limit = DAILY_MATURE_CONTENT_CONTRIBUTIONS_LIMIT
+
+    return true if amount > limit
+
+    recently_contributed = Contribution.where(user: @user, target_user: target_user)
+                             .where("created_at > ?", 24.hours.ago)
+                             .sum(:amount)
+
+    recently_contributed + amount > DAILY_MATURE_CONTENT_CONTRIBUTIONS_LIMIT
+  end
+
   def create_contribution(target_user: , amount: , recurring: , parent: nil)
     contribution = Contribution.new(user: @user, target_user: target_user, amount: amount, recurring: recurring, parent: parent)
 
@@ -62,7 +79,7 @@ class ContributionManager < BaseManager
       NotificationManager.delay.notify_contributed(contribution)
       contribution
     end
-  rescue Stripe::StripeError => e
+  rescue Stripe::StripeError
     EventsManager.contribution_failed(user: @user, contribution: contribution)
     UserManager.new(@user).mark_billing_failed
   rescue ManagerError

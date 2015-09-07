@@ -49,6 +49,58 @@ describe ContributionManager do
       end
     end
 
+    context 'to mature content profile' do
+      before do
+        UserProfileManager.new(target_user).toggle_mature_content
+      end
+
+      it 'allows to make contributions less than $100 a day' do
+        expect { manager.create(amount: 9900, target_user: target_user) }.to create_record(Contribution).matching(user: user, target_user: target_user, amount: 9900)
+      end
+    end
+
+    context 'huge contribution' do
+      it 'has no limits' do
+        expect { manager.create(amount: 100000, target_user: target_user) }.to create_record(Contribution).matching(amount: 100000, target_user: target_user)
+      end
+
+      context 'to mature content profile' do
+        before do
+          UserProfileManager.new(target_user).toggle_mature_content
+        end
+
+        it 'has $100 limit' do
+          expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+        end
+
+        it do
+          expect { manager.create(amount: 10001, target_user: target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
+        end
+
+        context 'multiple contributions' do
+          before do
+            manager.create(amount: 6000, target_user: target_user)
+          end
+
+          it 'has $100 limit' do
+            expect { manager.create(amount: 4001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+          end
+
+          it do
+            expect { manager.create(amount: 4001, target_user: target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
+          end
+
+          context 'made with 24 hours interval' do
+            it 'resets daily limit' do
+              Timecop.travel 24.hours.since do
+                expect { manager.create(amount: 9900, target_user: target_user) }.to create_record(Contribution).matching(user: user, target_user: target_user, amount: 9900)
+              end
+            end
+          end
+        end
+      end
+    end
+
     context 'charge fails' do
       before do
         StripeMock.prepare_card_error(:card_declined)
@@ -63,11 +115,11 @@ describe ContributionManager do
       end
 
       it do
-        expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to change { Contribution.count }
+        expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to create_record(Contribution)
       end
 
       it 'does not create message' do
-        expect { manager.create(amount: 1, target_user: target_user, message: 'test') rescue nil }.not_to change { Message.count }
+        expect { manager.create(amount: 1, target_user: target_user, message: 'test') rescue nil }.not_to create_record(Message)
       end
     end
   end
@@ -84,7 +136,7 @@ describe ContributionManager do
     end
 
     it do
-      expect { manager.create_child }.to change { Contribution.count }.by(1)
+      expect { manager.create_child }.to create_record(Contribution).matching(amount: 1 , target_user: target_user, recurring: false)
     end
 
     it 'sets amount' do
@@ -113,7 +165,7 @@ describe ContributionManager do
       end
 
       it do
-        expect { manager.create_child rescue nil }.not_to change { Contribution.count }
+        expect { manager.create_child rescue nil }.not_to create_record(Contribution)
       end
 
       it do
