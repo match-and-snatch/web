@@ -360,6 +360,13 @@ BuddyPlatform::Application.routes.draw do
           get :pending
         end
       end
+      resources :partners, only: [:index, :new, :create] do
+        collection do
+          get :search
+          get :confirm_removal
+          delete :remove
+        end
+      end
       member do
         get :total_subscribed
         get :total_new_subscribed

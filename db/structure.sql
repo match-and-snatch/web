@@ -1079,7 +1079,9 @@ CREATE TABLE users (
     has_custom_welcome_message boolean DEFAULT false NOT NULL,
     has_custom_profile_page_css boolean DEFAULT false NOT NULL,
     has_special_offer boolean DEFAULT false NOT NULL,
-    subscriptions_chart_visible boolean DEFAULT false NOT NULL
+    subscriptions_chart_visible boolean DEFAULT false NOT NULL,
+    partner_id integer,
+    partner_fees integer
 );
 
 
@@ -1795,4 +1797,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150826065253');
 INSERT INTO schema_migrations (version) VALUES ('20150831165850');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901083301');
+
+INSERT INTO schema_migrations (version) VALUES ('20150907084252');
 

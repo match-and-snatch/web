@@ -681,6 +681,25 @@ class UserProfileManager < BaseManager
     end
   end
 
+  # @param partner [User]
+  # @param partner_fees [Integer]
+  # @return [User]
+  def set_partner!(partner: , partner_fees: )
+    raise ArgumentError unless partner.is_a?(User)
+    fail_with! partner_fees: :empty if partner_fees.blank?
+
+    user.partner = partner
+    user.partner_fees = partner_fees.to_f * 100
+    save_or_die!(user)
+  end
+
+  # @return [User]
+  def remove_partner!
+    user.partner = nil
+    user.partner_fees = nil
+    save_or_die!(user)
+  end
+
   private
 
   # @param current_upload [Video, Audio]

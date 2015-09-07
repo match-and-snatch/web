@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   serialize :contacts_info, Hash
 
   belongs_to :last_visited_profile, class_name: 'User'
+  belongs_to :partner, class_name: 'User'
 
   has_many :contributions
   has_many :source_contributions, class_name: 'Contribution', foreign_key: 'target_user_id'
@@ -38,6 +39,7 @@ class User < ActiveRecord::Base
   has_many :cost_change_requests
   has_many :delete_profile_page_requests
   has_many :subscription_daily_count_change_events
+  has_many :partners, class_name: 'User', foreign_key: 'partner_id'
 
   has_one :top_profile
   has_one :pending_post
