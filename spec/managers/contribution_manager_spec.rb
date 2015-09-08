@@ -55,7 +55,7 @@ describe ContributionManager do
       end
 
       it do
-        expect { manager.create(amount: 10001, target_user: target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
+        expect { manager.create(amount: 10001, target_user: target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
       end
 
       context 'multiple contributions' do
@@ -68,14 +68,14 @@ describe ContributionManager do
         end
 
         it do
-          expect { manager.create(amount: 4001, target_user: target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
+          expect { manager.create(amount: 4001, target_user: target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
         end
 
         context 'to multiple profiles' do
           let(:another_target_user) { create_profile email: 'another_target@gmail.com' }
 
           it do
-            expect { manager.create(amount: 4001, target_user: another_target_user) }.to raise_error(ManagerError, /You can't contribute more than \$100/)
+            expect { manager.create(amount: 4001, target_user: another_target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
           end
         end
 
