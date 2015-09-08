@@ -16,8 +16,13 @@ namespace :assets do
       bucket_name = APP_CONFIG['assets_bucket']
       raise "[#{Rails.env}] can't find bucket name for assets: aborting" if bucket_name.blank?
 
-      client = Aws::S3::Client.new(region: 'us-west-1')
-      s3 = Aws::S3::Resource.new(endpoint: 'https://s3.amazonaws.com', client: client)
+      if Rails.env.staging?
+        client = Aws::S3::Client.new(region: 'us-west-1')
+        s3 = Aws::S3::Resource.new(endpoint: 'https://s3.amazonaws.com', client: client)
+      else
+        s3 = Aws::S3::Resource.new(endpoint: 'https://s3.amazonaws.com')
+      end
+
       bucket = s3.bucket(bucket_name)
 
       assets.each do |file, etag|
