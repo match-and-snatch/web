@@ -11,9 +11,9 @@ class PaymentManager < BaseManager
     fail_with! 'Credit card is declined' if @user.cc_declined?
 
     statement = statement_description.to_s.gsub(/\W+/, '')
-                  .gsub('xxx', 'yyy')
-                  .gsub('porn', 'corn')
-                  .gsub('sex', 'cookies')
+                  .gsub(/xxx/i, 'yyy')
+                  .gsub(/porn/i, 'corn')
+                  .gsub(/sex/i, 'cookies')
 
     Stripe::Charge.create amount: amount,
                           customer: (customer || user.try(:stripe_user_id)),
