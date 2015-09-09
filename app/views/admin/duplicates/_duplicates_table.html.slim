@@ -1,0 +1,22 @@
+table.table
+  - duplicates.each do |duplicate_field, users|
+    tr.danger
+      td colspan=7
+        b= duplicate_field
+    tr
+      th #ID
+      th time
+      th Name
+      th Email
+      th Subscribers count
+      th Subscriptions count
+      th Owner?
+    - users.each do |user|
+      tr
+        td= user.id
+        td= user.created_at.to_s(:long)
+        td= link_to_user user
+        td= user.email
+        td= user.subscribers_count
+        td= user.subscriptions.count
+        td= user.is_profile_owner? ? 'Y' : ''

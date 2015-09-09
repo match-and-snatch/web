@@ -1,27 +1,13 @@
-h2 User Duplicates (#{@duplicates.count})
+h2 Users Duplicates (#{@duplicates.count})
 
 - if @duplicates.any?
-  table.table
-    - @duplicates.each do |email, users|
-      tr.danger
-        td colspan=7
-          b= email
-      tr
-        th #ID
-        th time
-        th Name
-        th Email
-        th Subscribers count
-        th Subscriptions count
-        th Owner?
-      - users.each do |user|
-        tr
-          td= user.id
-          td= user.created_at.to_s(:long)
-          td= link_to_user user
-          td= user.email
-          td= user.subscribers_count
-          td= user.subscriptions.count
-          td= user.is_profile_owner? ? 'Y' : ''
+  = render 'duplicates_table', duplicates: @duplicates
+- else
+  strong No duplicates so far
+
+h2 Cards Duplicates (#{@card_duplicates.count})
+
+- if @card_duplicates.any?
+  = render 'duplicates_table', duplicates: @card_duplicates
 - else
   strong No duplicates so far
