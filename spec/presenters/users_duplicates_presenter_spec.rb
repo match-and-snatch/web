@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DuplicatesPresenter do
+describe UsersDuplicatesPresenter do
   context 'empty set' do
     its(:collection) { should be_a Hash }
   end
