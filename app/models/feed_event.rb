@@ -34,4 +34,14 @@ class FeedEvent < ActiveRecord::Base
   def label
     self.class.label
   end
+
+  def hide!
+    self.hidden = true
+    self.save!
+  end
+
+  def show!
+    self.hidden = false
+    self.save!
+  end
 end

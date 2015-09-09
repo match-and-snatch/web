@@ -248,6 +248,7 @@ class SubscriptionManager < BaseManager
     else
       unless @subscription.fake?
         UnsubscribedFeedEvent.create! target_user: target_user, target: @subscriber
+        SubscribedFeedEvent.by_users(owner: target_user, subscriber: @subscriber).last.try(:hide!)
       end
       EventsManager.subscription_cancelled(user: @subscriber, subscription: @subscription)
     end
@@ -284,7 +285,11 @@ class SubscriptionManager < BaseManager
   def populate_subscription_events(restored: false)
     target_user = @subscription.target_user
     UserStatsManager.new(target_user).log_subscriptions_count
-    unless @subscription.fake
+    if @subscription.fake
+      # DO NOTHING
+    elsif restored
+      SubscribedFeedEvent.by_users(owner: target_user, subscriber: @subscriber).last.try(:show!)
+    else
       SubscribedFeedEvent.create!(target_user: target_user, target: @subscriber)
       SubscriptionsMailer.delay.subscribed(@subscription)
     end
