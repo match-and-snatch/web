@@ -71,9 +71,7 @@
               span= user.top_profile.name
               span.category.hidden-xs
                 '&nbsp;(#{user.top_profile.types})
-              .clearfix
-
-        hr style='height: 1px'
+      hr style='height: 1px'
 
       - @users.each do |letter, users|
         h2.search_heading id=letter = letter
