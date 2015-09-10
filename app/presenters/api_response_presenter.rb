@@ -106,6 +106,7 @@ class ApiResponsePresenter
         notifications_enabled: subscription.notifications_enabled,
         created_at: subscription.created_at.to_date.to_s(:long),
         user: {
+          id: subscription.target_user.id,
           profile_owner: subscription.target_user.is_profile_owner?,
           slug: subscription.target_user.slug,
           name: subscription.target_user.name,

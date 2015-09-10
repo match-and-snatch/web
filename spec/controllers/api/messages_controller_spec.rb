@@ -5,7 +5,7 @@ describe Api::MessagesController, type: :controller do
   let(:target_user) { create_user email: 'target@gmail.com' }
 
   describe 'POST #create' do
-    subject { post 'create', message: 'test', user_id: target_user.slug }
+    subject { post 'create', message: 'test', user_id: target_user.id }
 
     context 'authorized' do
       before { sign_in_with_token user.api_token }
