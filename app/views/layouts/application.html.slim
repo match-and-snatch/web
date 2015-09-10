@@ -40,6 +40,7 @@ html
       - elsif current_user.billing_failed?
         .notification_bar
           .cont= t('messages.billing_failed').html_safe
+
       - if flash.notice.present?
         .notification_bar data-identifier='notification-flash-bar'
           .cont= flash.notice
@@ -59,7 +60,9 @@ html
           .btn.blue.pull-right.Ok Yes
           .clearfix
 
-      - unless current_user.locked?
+      - if current_user.banned?
+        = render 'blocked_view'
+      - else
         = yield
     #overlay.Overlay
     = render 'search_users_popup'

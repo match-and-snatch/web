@@ -1,14 +1,15 @@
 ul.nav.navbar-nav.pull-right
   - if current_user.authorized?
-    - unless current_user.profile_disabled?
-      li
-        a href=current_profile_path
-          i.fa.fa-user My Profile
-    - if current_user.has_subscriptions?
-      = render 'subscriptions_nav'
-    li.hidden-xs
-      a href=account_info_path
-        i.fa.fa-bars My Account
+    - unless current_user.cc_declined?
+      - unless current_user.profile_disabled?
+        li
+          a href=current_profile_path
+            i.fa.fa-user My Profile
+      - if current_user.has_subscriptions?
+        = render 'subscriptions_nav'
+      li.hidden-xs
+        a href=account_info_path
+          i.fa.fa-bars My Account
     li.hidden-xs
       a href=logout_path
         i.fa.fa-sign-out Logout
