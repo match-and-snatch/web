@@ -20,6 +20,10 @@ class MessagesManager < BaseManager
 
     @dialogue = Dialogue.pick(user, target_user)
 
+    unless @dialogue || user.subscribed_to?(target_user) || target_user.subscribed_to?(user)
+      fail_with! message: "You can't send a message to this person"
+    end
+
     @message = Message.new(user: user,
                            target_user: target_user,
                            message: message,
