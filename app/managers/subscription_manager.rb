@@ -203,7 +203,7 @@ class SubscriptionManager < BaseManager
       block.try(:call)
 
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
-      UserManager.new(@subscriber).lock if recent_subscriptions_count >= 4
+      UserManager.new(@subscriber).lock if !fake && recent_subscriptions_count >= 4
       @subscription
     end
 
