@@ -60,6 +60,9 @@ gem 'aws-sdk', '~> 2.0.48'
 # Uploads, assets
 gem 'transloadit-rails'
 
+# Pagination
+gem 'kaminari'
+
 gem 'mailcatcher', group: :development
 
 group :development, :test do
