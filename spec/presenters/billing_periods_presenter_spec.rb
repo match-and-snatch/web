@@ -23,13 +23,13 @@ describe BillingPeriodsPresenter do
 
   describe '#connectpal_fee' do
     specify do
-      expect(subject.connectpal_fee).to eq(151.525)
+      expect(subject.connectpal_fee).to eq(155.02)
     end
   end
 
   describe '#stripe_fee' do
     specify do
-      expect(subject.stripe_fee).to eq(47.475)
+      expect(subject.stripe_fee).to eq(43.98)
     end
   end
 

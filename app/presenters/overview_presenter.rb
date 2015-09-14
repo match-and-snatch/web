@@ -42,7 +42,7 @@ class OverviewPresenter
   end
 
   def total_stripe_fees
-    @total_stripe_fees ||= Payment.count * 30 + self.total_gross_sales * 0.025
+    @total_stripe_fees ||= Payment.count * 30 + self.total_gross_sales * stripe_percent
   end
 
   def daily_gross_sales
@@ -54,7 +54,7 @@ class OverviewPresenter
   end
 
   def daily_stripe_fees
-    daily_payments.count * 30 + daily_gross_sales * 0.025
+    daily_payments.count * 30 + daily_gross_sales * stripe_percent
   end
 
   def daily_subscribers_count
@@ -89,5 +89,9 @@ class OverviewPresenter
 
   def current_day
     Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
+  end
+
+  def stripe_percent
+    BigDecimal.new(APP_CONFIG['stripe_percent'].to_s)
   end
 end

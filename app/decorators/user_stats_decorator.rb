@@ -90,7 +90,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def stripe_fee
-    payments.count * 30 + payments.sum(:amount) * 0.025
+    payments.count * 30 + payments.sum(:amount) * BigDecimal.new(APP_CONFIG['stripe_percent'].to_s)
   end
 
   def total_paid_out
