@@ -61,7 +61,7 @@ gem 'aws-sdk', '~> 2.0.48'
 gem 'transloadit-rails'
 
 # Pagination
-gem 'kaminari'
+gem 'kaminari', github: 'amatsuda/kaminari'
 
 gem 'mailcatcher', group: :development
 

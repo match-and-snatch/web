@@ -1,26 +1,28 @@
-h2 Uploads stats
+- unless params[:page]
+  h2 Uploads stats
 
-p
-  | Uploaded total:
-  b  #{number_to_human_size(@total_uploaded)}
+  p
+    | Uploaded total:
+    b  #{number_to_human_size(@total_uploaded)}
 
 - if @users.length > 0
-  
-  .table-responsive
-    table.table.table-striped
-      tr
-        th 
-          strong Profile Name
-        th 
-          strong Uploaded Data
-        th
-
-      - @users.each do |user|
+  .AjaxContainer
+    .table-responsive
+      table.table.table-striped
         tr
-          td= link_to_user(user)
-          td= number_to_human_size(user.uploaded_bytes)
-          td
-            - if can? :login_as, user
-              a.AjaxFormLink href=login_as_admin_user_path(user.id) data-_method='post' Login as this user
+          th
+            strong Profile Name
+          th
+            strong Uploaded Data
+          th
+
+        - @users.each do |user|
+          tr
+            td= link_to_user(user)
+            td= number_to_human_size(user.uploaded_bytes)
+            td
+              - if can? :login_as, user
+                a.AjaxFormLink href=login_as_admin_user_path(user.id) data-_method='post' Login as this user
+    = paginate @users, params_on_first_page: true
 - else
   strong No uploads so far
