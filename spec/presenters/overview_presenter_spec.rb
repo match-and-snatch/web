@@ -7,14 +7,15 @@ describe OverviewPresenter do
   let(:restore) { SubscriptionManager.new(subscription: subscription).restore }
   let(:unsubscribe) { SubscriptionManager.new(subscription: subscription).unsubscribe }
 
-
   before { StripeMock.start }
   after { StripeMock.stop }
 
-  before do
+  def subscribe
     UserProfileManager.new(user).update_cc_data(number: '4242_4242_4242_4242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
     subscription
   end
+
+  before { subscribe }
 
   context 'subscribers count' do
     describe '#current_subscribers_count' do
@@ -97,7 +98,7 @@ describe OverviewPresenter do
   end
 
   context 'failed payments count' do
-    before do
+    def subscribe
       StripeMock.prepare_card_error(:card_declined)
       UserProfileManager.new(user).update_cc_data(number: '4000_0000_0000_0341', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
       SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile(email: 'another_target@user.com'))
