@@ -29,13 +29,19 @@
           .subscribe_cont
             a.cost_visitor
               .amount
-                span
-                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-                span.month
-                  |/month
+                - if @profile.cost_approved?
+                  span
+                    = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+                  span.month
+                    |/month
+                - else
+                  span.pending Pending Approval
               .btn.pink.fa.fa-usd.fa-2x
               .clearfix
-            a.subscribe.PopupTrigger data-target='subscription' Subscribe
+            - if @profile.cost_approved?
+              a.subscribe.PopupTrigger data-target='subscription' Subscribe
+            - else
+              a.subscribe.pending.PopupTrigger data-target='pending-cost-popup' Pending Approval
 
     /RSS
     - if @profile.rss_enabled?
@@ -62,14 +68,20 @@
         .col-xs-12.cost_visitor
           span.btn.pink.fa.fa-usd.fa-2x
           .amount
-            span
-              = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-            span.month
-              |/month
+            - if @profile.cost_approved?
+              span
+                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+              span.month
+                |/month
+            - else
+              span.pending Pending Approval
           .clearfix
 
       .hidden-md.hidden-sm.col-xs-12.pull-right.no_pad style='margin-top: 15px'
-        a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
+        - if @profile.cost_approved?
+          a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
+        - else
+          a.btn.blue.subscribe.PopupTrigger data-target='pending-cost-popup' href='#' style='width: 100%;' Pending Approval
         .clearfix
 
         = render 'adult_content_warning' if @profile.has_mature_content?
@@ -88,7 +100,10 @@
             = render 'welcome_benefits'
 
       .col-md-8.col-sm-8.hidden-xs.pull-right.no_pad style='margin-top: 15px'
-        a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
+        - if @profile.cost_approved?
+          a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
+        - else
+          a.btn.blue.subscribe.PopupTrigger data-target='pending-cost-popup' href='#' style='width: 100%;' Pending Approval
         .clearfix
         p.already_user
           - unless current_user.authorized?
@@ -103,14 +118,20 @@
         .col-xs-12.cost_visitor
           span.btn.pink.fa.fa-usd.fa-2x
           .amount
-            span
-              = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-            span.month
-              |/month
+            - if @profile.cost_approved?
+              span
+                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+              span.month
+                |/month
+            - else
+              span.pending Pending Approval
           .clearfix
 
     /Generic and Generic w/audio player
-    a.btn.blue.subscribe.PopupTrigger.hidden-sm.hidden-md data-target='subscription' href='#' style='width: 100%; margin-top: 10px; font-size: 24px' Subscribe Now
+    - if @profile.cost_approved?
+      a.btn.blue.subscribe.PopupTrigger.hidden-sm.hidden-md data-target='subscription' href='#' style='width: 100%; margin-top: 10px; font-size: 24px' Subscribe Now
+    - else
+      a.btn.blue.subscribe.PopupTrigger.hidden-sm.hidden-md data-target='pending-cost-popup' href='#' style='width: 100%; margin-top: 10px; font-size: 24px' Pending Approval
 
     #visitor.box
       .row
@@ -121,7 +142,7 @@
             .audio_container
               = audio_player(@profile.welcome_audio)
           - else
-            .title Welcome to #{@profile.profile_name.possessive} profile page!
+            .title Welcome to #{@profile.profile_name.possessive} profle page!
             .audio_container
               = audio_player(@profile.welcome_audio)
 
@@ -129,7 +150,10 @@
 
             = render 'welcome_benefits'
 
-          a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='subscription' href='#' Subscribe Now
+          - if @profile.cost_approved?
+            a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='subscription' href='#' Subscribe Now
+          - else
+            a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='pending-cost-popup' href='#' Pending Approval
           .clearfix
 
           p.already_user.hidden-xs
@@ -140,6 +164,8 @@
           = render 'adult_content_warning' if @profile.has_mature_content?
 
   .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
+  - unless @profile.cost_approved?
+    = render 'pending_cost_approval_popup'
 
 /Footer
 div.hidden-xs

@@ -70,7 +70,7 @@ class ApiResponsePresenter
       auth_token: user.auth_token,
       api_token: user.api_token,
       locked: user.locked?,
-      cost_approved: true,
+      cost_approved: user.cost_approved?,
       cc_declined: user.cc_declined?
     }.merge(account_data(user))
   end

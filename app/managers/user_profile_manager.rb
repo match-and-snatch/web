@@ -8,6 +8,7 @@ class UserProfileManager < BaseManager
   SLUG_REGEXP  = /^[a-zA-Z0-9]+(\w|_|-)+[a-zA-Z0-9]+$/i
   COST_REGEXP  = /^\d+(\.\d+)?$/i
   ONLY_DIGITS  = /^[0-9]*$/i
+  MAX_COST     = 3000
 
   # @param user [User]
   def initialize(user)
@@ -154,7 +155,11 @@ class UserProfileManager < BaseManager
       end
     end
 
-    user.cost           = (cost.to_f * 100).to_i
+    new_cost = (cost.to_f * 100).to_i
+    if new_cost >= MAX_COST
+      create_cost_change_request(cost: new_cost, update_existing_subscriptions: false)
+    end
+    user.cost           = new_cost
     user.profile_name   = profile_name.try(:strip)
     user.holder_name    = holder_name.try(:strip)
     user.routing_number = routing_number.try(:strip)
@@ -247,17 +252,10 @@ class UserProfileManager < BaseManager
 
     cost = (cost.to_f * 100).to_i
 
-    if user.source_subscriptions.any?
-      if user.cost_change_requests.pending.any?
-        fail_with! cost: :pending_request_present
-      else
-        user.cost_change_requests.create!(old_cost: user.cost,
-                                          new_cost: cost,
-                                          update_existing_subscriptions: update_existing_subscriptions || false)
-        ProfilesMailer.delay.cost_change_request(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
-        @cost_change_request_submitted = true
-      end
+    if user.source_subscriptions.any? || cost >= MAX_COST
+      create_cost_change_request(cost: cost, update_existing_subscriptions: update_existing_subscriptions)
     else
+      user.cost_change_requests.pending.each(&:reject!)
       change_cost!(cost: cost, update_existing_subscriptions: update_existing_subscriptions)
     end
 
@@ -278,6 +276,29 @@ class UserProfileManager < BaseManager
 
     update_subscriptions_cost if update_existing_subscriptions
     EventsManager.subscription_cost_changed(user: user, from: previous_cost, to: cost)
+  end
+
+  # @param cost_change_requets [CostChangeRequest]
+  # @param update_existing_subscriptions [Boolean]
+  def approve_and_change_cost!(cost_change_request, update_existing_subscriptions: false)
+    cost_change_request.approve!(update_existing_costs: update_existing_subscriptions)
+    if cost_change_request.old_cost.nil?
+      change_cost!(cost: cost_change_request.new_cost, update_existing_subscriptions: cost_change_request.update_existing_subscriptions)
+      cost_change_request.perform!
+    end
+  end
+
+  # @param cost_change_requets [CostChangeRequest]
+  # @param cost [Integer]
+  def rollback_cost!(cost_change_request, cost: )
+    cost = cost || (cost_change_request.old_cost / 100)
+
+    validate! { validate_cost cost }
+
+    user.cost = (cost.to_f * 100).to_i
+    save_or_die! user
+
+    cost_change_request.reject!
   end
 
   # @param contacts_info [Hash]
@@ -802,5 +823,17 @@ class UserProfileManager < BaseManager
     user.source_subscriptions.update_all({ cost: user.cost,
                                            fees: user.subscription_fees,
                                            total_cost: user.subscription_cost })
+  end
+
+  def create_cost_change_request(cost: , update_existing_subscriptions: )
+    if user.cost_change_requests.pending.any?
+      fail_with! cost: :pending_request_present
+    else
+      user.cost_change_requests.create!(old_cost: user.cost,
+                                        new_cost: cost,
+                                        update_existing_subscriptions: update_existing_subscriptions || false)
+      ProfilesMailer.delay.cost_change_request(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
+      @cost_change_request_submitted = true
+    end
   end
 end

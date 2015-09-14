@@ -364,6 +364,19 @@ describe UserProfileManager do
       end
     end
 
+    context 'cost more or equal $30' do
+      specify { expect { manager.update(cost: 45, profile_name: 'merkel') }.not_to raise_error }
+
+      it 'creates cost change request' do
+        expect { manager.update(cost: 30, profile_name: 'merkel', holder_name: 'merkel', routing_number: '123456789', account_number: '000123456789') }.to create_record(CostChangeRequest)
+      end
+
+      it 'notify support if new change cost request was created' do
+        expect(ProfilesMailer).to receive(:cost_change_request).with(user, nil, 3450).and_return(double('mailer').as_null_object)
+        manager.update(cost: 30, profile_name: 'merkel')
+      end
+    end
+
     context 'empty slug' do
       specify do
         expect { manager.update(cost: 1, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) }
@@ -743,6 +756,25 @@ describe UserProfileManager do
         end
       end
     end
+
+    context 'cost more or equal $30' do
+      it 'creates change cost request' do
+        expect { manager.update_cost(30) }.to create_record(CostChangeRequest)
+      end
+
+      it 'notify support if new change cost request was changed' do
+        expect(ProfilesMailer).to receive(:cost_change_request).with(user, 199, 3450).and_return(double('mailer').as_null_object)
+        manager.update_cost(30)
+      end
+
+      context 'with pending change cost requests' do
+        before { manager.update_cost(30) }
+
+        it 'raises error' do
+          expect { manager.update_cost(45) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:pending_request_present)) }
+        end
+      end
+    end
   end
 
   describe '#change_cost!' do
@@ -957,6 +989,75 @@ describe UserProfileManager do
           expect { manager.update_general_information(full_name: 'new', email: 'szinin@gmail.com') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) }
           expect { manager.update_general_information(full_name: 'new', email: 'Szinin@gmail.com') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) }
         end
+      end
+    end
+  end
+
+  describe '#approve_and_change_cost!' do
+    let(:request) { user.cost_change_requests.last }
+
+    context 'new user with large cost' do
+      let(:user) { create_profile cost: 35 }
+
+      specify do
+        expect { manager.approve_and_change_cost!(request) }.to change { request.approved? }.from(false).to(true)
+      end
+      specify do
+        expect { manager.approve_and_change_cost!(request) }.to change { request.performed? }.from(false).to(true)
+      end
+      specify do
+        expect { manager.approve_and_change_cost!(request) }.not_to change { user.cost }.from(3500)
+      end
+    end
+
+    context 'existing user tries to change his cost' do
+      let(:user) { create_profile cost: 5 }
+      before { manager.update_cost(45) }
+
+      specify do
+        expect { manager.approve_and_change_cost!(request) }.to change { request.approved? }.from(false).to(true)
+      end
+      specify do
+        expect { manager.approve_and_change_cost!(request) }.not_to change { request.performed? }.from(false)
+      end
+      specify do
+        expect { manager.approve_and_change_cost!(request) }.not_to change { user.cost }.from(500)
+      end
+    end
+  end
+
+  describe '#rollback_cost!' do
+    let(:request) { user.cost_change_requests.last }
+
+    context 'new user with large cost' do
+      let(:user) { create_profile cost: 35 }
+
+      specify do
+        expect { manager.rollback_cost!(request, cost: nil) }.to raise_error
+      end
+      specify do
+        expect { manager.rollback_cost!(request, cost: 20) }.to change { request.rejected? }.from(false).to(true)
+      end
+      it 'sets specified new cost' do
+        expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(3500).to(2000)
+      end
+    end
+
+    context 'existing user tries to change his cost' do
+      let(:user) { create_profile cost: 5 }
+      before { manager.update_cost(45) }
+
+      specify do
+        expect { manager.rollback_cost!(request, cost: nil) }.not_to raise_error
+      end
+      specify do
+        expect { manager.rollback_cost!(request, cost: nil) }.to change { request.rejected? }.from(false).to(true)
+      end
+      it 'sets old cost if new is not provided' do
+        expect { manager.rollback_cost!(request, cost: nil) }.not_to change { user.cost }.from(500)
+      end
+      it 'sets specified new cost' do
+        expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(500).to(2000)
       end
     end
   end

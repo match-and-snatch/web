@@ -1,4 +1,5 @@
 class CostChangeRequest < Request
+  scope :new_large_cost, -> { where("old_cost IS NULL AND new_cost >= ?", UserProfileManager::MAX_COST) }
 
   def approve!(update_existing_costs: nil)
     unless update_existing_costs.nil?

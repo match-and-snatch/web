@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Api::UsersController, type: :controller do
   describe 'GET #search' do
-    let(:user_one) { create_profile_owner first_name: 'sergei', last_name: 'zinin', is_profile_owner: true, profile_name: 'serge zinin', cost: '123.0', hidden: false }
+    let(:user_one) { create_profile_owner first_name: 'sergei', last_name: 'zinin', is_profile_owner: true, profile_name: 'serge zinin', cost: '12.0', hidden: false }
     let(:user_two) { create_profile_owner first_name: 'serge', last_name: 'zeenin', email: 'serge@zee.ru', is_profile_owner: true, hidden: false }
     let(:user_three) { create_profile_owner first_name: 'dmitry', last_name: 'jakovlev', email: 'dimka@jak.com', is_profile_owner: true, hidden: false }
 
@@ -26,8 +26,8 @@ describe Api::UsersController, type: :controller do
           "itunes_enabled" => true,
           "types"=>[],
           "benefits" => [],
-          "subscription_cost"=>14145,
-          "cost"=>12300,
+          "subscription_cost"=>1399,
+          "cost"=>1200,
           "profile_picture_url"=>"set",
           "small_profile_picture_url"=>nil,
           "cover_picture_url"=>nil,
@@ -39,6 +39,7 @@ describe Api::UsersController, type: :controller do
           "vacation_message" => nil,
           "contributions_enabled"=>true,
           "has_mature_content"=>false,
+          "cost_approved"=>true,
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
           "custom_welcome_message"=>nil,
           "special_offer_message"=>nil,
@@ -70,6 +71,7 @@ describe Api::UsersController, type: :controller do
           "vacation_message" => nil,
           "contributions_enabled"=>true,
           "has_mature_content"=>false,
+          "cost_approved"=>true,
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
           "custom_welcome_message"=>nil,
           "special_offer_message"=>nil,
