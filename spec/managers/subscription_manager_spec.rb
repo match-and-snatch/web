@@ -39,7 +39,7 @@ describe SubscriptionManager do
       end
 
       context 'fake' do
-        subject { manager.subscribe_to(another_user, fake: true) }
+        subject(:subscribe) { manager.subscribe_to(another_user, fake: true) }
 
         it { should be_a Subscription }
         it { should be_valid }
@@ -47,11 +47,11 @@ describe SubscriptionManager do
         it { should be_fake }
 
         specify do
-          expect { subject }.to change { Subscription.count }.by(1)
+          expect { subscribe }.to create_record(Subscription)
         end
 
         it do
-          expect { subject }.not_to change { FeedEvent.count }
+          expect { subscribe }.not_to create_record(FeedEvent)
         end
 
         context 'with fake user' do
@@ -62,10 +62,16 @@ describe SubscriptionManager do
           it { should_not be_new_record }
           it { should be_fake }
           its(:user) { should eq(subscriber) }
-          it { expect { subject }.to change { another_user.subscribers_count }.by(1) }
+          it { expect { subscribe }.to create_record(Subscription).matching(target_user: another_user, user: subscriber) }
+        end
 
-          specify do
-            expect { manager.subscribe_to(another_user) }.to change { Subscription.count }.by(1)
+        context 'subscribing more than 4 times' do
+          it 'does not ban the subscriber' do
+            5.times do
+              manager.subscribe_to(another_user, fake: true)
+            end
+
+            expect(subscriber.reload.locked?).to eq(false)
           end
         end
       end
@@ -137,6 +143,49 @@ describe SubscriptionManager do
 
           it 'does not create subscription_created event' do
             expect { manager.subscribe_to(another_user) rescue nil }.not_to create_event(:subscription_created)
+          end
+        end
+      end
+
+      context 'subscribing more than 4 times' do
+        before do
+          manager.subscribe_to(create_profile(email: 'another_1@user.com'))
+          manager.subscribe_to(create_profile(email: 'another_2@user.com'))
+          manager.subscribe_to(create_profile(email: 'another_3@user.com'))
+          manager.subscribe_to(create_profile(email: 'another_4@user.com'))
+        end
+
+        it 'locks an account' do
+          expect { manager.subscribe_to(another_user) }.to change { subscriber.locked? }.from(false).to(true)
+        end
+
+        context '48 hours passed' do
+          it 'allows subscribing' do
+            Timecop.travel(48.hours.since) do
+              expect { manager.subscribe_to(another_user) }.not_to change { subscriber.locked? }.from(false)
+            end
+          end
+        end
+
+        context 'more than 5 subscriptions in 48 hours' do
+          before do
+            manager.subscribe_to(create_profile(email: 'another_5@user.com'))
+          end
+
+          it 'locks an account' do
+            expect { manager.subscribe_to(another_user) }.to raise_error(ManagerError, /locked/)
+          end
+
+          it 'does not subscribe' do
+            expect { manager.subscribe_to(another_user) rescue nil }.not_to create_record(Subscription)
+          end
+
+          context '48 hours passed' do
+            it 'does not allow subscribing' do
+              Timecop.travel(48.hours.since) do
+                expect { manager.subscribe_to(another_user) }.to raise_error(ManagerError, /locked/)
+              end
+            end
           end
         end
       end

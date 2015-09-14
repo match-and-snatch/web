@@ -1,5 +1,5 @@
 class CurrentUserDecorator < UserDecorator
-  delegate :pending_post_uploads, :admin?, :email, :billing_failed?, :cc_declined?, :partner_fees, to: :object
+  delegate :pending_post_uploads, :admin?, :email, :billing_failed?, :cc_declined?, :partner_fees, :locked?, to: :object
 
   # @param user [User, nil]
   def initialize(user = nil)
@@ -15,6 +15,8 @@ class CurrentUserDecorator < UserDecorator
   # @raise [ArgumentError] if action or subject are not registered
   # @return [true, false]
   def can?(action, subject)
+    return false if object.locked?
+
     case subject
     when Dialogue
       subject.users.where(users: {id: object.id}).any?

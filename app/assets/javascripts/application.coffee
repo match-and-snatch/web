@@ -16,7 +16,8 @@
 #= require_tree .
 
 $(document).ready ->
-  bud.Core.initialize()
+  unless window['bud']['layout']['locked']
+    bud.Core.initialize()
 
 $(document).on 'focus', 'input, textarea', ->
   if (navigator.userAgent.match(/Mobi/))

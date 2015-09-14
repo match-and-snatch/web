@@ -1081,7 +1081,8 @@ CREATE TABLE users (
     has_special_offer boolean DEFAULT false NOT NULL,
     subscriptions_chart_visible boolean DEFAULT false NOT NULL,
     partner_id integer,
-    partner_fees integer DEFAULT 0 NOT NULL
+    partner_fees integer DEFAULT 0 NOT NULL,
+    locked boolean DEFAULT false NOT NULL
 );
 
 
@@ -1799,4 +1800,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150831165850');
 INSERT INTO schema_migrations (version) VALUES ('20150901083301');
 
 INSERT INTO schema_migrations (version) VALUES ('20150907084252');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914102909');
 
