@@ -174,7 +174,7 @@ class SubscriptionManager < BaseManager
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"
     end
 
-    fail_with! 'Your account is locked' if @subscriber.locked?
+    fail_locked! if @subscriber.locked?
     fail_with! "Can't subscribe to self" if @subscriber == target
 
     # Never restore removed fake subscriptions

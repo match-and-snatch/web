@@ -38,15 +38,21 @@ class BaseManager
     I18n.t message, opts.reverse_merge(scope: :errors, default: [:default, message])
   end
 
+  # @param exception_class [Class]
   # @raise [ManagerError]
-  def fail!
-    raise ManagerError, {message: failure_message, errors: errors}
+  def fail!(exception_class = ManagerError)
+    raise exception_class, {message: failure_message, errors: errors}
   end
 
   # @param message [String, Hash]
   def fail_with!(message)
     fail_with message
     fail!
+  end
+
+  def fail_locked!(message = 'Your account was locked')
+    fail_with message
+    fail!(AccountLockedError)
   end
 
   # @param message [String, Hash]
