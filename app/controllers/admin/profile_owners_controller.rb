@@ -4,7 +4,7 @@ class Admin::ProfileOwnersController < Admin::BaseController
                                     :pending_payments, :this_month_subscribers_unsubscribers]
 
   def index
-    query = User.profile_owners.includes(:profile_types).where('users.subscription_cost IS NOT NULL').limit(1000)
+    query = User.profile_owners.includes(:profile_types).where('users.subscription_cost IS NOT NULL')
     query = query.joins(:source_payments).
       select('users.*, SUM(payments.amount) as transfer').
       group('users.id')
@@ -13,7 +13,9 @@ class Admin::ProfileOwnersController < Admin::BaseController
     else
       query = query.order('transfer DESC')
     end
-    @users = query.map { |user| ProfileDecorator.new(user) }
+
+    @users = ProfileDecorator.decorate_collection(query.page(params[:page]).per(20))
+
     json_render
   end
 
