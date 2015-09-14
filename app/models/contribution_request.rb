@@ -1,0 +1,2 @@
+class ContributionRequest < Request
+end
