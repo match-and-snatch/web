@@ -481,7 +481,7 @@ describe UserProfileManager do
         end
 
         it 'keeps flag in the failed state' do
-          expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.not_to change { user.reload.billing_failed? }.from(true)
+          expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') rescue nil }.not_to change { user.reload.billing_failed? }.from(true)
         end
       end
     end

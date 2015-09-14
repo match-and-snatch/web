@@ -2,7 +2,7 @@ class SubscriptionsController < ApplicationController
   before_action :authenticate!, except: [:new, :via_register]
   before_action :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
   before_action :filter_card_params, only: [:via_register, :via_update_cc_data]
-  before_action :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore, :retry_payment]
+  before_action :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore]
 
   protect(:destroy) { can? :delete, @subscription }
 
@@ -23,19 +23,22 @@ class SubscriptionsController < ApplicationController
 
   def via_register
     SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
-      manager.register_subscribe_and_pay target:       @target_user,
-                                         email:        params[:email],
-                                         password:     params[:password],
-                                         full_name:    params[:full_name],
-                                         number:       params[:number],
-                                         cvc:          params[:cvc],
-                                         expiry_month: params[:expiry_month],
-                                         expiry_year:  params[:expiry_year],
-                                         zip:          params[:zip],
-                                         city:         params[:city],
-                                         address_line_1: params[:address_line_1],
-                                         address_line_2: params[:address_line_2],
-                                         state:          params[:state]
+      begin
+        manager.register_subscribe_and_pay target:       @target_user,
+                                           email:        params[:email],
+                                           password:     params[:password],
+                                           full_name:    params[:full_name],
+                                           number:       params[:number],
+                                           cvc:          params[:cvc],
+                                           expiry_month: params[:expiry_month],
+                                           expiry_year:  params[:expiry_year],
+                                           zip:          params[:zip],
+                                           city:         params[:city],
+                                           address_line_1: params[:address_line_1],
+                                           address_line_2: params[:address_line_2],
+                                           state:          params[:state]
+      rescue PaymentError
+      end
       session_manager.login(params[:email], params[:password])
     end
     json_reload

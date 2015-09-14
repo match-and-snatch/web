@@ -461,7 +461,8 @@ CREATE TABLE feed_events (
     subscription_target_user_id integer,
     data text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    hidden boolean DEFAULT false NOT NULL
 );
 
 
@@ -1800,6 +1801,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150831165850');
 INSERT INTO schema_migrations (version) VALUES ('20150901083301');
 
 INSERT INTO schema_migrations (version) VALUES ('20150907084252');
+
+INSERT INTO schema_migrations (version) VALUES ('20150909104949');
 
 INSERT INTO schema_migrations (version) VALUES ('20150914102909');
 

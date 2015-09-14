@@ -83,7 +83,7 @@ class PaymentManager < BaseManager
 
   def pay_for!(*args)
     pay_for(*args).tap do |result|
-      fail_with! 'Payment has been failed' if result.is_a? PaymentFailure
+      fail_with!('Payment has been failed', PaymentError) if result.is_a? PaymentFailure
     end
   end
 
@@ -91,6 +91,6 @@ class PaymentManager < BaseManager
   # Changes billing status to "failed" if payment is not passed
   def perform_test_payment
     subscription = user.subscriptions.to_charge.first
-    pay_for(subscription) if subscription
+    SubscriptionManager.new(subscription: subscription).pay if subscription
   end
 end

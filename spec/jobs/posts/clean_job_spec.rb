@@ -21,14 +21,14 @@ describe Posts::CleanJob do
 
     context '30 days passed since profile removed' do
       before do
-        UserProfileManager.new(user).delete_profile_page!
-        Upload.delete_all
+        Timecop.freeze(1.month.ago) do
+          UserProfileManager.new(user).delete_profile_page!
+          Upload.delete_all
+        end
       end
 
       it do
-        Timecop.freeze(1.month.from_now) do
-          expect { perform rescue nil }.to change { Post.count }.from(1).to(0)
-        end
+        expect { perform rescue nil }.to change { Post.count }.from(1).to(0)
       end
     end
   end

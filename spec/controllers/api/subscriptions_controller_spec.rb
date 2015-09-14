@@ -41,6 +41,47 @@ describe Api::SubscriptionsController, type: :controller do
     end
   end
 
+  describe 'POST #via_register' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    let(:card_number) { '4242424242424242' }
+
+    subject { post 'via_register', user_id: owner.slug,
+                   email: 'subscriber@gmail.com',
+                   password: 'gfhjkmqe',
+                   full_name: 'tester tester',
+                   number: card_number,
+                   cvc: '123',
+                   expiry_month: '12',
+                   expiry_year: '17',
+                   address_line_1: '',
+                   address_line_2: '',
+                   city: '',
+                   state: '',
+                   zip: '' }
+
+    it { should be_success }
+    its(:body) { should match_regex /success/ }
+
+    context 'with failed payment' do
+      let(:card_number) { '4000000000000341' }
+
+      it { should be_success }
+      its(:body) { should match_regex /success/ }
+    end
+
+    # TODO : WHY IT DOESN'T WORK?
+    # context 'with declined card' do
+    #   before { StripeMock.prepare_card_error(:card_declined, :new_customer) }
+    #
+    #   let(:card_number) { '4000000000000002' }
+    #
+    #   it { should be_success }
+    #   its(:body) { should match_regex /failed/ }
+    # end
+  end
+
   describe 'PUT #enable_notifications' do
     pending
   end

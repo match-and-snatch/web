@@ -45,9 +45,9 @@ class BaseManager
   end
 
   # @param message [String, Hash]
-  def fail_with!(message)
+  def fail_with!(message, error_class = ManagerError)
     fail_with message
-    fail!
+    fail!(error_class)
   end
 
   def fail_locked!(message = 'Your account was locked')
