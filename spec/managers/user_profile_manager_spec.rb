@@ -485,6 +485,33 @@ describe UserProfileManager do
         end
       end
     end
+
+    context 'updated 3 times' do
+      subject :update_cc_data do
+        manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+      end
+
+      before do
+        manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+        manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+      end
+
+      it 'locks user account on 3rd attempt' do
+        expect { update_cc_data rescue nil }.to change { user.reload.locked? }.to(true)
+      end
+
+      specify do
+        expect { update_cc_data }.to raise_error(ManagerError, /locked/)
+      end
+
+      context '24 hours passed' do
+        it 'allows updating CC data' do
+          Timecop.travel(24.hours.since) do
+            expect { update_cc_data }.not_to raise_error
+          end
+        end
+      end
+    end
   end
 
   describe '#update_payment_information' do

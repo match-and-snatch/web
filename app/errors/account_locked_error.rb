@@ -1,0 +1,2 @@
+class AccountLockedError < ManagerError
+end

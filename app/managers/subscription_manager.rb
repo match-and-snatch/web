@@ -174,6 +174,7 @@ class SubscriptionManager < BaseManager
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"
     end
 
+    fail_locked! if @subscriber.locked?
     fail_with! "Can't subscribe to self" if @subscriber == target
 
     # Never restore removed fake subscriptions
@@ -186,6 +187,8 @@ class SubscriptionManager < BaseManager
       unless fake
         fail_with! 'Already subscribed' if @subscriber.subscriptions.by_target(target).not_removed.any?
         subscription = @subscriber.subscriptions.by_target(target).first
+
+        recent_subscriptions_count = @subscriber.subscriptions.where('subscriptions.created_at > ?', 48.hours.ago).count
       end
 
       subscription ||= Subscription.new
@@ -200,10 +203,13 @@ class SubscriptionManager < BaseManager
       @subscription.actualize_cost! or fail_with! @subscription.errors
 
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
+
       unless fake
+        UserManager.new(@subscriber).lock if recent_subscriptions_count >= 4
         SubscribedFeedEvent.create! target_user: target, target: @subscriber
         SubscriptionsMailer.delay.subscribed(subscription)
       end
+
       EventsManager.subscription_created(user: @subscriber, subscription: @subscription)
     end
 

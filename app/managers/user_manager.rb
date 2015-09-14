@@ -49,6 +49,16 @@ class UserManager < BaseManager
     end
   end
 
+  def lock
+    @user.locked = true
+    save_or_die! @user
+  end
+
+  def unlock
+    @user.locked = false
+    save_or_die! @user
+  end
+
   def save_last_visited_profile(target_user)
     if @user.subscribed_to?(target_user) && @user.last_visited_profile_id != target_user.id
       @user.last_visited_profile_id = target_user.id

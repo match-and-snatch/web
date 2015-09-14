@@ -1,0 +1,21 @@
+h2 Banned users
+
+form.Form action=search_admin_bans_path method='get' data-target='bans'
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search users by email"
+
+div data-identifier='bans'
+
+- if @users.any?
+  table.table
+    th Name
+    th Email
+    th
+
+    - @users.each do |user|
+      tr
+        td= user.name
+        td= user.email
+        td
+          button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=admin_ban_path(user.id) Unlock
+- else
+  p No accounts locked
