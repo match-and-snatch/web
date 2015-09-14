@@ -2,7 +2,7 @@ class Admin::ContributionsController < Admin::BaseController
   before_action :load_contribution!, only: [:confirm_destroy, :destroy]
 
   def index
-    @contributions = Contribution.all
+    @contributions = Contribution.all.includes(:user, :target_user).page(params[:page]).per(100)
     json_render
   end
 
