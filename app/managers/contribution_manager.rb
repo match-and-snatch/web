@@ -1,6 +1,4 @@
 class ContributionManager < BaseManager
-  DAILY_CONTRIBUTIONS_LIMIT = 10000
-
   # @param user [User]
   # @param target_user [User]
   def initialize(user: , contribution: nil)
@@ -15,21 +13,29 @@ class ContributionManager < BaseManager
   def create(target_user: , amount: nil, recurring: false, message: nil)
     amount = amount.to_i
     fail_with! amount: :zero if amount < 1
-    fail_with! amount: :contribution_limit_reached if limit_reached?(target_user, amount)
+    if limit_reached?(amount)
+      unless @user.contribution_requests.pending.any?
+        @user.contribution_requests.create!(target_user: target_user,
+                                            amount: amount,
+                                            recurring: recurring,
+                                            message: message)
+      end
+      fail_with! amount: :contribution_limit_reached
+    else
+      @contribution = create_contribution(target_user: target_user,
+                                          amount: amount,
+                                          recurring: recurring)
 
-    @contribution = create_contribution(target_user: target_user,
-                                        amount: amount,
-                                        recurring: recurring)
+      fail_with! 'Payment has been failed' if @contribution.new_record?
 
-    fail_with! 'Payment has been failed' if @contribution.new_record?
+      if message.present?
+        MessagesManager.new(user: @user).create(target_user: target_user,
+                                                message: message,
+                                                contribution: @contribution)
+      end
 
-    if message.present?
-      MessagesManager.new(user: @user).create(target_user: target_user,
-                                              message: message,
-                                              contribution: @contribution)
+      @contribution
     end
-
-    @contribution
   end
 
   # Creates child from recurring contribution
@@ -48,18 +54,21 @@ class ContributionManager < BaseManager
     @contribution.destroy
   end
 
+  def approve!(contribution_request)
+    UserManager.new(@user).update_daily_subscriptions_limit(limit: 50000)
+    contribution_request.approve!
+  end
+
   private
 
-  def limit_reached?(target_user, amount)
-    limit = DAILY_CONTRIBUTIONS_LIMIT
-
-    return true if amount > limit
+  def limit_reached?(amount)
+    return true if amount > @user.daily_contributions_limit
 
     recently_contributed = Contribution.where(user: @user)
                              .where("created_at > ?", 24.hours.ago)
                              .sum(:amount)
 
-    recently_contributed + amount > DAILY_CONTRIBUTIONS_LIMIT
+    recently_contributed + amount > @user.daily_contributions_limit
   end
 
   def create_contribution(target_user: , amount: , recurring: , parent: nil)

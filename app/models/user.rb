@@ -38,6 +38,7 @@ class User < ActiveRecord::Base
   has_many :events
   has_many :cost_change_requests
   has_many :delete_profile_page_requests
+  has_many :contribution_requests
   has_many :subscription_daily_count_change_events
   has_many :subordinates, class_name: 'User', foreign_key: 'partner_id'
 

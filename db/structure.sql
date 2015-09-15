@@ -736,7 +736,11 @@ CREATE TABLE requests (
     rejected_at timestamp without time zone,
     performed_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    amount integer,
+    recurring boolean DEFAULT false NOT NULL,
+    target_user_id integer,
+    message text
 );
 
 
@@ -1047,7 +1051,8 @@ CREATE TABLE users (
     subscriptions_chart_visible boolean DEFAULT false NOT NULL,
     partner_id integer,
     partner_fees integer DEFAULT 0 NOT NULL,
-    locked boolean DEFAULT false NOT NULL
+    locked boolean DEFAULT false NOT NULL,
+    daily_contributions_limit integer DEFAULT 10000 NOT NULL
 );
 
 
@@ -1773,4 +1778,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150914102909');
 INSERT INTO schema_migrations (version) VALUES ('20150914103009');
 
 INSERT INTO schema_migrations (version) VALUES ('20150914103109');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915085427');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915095324');
 
