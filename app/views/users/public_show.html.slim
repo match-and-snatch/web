@@ -22,7 +22,7 @@
           .clearfix
 
         /Profile Type
-        h3.profile_type= @profile.types
+        .profile_type= @profile.types
 
       - unless mobile_phone_device?
         .col-md-4.col-sm-4.col-xs-12
@@ -84,7 +84,7 @@
           - if @profile.custom_welcome_message
             = @profile.custom_welcome_message
           - else
-            h1.title Welcome to #{@profile.profile_name.possessive} profile page!
+            .title Welcome to #{@profile.profile_name.possessive} profile page!
             = render 'welcome_benefits'
 
       .col-md-8.col-sm-8.hidden-xs.pull-right.no_pad style='margin-top: 15px'
@@ -121,7 +121,7 @@
             .audio_container
               = audio_player(@profile.welcome_audio)
           - else
-            h1.title Welcome to #{@profile.profile_name.possessive} profile page!
+            .title Welcome to #{@profile.profile_name.possessive} profile page!
             .audio_container
               = audio_player(@profile.welcome_audio)
 
