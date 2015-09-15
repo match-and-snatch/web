@@ -166,30 +166,25 @@
         color: $color_text_dark
         cursor: pointer
         display: inline-block
+        font-size: 34px
+        font-weight: bold
+        line-height: 120%
         min-height: 45px
-        margin-top: 10px
+        margin: 10px 0 0
         text-decoration: none
         word-wrap: break-word
-        span
-          float: left
-          @media screen and (max-width: 767px)
-            width: 100%
-          @media screen and (min-width: 768px) and (max-width: 991px)
-            width: 425px
-          @media screen and (min-width: 992px)
-            width: 490px
+        .name
+          font-size: 34px
+          font-weight: bold
         &.visitor
           cursor: default
         .fa
-          float: left
-          max-width: 517px
-          word-wrap: break-word
           &:before
             color: $color_gear
             font-size: 20px
             padding-right: 5px
             position: relative
-            top: -6px
+            top: -5px
         &:hover
           .fa
             &:before
@@ -199,7 +194,7 @@
           cursor: default
       .profile_type
         color: #898989
-        display: block
+        display: inline
         font-size: 12px
         font-weight: 400
         line-height: 22px
@@ -1557,6 +1552,7 @@
     color: $color_pink
     font-size: 30px
     font-weight: 600
+    margin: 0
   .audio_container
     margin: 15px auto
     width: 100%
@@ -1878,11 +1874,13 @@
           .amount, .fa
             height: 55px
           .fa.fa-usd
-            width: 65px
+            width: 50px
             &:before
               font-size: 30px
           .fa.fa-gear
-            padding: 10px 0 0 0
+            float: left
+            position: relative
+            top: 0
             width: 35px
             &:before
               font-size: 30px
@@ -1894,7 +1892,7 @@
             width: 240px
 
       .add_welcome_media
-        width: 240px
+        width: 225px
         padding: 10px 0
 
   #create_post_nav

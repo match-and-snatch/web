@@ -15,14 +15,14 @@
       .col-md-8.col-sm-8.col-xs-12.profile_details
 
         /Profile Name
-        span.profile_name.visitor = @profile.profile_name
+        h1.profile_name.visitor = @profile.profile_name
         .clearfix
         - if can? :login_as, @profile.object
           a.admin_login.AjaxFormLink href=login_as_admin_user_path(@profile.object.id) data-_method='post' Login as this User
-        .clearfix
+          .clearfix
 
         /Profile Type
-        span.profile_type= @profile.types
+        .profile_type= @profile.types
 
       - unless mobile_phone_device?
         .col-md-4.col-sm-4.col-xs-12
@@ -74,7 +74,7 @@
 
         = render 'adult_content_warning' if @profile.has_mature_content?
 
-        span.already_user
+        p.already_user
           - unless current_user.authorized?
             | Already a member? &nbsp;
             a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
@@ -90,7 +90,7 @@
       .col-md-8.col-sm-8.hidden-xs.pull-right.no_pad style='margin-top: 15px'
         a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
         .clearfix
-        span.already_user
+        p.already_user
           - unless current_user.authorized?
             | Already a member? &nbsp;
             a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
@@ -122,18 +122,17 @@
               = audio_player(@profile.welcome_audio)
           - else
             .title Welcome to #{@profile.profile_name.possessive} profile page!
-
             .audio_container
               = audio_player(@profile.welcome_audio)
 
-            span.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
+            p.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
 
             = render 'welcome_benefits'
 
           a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='subscription' href='#' Subscribe Now
           .clearfix
 
-          span.already_user.hidden-xs
+          p.already_user.hidden-xs
             - unless current_user.authorized?
               | Already a member? &nbsp;
               a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe

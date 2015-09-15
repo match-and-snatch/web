@@ -14,15 +14,15 @@
       .col-md-8.col-sm-8.col-xs-12.profile_details
 
         // Profile Name
-        span.profile_name
-          i.fa.fa-gear.PopupTrigger.hidden-xs data-target='name-editor'
-          span data-identifier='profile-name'= @profile.profile_name
+        h1.profile_name
+          span.fa.fa-gear.PopupTrigger data-target='name-editor'
+            span.name data-identifier='profile-name'= @profile.profile_name
         .clearfix
 
         // Profile Type
-        .profile_type
-          i.fa.fa-gear.PopupTrigger.hidden-xs data-target='type-editor'
-          span= @profile.types_text
+        h3.profile_type
+          span.fa.fa-gear.PopupTrigger.hidden-xs data-target='type-editor'
+            span= @profile.types_text
 
       .col-md-4.col-sm-4.hidden-xs
 
@@ -31,22 +31,22 @@
 
           // Cost Button Owner (Show Only Owner)
           a.cost_owner.PopupTrigger data-target='cost-editor'
+            span.fa.fa-gear
             .amount
               span data-identifier='subscription-cost'
                 = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
               span.month
                 |/month
             .btn.pink.fa.fa-usd.fa-2x
-            i.fa.fa-gear style='position: absolute; top: 10px; left: 0; padding: 0; margin: 0'
             .clearfix
 
         - if @profile.welcome_media
           .add_welcome_media.btn.pink.pull-right.PopupTrigger data-target='welcome-editor'
-            i.fa.fa-plus
+            span.fa.fa-plus
               '&nbsp;Change Welcome Media
         - else
           .add_welcome_media.btn.green.pull-right.PopupTrigger data-target='welcome-editor'
-            i.fa.fa-plus
+            span.fa.fa-plus
               '&nbsp;Add Welcome Media
 
     // RSS
@@ -57,24 +57,20 @@
     .benefits_container.row.hidden-xs
       .col-md-12.col-sm-12.col-xs-12
         .label.btn Subscriber Benefits
-        i.fa.fa-gear.edit.PopupTrigger data-target='benefits-editor'
+        span.fa.fa-gear.edit.PopupTrigger data-target='benefits-editor'
         div data-identifier='benefits'= render_benefits(@profile)
 
   // Create Post (Owner View Only)
   #create_post_container.hidden-xs.PostForm data-identifier='post-form' data-default_post_tab='default-post-tab' data-target='post-fields' data-url=pending_post_path
     ul#create_post_nav
       li.PostTab data-identifier='default-post-tab' data-url=new_status_post_path
-        a.fa.fa-pencil href='javascript: void(0)'
-          | Post Status
+        a.fa.fa-pencil href='javascript: void(0)'Post Status
       li.PostTab data-url=new_audio_post_path
-        a.fa.fa-music href='javascript: void(0)'
-          | Add Audio
+        a.fa.fa-music href='javascript: void(0)' Add Audio
       li.PostTab data-url=new_video_post_path
-        a.fa.fa-video-camera href="javascript: void(0)"
-          | Add Video
+        a.fa.fa-video-camera href="javascript: void(0)" Add Video
       li.PostTab data-url=new_photo_post_path
-        a.fa.fa-picture-o.PostTab href='javascript: void(0)'
-          | Add Photos
+        a.fa.fa-picture-o.PostTab href='javascript: void(0)' Add Photos
       li.PostTab.ie_last_tab data-url=new_document_post_path
         a.fa.fa-file-text href='javascript: void(0)' Add Document
     .clearfix
