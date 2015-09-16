@@ -21,21 +21,21 @@ class ContributionManager < BaseManager
                                             message: message)
       end
       fail_with! amount: :contribution_limit_reached
-    else
-      @contribution = create_contribution(target_user: target_user,
-                                          amount: amount,
-                                          recurring: recurring)
-
-      fail_with! 'Payment has been failed' if @contribution.new_record?
-
-      if message.present?
-        MessagesManager.new(user: @user).create(target_user: target_user,
-                                                message: message,
-                                                contribution: @contribution)
-      end
-
-      @contribution
     end
+
+    @contribution = create_contribution(target_user: target_user,
+                                        amount: amount,
+                                        recurring: recurring)
+
+    fail_with! 'Payment has been failed' if @contribution.new_record?
+
+    if message.present?
+      MessagesManager.new(user: @user).create(target_user: target_user,
+                                              message: message,
+                                              contribution: @contribution)
+    end
+
+    @contribution
   end
 
   # Creates child from recurring contribution

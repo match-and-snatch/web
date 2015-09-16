@@ -7,7 +7,7 @@ class CreateRequests < ActiveRecord::Migration
       t.boolean :rejected, default: false, null: false
       t.boolean :performed, default: false, null: false
       t.boolean :update_existing_subscriptions, default: false, null: false
-      t.references :user, index: true, foreign_key: true
+      t.references :user
       t.string :type
       t.datetime :approved_at
       t.datetime :rejected_at

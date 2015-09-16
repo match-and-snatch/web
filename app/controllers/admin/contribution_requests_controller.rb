@@ -1,8 +1,8 @@
 class Admin::ContributionRequestsController < Admin::BaseController
-  before_action :initialize_contribution_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
+  before_action :load_contribution_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
 
   def index
-    @contribution_requests = ContributionRequest.pending.limit(100).to_a
+    @contribution_requests = ContributionRequest.pending.page(params[:page]).per(100)
     json_render
   end
 
@@ -26,7 +26,7 @@ class Admin::ContributionRequestsController < Admin::BaseController
 
   private
 
-  def initialize_contribution_request!
+  def load_contribution_request!
     @contribution_request = ContributionRequest.find(params[:id])
   end
 end
