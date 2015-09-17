@@ -125,6 +125,7 @@ class Api::UsersController < Api::BaseController
       custom_welcome_message: user.profile_page_data.welcome_box,
       special_offer_message: user.profile_page_data.special_offer,
       locked: user.locked?,
+      cost_approved: true,
       dialogue_id: user.dialogues.by_user(current_user.object).first.try(:id)
     }
   end
