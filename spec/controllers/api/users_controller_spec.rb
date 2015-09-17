@@ -41,6 +41,7 @@ describe Api::UsersController, type: :controller do
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
           "custom_welcome_message"=>nil,
           "special_offer_message"=>nil,
+          "locked"=>false,
           "dialogue_id"=>nil
         },
         {
@@ -69,6 +70,7 @@ describe Api::UsersController, type: :controller do
           "welcome_media"=>{"welcome_audio"=>{}, "welcome_video"=>{}},
           "custom_welcome_message"=>nil,
           "special_offer_message"=>nil,
+          "locked"=>false,
           "dialogue_id"=>nil
         }
       ])

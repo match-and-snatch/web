@@ -67,7 +67,9 @@ class ApiResponsePresenter
       contributions_enabled: user.contributions_enabled,
       registration_token: user.registration_token,
       auth_token: user.auth_token,
-      api_token: user.api_token
+      api_token: user.api_token,
+      locked: user.locked?,
+      cc_declined: user.cc_declined?
     }.merge(account_data(user))
   end
 
