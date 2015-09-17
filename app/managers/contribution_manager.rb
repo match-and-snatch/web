@@ -55,7 +55,7 @@ class ContributionManager < BaseManager
   end
 
   def approve!(contribution_request)
-    UserManager.new(@user).update_daily_subscriptions_limit(limit: 50000)
+    UserManager.new(@user).update_daily_contributions_limit(limit: 50000)
     create(target_user: contribution_request.target_user,
            amount: contribution_request.amount,
            recurring: contribution_request.recurring,
