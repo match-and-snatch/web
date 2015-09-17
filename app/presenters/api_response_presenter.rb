@@ -22,7 +22,7 @@ class ApiResponsePresenter
       stripe_card_id: user.stripe_card_id,
       has_cc_payment_account: user.has_cc_payment_account?,
       card_type: user.card_type,
-      cc_declined: user.cc_declined?,
+      banned: user.locked? || user.cc_declined?, # TODO : FIX ME, Fix Api, Fix all crap
       profile_picture_url: user.profile_picture_url,
       small_profile_picture_url: user.small_profile_picture_url,
       original_profile_picture_url: user.original_profile_picture_url,
