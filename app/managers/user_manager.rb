@@ -65,4 +65,9 @@ class UserManager < BaseManager
       save_or_die! @user
     end
   end
+
+  def update_daily_contributions_limit(limit: )
+    @user.daily_contributions_limit = limit.to_i
+    save_or_die! @user
+  end
 end

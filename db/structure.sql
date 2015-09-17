@@ -200,46 +200,6 @@ ALTER SEQUENCE contributions_id_seq OWNED BY contributions.id;
 
 
 --
--- Name: cost_change_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE cost_change_requests (
-    id integer NOT NULL,
-    new_cost integer,
-    old_cost integer,
-    approved boolean DEFAULT false NOT NULL,
-    rejected boolean DEFAULT false NOT NULL,
-    performed boolean DEFAULT false NOT NULL,
-    update_existing_subscriptions boolean DEFAULT false NOT NULL,
-    user_id integer,
-    approved_at timestamp without time zone,
-    rejected_at timestamp without time zone,
-    performed_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: cost_change_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE cost_change_requests_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: cost_change_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE cost_change_requests_id_seq OWNED BY cost_change_requests.id;
-
-
---
 -- Name: credit_card_declines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -308,43 +268,6 @@ CREATE SEQUENCE delayed_jobs_id_seq
 --
 
 ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
-
-
---
--- Name: delete_profile_page_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE delete_profile_page_requests (
-    id integer NOT NULL,
-    approved boolean DEFAULT false NOT NULL,
-    rejected boolean DEFAULT false NOT NULL,
-    performed boolean DEFAULT false NOT NULL,
-    user_id integer,
-    approved_at timestamp without time zone,
-    rejected_at timestamp without time zone,
-    performed_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: delete_profile_page_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE delete_profile_page_requests_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: delete_profile_page_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE delete_profile_page_requests_id_seq OWNED BY delete_profile_page_requests.id;
 
 
 --
@@ -796,6 +719,51 @@ ALTER SEQUENCE profile_types_users_id_seq OWNED BY profile_types_users.id;
 
 
 --
+-- Name: requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE requests (
+    id integer NOT NULL,
+    new_cost integer,
+    old_cost integer,
+    approved boolean DEFAULT false NOT NULL,
+    rejected boolean DEFAULT false NOT NULL,
+    performed boolean DEFAULT false NOT NULL,
+    update_existing_subscriptions boolean DEFAULT false NOT NULL,
+    user_id integer,
+    type character varying,
+    approved_at timestamp without time zone,
+    rejected_at timestamp without time zone,
+    performed_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    amount integer,
+    recurring boolean DEFAULT false NOT NULL,
+    target_user_id integer,
+    message text
+);
+
+
+--
+-- Name: requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE requests_id_seq OWNED BY requests.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1083,7 +1051,8 @@ CREATE TABLE users (
     subscriptions_chart_visible boolean DEFAULT false NOT NULL,
     partner_id integer,
     partner_fees integer DEFAULT 0 NOT NULL,
-    locked boolean DEFAULT false NOT NULL
+    locked boolean DEFAULT false NOT NULL,
+    daily_contributions_limit integer DEFAULT 10000 NOT NULL
 );
 
 
@@ -1131,13 +1100,6 @@ ALTER TABLE ONLY contributions ALTER COLUMN id SET DEFAULT nextval('contribution
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cost_change_requests ALTER COLUMN id SET DEFAULT nextval('cost_change_requests_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY credit_card_declines ALTER COLUMN id SET DEFAULT nextval('credit_card_declines_id_seq'::regclass);
 
 
@@ -1146,13 +1108,6 @@ ALTER TABLE ONLY credit_card_declines ALTER COLUMN id SET DEFAULT nextval('credi
 --
 
 ALTER TABLE ONLY delayed_jobs ALTER COLUMN id SET DEFAULT nextval('delayed_jobs_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY delete_profile_page_requests ALTER COLUMN id SET DEFAULT nextval('delete_profile_page_requests_id_seq'::regclass);
 
 
 --
@@ -1250,6 +1205,13 @@ ALTER TABLE ONLY profile_types_users ALTER COLUMN id SET DEFAULT nextval('profil
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY requests ALTER COLUMN id SET DEFAULT nextval('requests_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY stripe_transfers ALTER COLUMN id SET DEFAULT nextval('stripe_transfers_id_seq'::regclass);
 
 
@@ -1313,14 +1275,6 @@ ALTER TABLE ONLY contributions
 
 
 --
--- Name: cost_change_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY cost_change_requests
-    ADD CONSTRAINT cost_change_requests_pkey PRIMARY KEY (id);
-
-
---
 -- Name: credit_card_declines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1334,14 +1288,6 @@ ALTER TABLE ONLY credit_card_declines
 
 ALTER TABLE ONLY delayed_jobs
     ADD CONSTRAINT delayed_jobs_pkey PRIMARY KEY (id);
-
-
---
--- Name: delete_profile_page_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY delete_profile_page_requests
-    ADD CONSTRAINT delete_profile_page_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -1446,6 +1392,14 @@ ALTER TABLE ONLY profile_types
 
 ALTER TABLE ONLY profile_types_users
     ADD CONSTRAINT profile_types_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY requests
+    ADD CONSTRAINT requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -1805,4 +1759,12 @@ INSERT INTO schema_migrations (version) VALUES ('20150907084252');
 INSERT INTO schema_migrations (version) VALUES ('20150909104949');
 
 INSERT INTO schema_migrations (version) VALUES ('20150914102909');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914103009');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914103109');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915085427');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915095324');
 

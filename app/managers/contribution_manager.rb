@@ -1,6 +1,4 @@
 class ContributionManager < BaseManager
-  DAILY_CONTRIBUTIONS_LIMIT = 10000
-
   # @param user [User]
   # @param target_user [User]
   def initialize(user: , contribution: nil)
@@ -15,7 +13,15 @@ class ContributionManager < BaseManager
   def create(target_user: , amount: nil, recurring: false, message: nil)
     amount = amount.to_i
     fail_with! amount: :zero if amount < 1
-    fail_with! amount: :contribution_limit_reached if limit_reached?(target_user, amount)
+    if limit_reached?(amount)
+      unless @user.contribution_requests.by_target_user(target_user).pending.any?
+        @user.contribution_requests.create!(target_user: target_user,
+                                            amount: amount,
+                                            recurring: recurring,
+                                            message: message)
+      end
+      fail_with! amount: :contribution_limit_reached
+    end
 
     @contribution = create_contribution(target_user: target_user,
                                         amount: amount,
@@ -48,18 +54,27 @@ class ContributionManager < BaseManager
     @contribution.destroy
   end
 
+  def approve!(contribution_request)
+    UserManager.new(@user).update_daily_contributions_limit(limit: 50000)
+    create(target_user: contribution_request.target_user,
+           amount: contribution_request.amount,
+           recurring: contribution_request.recurring,
+           message: contribution_request.message).tap do
+      contribution_request.approve!
+      contribution_request.perform!
+    end
+  end
+
   private
 
-  def limit_reached?(target_user, amount)
-    limit = DAILY_CONTRIBUTIONS_LIMIT
-
-    return true if amount > limit
+  def limit_reached?(amount)
+    return true if amount > @user.daily_contributions_limit
 
     recently_contributed = Contribution.where(user: @user)
                              .where("created_at > ?", 24.hours.ago)
                              .sum(:amount)
 
-    recently_contributed + amount > DAILY_CONTRIBUTIONS_LIMIT
+    recently_contributed + amount > @user.daily_contributions_limit
   end
 
   def create_contribution(target_user: , amount: , recurring: , parent: nil)

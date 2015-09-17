@@ -54,6 +54,10 @@ describe ContributionManager do
         expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
       end
 
+      it 'creates contribution request' do
+        expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.to create_record(ContributionRequest).matching(user: user, target_user: target_user, amount: 10001)
+      end
+
       it do
         expect { manager.create(amount: 10001, target_user: target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
       end
@@ -85,6 +89,54 @@ describe ContributionManager do
               expect { manager.create(amount: 9900, target_user: target_user) }.to create_record(Contribution).matching(user: user, target_user: target_user, amount: 9900)
             end
           end
+        end
+      end
+
+      context 'with pending contribution request' do
+        before { user.contribution_requests.create!(target_user: target_user, amount: 10001) }
+
+        context 'to the same user' do
+          it do
+            expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+          end
+          it do
+            expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.not_to create_record(ContributionRequest)
+          end
+          it do
+            expect { manager.create(amount: 10001, target_user: target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
+          end
+        end
+
+        context 'to different user' do
+          let(:another_target_user) { create_profile email: 'another_target@gmail.com' }
+
+          it do
+            expect { manager.create(amount: 10001, target_user: another_target_user) rescue nil }.not_to create_record(Contribution)
+          end
+          it do
+            expect { manager.create(amount: 10001, target_user: another_target_user) rescue nil }.to create_record(ContributionRequest)
+          end
+          it do
+            expect { manager.create(amount: 10001, target_user: another_target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
+          end
+        end
+      end
+
+      context 'with approved contribution request' do
+        let(:request) { user.contribution_requests.create!(target_user: target_user, amount: 10001) }
+
+        before { ContributionManager.new(user: user).approve!(request) }
+
+        it do
+          expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.to create_record(Contribution)
+        end
+
+        it 'has $500 limit' do
+          expect { another_manager.create(amount: 50001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+        end
+
+        it do
+          expect { manager.create(amount: 50001, target_user: target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
         end
       end
     end
@@ -163,6 +215,22 @@ describe ContributionManager do
       it do
         expect(manager.create_child.new_record?).to eq(true)
       end
+    end
+  end
+
+  describe '#approve!' do
+    let(:request) { user.contribution_requests.create!(target_user: target_user, amount: 10001) }
+
+    it 'creates contribution' do
+      expect { manager.approve!(request) }.to create_record(Contribution).matching(user: user, target_user: target_user, amount: 10001)
+    end
+
+    it 'approves request' do
+      expect { manager.approve!(request) }.to change { request.approved? }.from(false).to(true)
+    end
+
+    it 'performs request' do
+      expect { manager.approve!(request) }.to change { request.performed? }.from(false).to(true)
     end
   end
 end
