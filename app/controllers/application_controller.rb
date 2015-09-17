@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :redirect_to_mobile!, if: -> { mobile_device? && !account_page? && !request.xhr? }
-  before_action :lock_layout, if: -> { current_user.locked? }
 
   def self.subject(&block)
     @subject_block = block
@@ -153,10 +152,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-  def lock_layout
-    layout.lock
-  end
 
   def request_variant
     @request_variant ||= request.variant || detect_device_format
