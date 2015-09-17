@@ -14,7 +14,7 @@ class ContributionManager < BaseManager
     amount = amount.to_i
     fail_with! amount: :zero if amount < 1
     if limit_reached?(amount)
-      unless @user.contribution_requests.pending.any?
+      unless @user.contribution_requests.by_target_user(target_user).pending.any?
         @user.contribution_requests.create!(target_user: target_user,
                                             amount: amount,
                                             recurring: recurring,
@@ -56,7 +56,13 @@ class ContributionManager < BaseManager
 
   def approve!(contribution_request)
     UserManager.new(@user).update_daily_subscriptions_limit(limit: 50000)
-    contribution_request.approve!
+    create(target_user: contribution_request.target_user,
+           amount: contribution_request.amount,
+           recurring: contribution_request.recurring,
+           message: contribution_request.message).tap do
+      contribution_request.approve!
+      contribution_request.perform!
+    end
   end
 
   private
