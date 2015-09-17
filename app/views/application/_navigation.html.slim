@@ -1,6 +1,6 @@
 ul.nav.navbar-nav.pull-right
   - if current_user.authorized?
-    - unless current_user.cc_declined?
+    - unless current_user.banned?
       - unless current_user.profile_disabled?
         li
           a href=current_profile_path

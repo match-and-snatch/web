@@ -1,6 +1,6 @@
 ul.nav.navbar-nav.pull-right
   - if current_user.authorized?
-    - unless current_user.cc_declined?
+    - unless current_user.banned?
       li.hidden-xs
         a.PopupTrigger data-target='search-users' href='#'
           i.fa.fa-search
