@@ -10,6 +10,10 @@ class CurrentUserDecorator < UserDecorator
     !object.new_record?
   end
 
+  def banned?
+    object.locked? || object.cc_declined?
+  end
+
   # @param action [Symbol]
   # @param subject
   # @raise [ArgumentError] if action or subject are not registered

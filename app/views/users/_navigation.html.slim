@@ -1,17 +1,18 @@
 ul.nav.navbar-nav.pull-right
   - if current_user.authorized?
-    li.hidden-xs
-      a.PopupTrigger data-target='search-users' href='#'
-        i.fa.fa-search
-    - if current_user.object.has_profile_page? && !current_page?(current_profile_path)
+    - unless current_user.banned?
       li.hidden-xs
-        a href=current_profile_path
-          i.fa.fa-user My Profile
-    - if current_user.has_subscriptions?
-      = render 'subscriptions_nav'
-    li.hidden-xs
-      a href=account_info_path
-        i.fa.fa-bars My Account
+        a.PopupTrigger data-target='search-users' href='#'
+          i.fa.fa-search
+      - if current_user.object.has_profile_page? && !current_page?(current_profile_path)
+        li.hidden-xs
+          a href=current_profile_path
+            i.fa.fa-user My Profile
+      - if current_user.has_subscriptions?
+        = render 'subscriptions_nav'
+      li.hidden-xs
+        a href=account_info_path
+          i.fa.fa-bars My Account
     li.hidden-xs
       a href=logout_path
         i.fa.fa-sign-out Logout

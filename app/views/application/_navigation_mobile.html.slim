@@ -1,5 +1,5 @@
 ul
-  - if current_user.authorized?
+  - if current_user.authorized? && !current_user.banned?
     li
       a.PopupTrigger data-target='search-users' href='#'
         i.fa.fa-search
