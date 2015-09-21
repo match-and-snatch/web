@@ -4,9 +4,9 @@
     i.fa.fa-times.fa-stack-1x.fa-inverse
   - if @next_photo
     a.PopupTrigger data-target='photo-#{@next_photo.id}' href=photo_path(@next_photo)
-      img src=@photo.url
+      img src=@photo.url class='ContextMenuBlocker'
   - else
-    img src=@photo.url
+    img src=@photo.url class='ContextMenuBlocker'
 
   .photo_nav
     - if @prev_photo
