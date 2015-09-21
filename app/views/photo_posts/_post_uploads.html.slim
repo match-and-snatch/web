@@ -6,34 +6,34 @@
       - if uploads.count == 2
         .photo_display.two
           a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank' style='margin-right: 15px'
-            img src=uploads.first.url
+            img src=uploads.first.url class='ContextMenuBlocker'
           a.PopupTrigger data-target='photo-#{uploads.last.id}' href=uploads.last.url target='_blank'
-            img src=uploads.last.url
+            img src=uploads.last.url class='ContextMenuBlocker'
           .clearfix
       - elsif uploads.count >= 3
         .photo_display.three
           .three_left
             a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank' style='margin-right: 15px'
-              img src=uploads.first.url
+              img src=uploads.first.url class='ContextMenuBlocker'
           .three_stacked
             - uploads.last(2).each do |upload|
               a.PopupTrigger data-target='photo-#{upload.id}' href=upload.url target='_blank' style='margin-bottom: 15px'
-                img src=upload.url
+                img src=upload.url class='ContextMenuBlocker'
             .clearfix
       - else
         .photo_display.three
           .three_left
             a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank' style='margin-right: 15px'
-              img src=uploads.first.url
+              img src=uploads.first.url class='ContextMenuBlocker'
           .three_stacked
             - uploads.drop(1).each do |upload|
               a.PopupTrigger data-target='photo-#{upload.id}' href=upload.url target='_blank' style='margin-bottom: 15px'
-                img src=upload.url
+                img src=upload.url class='ContextMenuBlocker'
             .clearfix
     - else
       .photo_display.one
         a.PopupTrigger data-target='photo-#{uploads.first.id}' href=uploads.first.url target='_blank'
-          img src=uploads.first.url
+          img src=uploads.first.url class='ContextMenuBlocker'
 
 - uploads.each do |upload|
   .AjaxPopup.photo_popup.popup.modal-content data-identifier='photo-#{upload.id}' data-url=photo_path(upload.id)
