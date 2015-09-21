@@ -3,7 +3,7 @@ class FeedsController < ApplicationController
 
   # TODO: refactor
   def show
-    subscription_user_ids = User.joins(:source_subscriptions).where(subscriptions: {user_id: current_user.id}).pluck(:target_user_id)
+    subscription_user_ids = User.joins(:source_subscriptions).where(subscriptions: {user_id: current_user.id, removed: false, rejected: false}).pluck(:target_user_id)
 
     sql = <<-SQL.squish
       feed_events.hidden = ? AND (feed_events.target_user_id = ? OR feed_events.subscription_target_user_id IN (?)) AND (feed_events.type <> 'SubscribedFeedEvent' OR feed_events.created_at > ?)
