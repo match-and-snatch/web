@@ -53,6 +53,23 @@ RSpec.configure do |config|
       example.run
     end
   end
+
+  config.around(:each, freeze: ->(value) { value.present? }) do |example|
+    time = example.metadata[:freeze]
+    time = case time
+           when Time
+             time
+           when Date
+             # We can't use Date#to_time because it doesn't account for timezones
+             time.beginning_of_day
+           when String
+             Time.zone.parse(time)
+           else
+             # Current time rounded to seconds
+             Time.zone.at(Time.now.to_i)
+           end
+    Timecop.freeze(time) { example.run }
+  end
 end
 
 # @param message [String, Symbol]

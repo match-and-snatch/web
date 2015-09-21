@@ -138,6 +138,14 @@ class User < ActiveRecord::Base
     profile_page_data.css
   end
 
+  def denormalize_last_post_created_at!(time = nil)
+    if time
+      update!(last_post_created_at: time)
+    else
+      update!(last_post_created_at: posts.where(hidden: false).maximum(:created_at))
+    end
+  end
+
   # @param new_password [String]
   def set_new_password(new_password)
     self.password_hash = BCrypt::Password.create(new_password)

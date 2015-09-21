@@ -42,6 +42,7 @@ describe Api::UsersController, type: :controller do
           "custom_welcome_message"=>nil,
           "special_offer_message"=>nil,
           "locked"=>false,
+          "cost_approved"=>true,
           "dialogue_id"=>nil
         },
         {
@@ -71,6 +72,7 @@ describe Api::UsersController, type: :controller do
           "custom_welcome_message"=>nil,
           "special_offer_message"=>nil,
           "locked"=>false,
+          "cost_approved"=>true,
           "dialogue_id"=>nil
         }
       ])

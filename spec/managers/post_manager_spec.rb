@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PostManager do
+describe PostManager, freeze: true do
   let(:user) { create_user }
   subject(:manager) { described_class.new(user: user) }
 
@@ -13,8 +13,34 @@ describe PostManager do
       expect(manager.create_status_post(message: 'some text')).to be_persisted
     end
 
+    specify do
+      expect { manager.create_status_post(message: 'some text') }.to change { user.reload.last_post_created_at }.from(nil)
+    end
+
     it 'creates status_post_created event' do
       expect { manager.create_status_post(message: 'some text') }.to create_event(:status_post_created)
+    end
+  end
+
+  describe '#hide' do
+    let(:post) { manager.create_status_post(message: 'test') }
+    let(:hiding_manager) { described_class.new(user: user, post: post) }
+
+    specify do
+      expect { hiding_manager.hide }.to change { user.reload.last_post_created_at }.from(post.created_at).to(nil)
+    end
+  end
+
+  describe '#show' do
+    let(:post) { manager.create_status_post(message: 'test') }
+    let(:hiding_manager) { described_class.new(user: user, post: post) }
+
+    before do
+      hiding_manager.hide
+    end
+
+    specify do
+      expect { hiding_manager.show }.to change { user.reload.last_post_created_at }.from(nil).to(post.created_at)
     end
   end
 

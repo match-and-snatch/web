@@ -21,6 +21,36 @@ describe User do
     end
   end
 
+  describe '#denormalize_last_post_created_at!', freeze: true do
+    let!(:user) { create_user }
+
+    context 'time provided' do
+      let(:time) { 4.days.ago }
+
+      specify do
+        expect { user.denormalize_last_post_created_at!(time) }.to change { user.reload.last_post_created_at }.to(time)
+      end
+    end
+
+    context 'no posts' do
+      specify do
+        expect { user.denormalize_last_post_created_at! }.not_to change { user.reload.last_post_created_at }
+      end
+    end
+
+    context 'with posts' do
+      let!(:post) { PostManager.new(user: user).create_status_post(message: 'test') }
+
+      before do
+        user.update!(last_post_created_at: nil)
+      end
+
+      specify do
+        expect { user.denormalize_last_post_created_at! }.to change { user.reload.last_post_created_at }.to(post.created_at)
+      end
+    end
+  end
+
   describe '#generate_api_token!' do
     subject(:user) { create_user }
 

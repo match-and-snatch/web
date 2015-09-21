@@ -14,7 +14,8 @@
       th
         strong Total Subscribers
       th
-        strong Profile Type
+        strong
+          a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:last_post_created_at)) data-target='admin-panel' Last Post Date
       th
         strong
           a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:created_at)) data-target='admin-panel' Created Date
@@ -34,7 +35,7 @@
           td
             = cents_to_dollars user.transfer
           td= user.subscriptions_count
-          td style='max-width: 200px; overflow: hidden'= user.plain_profile_types
+          td= user.last_post_created_at.try(:to_date).try(:to_s, :long)
           td style='min-width: 100px'= user.created_at
           td
             = cents_to_dollars user.subscription_cost
