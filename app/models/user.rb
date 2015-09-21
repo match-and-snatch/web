@@ -142,7 +142,7 @@ class User < ActiveRecord::Base
     if time
       update!(last_post_created_at: time)
     else
-      update!(last_post_created_at: user.posts.where(hidden: false).maximum(:created_at))
+      update!(last_post_created_at: posts.where(hidden: false).maximum(:created_at))
     end
   end
 

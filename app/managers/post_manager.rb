@@ -11,14 +11,14 @@ class PostManager < BaseManager
   def show
     @post.hidden = false
     @post.save or fail_with! @post.errors
-    user.denormalize_last_post_created_at!(post.created_at)
+    user.denormalize_last_post_created_at!
     @post
   end
 
   def hide
     @post.hidden = true
     @post.save or fail_with! @post.errors
-    user.denormalize_last_post_created_at!(post.created_at)
+    user.denormalize_last_post_created_at!
     EventsManager.post_hidden(user: @user, post: @post)
     @post
   end
