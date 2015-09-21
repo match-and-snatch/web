@@ -7,14 +7,15 @@ class Admin::ProfileOwnersController < Admin::BaseController
     query = User.profile_owners.includes(:profile_types).where('users.subscription_cost IS NOT NULL')
     query = query.joins(:source_payments).
       select('users.*, SUM(payments.amount) as transfer').
-      group('users.id')
+      group('users.id').
+      having("SUM(payments.amount) > 9900")
     if params[:sort_by]
       query = query.order("#{params[:sort_by]} #{params[:sort_direction]}")
     else
       query = query.order('transfer DESC')
     end
 
-    @users = ProfileDecorator.decorate_collection(query.page(params[:page]).per(20))
+    @users = ProfileDecorator.decorate_collection(query.page(params[:page]).per(1000))
 
     json_render
   end
