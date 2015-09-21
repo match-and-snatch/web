@@ -1,7 +1,20 @@
-- unless params[:page]
+- unless params[:page] || params[:month]
   h2 Contributions (#{cents_to_dollars @contributions.total_amount})
 
 .AjaxContainer
+  - @months.each_slice(3) do |group|
+    ol.pull-left style='padding: 0 15px 15px 0'
+      - group.each do |month, count|
+        li class="#{month.to_s(:db) == params[:month] ? 'pending' : ''}"
+          a href=admin_contributions_path(month: month.to_s(:db))
+            span= month.strftime('%B %Y')
+          small<
+            | (#{count})
+  .clearfix
+
+  - if @date
+    h2= @date.strftime('%B %Y')
+
   .table-responsive
     table.table.table-striped
       th
