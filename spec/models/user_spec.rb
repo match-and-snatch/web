@@ -21,7 +21,7 @@ describe User do
     end
   end
 
-  describe '#denormalize_last_post_created_at!' do
+  describe '#denormalize_last_post_created_at!', freeze: true do
     let!(:user) { create_user }
 
     context 'time provided' do

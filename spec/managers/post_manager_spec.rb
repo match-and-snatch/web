@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PostManager do
+describe PostManager, freeze: true do
   let(:user) { create_user }
   subject(:manager) { described_class.new(user: user) }
 
