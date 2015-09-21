@@ -52,7 +52,16 @@ module Queries
 
     # @return [Array<ActiveRecord::Base>]
     def by_admin_fields
-      User.search_by_admin_fields(@query).limit(20).to_a
+      result = case @query
+      when -> (q) { /^cus_/.match(q) && q.length == 18 }
+        User.where(stripe_user_id: @query)
+      when /^\d+$/
+        User.where(id: @query)
+      else
+        User.search_by_admin_fields(@query)
+      end
+
+      result.limit(20).to_a
     end
 
     # @param user [User] Potential subordinate account
