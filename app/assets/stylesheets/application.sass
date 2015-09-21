@@ -293,6 +293,7 @@ textarea
 
 .navbar-main
   @include blue-area
+  border-top: none
   height: $nav_height
   text-shadow: none
   -webkit-box-shadow: 0 0 10px 0 #155270
@@ -318,8 +319,9 @@ textarea
         .fa
           &:before
             padding-right: 5px
-        &:hover
+        &:hover, &:focus
           background-color: #277aa3
+          outline: none
           text-shadow: none
       &.active
         background-color: #277aa3
