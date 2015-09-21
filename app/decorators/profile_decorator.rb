@@ -1,5 +1,5 @@
 class ProfileDecorator < UserDecorator
-  delegate :transfer, :custom_profile_page_css, :payments_count,
+  delegate :transfer, :custom_profile_page_css, :payments_count, :last_post_created_at,
            :payments_amount, :unsubscribers_count, :has_mature_content?, :custom_head_js, to: :object
 
   # @param user [User]
