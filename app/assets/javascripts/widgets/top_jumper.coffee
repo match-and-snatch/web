@@ -24,6 +24,10 @@ class bud.widgets.TopJumper extends bud.Widget
       window.scrollTo(0, 0)
       false
 
+    @$container.find('a').click ->
+      window.scrollTo(0, 0)
+      false
+
   on_scroll: =>
     top = $(window).scrollTop()
 

@@ -25,4 +25,5 @@
             .btn.green.pull-right.AjaxLink href=confirm_approve_admin_contribution_request_path(contribution_request) APPROVE
           td
             .btn.pink.pull-right.AjaxLink href=confirm_reject_admin_contribution_request_path(contribution_request) REJECT
-  = paginate @contribution_requests
+
+  .TopJumper= paginate @contribution_requests

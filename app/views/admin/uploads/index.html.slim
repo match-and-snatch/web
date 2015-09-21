@@ -23,6 +23,6 @@
             td
               - if can? :login_as, user
                 a.AjaxFormLink href=login_as_admin_user_path(user.id) data-_method='post' Login as this user
-    = paginate @users, params_on_first_page: true
+    .TopJumper= paginate @users, params_on_first_page: true
 - else
   strong No uploads so far
