@@ -11,12 +11,14 @@ class PostManager < BaseManager
   def show
     @post.hidden = false
     @post.save or fail_with! @post.errors
+    user.denormalize_last_post_created_at!(post.created_at)
     @post
   end
 
   def hide
     @post.hidden = true
     @post.save or fail_with! @post.errors
+    user.denormalize_last_post_created_at!(post.created_at)
     EventsManager.post_hidden(user: @user, post: @post)
     @post
   end
@@ -44,6 +46,7 @@ class PostManager < BaseManager
       EventsManager.post_created(user: user, post: post)
       StatusFeedEvent.create! subscription_target_user: user, target: post, data: {message: message}
       user.pending_post.try(:destroy!)
+      user.denormalize_last_post_created_at!(post.created_at)
 
       NotificationManager.delay.notify_post_created(post) if notify
     end
@@ -146,7 +149,9 @@ class PostManager < BaseManager
     if Rails.env.production?
       UploadManager.delay.remove_post_uploads(ids: post.uploads.pluck(:id)) unless post.status?
     end
-    post.destroy
+    post.destroy.tap do
+      user.denormalize_last_post_created_at!
+    end
   end
 
   # @return [StatusPost, nil]
@@ -189,6 +194,7 @@ class PostManager < BaseManager
       post.save or fail_with! post.errors
       uploads.each { |upload| post.uploads << upload }
       user.pending_post.try(:destroy!)
+      user.denormalize_last_post_created_at!(post.created_at)
 
       NotificationManager.delay.notify_post_created(post) if notify
     end
