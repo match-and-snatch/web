@@ -464,6 +464,10 @@ describe UserProfileManager do
       expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.to create_event(:credit_card_updated)
     end
 
+    it 'creates credit_card_update_request' do
+      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.to create_record(CreditCardUpdateRequest)
+    end
+
     context 'user has outstanding payments' do
       let(:target_user) { create_profile email: 'profiled@gmail.com' }
 
@@ -508,6 +512,25 @@ describe UserProfileManager do
         it 'allows updating CC data' do
           Timecop.travel(24.hours.since) do
             expect { update_cc_data }.not_to raise_error
+          end
+        end
+      end
+
+      context 'user is unlocked' do
+        before { UserManager.new(user).unlock }
+
+        it 'allows updating CC data' do
+          expect { update_cc_data }.not_to raise_error
+        end
+
+        context do
+          before do
+            manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+            manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+          end
+
+          specify do
+            expect { update_cc_data }.to raise_error(ManagerError, /locked/)
           end
         end
       end
