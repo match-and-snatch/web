@@ -113,7 +113,6 @@ class Api::UsersController < Api::BaseController
       downloads_enabled: user.downloads_enabled?,
       itunes_enabled: user.itunes_enabled?,
       rss_enabled: user.rss_enabled?,
-      api_token: user.api_token,
       vacation_enabled: user.vacation_enabled?,
       vacation_message: user.vacation_message,
       contributions_enabled: user.contributions_enabled,
