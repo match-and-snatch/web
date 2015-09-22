@@ -5,6 +5,8 @@
   margin: 0px 0 0 0
   position: relative
   .sidebar
+    border-right: 1px solid $color_border
+    min-height: 810px
     margin: 0
     padding: 0
     .active
@@ -15,12 +17,24 @@
       text-decoration: none
   .content
     background-color: #FFFFFF
-    min-height: 500px
-    border-left: 1px solid $color_border
+    min-height: 810px
     input[type="checkbox"]
       margin-top: -15px
     label[for="billing_checker"]
       font-size: 13px
+    .table-striped
+      .pull-right 
+        margin-left: 15px
+    .container
+      max-width: 100%
+      width: 100%
+      margin: 0
+      padding: 0
+      .general_page
+        border: none
+        .profile_directory
+          .pull-right
+            margin-left: 15px
     .profile_detail_list, .payout_detail_list
       font-size: 13px
       li
