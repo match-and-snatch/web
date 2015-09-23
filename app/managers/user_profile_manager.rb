@@ -312,7 +312,7 @@ class UserProfileManager < BaseManager
                      address_line_1: nil, address_line_2: nil, state: nil, city: nil, zip: nil)
     fail_with! "You can't update your credit card since your current one was declined" if user.cc_declined?
 
-    UserManager.new(user).lock if user.events.where(action: 'credit_card_updated').where('created_at > ?', 24.hours.ago).count >= 2
+    UserManager.new(user).lock if user.credit_card_update_requests.recent.count >= 2
     fail_locked! if user.locked?
 
     card = CreditCard.new number: number,
@@ -362,6 +362,7 @@ class UserProfileManager < BaseManager
 
     save_or_die! user
 
+    user.credit_card_update_requests.create!(approved: true, performed: true)
     EventsManager.credit_card_updated(user: user)
     UserManager.new(user).remove_mark_billing_failed
     PaymentManager.new(user: user).perform_test_payment
