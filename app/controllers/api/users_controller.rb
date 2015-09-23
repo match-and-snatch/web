@@ -13,7 +13,7 @@ class Api::UsersController < Api::BaseController
 
   def search
     users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text
-    json_success(users.map(&method(:user_data)))
+    json_success results: users.map(&method(:user_data))
   end
 
   def show
