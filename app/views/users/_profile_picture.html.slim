@@ -11,7 +11,7 @@ div data-identifier='profile-picture-inner'
       - if current_user.original_profile_picture_url
         .btn.blue.profile_pic_btn.fa.fa-picture-o
           |&nbsp;Replace
-          input.file type='file' name='profile_picture_file' accept='.jpg,.png,.gif'
+          input.file type='file' name='profile_picture_file' accept='.jpg,.jpeg,.png,.gif'
 
         a.AjaxFormLink.btn.blue.profile_pic_btn.fa.fa-times data-target='profile-picture-inner' data-_method='DELETE' href=delete_profile_picture_user_path(current_user.object)
           |&nbsp;Delete
@@ -19,6 +19,6 @@ div data-identifier='profile-picture-inner'
       - else
         .btn.profile_pic_add.blue.i.fa.fa-picture-o
           |&nbsp;Add Photo
-          input.file type='file' name='profile_picture_file' accept='.jpg,.png,.gif'
+          input.file type='file' name='profile_picture_file' accept='.jpg,.jpeg,.png,.gif'
 
       input type='hidden' name='slug' value=current_user.slug

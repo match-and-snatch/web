@@ -12,7 +12,7 @@ div data-identifier='cover-picture-inner'
 
         .btn.blue.i.fa.fa-picture-o.replace_photo
           |&nbsp;Replace
-          input.file type='file' name='cover_picture_file' accept='.jpg,.png,.gif' style='height: 32px;'
+          input.file type='file' name='cover_picture_file' accept='.jpg,.jpeg,.png,.gif' style='height: 32px;'
 
         a.delete_photo.AjaxFormLink.btn.blue.i.fa.fa-times data-target='cover-picture-inner' data-_method='DELETE' href=delete_cover_picture_user_path(current_user.object)
           |&nbsp;Delete
@@ -20,6 +20,6 @@ div data-identifier='cover-picture-inner'
       - else
         .btn.blue.i.fa.fa-picture-o.add_photo
           |&nbsp;Add Photo
-          input.file type='file' name='cover_picture_file' accept='.jpg,.png,.gif' style='height: 32px;'
+          input.file type='file' name='cover_picture_file' accept='.jpg,.jpeg,.png,.gif' style='height: 32px;'
         input.file type='hidden' name='slug' value=current_user.slug
 
