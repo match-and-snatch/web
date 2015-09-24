@@ -5,7 +5,7 @@ module Queries
     # @param query [String]
     # @param user [User]
     def initialize(query: '', user: nil, include_hidden: false)
-      @query = query.to_s
+      @query = query.to_s.strip
       @include_hidden = include_hidden
       @user = user or raise ArgumentError, 'User is not set'
     end
@@ -55,6 +55,8 @@ module Queries
       result = case @query
       when -> (q) { /^cus_/.match(q) && q.length == 18 }
         User.where(stripe_user_id: @query)
+      when /@/
+        User.where(email: @query)
       when /^\d+$/
         User.where(id: @query)
       else

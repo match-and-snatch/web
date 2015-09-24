@@ -6,7 +6,7 @@ class Admin::BansController < Admin::BaseController
   end
 
   def search
-    @users = User.where(email: params[:q].try(:strip))
+    @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_admin_fields
     json_replace
   end
 

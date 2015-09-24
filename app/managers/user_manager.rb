@@ -50,14 +50,12 @@ class UserManager < BaseManager
   end
 
   def lock
-    @user.lock
-    save_or_die! @user
+    @user.lock!
   end
 
   def unlock
     @user.credit_card_update_requests.destroy_all
-    @user.unlock
-    save_or_die! @user
+    @user.unlock!
   end
 
   def save_last_visited_profile(target_user)
