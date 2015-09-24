@@ -517,6 +517,9 @@ describe UserProfileManager do
       end
 
       context 'user is unlocked' do
+        before { UserManager.new(user).lock }
+        before { UserManager.new(user).unlock }
+
         it 'allows updating CC data' do
           expect { update_cc_data }.not_to raise_error
         end
