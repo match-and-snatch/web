@@ -50,13 +50,13 @@ class UserManager < BaseManager
   end
 
   def lock
-    @user.locked = true
+    @user.lock
     save_or_die! @user
   end
 
   def unlock
     @user.credit_card_update_requests.destroy_all
-    @user.locked = false
+    @user.unlock
     save_or_die! @user
   end
 

@@ -19,6 +19,32 @@ describe UserManager do
     end
   end
 
+  describe '#lock', freeze: true do
+    let(:user) { create_user }
+    let(:lock) { manager.lock }
+
+    it { expect { lock }.to change { user.reload.last_time_locked_at }.to(Time.zone.now) }
+    it { expect { lock }.to change { user.reload.locked? }.to(true) }
+  end
+
+  describe '#unlock', freeze: true do
+    let(:user) { create_user }
+    let(:unlock) { manager.unlock }
+
+    context 'locked' do
+      before { manager.lock }
+
+      it { expect { unlock }.to change { user.reload.locked? }.to(false) }
+      it { expect { unlock }.not_to change { user.reload.last_time_locked_at } }
+    end
+
+    context 'not locked' do
+      it { expect { unlock }.to raise_error(ArgumentError) }
+      it { expect { unlock rescue nil }.not_to change { user.reload.last_time_locked_at } }
+      it { expect { unlock rescue nil }.not_to change { user.reload.locked? } }
+    end
+  end
+
   describe '#make_admin' do
     context 'non admin' do
       let(:user) { create_user }

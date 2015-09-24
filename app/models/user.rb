@@ -131,6 +131,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  def lock
+    self.locked = true
+    self.last_time_locked_at = Time.zone.now
+  end
+
+  def unlock
+    raise ArgumentError unless locked?
+    self.locked = false
+  end
+
   def comment_picture_url
     small_account_picture_url || small_profile_picture_url
   end
