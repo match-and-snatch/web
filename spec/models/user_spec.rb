@@ -22,20 +22,20 @@ describe User do
   end
 
   describe '#lock!', freeze: true do
-    let(:user) { User.new }
+    let(:user) { create_user }
 
-    it { expect { user.lock! }.to change { user.last_time_locked_at }.to(Time.zone.now) }
-    it { expect { user.lock! }.to change { user.locked? }.to(true) }
+    it { expect { user.lock! }.to change { user.reload.last_time_locked_at }.to(Time.zone.now) }
+    it { expect { user.lock! }.to change { user.reload.locked? }.to(true) }
   end
 
   describe '#unlock!', freeze: true do
-    let(:user) { User.new }
+    let(:user) { create_user }
 
     context 'locked' do
       before { user.lock! }
 
-      it { expect { user.unlock! }.to change { user.locked? }.to(false) }
-      it { expect { user.unlock! }.not_to change { user.last_time_locked_at } }
+      it { expect { user.unlock! }.to change { user.reload.locked? }.to(false) }
+      it { expect { user.unlock! }.not_to change { user.reload.last_time_locked_at } }
     end
 
     context 'not locked' do
