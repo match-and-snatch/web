@@ -9,13 +9,15 @@ div data-identifier='declines'
   table.table
     th Name
     th Email
-    th Locked at
+    th Card declined at
+    th Account locked at
     th
 
     - @declines.each do |decline|
       tr
         td= decline.user.name
         td= decline.user.email
-        td= decline.user.last_time_locked_at.to_s(:full)
+        td= decline.created_at.to_s(:full)
+        td= decline.user.last_time_locked_at.try(:to_s, :full)
         td
           button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' data-email=decline.user.email href=admin_credit_card_decline_path(decline.id) Restore CC
