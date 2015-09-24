@@ -9,13 +9,15 @@ div data-identifier='bans'
   table.table
     th Name
     th Email
+    th Locked at
     th
 
     - @users.each do |user|
       tr
         td= user.name
         td= user.email
+        td= user.last_time_locked_at.try(:to_s, :full)
         td
           button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=admin_ban_path(user.id) Unlock
 - else
-  p No accounts locked
+  h3.pending No accounts locked
