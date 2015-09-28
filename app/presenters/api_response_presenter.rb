@@ -129,7 +129,7 @@ class ApiResponsePresenter
       message: post.message,
       created_at: time_ago_in_words(post.created_at),
       uploads: post.uploads.ordered.map { |upload| upload_data(upload) },
-      user: user_data(post.user),
+      profile: basic_profile_data(post.user),
       likes: post.likers_data.merge(liked: current_user.likes?(post)),
       comments_count: post.comments.count,
       timestamp: post.created_at.to_i,
@@ -160,6 +160,7 @@ class ApiResponsePresenter
         picture_url: comment.user.comment_picture_url,
         has_profile: comment.user.has_profile_page?
       },
+      profile: basic_profile_data(comment.user),
       replies: comment.replies.map { |r| comment_data(r) },
       likes: comment.likers_data.merge(liked: current_user.likes?(comment))
     }
@@ -197,6 +198,24 @@ class ApiResponsePresenter
         name: message.user.name,
         picture_url: message.user.comment_picture_url
       }
+    }
+  end
+
+  def basic_profile_data(user)
+    {
+      access: {
+        owner: current_user == user,
+        subscribed: current_user.subscribed_to?(user),
+        billing_failed: current_user.billing_failed?,
+        public_profile: user.has_public_profile?
+      },
+      id: user.id,
+      name: user.name,
+      slug: user.slug,
+      picture_url: user.comment_picture_url,
+      has_profile: user.has_profile_page?,
+      downloads_enabled: user.downloads_enabled?,
+      itunes_enabled: user.itunes_enabled?
     }
   end
 
