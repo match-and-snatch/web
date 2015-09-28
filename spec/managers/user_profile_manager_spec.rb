@@ -21,6 +21,12 @@ describe UserProfileManager do
     end
   end
 
+  describe '#toggle_accepting_large_contributions' do
+    specify do
+      expect { manager.toggle_accepting_large_contributions }.to change { user.reload.accepts_large_contributions? }
+    end
+  end
+
   describe '#enable_vacation_mode' do
     let(:reason) { 'because i can' }
     let(:user) { create_profile email: 'profiled@gmail.com' }

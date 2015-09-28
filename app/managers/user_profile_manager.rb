@@ -591,6 +591,11 @@ class UserProfileManager < BaseManager
     save_or_die! user
   end
 
+  def toggle_accepting_large_contributions
+    @user.accepts_large_contributions = !@user.accepts_large_contributions
+    save_or_die! @user
+  end
+
   def enable_contributions
     @user.contributions_enabled = true
     save_or_die! user

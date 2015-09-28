@@ -62,6 +62,32 @@ describe ContributionManager do
         expect { manager.create(amount: 10001, target_user: target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
       end
 
+      context 'verified profile owner' do
+        before { UserProfileManager.new(target_user).toggle_accepting_large_contributions; target_user.reload }
+
+        it 'allows contributing up to 1000$' do
+          expect { manager.create(amount: 100000, target_user: target_user) }.to create_record(Contribution).matching(amount: 100000, user: user, target_user: target_user)
+        end
+
+        it 'does not allow contributing more than 1000$' do
+          expect { manager.create(amount: 100001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+        end
+
+        context 'multiple contributions' do
+          before do
+            manager.create(amount: 50000, target_user: target_user)
+          end
+
+          it 'allows contributing up to 1000$' do
+            expect { manager.create(amount: 50000, target_user: target_user) }.to create_record(Contribution).matching(amount: 50000, user: user, target_user: target_user)
+          end
+
+          it 'does not allow contributing more than 1000$' do
+            expect { manager.create(amount: 50001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+          end
+        end
+      end
+
       context 'multiple contributions' do
         before do
           manager.create(amount: 6000, target_user: target_user)
