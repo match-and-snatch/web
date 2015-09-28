@@ -7,7 +7,7 @@ class Api::MessagesController < Api::BaseController
 
   def search_recipients
     users = Queries::Recipients.new(user: current_user.object, query: params[:q]).by_name
-    json_success users.map {|user| api_response.user_data(user)}
+    json_success results: users.map {|user| api_response.user_data(user)}
   end
 
   def create

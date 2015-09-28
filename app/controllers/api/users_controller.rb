@@ -13,7 +13,7 @@ class Api::UsersController < Api::BaseController
 
   def search
     users = Queries::Users.new(user: current_user, query: params[:q]).profile_owners_by_text
-    json_success(users.map(&method(:user_data)))
+    json_success results: users.map(&method(:user_data))
   end
 
   def show
@@ -27,10 +27,11 @@ class Api::UsersController < Api::BaseController
 
   # Registers new profile __owner__ (not just subscriber)
   def create
-    AuthenticationManager.new(
+    user = AuthenticationManager.new(
         params.slice(%i(email first_name last_name password)).merge(is_profile_owner: true, password_confirmation: params[:password])
     ).register
-    json_success
+    user = session_manager.login(user.email, params[:password], use_api_token: true)
+    json_success user: api_response.current_user_data(user)
   end
 
   def update_cost
