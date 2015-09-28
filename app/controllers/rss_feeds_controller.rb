@@ -8,13 +8,18 @@ class RssFeedsController < ApplicationController
   def index
     subscriptions = @current_user.subscriptions.not_removed.where(rejected: false)
 
-    if params[:user_id] && @user = User.find_by_id(params[:user_id])
-      subscriptions = subscriptions.where(target_user_id: @user.id)
+    if params[:user_id].to_i == current_user.id
+      @posts = Post.where(user_id: current_user.id, hidden: false).order('posts.created_at DESC').limit(50)
+    else
+      if params[:user_id] && @user = User.find_by_id(params[:user_id])
+        subscriptions = subscriptions.where(target_user_id: @user.id)
+      end
+
+      subscription_ids = subscriptions.pluck(:target_user_id)
+
+      @posts = Post.where(user_id: subscription_ids, hidden: false).order('posts.created_at DESC').limit(50)
     end
 
-    subscription_ids = subscriptions.pluck(:target_user_id)
-
-    @posts = Post.where(user_id: subscription_ids, hidden: false).order('posts.created_at DESC').limit(50)
     render layout: false, formats: ['atom']
   end
 
