@@ -91,16 +91,7 @@ class Api::UsersController < Api::BaseController
   end
 
   def user_data(user)
-    {
-      access: {
-        owner: current_user == user,
-        subscribed: current_user.subscribed_to?(user),
-        billing_failed: current_user.billing_failed?,
-        public_profile: user.has_public_profile?
-      },
-      id: user.id,
-      name: user.name,
-      slug: user.slug,
+    extended_params = {
       types: user.profile_types.order(:ordering).map(&:title),
       benefits: user.benefits.order(:ordering).map(&:message),
       subscription_cost: user.subscription_cost,
@@ -111,8 +102,6 @@ class Api::UsersController < Api::BaseController
       cover_picture_position: user.cover_picture_position,
       cover_picture_position_perc: user.cover_picture_position_perc,
       cover_picture_height: user.cover_picture_height,
-      downloads_enabled: user.downloads_enabled?,
-      itunes_enabled: user.itunes_enabled?,
       rss_enabled: user.rss_enabled?,
       vacation_enabled: user.vacation_enabled?,
       vacation_message: user.vacation_message,
@@ -128,6 +117,7 @@ class Api::UsersController < Api::BaseController
       cost_approved: true,
       dialogue_id: user.dialogues.by_user(current_user.object).first.try(:id)
     }
+    api_response.basic_profile_data(user).merge(extended_params)
   end
 
   def welcome_media_data(upload)
