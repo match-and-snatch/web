@@ -90,6 +90,11 @@
                     button.AjaxFormLink.btn.pink data-identifier="toggle-mature-user-#{user.id}" data-target="toggle-mature-user-#{user.id}" data-_method="put" href=toggle_mature_content_admin_directory_user_path(user) Remove 18+ label
                   - else
                     button.AjaxFormLink.btn.blue data-identifier="toggle-mature-user-#{user.id}" data-target="toggle-mature-user-#{user.id}" data-_method="put" href=toggle_mature_content_admin_directory_user_path(user) Add 18+ label
+                .pull-right
+                  - if user.accepts_large_contributions?
+                    button.AjaxFormLink.btn.pink data-identifier="toggle-large-contributions-#{user.id}" data-target="toggle-large-contributions-#{user.id}" data-_method="put" href=toggle_large_contributions_admin_directory_user_path(user) Disable large contributions
+                  - else
+                    button.AjaxFormLink.btn.blue data-identifier="toggle-large-contributions-#{user.id}" data-target="toggle-large-contributions-#{user.id}" data-_method="put" href=toggle_large_contributions_admin_directory_user_path(user) Enable large contributions
                 .clearfix
         hr
       a.search_top.TopJumper href="#top" Back to Top

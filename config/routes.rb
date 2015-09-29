@@ -350,6 +350,7 @@ BuddyPlatform::Application.routes.draw do
           member do
             put :toggle
             put :toggle_mature_content
+            put :toggle_large_contributions
           end
         end
       end

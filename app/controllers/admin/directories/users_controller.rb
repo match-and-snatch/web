@@ -11,6 +11,11 @@ class Admin::Directories::UsersController < Admin::BaseController
     json_replace
   end
 
+  def toggle_large_contributions
+    manager.toggle_accepting_large_contributions
+    json_replace
+  end
+
   private
 
   def manager
