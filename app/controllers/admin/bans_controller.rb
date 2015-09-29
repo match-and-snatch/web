@@ -1,4 +1,5 @@
 class Admin::BansController < Admin::BaseController
+  before_action :load_user!, only: [:destroy, :unsubscribe]
 
   def index
     @users = User.where(locked: true).order(updated_at: :desc).all
@@ -16,8 +17,18 @@ class Admin::BansController < Admin::BaseController
   end
 
   def destroy
-    user = User.find(params[:id])
-    UserManager.new(user).unlock
+    UserManager.new(@user).unlock
     json_reload
+  end
+
+  def unsubscribe
+    SubscriptionManager.new(subscriber: @user).unsubscribe_entirely
+    json_reload
+  end
+
+  private
+
+  def load_user!
+    @user = User.where(id: params[:id]).first or error(404)
   end
 end
