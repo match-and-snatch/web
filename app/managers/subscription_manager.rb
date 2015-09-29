@@ -254,6 +254,12 @@ class SubscriptionManager < BaseManager
     end
   end
 
+  def unsubscribe_entirely
+    @subscriber.subscriptions.not_removed.find_each do |subscription|
+      self.class.new(subscriber: @subscriber, subscription: subscription).unsubscribe
+    end
+  end
+
   def enable_notifications
     @subscription.notifications_enabled = true
     save_or_die! @subscription
