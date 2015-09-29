@@ -115,6 +115,17 @@ describe SubscriptionManager do
     end
   end
 
+  describe '#unsubscribe_entirely' do
+    before do
+      manager.subscribe_to(another_user)
+      manager.subscribe_to(create_profile(email: 'second_another@user.com'))
+    end
+
+    it do
+      expect { manager.unsubscribe_entirely }.to change { subscriber.subscriptions.not_removed.count }.from(2).to(0)
+    end
+  end
+
   describe '#subscribe_to' do
     context 'another user' do
       subject { manager.subscribe_to(another_user) }

@@ -35,7 +35,7 @@ en:
     account_updated: Your account information has been updated.
     updated_password: Successfully updated your password.
     unsubscribed: You have been unsubscribed
-    subscription_cancelled: You have been unsubscribed from %{profile_name}
+    subscription_cancelled: You have been unsubscribed from %{profile_name}. There will be no more future billing for this subscription. You will have access to this subscription until the end of your billing cycle. Thank you.
     contribution_cancelled: Successfully cancelled contribution to %{profile_name}
     restored_subscription: Your subscription has been restored
     failed_to_restore_subscription: "Payment didn't go through, please check your billing details"

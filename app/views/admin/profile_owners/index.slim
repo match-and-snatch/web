@@ -9,6 +9,10 @@
         strong
           a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:profile_name)) data-target='admin-panel' Profile Name
       th
+        strong email
+      th
+        strong Payout Type
+      th
         strong
           a.AjaxLink href=admin_profile_owners_path(sort_direction_params(:transfer)) data-target='admin-panel' Gross Sales
       th
@@ -32,6 +36,8 @@
             img src=user.small_profile_picture_url width=50 height=50
           td
             a.HashLink href=admin_profile_owner_path(user.id) = user.name
+          td= user.email
+          td= user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : 'Wire'
           td
             = cents_to_dollars user.transfer
           td= user.subscriptions_count

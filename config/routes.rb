@@ -326,6 +326,9 @@ BuddyPlatform::Application.routes.draw do
       end
     end
     resources :bans, only: [:index, :create, :destroy] do
+      member do
+        delete :unsubscribe
+      end
       collection do
         get :search
       end
@@ -350,6 +353,7 @@ BuddyPlatform::Application.routes.draw do
           member do
             put :toggle
             put :toggle_mature_content
+            put :toggle_large_contributions
           end
         end
       end

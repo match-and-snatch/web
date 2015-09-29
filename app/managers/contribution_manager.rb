@@ -1,4 +1,6 @@
 class ContributionManager < BaseManager
+  VERIFIED_PROFILE_CONTRIBUTION_LIMIT = 100000
+
   # @param user [User]
   # @param target_user [User]
   def initialize(user: , contribution: nil)
@@ -13,7 +15,7 @@ class ContributionManager < BaseManager
   def create(target_user: , amount: nil, recurring: false, message: nil)
     amount = amount.to_i
     fail_with! amount: :zero if amount < 1
-    if limit_reached?(amount)
+    if limit_reached?(amount, target_user)
       unless @user.contribution_requests.by_target_user(target_user).pending.any?
         @user.contribution_requests.create!(target_user: target_user,
                                             amount: amount,
@@ -67,14 +69,21 @@ class ContributionManager < BaseManager
 
   private
 
-  def limit_reached?(amount)
-    return true if amount > @user.daily_contributions_limit
+  def limit_reached?(amount, target_user)
+    if target_user.accepts_large_contributions?
+      recently_contributed = Contribution.where(user: @user, target_user: target_user)
+                               .where("created_at > ?", 24.hours.ago)
+                               .sum(:amount)
+      limit = VERIFIED_PROFILE_CONTRIBUTION_LIMIT
+    else
+      return true if amount > @user.daily_contributions_limit
+      recently_contributed = Contribution.where(user: @user)
+                               .where("created_at > ?", 24.hours.ago)
+                               .sum(:amount)
+      limit = @user.daily_contributions_limit
+    end
 
-    recently_contributed = Contribution.where(user: @user)
-                             .where("created_at > ?", 24.hours.ago)
-                             .sum(:amount)
-
-    recently_contributed + amount > @user.daily_contributions_limit
+    recently_contributed + amount > limit
   end
 
   def create_contribution(target_user: , amount: , recurring: , parent: nil)
