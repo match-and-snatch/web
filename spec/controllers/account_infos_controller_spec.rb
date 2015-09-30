@@ -262,6 +262,32 @@ describe AccountInfosController, type: :controller do
     end
   end
 
+  describe 'PUT #enable_message_notifications' do
+    subject { put 'enable_message_notifications' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_message_notifications' do
+    subject { put 'disable_message_notifications' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
   describe 'PUT #enable_downloads' do
     subject { put 'enable_downloads' }
 

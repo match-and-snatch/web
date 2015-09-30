@@ -16,6 +16,19 @@ describe MessagesManager do
     it 'creates message_created event' do
       expect { subject.create(message: 'test', target_user: target_user) }.to create_event(:message_created)
     end
+
+    specify do
+      expect { subject.create(message: 'test', target_user: target_user) }.to deliver_email(to: 'another_user@mail.com',
+                                                                                            subject: 'New message on ConnectPal')
+    end
+
+    context 'user notifications disabled' do
+      before { UserProfileManager.new(target_user).disable_message_notifications }
+
+      specify do
+        expect { subject.create(message: 'test', target_user: target_user) }.not_to deliver_email(to: 'another_user@mail.com')
+      end
+    end
   end
 
   describe '#mark_as_read' do

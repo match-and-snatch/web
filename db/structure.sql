@@ -1055,7 +1055,8 @@ CREATE TABLE users (
     daily_contributions_limit integer DEFAULT 10000 NOT NULL,
     last_post_created_at timestamp without time zone,
     last_time_locked_at timestamp without time zone,
-    accepts_large_contributions boolean DEFAULT false NOT NULL
+    accepts_large_contributions boolean DEFAULT false NOT NULL,
+    message_notifications_enabled boolean DEFAULT true NOT NULL
 );
 
 
@@ -1778,4 +1779,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150921091404');
 INSERT INTO schema_migrations (version) VALUES ('20150923161105');
 
 INSERT INTO schema_migrations (version) VALUES ('20150928154431');
+
+INSERT INTO schema_migrations (version) VALUES ('20150930095546');
 

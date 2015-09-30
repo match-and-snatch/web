@@ -68,6 +68,10 @@
         label for='notifications_debug_checker' style='width: 250px' Receive my post notifications
         = checker_tag(current_user.object, :notifications_debug, :account_info)
         .clearfix
+      .form-group.profile_display_settings
+        label for='message_notifications_checker' style='width: 250px' Receive new message email notifications
+        = checker_tag(current_user.object, :message_notifications, :account_info)
+        .clearfix
 
     .item_block
       h2 Away Mode

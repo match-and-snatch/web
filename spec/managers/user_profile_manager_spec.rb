@@ -90,6 +90,46 @@ describe UserProfileManager do
     end
   end
 
+  describe '#disable_message_notifications' do
+    let(:user) { create_profile email: 'profile@gmail.com' }
+
+    context 'notifications enabled' do
+      specify do
+        expect { manager.disable_message_notifications }.to change { user.reload.message_notifications_enabled? }.to(false)
+      end
+    end
+
+    context 'notifications disabled' do
+      before do
+        manager.disable_message_notifications
+      end
+
+      specify do
+        expect { manager.disable_message_notifications }.to raise_error(ManagerError)
+      end
+    end
+  end
+
+  describe '#enable_message_notifications' do
+    let(:user) { create_profile email: 'profile@gmail.com' }
+
+    context 'notifications disabled' do
+      before do
+        manager.disable_message_notifications
+      end
+
+      specify do
+        expect { manager.enable_message_notifications }.to change { user.reload.message_notifications_enabled? }.to(true)
+      end
+    end
+
+    context 'notifications enabled' do
+      specify do
+        expect { manager.enable_message_notifications }.to raise_error(ManagerError)
+      end
+    end
+  end
+
   describe '#disable_vacation_mode' do
     let(:user) { create_profile email: 'profiled@gmail.com' }
     let(:vacation_start_date) { Time.zone.now }

@@ -51,6 +51,7 @@ class ApiResponsePresenter
       comment_picture_url: user.comment_picture_url,
       activated: user.activated,
       notifications_debug_enabled: user.notifications_debug_enabled,
+      message_notifications_enabled: user.message_notifications_enabled,
       rss_enabled: user.rss_enabled,
       downloads_enabled: user.downloads_enabled,
       itunes_enabled: user.itunes_enabled,

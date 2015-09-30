@@ -38,7 +38,7 @@ class MessagesManager < BaseManager
     @dialogue.unread = true
     @dialogue.save!
 
-    MessagesMailer.delay.new_message(@message)
+    MessagesMailer.delay.new_message(@message) if target_user.message_notifications_enabled?
     @message
   end
 

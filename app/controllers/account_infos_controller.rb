@@ -97,6 +97,16 @@ class AccountInfosController < ApplicationController
     json_success
   end
 
+  def enable_message_notifications
+    manager.enable_message_notifications
+    json_success
+  end
+
+  def disable_message_notifications
+    manager.disable_message_notifications
+    json_success
+  end
+
   def enable_contributions
     manager.enable_contributions
     json_success
