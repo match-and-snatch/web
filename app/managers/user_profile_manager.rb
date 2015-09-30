@@ -652,6 +652,18 @@ class UserProfileManager < BaseManager
     save_or_die! user
   end
 
+  def enable_message_notifications
+    fail_with! 'Message notifications already turned on' if @user.message_notifications_enabled?
+    @user.message_notifications_enabled = true
+    save_or_die! user
+  end
+
+  def disable_message_notifications
+    fail_with! 'Message notifications already turned off' unless @user.message_notifications_enabled?
+    @user.message_notifications_enabled = false
+    save_or_die! user
+  end
+
   # @param reason [String]
   def enable_vacation_mode(reason: )
     fail_with! 'Vacation Mode is already enabled' if user.vacation_enabled?
