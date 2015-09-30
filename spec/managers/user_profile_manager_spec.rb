@@ -536,7 +536,7 @@ describe UserProfileManager do
       end
     end
 
-    context 'updated 3 times' do
+    context 'updated 4 times' do
       subject :update_cc_data do
         manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
       end
@@ -544,9 +544,10 @@ describe UserProfileManager do
       before do
         manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
         manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+        manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
       end
 
-      it 'locks user account on 3rd attempt' do
+      it 'locks user account on 4th attempt' do
         expect { update_cc_data rescue nil }.to change { user.reload.locked? }.to(true)
       end
 
@@ -572,6 +573,7 @@ describe UserProfileManager do
 
         context do
           before do
+            manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
             manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
             manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
           end
