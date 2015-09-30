@@ -6,6 +6,7 @@ class Api::ProfileInfosController < Api::BaseController
   protect(:create_profile, :create_profile_page,
           :settings, :details, :update_bank_account_data,
           :enable_notifications_debug, :disable_notifications_debug,
+          :enable_message_notifications, :disable_message_notifications,
           :enable_rss, :disable_rss,
           :enable_downloads, :disable_downloads,
           :enable_itunes, :disable_itunes,
@@ -39,12 +40,22 @@ class Api::ProfileInfosController < Api::BaseController
 
   def enable_notifications_debug
     manager.enable_notifications_debug
-    json_success notifications_debug_enabled: @user.notifications_debug_enabled
+    json_success notifications_debug_enabled: @user.notifications_debug_enabled?
   end
 
   def disable_notifications_debug
     manager.disable_notifications_debug
-    json_success notifications_debug_enabled: @user.notifications_debug_enabled
+    json_success notifications_debug_enabled: @user.notifications_debug_enabled?
+  end
+
+  def enable_message_notifications
+    manager.enable_message_notifications
+    json_success message_notifications_enabled: @user.message_notifications_enabled?
+  end
+
+  def disable_message_notifications
+    manager.disable_message_notifications
+    json_success message_notifications_enabled: @user.message_notifications_enabled?
   end
 
   def enable_rss

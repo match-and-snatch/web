@@ -120,6 +120,8 @@ BuddyPlatform::Application.routes.draw do
         put :update_bank_account_data
         put :enable_notifications_debug
         put :disable_notifications_debug
+        put :enable_message_notifications
+        put :disable_message_notifications
         put :enable_rss
         put :disable_rss
         put :enable_downloads

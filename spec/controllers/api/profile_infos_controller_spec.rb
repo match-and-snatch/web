@@ -204,4 +204,32 @@ describe Api::ProfileInfosController, type: :controller do
       it { should be_success }
     end
   end
+
+  describe 'PUT #enable_message_notifications' do
+    subject { put 'enable_message_notifications' }
+
+    context 'not authorized' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized' do
+      before { sign_in_with_token(user.api_token) }
+
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #disable_message_notifications' do
+    subject { put 'disable_message_notifications' }
+
+    context 'not authorized' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized' do
+      before { sign_in_with_token(user.api_token) }
+
+      it { should be_success }
+    end
+  end
 end
