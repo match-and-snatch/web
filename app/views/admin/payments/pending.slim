@@ -27,9 +27,9 @@
           td
             = link_to_user subscription.user
           td
-            = subscription.charged_at.to_s(:long)
+            = subscription.charged_at.try(:to_s, :long)
           td
-            = subscription.billing_date.to_s(:long)
+            = subscription.billing_date.try(:to_s, :long)
 
   - if @failed_payments.any?
     h2
@@ -56,8 +56,8 @@
             td
               = link_to_user subscription.user
             td
-              = subscription.rejected_at.to_date.to_s(:long)
+              = subscription.rejected_at.try(:to_date).try(:to_s, :long)
             td
-              = subscription.charged_at.to_date.to_s(:long)
+              = subscription.charged_at.try(:to_date).try(:to_s, :long)
             td
-              = subscription.billing_date.to_s(:long)
+              = subscription.billing_date.try(:to_date).try(:to_s, :long)

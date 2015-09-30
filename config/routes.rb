@@ -318,6 +318,8 @@ BuddyPlatform::Application.routes.draw do
   resources :profile_types, only: [:index, :create, :destroy]
 
   namespace :admin do
+    resource :dashboard, only: [:show]
+
     resources :top_profiles, except: [:show, :new] do
       collection do
         get :search
@@ -401,7 +403,7 @@ BuddyPlatform::Application.routes.draw do
       end
     end
 
-    resources :users, only: :index do
+    resources :users, only: [] do
       collection do
         get :search
       end
@@ -448,7 +450,6 @@ BuddyPlatform::Application.routes.draw do
 
   resource :feed, only: :show
 
-  get '/application_settings' => 'admin/dashboard#show', as: :application_settings
   get '/logout' => 'sessions#logout', as: :logout
   get '/login' => 'sessions#new', as: :login
   get '/create_profile' => 'owner/first_steps#show', as: :create_profile

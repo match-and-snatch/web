@@ -31,6 +31,7 @@ class (window.bud or= {}).Core
 
     # BROWSER EVENTS
     $(window).on 'hashchange', -> bud.pub('window.hashchange')
+    $(window).on 'popstate', -> bud.pub('window.locationchange')
     $(document).on 'touchstart', (e) ->
       bud.pub('document.touchstart', [$(e.currentTarget)])
 

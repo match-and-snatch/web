@@ -1,0 +1,111 @@
+h2
+  strong Quick Search Users
+
+form.Form action=search_admin_users_path(format: 'json') method='get' data-target='users'
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search by email, first name, or last name..." style='margin-bottom: 15px;'
+
+.search_users_results data-identifier='users'
+
+hr
+
+h2
+  strong Daily Snapshot
+
+.row
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Gross Sales
+      strong= cents_to_dollars @overview.daily_gross_sales
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Subscribers
+      strong= @overview.daily_subscribers_count
+      = @overview.daily_total_subscribers_count
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Unsubscribers
+      strong= @overview.daily_unsubscribers_count
+      = @overview.daily_total_unsubscribers_count
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Failed Payments
+      strong= @overview.daily_failed_payments_count
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total ToS Fees
+      strong= cents_to_dollars @overview.daily_tos_fees
+
+  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    p
+      'Total Stripe Fees
+      strong= cents_to_dollars @overview.daily_stripe_fees
+
+.clearfix
+
+hr
+
+h2
+  strong Company Overview
+
+.row style="padding-top: 15px"
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive width=70 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-subscribers-all-time.png')
+    p
+      'Total All-Time Subscribers
+      strong= @overview.total_subscribers_count
+
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive width=70 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-subscribers.png')
+    p
+      'Total Active Subscribers
+      strong= @overview.current_subscribers_count
+      = @overview.total_subscribers_count
+
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive width=70 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-unsubscribers.png')
+    p
+      'Total Unsubscribers
+      strong= @overview.current_unsubscribers_count
+      = @overview.total_unsubscribers_count
+
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive width=70 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-failed.png')
+    p
+      'Total Failed Payments
+      strong= @overview.current_failed_payments_count
+      = @overview.total_failed_payments_count
+
+.row style="padding-top: 15px"
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive width=70 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-sales.png')
+    p
+      'Total Gross Sales
+      strong= cents_to_dollars @overview.total_gross_sales
+
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive width=70 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-sales.png')
+    p
+      'Total Subscription Sales
+      strong= cents_to_dollars @overview.total_subscription_sales
+
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive width=70 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
+    p
+      'Total ConnectPal Fees
+      strong= cents_to_dollars @overview.total_connectpal_fees
+
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive width=70 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
+    p
+      'Total ToS Fees
+      strong= cents_to_dollars @overview.total_tos_fees
+
+  .col-md-3.col-sm-3.col-xs-3.dashboard-overview
+    img.img-responsive width=70 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-stripe.png')
+    p
+      'Total Stripe Fees
+      strong= cents_to_dollars @overview.total_stripe_fees

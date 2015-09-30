@@ -1,7 +1,9 @@
 # All requests go through bud.Ajax
 class bud.Ajax
-  @get:  (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).get()
-  @post: (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).post()
+  @get:  (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).getJson()
+  @post: (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).postJson()
+  @getJson:  (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).getJson()
+  @postJson: (path, params, callbacks = {}) -> (new bud.Ajax(path, params, callbacks)).postJson()
 
   # Usage: bud.Ajax.getScript('//code.com/script.js').done(callback)
   @getScript: (url) ->
@@ -21,9 +23,12 @@ class bud.Ajax
 
   get:  -> @perform_request('GET')
   post: -> @perform_request('POST')
+  getJson:  -> @perform_request('GET', 'json')
+  postJson: -> @perform_request('POST', 'json')
 
-  perform_request: (type) ->
+  perform_request: (type, data_type) ->
     @options = {}
+    @options['dataType']   = data_type if data_type
     @options['beforeSend'] = @before
     @options['type']       = type
     @options['data']       = @params
