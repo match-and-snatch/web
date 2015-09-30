@@ -40,7 +40,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def paid?
-    payments.any? && payments.maximum(:created_at).next_month.to_date > Time.zone.today # billing_date > Time.zone.today
+    charged_at && charged_at > (Time.zone.now.end_of_day - 30.days)
   end
 
   # @return [User]
