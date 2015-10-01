@@ -26,7 +26,7 @@ class bud.Ajax
   getJson:  -> @perform_request('GET', 'json')
   postJson: -> @perform_request('POST', 'json')
 
-  perform_request: (type, data_type) ->
+  perform_request: (type, data_type = 'json') ->
     @options = {}
     @options['dataType']   = data_type if data_type
     @options['beforeSend'] = @before

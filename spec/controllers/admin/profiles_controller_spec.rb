@@ -18,6 +18,5 @@ describe Admin::ProfilesController, type: :controller do
     let(:user) { UserProfileManager.new(create_user(email: 'another@gmail.com')).make_profile_public }
     subject { put 'make_private', id: user.id }
     its(:status) { should == 200}
-    its(:body) { should match_regex /replace/ }
   end
 end
