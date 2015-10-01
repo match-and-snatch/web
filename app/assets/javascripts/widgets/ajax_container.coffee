@@ -46,7 +46,7 @@ class bud.widgets.AjaxContainer extends bud.Widget
     link = $(e.currentTarget)
     href = link.attr('href')
 
-    return true if link.hasClass('js-widget') || _.isEmpty(href) || /^#/.test(href)
+    return true if link.hasClass('js-widget') || _.isEmpty(href) || /^#/.test(href) || link.attr('target') == '_blank'
 
     if @use_html5_history
       bud.goto(href)
