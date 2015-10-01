@@ -107,6 +107,7 @@ class Api::UsersController < Api::BaseController
       vacation_message: user.vacation_message,
       contributions_enabled: user.contributions_enabled,
       has_mature_content: user.has_mature_content?,
+      cost_approved: user.cost_approved?,
       welcome_media: {
         welcome_audio: welcome_media_data(user.welcome_audio),
         welcome_video: welcome_media_data(user.welcome_video)
@@ -114,7 +115,6 @@ class Api::UsersController < Api::BaseController
       custom_welcome_message: user.profile_page_data.welcome_box,
       special_offer_message: user.profile_page_data.special_offer,
       locked: user.locked?,
-      cost_approved: true,
       dialogue_id: user.dialogues.by_user(current_user.object).first.try(:id)
     }
     api_response.basic_profile_data(user).merge(extended_params)

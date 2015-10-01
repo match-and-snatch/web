@@ -291,6 +291,14 @@ describe SubscriptionManager do
       end
     end
 
+    context 'target with not approved cost' do
+      let(:another_user) { create_profile(email: 'another_one@user.com', cost: 35) }
+
+      it 'does not allow to subscribe' do
+        expect { manager.subscribe_to(another_user) }.to raise_error(ManagerError, /Can't subscribe to user with not approved cost/)
+      end
+    end
+
     context 'any unsubscribable thing' do
       specify do
         expect { manager.subscribe_to(Subscription) }.to raise_error(ArgumentError, /Cannot subscribe/)

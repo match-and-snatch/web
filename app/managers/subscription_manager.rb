@@ -174,6 +174,7 @@ class SubscriptionManager < BaseManager
 
     fail_locked! if @subscriber.locked?
     fail_with! "Can't subscribe to self" if @subscriber == target
+    fail_with! "Can't subscribe to user with not approved cost" unless target.cost_approved?
 
     # Never restore removed fake subscriptions
     removed_subscription = @subscriber.subscriptions.by_target(target).where(removed: true, fake: false).first

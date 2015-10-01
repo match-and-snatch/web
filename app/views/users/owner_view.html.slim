@@ -33,10 +33,13 @@
           a.cost_owner.PopupTrigger data-target='cost-editor'
             span.fa.fa-gear
             .amount
-              span data-identifier='subscription-cost'
-                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-              span.month
-                |/month
+              - if @profile.cost_approved?
+                span data-identifier='subscription-cost'
+                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+                span.month
+                  |/month
+              - else
+                span.pending Pending Approval
             .btn.pink.fa.fa-usd.fa-2x
             .clearfix
 

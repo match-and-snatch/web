@@ -28,6 +28,7 @@ en:
   messages:
     activated: Congratulations, your account has been activated. You are now ready to use our service.
     congrats: "Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!"
+    congrats_and_cost_change_request_submitted: "For security purposes, ConnectPal must approve all profiles with subscription prices over $30. A representative from ConnectPal will contact you within 72 hours. You can email us at <a href=\"mailto:help@connectpal.com\">help@connectpal.com</a> to discuss more details. Thank you."
     password_sent: We sent you an email to <strong>%{email}</strong> with further steps to restore your password.
     invalid_email_token: Sorry, this link is no longer valid. Please request another one.
     password_set: Success. Now you can login using your new password.

@@ -143,6 +143,10 @@ class User < ActiveRecord::Base
     save!
   end
 
+  def cost_approved?
+    cost_change_requests.new_large_cost.pending.empty?
+  end
+
   def comment_picture_url
     small_account_picture_url || small_profile_picture_url
   end

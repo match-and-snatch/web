@@ -38,6 +38,9 @@ html
         - elsif current_user.billing_failed?
           .notification_bar
             .cont= t('messages.billing_failed').html_safe
+        - elsif !current_user.cost_approved?
+          .notification_bar
+            .cont= t('messages.congrats_and_cost_change_request_submitted').html_safe
 
       - if flash.notice.present?
         .notification_bar data-identifier='notification-flash-bar'

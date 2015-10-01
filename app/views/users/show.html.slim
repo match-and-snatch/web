@@ -49,13 +49,19 @@
           - else
             a.cost_visitor
               .amount
-                span
-                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-                span.month
-                  |/month
+                - if @profile.cost_approved?
+                  span
+                    = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+                  span.month
+                    |/month
+                - else
+                  span.pending Pending Approval
               .btn.pink.fa.fa-usd.fa-2x
               .clearfix
-            a.subscribe.PopupTrigger data-target='subscription' Subscribe
+            - if @profile.cost_approved?
+              a.subscribe.PopupTrigger data-target='subscription' Subscribe
+            - else
+              a.subscribe.PopupTrigger data-target='pending-cost-popup' Pending Approval
           / a.subscribe.AjaxFormLink href=user_subscriptions_path(@profile.object) data-user_id=@profile.object.slug Subscribe
 
     /RSS
@@ -185,3 +191,6 @@
       = mail_to '', {subject: "#{@profile.name} on ConnectPal", body: "#{@profile.full_name} shared a profile with you on Connectpal.com\nCheck it out here #{profile_url(@profile.object)}\n\nThank You."} do
         img src=image_path('//connectpal-assets.s3.amazonaws.com/images/email_32.png')
     .clearfix
+
+- unless @profile.cost_approved?
+  = render 'pending_cost_approval_popup'

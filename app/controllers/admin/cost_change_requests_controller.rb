@@ -11,7 +11,7 @@ class Admin::CostChangeRequestsController < Admin::BaseController
   end
 
   def reject
-    @cost_change_request.reject!
+    UserProfileManager.new(@cost_change_request.user).rollback_cost!(@cost_change_request, cost: params[:cost])
     json_reload
   end
 
@@ -20,7 +20,7 @@ class Admin::CostChangeRequestsController < Admin::BaseController
   end
 
   def approve
-    @cost_change_request.approve!(update_existing_costs: params[:update_existing_subscriptions])
+    UserProfileManager.new(@cost_change_request.user).approve_and_change_cost!(@cost_change_request, update_existing_subscriptions: params[:update_existing_subscriptions])
     json_reload
   end
 
