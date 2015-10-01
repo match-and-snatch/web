@@ -9,6 +9,8 @@ class bud.widgets.AjaxContainer extends bud.Widget
   initialize: ->
     @url = @$container.data('url')
     @use_anchor = @$container.data('use_anchor')
+    ajaxify_flag = @$container.data('ajaxify_links')
+    @ajaxify_links = _.isUndefined(ajaxify_flag) || ajaxify_flag
     @use_html5_history = @$container.data('use_html5_history')
     @redirects = @$container.data('redirects')
     @init_links()
@@ -56,7 +58,6 @@ class bud.widgets.AjaxContainer extends bud.Widget
     return false
 
   render_path: (request_path) ->
-    console.log('reder path')
     @$container.addClass('pending')
     callbacks = {success: @render_page, replace: @replace_page, append: @append_page, prepend: @prepend_page, after: @on_response_received}
     bud.Ajax.getJson(request_path, @request_params(), callbacks)
@@ -80,4 +81,4 @@ class bud.widgets.AjaxContainer extends bud.Widget
   request_params: -> {}
 
   init_links: ->
-    @$container.find('a').click @link_clicked
+    @$container.find('a').click(@link_clicked) if @ajaxify_links
