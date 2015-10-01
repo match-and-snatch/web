@@ -9,22 +9,32 @@ class bud.widgets.AjaxContainer extends bud.Widget
   initialize: ->
     @url = @$container.data('url')
     @use_anchor = @$container.data('use_anchor')
+    ajaxify_flag = @$container.data('ajaxify_links')
+    @ajaxify_links = _.isUndefined(ajaxify_flag) || ajaxify_flag
+    @use_html5_history = @$container.data('use_html5_history')
     @redirects = @$container.data('redirects')
-    @$container.find('a').click @link_clicked
+    @init_links()
 
     if @use_anchor
       bud.sub('window.hashchange', @location_changed)
       @location_changed()
+    else if @use_html5_history
+      bud.sub('window.locationchange', @location_changed)
     else
       @render()
 
   destroy: ->
     bud.unsub('window.hashchange', @location_changed)
+    bud.unsub('window.locationchange', @location_changed)
 
   location_changed: =>
-    hash = window.location.hash.substr(1)
-    if hash.match(/^\//)
-      @url = hash
+    if @use_anchor
+      hash = window.location.hash.substr(1)
+      if hash.match(/^\//)
+        @url = hash
+        @render()
+    else if @use_html5_history
+      @url = window.location.href
       @render()
 
   render: ->
@@ -36,13 +46,21 @@ class bud.widgets.AjaxContainer extends bud.Widget
 
   link_clicked: (e) =>
     link = $(e.currentTarget)
-    @render_path(link.attr('href'))
+    href = link.attr('href')
+
+    return true if link.hasClass('js-widget') || _.isEmpty(href) || /^#/.test(href) || link.attr('target') == '_blank'
+
+    if @use_html5_history
+      bud.goto(href)
+    else
+      @render_path(href)
+
     return false
 
   render_path: (request_path) ->
     @$container.addClass('pending')
     callbacks = {success: @render_page, replace: @replace_page, append: @append_page, prepend: @prepend_page, after: @on_response_received}
-    bud.Ajax.get(request_path, @request_params(), callbacks)
+    bud.Ajax.getJson(request_path, @request_params(), callbacks)
 
   append_page: (response) =>
     bud.append_html(@$container, response['html'])
@@ -58,5 +76,9 @@ class bud.widgets.AjaxContainer extends bud.Widget
 
   on_response_received: (response) =>
     @$container.removeClass('pending')
+    @init_links()
 
   request_params: -> {}
+
+  init_links: ->
+    @$container.find('a').click(@link_clicked) if @ajaxify_links

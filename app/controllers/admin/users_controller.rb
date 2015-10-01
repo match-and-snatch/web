@@ -1,11 +1,6 @@
 class Admin::UsersController < Admin::BaseController
   before_action :load_user!, only: %i(make_admin drop_admin login_as)
 
-  def index
-    @overview = OverviewPresenter.new
-    json_render
-  end
-
   def search
     @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_admin_fields
     json_replace

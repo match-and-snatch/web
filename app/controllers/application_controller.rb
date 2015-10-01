@@ -140,15 +140,17 @@ class ApplicationController < ActionController::Base
   # @param json [Hash]
   # @option json [String, nil] :template
   def json_render_html(status, json = {})
-    unless json[:html]
-      if json[:partial]
-        json[:html] = render_to_string(partial: json[:partial], locals: json.delete(:locals) || {}, formats: [:html])
-      else
-        template = json.delete(:template) || action_name
-        json[:html] = render_to_string(action: template, layout: false, formats: [:html])
-      end
-    end
+    json[:html] ||= json_body(json)
     json_response status, json
+  end
+
+  def json_body(json)
+    if json[:partial]
+      render_to_string(partial: json[:partial], locals: json.delete(:locals) || {}, formats: [:html])
+    else
+      template = json.delete(:template) || action_name
+      render_to_string(action: template, layout: false, formats: [:html])
+    end
   end
 
   private

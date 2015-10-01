@@ -3,11 +3,6 @@ require 'spec_helper'
 describe Admin::UsersController, type: :controller do
   before { sign_in create_admin }
 
-  describe 'GET #index' do
-    subject { get 'index', q: 'test' }
-    it { should be_success }
-  end
-
   describe 'PUT #make_admin' do
     let(:user) { create_user(email: 'another@gmail.com') }
     subject { put 'make_admin', id: user.id }
@@ -19,7 +14,6 @@ describe Admin::UsersController, type: :controller do
       let(:admin) { create_admin(email: 'another@gmail.com') }
       subject { put 'drop_admin', id: admin.id }
 
-      its(:body) { should match_regex 'replace'}
       its(:status) { should == 200}
     end
 

@@ -1,29 +1,30 @@
-.AjaxContainer
-  h2 Contribution requests
-  br
-  - if @contribution_requests.any?
-    table.table
-      th Profile Page
-      th Email
-      th Daily Limit
-      th Target User
-      th Cost
-      th Recurring
-      th Date
-      th
-      th
-      - @contribution_requests.each do |contribution_request|
-        tr
-          td= link_to_user(contribution_request.user)
-          td= contribution_request.user.email
-          td= cents_to_dollars(contribution_request.user.daily_contributions_limit)
-          td= link_to_user(contribution_request.target_user)
-          td= cents_to_dollars(contribution_request.amount)
-          td= contribution_request.recurring? ? 'Y' : ''
-          td= contribution_request.created_at.to_s(:short)
-          td
-            .btn.green.pull-right.AjaxLink href=confirm_approve_admin_contribution_request_path(contribution_request) APPROVE
-          td
-            .btn.pink.pull-right.AjaxLink href=confirm_reject_admin_contribution_request_path(contribution_request) REJECT
+h2 Contribution requests
+br
+- if @contribution_requests.any?
+  table.table
+    th Profile Page
+    th Email
+    th Daily Limit
+    th Target User
+    th Cost
+    th Recurring
+    th Date
+    th
+    th
+    - @contribution_requests.each do |contribution_request|
+      tr
+        td= link_to_user(contribution_request.user)
+        td= contribution_request.user.email
+        td= cents_to_dollars(contribution_request.user.daily_contributions_limit)
+        td= link_to_user(contribution_request.target_user)
+        td= cents_to_dollars(contribution_request.amount)
+        td= contribution_request.recurring? ? 'Y' : ''
+        td= contribution_request.created_at.to_s(:short)
+        td
+          .btn.green.pull-right.AjaxLink href=confirm_approve_admin_contribution_request_path(contribution_request) APPROVE
+        td
+          .btn.pink.pull-right.AjaxLink href=confirm_reject_admin_contribution_request_path(contribution_request) REJECT
 
   .TopJumper= paginate @contribution_requests
+- else
+  strong No requests so far

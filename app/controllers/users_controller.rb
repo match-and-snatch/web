@@ -75,7 +75,10 @@ class UsersController < ApplicationController
       UserManager.new(current_user.object).save_last_visited_profile(user)
     end
 
-    render action: template
+    respond_to do |wants|
+      wants.html { render action: template }
+      wants.json { json_render template: template }
+    end
   end
 
   def update_name

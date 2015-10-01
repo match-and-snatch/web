@@ -60,3 +60,10 @@ window.bud.is_mobile =
   any: ->
     @Android() or @BlackBerry() or @iOS() or @Windows()
 
+window.bud.goto = (url) ->
+  window.history.pushState(null, null, url)
+  window.bud.pub('window.locationchange', url)
+
+window.bud.replace_url = (url) ->
+  window.history.replaceState(null, null, url)
+  window.bud.pub('window.locationchange', url)
