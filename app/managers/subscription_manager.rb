@@ -187,7 +187,7 @@ class SubscriptionManager < BaseManager
         fail_with! 'Already subscribed' if @subscriber.subscriptions.by_target(target).not_removed.any?
         subscription = @subscriber.subscriptions.by_target(target).first
 
-        recent_subscriptions_count = @subscriber.subscriptions.where('subscriptions.created_at > ?', 48.hours.ago).count
+        recent_subscriptions_count = @subscriber.recently_subscribed? ? @subscriber.recent_subscriptions_count : 0
       end
 
       subscription ||= Subscription.new
@@ -204,7 +204,11 @@ class SubscriptionManager < BaseManager
       block.try(:call)
 
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
-      UserManager.new(@subscriber).lock if !fake && recent_subscriptions_count >= 4
+      unless fake
+        user_manager = UserManager.new(@subscriber)
+        user_manager.lock if recent_subscriptions_count >= 4
+        user_manager.log_recent_subscriptions_count(recent_subscriptions_count + 1)
+      end
       @subscription
     end
 

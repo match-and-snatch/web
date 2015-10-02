@@ -266,6 +266,38 @@ describe User do
     end
   end
 
+  describe '#recently_subscribed?' do
+    let(:user) { create_user }
+
+    context 'without subscriptions' do
+      it { expect(user.recently_subscribed?).to eq(false) }
+    end
+
+    context 'with subscriptions' do
+      let(:target_user) { create_profile email: 'target@user.com' }
+
+      before { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
+
+      it { expect(user.recently_subscribed?).to eq(true) }
+
+      context '24 hours passed' do
+        it do
+          Timecop.freeze(1.day.from_now) do
+            expect(user.recently_subscribed?).to eq(true)
+          end
+        end
+      end
+
+      context '48 hours passed' do
+        it do
+          Timecop.freeze(2.days.from_now) do
+            expect(user.recently_subscribed?).to eq(false)
+          end
+        end
+      end
+    end
+  end
+
   describe '.search_by_text_fields' do
     let!(:matching_by_full_name) { create_user first_name: 'sergei', last_name: 'zinin' }
     let!(:matching_by_profile_name) do

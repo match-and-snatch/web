@@ -228,6 +228,10 @@ class User < ActiveRecord::Base
     (!!subscription) && (!subscription.rejected?) && !(subscription.removed? && subscription.expired?)
   end
 
+  def recently_subscribed?
+    !!recent_subscription_at && recent_subscription_at > 48.hours.ago
+  end
+
   def subscribers
     User.joins(:subscriptions).where(subscriptions: {target_user_id: id, removed: false})
   end
