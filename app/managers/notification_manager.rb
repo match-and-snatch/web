@@ -18,7 +18,7 @@ class NotificationManager < BaseManager
 
       post.user.source_subscriptions.where(notifications_enabled: true).not_removed.preload(:user).find_each do |s|
         begin
-          PostsMailer.created(post, s.user).deliver_now if s.user && post
+          PostsMailer.created(post, s.user).deliver_now if s.user && post && !s.user.locked?
         rescue
           puts "Something is wrong with subscription ##{s.id}"
         end
@@ -27,7 +27,7 @@ class NotificationManager < BaseManager
 
     # @param comment [Comment]
     def notify_comment_created(comment)
-      comment.mentioned_users.find_each do |user|
+      comment.mentioned_users.where(locked: false).find_each do |user|
         PostsMailer.mentioned(user, Flows::Payload.new(subject: comment)).deliver_now
       end
     end
