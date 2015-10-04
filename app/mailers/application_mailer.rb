@@ -55,14 +55,14 @@ class ApplicationMailer < ActionMailer::Base
         @event = event
 
         deliver = -> (recipient) {
-          @mailer.public_send(@email_name, recipient, payload).deliver_now
+          @mailer.public_send(@email_name, recipient, payload).deliver_now unless recipient.locked?
         }
 
         recipients = instance_eval(&@recipients_block)
 
         case recipients
         when ActiveRecord::Relation
-          recipients.find_each(&deliver)
+          recipients.where(locked: false).find_each(&deliver)
         when Array
           recipients.each(&deliver)
         end
