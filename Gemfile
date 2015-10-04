@@ -40,6 +40,7 @@ gem 'newrelic_rpm'
 gem 'puma'
 
 # Application Specific
+gem 'slim', github: 'einzige/slim'
 gem 'slim-rails'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'bootstrap-sass'
