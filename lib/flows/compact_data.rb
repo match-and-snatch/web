@@ -7,7 +7,7 @@ module Flows
       when ActiveRecord::Base
         new(record.id, record.class.name)
       when Hash
-        CompacHash.new(record)
+        CompactHash.new(record)
       else
         record
       end
