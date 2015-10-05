@@ -16,7 +16,7 @@ RSpec::Matchers.define :create_record do |klass|
   chain(:once) do
     fail ArgumentError, '`exactly` and `once` chains cannot be used together' if @exact_count
     @once = true
-    @expectation = -> (count) { count.abs == 1 }
+    @expectation = -> (count) { count == 1 }
   end
 
   chain(:exactly) do |count|
@@ -26,7 +26,7 @@ RSpec::Matchers.define :create_record do |klass|
     fail ArgumentError, '`exactly` and `once` chains cannot be used together' if @once
 
     @exact_count = count
-    @expectation = -> (cnt) { cnt.abs == @exact_count }
+    @expectation = -> (cnt) { cnt == @exact_count }
   end
 
   description do
