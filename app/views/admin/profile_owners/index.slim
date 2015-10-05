@@ -8,7 +8,7 @@ h2 Profile Owners
       strong
         a href=admin_profile_owners_path(sort_direction_params(:profile_name)) Profile Name
     th
-      strong email
+      strong Email
     th
       strong Payout Type
     th
@@ -34,7 +34,7 @@ h2 Profile Owners
         td
           img src=user.small_profile_picture_url width=50 height=50
         td
-          a href=admin_profile_owner_path(user.id) = user.name
+          a.truncate href=admin_profile_owner_path(user.id) = user.name
         td= user.email
         td= user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : 'Wire'
         td

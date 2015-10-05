@@ -2,12 +2,10 @@ h1
   strong style="color: #3b9fd1;" Profile Name:
   '
   = @user.full_name
-
 hr
-
 .row
   .col-md-2
-    a href=profile_path(@user.slug)
+    a href=profile_path(@user.slug) target='_blank'
       img src=@user.profile_picture_url height='150px' width='150px' style="border: 1px solid #d7d7d7;"
   .col-md-4
     ul.profile_detail_list
@@ -65,7 +63,6 @@ hr
         strong Total Paid Out:
         span style="color: #ea2e49;"= cents_to_dollars @user.total_paid_out
     .clearfix
-
 .row
   .col-md-12
     hr
@@ -80,7 +77,6 @@ hr
 
 .AjaxContainer data-identifier='vacations' data-url=admin_profile_owner_vacations_path(@user.id)
 .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
-
 .row
   .col-md-8
     hr
@@ -111,19 +107,16 @@ hr
         strong Routing Number:
         span= @user.routing_number
     .clearfix
-
 / Subscriber Information
-
 hr
 h1
   strong style="color: #3b9fd1;" Subscriber Name:
   '
   = @user.full_name
 hr
-
 .row
   .col-md-2
-    a href=profile_path(@user.slug)
+    a href=profile_path(@user.slug) target='_blank'
       img src=@user.profile_picture_url height='150px' width='150px' style="border: 1px solid #d7d7d7;"
   .col-md-4
     ul.profile_detail_list
@@ -150,12 +143,10 @@ hr
         strong Total Refunded:
         span style="color: #ea2e49;" -
     .clearfix
-
 .row
   .col-md-12
     h2
       strong Subscription Details
-
     .table-responsive
       table.table.table-striped
         tr
@@ -169,7 +160,6 @@ hr
             strong Recurring/New
           th
             strong Cancellation Date
-
         - @user.target_subscriptions.find_each do |subscription|
           tr
             td
@@ -180,9 +170,7 @@ hr
               strong style="color: #ea2e49;"= cents_to_dollars subscription.cost
             td= subscription.created_at < 1.months.ago ? 'Recurring' : 'New'
             td= subscription.removed_at.try(:to_date).try(:to_s, :long) || 'N/A'
-
 .AjaxContainer data-identifier='partners' data-url=admin_profile_owner_partner_path(@user.id)
-
 .row
   .col-md-12
     h2
