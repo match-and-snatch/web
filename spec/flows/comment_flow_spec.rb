@@ -40,6 +40,26 @@ describe CommentFlow do
     end
   end
 
+  describe '#update' do
+    let(:base_flow) { flow.create(post: post, message: 'comment test') }
+    subject(:update) { base_flow.update(message: 'test', id: 123) }
+    let(:comment) { base_flow.comment }
+
+    it do
+      expect { update }.to change { comment.reload.message }.to('test')
+    end
+
+    it do
+      expect { update }.not_to change { comment.reload.id }
+    end
+
+    it do
+      expect { update }.to create_event(:comment_updated)
+                             .with_user(performer)
+                             .including_data(comment_id: comment.id, message: 'test')
+    end
+  end
+
   describe '#hide' do
     subject(:hide) { base_flow.hide }
 
@@ -70,6 +90,21 @@ describe CommentFlow do
     end
   end
 
+  describe '#remove' do
+    let!(:base_flow) { flow.create(post: post, message: 'comment test') }
+    subject(:remove) { base_flow.remove }
+
+    it do
+      expect { remove }.to delete_record(Comment)
+    end
+
+    it do
+      expect { remove }.to create_event(:comment_removed)
+                             .with_user(performer)
+                             .including_data(comment_id: base_flow.comment.id, message: 'comment test')
+    end
+  end
+
   describe '#toggle_like' do
     subject(:toggle_like) { base_flow.toggle_like }
 
@@ -93,21 +128,6 @@ describe CommentFlow do
       it do
         expect { toggle_like }.to change { comment.likes.count }.by(-1)
       end
-    end
-  end
-
-  describe '#remove' do
-    let!(:base_flow) { flow.create(post: post, message: 'comment test') }
-    subject(:remove) { base_flow.remove }
-
-    it do
-      expect { remove }.to delete_record(Comment)
-    end
-
-    it do
-      expect { remove }.to create_event(:comment_removed)
-                             .with_user(performer)
-                             .including_data(comment_id: base_flow.comment.id, message: 'comment test')
     end
   end
 end

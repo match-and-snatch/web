@@ -1,39 +1,41 @@
 RSpec::Matchers.define :deliver_email do |default_scope|
   match do |block|
-    matching(default_scope)
+    enable_notifications! do
+      matching(default_scope)
 
-    before = ActionMailer::Base.deliveries.clone
-    block.call
-    after = ActionMailer::Base.deliveries.clone
+      before = ActionMailer::Base.deliveries.clone
+      block.call
+      after = ActionMailer::Base.deliveries.clone
 
-    @sent_emails = after - before
+      @sent_emails = after - before
 
-    if scope.empty?
-      @sent_emails.any?
-    else
-      matched_emails = @sent_emails.find_all do |email|
-        matches = true
+      if scope.empty?
+        @sent_emails.any?
+      else
+        matched_emails = @sent_emails.find_all do |email|
+          matches = true
 
-        scope.each do |key, value|
-          email_value = email.send(key)
-          matches = email_value.is_a?(value.class) || (email_value.is_a?(String) && value.is_a?(Regexp))
-          matches || break
+          scope.each do |key, value|
+            email_value = email.send(key)
+            matches = email_value.is_a?(value.class) || (email_value.is_a?(String) && value.is_a?(Regexp))
+            matches || break
 
-          case value
-            when Array
-              matches = email_value.try(:sort) == value.sort
-            when Regexp
-              matches = value.match(email_value)
-            else
-              matches = email_value == value
+            case value
+              when Array
+                matches = email_value.try(:sort) == value.sort
+              when Regexp
+                matches = value.match(email_value)
+              else
+                matches = email_value == value
+            end
           end
+
+          matches
         end
 
-        matches
+        @matched_count = matched_emails.count
+        @matched_one = matched_emails.count == 1
       end
-
-      @matched_count = matched_emails.count
-      @matched_one = matched_emails.count == 1
     end
   end
 
