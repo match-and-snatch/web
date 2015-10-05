@@ -60,6 +60,18 @@ describe CommentFlow do
         expect { create }.to change { flow.errors }.to(post: [:cannot_be_empty])
       end
     end
+
+    context 'empty message' do
+      subject(:create) { flow.create(post: post, message: '') }
+
+      it do
+        expect { create }.not_to create_record(Comment)
+      end
+
+      it do
+        expect { create }.to change { flow.errors }.to(message: [:cannot_be_empty])
+      end
+    end
   end
 
   describe '#update' do
@@ -88,6 +100,18 @@ describe CommentFlow do
 
       it do
         expect { invalid_flow.update(message: 'test') }.to raise_error(AccessError)
+      end
+    end
+
+    context 'empty message' do
+      subject(:update) { base_flow.update(message: '') }
+
+      it do
+        expect { update }.not_to change { base_flow.comment.reload.updated_at }
+      end
+
+      it do
+        expect { update }.to change { flow.errors }.to(message: [:cannot_be_empty])
       end
     end
   end
