@@ -1,11 +1,15 @@
 module Flows
-  class CompactData < Struct.new(:record_id, :class_name)
+  class CompactData < Struct.new(:record_id, :class_name, :attributes)
 
     # @param record [ActiveRecord::Base, Hash]
     def self.pack(record)
       case record
       when ActiveRecord::Base
-        new(record.id, record.class.name)
+        if record.persisted?
+          new(record.id, record.class.name)
+        else
+          new(record.id, record.class.name, record.attributes)
+        end
       when Hash
         CompactHash.new(record)
       else
@@ -14,7 +18,18 @@ module Flows
     end
 
     def unpack
-      class_name.constantize.find_by_id(record_id)
+      model = class_name.constantize
+      result = model.find_by_id(record_id)
+
+      if attributes.present?
+        if result
+          result.attributes = attributes
+        else
+          model.new(attributes)
+        end
+      else
+        result
+      end
     end
 
     class CompactHash < Hash
