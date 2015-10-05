@@ -33,10 +33,8 @@ describe CommentFlow do
       end
     end
 
-    describe 'events' do
-      it do
-        expect { create }.to create_event(:comment_created).including_data(message: 'comment test')
-      end
+    it do
+      expect { create }.to create_event(:comment_created).including_data(message: 'comment test')
     end
   end
 
@@ -126,7 +124,7 @@ describe CommentFlow do
       before { base_flow.toggle_like }
 
       it do
-        expect { toggle_like }.to change { comment.likes.count }.by(-1)
+        expect { toggle_like }.to delete_record(comment.likes).once
       end
     end
   end
