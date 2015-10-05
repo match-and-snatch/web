@@ -95,4 +95,8 @@ describe CommentFlow do
       end
     end
   end
+
+  describe '#remove' do
+
+  end
 end

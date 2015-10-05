@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_helper'
 
 describe 'create_record' do
   it { expect { create_user }.to create_record(User) }
@@ -9,7 +9,7 @@ describe 'create_record' do
   it { expect {}.not_to create_record(User) }
   it { expect { create_user }.not_to create_record(User).exactly(2.times) }
   it { expect { create_user }.not_to create_record(User).exactly('2 times now') }
-  it { expect { create :review }.not_to create_record(User) }
+  it { expect { Post.create! }.not_to create_record(User) }
 
   it do
     expect do

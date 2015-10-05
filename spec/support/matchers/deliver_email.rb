@@ -1,41 +1,39 @@
 RSpec::Matchers.define :deliver_email do |default_scope|
   match do |block|
-    enable_notifications! do
-      matching(default_scope)
+    matching(default_scope)
 
-      before = ActionMailer::Base.deliveries.clone
-      block.call
-      after = ActionMailer::Base.deliveries.clone
+    before = ActionMailer::Base.deliveries.clone
+    block.call
+    after = ActionMailer::Base.deliveries.clone
 
-      @sent_emails = after - before
+    @sent_emails = after - before
 
-      if scope.empty?
-        @sent_emails.any?
-      else
-        matched_emails = @sent_emails.find_all do |email|
-          matches = true
+    if scope.empty?
+      @sent_emails.any?
+    else
+      matched_emails = @sent_emails.find_all do |email|
+        matches = true
 
-          scope.each do |key, value|
-            email_value = email.send(key)
-            matches = email_value.kind_of?(value.class) ||
-              (email_value.is_a?(String) && value.is_a?(Regexp)) or break
+        scope.each do |key, value|
+          email_value = email.send(key)
+          matches = email_value.is_a?(value.class) || (email_value.is_a?(String) && value.is_a?(Regexp))
+          matches || break
 
-            case value
+          case value
             when Array
-              matches = email_value.try(:sort) == value.sort or break
+              matches = email_value.try(:sort) == value.sort
             when Regexp
-              matches = !!value.match(email_value) or break
+              matches = value.match(email_value)
             else
-              matches = email_value == value or break
-            end
+              matches = email_value == value
           end
-
-          matches
         end
 
-        @matched_multiple = matched_emails.count > 1
-        @matched_one = matched_emails.count == 1
+        matches
       end
+
+      @matched_count = matched_emails.count
+      @matched_one = matched_emails.count == 1
     end
   end
 
@@ -43,13 +41,15 @@ RSpec::Matchers.define :deliver_email do |default_scope|
     scope.merge!(attrs)
 
     case scope[:to]
-    when ActiveRecord::Base
-      scope[:to] = [scope[:to].email]
-    when String
-      scope[:to] = [scope[:to]]
-    when Array
-    else
-      raise ArgumentError, "Expected Array of recipients, got #{scope[:to].class}"
+      when ActiveRecord::Base
+        scope[:to] = [scope[:to].email]
+      when String
+        scope[:to] = [scope[:to]]
+      when Array
+      when nil
+        fail ArgumentError, 'Always test a list of recipients (missing `to:` matcher key)'
+      else
+        fail ArgumentError, "Expected Array of recipients, got #{scope[:to].class}"
     end
   end
 
@@ -60,8 +60,8 @@ RSpec::Matchers.define :deliver_email do |default_scope|
   end
 
   failure_message do
-    if @matched_multiple
-      "Expected to send email once#{" to #{scope[:to]}" if scope[:to]}, but sent #@matched_multiple times"
+    if @matched_count > 1
+      "Expected to send email once#{" to #{scope[:to]}" if scope[:to]}, but sent #{@matched_count} times"
     else
       "Expected to send email#{" to #{scope[:to]}" if scope[:to]}, but nothing was sent"
     end
