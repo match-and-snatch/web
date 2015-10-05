@@ -8,7 +8,7 @@ class Api::SubscriptionsController < Api::BaseController
 
   def index
     @subscriptions = current_user.object.subscriptions.joins(:target_user).accessible.order('subscriptions.created_at DESC')
-    json_success api_response.subscriptions_data(@subscriptions)
+    json_success subscriptions: api_response.subscriptions_data(@subscriptions)
   end
 
   def create
@@ -56,12 +56,12 @@ class Api::SubscriptionsController < Api::BaseController
 
   def enable_notifications
     SubscriptionManager.new(subscription: @subscription).enable_notifications
-    json_success
+    json_success subscription: api_response.subscription_data(@subscription)
   end
 
   def disable_notifications
     SubscriptionManager.new(subscription: @subscription).disable_notifications
-    json_success
+    json_success subscription: api_response.subscription_data(@subscription)
   end
 
   def destroy
