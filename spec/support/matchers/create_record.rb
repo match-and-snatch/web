@@ -14,8 +14,19 @@ RSpec::Matchers.define :create_record do |klass|
   end
 
   chain(:once) do
+    fail ArgumentError, '`exactly` and `once` chains cannot be used together' if @exact_count
     @once = true
     @expectation = -> (count) { count.abs == 1 }
+  end
+
+  chain(:exactly) do |count|
+    count = count.is_a?(Enumerator) ? count.count : count.to_i
+    return once if count == 1
+
+    fail ArgumentError, '`exactly` and `once` chains cannot be used together' if @once
+
+    @exact_count = count
+    @expectation = -> (cnt) { cnt.abs == @exact_count }
   end
 
   description do
@@ -26,7 +37,9 @@ RSpec::Matchers.define :create_record do |klass|
 
   failure_message do
     if @once
-      "Expected to create a single #{klass} record, but created #@created_records_count"
+      "Expected to create a single #{klass} record, but created #{@created_records_count}"
+    elsif @exact_count
+      "Expected to create #{exact_count} #{klass} records, but created #{@created_records_count}"
     else
       "Expected to create a #{klass} record, but nothing was created"
     end
@@ -41,7 +54,7 @@ RSpec::Matchers.define :create_record do |klass|
   end
 
   def query(klass)
-    klass.unscoped.where(scope)
+    klass.where(scope)
   end
 
   def supports_block_expectations?
