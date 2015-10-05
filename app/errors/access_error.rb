@@ -1,0 +1,2 @@
+class AccessError < ManagerError
+end

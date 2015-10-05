@@ -16,6 +16,23 @@ module Flows
       end
     end
 
+    # @param name [Symbol]
+    # @param block
+    def self.add_before_callback(names = [], &block)
+      raise ArgumentError, 'No block given' unless block
+      if names.blank?
+        (callbacks[nil] ||= []) << block
+      else
+        names.each do |name|
+          (callbacks[name] ||= []) << block
+        end
+      end
+    end
+
+    def self.callbacks
+      @callbacks ||= {}
+    end
+
     # @return [Hash] Flows used by this flow
     def self.flows; @flows ||= {} end
 
@@ -59,7 +76,9 @@ module Flows
             new_subject = subject || self.class.klass.new
             new_subject.attributes = action.attributes
 
-            (save set_subject new_subject).tap do
+            (set_subject new_subject).tap do
+              action.run_before_callbacks(name)
+              save
               action.run_success_callbacks(self)
               @result = new_subject
             end
@@ -82,6 +101,7 @@ module Flows
       define_method name do |attributes|
         transaction do
           action = Flows::Action.new(self, attributes, &block)
+          action.run_before_callbacks(name)
 
           if action.valid?
             subject.attributes = action.attributes
@@ -116,6 +136,8 @@ module Flows
       define_method(base_name, &block)
 
       define_method name do |*args|
+        run_before_callbacks(name)
+
         if requires_subject
           raise ArgumentError, 'No subject set' unless subject
         end
@@ -151,6 +173,15 @@ module Flows
       @errors = {}
       @states = []
       @flows = Flows::Proxy.new(self)
+    end
+
+    # @param action_name [Symbol]
+    def run_before_callbacks(action_name)
+      callbacks = [self.class.callbacks[action_name.to_sym], self.class.callbacks[nil]].flatten.compact
+
+      callbacks.each do |callback|
+        instance_eval(&callback)
+      end
     end
 
     def klass

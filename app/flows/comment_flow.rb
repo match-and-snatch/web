@@ -1,8 +1,9 @@
-class CommentFlow < Flows::Base
+class CommentFlow < BaseFlow
+  protect :create, :update, :hide, :show, :remove, :toggle_like
 
   factory do
     attr(:parent)
-    attr(:post).required.default_to -> { parent.post }
+    attr(:post).required.default_to -> { parent.try(:post) }
     attr(:message).required
     attr(:mentions)
     attr(:user).map_to(performer)

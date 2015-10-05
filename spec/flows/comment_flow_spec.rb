@@ -5,7 +5,7 @@ describe CommentFlow do
 
   let(:performer) { create_user }
   let(:comment) {}
-  let(:post) { PostManager.new(user: create_user(email: 'poster@test.ru')).create_status_post(message: 'test') }
+  let(:post) { PostManager.new(user: performer).create_status_post(message: 'test') }
 
   its(:comment) { is_expected.to be_nil }
   its(:subject) { is_expected.to be_nil }
@@ -36,6 +36,30 @@ describe CommentFlow do
     it do
       expect { create }.to create_event(:comment_created).including_data(message: 'comment test')
     end
+
+    context 'invalid access' do
+      let(:post) { PostManager.new(user: create_user(email: 'poster@test.ru')).create_status_post(message: 'test') }
+
+      it do
+        expect { create }.to raise_error(AccessError)
+      end
+
+      it do
+        expect { create rescue nil }.not_to create_record(Comment)
+      end
+    end
+
+    context 'no post given' do
+      let(:create) { flow.create(post: nil, message: 'comment test') }
+
+      it do
+        expect { create }.not_to create_record(Comment)
+      end
+
+      it do
+        expect { create }.to change { flow.errors }.to(post: [:cannot_be_empty])
+      end
+    end
   end
 
   describe '#update' do
@@ -56,6 +80,16 @@ describe CommentFlow do
                              .with_user(performer)
                              .including_data(comment_id: comment.id, message: 'test')
     end
+
+    context 'invalid access' do
+      let!(:comment) { base_flow.comment }
+      let(:invalid_performer) { create_user email: 'invalid@performer.ru' }
+      let(:invalid_flow) { described_class.new(performer: invalid_performer, subject: comment) }
+
+      it do
+        expect { invalid_flow.update(message: 'test') }.to raise_error(AccessError)
+      end
+    end
   end
 
   describe '#hide' do
@@ -70,6 +104,16 @@ describe CommentFlow do
 
     it do
       expect { hide }.to create_event(:comment_hidden).with_subject(comment)
+    end
+
+    context 'invalid access' do
+      let!(:comment) { base_flow.comment }
+      let(:invalid_performer) { create_user email: 'invalid@performer.ru' }
+      let(:invalid_flow) { described_class.new(performer: invalid_performer, subject: comment) }
+
+      it do
+        expect { invalid_flow.hide }.to raise_error(AccessError)
+      end
     end
   end
 
@@ -86,6 +130,16 @@ describe CommentFlow do
     it do
       expect { show }.to create_event(:comment_shown).with_subject(comment)
     end
+
+    context 'invalid access' do
+      let!(:comment) { base_flow.comment }
+      let(:invalid_performer) { create_user email: 'invalid@performer.ru' }
+      let(:invalid_flow) { described_class.new(performer: invalid_performer, subject: comment) }
+
+      it do
+        expect { invalid_flow.show }.to raise_error(AccessError)
+      end
+    end
   end
 
   describe '#remove' do
@@ -100,6 +154,16 @@ describe CommentFlow do
       expect { remove }.to create_event(:comment_removed)
                              .with_user(performer)
                              .including_data(comment_id: base_flow.comment.id, message: 'comment test')
+    end
+
+    context 'invalid access' do
+      let!(:comment) { base_flow.comment }
+      let(:invalid_performer) { create_user email: 'invalid@performer.ru' }
+      let(:invalid_flow) { described_class.new(performer: invalid_performer, subject: comment) }
+
+      it do
+        expect { invalid_flow.remove }.to raise_error(AccessError)
+      end
     end
   end
 
