@@ -9,6 +9,7 @@ class PaymentManager < BaseManager
 
   def create_charge(amount: , customer: nil, description: nil, statement_description: nil, metadata: {})
     fail_with! 'Credit card is declined' if @user.cc_declined?
+    fail_with! 'Account locked' if @user.locked?
 
     statement = statement_description.to_s.gsub(/\W+/, '')
                   .gsub(/xxx/i, 'yyy')
