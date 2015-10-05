@@ -97,6 +97,17 @@ describe CommentFlow do
   end
 
   describe '#remove' do
+    let!(:base_flow) { flow.create(post: post, message: 'comment test') }
+    subject(:remove) { base_flow.remove }
 
+    it do
+      expect { remove }.to delete_record(Comment)
+    end
+
+    it do
+      expect { remove }.to create_event(:comment_removed)
+                             .with_user(performer)
+                             .including_data(comment_id: base_flow.comment.id, message: 'comment test')
+    end
   end
 end

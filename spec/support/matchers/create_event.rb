@@ -14,7 +14,7 @@ RSpec::Matchers.define :create_event do |action|
           false
         else
           result = true
-          event = Event.find(diff_ids.first)
+          event = Event.find_by_id(diff_ids.first)
 
           @data.each do |key, value|
             if event.data[key] != value
@@ -49,7 +49,7 @@ RSpec::Matchers.define :create_event do |action|
   description do
     "create an event #{action}".tap do |result|
       result << " with user ##{@user.id} (#{@user.email})" if @user
-      result << " matching subject #{@subject.class.name}##{@subject.id}" if @user
+      result << " matching subject #{@subject.class.name}##{@subject.id}" if @user && @subject
       result << " including data #@data" if @data
     end
   end
