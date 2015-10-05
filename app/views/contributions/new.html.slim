@@ -2,72 +2,68 @@
   i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
   .modal-title Contribute to this profile
   span Please select your contribution option below.
-
-.modal-body.mobile_contribute style="text-align: center; margin-bottom: 15px;"
-  form.Form action=contributions_path method='post'
-    - if params[:target_user_id]
-      input type='hidden' name='target_user_id' value=params[:target_user_id]
-    - else
-      select.form-control name='target_user_id' style='margin-bottom: 15px; font-size: 12px;'
-        = options_for_select(current_user.recent_subscriptions_options, params[:selected_user_id])
-
-    .form-group
-      - if mobile_phone_device?
-        span style='width: auto; font-size: 11px;' Amount:
-
-        input id='amount_cont_10' type='radio' name='amount' value='1000' style='margin: 0 5px 0 10px;'
-        label for='amount_cont_10' style='font-size: 11px;' $10
-
-        input id='amount_cont_20' type='radio' name='amount' value='2000' style='margin: 0 5px 0 10px;'
-        label for='amount_cont_20' style='font-size: 11px;' $20
-
-        input id='amount_cont_30' type='radio' name='amount' value='3000' style='margin: 0 5px 0 10px;'
-        label for='amount_cont_30' style='font-size: 11px;' $30
-
-        input id='custom_amount_cont_rb' type='radio' name='amount' value='0' style='margin: 0 5px 0 10px;'
-        label for='custom_amount_cont_rb'
-          input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter value' style='width: 90px; font-size: 11px !important;'
-          .clearfix
-        .clearfix
-
+.modal-body
+  .contribution
+    form.Form action=contributions_path method='post'
+      - if params[:target_user_id]
+        input type='hidden' name='target_user_id' value=params[:target_user_id]
       - else
-        span style='width: auto; font-size: 13px;' Amount:
+        select.form-control name='target_user_id' style='margin-bottom: 15px; font-size: 12px;'
+          = options_for_select(current_user.recent_subscriptions_options, params[:selected_user_id])
+      .form-group
+        - if mobile_phone_device?
+          span style='width: auto; font-size: 11px;' Amount:
 
-        input id='amount_cont_10' type='radio' name='amount' value='1000' style='margin: 0 5px 0 10px;'
-        label for='amount_cont_10' style='font-size: 13px;' $10
+          input id='amount_cont_10' type='radio' name='amount' value='1000' style='margin: 0 5px 0 10px;'
+          label for='amount_cont_10' style='font-size: 11px;' $10
 
-        input id='amount_cont_20' type='radio' name='amount' value='2000' style='margin: 0 5px 0 10px;'
-        label for='amount_cont_20' style='font-size: 13px;' $20
+          input id='amount_cont_20' type='radio' name='amount' value='2000' style='margin: 0 5px 0 10px;'
+          label for='amount_cont_20' style='font-size: 11px;' $20
 
-        input id='amount_cont_30' type='radio' name='amount' value='3000' style='margin: 0 5px 0 10px;'
-        label for='amount_cont_30' style='font-size: 13px;' $30
+          input id='amount_cont_30' type='radio' name='amount' value='3000' style='margin: 0 5px 0 10px;'
+          label for='amount_cont_30' style='font-size: 11px;' $30
 
-        input id='custom_amount_cont_rb' type='radio' name='amount' value='0' style='margin: 0 5px 0 10px;'
-        label for='custom_amount_cont_rb'
-          input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter other value' style='width: 140px;'
+          input id='custom_amount_cont_rb' type='radio' name='amount' value='0' style='margin: 0 5px 0 10px;'
+          label for='custom_amount_cont_rb'
+            input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter value' style='width: 90px; font-size: 11px !important;'
+            .clearfix
           .clearfix
-        .clearfix
+        - else
+          span style='width: auto; font-size: 13px;' Amount:
+          input id='amount_cont_10' type='radio' name='amount' value='1000' style='margin: 0 5px 0 10px;'
+          label for='amount_cont_10' style='font-size: 13px;' $10
 
-      .error data-field='amount' style=''
-      .clearfix
-      - if mobile_phone_device?
-        textarea.form-control name='message' value='500' placeholder='Please leave a message for the profile owner (optional)' style='height: 60px; margin-top: 15px; font-size: 11px;'
-      - else
-        textarea.form-control name='message' value='500' placeholder='Please leave a message for the profile owner (optional)' style='height: 80px; margin-top: 15px;'
-      .clearfix
-    - if mobile_phone_device?
-      .form-group
-        input id='recurring_cont_0' type='radio' name='recurring' value='0' checked='1'
-        label id='recurring_cont_0' for='recurring_cont_0' style='font-size: 13px; margin-left: 5px; font-size: 11px;' One-time contribution
+          input id='amount_cont_20' type='radio' name='amount' value='2000' style='margin: 0 5px 0 10px;'
+          label for='amount_cont_20' style='font-size: 13px;' $20
+
+          input id='amount_cont_30' type='radio' name='amount' value='3000' style='margin: 0 5px 0 10px;'
+          label for='amount_cont_30' style='font-size: 13px;' $30
+
+          input id='custom_amount_cont_rb' type='radio' name='amount' value='0' style='margin: 0 5px 0 10px;'
+          label for='custom_amount_cont_rb'
+            input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter other value' style='width: 140px;'
+            .clearfix
+          .clearfix
+        .error.limit data-field='amount' style='display: none;'
         .clearfix
-        input id='recurring_cont_1' type='radio' name='recurring' value='1'
-        label id='recurring_cont_1' for='recurring_cont_1' style='font-size: 13px; margin-left: 5px; font-size: 11px;' Monthly recurring contribution
-    - else
-      hr style='height: 1px;'
-      .form-group
-        input id='recurring_cont_0' type='radio' name='recurring' value='0' checked='1'
-        label id='recurring_cont_0' for='recurring_cont_0' style='font-size: 13px; margin-right: 30px; margin-left: 5px;' One-time contribution
-        input id='recurring_cont_1' type='radio' name='recurring' value='1'
-        label id='recurring_cont_1' for='recurring_cont_1' style='font-size: 13px; margin-left: 5px;' Monthly recurring contribution
-    input.btn.blue type='submit' value='Send Contribution' style='width: 300px'
-    p.small style='margin-top: 10px; font-size: 12px;' * The contribution amount will be charged to the credit card on your account. Thank you.
+        - if mobile_phone_device?
+          textarea.form-control name='message' value='500' placeholder='Please leave a message for the profile owner (optional)' style='height: 60px; margin-top: 15px; font-size: 11px;'
+        - else
+          textarea.form-control name='message' value='500' placeholder='Please leave a message for the profile owner (optional)' style='height: 80px; margin-top: 15px;'
+        .clearfix
+      - if mobile_phone_device?
+        .form-group
+          input id='recurring_cont_0' type='radio' name='recurring' value='0' checked='1'
+          label id='recurring_cont_0' for='recurring_cont_0' style='font-size: 13px; margin-left: 5px; font-size: 11px;' One-time contribution
+          .clearfix
+          input id='recurring_cont_1' type='radio' name='recurring' value='1'
+          label id='recurring_cont_1' for='recurring_cont_1' style='font-size: 13px; margin-left: 5px; font-size: 11px;' Monthly recurring contribution
+      - else
+        hr style='height: 1px;'
+        .form-group
+          input id='recurring_cont_0' type='radio' name='recurring' value='0' checked='1'
+          label id='recurring_cont_0' for='recurring_cont_0' style='font-size: 13px; margin-right: 30px; margin-left: 5px;' One-time contribution
+          input id='recurring_cont_1' type='radio' name='recurring' value='1'
+          label id='recurring_cont_1' for='recurring_cont_1' style='font-size: 13px; margin-left: 5px;' Monthly recurring contribution
+      input.btn.blue type='submit' value='Send Contribution' style='width: 300px'
+      p.small style='margin-top: 10px; font-size: 12px;' * The contribution amount will be charged to the credit card on your account. Thank you.
