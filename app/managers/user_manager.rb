@@ -55,6 +55,7 @@ class UserManager < BaseManager
 
   def unlock
     @user.credit_card_update_requests.destroy_all
+    @user.recent_subscriptions_count = 0
     @user.unlock!
   end
 
@@ -67,6 +68,12 @@ class UserManager < BaseManager
 
   def update_daily_contributions_limit(limit: )
     @user.daily_contributions_limit = limit.to_i
+    save_or_die! @user
+  end
+
+  def log_recent_subscriptions_count(recent_subscriptions_count)
+    @user.recent_subscriptions_count = recent_subscriptions_count
+    @user.recent_subscription_at = Time.zone.now
     save_or_die! @user
   end
 end

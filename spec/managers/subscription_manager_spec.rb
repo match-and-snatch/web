@@ -154,6 +154,10 @@ describe SubscriptionManager do
           expect { subscribe }.not_to create_record(FeedEvent)
         end
 
+        it 'does not increase recent_subsrciptions_count' do
+          expect { subscribe }.not_to change { subscriber.recent_subscriptions_count }
+        end
+
         context 'with fake user' do
           let(:subscriber) { User.fake }
 
@@ -186,6 +190,14 @@ describe SubscriptionManager do
 
       it 'sets current cost from user' do
         expect(subject.cost).to eq(another_user.cost)
+      end
+
+      it 'increases recent_subsrciptions_count' do
+        expect { manager.subscribe_to(another_user) }.to change { subscriber.recent_subscriptions_count }.by(1)
+      end
+
+      it 'sets time of recent subscription', freeze: true do
+        expect { manager.subscribe_to(another_user) }.to change { subscriber.recent_subscription_at }.to(Time.zone.now)
       end
 
       context 'already subscribed' do
@@ -264,6 +276,17 @@ describe SubscriptionManager do
             Timecop.travel(48.hours.since) do
               expect { manager.subscribe_to(another_user) }.not_to change { subscriber.locked? }.from(false)
             end
+          end
+        end
+
+        context 'account was unlocked' do
+          before do
+            manager.subscribe_to(create_profile(email: 'another_5@user.com'))
+            UserManager.new(subscriber.reload).unlock
+          end
+
+          it 'allows subscribing' do
+            expect { manager.subscribe_to(another_user) }.not_to change { subscriber.locked? }.from(false)
           end
         end
 

@@ -36,6 +36,12 @@ describe UserManager do
 
       it { expect { unlock }.to change { user.reload.locked? }.to(false) }
       it { expect { unlock }.not_to change { user.reload.last_time_locked_at } }
+
+      context 'user has recent subscriptions' do
+        before { manager.log_recent_subscriptions_count(1) }
+
+        it { expect { unlock }.to change { user.reload.recent_subscriptions_count }.from(1).to(0) }
+      end
     end
 
     context 'not locked' do
@@ -81,7 +87,7 @@ describe UserManager do
     end
   end
 
-  describe 'last visited profile' do
+  describe '#save_last_visited_profile' do
     let(:user) { create_user }
     let(:another_user) { create_profile email: 'another@user.com' }
     let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(another_user) }
@@ -105,5 +111,12 @@ describe UserManager do
         end
       end
     end
+  end
+
+  describe '#log_recent_subscriptions_count', freeze: true do
+    let(:user) { create_user }
+
+    it { expect { manager.log_recent_subscriptions_count(1) }.to change { user.recent_subscriptions_count }.from(0).to(1) }
+    it { expect { manager.log_recent_subscriptions_count(1) }.to change { user.recent_subscription_at }.from(nil).to(Time.zone.now) }
   end
 end
