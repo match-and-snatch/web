@@ -65,4 +65,14 @@ class Ability
         raise ArgumentError, "No such subject #{subject.inspect}"
     end
   end
+
+  private
+
+  def subscribed_to?(*args)
+    performer.subscribed_to?(*args)
+  end
+
+  def billing_failed?
+    performer.billing_failed?
+  end
 end
