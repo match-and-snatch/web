@@ -1,12 +1,12 @@
-RSpec::Matchers.define :create_record do |klass|
+RSpec::Matchers.define :delete_record do |klass|
   match do |block|
     before = query(klass).all.to_a
     block.call
     after = query(klass).all.to_a
 
-    @created_records_count = (after - before).count
+    @deleted_records_count = (before - after).count
 
-    expectation.call(@created_records_count)
+    expectation.call(@deleted_records_count)
   end
 
   chain(:matching) do |attrs|
@@ -30,18 +30,18 @@ RSpec::Matchers.define :create_record do |klass|
   end
 
   description do
-    "create #{klass} record".tap do |result|
+    "delete #{klass} record".tap do |result|
       result << " matching #{scope}" if scope.any?
     end
   end
 
   failure_message do
     if @once
-      "Expected to create a single #{klass} record, but created #{@created_records_count}"
+      "Expected to delete a single #{klass} record, but deleted #{@deleted_records_count}"
     elsif @exact_count
-      "Expected to create #{@exact_count} #{klass} records, but created #{@created_records_count}"
+      "Expected to delete #{@exact_count} #{klass} records, but delete #{@deleted_records_count}"
     else
-      "Expected to create a #{klass} record, but nothing was created"
+      "Expected to delete a #{klass} record, but nothing was deleted"
     end
   end
 
