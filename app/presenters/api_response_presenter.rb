@@ -99,26 +99,19 @@ class ApiResponsePresenter
       canceled_at: subscription.canceled_at ? subscription.canceled_at.to_date.to_s(:long) : nil,
       removed: subscription.removed?,
       rejected: subscription.rejected?,
+      cost: subscription.total_cost,
+      notifications_enabled: subscription.notifications_enabled,
+      created_at: subscription.created_at.to_date.to_s(:long),
+      timestamp: subscription.created_at.to_i,
       target_user: user_data(subscription.target_user)
     }
   end
 
   def subscriptions_data(subscriptions = [])
-    subscriptions.map do |subscription|
-      {
-        id: subscription.id,
-        cost: subscription.total_cost,
-        notifications_enabled: subscription.notifications_enabled,
-        created_at: subscription.created_at.to_date.to_s(:long),
-        user: {
-          id: subscription.target_user.id,
-          profile_owner: subscription.target_user.is_profile_owner?,
-          slug: subscription.target_user.slug,
-          name: subscription.target_user.name,
-          picture_url: subscription.target_user.profile_picture_url,
-          small_profile_picture_url: subscription.target_user.small_profile_picture_url
-        }
-      }
+    {}.tap do |data|
+      subscriptions.each do |subscription|
+        data[subscription.id] = subscription_data(subscription)
+      end
     end
   end
 
