@@ -18,12 +18,18 @@
   .content
     background-color: #FFFFFF
     min-height: 810px
+    .truncate
+      display: inline-block
+      overflow: hidden
+      text-overflow: ellipsis
+      width: 250px
+      white-space: nowrap
     input[type="checkbox"]
       margin-top: -15px
     label[for="billing_checker"]
       font-size: 13px
     .table-striped
-      .pull-right 
+      .pull-right
         margin-left: 15px
     .container
       max-width: 100%

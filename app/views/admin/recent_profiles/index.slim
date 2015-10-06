@@ -17,7 +17,7 @@ h2 Recent profiles
       tr
         td= user.id
         td
-          a.HistoryLink data-target='admin-panel' href=admin_profile_owner_path(user.id) = user.name
+          a.truncate.HistoryLink data-target='admin-panel' href=admin_profile_owner_path(user.id) = user.name
         td
           a href="mailto:#{user.email}"= user.email
         td= user.created_at.try(:to_s, :long)

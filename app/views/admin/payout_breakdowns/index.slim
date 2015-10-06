@@ -19,7 +19,7 @@ h2 Payout Breakdown for #{Time.zone.now.strftime('%B')}
     - @users.each do |user|
       tr style="background-color:##{user.vacation_enabled? ? 'dddddd' : 'ffffff'}"
         td
-          a href=profile_path(user) target='_blank' = user.name
+          a.truncate href=profile_path(user) target='_blank' = user.name
           - if user.vacation_enabled?
             |&nbsp;
             span on vacation
