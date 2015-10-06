@@ -18,7 +18,6 @@ class Api::MessagesController < Api::BaseController
   private
 
   def load_target_user!
-    t = User.arel_table
     @target_user = User.where(id: params[:user_id]).first or error(404)
   end
 end

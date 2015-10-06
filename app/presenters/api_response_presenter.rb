@@ -4,6 +4,7 @@ class ApiResponsePresenter
 
   attr_reader :current_user
 
+  # @param current_user [CurrentUserDecorator]
   def initialize(current_user)
     @current_user = current_user
   end
@@ -198,6 +199,17 @@ class ApiResponsePresenter
     }
   end
 
+  def mentions_data(users = [])
+    users.map do |user|
+      {
+        id: user.id,
+        name: user.name,
+        slug: user.slug,
+        picture_url: user.comment_picture_url
+      }
+    end
+  end
+
   def basic_profile_data(user)
     {
       access: {
@@ -217,7 +229,7 @@ class ApiResponsePresenter
   end
 
   def profile_details_data
-    user = UserStatsDecorator.new(current_user)
+    user = UserStatsDecorator.new(current_user.object)
     {
       subscribers_count: user.subscriptions_count,
       monthly_earnings: user.monthly_earnings,
@@ -327,6 +339,29 @@ class ApiResponsePresenter
 
   def audios_data(audios = [])
     (audios.any? ? audios : current_user.pending_audios).map { |audio| audio_data(audio) }
+  end
+
+  def welcome_media_data(upload)
+    return {} unless upload
+
+    common_data = {
+        id: upload.id,
+        file_url: upload.rtmp_path,
+        preview_url: upload.preview_url,
+        original_url: upload.original_url
+    }
+    video_data = if upload.video?
+                   playlist_url = if upload.low_quality_playlist_url
+                                    playlist_video_url(upload.id, format: 'm3u8')
+                                  end
+                   {
+                       hdfile_url: upload.hd_rtmp_path,
+                       playlist_url: playlist_url
+                   }
+                 else
+                   {}
+                 end
+    common_data.merge(video_data)
   end
 
   private

@@ -62,7 +62,7 @@ class Api::UsersController < Api::BaseController
 
   def mentions
     @users = User.mentions(current_user: current_user, profile_id: params[:profile_id], query: params[:q]).to_a
-    json_success mentions_data(@users)
+    json_success api_response.mentions_data(@users)
   end
 
   private
@@ -77,17 +77,6 @@ class Api::UsersController < Api::BaseController
 
   def respond_with_user_data
     json_success(user_data(@user.reload))
-  end
-
-  def mentions_data(users = [])
-    users.map do |user|
-      {
-          id: user.id,
-          name: user.name,
-          slug: user.slug,
-          picture_url: user.comment_picture_url
-      }
-    end
   end
 
   def user_data(user)
@@ -109,8 +98,8 @@ class Api::UsersController < Api::BaseController
       has_mature_content: user.has_mature_content?,
       cost_approved: user.cost_approved?,
       welcome_media: {
-        welcome_audio: welcome_media_data(user.welcome_audio),
-        welcome_video: welcome_media_data(user.welcome_video)
+        welcome_audio: api_response.welcome_media_data(user.welcome_audio),
+        welcome_video: api_response.welcome_media_data(user.welcome_video)
       },
       custom_welcome_message: user.profile_page_data.welcome_box,
       special_offer_message: user.profile_page_data.special_offer,
@@ -118,28 +107,5 @@ class Api::UsersController < Api::BaseController
       dialogue_id: user.dialogues.by_user(current_user.object).first.try(:id)
     }
     api_response.basic_profile_data(user).merge(extended_params)
-  end
-
-  def welcome_media_data(upload)
-    return {} unless upload
-
-    common_data = {
-        id: upload.id,
-        file_url: upload.rtmp_path,
-        preview_url: upload.preview_url,
-        original_url: upload.original_url
-    }
-    video_data = if upload.video?
-                   playlist_url = if upload.low_quality_playlist_url
-                                    playlist_video_url(upload.id, format: 'm3u8')
-                                  end
-                   {
-                       hdfile_url:   upload.hd_rtmp_path,
-                       playlist_url: playlist_url
-                   }
-                 else
-                   {}
-                 end
-    common_data.merge(video_data)
   end
 end
