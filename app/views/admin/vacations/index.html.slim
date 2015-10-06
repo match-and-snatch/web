@@ -5,21 +5,20 @@ h2 Profile Owners on vacation
       strong #ID
     th
     th
-      strong
-        a href=admin_profile_owners_path(sort_direction_params(:profile_name)) Profile Name
+      strong Profile Name
     th
-      strong email
+      strong Email
     th
       strong Total Subscribers
+
     - @vacations.each do |vacation|
       tr style="background-color:##{vacation.user.vacation_enabled? ? 'dddddd' : 'ffffff'}"
         td ##{vacation.user.id}
         td
           img src=vacation.user.small_profile_picture_url width=50 height=50
         td
-          a href=profile_path(vacation.user) target='_blank' = vacation.user.name
+          a> href=profile_path(vacation.user) target='_blank' = vacation.user.name
           - if vacation.user.vacation_enabled?
-            |&nbsp;
             span on vacation
         td= vacation.user.email
         td= vacation.user.subscribers_count
