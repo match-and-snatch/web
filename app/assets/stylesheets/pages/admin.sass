@@ -18,6 +18,26 @@
   .content
     background-color: #FFFFFF
     min-height: 810px
+    .top-profiles-list
+      .sort-lists
+        @include border-radius(5px)
+        background: #f7f7f7
+        border: 1px solid #d7d7d7
+        display: block
+        list-style-type: decimal
+        margin-left: 25px
+        padding: 5px 0
+        li
+          background: #f7f7f7
+          border: #d7d7d7
+          height: 60px
+          padding: 5px 0
+          &.Cell
+            border: 1px dashed #ea2e49
+            height: 60px
+            width: 100%
+          .dragger
+            padding: 10px
     .truncate
       display: inline-block
       overflow: hidden
