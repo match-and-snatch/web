@@ -22,7 +22,7 @@ h2 Profile Owners on vacation
             span on vacation
         td= vacation.user.email
         td= vacation.user.subscribers_count
-      tr
+      tr style='border-bottom: 4px solid gray'
         td colspan=5
           .table-responsive
             table.table.table-striped
@@ -37,8 +37,8 @@ h2 Profile Owners on vacation
                   strong Affected Users
               - vacation.each do |vacation|
                 tr
-                  td= vacation.start_date
-                  td= vacation.finish_date
+                  td width='200'= vacation.start_date
+                  td width='200'= vacation.finish_date
                   td= distance_of_time_in_words(vacation.length) if vacation.length
                   td= vacation.affected_users_count
   .clearfix
