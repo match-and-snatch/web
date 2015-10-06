@@ -1,0 +1,45 @@
+h2 Profile Owners on vacation
+.table-responsive
+  table.table.table-striped
+    th
+      strong #ID
+    th
+    th
+      strong
+        a href=admin_profile_owners_path(sort_direction_params(:profile_name)) Profile Name
+    th
+      strong email
+    th
+      strong Total Subscribers
+    - @vacations.each do |vacation|
+      tr style="background-color:##{vacation.user.vacation_enabled? ? 'dddddd' : 'ffffff'}"
+        td ##{vacation.user.id}
+        td
+          img src=vacation.user.small_profile_picture_url width=50 height=50
+        td
+          a href=profile_path(vacation.user) target='_blank' = vacation.user.name
+          - if vacation.user.vacation_enabled?
+            |&nbsp;
+            span on vacation
+        td= vacation.user.email
+        td= vacation.user.subscribers_count
+      tr
+        td colspan=5
+          .table-responsive
+            table.table.table-striped
+              tr
+                th
+                  strong Start date
+                th
+                  strong End date
+                th
+                  strong Length (days)
+                th
+                  strong Affected Users
+              - vacation.each do |vacation|
+                tr
+                  td= vacation.start_date
+                  td= vacation.finish_date
+                  td= distance_of_time_in_words(vacation.length) if vacation.length
+                  td= vacation.affected_users_count
+  .clearfix

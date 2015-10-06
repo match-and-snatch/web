@@ -348,6 +348,7 @@ BuddyPlatform::Application.routes.draw do
     resources :payment_failures , only: :index
     resources :payments, only: :index
     resources :payout_details, only: :index
+    resources :vacations, only: :index
     resources :staffs, only: :index do
       collection do
         get :search
@@ -368,7 +369,11 @@ BuddyPlatform::Application.routes.draw do
     resources :recent_profiles, only: :index
     resources :profile_owners, only: [:index, :show, :update] do
       resources :transfers, only: [:index, :create]
-      resources :vacations, only: [:index]
+      resources :vacations, only: [] do
+        collection do
+          get :history
+        end
+      end
       resources :current_month_details, only: [:index]
 
       resources :payments, only: [] do

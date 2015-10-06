@@ -4,8 +4,9 @@ class VacationsPresenter
   attr_reader :user
 
   # @param user [User]
-  def initialize(user: nil)
+  def initialize(user: nil, events: nil)
     @user = user
+    @events = events
   end
 
   def each(&block)
