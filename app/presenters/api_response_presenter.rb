@@ -164,6 +164,15 @@ class ApiResponsePresenter
     }
   end
 
+  def dialogues_data(dialogues = [])
+    {}.tap do |data|
+      dialogues.each do |dialogue|
+        data_for_dialogue = dialogue_data(dialogue)
+        data[dialogue.id] = data_for_dialogue if data_for_dialogue
+      end
+    end
+  end
+
   def dialogue_data(dialogue)
     if antiuser = dialogue.antiuser(current_user.object)
       {
