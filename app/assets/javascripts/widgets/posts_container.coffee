@@ -6,6 +6,7 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
   initialize: ->
     @pending = true
     super
+    @ajaxify_links = false
     $(window).scroll @on_scroll
     @last_post_id = null
     @q = null
@@ -21,8 +22,8 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
   on_scroll: =>
     return if @disabled || @pending
 
-    docViewTop = $(window).scrollTop();
-    docViewBottom = docViewTop + $(window).height();
+    docViewTop = $(window).scrollTop()
+    docViewBottom = docViewTop + $(window).height()
 
     elTop = @$container.offset().top
     elBottom = elTop + @$container.height()
@@ -42,3 +43,5 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
     if !_.isEmpty(@q)
       result['q'] = @q
     result
+
+  init_links: -> true
