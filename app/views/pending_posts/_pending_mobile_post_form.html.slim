@@ -33,13 +33,11 @@
     / Post notification
     .notify
       label style='width: 100%;' Notify your subscribers of this post via email?
-      .no_width
-        input type='radio' name='notify' value='0' id='notify_no'
-        label for='notify_no'
-          |&nbsp;No
       .yes_width
         input type='radio' name='notify' checked='checked' value='1' id='notify_yes'
-        label for='notify_yes'
-          |&nbsp;Yes
+        label< for='notify_yes' Yes
+      .no_width
+        input type='radio' name='notify' value='0' id='notify_no'
+        label<  for='notify_no' No
       .clearfix
   .clearfix
