@@ -34,7 +34,7 @@ class Ability
       when Comment
         case action
           when :create, :toggle_like then subject.post_user_id == performer.id || performer.subscribed_to?(subject.post_user)
-          when :show, :hide, :remove, :update then subject.user == performer
+          when :show, :hide, :remove, :update then subject.user == performer || subject.post_user_id == performer.id
           when :delete, :manage then subject.user_id == performer.id || subject.post_user_id == performer.id
           when :like            then subject.user_id == performer.id || subject.post_user_id == performer.id || subscribed_to?(subject.post_user)
           else
