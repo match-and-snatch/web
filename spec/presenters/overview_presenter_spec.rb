@@ -128,11 +128,11 @@ describe OverviewPresenter do
   end
 
   describe '#total_connectpal_fees' do
-    specify { expect(subject.total_connectpal_fees).to eq(155.02) }
+    specify { expect(subject.total_connectpal_fees).to eq(156.418) }
   end
 
   describe '#total_stripe_fees' do
-    specify { expect(subject.total_stripe_fees).to eq(43.98) }
+    specify { expect(subject.total_stripe_fees).to eq(42.582) }
   end
 
   describe '#daily_gross_sales' do
@@ -160,6 +160,6 @@ describe OverviewPresenter do
   end
 
   describe '#daily_stripe_fees' do
-    specify { expect(subject.daily_stripe_fees).to eq(43.98) }
+    specify { expect(subject.daily_stripe_fees).to eq(42.582) }
   end
 end

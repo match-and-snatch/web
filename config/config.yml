@@ -1,6 +1,6 @@
 defaults: &defaults
   api_version: 0.0.1
-  stripe_percent: 0.02
+  stripe_percent: 0.018
   media_host: buddy-video-assets.s3.amazonaws.com
   http_access: false
   javascript:
