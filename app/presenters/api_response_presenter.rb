@@ -9,6 +9,7 @@ class ApiResponsePresenter
     @current_user = current_user
   end
 
+  # @param user [User]
   def current_user_data(user = current_user.object)
     {
       id: user.id,
@@ -76,7 +77,9 @@ class ApiResponsePresenter
     }.merge(account_data(user))
   end
 
-  def billing_information_data(subscriptions: [], contributions: [])
+  # @param subscriptions [SubscriptionsPresenter]
+  # @param contributions [Array]
+  def billing_information_data(subscriptions: , contributions: [])
     {
       subscriptions: {
         show_status_column: subscriptions.show_failed_column?,
@@ -191,7 +194,7 @@ class ApiResponsePresenter
   end
 
   def messages_data(messages = [])
-    messages.recent.map { |message| message_data(message) }
+    messages.map { |message| message_data(message) }
   end
 
   def message_data(message)

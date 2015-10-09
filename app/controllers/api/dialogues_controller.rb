@@ -13,7 +13,7 @@ class Api::DialoguesController < Api::BaseController
 
   def show
     @dialogue = MessagesManager.new(user: current_user.object, dialogue: @dialogue).mark_as_read
-    json_success dialogue: api_response.dialogue_data(@dialogue).merge(messages: api_response.messages_data(@dialogue.messages))
+    json_success dialogue: api_response.dialogue_data(@dialogue).merge(messages: api_response.messages_data(@dialogue.messages.recent))
   end
 
   def destroy
