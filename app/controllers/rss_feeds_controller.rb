@@ -6,7 +6,7 @@ class RssFeedsController < ApplicationController
   before_action :set_http_content_headers
 
   def index
-    subscriptions = @current_user.subscriptions.not_removed.where(rejected: false)
+    subscriptions = @current_user.subscriptions.accessible
 
     if params[:user_id].to_i == current_user.id
       @posts = Post.where(user_id: current_user.id, hidden: false).order('posts.created_at DESC').limit(50)

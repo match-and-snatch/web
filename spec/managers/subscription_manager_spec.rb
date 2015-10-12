@@ -412,4 +412,23 @@ describe SubscriptionManager do
       end
     end
   end
+
+  describe '#mark_as_processing', freeze: true do
+    let(:subscription) { manager.subscribe_to(another_user) }
+
+    it { expect { manager.mark_as_processing }.to change { subscription.processing_payment }.from(false).to(true) }
+    it { expect { manager.mark_as_processing }.to change { subscription.processing_started_at }.from(nil).to(Time.zone.now) }
+  end
+
+  describe '#unmark_as_processing' do
+    let(:subscription) { manager.subscribe_to(another_user) }
+
+    before do
+      subscription
+      manager.mark_as_processing
+    end
+
+    it { expect { manager.unmark_as_processing }.to change { subscription.processing_payment }.from(true).to(false) }
+    it { expect { manager.unmark_as_processing }.to change { subscription.processing_started_at }.to(nil) }
+  end
 end

@@ -12,12 +12,15 @@ class SubscriptionsController < ApplicationController
   end
 
   def index
-    @subscriptions = current_user.object.subscriptions.active.been_charged.joins(:target_user).order(created_at: :desc)
+    @subscriptions = current_user.object.subscriptions.accessible.joins(:target_user).order(created_at: :desc)
     json_render
   end
 
   def create
-    SubscriptionManager.new(subscriber: current_user.object).subscribe_and_pay_for(@target_user)
+    begin
+      SubscriptionManager.new(subscriber: current_user.object).subscribe_and_pay_for(@target_user)
+    rescue PaymentError
+    end
     json_reload
   end
 
@@ -46,16 +49,19 @@ class SubscriptionsController < ApplicationController
 
   def via_update_cc_data
     SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
-      manager.update_cc_subscribe_and_pay target:       @target_user,
-                                          number:       params[:number],
-                                          cvc:          params[:cvc],
-                                          expiry_month: params[:expiry_month],
-                                          expiry_year:  params[:expiry_year],
-                                          zip:          params[:zip],
-                                          city:         params[:city],
-                                          address_line_1: params[:address_line_1],
-                                          address_line_2: params[:address_line_2],
-                                          state:          params[:state]
+      begin
+        manager.update_cc_subscribe_and_pay target:       @target_user,
+                                            number:       params[:number],
+                                            cvc:          params[:cvc],
+                                            expiry_month: params[:expiry_month],
+                                            expiry_year:  params[:expiry_year],
+                                            zip:          params[:zip],
+                                            city:         params[:city],
+                                            address_line_1: params[:address_line_1],
+                                            address_line_2: params[:address_line_2],
+                                            state:          params[:state]
+      rescue PaymentError
+      end
     end
     json_reload
   end

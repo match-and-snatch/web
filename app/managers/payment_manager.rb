@@ -56,29 +56,32 @@ class PaymentManager < BaseManager
 
     save_or_die!(subscription).tap do
       subscription.restore!
-      SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).accept
+      SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).tap do |subscription_manager|
+        subscription_manager.accept
+        subscription_manager.unmark_as_processing if subscription.processing_payment?
+      end
       EventsManager.payment_created(user: user, payment: payment)
       user_manager = UserManager.new(subscription.customer)
       user_manager.remove_mark_billing_failed
       UserStatsManager.new(subscription.target_user).log_subscriptions_count
       user_manager.activate # Anybody who paid us should be activated
     end
-  rescue Stripe::StripeError => e
-    failure = PaymentFailure.create! exception_data:     "#{e.inspect} | http_body:#{e.http_body} | json_body:#{e.json_body}",
-                                     target:             subscription,
-                                     target_user:        subscription.recipient,
-                                     user:               subscription.customer,
-                                     stripe_charge_data: charge.try(:as_json),
-                                     description:        description
-
+  rescue Stripe::CardError => e
+    failure = populate_failure(e: e, subscription: subscription, charge: charge, description: description)
     SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).tap do |subscription_manager|
       subscription_manager.reject
       subscription_manager.unsubscribe if subscription.payment_attempts_expired?
     end
     UserManager.new(subscription.customer).mark_billing_failed
     PaymentsMailer.delay.failed(failure) if subscription.notify_about_payment_failure?
-    EventsManager.payment_failed(user: user, payment_failure: failure)
     UserStatsManager.new(subscription.target_user).log_subscriptions_count
+    failure
+  rescue Stripe::StripeError => e
+    failure = populate_failure(e: e, subscription: subscription, charge: charge, description: description)
+    SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).tap do |subscription_manager|
+      subscription_manager.reject
+      subscription_manager.mark_as_processing
+    end
     failure
   end
 
@@ -93,5 +96,19 @@ class PaymentManager < BaseManager
   def perform_test_payment
     subscription = user.subscriptions.to_charge.first
     SubscriptionManager.new(subscription: subscription).pay if subscription
+  end
+
+  private
+
+  # @return [PaymentFailure]
+  def populate_failure(e: , subscription: , charge: , description: nil)
+    failure = PaymentFailure.create! exception_data:     "#{e.inspect} | http_body:#{e.http_body} | json_body:#{e.json_body}",
+                                     target:             subscription,
+                                     target_user:        subscription.recipient,
+                                     user:               subscription.customer,
+                                     stripe_charge_data: charge.try(:as_json),
+                                     description:        description
+    EventsManager.payment_failed(user: user, payment_failure: failure)
+    failure
   end
 end

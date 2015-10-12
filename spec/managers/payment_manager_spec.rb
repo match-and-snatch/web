@@ -225,6 +225,23 @@ describe PaymentManager do
           end
         end
       end
+
+      context 'payment fails by api error' do
+        before { StripeMock.prepare_error(Stripe::APIError.new("Api is down"), :new_charge) }
+
+        it 'marks as rejected and sets rejected date', freeze: true do
+          expect(subscription.rejected).to eq(true)
+          expect(subscription.rejected_at.to_s).to eq(Time.zone.now.to_s)
+        end
+
+        it 'create payment_failed event' do
+          expect { subject.pay_for(subscription) }.to create_event(:payment_failed)
+        end
+
+        it 'marks subscription as processing payment' do
+          expect { subject.pay_for(subscription) }.to change { subscription.processing_payment }.from(false).to(true)
+        end
+      end
     end
   end
 
