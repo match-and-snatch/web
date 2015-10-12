@@ -4,10 +4,12 @@ class ApiResponsePresenter
 
   attr_reader :current_user
 
+  # @param current_user [CurrentUserDecorator]
   def initialize(current_user)
     @current_user = current_user
   end
 
+  # @param user [User]
   def current_user_data(user = current_user.object)
     {
       id: user.id,
@@ -75,7 +77,9 @@ class ApiResponsePresenter
     }.merge(account_data(user))
   end
 
-  def billing_information_data(subscriptions: [], contributions: [])
+  # @param subscriptions [SubscriptionsPresenter]
+  # @param contributions [Array]
+  def billing_information_data(subscriptions: , contributions: [])
     {
       subscriptions: {
         show_status_column: subscriptions.show_failed_column?,
@@ -163,6 +167,15 @@ class ApiResponsePresenter
     }
   end
 
+  def dialogues_data(dialogues = [])
+    {}.tap do |data|
+      dialogues.each do |dialogue|
+        data_for_dialogue = dialogue_data(dialogue)
+        data[dialogue.id] = data_for_dialogue if data_for_dialogue
+      end
+    end
+  end
+
   def dialogue_data(dialogue)
     if antiuser = dialogue.antiuser(current_user.object)
       {
@@ -181,7 +194,7 @@ class ApiResponsePresenter
   end
 
   def messages_data(messages = [])
-    messages.recent.map { |message| message_data(message) }
+    messages.map { |message| message_data(message) }
   end
 
   def message_data(message)
@@ -196,6 +209,17 @@ class ApiResponsePresenter
         picture_url: message.user.comment_picture_url
       }
     }
+  end
+
+  def mentions_data(users = [])
+    users.map do |user|
+      {
+        id: user.id,
+        name: user.name,
+        slug: user.slug,
+        picture_url: user.comment_picture_url
+      }
+    end
   end
 
   def basic_profile_data(user)
@@ -217,7 +241,7 @@ class ApiResponsePresenter
   end
 
   def profile_details_data
-    user = UserStatsDecorator.new(current_user)
+    user = UserStatsDecorator.new(current_user.object)
     {
       subscribers_count: user.subscriptions_count,
       monthly_earnings: user.monthly_earnings,
@@ -327,6 +351,29 @@ class ApiResponsePresenter
 
   def audios_data(audios = [])
     (audios.any? ? audios : current_user.pending_audios).map { |audio| audio_data(audio) }
+  end
+
+  def welcome_media_data(upload)
+    return {} unless upload
+
+    common_data = {
+        id: upload.id,
+        file_url: upload.rtmp_path,
+        preview_url: upload.preview_url,
+        original_url: upload.original_url
+    }
+    video_data = if upload.video?
+                   playlist_url = if upload.low_quality_playlist_url
+                                    playlist_video_url(upload.id, format: 'm3u8')
+                                  end
+                   {
+                       hdfile_url: upload.hd_rtmp_path,
+                       playlist_url: playlist_url
+                   }
+                 else
+                   {}
+                 end
+    common_data.merge(video_data)
   end
 
   private

@@ -8,17 +8,17 @@ class Api::DialoguesController < Api::BaseController
   def index
     @dialogues = current_user.object.dialogues.not_removed.
         includes(recent_message: :user).order(recent_message_at: :desc).limit(200).to_a
-    json_success (@dialogues.map { |dialogue| api_response.dialogue_data(dialogue) }).compact
+    json_success dialogues: api_response.dialogues_data(@dialogues)
   end
 
   def show
     @dialogue = MessagesManager.new(user: current_user.object, dialogue: @dialogue).mark_as_read
-    json_success api_response.dialogue_data(@dialogue).merge(messages: api_response.messages_data(@dialogue.messages))
+    json_success dialogue: api_response.dialogue_data(@dialogue).merge(messages: api_response.messages_data(@dialogue.messages.recent))
   end
 
   def destroy
     MessagesManager.new(user: current_user.object, dialogue: @dialogue).remove
-    json_success
+    json_success dialogue: api_response.dialogue_data(@dialogue)
   end
 
   private
