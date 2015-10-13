@@ -12,6 +12,11 @@
           button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_admin_admin_user_path(user.id) Drop Admin
         - else
           button.AjaxFormLink.btn.pink.pull-right data-_method='put' href=make_admin_admin_user_path(user.id) Make Admin
+
+          - if user.sales?
+            button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_sales_admin_user_path(user.id) Drop Sales
+          - else
+            button.AjaxFormLink.btn.pink.pull-right data-_method='put' href=make_sales_admin_user_path(user.id) Make Sales
         - if can? :login_as, user
           a.pull-right.admin_login.AjaxFormLink href=login_as_admin_user_path(user.id) data-_method='post' style='padding: 7px 15px 0 0;' Login as this User
         .clearfix

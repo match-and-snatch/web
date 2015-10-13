@@ -15,22 +15,26 @@ class UserManager < BaseManager
     end
   end
 
-  def make_admin
-    fail_with! 'User is already admin' if @user.admin?
+  User::ROLE_FIELDS.each do |field, role|
+    role_name = role.parameterize('_')
 
-    @user.is_admin = true
-    @user.save or fail_with!(@user.errors)
+    define_method "make_#{role_name}" do
+      fail_with! "User is already #{role.humanize}" if @user.public_send("#{role_name}?")
 
-    @user
+      @user.public_send(:"#{field}=", true)
+      save_or_die! @user
+    end
   end
 
-  def drop_admin
-    fail_with! 'User is not an admin' unless @user.admin?
+  User::ROLE_FIELDS.each do |field, role|
+    role_name = role.parameterize('_')
 
-    @user.is_admin = false
-    save_or_die! @user
+    define_method "drop_#{role_name}" do
+      fail_with! "User is not #{role.humanize}" unless @user.public_send("#{role_name}?")
 
-    @user
+      @user.public_send(:"#{field}=", false)
+      save_or_die! @user
+    end
   end
 
   def mark_billing_failed

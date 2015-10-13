@@ -53,6 +53,7 @@ class User < ActiveRecord::Base
   before_save :set_profile_completion_status, if: :is_profile_owner?
 
   scope :admins, -> { where(is_admin: true) }
+  scope :staff, -> { where(ROLE_FIELDS.keys.map { |r| "users.#{r} = 't'" }.join(' OR ')) }
   scope :profile_owners, -> { where(is_profile_owner: true) }
   scope :subscribers, -> { where(is_profile_owner: false) }
   scope :with_complete_profile, -> { where(has_complete_profile: true) }

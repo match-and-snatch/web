@@ -1,7 +1,7 @@
 class Dashboard::Admin::StaffsController < Dashboard::Admin::BaseController
 
   def index
-    @users = User.admins.limit(200).to_a
+    @users = User.staff.limit(200).to_a
     json_render
   end
 

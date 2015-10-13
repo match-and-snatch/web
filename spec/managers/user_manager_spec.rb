@@ -87,6 +87,42 @@ describe UserManager do
     end
   end
 
+  describe '#make_sales' do
+    context 'non sales' do
+      let(:user) { create_user }
+
+      specify do
+        expect { manager.make_sales }.to change { user.is_sales }.from(false).to(true)
+      end
+    end
+
+    context 'sales' do
+      let(:user) { create_sales }
+
+      specify do
+        expect { manager.make_sales }.to raise_error ManagerError
+      end
+    end
+  end
+
+  describe '#drop_sales' do
+    context 'non sales' do
+      let(:user) { create_user }
+
+      specify do
+        expect { manager.drop_sales }.to raise_error ManagerError
+      end
+    end
+
+    context 'sales' do
+      let(:user) { create_sales }
+
+      specify do
+        expect { manager.drop_sales }.to change { user.is_sales }.from(true).to(false)
+      end
+    end
+  end
+
   describe '#save_last_visited_profile' do
     let(:user) { create_user }
     let(:another_user) { create_profile email: 'another@user.com' }

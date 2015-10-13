@@ -99,6 +99,14 @@ def create_admin(params = {})
   end
 end
 
+# @param _params [Hash]
+# @return [User]
+def create_sales(params = {})
+  create_user(params).tap do |user|
+    UserManager.new(user).make_sales
+  end
+end
+
 def transloadit_video_data_params
   Fixtures.transloadit.video
 end

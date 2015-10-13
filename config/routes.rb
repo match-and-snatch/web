@@ -430,6 +430,8 @@ BuddyPlatform::Application.routes.draw do
         member do
           put :make_admin
           put :drop_admin
+          put :make_sales
+          put :drop_sales
           post :login_as
         end
       end
