@@ -1,6 +1,3 @@
-class Dashboard::Admin::RecentProfilesController < Dashboard::Admin::BaseController
-  def index
-    @users = User.profile_owners.order('created_at DESC').page(params[:page]).per(100)
-    json_render
-  end
+class Dashboard::Admin::RecentProfilesController < Dashboard::RecentProfilesController
+  include Dashboard::Concerns::AdminController
 end

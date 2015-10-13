@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe Admin::ChartsController, type: :controller do
+describe Dashboard::Admin::VacationsController, type: :controller do
+  let(:owner) { create_profile(email: 'profile@gmail.com') }
+
   describe 'GET #index' do
     subject { get 'index' }
 
@@ -15,8 +17,8 @@ describe Admin::ChartsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
-    subject { get 'show', id: 'some_id' }
+  describe 'GET #history' do
+    subject { get 'history', profile_owner_id: owner.id }
 
     context 'as an admin' do
       before { sign_in create_admin }

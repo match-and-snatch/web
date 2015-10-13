@@ -6,25 +6,25 @@ h2 Profile Owners
     th
     th
       strong
-        a href=admin_profile_owners_path(sort_direction_params(:profile_name)) Profile Name
+        = sort_profile_owners_link 'Profile Name', :profile_name
     th
       strong Email
     th
       strong Payout Type
     th
       strong
-        a href=admin_profile_owners_path(sort_direction_params(:transfer)) Gross Sales
+        = sort_profile_owners_link 'Gross Sales', :transfer
     th
       strong Total Subscribers
     th
       strong
-        a href=admin_profile_owners_path(sort_direction_params(:last_post_created_at)) Last Post Date
+        = sort_profile_owners_link 'Last Post Date', :last_post_created_at
     th
       strong
-        a href=admin_profile_owners_path(sort_direction_params(:created_at)) Created Date
+        = sort_profile_owners_link 'Created Date', :created_at
     th
       strong
-        a href=admin_profile_owners_path(sort_direction_params(:subscription_cost)) Subscription Cost
+        = sort_profile_owners_link 'Subscription Cost', :subscription_cost
     th
       strong Billing Status
 
@@ -34,7 +34,7 @@ h2 Profile Owners
         td
           img src=user.small_profile_picture_url width=50 height=50
         td
-          a.truncate href=admin_profile_owner_path(user.id) = user.name
+          = dashboard_link_to_user user
         td= user.email
         td= user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : 'Wire'
         td

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::TopProfilesController, type: :controller do
+describe Dashboard::Admin::TopProfilesController, type: :controller do
   let(:profile) { create_profile email: 'profile@gmail.com' }
   let(:top_profile) { profile.create_top_profile }
 

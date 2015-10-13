@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::CostChangeRequestsController, type: :controller do
+describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
   let(:user) { create_profile(email: 'profile@mail.com') }
   let(:cost_change_request) { CostChangeRequest.create!(user: user, old_cost: user.cost, new_cost: 800) }
 
