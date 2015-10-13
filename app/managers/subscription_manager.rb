@@ -245,6 +245,7 @@ class SubscriptionManager < BaseManager
   def unsubscribe
     @subscription.remove!
 
+    unmark_as_processing
     target_user = @subscription.target_user
     UserStatsManager.new(target_user).log_subscriptions_count
 

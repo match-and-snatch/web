@@ -132,6 +132,13 @@ describe CurrentUserDecorator do
           manager.reject
         end
       end
+      let(:processing_subscription) do
+        manager = SubscriptionManager.new(subscriber: user)
+        manager.subscribe_and_pay_for(create_profile email: 'target_processig@user.com').tap do
+          manager.reject
+          manager.mark_as_processing
+        end
+      end
       let(:old_removed_subscription) do
         Timecop.freeze 32.days.ago do
           manager = SubscriptionManager.new(subscriber: user)
@@ -155,6 +162,10 @@ describe CurrentUserDecorator do
 
       it 'does not return rejected subscriptions' do
         expect(subject.recent_subscriptions).not_to eq([rejected_subscription])
+      end
+
+      it 'returns processing subscriptions' do
+        expect(subject.recent_subscriptions).to eq([processing_subscription])
       end
 
       it 'returns canceled not expired subscriptions' do

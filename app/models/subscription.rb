@@ -18,12 +18,15 @@ class Subscription < ActiveRecord::Base
   # scope :accessible,   -> { not_rejected.joins(:target_user)
   #                             .where(users: {is_profile_owner: true})
   #                             .where(["subscriptions.removed = ? OR (subscriptions.removed = ? AND subscriptions.charged_at > ?)", false, true, 1.month.ago]) }
-  scope :accessible, -> { where(users: {is_profile_owner: true}).where('processing_payment = ? OR removed = ? OR (removed = ? AND charged_at > ?)', true, false, true, 1.month.ago) }
+  scope :accessible, -> do
+    where(users: {is_profile_owner: true})
+        .where(['(rejected = ? AND (removed = ? OR (removed = ? AND charged_at > ?))) OR (processing_payment = ? AND (rejected = ? OR rejected = ?))', false, false, true, 1.month.ago, true, true, false])
+  end
 
   # Returns upcoming billing date
   # @return [Date]
   def billing_date
-    (charged_at || created_at).next_month.to_date
+    processing_payment? ? Time.zone.today : (charged_at || created_at).next_month.to_date
   end
 
   def actualize_cost!
