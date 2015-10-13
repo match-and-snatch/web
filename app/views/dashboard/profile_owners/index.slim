@@ -36,7 +36,11 @@ h2 Profile Owners
         td
           = dashboard_link_to_user user
         td= user.email
-        td= user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : 'Wire'
+        td
+          - if user.account_number.present? || user.paypal_email.present?
+            = user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : 'Wire'
+          - else
+            | N/A
         td
           = cents_to_dollars user.transfer
         td= user.subscriptions_count
