@@ -139,6 +139,7 @@
         input.form-control.pull-left type='text' name='cvc' style="width: 55px; margin-left: 19px" validate='cvc'
         .clearfix
         .error data-field='cvc'
-      a.remove-billing href='' Remove Billing Information
+      - if @user.has_cc_payment_account? && @subscriptions.active.empty?
+        a.remove-billing href=confirm_cc_data_removal_account_info_path Remove Billing Information
       input.btn.pink.pull-right type='submit' value='Update Credit Card Information'
       .clearfix

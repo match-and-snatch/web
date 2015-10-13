@@ -412,6 +412,34 @@ class UserProfileManager < BaseManager
     fail_with! number: 'Generic Stripe error'
   end
 
+  # @return [User]
+  def delete_cc_data!
+    fail_locked! if user.locked?
+
+    if user.stripe_user_id
+      customer = Stripe::Customer.retrieve(user.stripe_user_id)
+      customer.delete
+    end
+
+    user.stripe_user_id = nil
+    user.stripe_card_id = nil
+    user.stripe_card_fingerprint = nil
+    user.last_four_cc_numbers = nil
+    user.card_type = nil
+    user.billing_address_zip = nil
+    user.billing_address_line_1 = nil
+    user.billing_address_line_2 = nil
+    user.billing_address_city = nil
+    user.billing_address_state = nil
+
+    save_or_die! user
+
+    EventsManager.credit_card_removed(user: user)
+    UserManager.new(user).remove_mark_billing_failed
+
+    user
+  end
+
   def decline_credit_card
     fail_with! email: 'Already declined' if @user.cc_declined?
 

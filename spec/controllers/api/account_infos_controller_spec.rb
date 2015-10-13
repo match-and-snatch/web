@@ -72,4 +72,18 @@ describe Api::AccountInfosController, type: :controller do
       it { should be_success }
     end
   end
+
+  describe 'DELETE #delete_cc_data' do
+    subject { delete 'delete_cc_data' }
+
+    context 'not authorized' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized' do
+      before { sign_in_with_token(user.api_token) }
+
+      it { should be_success }
+    end
+  end
 end

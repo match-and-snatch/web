@@ -599,6 +599,34 @@ describe UserProfileManager do
     end
   end
 
+  describe '#delete_cc_data!' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    before do
+      manager.update_cc_data(number: '4242424242424242',
+                             cvc: '333',
+                             expiry_month: '12',
+                             expiry_year: 2018,
+                             address_line_1: 'test',
+                             zip: '12345',
+                             city: 'LA', state: 'CA')
+      UserManager.new(user).mark_billing_failed
+    end
+
+    it 'removes billing info' do
+      expect { manager.delete_cc_data! }.to change { user.has_cc_payment_account? }.from(true).to(false)
+    end
+
+    it 'removes billing failed flag' do
+      expect { manager.delete_cc_data! }.to change { user.billing_failed? }.to(false)
+    end
+
+    it 'creates credit_card_removed event' do
+      expect { manager.delete_cc_data! }.to create_event(:credit_card_removed)
+    end
+  end
+
   describe '#update_payment_information' do
     specify do
       expect { manager.update_payment_information(holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :holder_name).to('holder')

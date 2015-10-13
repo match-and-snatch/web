@@ -61,6 +61,7 @@ class AccountInfosController < ApplicationController
   end
 
   def edit_cc_data
+    @subscriptions = SubscriptionsPresenter.new(user: @user)
     json_render
   end
 
@@ -69,6 +70,15 @@ class AccountInfosController < ApplicationController
     json_reload notice: :updated_cc_data
   rescue AccountLockedError
     json_reload
+  end
+
+  def confirm_cc_data_removal
+    json_popup
+  end
+
+  def delete_cc_data
+    manager.delete_cc_data!
+    json_reload notice: :removed_cc_data
   end
 
   def create_profile_page

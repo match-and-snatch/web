@@ -146,6 +146,7 @@ BuddyPlatform::Application.routes.draw do
         put :change_password
         put :update_general_information
         put :update_cc_data
+        delete :delete_cc_data
       end
     end
 
@@ -165,6 +166,8 @@ BuddyPlatform::Application.routes.draw do
       put :update_bank_account_data
       get :edit_payment_information
       get :edit_cc_data
+      get :confirm_cc_data_removal
+      delete :delete_cc_data
       get :details
       put :update_cc_data
       put :create_profile_page

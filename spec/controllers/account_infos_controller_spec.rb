@@ -171,6 +171,32 @@ describe AccountInfosController, type: :controller do
     end
   end
 
+  describe 'GET #confirm_cc_data_removal' do
+    subject { get 'confirm_cc_data_removal' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'DELETE #delete_cc_data' do
+    subject { delete 'delete_cc_data' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
   describe 'PUT #create_profile_page' do
     subject { put 'create_profile_page' }
 
