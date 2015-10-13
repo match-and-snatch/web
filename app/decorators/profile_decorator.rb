@@ -26,6 +26,10 @@ class ProfileDecorator < UserDecorator
     end
   end
 
+  def contributions_enabled?
+    object.contributions_enabled? && object.subscribers_count > 4
+  end
+
   # Welcome message for the public view
   # @return [String, nil]
   def custom_welcome_message
