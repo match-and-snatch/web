@@ -25,21 +25,23 @@ h2
       strong= @overview.current_failed_payments_count
       = @overview.total_failed_payments_count
 hr
-h2
-  strong Daily Snapshot
-.row
-  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-    p
-      'Total Subscribers
-      strong= @overview.daily_subscribers_count
-      = @overview.daily_total_subscribers_count
-  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-    p
-      'Total Unsubscribers
-      strong= @overview.daily_unsubscribers_count
-      = @overview.daily_total_unsubscribers_count
-  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-    p
-      'Total Failed Payments
-      strong= @overview.daily_failed_payments_count
-.clearfix
+div style='width: 100%'
+  div style='margin: 0 auto'
+    h2
+      strong Daily Snapshot
+    .row
+      .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+        p
+          'Total Subscribers
+          strong= @overview.daily_subscribers_count
+          = @overview.daily_total_subscribers_count
+      .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+        p
+          'Total Unsubscribers
+          strong= @overview.daily_unsubscribers_count
+          = @overview.daily_total_unsubscribers_count
+      .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+        p
+          'Total Failed Payments
+          strong= @overview.daily_failed_payments_count
+    .clearfix

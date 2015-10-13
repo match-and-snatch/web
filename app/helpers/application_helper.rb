@@ -191,4 +191,20 @@ module ApplicationHelper
   def profile_cost(user)
     "#{cents_to_dollars(user.subscription_cost)}#{'*' if user.has_special_offer?}"
   end
+
+  def dashboard_link_to(title, array)
+    link_to title, [current_user.current_role].concat(array)
+  end
+
+  def sort_profile_owners_link(title, field)
+    dashboard_link_to title, [:profile_owners, sort_direction_params(field)]
+  end
+
+  def dashboard_link_to_user(user)
+    if current_user.admin?
+      link_to user.name, admin_profile_owner_path(user.id), class: 'truncate'
+    else
+      link_to user.name, profile_path(user.slug), target: '_blank'
+    end
+  end
 end
