@@ -318,6 +318,12 @@ BuddyPlatform::Application.routes.draw do
   resources :profile_types, only: [:index, :create, :destroy]
 
   scope module: :dashboard do
+    resource :dashboard, only: [:show]
+
+    namespace :sales do
+      resource :dashboard, only: [:show]
+    end
+
     namespace :admin do
       resource :dashboard, only: [:show]
 

@@ -1,5 +1,5 @@
 class CurrentUserDecorator < UserDecorator
-  delegate :pending_post_uploads, :admin?, :email, :billing_failed?, :cc_declined?, :partner_fees, :locked?, :cost_approved?, to: :object
+  delegate :pending_post_uploads, :roles, :admin?, :sales?, :email, :billing_failed?, :cc_declined?, :partner_fees, :locked?, :cost_approved?, to: :object
 
   # @param user [User, nil]
   def initialize(user = nil)
@@ -20,6 +20,10 @@ class CurrentUserDecorator < UserDecorator
   # @return [true, false]
   def can?(action, subject)
     Ability.new(object).can?(action, subject)
+  end
+
+  def staff?
+    admin? || sales?
   end
 
   # @return [Array]

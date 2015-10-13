@@ -1,0 +1,6 @@
+.container
+  #header.box
+    h1 Please choose your role
+    ul
+      - current_user.roles.each do |role|
+        li= link_to "Login as #{role.humanize}", [role, :dashboard]

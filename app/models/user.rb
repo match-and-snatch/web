@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   FAKE_TOKEN = 'fake'.freeze
+  ROLE_FIELDS = {is_admin: 'admin', is_sales: 'sales'}.freeze
 
   include PgSearch
   include Concerns::Subscribable
@@ -110,8 +111,24 @@ class User < ActiveRecord::Base
                  :subscription_fees => 0
   end
 
+  ROLE_FIELDS.each do |field, val|
+    name = "#{val.parameterize('_')}?"
+
+    define_method name do
+      field
+    end
+  end
+
   def admin?
     is_admin? || APP_CONFIG['admins'].include?(email.try(:downcase))
+  end
+
+  def roles
+    [].tap do |result|
+      ROLE_FIELDS.values.each do |role|
+        result << role if public_send("#{role.parameterize('_')}?")
+      end
+    end
   end
 
   def cc_decline
