@@ -1,17 +1,21 @@
 h2 Delete profile page requests
-
 br
 - if @delete_profile_page_requests.any?
   table.table
     th Profile Page
     th Email
+    th Date
     th
     th
     - @delete_profile_page_requests.each do |delete_profile_page_request|
       tr
         td= link_to_user(delete_profile_page_request.user)
         td= delete_profile_page_request.user.email
+        td= delete_profile_page_request.created_at.to_s(:short)
         td
           .btn.green.pull-right.AjaxLink href=confirm_approve_admin_delete_profile_page_request_path(delete_profile_page_request) APPROVE
         td
           .btn.pink.pull-right.AjaxLink href=confirm_reject_admin_delete_profile_page_request_path(delete_profile_page_request) REJECT
+  .TopJumper= paginate @delete_profile_page_requests
+- else
+    strong No requests so far
