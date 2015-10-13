@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::DashboardsController, type: :controller do
+describe Dashboard::Admin::DashboardsController, type: :controller do
   describe 'GET #show' do
     subject { get 'show' }
 

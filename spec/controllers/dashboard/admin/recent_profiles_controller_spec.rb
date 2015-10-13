@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::RecentProfilesController, type: :controller do
+describe Dashboard::Admin::RecentProfilesController, type: :controller do
   describe 'GET #index' do
     subject { get 'index' }
 
