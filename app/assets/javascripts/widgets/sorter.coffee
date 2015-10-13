@@ -50,7 +50,7 @@ class bud.widgets.Sorter extends bud.Widget
 
   update_ordering: ->
     lis = @lis().sort (a, b) ->
-      $(a).position().top >= $(b).position().top
+      $(a).position().top - $(b).position().top
 
     @$container.append(lis.css('position', 'static'))
 
