@@ -1,5 +1,6 @@
 class CurrentUserDecorator < UserDecorator
   delegate :pending_post_uploads, :roles, :admin?, :sales?, :email, :billing_failed?, :cc_declined?, :partner_fees, :locked?, :cost_approved?, to: :object
+  attr_accessor :current_role
 
   # @param user [User, nil]
   def initialize(user = nil)

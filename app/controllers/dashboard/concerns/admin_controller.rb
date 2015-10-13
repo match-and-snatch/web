@@ -1,6 +1,8 @@
 module Dashboard::Concerns::AdminController
-  DASHBOARD_TEMPLATE = '/dashboard/admin/layouts/dashboard'.freeze
   extend ActiveSupport::Concern
+
+  ROLE = :admin
+  DASHBOARD_TEMPLATE = '/dashboard/admin/layouts/dashboard'.freeze
 
   included do
     protect { current_user.admin? }

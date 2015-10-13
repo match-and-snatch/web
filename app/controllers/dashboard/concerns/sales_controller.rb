@@ -1,6 +1,8 @@
 module Dashboard::Concerns::SalesController
-  DASHBOARD_TEMPLATE = '/dashboard/sales/layouts/dashboard'.freeze
   extend ActiveSupport::Concern
+
+  ROLE = :sales
+  DASHBOARD_TEMPLATE = '/dashboard/sales/layouts/dashboard'.freeze
 
   included do
     protect { current_user.sales? }
