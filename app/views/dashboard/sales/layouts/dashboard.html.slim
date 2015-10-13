@@ -1,0 +1,18 @@
+.container-fluid.admin_settings
+  .row
+    .sidebar.col-lg-2.col-md-2.col-sm-2.col-xs-12
+      ul.nav.nav-sidebar
+        li
+          a.HistoryLink data-target='admin-panel' href=sales_dashboard_path Overview
+      hr style='margin: 5px 0;'
+      ul.nav.nav-sidebar
+        li
+          a.HistoryLink data-target='admin-panel' href=sales_recent_profiles_path Recent Profiles
+        li
+          a.HistoryLink data-target='admin-panel' href=sales_profile_owners_path Profile Owners
+    .content.col-lg-10.col-md-10.col-sm-10.col-xs-12
+      - if @content
+        .AjaxContainer data-use_html5_history='true' data-identifier='admin-panel'
+          = @content
+      - else
+        .AjaxContainer data-use_html5_history='true' data-identifier='admin-panel' data-url=sales_dashboard_path

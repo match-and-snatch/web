@@ -23,7 +23,7 @@ class CurrentUserDecorator < UserDecorator
   end
 
   def staff?
-    admin? || sales?
+    object.roles.any?
   end
 
   # @return [Array]

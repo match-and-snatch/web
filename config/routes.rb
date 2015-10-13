@@ -320,12 +320,50 @@ BuddyPlatform::Application.routes.draw do
   scope module: :dashboard do
     resource :dashboard, only: [:show]
 
+    concern :profile_owners_dashboard do
+      resources :profile_owners, only: [:index, :show, :update] do
+        resources :transfers, only: [:index, :create]
+        resources :vacations, only: [] do
+          collection do
+            get :history
+          end
+        end
+        resources :current_month_details, only: [:index]
+
+        resources :payments, only: [] do
+          collection do
+            get :pending
+          end
+        end
+
+        resource :partner, only: [:show, :edit, :update, :destroy] do
+          get :search
+          get :confirm_destroy
+        end
+
+        member do
+          get :total_subscribed
+          get :total_new_subscribed
+          get :total_unsubscribed
+          get :this_month_subscribers_unsubscribers
+          get :failed_billing_subscriptions
+          get :pending_payments
+          post :change_fake_subscriptions_number
+        end
+      end
+    end
+
     namespace :sales do
       resource :dashboard, only: [:show]
+      resources :recent_profiles, only: :index
+
+      concerns :profile_owners_dashboard
     end
 
     namespace :admin do
       resource :dashboard, only: [:show]
+
+      concerns :profile_owners_dashboard
 
       resources :top_profiles, except: [:show, :new] do
         collection do
@@ -374,36 +412,6 @@ BuddyPlatform::Application.routes.draw do
       end
       resources :uploads, only: :index
       resources :recent_profiles, only: :index
-      resources :profile_owners, only: [:index, :show, :update] do
-        resources :transfers, only: [:index, :create]
-        resources :vacations, only: [] do
-          collection do
-            get :history
-          end
-        end
-        resources :current_month_details, only: [:index]
-
-        resources :payments, only: [] do
-          collection do
-            get :pending
-          end
-        end
-
-        resource :partner, only: [:show, :edit, :update, :destroy] do
-          get :search
-          get :confirm_destroy
-        end
-
-        member do
-          get :total_subscribed
-          get :total_new_subscribed
-          get :total_unsubscribed
-          get :this_month_subscribers_unsubscribers
-          get :failed_billing_subscriptions
-          get :pending_payments
-          post :change_fake_subscriptions_number
-        end
-      end
       resources :profiles, only: [:index, :show] do
         collection do
           get :public

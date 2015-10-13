@@ -115,7 +115,7 @@ class User < ActiveRecord::Base
     name = "#{val.parameterize('_')}?"
 
     define_method name do
-      field
+      field || admin?
     end
   end
 
