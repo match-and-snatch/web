@@ -2,7 +2,7 @@ class Dashboard::Admin::DeleteProfilePageRequestsController < Dashboard::Admin::
   before_action :initialize_delete_profile_page_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
 
   def index
-    @delete_profile_page_requests = DeleteProfilePageRequest.pending.limit(100).to_a
+    @delete_profile_page_requests = DeleteProfilePageRequest.pending.order(created_at: :desc).page(params[:page]).per(100)
     json_render
   end
 

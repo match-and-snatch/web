@@ -1,5 +1,4 @@
 h2 Change cost requests
-
 br
 - if @cost_change_requests.any?
   table.table
@@ -7,6 +6,7 @@ br
     th Email
     th Old cost
     th New cost
+    th Date
     th
     th
     - @cost_change_requests.each do |cost_change_request|
@@ -15,7 +15,11 @@ br
         td= cost_change_request.user.email
         td= cents_to_dollars(cost_change_request.old_cost)
         td= cents_to_dollars(cost_change_request.new_cost)
+        td= cost_change_request.created_at.to_s(:short)
         td
           .btn.green.pull-right.AjaxLink href=confirm_approve_admin_cost_change_request_path(cost_change_request) APPROVE
         td
           .btn.pink.pull-right.AjaxLink href=confirm_reject_admin_cost_change_request_path(cost_change_request) REJECT
+  .TopJumper= paginate @cost_change_requests
+- else
+  strong No requests so far

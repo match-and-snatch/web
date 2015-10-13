@@ -2,7 +2,7 @@ class Dashboard::Admin::ContributionRequestsController < Dashboard::Admin::BaseC
   before_action :load_contribution_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
 
   def index
-    @contribution_requests = ContributionRequest.pending.page(params[:page]).per(100)
+    @contribution_requests = ContributionRequest.pending.order(created_at: :desc).page(params[:page]).per(100)
     json_render
   end
 
