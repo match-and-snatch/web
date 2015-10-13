@@ -1,4 +1,4 @@
-class Admin::DirectoriesController < Admin::BaseController
+class Dashboard::Admin::DirectoriesController < Dashboard::Admin::BaseController
 
   def show
     @users = Queries::Users.new(user: current_user, include_hidden: true).grouped_by_first_letter

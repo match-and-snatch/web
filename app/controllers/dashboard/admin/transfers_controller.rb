@@ -1,4 +1,4 @@
-class Admin::TransfersController < Admin::BaseController
+class Dashboard::Admin::TransfersController < Dashboard::Admin::BaseController
   before_action :load_user!
 
   def index

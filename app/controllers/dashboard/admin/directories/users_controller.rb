@@ -1,4 +1,4 @@
-class Admin::Directories::UsersController < Admin::BaseController
+class Dashboard::Admin::Directories::UsersController < Dashboard::Admin::BaseController
   before_action :load_user!
 
   def toggle

@@ -1,4 +1,4 @@
-class Admin::ProfileOwnersController < Admin::BaseController
+class Dashboard::Admin::ProfileOwnersController < Dashboard::Admin::BaseController
   before_action :load_user!, only: [:show, :update, :change_fake_subscriptions_number, :total_subscribed,
                                     :total_new_subscribed, :total_unsubscribed, :failed_billing_subscriptions,
                                     :pending_payments, :this_month_subscribers_unsubscribers]

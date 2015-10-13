@@ -1,4 +1,4 @@
-class Admin::UsersController < Admin::BaseController
+class Dashboard::Admin::UsersController < Dashboard::Admin::BaseController
   before_action :load_user!, only: %i(make_admin drop_admin login_as)
 
   def search

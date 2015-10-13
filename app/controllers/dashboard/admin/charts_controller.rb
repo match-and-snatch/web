@@ -1,4 +1,4 @@
-class Admin::ChartsController < Admin::BaseController
+class Dashboard::Admin::ChartsController < Dashboard::Admin::BaseController
   before_action :initialize_statistics!
 
   def index

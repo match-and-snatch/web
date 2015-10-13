@@ -1,4 +1,4 @@
-class Admin::ProfileTypesController < Admin::BaseController
+class Dashboard::Admin::ProfileTypesController < Dashboard::Admin::BaseController
   before_action :load_profile_type!, only: :destroy
 
   def index

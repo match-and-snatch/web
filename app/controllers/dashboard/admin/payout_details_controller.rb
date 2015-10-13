@@ -1,4 +1,4 @@
-class Admin::PayoutDetailsController < Admin::BaseController
+class Dashboard::Admin::PayoutDetailsController < Dashboard::Admin::BaseController
 
   def index
     @users = User.joins(:source_payments).

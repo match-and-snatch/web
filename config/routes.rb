@@ -317,132 +317,134 @@ BuddyPlatform::Application.routes.draw do
 
   resources :profile_types, only: [:index, :create, :destroy]
 
-  namespace :admin do
-    resource :dashboard, only: [:show]
+  scope module: :dashboard do
+    namespace :admin do
+      resource :dashboard, only: [:show]
 
-    resources :top_profiles, except: [:show, :new] do
-      collection do
-        get :search
-        post :update_list
+      resources :top_profiles, except: [:show, :new] do
+        collection do
+          get :search
+          post :update_list
+        end
       end
-    end
-    resources :credit_card_declines, only: [:index, :create, :destroy] do
-      collection do
-        get :search
+      resources :credit_card_declines, only: [:index, :create, :destroy] do
+        collection do
+          get :search
+        end
       end
-    end
-    resources :bans, only: [:index, :create, :destroy] do
-      member do
-        delete :unsubscribe
+      resources :bans, only: [:index, :create, :destroy] do
+        member do
+          delete :unsubscribe
+        end
+        collection do
+          get :search
+        end
       end
-      collection do
-        get :search
+      resources :contributions, only: [:index, :destroy] do
+        member do
+          get :confirm_destroy
+        end
       end
-    end
-    resources :contributions, only: [:index, :destroy] do
-      member do
-        get :confirm_destroy
+      resources :duplicates, only: :index
+      resources :payment_failures , only: :index
+      resources :payments, only: :index
+      resources :payout_details, only: :index
+      resources :vacations, only: :index
+      resources :staffs, only: :index do
+        collection do
+          get :search
+        end
       end
-    end
-    resources :duplicates, only: :index
-    resources :payment_failures , only: :index
-    resources :payments, only: :index
-    resources :payout_details, only: :index
-    resources :vacations, only: :index
-    resources :staffs, only: :index do
-      collection do
-        get :search
-      end
-    end
-    resource :directory do
-      scope module: :directories do
-        resources :users, only: [] do
-          member do
-            put :toggle
-            put :toggle_mature_content
-            put :toggle_large_contributions
+      resource :directory do
+        scope module: :directories do
+          resources :users, only: [] do
+            member do
+              put :toggle
+              put :toggle_mature_content
+              put :toggle_large_contributions
+            end
           end
         end
       end
-    end
-    resources :uploads, only: :index
-    resources :recent_profiles, only: :index
-    resources :profile_owners, only: [:index, :show, :update] do
-      resources :transfers, only: [:index, :create]
-      resources :vacations, only: [] do
-        collection do
-          get :history
+      resources :uploads, only: :index
+      resources :recent_profiles, only: :index
+      resources :profile_owners, only: [:index, :show, :update] do
+        resources :transfers, only: [:index, :create]
+        resources :vacations, only: [] do
+          collection do
+            get :history
+          end
+        end
+        resources :current_month_details, only: [:index]
+
+        resources :payments, only: [] do
+          collection do
+            get :pending
+          end
+        end
+
+        resource :partner, only: [:show, :edit, :update, :destroy] do
+          get :search
+          get :confirm_destroy
+        end
+
+        member do
+          get :total_subscribed
+          get :total_new_subscribed
+          get :total_unsubscribed
+          get :this_month_subscribers_unsubscribers
+          get :failed_billing_subscriptions
+          get :pending_payments
+          post :change_fake_subscriptions_number
         end
       end
-      resources :current_month_details, only: [:index]
-
-      resources :payments, only: [] do
+      resources :profiles, only: [:index, :show] do
         collection do
-          get :pending
+          get :public
+        end
+
+        member do
+          put :make_public
+          put :make_private
         end
       end
 
-      resource :partner, only: [:show, :edit, :update, :destroy] do
-        get :search
-        get :confirm_destroy
+      resources :users, only: [] do
+        collection do
+          get :search
+        end
+        member do
+          put :make_admin
+          put :drop_admin
+          post :login_as
+        end
       end
-
-      member do
-        get :total_subscribed
-        get :total_new_subscribed
-        get :total_unsubscribed
-        get :this_month_subscribers_unsubscribers
-        get :failed_billing_subscriptions
-        get :pending_payments
-        post :change_fake_subscriptions_number
+      resources :profile_types, only: [:index, :create, :destroy]
+      resources :charts, only: [:index, :show]
+      resources :payout_breakdowns, only: [:index]
+      resources :cost_change_requests, only: :index do
+        member do
+          get :confirm_reject
+          post :reject
+          get :confirm_approve
+          post :approve
+        end
       end
-    end
-    resources :profiles, only: [:index, :show] do
-      collection do
-        get :public
+      resources :delete_profile_page_requests, only: :index do
+        member do
+          get :confirm_reject
+          post :reject
+          get :confirm_approve
+          post :approve
+        end
       end
-
-      member do
-        put :make_public
-        put :make_private
-      end
-    end
-
-    resources :users, only: [] do
-      collection do
-        get :search
-      end
-      member do
-        put :make_admin
-        put :drop_admin
-        post :login_as
-      end
-    end
-    resources :profile_types, only: [:index, :create, :destroy]
-    resources :charts, only: [:index, :show]
-    resources :payout_breakdowns, only: [:index]
-    resources :cost_change_requests, only: :index do
-      member do
-        get :confirm_reject
-        post :reject
-        get :confirm_approve
-        post :approve
-      end
-    end
-    resources :delete_profile_page_requests, only: :index do
-      member do
-        get :confirm_reject
-        post :reject
-        get :confirm_approve
-        post :approve
-      end
-    end
-    resources :contribution_requests, only: :index do
-      member do
-        get :confirm_reject
-        post :reject
-        get :confirm_approve
-        post :approve
+      resources :contribution_requests, only: :index do
+        member do
+          get :confirm_reject
+          post :reject
+          get :confirm_approve
+          post :approve
+        end
       end
     end
   end

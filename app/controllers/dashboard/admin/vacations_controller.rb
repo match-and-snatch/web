@@ -1,4 +1,4 @@
-class Admin::VacationsController < Admin::BaseController
+class Dashboard::Admin::VacationsController < Dashboard::Admin::BaseController
   before_action :load_user!, only: [:history]
 
   def index

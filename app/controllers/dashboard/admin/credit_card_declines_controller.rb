@@ -1,4 +1,4 @@
-class Admin::CreditCardDeclinesController < Admin::BaseController
+class Dashboard::Admin::CreditCardDeclinesController < Dashboard::Admin::BaseController
 
   def index
     @declines = CreditCardDecline.order('credit_card_declines.created_at DESC').includes(:user).all

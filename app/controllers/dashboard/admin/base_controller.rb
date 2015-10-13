@@ -1,4 +1,4 @@
-class Admin::BaseController < ApplicationController
+class Dashboard::Admin::BaseController < ApplicationController
   protect { current_user.admin? }
 
   protected

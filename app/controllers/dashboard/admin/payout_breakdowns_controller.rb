@@ -1,4 +1,4 @@
-class Admin::PayoutBreakdownsController < Admin::BaseController
+class Dashboard::Admin::PayoutBreakdownsController < Dashboard::Admin::BaseController
   def index
     # TODO (DJ): SIMPLIFY IT
     sql = <<-SQL.squish

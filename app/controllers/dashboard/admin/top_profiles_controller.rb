@@ -1,4 +1,4 @@
-class Admin::TopProfilesController < Admin::BaseController
+class Dashboard::Admin::TopProfilesController < Dashboard::Admin::BaseController
   before_filter :load_users, except: :search
   before_filter :load_user, only: [:create]
   before_filter :load_top_profile, only: [:edit, :update, :destroy]

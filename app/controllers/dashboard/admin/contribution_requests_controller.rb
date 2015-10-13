@@ -1,4 +1,4 @@
-class Admin::ContributionRequestsController < Admin::BaseController
+class Dashboard::Admin::ContributionRequestsController < Dashboard::Admin::BaseController
   before_action :load_contribution_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
 
   def index

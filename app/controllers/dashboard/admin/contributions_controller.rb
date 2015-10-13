@@ -1,4 +1,4 @@
-class Admin::ContributionsController < Admin::BaseController
+class Dashboard::Admin::ContributionsController < Dashboard::Admin::BaseController
   before_action :load_contribution!, only: [:confirm_destroy, :destroy]
 
   def index

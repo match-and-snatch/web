@@ -1,4 +1,4 @@
-class Admin::BansController < Admin::BaseController
+class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
   before_action :load_user!, only: [:destroy, :unsubscribe]
 
   def index

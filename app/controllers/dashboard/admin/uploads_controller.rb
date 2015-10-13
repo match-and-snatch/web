@@ -1,4 +1,4 @@
-class Admin::UploadsController < Admin::BaseController
+class Dashboard::Admin::UploadsController < Dashboard::Admin::BaseController
 
   def index
     @users = User.joins(:source_uploads).

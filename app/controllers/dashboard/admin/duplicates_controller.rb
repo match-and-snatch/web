@@ -1,4 +1,4 @@
-class Admin::DuplicatesController < Admin::BaseController
+class Dashboard::Admin::DuplicatesController < Dashboard::Admin::BaseController
 
   def index
     @duplicates = UsersDuplicatesPresenter.new

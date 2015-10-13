@@ -1,4 +1,4 @@
-class Admin::DeleteProfilePageRequestsController < Admin::BaseController
+class Dashboard::Admin::DeleteProfilePageRequestsController < Dashboard::Admin::BaseController
   before_action :initialize_delete_profile_page_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
 
   def index

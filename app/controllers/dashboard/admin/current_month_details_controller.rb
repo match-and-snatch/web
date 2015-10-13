@@ -1,4 +1,4 @@
-class Admin::CurrentMonthDetailsController < Admin::BaseController
+class Dashboard::Admin::CurrentMonthDetailsController < Dashboard::Admin::BaseController
   before_action :load_user!
 
   def index

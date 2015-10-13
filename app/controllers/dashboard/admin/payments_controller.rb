@@ -1,4 +1,4 @@
-class Admin::PaymentsController < Admin::BaseController
+class Dashboard::Admin::PaymentsController < Dashboard::Admin::BaseController
   before_action :load_user!, only: [:pending]
 
   def index

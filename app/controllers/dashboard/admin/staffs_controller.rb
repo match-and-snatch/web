@@ -1,4 +1,4 @@
-class Admin::StaffsController < Admin::BaseController
+class Dashboard::Admin::StaffsController < Dashboard::Admin::BaseController
 
   def index
     @users = User.admins.limit(200).to_a

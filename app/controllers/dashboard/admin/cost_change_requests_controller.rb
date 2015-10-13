@@ -1,4 +1,4 @@
-class Admin::CostChangeRequestsController < Admin::BaseController
+class Dashboard::Admin::CostChangeRequestsController < Dashboard::Admin::BaseController
   before_action :initialize_cost_change_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
 
   def index

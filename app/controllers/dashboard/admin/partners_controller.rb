@@ -1,4 +1,4 @@
-class Admin::PartnersController < Admin::BaseController
+class Dashboard::Admin::PartnersController < Dashboard::Admin::BaseController
   before_action :load_user!
   before_action :load_partner!, only: [:update]
 
