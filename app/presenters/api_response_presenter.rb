@@ -364,7 +364,7 @@ class ApiResponsePresenter
     }
     video_data = if upload.video?
                    playlist_url = if upload.low_quality_playlist_url
-                                    playlist_video_url(upload.id, format: 'm3u8')
+                                    playlist_video_url(upload.id, format: 'm3u8', host: 'https://www.connectpal.com')
                                   end
                    {
                        hdfile_url: upload.hd_rtmp_path,
