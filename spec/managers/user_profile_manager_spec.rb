@@ -1018,10 +1018,23 @@ describe UserProfileManager do
         expect { manager.approve_and_change_cost!(request) }.to change { request.approved? }.from(false).to(true)
       end
       specify do
-        expect { manager.approve_and_change_cost!(request) }.not_to change { request.performed? }.from(false)
+        expect { manager.approve_and_change_cost!(request) }.to change { request.performed? }.from(false).to(true)
       end
       specify do
-        expect { manager.approve_and_change_cost!(request) }.not_to change { user.cost }.from(500)
+        expect { manager.approve_and_change_cost!(request) }.to change { user.cost }.from(500)
+      end
+
+      context 'with subscribers' do
+        let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+
+        before { SubscriptionManager.new(subscriber: subscriber).subscribe_to(user) }
+
+        specify do
+          expect { manager.approve_and_change_cost!(request) }.not_to change { request.performed? }.from(false)
+        end
+        specify do
+          expect { manager.approve_and_change_cost!(request) }.not_to change { user.cost }.from(500)
+        end
       end
     end
   end
