@@ -282,7 +282,7 @@ class UserProfileManager < BaseManager
   # @param update_existing_subscriptions [Boolean]
   def approve_and_change_cost!(cost_change_request, update_existing_subscriptions: false)
     cost_change_request.approve!(update_existing_costs: update_existing_subscriptions)
-    if cost_change_request.old_cost.nil?
+    if cost_change_request.old_cost.nil? || user.source_subscriptions.active.empty?
       change_cost!(cost: cost_change_request.new_cost, update_existing_subscriptions: cost_change_request.update_existing_subscriptions)
       cost_change_request.perform!
     end
