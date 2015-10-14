@@ -47,7 +47,7 @@ class AccountInfosController < ApplicationController
 
   def billing_information
     @subscriptions = SubscriptionsPresenter.new(user: @user)
-    @contributions = Contribution.where(user_id: @user.id, recurring: true).limit(200)
+    @contributions = @user.contributions.recurring.limit(200)
     json_render
   end
 

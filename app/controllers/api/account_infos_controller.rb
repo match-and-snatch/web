@@ -12,7 +12,7 @@ class Api::AccountInfosController < Api::BaseController
 
   def billing_information
     @subscriptions = SubscriptionsPresenter.new(user: @user)
-    @contributions = Contribution.where(user_id: @user.id, recurring: true).limit(200)
+    @contributions = @user.contributions.recurring.limit(200)
     json_success api_response.billing_information_data(subscriptions: @subscriptions, contributions: @contributions)
   end
 

@@ -611,19 +611,53 @@ describe UserProfileManager do
                              address_line_1: 'test',
                              zip: '12345',
                              city: 'LA', state: 'CA')
-      UserManager.new(user).mark_billing_failed
     end
 
     it 'removes billing info' do
       expect { manager.delete_cc_data! }.to change { user.has_cc_payment_account? }.from(true).to(false)
     end
 
-    it 'removes billing failed flag' do
-      expect { manager.delete_cc_data! }.to change { user.billing_failed? }.to(false)
-    end
-
     it 'creates credit_card_removed event' do
       expect { manager.delete_cc_data! }.to create_event(:credit_card_removed)
+    end
+
+    it 'removes billing failed flag' do
+      expect { manager.delete_cc_data! }.not_to change { user.billing_failed? }.from(false)
+    end
+
+    context 'user has failed billing' do
+      before { UserManager.new(user).mark_billing_failed }
+
+      it 'removes billing failed flag' do
+        expect { manager.delete_cc_data! }.to change { user.billing_failed? }.from(true).to(false)
+      end
+    end
+
+    context 'user has recurring contributions' do
+      let(:target_user) { create_profile email: 'profiled@gmail.com' }
+
+      before { ContributionManager.new(user: user).create(amount: 1, target_user: target_user, recurring: true) }
+
+      it 'cancel all contributions' do
+        expect { manager.delete_cc_data! }.to change { user.contributions.recurring.count }.from(1).to(0)
+      end
+    end
+
+    context 'user has subscriptions' do
+      let(:target_user) { create_profile email: 'profiled@gmail.com' }
+      let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
+
+      before { subscription }
+
+      it { expect { manager.delete_cc_data! }.to raise_error(ManagerError, /You can't remove your billing information/) }
+      it { expect { manager.delete_cc_data! rescue nil }.not_to change { user.has_cc_payment_account? }.from(true) }
+
+      context 'canceled subscriptions' do
+        before { SubscriptionManager.new(subscription: subscription).unsubscribe }
+
+        it { expect { manager.delete_cc_data! }.not_to raise_error }
+        it { expect { manager.delete_cc_data! }.to change { user.has_cc_payment_account? }.from(true).to(false) }
+      end
     end
   end
 

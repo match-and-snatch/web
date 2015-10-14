@@ -61,7 +61,7 @@ class ApiResponsePresenter
       subscribers_count: user.subscribers_count,
       subscriptions_count: user.subscriptions.accessible.count,
       only_subscription_path: user.subscriptions.active.count == 1 ? user.subscriptions.active.first.target_user.slug : nil,
-      recurring_contributions_count: user.contributions.where(recurring: true).count,
+      recurring_contributions_count: user.contributions.recurring.count,
       stripe_recipient_id: user.stripe_recipient_id,
       vacation_enabled: user.vacation_enabled,
       vacation_message: user.vacation_message,

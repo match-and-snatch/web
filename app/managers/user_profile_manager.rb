@@ -415,11 +415,9 @@ class UserProfileManager < BaseManager
   # @return [User]
   def delete_cc_data!
     fail_locked! if user.locked?
+    fail_with! "You can't remove your billing information since you have active subscriptions" if user.subscriptions.active.any?
 
-    if user.stripe_user_id
-      customer = Stripe::Customer.retrieve(user.stripe_user_id)
-      customer.delete
-    end
+    stripe_user_id = user.stripe_user_id
 
     user.stripe_user_id = nil
     user.stripe_card_id = nil
@@ -433,6 +431,15 @@ class UserProfileManager < BaseManager
     user.billing_address_state = nil
 
     save_or_die! user
+
+    if stripe_user_id
+      customer = Stripe::Customer.retrieve(stripe_user_id)
+      customer.delete
+    end
+
+    user.contributions.recurring.each do |contribution|
+      ContributionManager.new(user: user, contribution: contribution).delete
+    end
 
     EventsManager.credit_card_removed(user: user)
     UserManager.new(user).remove_mark_billing_failed
