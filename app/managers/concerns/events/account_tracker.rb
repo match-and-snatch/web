@@ -67,8 +67,8 @@ module Concerns::Events::AccountTracker
   # @param user [User]
   # @yield
   # @return [Event]
-  def credit_card_removed(user: , &block)
-    Event.create! user: user, action: 'credit_card_removed', &block
+  def credit_card_removed(user: , data: , &block)
+    Event.create! user: user, action: 'credit_card_removed', data: data, &block
   end
 
   # @param user [User]
