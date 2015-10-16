@@ -33,12 +33,16 @@ class MessagesManager < BaseManager
 
     EventsManager.message_created(user: @user, message: @message)
 
+    was_read = !@dialogue.unread?
+
     @dialogue.recent_message = @message
     @dialogue.recent_message_at = @message.created_at
     @dialogue.unread = true
     @dialogue.save!
 
-    MessagesMailer.delay.new_message(@message) if target_user.message_notifications_enabled? && !target_user.locked?
+    if target_user.message_notifications_enabled? && !target_user.locked? && was_read
+      MessagesMailer.delay(run_at: 10.minutes.from_now).new_message(@message)
+    end
     @message
   end
 
@@ -48,6 +52,7 @@ class MessagesManager < BaseManager
       @dialogue.unread = false
       @dialogue.read_at = Time.zone.now
       @dialogue.save!
+      @dialogue.messages.unread.update_all(read: true, read_at: Time.zone.now)
       EventsManager.dialogue_marked_as_read(user: user, dialogue: @dialogue)
     end
     @dialogue

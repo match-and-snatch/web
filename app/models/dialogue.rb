@@ -20,6 +20,7 @@ class Dialogue < ActiveRecord::Base
       dialogue.dialogues_users.update_all(removed: false)
     else
       dialogue = Dialogue.new
+      dialogue.unread = false
       dialogue.dialogues_users.build(user: user)
       dialogue.dialogues_users.build(user: target_user)
       dialogue.save!
