@@ -204,7 +204,11 @@ module ApplicationHelper
     if current_user.admin?
       link_to user.name, admin_profile_owner_path(user.id), class: 'truncate'
     else
-      link_to user.name, profile_path(user.slug), target: '_blank'
+      if user.slug.present?
+        link_to user.name, profile_path(user.slug), target: '_blank'
+      else
+        user.name
+      end
     end
   end
 end
