@@ -11,9 +11,10 @@ h2 Profile Owners
       strong Email
     th
       strong Payout Type
-    th
-      strong
-        = sort_profile_owners_link 'Gross Sales', :transfer
+    - if current_user.admin?
+      th
+        strong
+          = sort_profile_owners_link 'Gross Sales', :transfer
     th
       strong Total Subscribers
     th
@@ -41,8 +42,9 @@ h2 Profile Owners
             = user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : 'Wire'
           - else
             | N/A
-        td
-          = cents_to_dollars user.transfer
+        - if current_user.admin?
+          td
+            = cents_to_dollars user.transfer
         td= user.subscriptions_count
         td= user.last_post_created_at.try(:to_date).try(:to_s, :long)
         td style='min-width: 100px'= user.created_at
