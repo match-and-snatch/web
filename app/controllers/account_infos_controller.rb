@@ -47,7 +47,7 @@ class AccountInfosController < ApplicationController
 
   def billing_information
     @subscriptions = SubscriptionsPresenter.new(user: @user)
-    @contributions = Contribution.where(user_id: @user.id, recurring: true).limit(200)
+    @contributions = @user.contributions.recurring.limit(200)
     json_render
   end
 
@@ -61,6 +61,7 @@ class AccountInfosController < ApplicationController
   end
 
   def edit_cc_data
+    @subscriptions = SubscriptionsPresenter.new(user: @user)
     json_render
   end
 
@@ -69,6 +70,15 @@ class AccountInfosController < ApplicationController
     json_reload notice: :updated_cc_data
   rescue AccountLockedError
     json_reload
+  end
+
+  def confirm_cc_data_removal
+    json_popup
+  end
+
+  def delete_cc_data
+    manager.delete_cc_data!
+    json_reload notice: :removed_cc_data
   end
 
   def create_profile_page

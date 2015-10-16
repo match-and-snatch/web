@@ -4,7 +4,7 @@ class Api::AccountInfosController < Api::BaseController
   before_action :load_user!
 
   protect(:settings, :billing_information, :update_account_picture, :change_password,
-          :update_general_information, :update_cc_data) { current_user.authorized? }
+          :update_general_information, :update_cc_data, :delete_cc_data) { current_user.authorized? }
 
   def settings
     respond_with_account_data
@@ -12,7 +12,7 @@ class Api::AccountInfosController < Api::BaseController
 
   def billing_information
     @subscriptions = SubscriptionsPresenter.new(user: @user)
-    @contributions = Contribution.where(user_id: @user.id, recurring: true).limit(200)
+    @contributions = @user.contributions.recurring.limit(200)
     json_success api_response.billing_information_data(subscriptions: @subscriptions, contributions: @contributions)
   end
 
@@ -39,6 +39,12 @@ class Api::AccountInfosController < Api::BaseController
 
   def update_cc_data
     manager.update_cc_data(params.slice(:number, :cvc, :expiry_month, :expiry_year, :zip, :city, :state, :address_line_1, :address_line_2))
+    respond_with_account_data
+  end
+
+  def delete_cc_data
+    manager.delete_cc_data!
+    notice :removed_cc_data
     respond_with_account_data
   end
 

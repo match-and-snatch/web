@@ -412,6 +412,52 @@ class UserProfileManager < BaseManager
     fail_with! number: 'Generic Stripe error'
   end
 
+  # @return [User]
+  def delete_cc_data!
+    fail_locked! if user.locked?
+    fail_with! "You can't remove your billing information since you have active subscriptions" if user.subscriptions.active.any?
+
+    cc_data = {}.tap do |data|
+      data[:stripe_user_id] = user.stripe_user_id
+      data[:stripe_card_id] = user.stripe_card_id
+      data[:stripe_card_fingerprint] = user.stripe_card_fingerprint
+      data[:last_four_cc_numbers] = user.last_four_cc_numbers
+      data[:card_type] = user.card_type
+      data[:billing_address_zip] = user.billing_address_zip
+      data[:billing_address_line_1] = user.billing_address_line_1
+      data[:billing_address_line_2] = user.billing_address_line_2
+      data[:billing_address_city] = user.billing_address_city
+      data[:billing_address_state] = user.billing_address_state
+    end
+
+    # user.stripe_user_id = nil
+    user.stripe_card_id = nil
+    user.stripe_card_fingerprint = nil
+    user.last_four_cc_numbers = nil
+    user.card_type = nil
+    user.billing_address_zip = nil
+    user.billing_address_line_1 = nil
+    user.billing_address_line_2 = nil
+    user.billing_address_city = nil
+    user.billing_address_state = nil
+
+    save_or_die! user
+
+    if cc_data[:stripe_user_id]
+      customer = Stripe::Customer.retrieve(cc_data[:stripe_user_id])
+      customer.sources.retrieve(cc_data[:stripe_card_id]).delete rescue nil
+    end
+
+    user.contributions.recurring.each do |contribution|
+      ContributionManager.new(user: user, contribution: contribution).delete
+    end
+
+    EventsManager.credit_card_removed(user: user, data: cc_data)
+    UserManager.new(user).remove_mark_billing_failed
+
+    user
+  end
+
   def decline_credit_card
     fail_with! email: 'Already declined' if @user.cc_declined?
 
