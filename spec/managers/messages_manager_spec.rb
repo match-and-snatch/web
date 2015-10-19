@@ -29,18 +29,46 @@ describe MessagesManager do
         expect { subject.create(message: 'test', target_user: target_user) }.not_to deliver_email(to: 'another_user@mail.com')
       end
     end
+
+    context 'target user is locked' do
+      before { UserManager.new(target_user).lock }
+
+      specify do
+        expect { subject.create(message: 'test', target_user: target_user) }.not_to deliver_email(to: 'another_user@mail.com')
+      end
+    end
+
+    context 'a few messages in a row' do
+      let!(:dialogue) { subject.create(message: 'test', target_user: target_user).dialogue }
+
+      context 'previous message was not read' do
+        specify do
+          expect { subject.create(message: 'test', target_user: target_user) }.not_to deliver_email(to: 'another_user@mail.com')
+        end
+      end
+
+      context 'previous message was read' do
+        before { described_class.new(user: target_user, dialogue: dialogue).mark_as_read }
+
+        specify do
+          expect { subject.create(message: 'test', target_user: target_user) }.to deliver_email(to: 'another_user@mail.com', subject: 'New message on ConnectPal')
+        end
+      end
+    end
   end
 
   describe '#mark_as_read' do
     context 'as message creator' do
-      specify do
-        expect { subject.mark_as_read }.not_to change { dialogue.reload.unread }
-      end
+      it { expect { subject.mark_as_read }.not_to change { dialogue.reload.unread }.from(true) }
+      it { expect { subject.mark_as_read }.not_to change { message.read? }.from(false) }
+      it { expect { subject.mark_as_read }.not_to change { message.read_at }.from(nil) }
     end
 
     context 'as a receiving user' do
-      specify do
-        expect { described_class.new(user: target_user, dialogue: dialogue).mark_as_read }.to change { dialogue.reload.unread }
+      it { expect { described_class.new(user: target_user, dialogue: dialogue).mark_as_read }.to change { dialogue.reload.unread }.from(true).to(false) }
+      it { expect { described_class.new(user: target_user, dialogue: dialogue).mark_as_read }.to change { message.reload.read? }.from(false).to(true) }
+      it 'sets read date', freeze: true do
+        expect { described_class.new(user: target_user, dialogue: dialogue).mark_as_read }.to change { message.reload.read_at }.from(nil).to(Time.zone.now)
       end
     end
   end
