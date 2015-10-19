@@ -44,6 +44,20 @@ describe PostManager, freeze: true do
     end
   end
 
+  describe '#update' do
+    context 'status post' do
+      let(:post) { manager.create_status_post(message: 'test') }
+
+      specify do
+        expect { manager.update(title: 'test', message: 'updated') }.to change { post.reload.message }.to('updated')
+      end
+
+      specify do
+        expect { manager.update(title: 'test', message: 'updated') }.not_to change { post.reload.title }.from(nil)
+      end
+    end
+  end
+
   describe '#update_pending' do
     specify do
       expect(manager.update_pending(message: 'message', keywords: 'keyword')).to be_a PendingPost

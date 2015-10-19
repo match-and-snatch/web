@@ -26,6 +26,8 @@ class PostManager < BaseManager
   def update(title: :unset, message: )
     fail_with! message: :empty if message.blank?
 
+    title = nil if @post.status?
+
     @post.title = title unless title == :unset
     @post.message = CGI.escapeHTML(message)
     @post.save or fail_with!(@post.errors)
@@ -41,7 +43,7 @@ class PostManager < BaseManager
 
     message = CGI.escapeHTML(message)
 
-    StatusPost.new(user: user, message: message).tap do |post|
+    @post = StatusPost.new(user: user, message: message).tap do |post|
       post.save or fail_with! post.errors
       EventsManager.post_created(user: user, post: post)
       StatusFeedEvent.create! subscription_target_user: user, target: post, data: {message: message}
@@ -154,12 +156,14 @@ class PostManager < BaseManager
     end
   end
 
+  # When all uploads removed we turn media posts into status posts
   # @return [StatusPost, nil]
   def turn_to_status_post
     fail_with! 'Post already is StatusPost' if @post.status?
 
     if @post.uploads.count.zero?
       @post.type = 'StatusPost'
+      @post.title = nil
       @post.save or fail_with! @post.errors
       @post
     end
@@ -190,7 +194,7 @@ class PostManager < BaseManager
 
     message = CGI.escapeHTML(message)
 
-    post_class.new(user: user, message: message, title: title, keywords_text: keywords_text).tap do |post|
+    @post = post_class.new(user: user, message: message, title: title, keywords_text: keywords_text).tap do |post|
       post.save or fail_with! post.errors
       uploads.each { |upload| post.uploads << upload }
       user.pending_post.try(:destroy!)
