@@ -21,12 +21,50 @@ describe Api::DialoguesController, type: :controller do
       context 'with open dialogues' do
         let!(:recent_message) { MessagesManager.new(user: user).create(target_user: friend, message: 'test') }
 
-        before { MessagesManager.new(user: friend).create(target_user: user, message: 'test') }
-        before { MessagesManager.new(user: friend).create(target_user: friend, message: 'test') }
+        before do
+          MessagesManager.new(user: friend).create(target_user: user, message: 'test')
+          MessagesManager.new(user: friend).create(target_user: friend, message: 'test')
+        end
 
         it 'renders dialogues only related to the user' do
           perform_request
           expect(assigns('dialogues')).to eql([recent_message.dialogue])
+        end
+      end
+
+      context 'with dialogue' do
+        let(:recent_message) { MessagesManager.new(user: user).create(target_user: friend, message: 'test') }
+
+        before { recent_message }
+
+        specify do
+          expect(JSON.parse(perform_request.body)).to include("data"=>{
+            "dialogues"=>{
+              dialogue.id.to_s=>{
+                "id"=>dialogue.id,
+                "antiuser"=>{
+                  "id"=>friend.id,
+                  "name"=>friend.name,
+                  "slug"=>nil,
+                  "picture_url"=>nil,
+                  "has_profile_page"=>false
+                },
+                "recent_message"=>{
+                  "id"=>recent_message.id,
+                  "created_at"=>"less than a minute",
+                  "message"=>"test",
+                  "dialogue_id"=>dialogue.id,
+                  "contribution"=>{},
+                  "user"=>{
+                    "name"=>recent_message.user.name,
+                    "picture_url"=>nil
+                  }
+                },
+                "recent_message_at"=>dialogue.recent_message_at.to_i,
+                "unread"=>false
+              }
+            }
+          })
         end
       end
     end
