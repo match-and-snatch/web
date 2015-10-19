@@ -6,14 +6,13 @@ class HomePage < BasePage
 
   def sign_up(credentials = {})
     visit_home_page
-
-    click_link 'Login'
+    
+    find("[qid=create_profile_button]").click
 
     fill_in 'first_name',            with: credentials['first_name']
     fill_in 'last_name',             with: credentials['last_name']
     fill_in 'email',                 with: credentials['email']
     fill_in 'password',              with: credentials['password']
-    fill_in 'password_confirmation', with: credentials['password_confirmation']
 
     click_button 'Continue to Profile'
   end
