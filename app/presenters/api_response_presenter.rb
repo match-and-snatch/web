@@ -188,6 +188,7 @@ class ApiResponsePresenter
           has_profile_page: antiuser.has_profile_page?
         },
         recent_message: message_data(dialogue.recent_message),
+        recent_message_at: dialogue.recent_message_at.to_i,
         unread: dialogue.unread? && dialogue.recent_message.user != current_user.object
       }
     end

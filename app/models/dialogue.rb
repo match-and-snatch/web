@@ -1,9 +1,8 @@
 class Dialogue < ActiveRecord::Base
   has_many :dialogues_users
   has_many :users, through: :dialogues_users
-  belongs_to :recent_message, class_name: 'Message'
-
   has_many :messages
+  belongs_to :recent_message, class_name: 'Message'
 
   scope :by_user, -> (user) { joins(:users).where(users: {id: user.id}) }
   scope :unread, -> { where(unread: true) }
