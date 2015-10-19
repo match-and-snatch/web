@@ -15,7 +15,9 @@ class Subscription < ActiveRecord::Base
   scope :been_charged, -> { where.not(charged_at: nil) }
   scope :to_charge,    -> { on_charge.not_removed.where(users: { vacation_enabled: false, locked: false }) }
   scope :active,       -> { not_removed.where("rejected_at is NULL OR rejected_at > ?", 1.month.ago) }
-  scope :accessible,   -> { not_rejected.where(["subscriptions.removed = ? OR (subscriptions.removed = ? AND subscriptions.charged_at > ?)", false, true, 1.month.ago]) }
+  scope :accessible,   -> { not_rejected.joins(:target_user)
+                              .where(users: {is_profile_owner: true})
+                              .where(["subscriptions.removed = ? OR (subscriptions.removed = ? AND subscriptions.charged_at > ?)", false, true, 1.month.ago]) }
 
   # Returns upcoming billing date
   # @return [Date]
