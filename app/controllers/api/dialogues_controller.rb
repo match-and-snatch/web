@@ -6,8 +6,7 @@ class Api::DialoguesController < Api::BaseController
   protect(:destroy) { can? :manage, @dialogue }
 
   def index
-    @dialogues = current_user.object.dialogues.not_removed.
-        includes(recent_message: :user).order(recent_message_at: :desc).limit(1000).to_a
+    @dialogues = current_user.object.dialogues.not_removed.includes(recent_message: :user).limit(1000).to_a
     json_success dialogues: api_response.dialogues_data(@dialogues)
   end
 
