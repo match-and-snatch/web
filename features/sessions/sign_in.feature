@@ -13,7 +13,7 @@ Feature: Sign in
 
   Scenario: User is not signed up
     When I sign in with email "dimon@mail.ru" and password "password"
-    Then I should see "Email or password is invalid." message
+    Then I should see "There is nobody registered with this email." message
     And  I should be signed out
 
   Scenario: User signs in successfully
@@ -24,5 +24,5 @@ Feature: Sign in
 
   Scenario: User enters wrong password
     When I sign in with email "serge@gmail.com" and password "wrongpassword"
-    Then I should see "Email or password is invalid." message
+    Then I should see "This password is incorrect." message
     And  I should be signed out

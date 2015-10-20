@@ -13,7 +13,7 @@ Feature: Restore password
 
   Scenario: User enters valid email
     When I try to restore password with email "serge@gmail.com"
-    Then I should see "We sent you an email on serge@gmail.com with futher steps to restore your password." message
+    Then I should see "We sent you an email to serge@gmail.com with further steps to restore your password." message
     And  I should be signed out
 
   Scenario Outline: User enters invalid email
