@@ -2,7 +2,7 @@ class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
   before_action :load_user!, only: [:destroy, :unsubscribe]
 
   def index
-    @users = User.where(locked: true).order(updated_at: :desc).all
+    @users = User.where(locked: true).order(updated_at: :desc).page(params[:page]).per(100)
     json_render
   end
 

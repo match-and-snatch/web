@@ -23,5 +23,6 @@ div data-identifier='bans'
             button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=unsubscribe_admin_ban_path(user.id) Unsubscribe
         td
           button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=admin_ban_path(user.id) Unlock
+  .TopJumper= paginate @users
 - else
   h3.pending No accounts locked
