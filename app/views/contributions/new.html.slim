@@ -10,7 +10,7 @@
       - else
         select.form-control name='target_user_id' style='margin-bottom: 15px; font-size: 12px;'
           = options_for_select(current_user.recent_subscriptions_options, params[:selected_user_id])
-      .form-group
+      .form-group.contribute-value
         - if mobile_phone_device?
           span style='width: auto; font-size: 11px;' Amount:
 
@@ -39,18 +39,19 @@
           input id='amount_cont_30' type='radio' name='amount' value='3000' style='margin: 0 5px 0 10px;'
           label for='amount_cont_30' style='font-size: 13px;' $30
 
-          input id='custom_amount_cont_rb' type='radio' name='amount' value='0' style='margin: 0 5px 0 10px;'
-          label for='custom_amount_cont_rb'
+          label.custom-amount for='custom_amount_cont_rb'
+            input id='custom_amount_cont_rb' type='radio' name='amount' value='0' style='margin: 0 5px 0 10px;'
             input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter other value' style='width: 140px;'
-            .clearfix
           .clearfix
+
         .error.limit data-field='amount' style='display: none;'
-        .clearfix
-        - if mobile_phone_device?
-          textarea.form-control name='message' value='500' placeholder='Please leave a message for the profile owner (optional)' style='height: 60px; margin-top: 15px; font-size: 11px;'
-        - else
-          textarea.form-control name='message' value='500' placeholder='Please leave a message for the profile owner (optional)' style='height: 80px; margin-top: 15px;'
-        .clearfix
+      .clearfix
+      .form-group
+      - if mobile_phone_device?
+        textarea.form-control name='message' value='500' placeholder='Please leave a message for the profile owner (optional)' style='height: 60px; margin-top: 15px; font-size: 11px;'
+      - else
+        textarea.form-control name='message' value='500' placeholder='Please leave a message for the profile owner (optional)' style='height: 80px; margin-top: 15px;'
+      .clearfix
       - if mobile_phone_device?
         .form-group
           input id='recurring_cont_0' type='radio' name='recurring' value='0' checked='1'
