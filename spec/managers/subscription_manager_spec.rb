@@ -98,20 +98,14 @@ describe SubscriptionManager do
   describe '#unsubscribe' do
     before { manager.subscribe_to(another_user) }
 
-    it do
-      expect { manager.unsubscribe }.to change { another_user.subscribers_count }.by(-1)
-    end
+    it { expect { manager.unsubscribe }.to change { another_user.subscribers_count }.by(-1) }
 
     context 'fake' do
       before { manager.subscribe_to(another_user, fake: true) }
 
-      it do
-        expect { manager.unsubscribe }.to change { another_user.subscribers_count }.by(-1)
-      end
-
-      it do
-        expect { manager.unsubscribe }.not_to change { FeedEvent.count }
-      end
+      it { expect { manager.unsubscribe }.to change { another_user.subscribers_count }.by(-1) }
+      it { expect { manager.unsubscribe }.not_to change { FeedEvent.count } }
+      it { expect { manager.unsubscribe }.to create_event(:subscription_canceled).with_subject(another_user) }
     end
   end
 

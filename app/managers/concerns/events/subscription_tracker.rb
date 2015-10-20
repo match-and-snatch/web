@@ -20,6 +20,7 @@ module Concerns::Events::SubscriptionTracker
   def subscription_cancelled(user: , subscription: , &block)
     Event.create! user: user,
                   action: 'subscription_canceled',
+                  subject: subscription.target_user,
                   data: { subscription_id: subscription.id,
                           target_user_id:  subscription.target_user_id },
                   &block
