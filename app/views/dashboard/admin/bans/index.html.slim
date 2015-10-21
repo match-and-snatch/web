@@ -6,10 +6,15 @@ form.Form action=search_admin_bans_path method='get' data-target='bans'
 div data-identifier='bans'
 
 - if @users.any?
-  table.table
-    th Name
-    th Email
-    th Locked at
+  table.table.table-striped style='margin-top: 15px;'
+    th
+      strong Name
+    th
+      strong Email
+    th
+      strong Locked Date
+    th
+      strong Lock Type
     th
     th
 
@@ -17,10 +22,11 @@ div data-identifier='bans'
       tr
         td= user.name
         td= user.email
-        td= user.last_time_locked_at.try(:to_s, :full)
+        td= user.last_time_locked_at.try(:to_s, :long)
+        td= user.lock_reason.to_s.humanize
         td
-          - if user.subscriptions.not_removed.any?
-            button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=unsubscribe_admin_ban_path(user.id) Unsubscribe
+          - if user.not_removed_subscriptions_count > 0
+            button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=unsubscribe_admin_ban_path(user.id) Unsubscribe (#{user.not_removed_subscriptions_count})
         td
           button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=admin_ban_path(user.id) Unlock
   .TopJumper= paginate @users

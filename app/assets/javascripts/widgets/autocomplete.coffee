@@ -11,9 +11,21 @@ class bud.widgets.Autocomplete extends bud.Widget
     @input.on 'keyup', (e) =>
       if e.which == 27
         @input.val('')
-        @form.submit()
+        @submit()
         bud.pub('search.changed', [@input.val()])
 
     @input.on 'input', =>
+      @submit()
+      bud.pub('search.changed', [@recent_val])
+
+  submit: =>
+    if @form_widget()
+      @submitted_value = @input.val() unless @form_widget().requesting
+
+      @form_widget().safe_submit(=>
+        @submit() if @input.val() != @submitted_value)
+    else
       @form.submit()
-      bud.pub('search.changed', [@input.val()])
+
+  form_widget: ->
+    @_form_widget or= @form.data('js-widget')

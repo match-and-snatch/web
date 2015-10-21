@@ -1,4 +1,26 @@
 module Concerns::Events::AccountTracker
+
+  # @param user [User]
+  # @param reason [String]
+  # @yield
+  # @return [Event]
+  def account_locked(user: , reason: , &block)
+    Event.create! user: user,
+                  action: 'account_locked',
+                  data: { reason: reason },
+                  &block
+  end
+
+  # @param user [User]
+  # @yield
+  # @return [Event]
+  def account_unlocked(user: ,&block)
+    Event.create! user: user,
+                  action: 'account_unlocked',
+                  data: {},
+                  &block
+  end
+
   # @param user [User]
   # @param photo [Photo]
   # @yield
