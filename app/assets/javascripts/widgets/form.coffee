@@ -8,12 +8,21 @@ class bud.widgets.Form extends bud.Widget
     @wait_text      = @$submit_button.data('wait_text') || 'Wait...'
     @submit_text    = @$submit_button.val()
 
+    @requesting = false
+
     @$container.submit @on_submit
     @$error = @$container.find('.Error')
     if @$container.data('target')
       @$target = bud.get(@$container.data('target'))
     else
       @$target = @$container
+
+  safe_submit: (after) ->
+    @submit(after) unless @requesting
+
+  submit: (after) ->
+    @after_once = after
+    @$container.submit()
 
   on_submit: =>
     path = @$container.attr('action')
@@ -29,6 +38,7 @@ class bud.widgets.Form extends bud.Widget
     }
     method = @$container.attr('method')
 
+    @requesting = true
     request = new bud.Ajax(path, params, callbacks)
     request.perform_request(method)
 
@@ -62,12 +72,17 @@ class bud.widgets.Form extends bud.Widget
     @$container.addClass('pending')
 
   on_after: =>
+    @requesting = false
     @$container.removeClass('pending')
     @$submit_button.val(@submitted_text)
     setTimeout =>
       @$submit_button.val(@submit_text)
       @$submit_button.removeAttr('disabled')
     , 1000
+
+    if @after_once
+      @after_once()
+      @after_once = null
 
   on_fail: (response) =>
     if message = response['message']
