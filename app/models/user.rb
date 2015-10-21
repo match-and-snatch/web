@@ -149,7 +149,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def lock!
+  def lock!(reason)
+    self.lock_reason = reason
     self.locked = true
     self.last_time_locked_at = Time.zone.now
     save!

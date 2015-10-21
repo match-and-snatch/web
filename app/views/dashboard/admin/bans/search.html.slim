@@ -8,12 +8,12 @@
           span= user.full_name
           | &nbsp;
           strong= user.email
-        button.btn.btn-warning.pull-right Account Lock
-        button.btn.btn-warning.pull-right ToS Lock
         - if user.locked?
           button.AjaxFormLink.btn.pink.pull-right data-_method='delete' href=admin_ban_path(user.id) Unlock
         - else
-          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-email=user.email href=admin_bans_path Billing Lock
+          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-reason='billing' data-email=user.email href=admin_bans_path Billing Lock
+          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-reason='account' data-email=user.email href=admin_bans_path Account Lock
+          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-reason='tos' data-email=user.email href=admin_bans_path ToS Lock
         .clearfix
   .clearfix
 - else

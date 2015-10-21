@@ -12,7 +12,7 @@ class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
   end
 
   def create
-    UserManager.new(User.where(email: params[:email]).first).lock
+    UserManager.new(User.where(email: params[:email]).first).lock(params[:reason])
     json_reload
   end
 

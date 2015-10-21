@@ -53,14 +53,21 @@ class UserManager < BaseManager
     end
   end
 
-  def lock
-    @user.lock!
+  # @param reason [String, Symbol] account, billing or tos
+  def lock(reason = :account)
+    fail_with! 'No valid reason provided' unless %w(account billing tos).include?(reason.to_s)
+
+    @user.lock!(reason).tap do
+      EventsManager.account_locked(user: @user, reason: reason)
+    end
   end
 
   def unlock
     @user.credit_card_update_requests.destroy_all
     @user.recent_subscriptions_count = 0
-    @user.unlock!
+    @user.unlock!.tap do
+      EventsManager.account_unlocked(user: @user)
+    end
   end
 
   def save_last_visited_profile(target_user)
