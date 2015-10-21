@@ -1,95 +1,11 @@
-.container data-identifier='directory'
-  .row.box.general_page
-    .col-md-12
-      h1 Profile Directory Listings
-
-      / Listing A-Z & 0-9, group any number profiles under same section.
-      ul.search_directory
-        li
-          a href='#A' A
-        li
-          a href='#B' B
-        li
-          a href='#C' C
-        li
-          a href='#D' D
-        li
-          a href='#E' E
-        li
-          a href='#F' F
-        li
-          a href='#G' G
-        li
-          a href='#H' H
-        li
-          a href='#I' I
-        li
-          a href='#J' J
-        li
-          a href='#K' K
-        li
-          a href='#L' L
-        li
-          a href='#M' M
-        li
-          a href='#N' N
-        li
-          a href='#O' O
-        li
-          a href='#P' P
-        li
-          a href='#Q' Q
-        li
-          a href='#R' R
-        li
-          a href='#S' S
-        li
-          a href='#T' T
-        li
-          a href='#U' U
-        li
-          a href='#V' V
-        li
-          a href='#W' W
-        li
-          a href='#X' X
-        li
-          a href='#Y' Y
-        li
-          a href='#Z' Z
-        li
-          a href='#0-9' 0-9
-      .clearfix
-
-      h1 style='margin-bottom: 25px;' Top 20 Most Popular Profiles
-
-      ul.top_twenty
-        - @top_users.each do |user|
-          li
-            a href=profile_path(user)
-              img.photo src=user.small_profile_picture_url width=50 height=50
-              span= user.top_profile.name
-              span.category.hidden-xs
-                '&nbsp;(#{user.top_profile.types})
-      hr style='height: 1px'
-
-      - @users.each do |letter, users|
-        h2.search_heading id=letter = letter
-
-        - if users.empty?
-          span.no_profile Sorry, there are no listings for this section.
-        - else
-          ul.profile_directory
-            - users.each do |user|
-              li
-                a href=profile_path(user)
-                  img.photo src=user.small_profile_picture_url width=50 height=50
-                  span= user.name
-                .clearfix
-        hr
-        a.search_top.TopJumper href="#top" Back to Top
-
-// Jump to Top
-span.top_jumper.TopJumper.fa.fa-arrow-up.hidden-xs.hidden-sm data-start=800 data-end=1200 style='margin: 0 0 80px 15px;' &nbsp;Back to Top
-
-= render 'footer'
+h1 style='margin-bottom: 25px;' Top 20 Most Popular Profiles
+ul.top_twenty
+  - @top_users.each do |user|
+    li
+      a href=profile_path(user)
+        img.photo src=user.small_profile_picture_url width=50 height=50
+        span= user.top_profile.name
+        span.category.hidden-xs
+          '&nbsp;(#{user.top_profile.types})
+hr
+a.search_top.TopJumper href="#top" Back to Top

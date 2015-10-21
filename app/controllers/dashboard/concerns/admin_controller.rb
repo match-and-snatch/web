@@ -2,9 +2,10 @@ module Dashboard::Concerns::AdminController
   extend ActiveSupport::Concern
 
   ROLE = :admin
-  DASHBOARD_TEMPLATE = '/dashboard/admin/layouts/dashboard'.freeze
 
   included do
+    include Concerns::DynamicContent
     protect { current_user.admin? }
+    dynamic_template '/dashboard/admin/layouts/dashboard'
   end
 end

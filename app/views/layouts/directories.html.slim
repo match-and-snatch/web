@@ -1,0 +1,21 @@
+.container data-identifier='directory'
+  .row.box.general_page
+    .col-md-12
+      h1 Profile Directory Listings
+
+      / Listing A-Z & 0-9, group any number profiles under same section.
+      ul.search_directory
+        li
+          a.HistoryLink data-target='users-list' href=users_path Top Profiles
+        - (('A'..'Z').to_a << '0-9').each do |letter|
+          li
+            a.HistoryLink data-target='users-list' href=directory_path(id: letter)
+              = letter
+      .clearfix
+      .AjaxContainer data-use_html5_history='true' data-identifier='users-list'
+        = @content
+
+// Jump to Top
+span.top_jumper.TopJumper.fa.fa-arrow-up.hidden-xs.hidden-sm data-start=800 data-end=1200 style='margin: 0 0 80px 15px;' &nbsp;Back to Top
+
+= render 'footer'

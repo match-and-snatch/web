@@ -282,6 +282,9 @@ BuddyPlatform::Application.routes.draw do
   resources :users, only: [:index, :create, :edit, :update] do
     collection do
       get :search
+      scope module: :users do
+        resources :directories, only: :show
+      end
     end
 
     member do
