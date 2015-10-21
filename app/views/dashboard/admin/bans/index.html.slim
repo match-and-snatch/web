@@ -23,7 +23,7 @@ div data-identifier='bans'
         td= user.name
         td= user.email
         td= user.last_time_locked_at.try(:to_s, :full)
-        td Billing / ToS / Account
+        td= user.lock_reason.to_s.humanize
         td
           - if user.subscriptions.not_removed.any?
             button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=unsubscribe_admin_ban_path(user.id) Unsubscribe
