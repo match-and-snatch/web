@@ -7,6 +7,13 @@ class CurrentUserDecorator < UserDecorator
     @object = user || User.new
   end
 
+  # @return [Symbol]
+  def lock_reason
+    if object.lock_reason.present?
+      object.lock_reason.to_sym
+    end
+  end
+
   def authorized?
     !object.new_record?
   end
