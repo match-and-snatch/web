@@ -22,11 +22,11 @@ div data-identifier='bans'
       tr
         td= user.name
         td= user.email
-        td= user.last_time_locked_at.try(:to_s, :full)
+        td= user.last_time_locked_at.try(:to_s, :long)
         td= user.lock_reason.to_s.humanize
         td
-          - if user.subscriptions.not_removed.any?
-            button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=unsubscribe_admin_ban_path(user.id) Unsubscribe
+          - if user.not_removed_subscriptions_count > 0
+            button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=unsubscribe_admin_ban_path(user.id) Unsubscribe (#{user.not_removed_subscriptions_count})
         td
           button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=admin_ban_path(user.id) Unlock
   .TopJumper= paginate @users
