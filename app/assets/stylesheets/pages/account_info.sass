@@ -80,18 +80,23 @@
     .account_photo
       height: 150px
       width: 435px
-      img
+      .photo
         @include border-radius($border_radius)
+        background: url(//connectpal-assets.s3.amazonaws.com/images/default_profile_pic.png) no-repeat 50%
         border: 1px solid $color_border
+        display: inline-block
         height: 150px
         width: 150px
+        overflow: hidden
+        img
+          outline: none
       .change_button
         float: right
         margin: 0px 105px 0 0
         padding: 0
         .btn
           padding: 10px 30px
-          font-weight: 700
+          font-weight: 600
     label
       color: #898989
     .form-control
@@ -349,12 +354,10 @@
     .message_reply
       .form-control
         font-size: 13px !important
-        float: left
-        margin-bottom: 15px
         height: 70px !important
-        width: 558px
+        margin-bottom: 15px
       .btn.blue
-        margin-top: 34px
+        margin-bottom: 15px
         padding: 8px 10px
 
     // Profile Details

@@ -26,8 +26,7 @@
   form.message_reply.form.DialogueForm action=account_info_messages_path method='post' data-target='dialogue' data-menu_link='mailbox-menu-item'
     input type='hidden' name='user_id' value=@dialogue.antiuser(current_user.object).id
     textarea.form-control name='message' placeholder='Write your reply to #{@dialogue.antiuser(current_user.object).name}'
+    .error.pull-left data-field='message'
     input.btn.blue.pull-right type='Submit' value='Reply'
-    .clearfix
-    .error data-field='message'
   .clearfix
 

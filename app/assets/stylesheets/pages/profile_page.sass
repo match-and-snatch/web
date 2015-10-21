@@ -167,7 +167,7 @@
         cursor: pointer
         display: inline-block
         font-size: 34px
-        font-weight: bold
+        font-weight: 600
         line-height: 120%
         min-height: 45px
         margin: 10px 0 0
@@ -175,7 +175,7 @@
         word-wrap: break-word
         .name
           font-size: 34px
-          font-weight: bold
+          font-weight: 600
         &.visitor
           cursor: default
         .fa
@@ -1149,10 +1149,15 @@
                 color: $color_blue
                 display: block
                 font-size: 20px
+                font-weight: 600
                 margin: 20px 0 5px 15px
               .doc_title
                 font-size: 14px
                 margin-left: 15px
+                width: 350px
+                white-space: nowrap
+                overflow: hidden
+                text-overflow: ellipsis
             &:hover
               text-decoration: none
               background: $color_blue
@@ -1937,6 +1942,8 @@
           .reply_container
             .comment_section, .Highlighter, .reply_input, .mentioner
               width: 522px !important
+              max-height: 52px
+              overflow: hidden
           .reply_post
             margin-top: 5px
 
@@ -2079,7 +2086,7 @@
         width: 100%
       // Desktop
       @media screen and (min-width: 992px)
-        max-height: 640px
+        max-height: 90vh
         width: auto
     .photo_nav
       background-color: #252525
@@ -2120,6 +2127,16 @@
       margin-bottom: 15px
       max-width: 500px
       text-align: center
+      .contribute-value
+        margin: -15px 0 0
+        .custom-amount
+          position: relative
+          top: 16px
+          input[type='radio']
+            position: relative
+            top: 12px
+          input
+            float: left
       .error.limit
         @include border-radius(5px)
         background-color: #faf258
