@@ -355,6 +355,10 @@ class User < ActiveRecord::Base
     !((!passed_profile_steps? && is_profile_owner?) || (!is_profile_owner?))
   end
 
+  def contributions_allowed?
+    contributions_enabled? && subscribers_count > 4
+  end
+
   def bank_account_data
     {
       country: 'US',
