@@ -50,7 +50,7 @@ class UserDecorator < BaseDecorator
   end
 
   def cc_placeholder
-    "XXXX-XXXX-XXXX-#{object.last_four_cc_numbers}"
+    "XXXX-XXXX-XXXX-#{object.last_four_cc_numbers || 'XXXX'}"
   end
 
   # @return [Video, nil]
