@@ -1,10 +1,7 @@
-class Dashboard::Admin::UsersController < Dashboard::Admin::BaseController
-  before_action :load_user!, only: %i(make_admin drop_admin make_sales drop_sales login_as)
+class Dashboard::Admin::UsersController < Dashboard::UsersController
+  include Dashboard::Concerns::AdminController
 
-  def search
-    @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_admin_fields
-    json_replace
-  end
+  before_action :load_user!, only: %i(make_admin drop_admin make_sales drop_sales login_as)
 
   def login_as
     session_manager.login_as(current_user.object, @user)

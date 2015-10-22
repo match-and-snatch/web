@@ -359,6 +359,13 @@ BuddyPlatform::Application.routes.draw do
     namespace :sales do
       resource :dashboard, only: [:show]
       resources :recent_profiles, only: :index
+      resource :directory
+
+      resources :users, only: [] do
+        collection do
+          get :search
+        end
+      end
 
       concerns :profile_owners_dashboard
     end
