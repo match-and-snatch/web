@@ -636,7 +636,12 @@ describe UserProfileManager do
     context 'user has recurring contributions' do
       let(:target_user) { create_profile email: 'profiled@gmail.com' }
 
-      before { ContributionManager.new(user: user).create(amount: 1, target_user: target_user, recurring: true) }
+      before do
+        5.times do |i|
+          SubscriptionManager.new(subscriber: create_user(email: "subscriber_#{i}@test.com")).subscribe_to(target_user)
+        end
+        ContributionManager.new(user: user).create(amount: 1, target_user: target_user, recurring: true)
+      end
 
       it 'cancel all contributions' do
         expect { manager.delete_cc_data! }.to change { user.contributions.recurring.count }.from(1).to(0)
