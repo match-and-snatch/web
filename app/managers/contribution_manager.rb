@@ -15,6 +15,7 @@ class ContributionManager < BaseManager
   def create(target_user: , amount: nil, recurring: false, message: nil)
     amount = amount.to_i
     fail_with! amount: :zero if amount < 1
+    fail_with! "You can't contribute this profile" unless ProfileDecorator.new(target_user).contributions_enabled?
     if limit_reached?(amount, target_user)
       unless @user.contribution_requests.by_target_user(target_user).pending.any?
         @user.contribution_requests.create!(target_user: target_user,

@@ -1,7 +1,8 @@
 class ProfileDecorator < UserDecorator
   delegate :transfer, :custom_profile_page_css, :payments_count, :cost_approved?,
            :last_post_created_at, :paypal_email, :prefers_paypal?, :account_number,
-           :payments_amount, :unsubscribers_count, :has_mature_content?, :custom_head_js, to: :object
+           :payments_amount, :unsubscribers_count, :has_mature_content?, :custom_head_js,
+           :locked?, :dialogues, :has_public_profile?, to: :object
 
   # @param user [User]
   def initialize(user)
