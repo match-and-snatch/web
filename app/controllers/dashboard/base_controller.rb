@@ -1,6 +1,4 @@
 class Dashboard::BaseController < ApplicationController
-  include Concerns::DynamicContent
-
   protect { current_user.staff? }
 
   before_filter do
