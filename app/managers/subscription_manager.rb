@@ -124,7 +124,7 @@ class SubscriptionManager < BaseManager
                                   address_line_2: nil,
                                   target: )
     unless target.is_a?(Concerns::Subscribable)
-      raise ArgumentError, "Cannot subscrisbe to #{target.class.name}"
+      raise ArgumentError, "Cannot subscribe to #{target.class.name}"
     end
 
     card = CreditCard.new number:       number,

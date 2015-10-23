@@ -203,7 +203,7 @@ describe Subscription do
   end
 
   describe '#billing_date' do
-    context 'payed subscription' do
+    context 'paid subscription' do
       before { StripeMock.start }
       after { StripeMock.stop }
 
@@ -214,7 +214,7 @@ describe Subscription do
 
       let!(:paid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'another@one.com') }
 
-      it 'becomes payed next month' do
+      it 'becomes paid next month' do
         expect(paid_subscription.billing_date).to eq(Time.zone.today.next_month)
       end
     end
@@ -222,7 +222,7 @@ describe Subscription do
     context 'processing subscription' do
       before { SubscriptionManager.new(subscription: subject).mark_as_processing }
 
-      it 'becomes payed today', freeze: true do
+      it 'becomes paid today', freeze: true do
         expect(subject.billing_date).to eq(Time.zone.today)
       end
     end

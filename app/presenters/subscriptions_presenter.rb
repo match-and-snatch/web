@@ -9,7 +9,7 @@ class SubscriptionsPresenter
   end
 
   def canceled
-    @canceled_subscriptions ||= subscriptions.select { |s| s.removed? || (s.rejected? && !s.processing_payment?) }
+    @canceled_subscriptions ||= subscriptions.select { |s| s.removed? || s.rejected? }
   end
 
   def active

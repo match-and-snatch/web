@@ -135,7 +135,6 @@ describe CurrentUserDecorator do
       let(:processing_subscription) do
         manager = SubscriptionManager.new(subscriber: user)
         manager.subscribe_and_pay_for(create_profile email: 'target_processig@user.com').tap do
-          manager.reject
           manager.mark_as_processing
         end
       end

@@ -67,7 +67,7 @@ class PaymentManager < BaseManager
       user_manager.activate # Anybody who paid us should be activated
     end
   rescue Stripe::CardError => e
-    failure = populate_failure(e: e, subscription: subscription, charge: charge, description: description)
+    failure = create_failure(e: e, subscription: subscription, charge: charge, description: description)
     SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).tap do |subscription_manager|
       subscription_manager.reject
       subscription_manager.unsubscribe if subscription.payment_attempts_expired?
@@ -77,12 +77,8 @@ class PaymentManager < BaseManager
     UserStatsManager.new(subscription.target_user).log_subscriptions_count
     failure
   rescue Stripe::StripeError => e
-    failure = populate_failure(e: e, subscription: subscription, charge: charge, description: description)
-    SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).tap do |subscription_manager|
-      subscription_manager.reject
-      subscription_manager.mark_as_processing
-    end
-    failure
+    SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).mark_as_processing
+    create_failure(e: e, subscription: subscription, charge: charge, description: description)
   end
 
   def pay_for!(*args)
@@ -101,7 +97,7 @@ class PaymentManager < BaseManager
   private
 
   # @return [PaymentFailure]
-  def populate_failure(e: , subscription: , charge: , description: nil)
+  def create_failure(e: , subscription: , charge: , description: nil)
     failure = PaymentFailure.create! exception_data:     "#{e.inspect} | http_body:#{e.http_body} | json_body:#{e.json_body}",
                                      target:             subscription,
                                      target_user:        subscription.recipient,
