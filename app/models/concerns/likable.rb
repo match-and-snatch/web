@@ -12,8 +12,8 @@ module Concerns::Likable
   # @todo move to decorator
   # @return [Hash]
   def likers_data
-    likers_scope = User.joins(:likes).where(likes: {likable_id: id, likable_type: likable_type}).select('profile_name, full_name, holder_name, is_profile_owner').order('likes.created_at DESC')
-    likes_count = likes.count
+    likers_scope = likes.sort_by(&:created_at).reverse.map(&:user)
+    likes_count = likes.size
 
     case likes_count
     when 1, 2
