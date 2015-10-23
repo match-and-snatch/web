@@ -1,9 +1,9 @@
 class PhotosController < UploadsController
+  before_action :load_photo!, only: [:show]
   before_action :load_user!, only: [:profile_picture, :cover_picture]
   skip_before_action :authenticate!, only: [:profile_picture, :cover_picture]
 
   def show
-    @photo = Photo.find(params[:id])
     @post = @photo.uploadable
     photos = if @post
                @post.uploads
@@ -44,6 +44,10 @@ class PhotosController < UploadsController
   end
 
   private
+
+  def load_photo!
+    @photo = Photo.where(id: params[:id]).first or error(404)
+  end
 
   def load_user!
     @user = User.where(slug: params[:user_id]).first or error(404)
