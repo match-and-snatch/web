@@ -203,7 +203,7 @@ describe ContributionManager do
       let(:another_target_user) { create_profile email: 'another_target@gmail.com' }
 
       it { expect { manager.create(amount: 1, target_user: another_target_user) rescue nil }.not_to create_record(Contribution) }
-      it { expect { manager.create(amount: 1, target_user: another_target_user) }.to raise_error(ManagerError, /You can't contribute this profile/) }
+      it { expect { manager.create(amount: 1, target_user: another_target_user) }.to raise_error(ManagerError, /You can't contribute to this profile/) }
     end
   end
 
