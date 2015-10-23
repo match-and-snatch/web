@@ -10,17 +10,15 @@ describe ContributionManager do
   before { StripeMock.start }
   after { StripeMock.stop }
 
+  before do
+    5.times do |i|
+      SubscriptionManager.new(subscriber: create_user(email: "subscriber_#{i}@test.com")).subscribe_to(target_user)
+    end
+  end
+
   describe '#create' do
     it 'creates new contribution' do
-      expect(manager.create(amount: 1, target_user: target_user)).to be_a(Contribution)
-    end
-
-    it do
-      expect(manager.create(amount: 1, target_user: target_user)).not_to be_a_new_record
-    end
-
-    it do
-      expect { manager.create(amount: 1, target_user: target_user) }.to change { Contribution.count }.by(1)
+      expect { manager.create(amount: 1, target_user: target_user) }.to create_record(Contribution)
     end
 
     it 'sets amount' do
@@ -104,6 +102,12 @@ describe ContributionManager do
         context 'to multiple profiles' do
           let(:another_target_user) { create_profile email: 'another_target@gmail.com' }
 
+          before do
+            5.times do |i|
+              SubscriptionManager.new(subscriber: create_user(email: "another_subscriber_#{i}@test.com")).subscribe_to(another_target_user)
+            end
+          end
+
           it do
             expect { manager.create(amount: 4001, target_user: another_target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
           end
@@ -135,6 +139,12 @@ describe ContributionManager do
 
         context 'to different user' do
           let(:another_target_user) { create_profile email: 'another_target@gmail.com' }
+
+          before do
+            5.times do |i|
+              SubscriptionManager.new(subscriber: create_user(email: "another_subscriber_#{i}@test.com")).subscribe_to(another_target_user)
+            end
+          end
 
           it do
             expect { manager.create(amount: 10001, target_user: another_target_user) rescue nil }.not_to create_record(Contribution)
@@ -187,6 +197,13 @@ describe ContributionManager do
       it 'does not create message' do
         expect { manager.create(amount: 1, target_user: target_user, message: 'test') rescue nil }.not_to create_record(Message)
       end
+    end
+
+    context 'with less then 5 subscribers' do
+      let(:another_target_user) { create_profile email: 'another_target@gmail.com' }
+
+      it { expect { manager.create(amount: 1, target_user: another_target_user) rescue nil }.not_to create_record(Contribution) }
+      it { expect { manager.create(amount: 1, target_user: another_target_user) }.to raise_error(ManagerError, /You can't contribute this profile/) }
     end
   end
 

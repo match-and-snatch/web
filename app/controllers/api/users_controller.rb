@@ -94,7 +94,7 @@ class Api::UsersController < Api::BaseController
       rss_enabled: user.rss_enabled?,
       vacation_enabled: user.vacation_enabled?,
       vacation_message: user.vacation_message,
-      contributions_enabled: user.contributions_enabled,
+      contributions_enabled: user.contributions_allowed?,
       has_mature_content: user.has_mature_content?,
       cost_approved: user.cost_approved?,
       welcome_media: {

@@ -1,7 +1,8 @@
 class ProfileDecorator < UserDecorator
   delegate :transfer, :custom_profile_page_css, :payments_count, :cost_approved?,
            :last_post_created_at, :paypal_email, :prefers_paypal?, :account_number,
-           :payments_amount, :unsubscribers_count, :has_mature_content?, :custom_head_js, to: :object
+           :payments_amount, :unsubscribers_count, :has_mature_content?, :custom_head_js,
+           :contributions_allowed?, to: :object
 
   # @param user [User]
   def initialize(user)
@@ -24,10 +25,6 @@ class ProfileDecorator < UserDecorator
     @contacts_info ||= Hash.new do |hash, key|
       hash[key] = object.contacts_info[key].presence || 'javascript: void(0)'
     end
-  end
-
-  def contributions_enabled?
-    object.contributions_enabled? && object.subscribers_count > 4
   end
 
   # Welcome message for the public view

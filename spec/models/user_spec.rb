@@ -395,4 +395,26 @@ describe User do
       specify { expect { user.cost = 2100 }.to change { user.subscription_fees }.from(nil).to(315) }
     end
   end
+
+  describe '#contributions_allowed?' do
+    let(:user) { create_profile }
+
+    it { expect(user.contributions_allowed?).to eq(false) }
+
+    context 'contribution enabled' do
+      before { UserProfileManager.new(user).enable_contributions }
+
+      it { expect(user.contributions_allowed?).to eq(false) }
+
+      context 'user has 5 or more subscribers' do
+        before do
+          5.times do |i|
+            SubscriptionManager.new(subscriber: create_user(email: "subscriber_#{i}@test.com")).subscribe_to(user)
+          end
+        end
+
+        it { expect(user.contributions_allowed?).to eq(true) }
+      end
+    end
+  end
 end

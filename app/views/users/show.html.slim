@@ -141,7 +141,7 @@
                 a.fa.fa-vimeo-square  href=url target="_blank" Vimeo
 
         /Contribute
-        - if @profile.contributions_enabled?
+        - if @profile.contributions_allowed?
           a.contribute_url.btn.green.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id) style='margin-bottom: 30px;'
             i.fa.fa-usd
             .heading Make a Contribution
@@ -158,7 +158,7 @@
 
       /Recent Posts
       .pull-right.col-md-8.col-sm-12.col-xs-12
-        - if @profile.contributions_enabled?
+        - if @profile.contributions_allowed?
           a.btn.green.hidden-md.hidden-xs.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id) style='margin-bottom: 30px; width: 100%; font-size: 20px; padding: 10px;'
             i.fa.fa-usd
             span style='margin-left: 10px;' Make a contribution, support this profile!
