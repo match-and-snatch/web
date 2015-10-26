@@ -244,7 +244,13 @@ class User < ActiveRecord::Base
     return false if new_record?
 
     subscription = subscriptions.by_target(target).first
-    (!!subscription) && (!subscription.rejected?) && !(subscription.removed? && subscription.expired?)
+
+    return false unless subscription
+
+    active = !(subscription.removed? && subscription.expired?)
+    paid  = subscription.processing_payment? || !subscription.rejected?
+
+    paid && active
   end
 
   def recently_subscribed?

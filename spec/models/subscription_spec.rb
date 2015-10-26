@@ -201,4 +201,30 @@ describe Subscription do
       expect { subject.actualize_cost! }.to change { subject.cost }.from(nil).to(target_user.cost)
     end
   end
+
+  describe '#billing_date' do
+    context 'paid subscription' do
+      before { StripeMock.start }
+      after { StripeMock.stop }
+
+      before do
+        UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+        user.reload
+      end
+
+      let!(:paid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'another@one.com') }
+
+      it 'becomes paid next month' do
+        expect(paid_subscription.billing_date).to eq(Time.zone.today.next_month)
+      end
+    end
+
+    context 'processing subscription' do
+      before { SubscriptionManager.new(subscription: subject).mark_as_processing }
+
+      it 'becomes paid today', freeze: true do
+        expect(subject.billing_date).to eq(Time.zone.today)
+      end
+    end
+  end
 end

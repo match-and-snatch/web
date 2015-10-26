@@ -149,8 +149,8 @@ class SubscriptionManager < BaseManager
                                                          state: state,
                                                          address_line_1: address_line_1,
                                                          address_line_2: address_line_2
-      subscribe_and_pay_for target
     end
+    subscribe_and_pay_for target
   end
 
   # @param target [Concerns::Subscribable]
@@ -245,6 +245,7 @@ class SubscriptionManager < BaseManager
   def unsubscribe
     @subscription.remove!
 
+    unmark_as_processing
     target_user = @subscription.target_user
     UserStatsManager.new(target_user).log_subscriptions_count
 
@@ -288,6 +289,18 @@ class SubscriptionManager < BaseManager
   def accept
     @subscription.rejected = false
     @subscription.rejected_at = nil
+    save_or_die! @subscription
+  end
+
+  def mark_as_processing
+    @subscription.processing_payment = true
+    @subscription.processing_started_at = Time.zone.now
+    save_or_die! @subscription
+  end
+
+  def unmark_as_processing
+    @subscription.processing_payment = false
+    @subscription.processing_started_at = nil
     save_or_die! @subscription
   end
 

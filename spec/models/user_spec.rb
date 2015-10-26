@@ -228,14 +228,26 @@ describe User do
       end
 
       context 'rejected subscription' do
-        before do
-          StripeMock.start
-          StripeMock.prepare_card_error(:card_declined)
-          PaymentManager.new(user: user).pay_for(subscription)
-        end
+        before { StripeMock.start }
         after { StripeMock.stop }
 
-        it { should eq(false) }
+        context "by user's fault" do
+          before do
+            StripeMock.prepare_card_error(:card_declined)
+            PaymentManager.new(user: user).pay_for(subscription)
+          end
+
+          it { should eq(false) }
+        end
+
+        context "rejected by Stripe's fault" do
+          before do
+            StripeMock.prepare_error(Stripe::APIError.new("Api is down"), :new_charge)
+            PaymentManager.new(user: user).pay_for(subscription)
+          end
+
+          it { should eq(true) }
+        end
       end
 
       context 'removed subscription' do

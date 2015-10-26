@@ -862,7 +862,9 @@ CREATE TABLE subscriptions (
     cost integer,
     fees integer,
     total_cost integer,
-    fake boolean DEFAULT false NOT NULL
+    fake boolean DEFAULT false NOT NULL,
+    processing_payment boolean DEFAULT false NOT NULL,
+    processing_started_at timestamp without time zone
 );
 
 
@@ -1808,6 +1810,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150928154431');
 INSERT INTO schema_migrations (version) VALUES ('20150930095546');
 
 INSERT INTO schema_migrations (version) VALUES ('20151002060324');
+
+INSERT INTO schema_migrations (version) VALUES ('20151009100851');
 
 INSERT INTO schema_migrations (version) VALUES ('20151013084651');
 
