@@ -60,7 +60,7 @@ class ApiResponsePresenter
       profile_types_text: user.profile_types_text,
       subscribers_count: user.subscribers_count,
       subscriptions_count: user.subscriptions.accessible.count,
-      only_subscription_path: user.subscriptions.active.count == 1 ? user.subscriptions.active.first.target_user.slug : nil,
+      only_subscription_path: user.subscriptions.accessible.count == 1 ? user.subscriptions.accessible.first.target_user.slug : nil,
       recurring_contributions_count: user.contributions.recurring.count,
       stripe_recipient_id: user.stripe_recipient_id,
       vacation_enabled: user.vacation_enabled,
@@ -253,6 +253,7 @@ class ApiResponsePresenter
 
   def account_data(user)
     {
+      active_subscriptions_count: user.subscriptions.active.count,
       slug: user.slug,
       is_profile_owner: user.is_profile_owner?,
       full_name: user.full_name,
