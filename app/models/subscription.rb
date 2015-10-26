@@ -22,7 +22,7 @@ class Subscription < ActiveRecord::Base
   # Returns upcoming billing date
   # @return [Date]
   def billing_date
-    processing_payment? ? Time.zone.today : (charged_at || created_at).next_month.to_date
+    processing_payment? ? Time.zone.today : ((charged_at || created_at || Time.zone.now) + 30.days).to_date
   end
 
   def actualize_cost!

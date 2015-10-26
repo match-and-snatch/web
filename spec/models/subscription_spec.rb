@@ -215,7 +215,7 @@ describe Subscription do
       let!(:paid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'another@one.com') }
 
       it 'becomes paid next month' do
-        expect(paid_subscription.billing_date).to eq(Time.zone.today.next_month)
+        expect(paid_subscription.billing_date).to eq(Time.zone.today + 30.days)
       end
     end
 
