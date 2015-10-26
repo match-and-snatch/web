@@ -1,4 +1,4 @@
 - if @user.accepts_large_contributions?
-  button.AjaxFormLink.btn.pink data-identifier="toggle-large-contributions-#{@user.id}" data-target="toggle-large-contributions-#{@user.id}" data-_method="put" href=toggle_large_contributions_admin_directory_user_path(@user) Disable large contributions
+  button.AjaxFormLink.btn.pink data-identifier="toggle-large-contributions-#{@user.id}" data-target="toggle-large-contributions-#{@user.id}" data-_method="put" href=toggle_large_contributions_admin_user_path(@user) Disable large contributions
 - else
-  button.AjaxFormLink.btn.blue data-identifier="toggle-large-contributions-#{@user.id}" data-target="toggle-large-contributions-#{@user.id}" data-_method="put" href=toggle_large_contributions_admin_directory_user_path(@user) Enable large contributions
+  button.AjaxFormLink.btn.blue data-identifier="toggle-large-contributions-#{@user.id}" data-target="toggle-large-contributions-#{@user.id}" data-_method="put" href=toggle_large_contributions_admin_user_path(@user) Enable large contributions

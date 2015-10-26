@@ -1,0 +1,7 @@
+h1 Profiles directory
+
+ul.search_directory
+  - (('A'..'Z').to_a << '0-9').each do |letter|
+    li
+      a.HistoryLink href=sales_directory_path(id: letter) = letter
+.clearfix

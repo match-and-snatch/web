@@ -1,9 +1,21 @@
 class Dashboard::DirectoriesController < Dashboard::BaseController
 
-  def show
-    @users = Queries::Users.new(user: current_user, include_hidden: true).grouped_by_first_letter
-    @user_ids_with_posts = User.joins(:posts).group("users.id").having("COUNT(posts.id) > 0").where(users: {id: @users.values.flatten.map(&:id)}).pluck(:id)
+  before_action :prepare_letter!, only: :show
+
+  def index
     json_render
+  end
+
+  def show
+    @users = Queries::Users.new(user: current_user, include_hidden: true, query: @letter).by_first_letter
+    @user_ids_with_posts = User.joins(:posts).group("users.id").having("COUNT(posts.id) > 0").where(users: {id: @users}).pluck(:id)
+    json_render
+  end
+
+  private
+
+  def prepare_letter!
+    @letter = params[:id]
   end
 end
 
