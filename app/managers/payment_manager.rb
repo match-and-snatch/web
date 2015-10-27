@@ -104,6 +104,11 @@ class PaymentManager < BaseManager
                                      user:               subscription.customer,
                                      stripe_charge_data: charge.try(:as_json),
                                      description:        description
+
+    if e.json_body.try(:[], :error).try(:[], :decline_code) == 'fraudulent'
+      UserManager.new(subscription.customer).lock(:billing)
+    end
+
     EventsManager.payment_failed(user: user, payment_failure: failure)
     failure
   end
