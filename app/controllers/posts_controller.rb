@@ -40,7 +40,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    PostManager.new(user: current_user.object, post: @post).update(params.slice(:title, :message))
+    PostManager.new(user: current_user.object, post: @post).update(params.slice(:title, :message).merge(upload_ids: params[:uploads].try(:values)))
     json_replace html: post_html, notice: :post_updated
   end
 

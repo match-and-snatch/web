@@ -1,7 +1,10 @@
 - if post.uploads.any?
+  input type='hidden' name="uploads[_]" value=0
   ul.edit_post_doc
-    - post.uploads.each do |upload|
+    - post.uploads.each_with_index do |upload, index|
       li class=upload.file_type data-identifier='upload-#{upload.id}'
+        input type='hidden' name="uploads[#{index}]" value=upload.id
         .file_name.pull-left= upload.filename
-        a.AjaxFormLink href=destroy_upload_post_path(post) data-upload_id=upload.id data-_method='DELETE' data-target='post-#{post.id}'
+        a.Cleaner href='#' data-target='upload-#{upload.id}'
           span.delete_button.fa.fa-times.Toggler data-target='upload-#{upload.id}'
+        .clearfix
