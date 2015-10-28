@@ -7,4 +7,5 @@ class Message < ActiveRecord::Base
   validates :message, presence: true
 
   scope :recent, -> { order(created_at: :desc).limit(30).reverse }
+  scope :unread, -> { where(read: false) }
 end
