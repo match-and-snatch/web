@@ -1362,12 +1362,20 @@
       .comment_row, .nested_row
         padding: 0 15px 15px 15px
         position: relative
-        &.edit_row
+        &.edit_comment_row
+          .edit_form
+            width: 529px
+        &.edit_nested_row
+          .edit_form
+            width: 467px
+        &.edit_comment_row,
+        &.edit_nested_row
+          width: 100%
           textarea
             border: 1px solid $color_border
             font-size: 13px
-            min-height: 52px
-            padding: 1px 10px
+            height: 80px
+            padding: 5px 10px
             position: relative
             width: 100%
         .content, .nested_content
@@ -1502,7 +1510,6 @@
 
       .reply_container
         padding: 0 15px 15px 15px
-
         .reply_input
           border: 1px solid $color_border
           font-size: 13px
