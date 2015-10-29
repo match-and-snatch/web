@@ -48,6 +48,9 @@ gem 'rails_autolink'
 gem 'daemons'
 gem 'delayed_job_active_record'
 
+# Exception handling
+gem 'rollbar', '~> 2.5.0'
+
 # Play with time
 gem 'chronic'
 

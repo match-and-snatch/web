@@ -286,6 +286,8 @@ GEM
     rest-client (1.7.3)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    rollbar (2.5.1)
+      multi_json
     rspec (3.2.0)
       rspec-core (~> 3.2.0)
       rspec-expectations (~> 3.2.0)
@@ -414,6 +416,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails_autolink
   responders (~> 2.0)
+  rollbar (~> 2.5.0)
   rspec-its
   rspec-rails
   sass-rails (~> 4.0.0)
