@@ -6,7 +6,7 @@ describe Api::UsersController, type: :controller do
     let(:user_two) { create_profile_owner first_name: 'serge', last_name: 'zeenin', email: 'serge@zee.ru', is_profile_owner: true, hidden: false }
     let(:user_three) { create_profile_owner first_name: 'dmitry', last_name: 'jakovlev', email: 'dimka@jak.com', is_profile_owner: true, hidden: false }
 
-    subject { get 'search', q: 'serge zi' }
+    subject { get 'search', q: 'serge zi', format: :json }
 
     before do
       user_one
@@ -87,7 +87,7 @@ describe Api::UsersController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      subject { post 'update_profile_name', id: user.slug, name: 'serezha' }
+      subject { post 'update_profile_name', id: user.slug, name: 'serezha', format: :json }
 
       its(:status) { is_expected.to eq(200) }
       it { expect { subject }.to change { user.reload.name }.to 'serezha' }
@@ -106,9 +106,9 @@ describe Api::UsersController, type: :controller do
     end
 
     context 'non authorized' do
-      subject { post 'update_profile_name', id: user.slug, name: 'serezha' }
+      subject { post 'update_profile_name', id: user.slug, name: 'serezha', format: :json }
 
-      its(:status) { is_expected.to eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       it { expect { subject }.not_to change { user.reload.name } }
     end
   end
@@ -119,7 +119,7 @@ describe Api::UsersController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      subject { post 'update_profile_picture', id: user.slug, transloadit: profile_picture_data_params.to_json }
+      subject { post 'update_profile_picture', id: user.slug, transloadit: profile_picture_data_params.to_json, format: :json }
 
       its(:status) { is_expected.to eq(200) }
       it { expect { subject }.to change { user.reload.profile_picture_url } }
@@ -127,9 +127,9 @@ describe Api::UsersController, type: :controller do
     end
 
     context 'non authorized' do
-      subject { post 'update_profile_picture', id: user.slug }
+      subject { post 'update_profile_picture', id: user.slug, format: :json }
 
-      its(:status) { is_expected.to eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       it { expect { subject }.not_to change { user.reload.profile_picture_url } }
     end
   end
@@ -140,7 +140,7 @@ describe Api::UsersController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      subject { post 'update_cost', id: user.slug, cost: 10 }
+      subject { post 'update_cost', id: user.slug, cost: 10, format: :json }
 
       its(:status) { is_expected.to eq(200) }
       it { expect { subject }.to change { user.reload.cost }.from(2000).to(1000) }
@@ -148,9 +148,9 @@ describe Api::UsersController, type: :controller do
     end
 
     context 'non authorized' do
-      subject { post 'update_cost', id: user.slug, cost: 10 }
+      subject { post 'update_cost', id: user.slug, cost: 10, format: :json }
 
-      its(:status) { is_expected.to eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       it { expect { subject }.not_to change { user.reload.cost } }
     end
   end
@@ -158,7 +158,7 @@ describe Api::UsersController, type: :controller do
   describe 'GET #show' do
     let!(:user) { create_profile email: 'owner@gmail.com', first_name: 'sergei', last_name: 'zinin' }
 
-    subject { get 'show', id: user.slug }
+    subject { get 'show', id: user.slug, format: :json }
 
     context 'token is not provided' do
       its(:status) { is_expected.to eq(200) }
@@ -187,7 +187,7 @@ describe Api::UsersController, type: :controller do
   end
 
   describe 'GET #fetch_current_user' do
-    subject { get 'fetch_current_user' }
+    subject { get 'fetch_current_user', format: :json }
 
     its(:status) { is_expected.to eq(200) }
     its(:body) { is_expected.to include 'success' }

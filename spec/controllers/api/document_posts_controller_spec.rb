@@ -4,10 +4,10 @@ describe Api::DocumentPostsController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true, api_token: 'token' }
 
   describe 'GET #new' do
-    subject { get :new }
+    subject { get :new, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -18,10 +18,10 @@ describe Api::DocumentPostsController, type: :controller do
   end
 
   describe 'DELETE #cancel' do
-    subject { delete :cancel }
+    subject { delete :cancel, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -32,7 +32,7 @@ describe Api::DocumentPostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, title: 'document', message: 'post' }
+    subject { post :create, title: 'document', message: 'post', format: :json }
 
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
@@ -43,7 +43,7 @@ describe Api::DocumentPostsController, type: :controller do
     end
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
   end
 end

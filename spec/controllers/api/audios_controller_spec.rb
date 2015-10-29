@@ -4,10 +4,10 @@ describe Api::AudiosController, type: :controller do
   let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true, api_token: 'token' }
 
   describe 'POST #create' do
-    subject { post 'create', transloadit: transloadit_audio_data_params.to_json }
+    subject { post 'create', transloadit: transloadit_audio_data_params.to_json, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -18,7 +18,7 @@ describe Api::AudiosController, type: :controller do
   end
 
   describe 'POST #reorder' do
-    subject { get 'reorder', ids: [1, 2, 3] }
+    subject { get 'reorder', ids: [1, 2, 3], format: :json }
 
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
@@ -27,17 +27,17 @@ describe Api::AudiosController, type: :controller do
     end
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
   end
 
   describe 'DELETE #destroy' do
     let(:audio_upload) { create_audio_upload(owner).first }
 
-    subject { delete 'destroy', id: audio_upload.id }
+    subject { delete 'destroy', id: audio_upload.id, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do

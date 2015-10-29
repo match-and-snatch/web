@@ -6,7 +6,7 @@ describe Api::DialoguesController, type: :controller do
   let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
 
   describe 'GET #index' do
-    subject(:perform_request) { get 'index' }
+    subject(:perform_request) { get 'index', format: :json }
 
     context 'authorized' do
       before { sign_in_with_token user.api_token }
@@ -70,12 +70,12 @@ describe Api::DialoguesController, type: :controller do
     end
 
     context 'unauthorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
   end
 
   describe 'GET #show' do
-    subject(:perform_request) { get 'show', id: dialogue.id }
+    subject(:perform_request) { get 'show', id: dialogue.id, format: :json }
 
     context 'authorized' do
       before { sign_in_with_token user.api_token }
@@ -101,21 +101,21 @@ describe Api::DialoguesController, type: :controller do
 
       context 'dialogue does not exist' do
         let(:dialogue) { double('dialogue', id: 5) }
-        its(:status) { should eq(404) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>404}) }
       end
 
       context 'foreign dialogue' do
         let(:dialogue) { MessagesManager.new(user: friend).create(target_user: friend, message: 'test').dialogue }
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    subject { delete 'destroy', id: dialogue.id }
+    subject { delete 'destroy', id: dialogue.id, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -136,7 +136,7 @@ describe Api::DialoguesController, type: :controller do
 
         before { sign_in_with_token anybody.api_token }
 
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
   end

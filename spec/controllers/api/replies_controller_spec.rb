@@ -13,10 +13,10 @@ describe Api::RepliesController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', comment_id: comment.id, message: 'Reply' }
+    subject { post 'create', comment_id: comment.id, message: 'Reply', format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -35,10 +35,10 @@ describe Api::RepliesController, type: :controller do
   end
 
   describe 'PUT #update' do
-    subject(:perform_request) { put 'update', comment_id: comment.id, id: reply.id, message: 'updated' }
+    subject(:perform_request) { put 'update', comment_id: comment.id, id: reply.id, message: 'updated', format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -63,7 +63,7 @@ describe Api::RepliesController, type: :controller do
       context 'as anybody else' do
         let(:token) { anybody_else.api_token }
 
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
   end
@@ -73,10 +73,10 @@ describe Api::RepliesController, type: :controller do
       CommentManager.new(user: poster, comment: reply).hide
     end
 
-    subject(:perform_request) { put 'make_visible', comment_id: comment.id, id: reply.id }
+    subject(:perform_request) { put 'make_visible', comment_id: comment.id, id: reply.id, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -101,16 +101,16 @@ describe Api::RepliesController, type: :controller do
       context 'as anybody else' do
         let(:token) { anybody_else.api_token }
 
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
   end
 
   describe 'PUT #hide' do
-    subject(:perform_request) { put 'hide', comment_id: comment.id, id: reply.id }
+    subject(:perform_request) { put 'hide', comment_id: comment.id, id: reply.id, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -135,7 +135,7 @@ describe Api::RepliesController, type: :controller do
       context 'as anybody else' do
         let(:token) { anybody_else.api_token }
 
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
   end

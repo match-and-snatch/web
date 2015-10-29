@@ -5,10 +5,10 @@ describe Api::VideoPostsController, type: :controller do
 
   describe 'DELETE #cancel' do
     let!(:pending_video) { create_video_upload  owner }
-    subject { delete :cancel }
+    subject { delete :cancel, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -21,10 +21,10 @@ describe Api::VideoPostsController, type: :controller do
   end
 
   describe 'GET #new' do
-    subject { get :new }
+    subject { get :new, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -38,7 +38,7 @@ describe Api::VideoPostsController, type: :controller do
 
   describe 'POST #create' do
     let!(:pending_video) { create_video_upload  owner }
-    subject { post :create, title: 'aa', message: 'bb' }
+    subject { post :create, title: 'aa', message: 'bb', format: :json }
 
     context 'authorized access' do
       before do
@@ -49,7 +49,7 @@ describe Api::VideoPostsController, type: :controller do
     end
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
   end
 end

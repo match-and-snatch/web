@@ -7,7 +7,7 @@ describe Api::StatusPostsController, type: :controller do
     subject { get :new }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -20,10 +20,10 @@ describe Api::StatusPostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', message: 'Reply' }
+    subject { post 'create', message: 'Reply', format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
