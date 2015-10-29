@@ -8,7 +8,7 @@ describe Api::CommentsController, type: :controller do
   let(:anybody_else) { create_user email: 'anybody@gmail.com', api_token: 'anybody_token' }
 
   describe 'GET #show' do
-    subject { get 'show', id: comment.id }
+    subject { get 'show', id: comment.id, format: :json }
 
     before do
       SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)
@@ -18,7 +18,7 @@ describe Api::CommentsController, type: :controller do
 
     context 'unauthorized access' do
       let(:token) { }
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -37,13 +37,13 @@ describe Api::CommentsController, type: :controller do
   end
 
   describe 'GET #index' do
-    subject { get 'index', post_id: _post.id }
+    subject { get 'index', post_id: _post.id, format: :json }
 
     before { sign_in_with_token(token) }
 
     context 'unauthorized access' do
       let(:token) { commenter.api_token }
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -63,13 +63,13 @@ describe Api::CommentsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', post_id: _post.id, message: 'Comment' }
+    subject { post 'create', post_id: _post.id, message: 'Comment', format: :json }
 
     before { sign_in_with_token(token) }
 
     context 'unauthorized access' do
       let(:token) { commenter.api_token }
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -90,10 +90,10 @@ describe Api::CommentsController, type: :controller do
 
   describe 'PUT #update' do
     before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
-    subject(:perform_request) { put 'update', post_id: _post.id, id: comment.id, message: 'updated' }
+    subject(:perform_request) { put 'update', post_id: _post.id, id: comment.id, message: 'updated', format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -118,7 +118,7 @@ describe Api::CommentsController, type: :controller do
       context 'as anybody else' do
         let(:token) { anybody_else.api_token }
 
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
   end
@@ -127,10 +127,10 @@ describe Api::CommentsController, type: :controller do
     before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
     let(:comment) { CommentManager.new(user: commenter, post: _post).create(message: 'test') }
 
-    subject { delete 'destroy', post_id: _post.id, id: comment.id }
+    subject { delete 'destroy', post_id: _post.id, id: comment.id, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -154,10 +154,10 @@ describe Api::CommentsController, type: :controller do
       CommentManager.new(user: poster, comment: comment).hide
     end
 
-    subject(:perform_request) { put 'make_visible', post_id: _post.id, id: comment.id }
+    subject(:perform_request) { put 'make_visible', post_id: _post.id, id: comment.id, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -182,7 +182,7 @@ describe Api::CommentsController, type: :controller do
       context 'as anybody else' do
         let(:token) { anybody_else.api_token }
 
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
   end
@@ -192,10 +192,10 @@ describe Api::CommentsController, type: :controller do
       SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)
     end
 
-    subject(:perform_request) { put 'hide', post_id: _post.id, id: comment.id }
+    subject(:perform_request) { put 'hide', post_id: _post.id, id: comment.id, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -220,7 +220,7 @@ describe Api::CommentsController, type: :controller do
       context 'as anybody else' do
         let(:token) { anybody_else.api_token }
 
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
   end

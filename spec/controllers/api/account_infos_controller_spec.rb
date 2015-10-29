@@ -4,10 +4,10 @@ describe Api::AccountInfosController, type: :controller do
   let(:user) { create_user email: 'user@gmail.com', api_token: 'user_token' }
   
   describe 'GET #settings' do
-    subject { get 'settings' }
+    subject { get 'settings', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -18,10 +18,10 @@ describe Api::AccountInfosController, type: :controller do
   end
 
   describe 'GET #billing_information' do
-    subject { get 'billing_information' }
+    subject { get 'billing_information', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -32,10 +32,10 @@ describe Api::AccountInfosController, type: :controller do
   end
 
   describe 'PUT #update_account_picture' do
-    subject { put 'update_account_picture', transloadit: profile_picture_data_params.to_json }
+    subject { put 'update_account_picture', transloadit: profile_picture_data_params.to_json, format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -46,10 +46,10 @@ describe Api::AccountInfosController, type: :controller do
   end
 
   describe 'PUT #update_general_information' do
-    subject { put 'update_general_information' }
+    subject { put 'update_general_information', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -60,10 +60,10 @@ describe Api::AccountInfosController, type: :controller do
   end
 
   describe 'PUT #update_cc_data' do
-    subject { put 'update_cc_data' }
+    subject { put 'update_cc_data', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -74,10 +74,10 @@ describe Api::AccountInfosController, type: :controller do
   end
 
   describe 'DELETE #delete_cc_data' do
-    subject { delete 'delete_cc_data' }
+    subject { delete 'delete_cc_data', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do

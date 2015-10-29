@@ -17,9 +17,9 @@ describe Api::SubscriptionsController, type: :controller do
       stub_const('Stripe::Customer', double('customer').as_null_object)
     end
 
-    subject { post 'create', user_id: owner.slug }
+    subject { post 'create', user_id: owner.slug, format: :json }
 
-    its(:status) { should eq(401) }
+    it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
 
     context 'authorized access' do
       let(:subscriber) do
@@ -59,7 +59,8 @@ describe Api::SubscriptionsController, type: :controller do
                    address_line_2: '',
                    city: '',
                    state: '',
-                   zip: '' }
+                   zip: '',
+                   format: :json }
 
     it { should be_success }
     its(:body) { should match_regex /success/ }

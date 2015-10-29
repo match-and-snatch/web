@@ -11,7 +11,7 @@ describe Api::PasswordsController, type: :controller do
       user.reload
     end
 
-    subject { put 'update', password: 'new_one', password_confirmation: 'new_one', token: token }
+    subject { put 'update', password: 'new_one', password_confirmation: 'new_one', token: token, format: :json }
 
     it { should be_success }
     it { expect { subject }.to change { user.reload.password_hash } }
@@ -20,25 +20,25 @@ describe Api::PasswordsController, type: :controller do
     context 'invalid token' do
       let(:token) { 'invalid' }
 
-      its(:status) { should eq(404) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>404}) }
       it { expect { subject }.to change { assigns('notice') } }
 
       context 'empty token' do
-        subject { put 'update', password: 'new_one', password_confirmation: 'new_one' }
+        subject { put 'update', password: 'new_one', password_confirmation: 'new_one', format: :json }
 
-        its(:status) { should eq(404) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>404}) }
       end
     end
   end
 
   describe 'POST #restore' do
-    subject { post 'restore', email: 'test@email.com' }
+    subject { post 'restore', email: 'test@email.com', format: :json }
 
     it { should be_success }
     it { expect { subject }.to change { assigns('notice') } }
 
     context 'wrong email' do
-      subject { post 'restore', email: 'wrong@email.com' }
+      subject { post 'restore', email: 'wrong@email.com', format: :json }
 
       it { should be_success }
     end
@@ -50,20 +50,20 @@ describe Api::PasswordsController, type: :controller do
       user.reload
     end
 
-    subject { get 'edit', token: token }
+    subject { get 'edit', token: token, format: :json }
 
     it { should be_success }
 
     context 'invalid token' do
       let(:token) { 'invalid' }
 
-      its(:status) { should eq(404) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>404}) }
       it { expect { subject }.to change { assigns('notice') } }
 
       context 'empty token' do
-        subject { put 'update', password: 'new_one', password_confirmation: 'new_one' }
+        subject { put 'update', password: 'new_one', password_confirmation: 'new_one', format: :json }
 
-        its(:status) { should eq(404) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>404}) }
       end
     end
   end

@@ -35,6 +35,11 @@ class Api::BaseController < ActionController::Base
     super(status, {data: data, api_token: api_token, api_version: APP_CONFIG['api_version']}, response_status)
   end
 
+  # @param error [HttpCodeError]
+  def process_http_code_error(error)
+    json_response error.code, {}, error.code
+  end
+
   private
 
   def auth_token

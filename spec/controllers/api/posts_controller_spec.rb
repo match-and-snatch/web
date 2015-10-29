@@ -6,10 +6,10 @@ describe Api::PostsController, type: :controller do
   let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
 
   describe 'GET #index' do
-    subject { get 'index', user_id: poster.slug }
+    subject { get 'index', user_id: poster.slug, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -20,10 +20,10 @@ describe Api::PostsController, type: :controller do
   end
 
   describe 'GET #show' do
-    subject { get 'show', id: _post.id }
+    subject { get 'show', id: _post.id, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -36,26 +36,26 @@ describe Api::PostsController, type: :controller do
   describe 'DELETE #destroy' do
     before { sign_in_with_token(poster.api_token) }
 
-    subject { delete 'destroy', id: _post.id }
+    subject { delete 'destroy', id: _post.id, format: :json }
 
     it { should be_success }
 
     context 'no post present' do
-      subject { delete 'destroy', id: 0 }
+      subject { delete 'destroy', id: 0, format: :json }
 
-      its(:status) { should eq(404) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>404}) }
     end
 
     context 'unauthorized access' do
       let(:_post) { PostManager.new(user: another_poster).create_status_post(message: 'test') }
 
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
   end
 
   describe 'PATCH #update' do
     before { sign_in_with_token(poster.api_token) }
-    subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message' }
+    subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', format: :json }
 
     it { should be_success }
 
@@ -71,7 +71,7 @@ describe Api::PostsController, type: :controller do
       end
 
       context 'removes upload' do
-        subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [_post.uploads.first.id] }
+        subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [_post.uploads.first.id], format: :json }
 
         it { should be_success }
         specify do
@@ -80,7 +80,7 @@ describe Api::PostsController, type: :controller do
       end
 
       context 'removes all uploads' do
-        subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [] }
+        subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [], format: :json }
 
         it { should be_success }
         specify do
@@ -88,7 +88,7 @@ describe Api::PostsController, type: :controller do
         end
 
         context 'with 0 as id' do
-          subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [0] }
+          subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [0], format: :json }
 
           specify do
             expect { perform_request }.to change { _post.uploads.count }.to(0)
@@ -97,7 +97,7 @@ describe Api::PostsController, type: :controller do
       end
 
       context 'does not remove uploads' do
-        subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: _post.uploads.map(&:id) }
+        subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: _post.uploads.map(&:id), format: :json }
 
         it { should be_success }
         specify do
@@ -109,7 +109,7 @@ describe Api::PostsController, type: :controller do
     context 'unauthorized access' do
       let(:_post) { PostManager.new(user: another_poster).create_status_post(message: 'test') }
 
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
   end
 end

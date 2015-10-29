@@ -4,7 +4,7 @@ describe Api::ProfileInfosController, type: :controller do
   let(:user) { create_user api_token: 'token' }
 
   describe 'POST #create_profile' do
-    subject(:perform_request) { post 'create_profile', cost: 10, profile_name: 'test' }
+    subject(:perform_request) { post 'create_profile', cost: 10, profile_name: 'test', format: :json }
 
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
@@ -17,15 +17,15 @@ describe Api::ProfileInfosController, type: :controller do
     end
 
     context 'unauthorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
   end
 
   describe 'GET #settings' do
-    subject { get 'settings' }
+    subject { get 'settings', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -36,10 +36,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #update_bank_account_data' do
-    subject { put 'update_bank_account_data' }
+    subject { put 'update_bank_account_data', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -50,10 +50,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #enable_rss' do
-    subject { put 'enable_rss' }
+    subject { put 'enable_rss', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -64,10 +64,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #disable_rss' do
-    subject { put 'disable_rss' }
+    subject { put 'disable_rss', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -78,10 +78,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #enable_downloads' do
-    subject { put 'enable_downloads' }
+    subject { put 'enable_downloads', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -92,10 +92,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #disable_downloads' do
-    subject { put 'disable_downloads' }
+    subject { put 'disable_downloads', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -106,10 +106,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #enable_itunes' do
-    subject { put 'enable_itunes' }
+    subject { put 'enable_itunes', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -120,10 +120,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #disable_itunes' do
-    subject { put 'disable_itunes' }
+    subject { put 'disable_itunes', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -134,10 +134,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #enable_vacation_mode' do
-    subject { put 'enable_vacation_mode', vacation_message: 'test' }
+    subject { put 'enable_vacation_mode', vacation_message: 'test', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -148,10 +148,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #disable_vacation_mode' do
-    subject { post 'disable_vacation_mode' }
+    subject { post 'disable_vacation_mode', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -163,7 +163,7 @@ describe Api::ProfileInfosController, type: :controller do
 
   describe 'PUT #update_welcome_media' do
     context 'with welcome video' do
-      subject { put 'update_welcome_media', transloadit: welcome_video_data_params.to_json }
+      subject { put 'update_welcome_media', transloadit: welcome_video_data_params.to_json, format: :json }
 
       context 'authorized access' do
         before { sign_in_with_token(user.api_token) }
@@ -172,12 +172,12 @@ describe Api::ProfileInfosController, type: :controller do
       end
 
       context 'unauthorized access' do
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
 
     context 'with welcome audio' do
-      subject { put 'update_welcome_media', transloadit: welcome_audio_data_params.to_json }
+      subject { put 'update_welcome_media', transloadit: welcome_audio_data_params.to_json, format: :json }
 
       context 'authorized access' do
         before { sign_in_with_token(user.api_token) }
@@ -186,16 +186,16 @@ describe Api::ProfileInfosController, type: :controller do
       end
 
       context 'unauthorized access' do
-        its(:status) { should eq(401) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       end
     end
   end
 
   describe 'DELETE #remove_welcome_media' do
-    subject { delete 'remove_welcome_media' }
+    subject { delete 'remove_welcome_media', format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized access' do
@@ -206,10 +206,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #enable_message_notifications' do
-    subject { put 'enable_message_notifications' }
+    subject { put 'enable_message_notifications', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
@@ -220,10 +220,10 @@ describe Api::ProfileInfosController, type: :controller do
   end
 
   describe 'PUT #disable_message_notifications' do
-    subject { put 'disable_message_notifications' }
+    subject { put 'disable_message_notifications', format: :json }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
     end
 
     context 'authorized' do
