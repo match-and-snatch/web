@@ -1,11 +1,10 @@
-.nested_row.edit_row data-identifier='comment-#{@reply.id}'
+.nested_row.edit_nested_row data-identifier='comment-#{@reply.id}'
   .photo.pull-left
     img src=@reply.user.comment_picture_url width=50 height=50
 
-  form.Commenter data-target='comment-#{@reply.id}' action=comment_reply_path(@comment.id, @reply.id) method='POST'
+  form.edit_form.pull-right.Commenter data-target='comment-#{@reply.id}' action=comment_reply_path(@comment.id, @reply.id) method='POST'
     input type='hidden' name='_method' value='PUT'
- 	  .nested_content.pull-right
-	    textarea.Autofocus name='message' style='width: 100%'
-	      = @reply.message
-	  .clearfix
+    textarea.Autofocus name='message' style='width: 100%'
+      = @reply.message
+  .clearfix
 .cleafix
