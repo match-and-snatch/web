@@ -10,6 +10,10 @@ module Concerns::ControllerFramework
       process_http_code_error(error)
     end
 
+    rescue_from ActionController::UnknownFormat do |error|
+      process_http_code_error(HttpCodeError.new(404))
+    end
+
     helper_method :can?
     helper_method :current_user
   end
