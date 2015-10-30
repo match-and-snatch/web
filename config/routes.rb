@@ -365,6 +365,9 @@ BuddyPlatform::Application.routes.draw do
         collection do
           get :search
         end
+        member do
+          post :login_as
+        end
       end
 
       concerns :profile_owners_dashboard

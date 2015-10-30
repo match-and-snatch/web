@@ -18,7 +18,7 @@ class Ability
         subject.users.where(users: {id: performer.id}).any?
       when User
         case action
-          when :login_as             then performer.admin?
+          when :login_as             then performer.admin? || performer.is_sales?
           when :subscribe_to         then subject.id != performer.id && authorized? && !subscribed_to?(subject) && !billing_failed?
           when :see_subscribe_button then subject.id != performer.id &&                !subscribed_to?(subject) && !billing_failed?
           when :see                  then subject.id == performer.id ||                 subscribed_to?(subject) || subject.has_public_profile?

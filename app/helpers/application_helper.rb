@@ -211,4 +211,14 @@ module ApplicationHelper
       end
     end
   end
+
+  def login_as_user_path(user_id)
+    if current_user.admin?
+      login_as_admin_user_path(user_id)
+    elsif current_user.is_sales?
+      login_as_sales_user_path(user_id)
+    else
+      '#'
+    end
+  end
 end
