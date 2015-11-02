@@ -12,6 +12,6 @@ staging:
   url: 'http://0.1.2.3:9250'
 
 test:
-  enabled: no
+  enabled: yes
   <<: *defaults
 

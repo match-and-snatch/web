@@ -1,6 +1,16 @@
 require 'spec_helper'
 
 describe User do
+  describe 'index' do
+    let(:user) { create_user; create_profile_owner(email: 'test@test.rux', profile_name: 'Test') }
+
+    it do
+      r = user.elastic_index_document
+      q = Queries::Elastic::Profiles.new.search('Test na')
+      binding.pry
+    end
+  end
+
   describe '.create' do
     context 'profile owner' do
       it 'assigns slug' do

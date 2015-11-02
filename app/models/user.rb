@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   ROLE_FIELDS = {is_admin: 'admin', is_sales: 'sales'}.freeze
 
   include Concerns::Subscribable
+  include Elasticpal::Indexable
 
   serialize :contacts_info, Hash
 
@@ -72,11 +73,11 @@ class User < ActiveRecord::Base
     end
   }
 
-  include Elasticpal::Indexable
-
   elastic_type do
     field :full_name, :profile_name, :profile_types_text
-    field :subscribers_count, type: :integer
+    field :visible do
+      is_profile_owner? && has_complete_profile? && subscribers_count > 0 && profile_picture_url.present?
+    end
   end
 
   def self.random_public_profile

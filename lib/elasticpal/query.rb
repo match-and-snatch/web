@@ -1,4 +1,5 @@
 require 'elasticpal/client'
+require 'elasticpal/response'
 require 'elasticsearch/dsl'
 
 module Elasticpal
@@ -19,9 +20,13 @@ module Elasticpal
       end
     end
 
-    def self.model(model_name)
-      define_method :model do
-        model_name.classify.constantize
+    def self.model(model_name = nil, &block)
+      if block
+        define_method :model, &block
+      else
+        define_method :model do
+          model_name.classify.constantize
+        end
       end
     end
 
@@ -64,7 +69,7 @@ module Elasticpal
         plain_query[:body] = body(*args)
       end
 
-      results = client.search(plain_query)
+      Elasticpal::Response.new(client.search(plain_query), self)
     end
 
     def body(*args)
@@ -77,11 +82,11 @@ module Elasticpal
     end
 
     def index
-      @index ||= model.name.dowcase.pluralize
+      @index ||= model.name.downcase.pluralize
     end
 
     def model
-      raise NotImplementedError
+      @model or raise NotImplementedError
     end
 
     def type

@@ -8,21 +8,27 @@ module Elasticpal
     include Singleton
 
     def perform_request(method, path, params, body)
-      return unless config['enabled']
+      return EmptyResponse.new unless config[:enabled]
 
-      connection.run_request \
+      connection.run_request(
         method.downcase.to_sym,
         path,
         (body ? MultiJson.dump(body): nil),
-        {'Content-Type' => 'application/json'}
+        {'Content-Type' => 'application/json'})
     end
 
     def connection
-      @connection ||= ::Faraday::Connection.new url: config['url']
+      @connection ||= ::Faraday::Connection.new url: config[:url]
     end
 
     def config
       @config ||= YAML.load_file(Rails.root.join('config', 'elasticpal.yml'))[ENV['RAILS_ENV'] || Rails.env].symbolize_keys
+    end
+
+    class EmptyResponse
+      def body
+        {}
+      end
     end
   end
 end

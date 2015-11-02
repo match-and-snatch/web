@@ -1,5 +1,5 @@
 module Elasticpal
-  class Indexable
+  module Indexable
     extend ActiveSupport::Concern
 
     class Indexator
@@ -7,22 +7,22 @@ module Elasticpal
         @record = record
       end
 
-      def index
+      def index_document
         each_index do |index|
-          index.index(record)
+          index.index_document(@record)
         end
       end
 
-      def delete
+      def delete_document
         each_index do |index|
-          index.delete(record)
-        end
+          index.delete_document(record)
+        end.map
       end
 
       private
 
       def each_index(&block)
-        @record.class.elastic_indexes.each do |_ ,index|
+        @record.class.elastic_indexes.map do |_ ,index|
           block.call(index)
         end
       end
@@ -39,48 +39,72 @@ module Elasticpal
         instance_eval(&block)
       end
 
-      def field(*names, params)
+      def field(*names, &block)
+        params = names.extract_options!
+
         names.each do |name|
-          declare_field name, params
+          declare_field(name, params, &block)
         end
       end
 
-      def declare_field(name, params)
-        fields[name] = params
+      def declare_field(name, params, &block)
+        fields[name] = params.merge(value_block: block)
       end
 
-      def index(record)
-        client.xput
-        # Do your indexation logic here
+      def index_document(record)
+        client.index index: @index.name,
+                     type: @name,
+                     id: record.id,
+                     body: body(record),
+                     refresh: true
       end
 
       def client
         Elasticpal::Client.instance
       end
+
+      private
+
+      def body(record)
+        {}.tap do |result|
+          fields.each do |name, params|
+            if params[:value_block]
+              result[name] = record.instance_eval(&params[:value_block])
+            else
+              result[name] = record.send(name)
+            end
+          end
+        end
+      end
     end
 
     class Index
       attr_reader :types
+      attr_reader :name
 
       def initialize(name, &block)
         @name = name
         @types = []
-        instance_eval(&block)
+        instance_eval(&block) if block
       end
 
       def type(name = 'default', &block)
-        types << Type.new(name, index, &block)
+        types << Type.new(name, self, &block)
       end
 
-      def index(record)
-        types.each do |type|
-          type.index(record)
+      def index_document(record)
+        types.map do |type|
+          type.index_document(record)
         end
       end
     end
 
     def elastic_index_document
-      elastic_indexator.index_document(self)
+      elastic_indexator.index_document
+    end
+
+    def elastic_delete_document
+      elastic_indexator.delete_document
     end
 
 
@@ -99,7 +123,7 @@ module Elasticpal
         elastic_indexes[name] = Index.new(name, &block)
       end
 
-      def elastic_type(name = nil, &block)
+      def elastic_type(name = 'default', &block)
         elastic_indexes[elastic_default_index_name] ||= Index.new(elastic_default_index_name)
         elastic_indexes[elastic_default_index_name].type(name, &block)
       end
