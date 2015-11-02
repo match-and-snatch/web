@@ -16,14 +16,16 @@ describe User do
         let(:luser) { create_profile_owner(email: 'luser@user.ru').tap { |u| u.update(subscribers_count: 1, profile_name: 'Test') } }
 
         before do
+          Elasticpal::Client.instance.indices.delete index: '_all'
           popular_user.elastic_index_document
           luser.elastic_index_document
+          Elasticpal::Client.instance.indices.refresh index: '_all'
         end
 
         subject { Queries::Elastic::Profiles.new.search('Test') }
 
         it 'orders records by popularity' do
-          expect(subject.records).to eq([popular_user, luser])
+          expect(subject.ids).to eq([popular_user.id, luser.id])
         end
       end
 
@@ -32,14 +34,16 @@ describe User do
         let(:popular_user) { create_profile_owner.tap { |u| u.update(subscribers_count: 3, profile_name: 'Test') } }
 
         before do
+          Elasticpal::Client.instance.indices.delete index: '_all'
           luser.elastic_index_document
           popular_user.elastic_index_document
+          Elasticpal::Client.instance.indices.refresh index: '_all'
         end
 
         subject { Queries::Elastic::Profiles.new.search('Test') }
 
         it 'orders records by popularity' do
-          expect(subject.records).to eq([popular_user, luser])
+          expect(subject.ids).to eq([popular_user.id, luser.id])
         end
       end
     end

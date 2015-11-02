@@ -17,7 +17,7 @@ module Elasticpal
     end
 
     def ids
-      hits.map { |hit| hit['_id'] }
+      hits.map { |hit| hit['_id'] }.map(&:to_i)
     end
 
     def any?

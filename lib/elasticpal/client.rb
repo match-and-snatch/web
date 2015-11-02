@@ -30,5 +30,8 @@ module Elasticpal
         {}
       end
     end
+
+    class InvalidResponseError < StandardError
+    end
   end
 end

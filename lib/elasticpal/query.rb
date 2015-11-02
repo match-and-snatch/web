@@ -72,6 +72,10 @@ module Elasticpal
       Elasticpal::Response.new(client.search(plain_query), self)
     end
 
+    def delete
+      client.delete_by_query(@arguments.merge(index: @index, type: @type, body: {query: {match_all: {}}}))
+    end
+
     def body(*args)
       block = self.class.body_block
       dsl_search { instance_exec(*args, &block) }.to_hash
