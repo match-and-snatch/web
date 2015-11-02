@@ -1470,27 +1470,6 @@ CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at
 
 
 --
--- Name: index_users_on_api_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_api_token ON users USING hash (api_token);
-
-
---
--- Name: index_users_on_auth_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_auth_token ON users USING hash (auth_token);
-
-
---
--- Name: index_users_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_slug ON users USING hash (slug);
-
-
---
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1830,4 +1809,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151023111243');
 INSERT INTO schema_migrations (version) VALUES ('20151023111720');
 
 INSERT INTO schema_migrations (version) VALUES ('20151023111938');
+
+INSERT INTO schema_migrations (version) VALUES ('20151101223552');
 
