@@ -75,8 +75,9 @@ class User < ActiveRecord::Base
 
   elastic_type do
     field :full_name, :profile_name, :profile_types_text
+    field :subscribers_count # used for boosting results
     field :visible do
-      is_profile_owner? && has_complete_profile? && subscribers_count > 0 && profile_picture_url.present?
+      is_profile_owner? && has_complete_profile? && (subscribers_count > 0 || profile_picture_url.present?)
     end
   end
 
@@ -352,6 +353,10 @@ class User < ActiveRecord::Base
         user.send("#{key}=", val)
       end
     end
+  end
+
+  def profile_types_text
+    profile_types.map(&:title).join(', ')
   end
 
   def created_profile_page?

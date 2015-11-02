@@ -6,8 +6,42 @@ describe User do
 
     it do
       r = user.elastic_index_document
-      q = Queries::Elastic::Profiles.new.search('Test na')
+      q = Queries::Elastic::Profiles.new.search('Test')
       binding.pry
+    end
+
+    context 'multiple users' do
+      context do
+        let(:popular_user) { create_profile_owner.tap { |u| u.update(subscribers_count: 3, profile_name: 'Test') } }
+        let(:luser) { create_profile_owner(email: 'luser@user.ru').tap { |u| u.update(subscribers_count: 1, profile_name: 'Test') } }
+
+        before do
+          popular_user.elastic_index_document
+          luser.elastic_index_document
+        end
+
+        subject { Queries::Elastic::Profiles.new.search('Test') }
+
+        it 'orders records by popularity' do
+          expect(subject.records).to eq([popular_user, luser])
+        end
+      end
+
+      context do
+        let(:luser) { create_profile_owner(email: 'luser@user.ru').tap { |u| u.update(subscribers_count: 1, profile_name: 'Test') } }
+        let(:popular_user) { create_profile_owner.tap { |u| u.update(subscribers_count: 3, profile_name: 'Test') } }
+
+        before do
+          luser.elastic_index_document
+          popular_user.elastic_index_document
+        end
+
+        subject { Queries::Elastic::Profiles.new.search('Test') }
+
+        it 'orders records by popularity' do
+          expect(subject.records).to eq([popular_user, luser])
+        end
+      end
     end
   end
 
