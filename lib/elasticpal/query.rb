@@ -96,7 +96,10 @@ module Elasticpal
     def model
       @model or raise NotImplementedError
     end
-    alias_method :scope, :model
+
+    def scope
+      model
+    end
 
     def type
       @type ||= 'default'.freeze

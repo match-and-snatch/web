@@ -11,8 +11,8 @@ module Elasticpal
     end
 
     def records(scope = {})
-      @scope.where(scope).where(id: ids).sort_by do |record|
-        hits.find { |hit| hit['_id'] == record.id.to_s }['_score']
+      @scope.where(scope).where(id: ids).sort do |r1, r2|
+        order(r2) <=> order(r1)
       end
     end
 
@@ -38,6 +38,10 @@ module Elasticpal
 
     def total
       hits_data['total']
+    end
+
+    def order(record)
+      hits.find { |hit| hit['_id'] == record.id.to_s }['_score']
     end
   end
 end
