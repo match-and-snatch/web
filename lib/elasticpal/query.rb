@@ -30,6 +30,10 @@ module Elasticpal
       end
     end
 
+    def self.scope(*args, &block)
+      self.model(*args, &block)
+    end
+
     def self.type(type_name)
       define_method :type do
         type_name
@@ -92,6 +96,7 @@ module Elasticpal
     def model
       @model or raise NotImplementedError
     end
+    alias_method :scope, :model
 
     def type
       @type ||= 'default'.freeze
