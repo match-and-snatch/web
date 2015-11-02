@@ -22,13 +22,14 @@ GIT
 
 GIT
   remote: git://github.com/elasticsearch/elasticsearch-ruby.git
-  revision: fe4500d24b318ff8428808c9e6e00f71f219d13f
+  revision: f23932fb9017f5cb882dd55e84332f220434f566
   specs:
     elasticsearch (1.0.14)
       elasticsearch-api (= 1.0.14)
       elasticsearch-transport (= 1.0.14)
     elasticsearch-api (1.0.14)
       multi_json
+    elasticsearch-dsl (0.1.2)
     elasticsearch-transport (1.0.14)
       faraday
       multi_json
@@ -417,6 +418,7 @@ DEPENDENCIES
   database_cleaner!
   delayed_job_active_record
   elasticsearch!
+  elasticsearch-dsl!
   guard-cucumber
   guard-rspec
   jazz_fingers

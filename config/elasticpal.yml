@@ -1,0 +1,17 @@
+defaults: &defaults
+  enabled: yes
+  url: 'http://localhost:9250'
+
+development:
+  <<: *defaults
+
+production:
+  url: 'http://0.1.2.3:9250'
+
+staging:
+  url: 'http://0.1.2.3:9250'
+
+test:
+  enabled: no
+  <<: *defaults
+

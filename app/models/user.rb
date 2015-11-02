@@ -2,7 +2,6 @@ class User < ActiveRecord::Base
   FAKE_TOKEN = 'fake'.freeze
   ROLE_FIELDS = {is_admin: 'admin', is_sales: 'sales'}.freeze
 
-  include PgSearch
   include Concerns::Subscribable
 
   serialize :contacts_info, Hash
@@ -73,19 +72,12 @@ class User < ActiveRecord::Base
     end
   }
 
-  pg_search_scope :search_by_text_fields, against: [[:full_name, 'B'], [:profile_name, 'A'], [:profile_types_text, 'C']],
-                                        using: {
-                                          :tsearch => {:prefix => true},
-                                          :dmetaphone => {},
-                                          :trigram => {}
-                                        },
-                                        ignoring: :accents,
-                                        ranked_by: ":dmetaphone + (0.25 * :trigram) + (0.25 * users.subscribers_count)"
+  include Elasticpal::Indexable
 
-  pg_search_scope :search_by_admin_fields, against: [:full_name, :profile_name, :email],
-                  using: [:tsearch, :dmetaphone, :trigram],
-                  ignoring: :accents,
-                  ranked_by: ":dmetaphone + (0.25 * :trigram)"
+  elastic_type do
+    field :full_name, :profile_name, :profile_types_text
+    field :subscribers_count, type: :integer
+  end
 
   def self.random_public_profile
     where(has_public_profile: true).order("random()").first
