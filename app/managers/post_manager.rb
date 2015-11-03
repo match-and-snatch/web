@@ -23,7 +23,11 @@ class PostManager < BaseManager
     @post
   end
 
-  def update(title: :unset, message: )
+  # @param title [String]
+  # @param message [String]
+  # @param upload_ids [Array] ids to keep uploads on update
+  # @return [Post]
+  def update(title: :unset, message: , upload_ids: nil)
     fail_with! message: :empty if message.blank?
 
     title = nil if @post.status?
@@ -32,6 +36,13 @@ class PostManager < BaseManager
     @post.message = CGI.escapeHTML(message)
     @post.save or fail_with!(@post.errors)
     EventsManager.post_updated(user: @user, post: @post)
+
+    if upload_ids.is_a?(Array)
+      @post.uploads.where.not(id: upload_ids).each do |upload|
+        UploadManager.new(user).remove_upload(upload: upload, post: @post)
+      end
+    end
+
     @post
   end
 

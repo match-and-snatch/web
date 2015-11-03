@@ -56,6 +56,26 @@ describe PostManager, freeze: true do
         expect { manager.update(title: 'test', message: 'updated') }.not_to change { post.reload.title }.from(nil)
       end
     end
+
+    context 'photo post' do
+      let!(:photo) { UploadManager.new(user).create_pending_photos(transloadit_photo_data_params).first }
+      let!(:post) { manager.create_photo_post(title: 'test', message: 'test') }
+
+      it { expect { manager.update(title: 'updated', message: 'updated') }.to change { post.reload.title }.to('updated') }
+      it { expect { manager.update(title: 'updated', message: 'updated') }.to change { post.reload.message }.to('updated') }
+
+      it { expect { manager.update(title: 'updated', message: 'updated') }.not_to delete_record(Photo) }
+      it { expect { manager.update(title: 'updated', message: 'updated', upload_ids: 123) }.not_to delete_record(Photo) }
+
+      it 'does not delete specified photo' do
+        expect { manager.update(title: 'updated', message: 'updated', upload_ids: [photo]) }.not_to delete_record(Photo).matching(id: photo.id)
+      end
+
+      it 'delete all photos' do
+        expect { manager.update(title: 'updated', message: 'updated', upload_ids: []) }.to delete_record(Photo).matching(id: photo.id)
+      end
+
+    end
   end
 
   describe '#update_pending' do
