@@ -21,11 +21,14 @@ describe UserManager do
 
   describe '#lock', freeze: true do
     let(:user) { create_user }
-    let(:lock) { manager.lock('billing') }
+    let(:lock) { manager.lock(:billing) }
 
     it { expect { lock }.to change { user.reload.last_time_locked_at }.to(Time.zone.now) }
     it { expect { lock }.to change { user.reload.locked? }.to(true) }
     it { expect { lock }.to create_event('account_locked').with_user(user).including_data(reason: 'billing') }
+
+    it { expect { manager.lock(:account) }.to create_event('account_locked').with_user(user).including_data(reason: 'account') }
+    it { expect { manager.lock('account') }.to create_event('account_locked').with_user(user).including_data(reason: 'account') }
 
     context 'invalid reason provided' do
       let(:lock) { manager.lock('invlid reason') }

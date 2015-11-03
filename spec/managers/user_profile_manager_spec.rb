@@ -564,6 +564,10 @@ describe UserProfileManager do
         expect { update_cc_data rescue nil }.to change { user.reload.locked? }.to(true)
       end
 
+      it 'sets billing lock reason' do
+        expect { update_cc_data rescue nil }.to create_event('account_locked').with_user(user).including_data(reason: 'billing')
+      end
+
       specify do
         expect { update_cc_data }.to raise_error(ManagerError, /locked/)
       end
