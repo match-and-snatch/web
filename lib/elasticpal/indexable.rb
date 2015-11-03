@@ -15,7 +15,7 @@ module Elasticpal
 
       def delete_document
         each_index do |index|
-          index.delete_document(record)
+          index.delete_document(@record)
         end.map
       end
 
