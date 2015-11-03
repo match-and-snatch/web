@@ -14,15 +14,6 @@ xml.urlset "xmlns" => "http://www.sitemaps.org/schemas/sitemap/0.9", "xmlns:xhtm
     end
   end
 
-  Queries::Users.new(user: current_user).grouped_by_first_letter.each do |letter, users|
-    next if users.empty?
-    xml.url do
-      xml.loc directory_url(id: letter)
-      xml.xhtml :link, rel: "alternate", media: "only screen and (max-width: 768px)", href: mobile_url('users')
-      xml.priority 0.6
-    end
-  end
-
   @public_profiles.find_each do |profile|
     xml.url do
       xml.loc profile_url(profile)

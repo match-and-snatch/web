@@ -1,16 +1,19 @@
 class UsersController < ApplicationController
-  include Concerns::DynamicContent
   include Transloadit::Rails::ParamsDecoder
+
+  caches_action :index, layout: false, expires_in: 1.hour, cache_path: (proc do
+    {logged_in: current_user.authorized?,
+     cc_declined: current_user.cc_declined?,
+     billing_failed: current_user.billing_failed?}
+  end)
 
   before_action :authenticate!, except: %i(index search mentions create show activate sample)
   before_action :redirect_invalid_slug, only: :show
 
-  dynamic_template 'layouts/directories'
-
   def index
     layout.title = 'ConnectPal.com - Profile Directory'
     @top_users = User.top
-    json_render
+    @users = Queries::Users.new(user: current_user).grouped_by_first_letter
   end
 
   def search

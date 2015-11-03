@@ -9,10 +9,9 @@ describe ::UsersController, type: :controller do
     end
 
     context 'as JSON' do
-      subject { get 'index', format: :json }
+      subject { get 'index' }
 
       it { should be_success }
-      its(:body) { should match_regex /success/ }
     end
   end
 
