@@ -938,8 +938,8 @@ CREATE TABLE uploads (
     mime_type character varying(255),
     width integer,
     height integer,
-    preview_url character varying(255),
-    url character varying(255),
+    preview_url text,
+    url text,
     filename text,
     basename text,
     filesize integer,
@@ -953,7 +953,7 @@ CREATE TABLE uploads (
     playlist_url text,
     high_quality_playlist_url text,
     low_quality_playlist_url text,
-    retina_preview_url character varying
+    retina_preview_url text
 );
 
 
@@ -1810,5 +1810,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151023111720');
 
 INSERT INTO schema_migrations (version) VALUES ('20151023111938');
 
-INSERT INTO schema_migrations (version) VALUES ('20151101223552');
+INSERT INTO schema_migrations (version) VALUES ('20151030103407');
 
+INSERT INTO schema_migrations (version) VALUES ('20151101223552');
