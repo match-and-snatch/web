@@ -8,22 +8,20 @@ module Queries
 
       body do |fulltext_query|
         {
-          #function_score: {
-            query: {
-               dis_max: {
-                 queries: [
-                   {match: {profile_name: fulltext_query}},
-                   {match: {full_name: fulltext_query}},
-                   {match: {profile_types_text: fulltext_query}}
-                 ]
-               }
-            },
-          #   functions: [
-          #     {
-          #       filter: {visible: true}
-          #     }
-          #   ]
-          # }
+          query: {
+            filtered: {
+              query: {
+                 dis_max: {
+                   queries: [
+                     {match: {profile_name: fulltext_query}},
+                     {match: {full_name: fulltext_query}},
+                     {match: {profile_types_text: fulltext_query}}
+                   ]
+                 }
+              },
+              filter: {term: {visible: true}}
+            }
+          }
         }
         # query do
         #   filtered do
