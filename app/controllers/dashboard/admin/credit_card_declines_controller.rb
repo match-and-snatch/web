@@ -6,7 +6,7 @@ class Dashboard::Admin::CreditCardDeclinesController < Dashboard::Admin::BaseCon
   end
 
   def search
-    @users = User.where(email: params[:q].try(:strip))
+    @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_email
     json_replace
   end
 
