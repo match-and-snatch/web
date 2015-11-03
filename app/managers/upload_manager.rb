@@ -43,8 +43,6 @@ class UploadManager < BaseManager
   end
 
   def create_pending_video_previews(transloadit_data)
-    transloadit_data['results']['full_size'] or fail_with! 'Invalid transloadit data'
-
     bucket = Transloadit::Rails::Engine.configuration['_templates']['post_video']['steps']['s3_thumb']['bucket']
 
     transloadit_data['uploads'].each.map do |upload_data|
@@ -71,15 +69,13 @@ class UploadManager < BaseManager
         upload
       end
     end
+  rescue => e
+    throw_an_error(e: e, transloadit_data: transloadit_data)
   end
 
   # @param transloadit_data [Hash]
   # @return [Array<Upload>]
   def create_pending_photos(transloadit_data)
-    transloadit_data['results']['preview']   or fail_with! 'Invalid transloadit data'
-    transloadit_data['results']['full_size'] or fail_with! 'Invalid transloadit data'
-    transloadit_data['results']['retina_preview'] or fail_with! 'Invalid transloadit data'
-
     if PhotoPost.pending_uploads_for(user).count + transloadit_data['uploads'].count > 10
       fail_with! "You can't upload more than 10 photos."
     end
@@ -115,6 +111,8 @@ class UploadManager < BaseManager
         upload
       end
     end
+  rescue => e
+    throw_an_error(e: e, transloadit_data: transloadit_data)
   end
 
   # @param transloadit_data [Hash]
@@ -161,6 +159,8 @@ class UploadManager < BaseManager
         upload
       end
     end
+  rescue => e
+    throw_an_error(e: e, transloadit_data: transloadit_data)
   end
 
   # @param transloadit_data [Hash]
@@ -191,6 +191,8 @@ class UploadManager < BaseManager
     save_or_die! upload
     EventsManager.file_uploaded(user: user, file: upload)
     upload
+  rescue => e
+    throw_an_error(e: e, transloadit_data: transloadit_data)
   end
 
   # @param transloadit_data [Hash]
@@ -199,7 +201,7 @@ class UploadManager < BaseManager
   # @return [Upload]
   def create_video(transloadit_data, uploadable: user, template: 'post_video', attributes: {})
     #thumb = transloadit_data['results']['thumbs'].try(:first) or fail_with! 'No thumb received'
-    thumbs = transloadit_data['results']['thumbs'].presence or fail_with! 'No thumb received'
+    thumbs = transloadit_data['results']['thumbs']
     thumb = thumbs.first
     encode = transloadit_data['results']['encode'][0]
 
@@ -258,6 +260,8 @@ class UploadManager < BaseManager
 
     EventsManager.file_uploaded(user: user, file: upload)
     upload
+  rescue => e
+    throw_an_error(e: e, transloadit_data: transloadit_data)
   end
 
   # @param transloadit_data [Hash]
@@ -291,6 +295,8 @@ class UploadManager < BaseManager
       EventsManager.file_uploaded(user: user, file: upload)
       upload
     end
+  rescue => e
+    throw_an_error(e: e, transloadit_data: transloadit_data)
   end
 
   def self.remove_post_uploads(ids: [])
@@ -317,5 +323,10 @@ class UploadManager < BaseManager
 
   def get_file_path(url = '')
     URI(url).path.sub('/', '')
+  end
+
+  def throw_an_error(e: , transloadit_data: transloadit_data)
+    Rollbar.error(e, user_id: user.id, transloadit_data: transloadit_data)
+    fail_with! 'Invalid upload data. Please, try again later!'
   end
 end
