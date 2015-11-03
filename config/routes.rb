@@ -359,7 +359,7 @@ BuddyPlatform::Application.routes.draw do
     namespace :sales do
       resource :dashboard, only: [:show]
       resources :recent_profiles, only: :index
-      resource :directory
+      resources :directories, only: [:index, :show]
 
       resources :users, only: [] do
         collection do
@@ -412,13 +412,15 @@ BuddyPlatform::Application.routes.draw do
           get :search
         end
       end
-      resource :directory do
-        scope module: :directories do
-          resources :users, only: [] do
-            member do
-              put :toggle
-              put :toggle_mature_content
-              put :toggle_large_contributions
+      resources :directories, only: [:index, :show] do
+        collection do
+          scope module: :directories do
+            resources :users, only: [] do
+              member do
+                put :toggle
+                put :toggle_mature_content
+                put :toggle_large_contributions
+              end
             end
           end
         end

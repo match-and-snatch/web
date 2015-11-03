@@ -1,9 +1,23 @@
 require 'spec_helper'
 
 describe ::UsersController, type: :controller do
+  describe 'GET index' do
+    context 'as HTML' do
+      subject { get 'index' }
+
+      it { should be_success }
+    end
+
+    context 'as JSON' do
+      subject { get 'index' }
+
+      it { should be_success }
+    end
+  end
+
   describe 'POST #create' do
     context 'nothing passed' do
-      subject { post 'create' }
+      subject { post 'create', format: :json }
 
       it { should be_success }
       its(:body) { should match_regex /failed/ }
@@ -14,7 +28,7 @@ describe ::UsersController, type: :controller do
                                first_name: 'sergei',
                                last_name: 'zinin',
                                password: 'qwerty',
-                               password_confirmation: 'qwerty' }
+                               password_confirmation: 'qwerty', format: :json }
 
       it { should be_success }
       its(:body) { should match_regex /redirect/ }
@@ -46,7 +60,7 @@ describe ::UsersController, type: :controller do
 
   let(:profile) { create_profile email: 'profile@gmail.com' }
   describe 'PUT #update_name' do
-    subject { put 'update_name', id: profile.slug, profile_name: 'anotherName'}
+    subject { put 'update_name', id: profile.slug, profile_name: 'anotherName', format: :json }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -60,7 +74,7 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'PUT #update_cost' do
-    subject { put 'update_cost', id: "anything", cost: 10}
+    subject { put 'update_cost', id: "anything", cost: 10, format: :json }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -74,7 +88,7 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'PUT #update_contacts_info' do
-    subject { put 'update_contacts_info', contacts_info_data_params }
+    subject { put 'update_contacts_info', contacts_info_data_params.merge(format: :json) }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -88,7 +102,7 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'PUT #update_cover_picture_position' do
-    subject { put 'update_cover_picture_position', id: 'anything', cover_picture_position: 100 }
+    subject { put 'update_cover_picture_position', id: 'anything', cover_picture_position: 100, format: :json }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -102,7 +116,7 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'PUT #update_cover_picture' do
-    subject { put 'update_cover_picture', id: profile.id, transloadit: cover_picture_data_params.to_json }
+    subject { put 'update_cover_picture', id: profile.id, transloadit: cover_picture_data_params.to_json, format: :json }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -117,7 +131,7 @@ describe ::UsersController, type: :controller do
 
   describe 'GET #edit_welcome_media' do
     let!(:owner)  { create_profile email: 'owner@gmail.com' }
-    subject { get 'edit_welcome_media', id: owner.slug }
+    subject { get 'edit_welcome_media', id: owner.slug, format: :json }
 
     context 'authorized access' do
       before { sign_in owner }
@@ -132,7 +146,7 @@ describe ::UsersController, type: :controller do
 
   describe 'PUT #update_welcome_media' do
     context 'with welcome video' do
-      subject { put 'update_welcome_media', id: profile.id, transloadit: welcome_video_data_params.to_json }
+      subject { put 'update_welcome_media', id: profile.id, transloadit: welcome_video_data_params.to_json, format: :json }
 
       context 'authorized access' do
         before { sign_in profile }
@@ -146,7 +160,7 @@ describe ::UsersController, type: :controller do
     end
 
     context 'with welcome audio' do
-      subject { put 'update_welcome_media', id: profile.id, transloadit: welcome_audio_data_params.to_json }
+      subject { put 'update_welcome_media', id: profile.id, transloadit: welcome_audio_data_params.to_json, format: :json }
 
       context 'authorized access' do
         before { sign_in profile }
@@ -161,7 +175,7 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'DELETE #remove_welcome_media' do
-    subject { delete 'remove_welcome_media', id: profile.id }
+    subject { delete 'remove_welcome_media', id: profile.id, format: :json }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }
@@ -175,7 +189,7 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'PUT #update_profile_picture' do
-    subject { put 'update_profile_picture', id: profile.id, transloadit: profile_picture_data_params.to_json }
+    subject { put 'update_profile_picture', id: profile.id, transloadit: profile_picture_data_params.to_json, format: :json }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -189,7 +203,7 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'PUT #update_profile_picture' do
-    subject { put 'update_profile_picture', id: profile.id, transloadit: profile_picture_data_params.to_json }
+    subject { put 'update_profile_picture', id: profile.id, transloadit: profile_picture_data_params.to_json, format: :json }
 
     context 'authorized access' do
       before { sign_in profile }
@@ -204,7 +218,7 @@ describe ::UsersController, type: :controller do
 
   describe 'GET #search' do
     let!(:profile1) { create_profile profile_name: 'serg', profile_picture_url: 'set', is_profile_owner: true }
-    subject(:perform_request) { get 'search', q: 'serg' }
+    subject(:perform_request) { get 'search', q: 'serg', format: :json }
 
     context 'user is hidden' do
       before { perform_request }
