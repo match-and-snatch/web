@@ -68,9 +68,9 @@ module Elasticpal
       plain_query = @arguments.merge(type: type, index: index)
 
       if block
-        plain_query[:body] = dsl_search(*args, &block).to_hash
+        plain_query[:body] = instance_eval(&block)
       else
-        plain_query[:body] = body(*args)
+        plain_query[:body] = instance_exec(*args, &self.class.body_block)
       end
 
       Elasticpal::Response.new(client.search(plain_query), self)
@@ -78,11 +78,6 @@ module Elasticpal
 
     def delete
       client.delete_by_query(@arguments.merge(index: @index, type: @type, body: {query: {match_all: {}}}))
-    end
-
-    def body(*args)
-      block = self.class.body_block
-      dsl_search { instance_exec(*args, &block) }.to_hash
     end
 
     def client
