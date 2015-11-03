@@ -8,6 +8,8 @@
           span style='padding-top: 7px; display: inline-block;'= user.full_name
           | &nbsp;
           strong= user.email
+        - if can? :login_as, user
+          a.pull-right.admin_login.AjaxFormLink href=login_as_user_path(user.id) data-_method='post' style='padding: 7px 15px 0 0;' Login as this User
         .clearfix
   .clearfix
 - else
