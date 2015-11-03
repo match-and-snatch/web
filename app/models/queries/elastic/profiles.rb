@@ -11,41 +11,28 @@ module Queries
           query: {
             filtered: {
               query: {
-                 dis_max: {
-                   queries: [
-                     {match: {profile_name: fulltext_query}},
-                     {match: {full_name: fulltext_query}},
-                     {match: {profile_types_text: fulltext_query}}
-                   ]
-                 }
+                function_score: {
+                  query: {
+                    dis_max: {
+                      queries: [
+                        {match: {profile_name: fulltext_query}},
+                        {match: {full_name: fulltext_query}},
+                        {match: {profile_types_text: fulltext_query}}
+                      ]
+                    }
+                  },
+                  field_value_factor: {
+                    field: 'subscribers_count',
+                    modifier: 'log1p',
+                    factor: 0.05
+                  },
+                  boost_mode: 'sum'
+                }
               },
               filter: {term: {visible: true}}
             }
           }
         }
-        # query do
-        #   filtered do
-        #     query do
-        #       function_score do
-        #         query do
-        #           dis_max do
-        #             queries [
-        #               {match: {profile_name: fulltext_query}},
-        #               {match: {full_name: fulltext_query}},
-        #               {match: {profile_types_text: fulltext_query}}
-        #             ]
-        #           end
-        #         end
-        #
-        #         functions << { script_score: {script: '_score * log1p( doc["subscribers_count"].value )'}}
-        #       end
-        #     end
-        #
-        #     filter do
-        #       term visible: true
-        #     end
-        #   end
-        # end
       end
     end
   end
