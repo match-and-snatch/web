@@ -7,7 +7,7 @@ describe User do
     it do
       r = user.elastic_index_document
       q = Queries::Elastic::Profiles.new.search('Test')
-      binding.pry
+      q.records
     end
 
     context 'multiple users' do
