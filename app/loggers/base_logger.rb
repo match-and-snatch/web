@@ -17,7 +17,8 @@ class BaseLogger
   def log(&block)
     event = Event.new(user: performer,
                       action: name,
-                      subject: subject_record,
+                      subject_id: subject_record.try(:id),
+                      subject_type: subject_record.try(:class).try(:name),
                       data: data,
                       created_at: created_at)
 
