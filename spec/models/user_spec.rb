@@ -4,10 +4,13 @@ describe User do
   describe 'index' do
     let(:user) { create_user; create_profile_owner(email: 'test@test.rux', profile_name: 'Test') }
 
-    it do
-      r = user.elastic_index_document
-      q = Queries::Elastic::Profiles.new.search('Test')
-      q.records
+    context 'test', focus: true do
+      it do
+        r = user.elastic_index_document
+        q = Queries::Elastic::Profiles.new.search('Test')
+        p q
+        q.records
+      end
     end
 
     context 'multiple users' do
