@@ -132,6 +132,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def staff?
+    roles.any?
+  end
+
   def cc_decline
     decline = credit_card_declines.first
     return decline if decline

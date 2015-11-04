@@ -325,7 +325,7 @@ class UploadManager < BaseManager
     URI(url).path.sub('/', '')
   end
 
-  def throw_an_error(e: , transloadit_data: transloadit_data)
+  def throw_an_error(e: , transloadit_data: )
     Rollbar.error(e, user_id: user.id, transloadit_data: transloadit_data)
     fail_with! 'Invalid upload data. Please, try again later!'
   end
