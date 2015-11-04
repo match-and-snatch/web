@@ -107,7 +107,6 @@ module Elasticpal
       elastic_indexator.delete_document
     end
 
-
     def elastic_indexator
       Indexator.new(self)
     end

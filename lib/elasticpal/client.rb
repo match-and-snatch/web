@@ -8,7 +8,7 @@ module Elasticpal
     include Singleton
 
     def perform_request(method, path, params, body)
-      return EmptyResponse.new unless config[:enabled]
+      return EmptyResponse.instance unless config[:enabled]
 
       connection.run_request(
         method.downcase.to_sym,
@@ -26,6 +26,8 @@ module Elasticpal
     end
 
     class EmptyResponse
+      include Singleton
+
       def body
         {}
       end
