@@ -265,6 +265,10 @@ describe SubscriptionManager do
           expect { manager.subscribe_to(another_user) }.to change { subscriber.locked? }.from(false).to(true)
         end
 
+        it 'sets billing lock reason' do
+          expect { manager.subscribe_to(another_user) }.to create_event('account_locked').with_user(subscriber).including_data(reason: 'billing')
+        end
+
         context '48 hours passed' do
           it 'allows subscribing' do
             Timecop.travel(48.hours.since) do
