@@ -214,6 +214,20 @@ describe User do
     end
   end
 
+  describe '#staff?' do
+    its(:staff?) { should eq(false) }
+
+    context 'admin' do
+      subject { User.new is_admin: true }
+      its(:staff?) { should eq(true) }
+    end
+
+    context 'sales' do
+      subject { User.new is_sales: true }
+      its(:staff?) { should eq(true) }
+    end
+  end
+
   describe '#subscribed_to?' do
     subject { user.subscribed_to?(target_user) }
 

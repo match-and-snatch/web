@@ -27,7 +27,7 @@ class SessionManager < BaseManager
   # @param admin [User]
   # @param user [User]
   def login_as(admin, user)
-    raise 'Pizdec' unless admin.admin?
+    raise 'Pizdec' unless admin.staff?
 
     @session[:auth_token] = user.auth_token
     @session[:admin_token] = admin.auth_token

@@ -215,7 +215,7 @@ module ApplicationHelper
   def login_as_user_path(user_id)
     if current_user.admin?
       login_as_admin_user_path(user_id)
-    elsif current_user.is_sales?
+    elsif current_user.sales?
       login_as_sales_user_path(user_id)
     else
       '#'
