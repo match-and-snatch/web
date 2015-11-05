@@ -75,6 +75,7 @@ gem 'mailcatcher', group: :development
 group :development, :test do
   gem 'jazz_fingers'
   gem 'pry-rails'
+  gem "factory_girl_rails", "~> 4.5.0"
 end
 
 group :test do
