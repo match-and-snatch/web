@@ -19,6 +19,12 @@ module Elasticpal
         end.map
       end
 
+      def index_data
+        each_index do |index|
+          index.index_data(@record)
+        end.flatten
+      end
+
       private
 
       def each_index(&block)
@@ -59,6 +65,21 @@ module Elasticpal
                      refresh: true
       end
 
+      def delete_document(record)
+        client.delete index: @index.name,
+                      type: @name,
+                      id: record.id
+      end
+
+      def index_data(record)
+        {
+          _index: @index.name,
+          _type: @name,
+          _id: record.id,
+          data: body(record)
+        }
+      end
+
       def client
         Elasticpal::Client.instance
       end
@@ -97,6 +118,18 @@ module Elasticpal
           type.index_document(record)
         end
       end
+
+      def delete_document(record)
+        types.map do |type|
+          type.delete_document(record)
+        end
+      end
+
+      def index_data(record)
+        types.map do |type|
+          { index: type.index_data(record) }
+        end
+      end
     end
 
     def elastic_index_document
@@ -105,6 +138,10 @@ module Elasticpal
 
     def elastic_delete_document
       elastic_indexator.delete_document
+    end
+
+    def elastic_index_data
+      elastic_indexator.index_data
     end
 
     def elastic_indexator
@@ -129,6 +166,14 @@ module Elasticpal
 
       def elastic_default_index_name
         name.underscore.pluralize
+      end
+
+      def elastic_bulk_index
+        res = []
+        find_each do |record|
+          res << record.elastic_index_data
+        end
+        Elasticpal::Client.instance.bulk(body: res.flatten, refresh: true)
       end
     end
   end

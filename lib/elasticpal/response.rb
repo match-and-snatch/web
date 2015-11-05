@@ -10,7 +10,7 @@ module Elasticpal
       results = @scope.where(scope).to_a
       ids.map do |id|
         results.find { |x| x.id == id }
-      end.sort do |r1, r2|
+      end.compact.sort do |r1, r2|
         order(r2) <=> order(r1)
       end
     end

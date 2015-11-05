@@ -52,6 +52,21 @@ describe User do
     end
   end
 
+  describe '.elastic_bulk_index' do
+    let!(:first_user) { create_profile_owner(email: 'first@test.rux', profile_name: 'Test') }
+    let!(:second_user) { create_profile_owner(email: 'second@test.rux', profile_name: 'Test') }
+
+    before do
+      Elasticpal::Client.instance.indices.delete index: '_all'
+      User.elastic_bulk_index
+      Elasticpal::Client.instance.indices.refresh index: '_all'
+    end
+
+    subject { Queries::Elastic::Profiles.new.search('Test') }
+
+    it { expect(subject.ids).to eq([first_user.id, second_user.id]) }
+  end
+
   describe '.create' do
     context 'profile owner' do
       it 'assigns slug' do

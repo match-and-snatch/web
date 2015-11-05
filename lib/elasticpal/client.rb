@@ -13,7 +13,7 @@ module Elasticpal
       connection.run_request(
         method.downcase.to_sym,
         path,
-        (body ? MultiJson.dump(body): nil),
+        (body ? convert_to_json(body) : nil),
         {'Content-Type' => 'application/json'})
     end
 
@@ -23,6 +23,10 @@ module Elasticpal
 
     def config
       @config ||= YAML.load_file(Rails.root.join('config', 'elasticpal.yml'))[ENV['RAILS_ENV'] || Rails.env].symbolize_keys
+    end
+
+    def convert_to_json(body = nil)
+      body.is_a?(String) ? body : MultiJson.dump(body)
     end
 
     class EmptyResponse
