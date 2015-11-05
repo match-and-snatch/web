@@ -19,9 +19,9 @@ module Elasticpal
         end.map
       end
 
-      def index_data
+      def data
         each_index do |index|
-          index.index_data(@record)
+          index.data(@record)
         end.flatten
       end
 
@@ -71,7 +71,7 @@ module Elasticpal
                       id: record.id
       end
 
-      def index_data(record)
+      def data(record)
         {
           _index: @index.name,
           _type: @name,
@@ -125,9 +125,9 @@ module Elasticpal
         end
       end
 
-      def index_data(record)
+      def data(record)
         types.map do |type|
-          { index: type.index_data(record) }
+          { index: type.data(record) }
         end
       end
     end
@@ -140,8 +140,8 @@ module Elasticpal
       elastic_indexator.delete_document
     end
 
-    def elastic_index_data
-      elastic_indexator.index_data
+    def elastic_data
+      elastic_indexator.data
     end
 
     def elastic_indexator
@@ -171,7 +171,7 @@ module Elasticpal
       def elastic_bulk_index
         res = []
         find_each do |record|
-          res << record.elastic_index_data
+          res << record.elastic_data
         end
         Elasticpal::Client.instance.bulk(body: res.flatten, refresh: true)
       end
