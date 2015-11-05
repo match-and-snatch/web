@@ -168,12 +168,14 @@ module Elasticpal
         name.underscore.pluralize
       end
 
-      def elastic_bulk_index
-        res = []
-        find_each do |record|
-          res << record.elastic_data
+      def elastic_bulk_index(batch_size = 100)
+        find_in_batches(batch_size: batch_size) do |group|
+          res = []
+          group.each do |record|
+            res << record.elastic_data
+          end
+          Elasticpal::Client.instance.bulk(body: res.flatten, refresh: true)
         end
-        Elasticpal::Client.instance.bulk(body: res.flatten, refresh: true)
       end
     end
   end
