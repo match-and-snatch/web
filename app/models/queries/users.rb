@@ -42,7 +42,7 @@ module Queries
         base_query.where("users.profile_name SIMILAR TO '[0-9]%'")
       else
         base_query.where(['users.profile_name ILIKE ?', "#{letter}%"])
-      end.order(:profile_name).limit(300)
+      end.order(:profile_name)
     end
 
     # @return [Array<ActiveRecord::Base>]
