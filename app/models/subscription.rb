@@ -13,7 +13,7 @@ class Subscription < ActiveRecord::Base
   scope :not_removed,  -> { where(removed: false) }
   scope :not_rejected, -> { where(rejected: false) }
   scope :been_charged, -> { where.not(charged_at: nil) }
-  scope :to_charge,    -> { on_charge.not_removed.where(users: { vacation_enabled: false, locked: false }) }
+  scope :to_charge,    -> { on_charge.not_removed.where(users: { vacation_enabled: false }) }
   scope :active,       -> { not_removed.where("rejected_at is NULL OR rejected_at > ?", 1.month.ago) }
   scope :accessible,   -> { not_rejected.joins(:target_user)
                               .where(users: {is_profile_owner: true})
