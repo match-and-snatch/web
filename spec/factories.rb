@@ -28,45 +28,6 @@ def create_user(_params = {})
   end
 end
 
-def create_profile_owner(_params = {})
-  params = _params.clone.symbolize_keys
-  params.reverse_merge! email:                 "serge@gmail.com",
-                        password:              'password',
-                        password_confirmation: 'password',
-                        first_name:            'sergei',
-                        last_name:             'zinin',
-                        is_profile_owner:      true,
-                        cost:                  20.0,
-                        profile_name:          'test',
-                        profile_picture_url:   'set',
-                        hidden:                false
-
-  AuthenticationManager.new(params.slice(:is_profile_owner, :email,
-                                         :password, :password_confirmation,
-                                         :first_name, :last_name)).register.tap do |user|
-    if params[:api_token]
-      user.api_token = params[:api_token]
-    end
-
-    if params[:profile_picture_url]
-      user.profile_picture_url = params[:profile_picture_url]
-    end
-
-    if params[:itunes_enabled]
-      UserProfileManager.new(user).enable_itunes
-    end
-
-    unless params[:hidden]
-      UserProfileManager.new(user).toggle
-    end
-
-    user.save! if user.changed?
-
-    UserProfileManager.new(user).update_cost(params[:cost])
-    UserProfileManager.new(user).update_profile_name(params[:profile_name])
-  end
-end
-
 # @param _params [Hash]
 # @return [User]
 def create_profile(_params = {})

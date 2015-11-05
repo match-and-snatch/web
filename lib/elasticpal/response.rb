@@ -1,7 +1,7 @@
 module Elasticpal
   class Response
     def initialize(response, query = nil)
-      @response = handle_response(response)
+      @plain_response = response
       @query = query
       @scope = @query.try(:model)
     end
@@ -28,7 +28,7 @@ module Elasticpal
     end
 
     def hits_data
-      @hits_data ||= @response['hits']
+      @hits_data ||= response['hits']
     end
 
     def max_score
@@ -43,9 +43,13 @@ module Elasticpal
       hits.find { |hit| hit['_id'] == record.id.to_s }['_score']
     end
 
+    def response
+      @response ||= parse_plain_response(@plain_response)
+    end
+
     private
 
-    def handle_response(response)
+    def parse_plain_response(response)
       if response.is_a?(String)
         JSON.parse(response)
       else

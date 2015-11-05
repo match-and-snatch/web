@@ -75,8 +75,6 @@ module Queries
       case @query.length
       when 0, 1
         User.none
-
-        #base_query.where(['users.profile_name ILIKE ?', "%#@query%"]).order('subscribers_count DESC').limit(5)
       else
         Queries::Elastic::Profiles.new.search(@query).records
       end

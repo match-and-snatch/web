@@ -218,21 +218,22 @@ describe ::UsersController, type: :controller do
 
   describe 'GET #search' do
     let!(:profile1) { create_profile profile_name: 'serg', profile_picture_url: 'set', is_profile_owner: true }
-    subject(:perform_request) { get 'search', q: 'serg', format: :json }
+    subject(:perform_request) { get 'search', q: 'sergei', format: :json }
 
     context 'user is hidden' do
+      let!(:user) { create :user, :profile_owner, hidden: true, profile_name: 'sergei' }
+      before { update_index }
       before { perform_request }
 
       specify { expect(assigns('users')).to eq [] }
     end
 
     context 'user is not hidden' do
-      before do
-        UserProfileManager.new(profile1).toggle
-        perform_request
-      end
+      let!(:user) { create :user, :profile_owner, hidden: false, profile_name: 'sergei' }
+      before { update_index }
+      before { perform_request }
 
-      specify { expect(assigns('users')).to eq [profile1] }
+      specify { expect(assigns('users')).to eq [user] }
     end
 
     its(:status) { should == 200 }

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe Dashboard::Admin::TopProfilesController, type: :controller do
-  let(:profile) { create_profile email: 'profile@gmail.com' }
+  let(:profile) { create :user, :profile_owner }
   let(:top_profile) { profile.create_top_profile }
 
-  before { sign_in create_admin }
+  before { sign_in create(:user, :admin) }
 
   describe 'GET #index' do
     subject { get 'index' }
@@ -12,6 +12,7 @@ describe Dashboard::Admin::TopProfilesController, type: :controller do
   end
 
   describe 'GET #search' do
+    before { update_index { profile } }
     subject { get 'search', q: 'test' }
     it { should be_success }
   end

@@ -11,6 +11,7 @@ end
 
 FactoryGirl.define do
   factory :user, aliases: %i[subscriber] do
+    full_name 'John Doe'
     sequence(:email) { |n| "user-#{n}@cp.io" }
     sequence(:auth_token) { |n| "auth_token-#{n}" }
     sequence(:api_token) { |n| "api_token-#{n}" }
@@ -81,6 +82,11 @@ FactoryGirl.define do
       contributions_enabled true
       notifications_debug_enabled true
       subscriptions_chart_visible true
+    end
+
+    trait :public_profile do
+      profile_owner
+      has_public_profile true
     end
   end
 end

@@ -78,6 +78,13 @@ RSpec.configure do |config|
   end
 end
 
+def update_index
+  Elasticpal::Client.instance.indices.delete index: '_all'
+  User.elastic_bulk_index
+  Elasticpal::Client.instance.indices.refresh index: '_all'
+  yield if block_given?
+end
+
 # @param message [String, Symbol]
 # @param opts [Hash]
 # @return [String]

@@ -2,59 +2,33 @@ require 'spec_helper'
 
 describe User do
   describe 'index' do
-    let(:user) { create_user; create_profile_owner(email: 'test@test.rux', profile_name: 'Test') }
+    subject { Elasticpal::Query.new(model: User).search(match: {profile_name: 'Test'}) }
 
-    context 'test', focus: true do
-      it do
-        r = user.elastic_index_document
-        q = Queries::Elastic::Profiles.new.search('Test')
-        p q
-        q.records
-      end
-    end
+    context 'with a not matching user in db' do
+      let!(:not_matching) { create :user }
+      let!(:user) { create :user, :profile_owner, profile_name: 'Test' }
 
-    context 'multiple users' do
-      context do
-        let(:popular_user) { create_profile_owner.tap { |u| u.update(subscribers_count: 3, profile_name: 'Test') } }
-        let(:luser) { create_profile_owner(email: 'luser@user.ru').tap { |u| u.update(subscribers_count: 1, profile_name: 'Test') } }
-
-        before do
-          Elasticpal::Client.instance.indices.delete index: '_all'
-          popular_user.elastic_index_document
-          luser.elastic_index_document
-          Elasticpal::Client.instance.indices.refresh index: '_all'
-        end
-
-        subject { Queries::Elastic::Profiles.new.search('Test') }
-
-        it 'orders records by popularity' do
-          expect(subject.ids).to eq([popular_user.id, luser.id])
-        end
-      end
-
-      context do
-        let(:luser) { create_profile_owner(email: 'luser@user.ru').tap { |u| u.update(subscribers_count: 1, profile_name: 'Test') } }
-        let(:popular_user) { create_profile_owner.tap { |u| u.update(subscribers_count: 3, profile_name: 'Test') } }
-
-        before do
-          Elasticpal::Client.instance.indices.delete index: '_all'
-          luser.elastic_index_document
-          popular_user.elastic_index_document
-          Elasticpal::Client.instance.indices.refresh index: '_all'
-        end
-
-        subject { Queries::Elastic::Profiles.new.search('Test') }
-
-        it 'orders records by popularity' do
-          expect(subject.ids).to eq([popular_user.id, luser.id])
+      it 'finds the matching record' do
+        update_index do
+          expect(subject.records).to eq([user])
         end
       end
     end
+
+    # TODO: move to profile query tests
+    # context 'multiple users' do
+    #   let!(:popular_user) { create(:user, :profile_owner, subscribers_count: 3, profile_name: 'Test') }
+    #   let!(:luser) { create(:user, :profile_owner, subscribers_count: 1, profile_name: 'Test') }
+    #
+    #   it 'orders records by popularity' do
+    #     expect(subject.records).to eq([popular_user, luser])
+    #   end
+    # end
   end
 
   describe '.elastic_bulk_index' do
-    let!(:first_user) { create_profile_owner(email: 'first@test.rux', profile_name: 'Test') }
-    let!(:second_user) { create_profile_owner(email: 'second@test.rux', profile_name: 'Test') }
+    let!(:first_user) { create(:user, :profile_owner, profile_name: 'Test') }
+    let!(:second_user) { create(:user, :profile_owner, profile_name: 'Test') }
 
     before do
       Elasticpal::Client.instance.indices.delete index: '_all'

@@ -70,10 +70,20 @@ module Elasticpal
       if block
         plain_query[:body] = instance_eval(&block)
       else
-        plain_query[:body] = instance_exec(*args, &self.class.body_block)
+        if self.class.body_block
+          plain_query[:body] = instance_exec(*args, &self.class.body_block)
+        else
+          q = args.first
+          raise ArgumentError unless q.is_a?(Hash)
+          plain_query[:body] = {query: q}
+        end
       end
 
-      Elasticpal::Response.new(client.search(plain_query), self)
+      Elasticpal::Response.new(client.search(plain_query), self).tap do |r|
+        if r.response['error'].present?
+          raise InvalidResponseError, r.response['error'].inspect
+        end
+      end
     end
 
     def delete
@@ -98,6 +108,9 @@ module Elasticpal
 
     def type
       @type ||= 'default'.freeze
+    end
+
+    class InvalidResponseError < StandardError
     end
   end
 end
