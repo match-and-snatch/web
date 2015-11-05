@@ -296,7 +296,10 @@ class User < ActiveRecord::Base
   end
 
   def generate_slug
-    self.slug = sample_slug
+    unless slug.present?
+      self.slug = sample_slug
+    end
+
     true
   end
 
