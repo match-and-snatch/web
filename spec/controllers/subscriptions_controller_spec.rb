@@ -1,16 +1,7 @@
 require 'spec_helper'
 
 describe SubscriptionsController, type: :controller do
-  let(:owner) do
-    create_user.tap do |user|
-      UserProfileManager.new(user).create_profile_page
-      UserProfileManager.new(user).update cost:           10,
-                                          profile_name:   'profile name',
-                                          holder_name:    'Sergei Zinin',
-                                          routing_number: '123456789',
-                                          account_number: '000123456789'
-    end
-  end
+  let(:owner) { create :user, :profile_owner }
 
   describe 'GET #index' do
     subject { get 'index' }
@@ -37,19 +28,7 @@ describe SubscriptionsController, type: :controller do
     its(:status) { should eq(401) }
 
     context 'authorized access' do
-      let(:subscriber) do
-        create_user(email: 'subscriber@gmail.com').tap do |user|
-          UserProfileManager.new(user).update_cc_data(number: '4242424242424242',
-                                                      cvc: '123',
-                                                      expiry_month: '12',
-                                                      expiry_year: '15',
-                                                      address_line_1: 'test',
-                                                      zip: '12345',
-                                                      city: 'LA',
-                                                      state: 'CA')
-        end
-      end
-
+      let(:subscriber) { create :subscriber, :with_cc }
       before { sign_in subscriber }
 
       it { should be_success }
