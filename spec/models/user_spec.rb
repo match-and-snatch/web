@@ -1,29 +1,34 @@
 require 'spec_helper'
 
 describe User do
-  describe 'index' do
+  describe 'elastic_index_document' do
     subject { Elasticpal::Query.new(model: User).search(match: {profile_name: 'Test'}) }
 
     context 'with a not matching user in db' do
       let!(:not_matching) { create :user }
       let!(:user) { create :user, :profile_owner, profile_name: 'Test' }
 
+      before { update_index(not_matching, user) }
+
       it 'finds the matching record' do
-        update_index do
-          expect(subject.records).to eq([user])
-        end
+        expect(subject.records).to eq([user])
+      end
+    end
+  end
+
+  describe '#elastic_delete_document' do
+    let!(:user) { create :user, :profile_owner, profile_name: 'Test' }
+
+    subject { Queries::Elastic::Profiles.new.search('Test') }
+
+    before do
+      update_index do
+        user.elastic_delete_document
+        refresh_index
       end
     end
 
-    # TODO: move to profile query tests
-    # context 'multiple users' do
-    #   let!(:popular_user) { create(:user, :profile_owner, subscribers_count: 3, profile_name: 'Test') }
-    #   let!(:luser) { create(:user, :profile_owner, subscribers_count: 1, profile_name: 'Test') }
-    #
-    #   it 'orders records by popularity' do
-    #     expect(subject.records).to eq([popular_user, luser])
-    #   end
-    # end
+    it { expect(subject.records).to eq([]) }
   end
 
   describe '.elastic_bulk_index' do

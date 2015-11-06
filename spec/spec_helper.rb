@@ -78,10 +78,18 @@ RSpec.configure do |config|
   end
 end
 
-def update_index
+def refresh_index(index: '_all')
+  Elasticpal::Client.instance.indices.refresh index: index
+end
+
+def update_index(*records)
   Elasticpal::Client.instance.indices.delete index: '_all'
-  User.elastic_bulk_index
-  Elasticpal::Client.instance.indices.refresh index: '_all'
+  if records.any?
+    records.each(&:elastic_index_document)
+  else
+    User.elastic_bulk_index
+  end
+  refresh_index
   yield if block_given?
 end
 

@@ -68,7 +68,8 @@ module Elasticpal
       def delete_document(record)
         client.delete index: @index.name,
                       type: @name,
-                      id: record.id
+                      id: record.id,
+                      refresh: true
       end
 
       def data(record)
