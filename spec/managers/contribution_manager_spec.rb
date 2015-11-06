@@ -21,6 +21,14 @@ describe ContributionManager do
       expect { manager.create(amount: 1, target_user: target_user) }.to create_record(Contribution)
     end
 
+    it 'sends email about contribution to target user' do
+      expect { manager.create(amount: 1, target_user: target_user) }.to deliver_email(to: target_user, subject: /You have received a contribution/)
+    end
+
+    it 'sends email about contribution to contributor' do
+      expect { manager.create(amount: 1, target_user: target_user) }.to deliver_email(to: user, subject: /You have successfully made a contribution/)
+    end
+
     it 'sets amount' do
       expect(manager.create(amount: 1, target_user: target_user).amount).to eq(1)
     end
@@ -35,6 +43,14 @@ describe ContributionManager do
 
     it 'creates message' do
       expect { manager.create(amount: 1, target_user: target_user, message: 'test') }.to change { Message.count }.by(1)
+    end
+
+    context 'target user blocked with ToS reason' do
+      before { UserManager.new(target_user).lock(:tos) }
+
+      it 'does not send email about contribution to target user' do
+        expect { manager.create(amount: 1, target_user: target_user) }.not_to deliver_email(to: target_user, subject: /You have received a contribution/)
+      end
     end
 
     context 'zero amount' do
