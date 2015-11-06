@@ -9,59 +9,63 @@
     div data-identifier='cover-picture'= render 'cover_picture'
     div data-identifier='profile-picture'= render 'profile_picture'
 
-    // Details Container
-    .details_container.row
-      .col-md-8.col-sm-8.col-xs-12.profile_details
-
-        // Profile Name
-        h1.profile_name
-          span.fa.fa-gear.PopupTrigger data-target='name-editor'
-            span.name data-identifier='profile-name'= @profile.profile_name
-        .clearfix
-
-        // Profile Type
-        h3.profile_type
-          span.fa.fa-gear.PopupTrigger.hidden-xs data-target='type-editor'
-            span= @profile.types_text
-
-      .col-md-4.col-sm-4.hidden-xs
-
-        // Subscribe Container
-        .subscribe_cont
-
-          // Cost Button Owner (Show Only Owner)
-          a.cost_owner.PopupTrigger data-target='cost-editor'
-            span.fa.fa-gear
-            .amount
-              - if @profile.cost_approved?
-                span data-identifier='subscription-cost'
-                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-                span.month
-                  |/month
-              - else
-                span.pending Pending Approval
-            .btn.pink.fa.fa-usd.fa-2x
-            .clearfix
-
-        - if @profile.welcome_media
-          .add_welcome_media.btn.pink.pull-right.PopupTrigger data-target='welcome-editor'
-            span.fa.fa-plus
-              '&nbsp;Change Welcome Media
-        - else
-          .add_welcome_media.btn.green.pull-right.PopupTrigger data-target='welcome-editor'
-            span.fa.fa-plus
-              '&nbsp;Add Welcome Media
-
     // RSS
     - if @profile.rss_enabled?
       a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
-    // Subscriber Benefits
-    .benefits_container.row.hidden-xs
-      .col-md-12.col-sm-12.col-xs-12
+    // Details Container
+    .details_container
+
+      // Profile Details
+      .profile_details_l
+
+        // Profile Name
+        .profile_name.own-role.PopupTrigger data-target='name-editor'
+          .fa.fa-gear.edit-gear
+            .edit-text Edit
+          h1 data-identifier='profile-name'= @profile.profile_name
+          .clearfix
+
+        // Profile Type
+        .profile_type.own-role.PopupTrigger data-target='type-editor'
+          .fa.fa-gear.edit-gear
+            .edit-text Edit
+          h3= @profile.types_text
+          .clearfix
+
+      // Subscribe & Welcome Video
+      .profile_details_r
+
+        // Cost Container
+        .cost_container.own-role.PopupTrigger data-target='cost-editor'
+          .amount
+            - if @profile.cost_approved?
+              span.cost data-identifier='subscription-cost'
+                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+              span.month
+                |/month
+            - else
+              span.pending Pending Approval
+          .red-icon.btn.pink.fa.fa-usd
+          .fa.fa-gear.edit-gear
+            .edit-text Edit
+          .clearfix
+
+        // Add Welcome Video
+        - if @profile.welcome_media
+          .add_welcome_video.btn.pink.PopupTrigger data-target='welcome-editor'
+            span.fa.fa-plus Change Welcome Video
+        - else
+          .add_welcome_video.btn.green.PopupTrigger data-target='welcome-editor'
+            span.fa.fa-plus Add Welcome Video
+      .clearfix
+
+      // Subscriber Benefits
+      .benefits_container.own-role.PopupTrigger data-target='benefits-editor'
         .label.btn Subscriber Benefits
-        span.fa.fa-gear.edit.PopupTrigger data-target='benefits-editor'
-        div data-identifier='benefits'= render_benefits(@profile)
+        .fa.fa-gear.edit-gear
+          .edit-text Edit
+        .benefits-list data-identifier='benefits'= render_benefits(@profile)
 
   // Create Post (Owner View Only)
   #create_post_container.hidden-xs.PostForm data-identifier='post-form' data-default_post_tab='default-post-tab' data-target='post-fields' data-url=pending_post_path
