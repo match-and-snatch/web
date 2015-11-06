@@ -1,6 +1,5 @@
 require 'elasticpal/client'
 require 'elasticpal/response'
-require 'elasticsearch/dsl'
 
 module Elasticpal
   class Query
@@ -50,8 +49,6 @@ module Elasticpal
         @model = @index.classify.constantize
       end
     end
-
-    alias_method :dsl_search, :search
 
     # @param arguments [Hash]
     #

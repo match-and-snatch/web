@@ -28,17 +28,13 @@ describe User do
 
   describe '.elastic_bulk_index' do
     let!(:first_user) { create(:user, :profile_owner, profile_name: 'Test') }
-    let!(:second_user) { create(:user, :profile_owner, profile_name: 'Test') }
-
-    before do
-      Elasticpal::Client.instance.indices.delete index: '_all'
-      User.elastic_bulk_index
-      Elasticpal::Client.instance.indices.refresh index: '_all'
-    end
+    let!(:second_user) { create(:user, :profile_owner, profile_name: 'Test', subscribers_count: 1) }
 
     subject { Queries::Elastic::Profiles.new.search('Test') }
 
-    it { expect(subject.ids).to eq([first_user.id, second_user.id]) }
+    before { update_index }
+
+    it { expect(subject.records).to eq([second_user, first_user]) }
   end
 
   describe '.create' do

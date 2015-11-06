@@ -63,7 +63,7 @@ module Queries
         User.search_by_admin_fields(@query)
       end
 
-      result.limit(20).to_a
+      limit_results(result, 20)
     end
 
     # @param user [User] Potential subordinate account
@@ -76,7 +76,7 @@ module Queries
       when 0, 1
         User.none
       else
-        Queries::Elastic::Profiles.new.search(@query).records
+        limit_results(Queries::Elastic::Profiles.new.search(@query).records, limit: 5)
       end
     end
 
@@ -108,6 +108,16 @@ module Queries
       end
 
       result
+    end
+
+    def limit_results(results, limit: 5)
+      if results.is_a?(Array)
+        Kaminari.paginate_array(results).page.per(limit)
+      elsif results.is_a?(ActiveRecord::Relation)
+        results.limit(limit).to_a
+      else
+        raise ArgumentError, 'Invalid results collection'
+      end
     end
   end
 end

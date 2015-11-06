@@ -25,6 +25,8 @@ module Elasticpal
       @config ||= YAML.load_file(Rails.root.join('config', 'elasticpal.yml'))[ENV['RAILS_ENV'] || Rails.env].symbolize_keys
     end
 
+    private
+
     def convert_to_json(body = nil)
       body.is_a?(String) ? body : MultiJson.dump(body)
     end
@@ -33,7 +35,7 @@ module Elasticpal
       include Singleton
 
       def body
-        {}
+        @body ||= {}.freeze
       end
     end
 
