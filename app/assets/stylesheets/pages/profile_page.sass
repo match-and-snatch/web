@@ -4,6 +4,22 @@
   overflow: hidden
   position: relative
 
+  // Admin Login
+  .admin_login
+    background: $color_green
+    border-bottom: 1px solid #87bf3b
+    color: #FFFFFF
+    display: block
+    margin: -15px 0 15px
+    padding: 10px 0
+    text-align: center
+    text-decoration: none
+    text-transform: uppercase
+    width: 100%
+    &:hover
+      background: $color_blue
+      border-color: #277aa3
+
   // RSS
   .rss
     opacity: 0.7
@@ -147,24 +163,14 @@
 
   // Details Container
   .details_container
+    min-height: 65px
     padding: 0 15px
     position: relative
-
-    // Admin Login
-    .admin_login
-      @include green-area
-      @include border-radius (5px)
-      display: inline-block
-      color: #FFFFFF
-      font-size: 14px
-      font-weight: 400
-      line-height: 100%
-      padding: 10px
-      text-decoration: none
 
     // Edit Gear
     .edit-gear
       color: $color_gear
+      cursor: pointer
       font-size: 20px
       float: left
       position: relative
@@ -197,9 +203,6 @@
       line-height: 120%
       margin: 0 28px 0 0
       width: 600px
-      @media screen and (max-width: 767px)
-        font-size: 26px
-        text-align: center
 
       // Profile Name
       .profile_name
@@ -215,7 +218,6 @@
 
         // Owner Role
         &.own-role
-          cursor: pointer
           .edit-gear
             top: 9px
           h1
@@ -224,10 +226,6 @@
           &:hover
             .edit-gear
               color: $color_gear_hover
-
-        // Visitor Page
-        &.visitor
-          cursor: default
 
       // Profile Type
       .profile_type
@@ -242,7 +240,6 @@
 
         // Owner Role
         &.own-role
-          cursor: pointer
           h3
             float: left
             width: 575px
@@ -260,7 +257,6 @@
 
       // Cost & Subscribe Container
       .cost_container
-        cursor: pointer
         display: block
         width: 100%
         .edit-gear
@@ -302,13 +298,12 @@
       .subscribed
         @include border-radius($border_radius)
         @include green-area
-        display: block
         color: #FFFFFF
-        cursor: default
+        display: block
+        height: 50px
         float: right
-        font-weight: 400
-        margin-bottom: 15px
-        text-decoration: none
+        font-size: 32px
+        text-align: center
         width: 240px
 
       // Add Welcome Video
@@ -324,9 +319,9 @@
 
   // Details Container
   .benefits_container
-    cursor: pointer
     margin: 0 -15px
     .edit-gear
+      cursor: pointer
       float: left
       left: 5px
       top: 7px
@@ -334,6 +329,7 @@
       @include black-area
       @include border-radius(0 10px 10px 0)
       color: #FFFFFF
+      cursor: default
       float: left
       font-size: 13px
       font-weight: 400
