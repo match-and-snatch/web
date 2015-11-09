@@ -20,15 +20,15 @@
       .profile_details_l
 
         // Profile Name
-        .profile_name.own-role.PopupTrigger data-target='name-editor'
-          .fa.fa-gear.edit-gear
+        .profile_name.own-role
+          .fa.fa-gear.edit-gear.PopupTrigger data-target='name-editor'
             .edit-text Edit
           h1 data-identifier='profile-name'= @profile.profile_name
           .clearfix
 
         // Profile Type
-        .profile_type.own-role.PopupTrigger data-target='type-editor'
-          .fa.fa-gear.edit-gear
+        .profile_type.own-role
+          .fa.fa-gear.edit-gear.PopupTrigger data-target='type-editor'
             .edit-text Edit
           h3= @profile.types_text
           .clearfix
@@ -37,7 +37,7 @@
       .profile_details_r
 
         // Cost Container
-        .cost_container.own-role.PopupTrigger data-target='cost-editor'
+        .cost_container.own-role
           .amount
             - if @profile.cost_approved?
               span.cost data-identifier='subscription-cost'
@@ -45,9 +45,9 @@
               span.month
                 |/month
             - else
-              span.pending Pending Approval
-          .red-icon.btn.pink.fa.fa-usd
-          .fa.fa-gear.edit-gear
+              span.pending_approval Pending Approval
+          .red-icon.fa.fa-usd
+          .fa.fa-gear.edit-gear.PopupTrigger data-target='cost-editor'
             .edit-text Edit
           .clearfix
 
@@ -61,9 +61,9 @@
       .clearfix
 
       // Subscriber Benefits
-      .benefits_container.own-role.PopupTrigger data-target='benefits-editor'
+      .benefits_container.own-role
         .label.btn Subscriber Benefits
-        .fa.fa-gear.edit-gear
+        .fa.fa-gear.edit-gear.PopupTrigger data-target='benefits-editor'
           .edit-text Edit
         .benefits-list data-identifier='benefits'= render_benefits(@profile)
 

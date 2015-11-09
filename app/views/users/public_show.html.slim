@@ -40,22 +40,21 @@
 
         // Cost Container
         .cost_container
-          .amount
+          .visitor
+            .amount
+              - if @profile.cost_approved?
+                span.cost
+                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+                span.month
+                  |/month
+              - else
+                span.pending_approval Pending Approval
+            .red-icon.fa.fa-usd
             - if @profile.cost_approved?
-              span.cost
-                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-              span.month
-                |/month
+              .subscribe.btn.PopupTrigger data-target='subscription' Subscribe
             - else
-              span.pending Pending Approval
-          .red-icon.btn.pink.fa.fa-usd
-
-          - if @profile.cost_approved?
-            a.subscribe.PopupTrigger data-target='subscription' Subscribe
-          - else
-            a.subscribe.pending.PopupTrigger data-target='pending-cost-popup' Pending Approval
-
-        .clearfix
+              .pending_visitor.btn.PopupTrigger data-target='pending-cost-popup' Pending Approval
+      .clearfix
 
       // Subscriber Benefits
       - if @profile.benefits.any?
@@ -63,12 +62,7 @@
           .label.btn Subscriber Benefits
           .benefits-list data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
 
-
-
-
-
-
-  // Visitor View
+  /Visitor View
   - if @profile.welcome_video.present?
 
     /With video player

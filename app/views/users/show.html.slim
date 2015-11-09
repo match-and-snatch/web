@@ -67,14 +67,8 @@
                 span.month
                   |/month
               - else
-                span.pending Pending Approval
+                span.pending_approval Pending Approval
             .btn.pink.fa.fa-usd
-
-          / - if @profile.cost_approved?
-          /   a.subscribe.PopupTrigger data-target='subscription' Subscribe
-          / - else
-          /   a.subscribe.PopupTrigger data-target='pending-cost-popup' Pending Approval
-
       .clearfix
 
       // Subscriber Benefits
