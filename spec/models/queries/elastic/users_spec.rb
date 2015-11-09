@@ -1,26 +1,24 @@
 require 'spec_helper'
 
-describe Queries::Elastic::Profiles do
+describe Queries::Elastic::Users do
   subject { described_class.new }
 
   describe '#search' do
     subject { described_class.new.search('Test') }
 
     context 'multiple users' do
-      let!(:popular_user) { create(:user, :profile_owner, subscribers_count: 3, profile_name: 'Test') }
-      let!(:luser) { create(:user, :profile_owner, subscribers_count: 1, profile_name: 'Test') }
+      let!(:first_user) { create(:user, full_name: 'Test', hidden: false) }
+      let!(:second_user) { create(:user, full_name: 'Test', hidden: false) }
 
       before { update_index }
 
-      it 'orders records by popularity' do
-        expect(subject.records).to eq([popular_user, luser])
-      end
+      it { expect(subject.records).to eq([first_user, second_user]) }
     end
   end
 
   describe '#delete' do
-    let!(:popular_user) { create(:user, :profile_owner, subscribers_count: 3, profile_name: 'Test') }
-    let!(:luser) { create(:user, :profile_owner, subscribers_count: 1, profile_name: 'Test') }
+    let!(:first_user) { create(:user, full_name: 'Test') }
+    let!(:second_user) { create(:user, full_name: 'Test') }
 
     before do
       update_index
@@ -39,11 +37,11 @@ describe Queries::Elastic::Profiles do
   end
 
   describe '#model' do
-    pending
+    it { expect(subject.model).to eq(User) }
   end
 
   describe '#scope' do
-    pending
+    it { expect(subject.scope).to eq(User) }
   end
 
   describe '#type' do

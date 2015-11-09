@@ -47,7 +47,7 @@ module Queries
 
     # @return [Array<ActiveRecord::Base>]
     def by_name
-      User.search_by_text_fields(@query).limit(20).to_a
+      limit_results(Queries::Elastic::Users.new.search(@query).records, limit: 20)
     end
 
     # @return [Array<ActiveRecord::Base>]
@@ -60,7 +60,8 @@ module Queries
       when /^\d+$/
         User.where(id: @query)
       else
-        User.search_by_admin_fields(@query)
+        # User.search_by_admin_fields(@query)
+        # Queries::Elastic::AdminUsers.new.search(@query).records # TODO: Implement
       end
 
       limit_results(result, 20)

@@ -84,7 +84,7 @@ module Elasticpal
     end
 
     def delete
-      client.delete_by_query(@arguments.merge(index: @index, type: @type, body: {query: {match_all: {}}}))
+      client.delete_by_query(@arguments.merge(index: index, type: type, body: {query: {match_all: {}}}))
     end
 
     def client
