@@ -23,7 +23,7 @@ describe Queries::Elastic::Users do
     before do
       update_index
       sleep 5
-      subject.delete
+      puts subject.delete
       sleep 5
       refresh_index
       sleep 5

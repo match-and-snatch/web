@@ -25,7 +25,7 @@ describe Queries::Elastic::Profiles do
     before do
       update_index
       sleep 5
-      subject.delete
+      puts subject.delete
       sleep 5
       refresh_index
       sleep 5
