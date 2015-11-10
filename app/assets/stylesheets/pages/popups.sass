@@ -1,0 +1,177 @@
+// Modal Popup
+.popup
+
+  // Authentication Popup
+  &.authentication_popup
+    width: 400px
+    .modal-header
+      padding: 15px 20px
+    .modal-body
+      .mobile_message
+        display: none
+      .checkbox
+        width: 150px
+      .form-group
+        margin-bottom: 5px
+      .remember_me
+        color: $color_text_light
+        font-size: 12px
+      .login_btn
+        float: right
+      .terms_text
+        color: #cccccc
+        font-size: 11px
+        margin-top: 5px
+        width: 180px
+        a
+          color: #cccccc
+          &:hover
+            color: $color_text_light
+
+  // Search Profiles Popup
+  &.search_popup
+    .modal-body
+      .search_user
+        margin: 0 15px 15px
+        width: 467px
+      .user_list
+        .bg-danger
+          @include border-radius($border_radius)
+          padding: 10px 15px
+          margin: 0 15px 15px
+          font-size: 12px
+        .list-group-item-heading
+          font-size: 12px
+          padding-bottom: 15px
+          margin: 0
+        .list-group
+          font-size: 13px
+          .list-group-item
+            border: none
+            border-top: 1px solid $color_border
+            padding: 10px 0
+            position: relative
+            img
+              border: 1px solid $color_border
+              display: inline-block
+              margin-right: 15px
+            small
+              @include pink-area
+              @include border-radius(5px)
+              color: #FFFFFF
+              font-size: 11px
+              margin-top: 10px
+              padding: 5px
+            a
+              color: $color_text_dark
+              display: inline-block
+              padding-top: 15px
+              width: 210px
+              &:hover
+                color: $color_text_light
+            &:first-child
+              border-top: none
+              padding-top: 0
+            &:last-child
+              padding-bottom: 0
+        // @media screen and (max-width: 767px)
+        //   width: 100%
+        //   margin: 0 0 15px 0
+      .search_user_results
+        .list-group-item-heading
+          padding: 0 15px !important
+          margin-bottom: 10px
+        .list-group
+          margin-bottom: 0
+          .list-group-item
+            @include border-radius (0)
+            color: $color_text_dark
+            border-top: 1px solid $color_border !important
+            padding: 10px 15px !important
+            width: 498px
+            img
+              background-color: #FFFFFF
+            .profile_name
+              padding-top: 15px
+              white-space: nowrap
+              overflow: hidden
+              text-overflow: ellipsis
+              // Mobile
+              @media screen and (max-width: 767px)
+                width: 380px
+              // Apple iPhone 4 & 5
+              @media screen and (max-width: 320px)
+                width: 190px
+              // Apple iPhone 6
+              @media screen and (min-width: 321px) and (max-width: 375px)
+                width: 250px
+              // Apple iPhone 6 Plus
+              @media screen and (min-width: 376px) and (max-width: 414px)
+                width: 290px
+              // Tablet & Desktop
+              @media screen and (min-width: 768px)
+                width: 400px
+            &:hover
+              background-color: $color_pink
+              color: #FFFFFF
+
+  // Modal Header
+  .modal-header
+    border: none
+    position: relative
+    text-align: center
+    .close
+      position: absolute
+      top: 5px
+      right: 5px
+      z-index: 2
+    .modal-title
+      color: $color_blue
+      font-size: 32px
+      font-weight: 600
+      line-height: 100%
+      &.Question
+        color: $color_text_dark !important
+        font-size: 14px !important
+        padding: 0 15px
+    span
+      color: $color_text_light
+      display: block
+      font-size: 13px
+      margin-top: 5px
+      &.register_tagline
+        color: #464646
+        text-decoration: underline
+
+  // Modal Body
+  .modal-body
+    display: block
+    padding: 5px 20px 0
+    .form-group
+      label
+        color: $color_text_dark
+        font-size: 12px
+        padding-top: 0px
+    .form-control
+      background-color: $color_background
+      border: 1px solid $color_border
+      &:focus
+        background-color: #FFFFFF
+        border: 1px solid $color_blue
+    .text-danger
+      color: $color_pink
+      font-size: 11px
+      margin: 0
+      padding: 5px 0 0 0
+
+  // Modal Footer
+  .modal-footer
+    font-size: 12px
+    margin-top: 0
+    text-align: center
+    span
+      color: $color_text_light
+    a
+      color: $color_text_light
+      &:hover
+        color: $color_text_dark
