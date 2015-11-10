@@ -371,10 +371,8 @@
           margin-right: 15px
 
   // Profile Header Details Popup
-  //&.header_edit
+  &.header_edit
     overflow: hidden
-
-    // Profile Header Popup Navigation
     .nav
       @include border_radius (10px 10px 0 0)
       background-color: $color_background
@@ -394,8 +392,6 @@
             @include border_radius (0)
             color: $color_text_dark
             font-weight: 600
-
-    // Modal Header
     .modal-header
       padding: 0
       margin-top: 10px
@@ -407,15 +403,21 @@
         display: block
         font-size: 13px
         margin-top: 5px
-
-    // Modal Body
     .modal-body
       padding-top: 15px
-
-      // Welcome Video Player
       .welcome_media_player
         margin: 0 auto
         width: 585px
+        .no-media
+          @include border-radius(10px)
+          background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
+          background-position: 50% 50%
+          border: 1px solid $color_border
+          height: 332px
+          width: 587px
+        .btn.blue,
+        .btn.pink
+          font-size: 13px
         .audio_player, .video_player
           span.file_name
             font-size: 12px
@@ -446,7 +448,6 @@
             position: absolute
             bottom: 0
             left: 0
-
       .pricing_table
         color: $color_text_light
         table
