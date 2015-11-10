@@ -16,7 +16,7 @@ describe Queries::Elastic::Users do
     end
   end
 
-  describe '#delete', focus: true do
+  describe '#delete' do
     let!(:first_user) { create(:user, full_name: 'Test') }
     let!(:second_user) { create(:user, full_name: 'Test') }
 

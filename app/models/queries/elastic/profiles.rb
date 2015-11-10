@@ -6,7 +6,7 @@ module Queries
       scope do
         User.profile_owners
             .with_complete_profile
-            .where(hidden: false)
+            .where(hidden: false, has_mature_content: false)
             .where('users.subscribers_count > 0 OR users.profile_picture_url IS NOT NULL')
       end
 
