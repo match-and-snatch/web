@@ -16,13 +16,16 @@ describe Queries::Elastic::Users do
     end
   end
 
-  describe '#delete' do
+  describe '#delete', focus: true do
     let!(:first_user) { create(:user, full_name: 'Test') }
     let!(:second_user) { create(:user, full_name: 'Test') }
 
     before do
       update_index
+      sleep 5
       subject.delete
+      sleep 5
+      refresh_index
       sleep 5
     end
 

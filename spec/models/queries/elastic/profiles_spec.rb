@@ -18,13 +18,16 @@ describe Queries::Elastic::Profiles do
     end
   end
 
-  describe '#delete' do
+  describe '#delete', focus: true do
     let!(:popular_user) { create(:user, :profile_owner, subscribers_count: 3, profile_name: 'Test') }
     let!(:luser) { create(:user, :profile_owner, subscribers_count: 1, profile_name: 'Test') }
 
     before do
       update_index
+      sleep 5
       subject.delete
+      sleep 5
+      refresh_index
       sleep 5
     end
 
