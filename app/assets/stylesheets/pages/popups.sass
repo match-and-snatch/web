@@ -122,7 +122,7 @@
         width: 250px
 
   // Subscribe Popup
-  //&.subscribe_popup
+  &.subscribe_popup
     .modal-body
       .subscribe_container
       color: $color_text_dark
@@ -553,21 +553,50 @@
       margin-bottom: 15px
 
   // Contribution Popup
-  //.contribution
+  .contribution
     .modal-body
       margin-bottom: 15px
       max-width: 500px
       text-align: center
       .contribute-value
         margin: -15px 0 0
+        span
+          font-size: 13px
+          font-weight: bold
+          width: auto
+        input[type='radio']
+          margin: 0 5px 0 10px
         .custom-amount
           position: relative
           top: 16px
-          input[type='radio']
-            position: relative
-            top: 12px
           input
             float: left
+          input[type='radio']
+            margin: 0 5px 0 10px
+            position: relative
+            top: 12px
+          input[type='text']
+            width: 140px
+      .custom-message
+        margin: 0
+        textarea
+          font-size: 13px
+          height: 80px
+          margin-top: 15px
+      hr
+        height: 1px
+      .contribute-type
+        input[type='radio']
+          margin-right: 5px
+        label
+          font-size: 13px
+          &#recurring_cont_0
+            margin-right: 15px
+      input.btn.blue
+        width: 300px
+      p.small
+        font-size: 12px
+        margin-top: 10px
       .error.limit
         @include border-radius(5px)
         background-color: #faf258
