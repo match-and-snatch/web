@@ -22,7 +22,7 @@ describe Queries::Elastic::Users do
 
     before { update_index }
 
-    it { expect { subject.delete }.to change { subject.search('Test').records }.to([]) }
+    it { expect { subject.delete; refresh_index }.to change { subject.search('Test').records }.to([]) }
   end
 
   describe '#client' do
