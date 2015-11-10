@@ -24,11 +24,8 @@ describe Queries::Elastic::Profiles do
 
     before do
       update_index
-      sleep 5
-      puts subject.delete
-      sleep 5
+      subject.delete
       refresh_index
-      sleep 5
     end
 
     it { expect(subject.search('Test').records).to eq([]) }

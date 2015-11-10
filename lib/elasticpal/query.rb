@@ -81,8 +81,10 @@ module Elasticpal
       end
     end
 
-    def delete
-      client.delete_by_query(@arguments.merge(index: index, type: type, body: {query: {match_all: {}}}))
+    def delete(batch_size: 100)
+      scope.find_in_batches(batch_size: batch_size) do |group|
+        client.bulk(body: group.map { |record| { delete: { _index: index, _type: type, _id: record.id } } })
+      end
     end
 
     def client
