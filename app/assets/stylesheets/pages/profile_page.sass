@@ -147,7 +147,6 @@
       font-size: 34px
       line-height: 120%
       margin: 0 28px 0 0
-      width: 600px
 
       // Profile Name
       .profile_name
@@ -167,7 +166,6 @@
             top: 10px
           h1
             float: left
-            width: 575px
           &:hover
             .edit-gear
               color: $color_gear_hover
@@ -187,10 +185,23 @@
         &.own-role
           h3
             float: left
-            width: 575px
           &:hover
             .edit-gear
               color: $color_gear_hover
+
+      @media screen and (max-width: 990px)
+        width: 400px
+        .profile_name, .profile_type
+          &.own-role
+            h1, h3
+              width: 375px
+
+      @media screen and (min-width: 991px)
+        width: 600px
+        .profile_name, .profile_type
+          &.own-role
+            h1, h3
+              width: 575px
 
     // Profile Details Right - Cost & Welcome Video
     .profile_details_r
@@ -780,7 +791,6 @@
       display: none
 
     // Profile Action
-
     .share_url, .contribute_url, .contact_url
       margin-bottom: $box_margin
       padding: 15px
