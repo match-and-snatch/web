@@ -222,6 +222,8 @@ describe ::UsersController, type: :controller do
     let!(:not_matching) { create :user, :profile_owner, profile_name: 'serg' }
     subject(:perform_request) { get 'search', q: 'sergei', format: :json }
 
+    before { update_index }
+
     context 'user is hidden' do
       let!(:user) { create :user, :profile_owner, hidden: true, profile_name: 'sergei' }
       before { update_index }

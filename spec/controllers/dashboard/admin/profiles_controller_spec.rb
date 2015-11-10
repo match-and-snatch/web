@@ -5,6 +5,7 @@ describe Dashboard::Admin::ProfilesController, type: :controller do
 
   describe 'GET #index' do
     subject { get 'index', q: 'test' }
+    before { update_index }
     it { should be_success }
   end
 

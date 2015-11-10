@@ -7,12 +7,12 @@ describe Queries::Elastic::Users do
     subject { described_class.new.search('Test') }
 
     context 'multiple users' do
-      let!(:first_user) { create(:user, full_name: 'Test', hidden: false) }
-      let!(:second_user) { create(:user, full_name: 'Test', hidden: false) }
+      let!(:first_user) { create(:user, full_name: 'Test') }
+      let!(:second_user) { create(:user, full_name: 'Test') }
 
       before { update_index }
 
-      it { expect(subject.records).to eq([first_user, second_user]) }
+      it { expect(subject.records).to match_array([first_user, second_user]) }
     end
   end
 
