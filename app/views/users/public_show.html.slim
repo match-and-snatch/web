@@ -1,44 +1,44 @@
 - content_for :head do
   = render 'meta'
 
-// Header
+/Header
 .container
   #header.box
 
-    // Photo Cover
+    /Photo Cover
     .photo_cover
       - if @profile.cover_picture_url.present?
         div data-identifier='cover-photo' style='background: url(#{@profile.cover_picture_url}); width: 100%; height: 100%'
         .BackgroundScroller data-target='cover-photo' data-position=@profile.cover_picture_position_perc
 
-    // Photo Profile
+    /Photo Profile
     .photo_profile
       img src=@profile.profile_picture_url
 
-    // Admin Login
+    /Admin Login
     - if can? :login_as, @profile.object
       a.admin_login.AjaxFormLink href=login_as_user_path(@profile.object.id) data-_method='post' Login as this User
       .clearfix
 
-    // Details Container
+    /Details Container
     .details_container
 
-      // Profile Details
+      /Profile Details
       .profile_details_l
 
-        // Profile Name
+        /Profile Name
         .profile_name
           h1= @profile.profile_name
         .clearfix
 
-        // Profile Type
+        /Profile Type
         .profile_type
           h3= @profile.types
 
-      // Subscribe
+      /Subscribe
       .profile_details_r
 
-        // Cost Container
+        /Cost Container
         .cost_container
           .visitor
             .amount
@@ -56,7 +56,7 @@
               .pending_visitor.btn.PopupTrigger data-target='pending-cost-popup' Pending Approval
       .clearfix
 
-      // Subscriber Benefits
+      /Subscriber Benefits
       - if @profile.benefits.any?
         .benefits_container
           .label.btn Subscriber Benefits

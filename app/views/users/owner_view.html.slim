@@ -3,40 +3,40 @@
 
 = render 'account_infos/vacation_status_bar' if @profile.object.vacation_enabled?
 
-// Header
+/Header
 .container
   #header.box
     div data-identifier='cover-picture'= render 'cover_picture'
     div data-identifier='profile-picture'= render 'profile_picture'
 
-    // RSS
+    /RSS
     - if @profile.rss_enabled?
       a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
-    // Details Container
+    /Details Container
     .details_container
 
-      // Profile Details
+      /Profile Details
       .profile_details_l
 
-        // Profile Name
+        /Profile Name
         .profile_name.own-role
           .fa.fa-gear.edit-gear.PopupTrigger data-target='name-editor'
             .edit-text Edit
           h1 data-identifier='profile-name'= @profile.profile_name
           .clearfix
 
-        // Profile Type
+        /Profile Type
         .profile_type.own-role
           .fa.fa-gear.edit-gear.PopupTrigger data-target='type-editor'
             .edit-text Edit
           h3= @profile.types_text
           .clearfix
 
-      // Subscribe & Welcome Video
+      /Subscribe & Welcome Video
       .profile_details_r
 
-        // Cost Container
+        /Cost Container
         .cost_container.own-role
           .amount
             - if @profile.cost_approved?
@@ -51,7 +51,7 @@
             .edit-text Edit
           .clearfix
 
-        // Add Welcome Video
+        /Add Welcome Video
         - if @profile.welcome_media
           .add_welcome_video.btn.pink.PopupTrigger data-target='welcome-editor'
             span.fa.fa-plus Change Welcome Video
@@ -60,14 +60,14 @@
             span.fa.fa-plus Add Welcome Video
       .clearfix
 
-      // Subscriber Benefits
+      /Subscriber Benefits
       .benefits_container.own-role
         .label.btn Subscriber Benefits
         .fa.fa-gear.edit-gear.PopupTrigger data-target='benefits-editor'
           .edit-text Edit
         .benefits-list data-identifier='benefits'= render_benefits(@profile)
 
-  // Create Post (Owner View Only)
+  /Create Post (Owner View Only)
   #create_post_container.hidden-xs.PostForm data-identifier='post-form' data-default_post_tab='default-post-tab' data-target='post-fields' data-url=pending_post_path
     ul#create_post_nav
       li.PostTab data-identifier='default-post-tab' data-url=new_status_post_path
@@ -85,7 +85,7 @@
     #create_post.box data-identifier='post-fields'
       = render 'pending_post_form', pending_post: @profile.pending_post
 
-  // Posts & Sidebar (Owner/Subscribed Only)
+  /Posts & Sidebar (Owner/Subscribed Only)
   #subscriber_display
     .row
       .sidebar.col-md-4.pull-left
@@ -96,20 +96,20 @@
           .heading Make a Contribution
           span Support this profile!
 
-        // Profile Action
+        /Profile Action
         .share_url.btn.pink.PopupTrigger data-target='share'
           i.fa.fa-share-square-o
           .heading Share Your Profile
           span Expand your audience!
 
-        // Search
+        /Search
         .search.input-group
           span.input-group-addon
             i.fa.fa-search.fa-fw.fa-lg
           form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
             input.Autocomplete.form-control data-identifier='search-posts-autocomplete' type="text" name='q' placeholder="Search profile content"
 
-        // Category Cloud
+        /Category Cloud
         .archive_cloud.box
           span Archived Content
           ul
@@ -122,34 +122,30 @@
             li
               a.SearchTag data-target='search-posts-autocomplete' data-tag='document' href="#" Documents
 
-        // Jump to Top
+        /Jump to Top
         span.top_jumper.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
-      // Recent Posts
+      /Recent Posts
       .pull-right.col-md-8.col-sm-12.col-xs-12
         .PostsContainer.recent_posts data-identifier='posts' data-ajaxify_links='false' data-url=user_posts_path(@profile.object)
           = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
 
   .mobile_nav.HidesOnMobileInput.hidden-md.hidden-sm.col-xs-12= render 'navigation_mobile'
-
   .AjaxPopup.popup.mobile_create_popup.status.modal-content data-identifier='status-post-mobile' data-url=new_status_post_path
   .AjaxPopup.popup.mobile_create_popup.media.modal-content data-identifier='audio-post-mobile' data-url=new_audio_post_path
   .AjaxPopup.popup.mobile_create_popup.media.modal-content data-identifier='video-post-mobile' data-url=new_video_post_path
   .AjaxPopup.popup.mobile_create_popup.media.modal-content data-identifier='photo-post-mobile' data-url=new_photo_post_path
   .AjaxPopup.popup.mobile_create_popup.media.modal-content data-identifier='document-post-mobile' data-url=new_document_post_path
 
-  // Popups & More
-
+  /Popups & More
   .AjaxPopup.popup.modal-content data-identifier='full-profile-photo' data-url=profile_picture_user_photos_path(current_user.object)
   .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(current_user.object)
 
   // Welcome Media Popup
   .AjaxPopup.popup.header_edit.modal-content data-identifier='welcome-editor' data-url=edit_welcome_media_user_path(current_user.object) style="width: 745px"
 
-  // Profile Name Popup
+  /Profile Name Popup
   .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 745px"
-
-    // Nav Tab Area
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Media
@@ -161,29 +157,22 @@
         a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
       li
         a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
-
-    // Header Area
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
       .modal-title Edit Profile Name
       span This is the name that appears at the top of your profile page.
-
-    // Body Area
     .modal-body
       form.Form action=update_name_user_path(@profile.object) method='post'
         .form-group
           input type='hidden' name='_method' value='put'
           input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name' validate='require'
-
         .form-group
           .pull-left.error data-field='profile_name'
           input.btn.pink.pull-right type='submit' value='Update Profile Name'
           .clearfix
 
-  // Profile Type Popup
+  /Profile Type Popup
   .Popup.popup.header_edit.modal-content data-identifier='type-editor' style="width: 745px"
-
-    // Nav Tab Area
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Media
@@ -195,8 +184,6 @@
         a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
       li
         a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
-
-    // Header Area
     .modal-header
       i.fa.fa-times-circle.close type="button" data-target="type-editor" aria-hidden="true" onclick='window.location.reload()'
       .modal-title Edit Profile Type
@@ -204,27 +191,20 @@
         |Please classify your profile type or types. This info helps our search
         br
         |function find more potential subscribers who might like your content.
-
-    // Body Area
     .modal-body
       .profile-type-input
         input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.' style='width: 567px'
         i.fa.fa-plus.pull-left data-identifier='types-submit' Add
         i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
         .clearfix
-
       .error data-field='profile_type'
-
       .profile-type-list.profile-type-list-show
         ul style='overflow: scroll; max-height: 100px' data-identifier='types-dropdown'
-
       .profile-type-list.profile-type-list-owner data-identifier='profile-types' style="padding-top: 10px"
         = render 'profile_types/list_assigned', profile_types: current_user.profile_types
 
-  // Profile Cost Popup
+  /Profile Cost Popup
   .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 745px"
-
-    // Nav Tab Area
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Media
@@ -236,8 +216,6 @@
         a href='javascript: void(0)' Subscription Cost
       li
         a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
-
-    // Header Area
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="cost-editor" aria-hidden="true"
       .modal-title Edit Subscription Cost
@@ -245,32 +223,20 @@
         | Please note, to keep subscribers happy and billing cycles consistent,
         br
         | you can only change your subscription cost once every 30 days.
-
-    // Body Area
     .modal-body
       form.Form action=update_cost_user_path(@profile.object) method='post'
         .form-group.hidden
           input type='hidden' name='_method' value='put'
-
         .cost_container style="width: 230px; margin: 0 auto"
           .form-group.input-group.pull-left style="width: 113px; margin-bottom: 0;"
             span.input-group-addon
               i.fa.fa-usd.fa-fw
             input.form-control type='text' name='cost' value=(@profile.cost / 100) data-target='subscription-cost' validate='subscription_cost'
-
           .form-group.pull-right style="margin-bottom: 0;"
             input.btn.pink type='submit' value='Update Price'
           .clearfix
-
-          //.form-group.input_group
-            .checkbox
-              label
-                input name='update_existing' type="checkbox" Update prices for existing subscriptions
-
         .error data-field='cost' style="text-align: center; padding-top: 5px"
-
       hr
-
       .pricing_table
         p The pricing table is below...
         table.table.table-striped.table-bordered
@@ -299,10 +265,8 @@
           br
           |And ConnectPal will receive 99 cents per subscriber per month.
 
-  // Profile Benefits Popup
+  /Profile Benefits Popup
   .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 745px"
-
-    // Nav Tab Area
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Media
@@ -314,8 +278,6 @@
         a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
       li.active
         a href='javascript: void(0)' Subscriber Benefits
-
-    // Header Area
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="benefits-editor" aria-hidden="true"
       .modal-title Edit Subscriber Benefits
@@ -325,48 +287,40 @@
         | When marketing your profile to potential subscribers,
         br
         | they will see this list before they subscribe.
-
-    // Body Area
     .modal-body
       form.Form action=user_benefits_path(@profile.object) method='post' data-target='benefits'
         .Benefits data-target='benefit'
           - @profile.benefit_messages.each_with_index do |benefit_message, i|
             .form-group data-identifier='benefit'
               input.form-control type='text' name='benefits[#{i}]' value=benefit_message placeholder='Enter benefit description...'
-
         .form-group
           input.btn.pink.pull-right type='submit' value='Update Benefits'
           .clearfix
 
-  // Contribute popup
+  /Contribute popup
   .Popup.popup.modal-content data-identifier='contribute' style="width: 700px"
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="contribute" aria-hidden="true"
       .modal-title Subscriber Contributions
-
     .modal-body style="text-align: left; margin-bottom: 15px"
       p This green button 'Make a Contribution' is located on the left side of all of your subscribers' profiles.  When your subscribers click on the green button, a popup window will appear in which your subscribers can make a financial contribution directly to you. So, if you need to raise money for a special project, or if you are seeking additional recurring contributions to increase your income - this green button allows subscribers to donate to you.  They can donate any amount they want, and they can donate money as a one-time payment or as a monthly recurring payment.
-
       p If you are looking for contributions, please let your subscribers know about the green button on the profile page.  Once your subscribers click on the green button, they can contribute any amount of money to you at anytime.
-
       p ConnectPal will pay out your Contribution money on the 1st of the month with the rest of your payments.  Our percentage fee for processing contributions is 5% of the contributed amount, as well as a small fee for credit card processing, our 3rd party credit card processor charges 2.9% plus 30 cents.
-
       .well.well-sm
         p You have the ability to hide the "Make a Contribution" button if you do not want to accept contributions. Do you want to show or hide the ‘Make a Contribution' button?
-        // Show & Hide buttons for subscriber profile
+        /Show & Hide buttons for subscriber profile
         label.radio-inline style='font-size: 13px;'
           input.Checker data-checked-url=enable_contributions_account_info_path name='contribution_rb' type='radio' value='Show' checked=@profile.contributions_enabled? Yes, please show it.
         label.radio-inline style='font-size: 13px; margin-left: 15px;'
           input.Checker data-checked-url=disable_contributions_account_info_path name='contribution_rb' checked=!@profile.contributions_enabled? type='radio' value='Hide' No, please hide it.
         .clearfix
 
-  // Share popup
+  /Share popup
   .Popup.popup.modal-content data-identifier='share' style="width: 350px"
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="share" aria-hidden="true"
       .modal-title Share Your Profile
       span Share your profile with your social networks!
-
     .modal-body style="text-align: center; margin-bottom: 15px"
       span class='st_facebook_large' displayText='Facebook'
       span class='st_twitter_large' displayText='Tweet'

@@ -11,51 +11,51 @@
       a href='#' class='Focuser' data-target='vacation-message-sticker' Read away message
       |.
 
-// Header
+/Header
 .container
   #header.box
 
-    // RSS
+    /RSS
     - if @profile.rss_enabled?
       a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
 
-    // Photo Cover
+    /Photo Cover
     .photo_cover
       - if @profile.cover_picture_url.present?
         a.PopupTrigger data-target='full-cover-photo' href=@profile.original_cover_picture_url
           div data-identifier='cover-photo' style='background: url(#{@profile.cover_picture_url}); width: 100%; height: 100%'
           .BackgroundScroller data-target='cover-photo' data-position=@profile.cover_picture_position_perc
 
-    // Photo Profile
+    /Photo Profile
     .photo_profile
       - if @profile.profile_picture_url.present?
         div data-identifier='profile-picture'
           a.PopupTrigger data-target='full-profile-photo' href=@profile.original_profile_picture_url
             img src=@profile.profile_picture_url
 
-    // Admin Login
+    /Admin Login
     - if can? :login_as, @profile.object
       a.admin_login.AjaxFormLink href=login_as_user_path(@profile.object.id) data-_method='post' Login as this User
     .clearfix
 
-    // Details Container
+    /Details Container
     .details_container
 
-      // Profile Details
+      /Profile Details
       .profile_details_l
 
-        // Profile Name
+        /Profile Name
         .profile_name
           h1= @profile.profile_name
 
-        // Profile Type
+        /Profile Type
         .profile_type
           h3= @profile.types
 
-      // Subscribe Button
+      /Subscribe Button
       .profile_details_r
 
-        // Subscribe Container
+        /Subscribe Container
         .cost_container
           - if current_user.subscribed_to?(@profile.object)
             .subscribed Subscribed
@@ -71,25 +71,25 @@
             .btn.pink.fa.fa-usd
       .clearfix
 
-      // Subscriber Benefits
+      /Subscriber Benefits
       .benefits_container
         - if @profile.benefits.any?
           .label.btn Subscriber Benefits
           .benefits-list data-identifier='benefits'= render_benefits(@profile)
 
-  // Posts & Sidebar (Owner/Subscribed Only)
+  /Posts & Sidebar (Owner/Subscribed Only)
   #subscriber_display
     .row
       .sidebar.col-md-4.col-sm-12.hidden-xs.pull-left
 
-        // Search
+        /Search
         .search.input-group style="margin-top: 0"
           span.input-group-addon
             i.fa.fa-search.fa-fw.fa-lg
           form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
             input.Autocomplete.form-control data-identifier='search-posts-autocomplete' type="text" name='q' placeholder="Search profile content"
 
-        // Category Cloud
+        /Category Cloud
         .archive_cloud.box
           span Archived Content
           ul
@@ -108,23 +108,23 @@
           .heading New Message
           span Stay connected!
 
-        // Contribute
+        /Contribute
         - if @profile.contributions_allowed?
           a.contribute_url.btn.green.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id) style='margin-bottom: 30px;'
             i.fa.fa-usd
             .heading Make a Contribution
             span Support this profile!
 
-        // Share Profile
+        /Share Profile
         .share_url.btn.pink.PopupTrigger data-target='share' style='margin-bottom: 30px;'
           i.fa.fa-share-square-o
           .heading Share This Profile
           span Help expand the audience!
 
-        // Jump to Top
+        /Jump to Top
         span.top_jumper.TopJumper.fa.fa-arrow-up data-start=800 data-end=1200 &nbsp;Jump to Top
 
-      // Recent Posts
+      /Recent Posts
       .pull-right.col-md-8.col-sm-12.col-xs-12
         - if @profile.contributions_allowed?
           a.btn.green.hidden-md.hidden-xs.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id) style='margin-bottom: 30px; width: 100%; font-size: 20px; padding: 10px;'
@@ -140,13 +140,12 @@
 .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(@profile.object)
 .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
 
-// Share popup
+/Share popup
 .Popup.popup.modal-content data-identifier='share' style="width: 350px"
   .modal-header
     i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="share" aria-hidden="true"
     .modal-title Share This Profile
     span Share this profile with your social networks!
-
   .modal-body style="text-align: center; margin-bottom: 15px"
     span class='st_facebook_large' displayText='Facebook'
     span class='st_twitter_large' displayText='Tweet'
@@ -156,6 +155,5 @@
       = mail_to '', {subject: "#{@profile.name} on ConnectPal", body: "#{@profile.full_name} shared a profile with you on Connectpal.com\nCheck it out here #{profile_url(@profile.object)}\n\nThank You."} do
         img src=image_path('//connectpal-assets.s3.amazonaws.com/images/email_32.png')
     .clearfix
-
 - unless @profile.cost_approved?
   = render 'pending_cost_approval_popup'
