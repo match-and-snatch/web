@@ -30,15 +30,8 @@
           input
             margin-top: 3px
       .terms_text
-        color: #cccccc
         float: left
-        font-size: 11px
-        margin-top: 5px
         width: 180px
-        a
-          color: #cccccc
-          &:hover
-            color: $color_text_light
 
   // Search Profiles Popup
   &.search_popup
@@ -124,23 +117,27 @@
   // Subscribe Popup
   &.subscribe_popup
     .modal-body
+      .terms_text
+        font-size: 12px
+        padding: 10px 0
       .subscribe_container
-      color: $color_text_dark
-      font-size: 16px
-      padding: 0 15px 15px
-      max-width: 680px
+        color: $color_text_dark
+        font-size: 16px
+        padding: 0 15px 15px
+        max-width: 680px
       .order_summary, .account_payment
         background: none
         padding: 15px
       .btn
-        font-size: 18px !important
-        padding: 10px 15px
+        font-size: 16px !important
+        margin: 15px 0
+        padding: 7px
+        width: 100%
       .terms_text
+        margin: 0
+        padding: 0 0 10px
         text-align: center
         width: 100%
-
-      // Popup Order Summary
-
       .order_summary
         background-color: none
         padding: 0
@@ -169,9 +166,6 @@
           display: inline-block
           font-size: 12px
           font-weight: normal
-
-      // Popup Account Payment
-
       .account_payment
         padding: 10px 15px 15px
         .form-group
@@ -247,8 +241,8 @@
                 width: 170px
         .address
           margin-top: 15px
-      .existing_billing
-        max-width: 400px
+      &.existing_billing
+        width: 400px
         .order_summary
           margin-right: 0
       // Mobile
@@ -690,6 +684,16 @@
   .modal-body
     display: block
     padding: 5px 20px 0
+    .terms_text
+      color: #cccccc
+      float: left
+      font-size: 11px
+      margin-top: 5px
+      width: 180px
+      a
+        color: #cccccc
+        &:hover
+          color: $color_text_light
     .form-group
       label
         color: $color_text_dark
