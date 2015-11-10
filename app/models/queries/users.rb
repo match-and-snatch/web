@@ -60,11 +60,10 @@ module Queries
       when /^\d+$/
         User.where(id: @query)
       else
-        # User.search_by_admin_fields(@query)
-        # Queries::Elastic::AdminUsers.new.search(@query).records # TODO: Implement
+        Queries::Elastic::Users.new.search(@query).records
       end
 
-      limit_results(result, 20)
+      limit_results(result, limit: 20)
     end
 
     # @param user [User] Potential subordinate account
@@ -101,8 +100,9 @@ module Queries
     private
 
     def base_query
-      result = User.profile_owners.with_complete_profile.
-        where('users.subscribers_count > 0 OR users.profile_picture_url IS NOT NULL')
+      result = User.profile_owners
+                   .with_complete_profile
+                   .where('users.subscribers_count > 0 OR users.profile_picture_url IS NOT NULL')
 
       unless @include_hidden
         result = result.where(hidden: false)

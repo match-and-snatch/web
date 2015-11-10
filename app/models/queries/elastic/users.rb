@@ -18,13 +18,7 @@ module Queries
                         {match: {full_name: fulltext_query}}
                       ]
                     }
-                  },
-                  field_value_factor: {
-                    field: 'subscribers_count',
-                    modifier: 'log1p',
-                    factor: 0.05
-                  },
-                  boost_mode: 'sum'
+                  }
                 }
               }
             }

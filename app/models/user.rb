@@ -74,6 +74,10 @@ class User < ActiveRecord::Base
   }
 
   elastic_type do
+    field :full_name, :profile_name
+  end
+
+  elastic_type 'profiles' do
     field :full_name, :profile_name, :profile_types_text
     field :subscribers_count # used for boosting results
     field :visible do

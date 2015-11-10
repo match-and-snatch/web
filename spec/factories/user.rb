@@ -34,7 +34,7 @@ FactoryGirl.define do
       billing_address_line_1 '3690 New Haven Rd"'
       billing_address_line_2 ''
 
-      sequence(:stripe_user_id) { |n| "stripe_user_id-#{n}" }
+      sequence(:stripe_user_id) { |n| "cus_#{SecureRandom.hex(7)}" }
       sequence(:stripe_card_id) { |n| "cc_id-#{n}" }
       sequence(:stripe_card_fingerprint) { |n| "cc_fingerprint-#{n}" }
       last_four_cc_numbers '3333'

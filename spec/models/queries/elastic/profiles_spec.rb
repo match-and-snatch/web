@@ -47,6 +47,6 @@ describe Queries::Elastic::Profiles do
   end
 
   describe '#type' do
-    it { expect(subject.type).to eq('default') }
+    it { expect(subject.type).to eq('profiles') }
   end
 end

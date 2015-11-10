@@ -14,7 +14,6 @@ gem 'pg'
 gem 'pg_search', '~> 1.0.0'
 
 gem 'elasticsearch', git: 'git://github.com/elasticsearch/elasticsearch-ruby.git'
-gem 'elasticsearch-dsl', git: 'git://github.com/elasticsearch/elasticsearch-ruby.git'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

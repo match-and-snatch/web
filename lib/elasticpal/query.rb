@@ -3,8 +3,6 @@ require 'elasticpal/response'
 
 module Elasticpal
   class Query
-    include Elasticsearch::DSL
-
     def self.body(&block)
       @body_block = block
     end
