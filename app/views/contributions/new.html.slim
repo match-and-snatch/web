@@ -1,9 +1,9 @@
-.modal-header
-  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
-  .modal-title Contribute to this profile
-  span Please select your contribution option below.
-.modal-body
-  .contribution
+.contribution
+  .modal-header
+    i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
+    .modal-title Contribute to this profile
+    span Please select your contribution option below.
+  .modal-body
     form.Form action=contributions_path method='post'
       - if params[:target_user_id]
         input type='hidden' name='target_user_id' value=params[:target_user_id]

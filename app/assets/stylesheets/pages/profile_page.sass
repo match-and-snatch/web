@@ -1733,7 +1733,6 @@
             width: 440px
             img
               width: 438px !important
-
       .comment_container
         .comment_row
           .content
@@ -1747,7 +1746,6 @@
             width: 626px !important
         .reply_post
           margin-top: 5px
-
   #visitor
     margin-bottom: 20px
     &.with_video
@@ -1773,7 +1771,6 @@
       display: block
       font-size: 12px
       margin: 0 0 10px
-
 
 // Desktop
 @media screen and (min-width: 991px)
@@ -1840,210 +1837,6 @@
                 img
                   min-width: 284px
 
-// Edit Post Popup & Compose Message Popup
-.edit_post_popup, .compose_message_popup
-  padding: 10px 15px 15px 15px
-  min-width: 350px
-  max-width: 400px
-  label
-    color: $color_text_dark
-    font-size: 13px
-  .edit_field
-    font-size: 13px
-  textarea.edit_field
-    height: 100px
-  .edit_post_photo
-    margin: 0
-    li
-      display: inline-block
-      position: relative
-      height: 102px
-      overflow: hidden
-      margin: 15px 15px 0 0
-      img
-        border: 1px solid $color_border
-      .delete_photo
-        @include border-radius(0 0 0 5px)
-        position: absolute
-        top: 0px
-        right: 0px
-        text-decoration: none
-        height: 17px
-        width: 17px
-        &:before
-          background-color: #FFFFFF
-          padding: 3px
-
-  .edit_post_audio, .edit_post_doc
-    @include border-radius(5px)
-    border: 1px solid $color_border
-    margin: 15px 0 0 0
-    overflow: hidden
-    li
-      background-color: #FFFFFF
-      border-bottom: 1px solid $color_border
-      border-top: 1px solid $color_border
-      border-right: 1px dotted $color_border
-      border-left: 1px dotted $color_border
-      font-size: 12px
-      padding: 5px
-      width: 100%
-      .fa-arrows-v
-        cursor: pointer
-        font-size: 11px
-        padding: 3px 3px 0
-      .delete_button
-        margin-left: 5px
-        text-decoration: none
-
-  .edit_post_video
-    margin: 15px 0 0 0
-    li
-      img
-        width: 100%
-
-// Compose Message Popup
-.compose_message_popup
-  width: 600px
-  label
-    padding-bottom: 5px
-  textarea
-    height: 100px !important
-    font-size: 12px !important
-
-// Photo Popup
-.photo_popup
-  @include border_radius (0)
-  max-height: 100% !important
-  .modal-body
-    background-color: #252525
-    position: relative
-    padding: 0 !important
-    .close
-      position: absolute
-      top: 3px
-      right: 1px
-      &.mobile_close
-        cursor: pointer
-        opacity: 0.6
-        text-shadow: none
-        height: 28px
-        width: 28px
-        z-index: 9999
-        .fa.fa-circle
-          color: $color_background
-          font-size: 25px
-        .fa.fa-times
-          color: $color_text_dark
-          font-size: 15px
-          top: 5px
-        &:hover
-          opacity: 1
-    a
-      display: block
-      z-index: 9998
-    img
-      @include border_radius (0)
-      // Mobile & Tablet
-      @media screen and (max-width: 991px)
-        height: auto
-        width: 100%
-      // Desktop
-      @media screen and (min-width: 992px)
-        max-height: 90vh
-        width: auto
-    .photo_nav
-      background-color: #252525
-      border-top: 1px solid #252525
-      font-size: 12px
-      a
-        color: #FFFFFF
-        display: inline-block
-        padding: 10px 30px
-        text-decoration: none
-        width: 50%
-        text-align: center
-        i.fa.fa-chevron-left
-          &:before
-            margin-right: 5px
-        &:hover
-          background: $color_blue
-          color: #FFFFFF
-
-  // Mobile
-  @media screen and (max-width: 767px)
-    .fa.fa-chevron-left
-      left: 5px
-    .fa.fa-chevron-right
-      right: 5px
-
-  // Mobile
-  @media screen and (min-width: 768px)
-    .fa.fa-chevron-left
-      left: 5px
-    .fa.fa-chevron-right
-      right: 5px
-
-// Popup
-.popup
-  .modal-body
-    .contribution
-      margin-bottom: 15px
-      max-width: 500px
-      text-align: center
-      .contribute-value
-        margin: -15px 0 0
-        .custom-amount
-          position: relative
-          top: 16px
-          input[type='radio']
-            position: relative
-            top: 12px
-          input
-            float: left
-      .error.limit
-        @include border-radius(5px)
-        background-color: #faf258
-        border: 1px solid #f4cf3e
-        color: #b29525
-        font-size: 13px
-        margin-top: 10px
-        padding: 15px 100px
-        text-align: center
-    .welcome_media_player
-      margin: 0 auto
-      width: 585px
-      .audio_player, .video_player
-        span.file_name
-          font-size: 12px
-          padding: 15px 0 0 0
-          text-align: center
-          display: block
-      .video_player
-        .jwplayer
-          background-color: $color_background !important
-          border: 1px solid $color_border
-          margin: 0 auto
-          min-height: 330px !important
-      .select_file_container
-        height: 50px
-        width: 585px
-        position: relative
-        margin: 0 auto
-        margin-top: 15px
-        .btn, .hide_btn
-          position: absolute
-          top: 0
-          left: 0
-          height: 34px
-          width: 585px
-        .hide_btn
-          opacity: 0
-          cursor: pointer
-          position: absolute
-          bottom: 0
-          left: 0
-
 .comment_text
   word-break: break-word
   b
@@ -2052,10 +1845,10 @@
     border-radius: 3px
     padding: 0 4px
 
+// Mobile for delete when ready
 .mobile_nav
   @media screen and (min-width: 768px)
     display: none
-
 .mobile_create_popup
   max-width: 100% !important
   position: relative

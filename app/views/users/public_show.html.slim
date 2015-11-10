@@ -161,7 +161,7 @@
 
           = render 'adult_content_warning' if @profile.has_mature_content?
 
-  .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
+  .popup.subscribe_popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
   - unless @profile.cost_approved?
     = render 'pending_cost_approval_popup'
 
