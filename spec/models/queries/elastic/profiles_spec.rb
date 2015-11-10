@@ -22,12 +22,9 @@ describe Queries::Elastic::Profiles do
     let!(:popular_user) { create(:user, :profile_owner, subscribers_count: 3, profile_name: 'Test') }
     let!(:luser) { create(:user, :profile_owner, subscribers_count: 1, profile_name: 'Test') }
 
-    before do
-      update_index
-      subject.delete
-    end
+    before { update_index }
 
-    it { expect(subject.search('Test').records).to eq([]) }
+    it { expect { subject.delete }.to change { subject.search('Test').records }.to([]) }
   end
 
   describe '#client' do

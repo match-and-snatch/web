@@ -20,12 +20,9 @@ describe Queries::Elastic::Users do
     let!(:first_user) { create(:user, full_name: 'Test') }
     let!(:second_user) { create(:user, full_name: 'Test') }
 
-    before do
-      update_index
-      subject.delete
-    end
+    before { update_index }
 
-    it { expect(subject.search('Test').records).to eq([]) }
+    it { expect { subject.delete }.to change { subject.search('Test').records }.to([]) }
   end
 
   describe '#client' do
