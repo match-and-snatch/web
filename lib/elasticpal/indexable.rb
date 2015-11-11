@@ -16,21 +16,21 @@ module Elasticpal
       end
 
       def index_document
-        client.bulk body: index_data, refresh: true
+        client.bulk body: index_query_body, refresh: true
       end
 
       def delete_document
-        client.bulk body: delete_data, refresh: true
+        client.bulk body: delete_query_body, refresh: true
       end
 
       # @return [Array<Hash>]
-      def index_data
-        each_index { |index| index.index_data(@record, type: @type) }.flatten
+      def index_query_body
+        each_index { |index| index.index_query_body(@record, type: @type) }.flatten
       end
 
       # @return [Array<Hash>]
-      def delete_data
-        each_index { |index| index.delete_data(@record, type: @type) }.flatten
+      def delete_query_body
+        each_index { |index| index.delete_query_body(@record, type: @type) }.flatten
       end
 
       private
@@ -73,7 +73,7 @@ module Elasticpal
 
       # @param record [ActiveRecord::Base]
       # @return [Hash]
-      def index_data(record)
+      def index_query_body(record)
         {
           index: {
             _index: @index.name,
@@ -86,7 +86,7 @@ module Elasticpal
 
       # @param record [ActiveRecord::Base]
       # @return [Hash]
-      def delete_data(record)
+      def delete_query_body(record)
         {
           delete: {
             _index: @index.name,
@@ -130,18 +130,18 @@ module Elasticpal
       # @param record [ActiveRecord::Base]
       # @param type [String]
       # @return [Array<Hash>]
-      def index_data(record, type: nil)
-        each_types(type: type) do |type|
-          type.index_data(record)
+      def index_query_body(record, type: nil)
+        map_types(type: type) do |type|
+          type.index_query_body(record)
         end
       end
 
       # @param record [ActiveRecord::Base]
       # @param type [String]
       # @return [Array<Hash>]
-      def delete_data(record, type: nil)
-        each_types(type: type) do |type|
-          type.delete_data(record)
+      def delete_query_body(record, type: nil)
+        map_types(type: type) do |type|
+          type.delete_query_body(record)
         end
       end
 
@@ -153,7 +153,7 @@ module Elasticpal
       private
 
       # @param type [String]
-      def each_types(type: nil, &block)
+      def map_types(type: nil, &block)
         (type ? types.select {|t| t.name == type} : types).map do |type|
           block.call(type)
         end
@@ -168,18 +168,6 @@ module Elasticpal
     # @param type [String]
     def elastic_delete_document(type: nil)
       elastic_indexator(type: type).delete_document
-    end
-
-    # @param type [String]
-    # @return [Array<Hash>]
-    def elastic_index_data(type: nil)
-      elastic_indexator(type: type).index_data
-    end
-
-    # @param type [String]
-    # @return [Array<Hash>]
-    def elastic_delete_data(type: nil)
-      elastic_indexator(type: type).delete_data
     end
 
     # @param type [String]
@@ -212,10 +200,9 @@ module Elasticpal
       # @param type [String]
       def elastic_bulk_index(batch_size: 100, type: nil)
         find_in_batches(batch_size: batch_size) do |group|
-          Elasticpal::Client.instance.bulk(body: group.flat_map { |record| record.elastic_index_data(type: type) }, refresh: true)
+          Elasticpal::Client.bulk(body: group.flat_map { |record| record.elastic_indexator(type: type).index_query_body }, refresh: true)
         end
       end
     end
   end
 end
-

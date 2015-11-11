@@ -7,6 +7,10 @@ module Elasticpal
     include Elasticsearch::API
     include Singleton
 
+    class << self
+      delegate :bulk, :perform_request, :connection, :config, :clear_data, :delete_index, :refresh_index, to: :instance
+    end
+
     # @param method [String]
     # @param path [String]
     # @param params [Hash]
@@ -30,6 +34,21 @@ module Elasticpal
     # @return [Hash<Symbol>]
     def config
       @config ||= YAML.load_file(Rails.root.join('config', 'elasticpal.yml'))[ENV['RAILS_ENV'] || Rails.env].symbolize_keys
+    end
+
+    # Deletes all indices
+    def clear_data
+      delete_index '_all'
+    end
+
+    # @param name [String] index name
+    def delete_index(name)
+      indices.delete index: name
+    end
+
+    # @param name [String] index name
+    def refresh_index(name = '_all')
+      indices.refresh index: name
     end
 
     private
