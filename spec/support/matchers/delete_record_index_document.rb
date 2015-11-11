@@ -23,14 +23,14 @@ RSpec::Matchers.define :delete_record_index_document do |record|
   end
 
   failure_message do
-    "Expected to delete a #{record.class}##{record.id} record from index #{index} / type #{type}, but nothing was deleted"
+    "Expected to delete #{record.class}##{record.id} record from index #{index} / type #{type}, but nothing was deleted"
   end
 
   def expectation
     @expectation ||= -> (count) { count == 1 }
   end
 
-  def query(klass)
+  def query(record)
     Elasticpal::Query.new(index: index, type: type, model: record.class).search(match: {'_id' => record.id}).records
   end
 
