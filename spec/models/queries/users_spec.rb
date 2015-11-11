@@ -72,15 +72,7 @@ describe Queries::Users do
     end
   end
 
-  describe '#results' do
-    it { expect(subject.results).to eql([first_user]) }
-  end
-
   describe '#by_email' do
     it { expect(subject.by_email).to eql([first_user]) }
-  end
-
-  describe '#emails' do
-    it { expect(subject.emails).to eql(['szinin@gmail.com']) }
   end
 end
