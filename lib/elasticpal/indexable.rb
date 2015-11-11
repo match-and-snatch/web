@@ -160,11 +160,13 @@ module Elasticpal
       end
     end
 
+    # Reindexes current document
     # @param type [String]
     def elastic_index_document(type: nil)
       elastic_indexator(type: type).index_document
     end
 
+    # Removes current document from index
     # @param type [String]
     def elastic_delete_document(type: nil)
       elastic_indexator(type: type).delete_document
@@ -178,20 +180,62 @@ module Elasticpal
 
     module ClassMethods
 
+      # @return [Hash<String, Elasticpal::Index>]
       def elastic_indexes
         @elastic_indexes ||= {}
       end
 
+      # @param name [String]
+      # @param block
+      # @example
+      #   class User < ActiveRecord::batch_size
+      #     elastic_index 'profiles' do
+      #       elastic_type do
+      #         field :name, :slug
+      #       end
+      #
+      #       elastic_type 'admins' do
+      #         field :full_name
+      #       end
+      #
+      #       def slug
+      #         name.parameterize
+      #       end
+      #     end
+      #
+      #     elastic_index do # default to 'users'
+      #       elastic_type do # default to 'default'
+      #         field :name
+      #       end
+      #     end
+      #   end
       def elastic_index(name = nil, &block)
         name ||= elastic_default_index_name
         elastic_indexes[name] = Index.new(name, &block)
       end
 
+      # @param name [String]
+      # @param block
+      # @example
+      #   class User < ActiveRecord::batch_size
+      #     elastic_type 'admins' do
+      #       field :full_name
+      #     end
+      #
+      #     elastic_type do # default to 'default'
+      #       field :name, :slug
+      #     end
+      #
+      #     def slug
+      #       name.parameterize
+      #     end
+      #   end
       def elastic_type(name = 'default', &block)
         elastic_indexes[elastic_default_index_name] ||= Index.new(elastic_default_index_name)
         elastic_indexes[elastic_default_index_name].type(name, &block)
       end
 
+      # @return [String]
       def elastic_default_index_name
         name.underscore.pluralize
       end
