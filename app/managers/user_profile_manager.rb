@@ -31,7 +31,7 @@ class UserProfileManager < BaseManager
       @user.profile_types << profile_type
     end
 
-    reindex_user
+    reindex_profile
 
     profile_type
   end
@@ -40,14 +40,14 @@ class UserProfileManager < BaseManager
   def toggle
     @user.hidden = !@user.hidden
     @user.save!
-    reindex_user
+    reindex_profile(delete: @user.hidden?)
   end
 
   # Displays warning to unsubscribed users
   def toggle_mature_content
     @user.has_mature_content = !@user.has_mature_content
     @user.save!
-    reindex_user
+    reindex_profile(delete: @user.has_mature_content?)
   end
 
   # @param profile_type [ProfileType]
@@ -55,7 +55,7 @@ class UserProfileManager < BaseManager
     raise ArgumentError unless profile_type.is_a?(ProfileType)
     fail_with! profile_type: :not_set unless @user.profile_types.where(id: profile_type.id).any?
     @user.profile_types.delete(profile_type)
-    reindex_user
+    reindex_profile
     EventsManager.profile_type_removed(user: @user, profile_type: profile_type)
   end
 
@@ -66,7 +66,7 @@ class UserProfileManager < BaseManager
     end
     @user.is_profile_owner = true
     @user.save!
-    reindex_user
+    reindex_profile
   end
 
   # @return [User]
@@ -93,7 +93,7 @@ class UserProfileManager < BaseManager
         SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
       end
       user.save!
-      reindex_user
+      reindex_profile(delete: true)
       EventsManager.profile_page_removed(user: user)
       delete_profile_page_request.try(:approve!)
     end
@@ -561,7 +561,7 @@ class UserProfileManager < BaseManager
 
     if user.changes.any?
       save_or_die! user
-      reindex_user
+      reindex_profile
       EventsManager.profile_picture_changed(user: user, picture: upload)
     end
     user
@@ -572,7 +572,7 @@ class UserProfileManager < BaseManager
     user.small_profile_picture_url = nil
     user.original_profile_picture_url = nil
     save_or_die! user
-    reindex_user
+    reindex_profile(delete: true)
   end
 
   # @param transloadit_data [Hash]
@@ -800,8 +800,16 @@ class UserProfileManager < BaseManager
 
   private
 
-  def reindex_user
-    user.elastic_index_document
+  def reindex_profile(delete: false)
+    reindex_user(delete: delete, type: 'profiles')
+  end
+
+  def reindex_user(delete: false, type: nil)
+    if delete
+      user.elastic_index_document(type: type)
+    else
+      user.elastic_delete_document(type: type)
+    end
     user
   end
 

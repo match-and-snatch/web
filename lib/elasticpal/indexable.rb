@@ -10,7 +10,7 @@ module Elasticpal
         @record = record
         @type = type
 
-        if @type.present? && !each_index(&:types).flatten.include?(@type)
+        if @type.present? && !each_index(&:type_names).flatten.include?(@type)
           raise ArgumentError, "Can't find type with name #{@type}"
         end
       end
@@ -154,8 +154,8 @@ module Elasticpal
       end
 
       # @return [Array<String>]
-      def types
-        @types ||= types.map(&:name)
+      def type_names
+        @type_names ||= types.map(&:name)
       end
 
       private
