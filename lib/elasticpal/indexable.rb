@@ -3,26 +3,34 @@ module Elasticpal
     extend ActiveSupport::Concern
 
     class Indexator
-      def initialize(record)
-        @record = record
-      end
 
-      def index_document
-        each_index do |index|
-          index.index_document(@record)
+      # @param record [ActiveRecord::Base]
+      # @param type_name [String] e.g. default, profiles
+      def initialize(record, type_name: nil)
+        @record = record
+        @type_name = type_name
+
+        if @type_name.present? && !each_index(&:type_names).flatten.include?(@type_name)
+          raise ArgumentError, "Can't find type with name #{@type_name}"
         end
       end
 
-      def delete_document
-        each_index do |index|
-          index.delete_document(@record)
-        end.map
+      def index_document
+        client.bulk body: index_data, refresh: true
       end
 
-      def data
-        each_index do |index|
-          index.data(@record)
-        end.flatten
+      def delete_document
+        client.bulk body: delete_data, refresh: true
+      end
+
+      # @return [Array<Hash>]
+      def index_data
+        each_index { |index| index.index_data(@record, type_name: @type_name) }.flatten
+      end
+
+      # @return [Array<Hash>]
+      def delete_data
+        each_index { |index| index.delete_data(@record, type_name: @type_name) }.flatten
       end
 
       private
@@ -32,11 +40,17 @@ module Elasticpal
           block.call(index)
         end
       end
+
+      def client
+        Elasticpal::Client.instance
+      end
     end
 
     class Type
-      attr_reader :fields
+      attr_reader :name, :fields
 
+      # @param name [String]
+      # @param index [Index]
       def initialize(name, index, &block)
         @name = name
         @index = index
@@ -57,36 +71,35 @@ module Elasticpal
         fields[name] = params.merge(value_block: block)
       end
 
-      def index_document(record)
-        client.index index: @index.name,
-                     type: @name,
-                     id: record.id,
-                     body: body(record),
-                     refresh: true
-      end
-
-      def delete_document(record)
-        client.delete index: @index.name,
-                      type: @name,
-                      id: record.id,
-                      refresh: true
-      end
-
-      def data(record)
+      # @param record [ActiveRecord::Base]
+      # @return [Hash]
+      def index_data(record)
         {
-          _index: @index.name,
-          _type: @name,
-          _id: record.id,
-          data: body(record)
+          index: {
+            _index: @index.name,
+            _type: @name,
+            _id: record.id,
+            data: body(record)
+          }
         }
       end
 
-      def client
-        Elasticpal::Client.instance
+      # @param record [ActiveRecord::Base]
+      # @return [Hash]
+      def delete_data(record)
+        {
+          delete: {
+            _index: @index.name,
+            _type: @name,
+            _id: record.id
+          }
+        }
       end
 
       private
 
+      # @param record [ActiveRecord::Base]
+      # @return [Hash]
       def body(record)
         {}.tap do |result|
           fields.each do |name, params|
@@ -101,9 +114,9 @@ module Elasticpal
     end
 
     class Index
-      attr_reader :types
-      attr_reader :name
+      attr_reader :name, :types
 
+      # @param name [String]
       def initialize(name, &block)
         @name = name
         @types = []
@@ -114,39 +127,65 @@ module Elasticpal
         types << Type.new(name, self, &block)
       end
 
-      def index_document(record)
-        types.map do |type|
-          type.index_document(record)
+      # @param record [ActiveRecord::Base]
+      # @param type_name [String]
+      # @return [Array<Hash>]
+      def index_data(record, type_name: nil)
+        each_types(type_name: type_name) do |type|
+          type.index_data(record)
         end
       end
 
-      def delete_document(record)
-        types.map do |type|
-          type.delete_document(record)
+      # @param record [ActiveRecord::Base]
+      # @param type_name [String]
+      # @return [Array<Hash>]
+      def delete_data(record, type_name: nil)
+        each_types(type_name: type_name) do |type|
+          type.delete_data(record)
         end
       end
 
-      def data(record)
-        types.map do |type|
-          { index: type.data(record) }
+      # @return [Array<String>]
+      def type_names
+        @type_names ||= types.map(&:name)
+      end
+
+      private
+
+      # @param type_name [String]
+      def each_types(type_name: nil, &block)
+        (type_name ? types.select {|t| t.name == type_name} : types).map do |type|
+          block.call(type)
         end
       end
     end
 
-    def elastic_index_document
-      elastic_indexator.index_document
+    # @param type_name [String]
+    def elastic_index_document(type_name: nil)
+      elastic_indexator(type_name: type_name).index_document
     end
 
-    def elastic_delete_document
-      elastic_indexator.delete_document
+    # @param type_name [String]
+    def elastic_delete_document(type_name: nil)
+      elastic_indexator(type_name: type_name).delete_document
     end
 
-    def elastic_data
-      elastic_indexator.data
+    # @param type_name [String]
+    # @return [Array<Hash>]
+    def elastic_index_data(type_name: nil)
+      elastic_indexator(type_name: type_name).index_data
     end
 
-    def elastic_indexator
-      Indexator.new(self)
+    # @param type_name [String]
+    # @return [Array<Hash>]
+    def elastic_delete_data(type_name: nil)
+      elastic_indexator(type_name: type_name).delete_data
+    end
+
+    # @param type_name [String]
+    # @return [Indexator]
+    def elastic_indexator(type_name: nil)
+      Indexator.new(self, type_name: type_name)
     end
 
     module ClassMethods
@@ -169,9 +208,11 @@ module Elasticpal
         name.underscore.pluralize
       end
 
-      def elastic_bulk_index(batch_size: 100)
+      # @param batch_size [Integer]
+      # @param type_name [String]
+      def elastic_bulk_index(batch_size: 100, type_name: nil)
         find_in_batches(batch_size: batch_size) do |group|
-          Elasticpal::Client.instance.bulk(body: group.flat_map(&:elastic_data), refresh: true)
+          Elasticpal::Client.instance.bulk(body: group.flat_map { |record| record.elastic_index_data(type_name: type_name) }, refresh: true)
         end
       end
     end

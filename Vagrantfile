@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 3000, host: 3001
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ['modifyvm', :id, '--memory', '1024', '--name', 'connectpal_dev']
+    vb.customize ['modifyvm', :id, '--memory', '2048', '--name', 'connectpal_dev']
   end
 
   config.vm.synced_folder ".", "/home/vagrant/app"
