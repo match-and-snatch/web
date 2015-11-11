@@ -15,10 +15,12 @@ module Elasticpal
         end
       end
 
+      # Indexes a document
       def index_document
         client.bulk body: index_query_body, refresh: true
       end
 
+      # Removes document from an index
       def delete_document
         client.bulk body: delete_query_body, refresh: true
       end
@@ -59,6 +61,9 @@ module Elasticpal
         instance_eval(&block)
       end
 
+      # @param names [Array<Symbol>] method / field / attribute names
+      # @param options [Hash]
+      # @yield value
       def field(*names, &block)
         params = names.extract_options!
 
@@ -67,6 +72,9 @@ module Elasticpal
         end
       end
 
+      # @param name [Symbol] method / field / attribute name
+      # @param params [Hash] field options
+      # @yield value
       def declare_field(name, params, &block)
         fields[name] = params.merge(value_block: block)
       end
