@@ -65,6 +65,7 @@ class AuthenticationManager < BaseManager
     user.generate_registration_token
 
     user.save or fail_with! user.errors
+    user.elastic_index_document
     EventsManager.user_registered(user: user)
     user
   end

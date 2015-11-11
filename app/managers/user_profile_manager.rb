@@ -31,6 +31,8 @@ class UserProfileManager < BaseManager
       @user.profile_types << profile_type
     end
 
+    reindex_user
+
     profile_type
   end
 
@@ -38,14 +40,14 @@ class UserProfileManager < BaseManager
   def toggle
     @user.hidden = !@user.hidden
     @user.save!
-    @user
+    reindex_user
   end
 
   # Displays warning to unsubscribed users
   def toggle_mature_content
     @user.has_mature_content = !@user.has_mature_content
     @user.save!
-    @user
+    reindex_user
   end
 
   # @param profile_type [ProfileType]
@@ -53,6 +55,7 @@ class UserProfileManager < BaseManager
     raise ArgumentError unless profile_type.is_a?(ProfileType)
     fail_with! profile_type: :not_set unless @user.profile_types.where(id: profile_type.id).any?
     @user.profile_types.delete(profile_type)
+    reindex_user
     EventsManager.profile_type_removed(user: @user, profile_type: profile_type)
   end
 
@@ -63,7 +66,7 @@ class UserProfileManager < BaseManager
     end
     @user.is_profile_owner = true
     @user.save!
-    @user
+    reindex_user
   end
 
   # @return [User]
@@ -90,6 +93,7 @@ class UserProfileManager < BaseManager
         SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
       end
       user.save!
+      reindex_user
       EventsManager.profile_page_removed(user: user)
       delete_profile_page_request.try(:approve!)
     end
@@ -168,6 +172,7 @@ class UserProfileManager < BaseManager
 
     save_or_die! user
 
+    reindex_user
     EventsManager.profile_created(user: user, data: { cost: cost, profile_name: profile_name })
 
     sync_stripe_recipient! if user.stripe_recipient_id
@@ -241,6 +246,7 @@ class UserProfileManager < BaseManager
 
     user.profile_name = profile_name.try(:strip)
     save_or_die! user
+    reindex_user
     EventsManager.profile_name_changed(user: user, name: profile_name)
   end
 
@@ -505,6 +511,7 @@ class UserProfileManager < BaseManager
     user.email        = email
 
     save_or_die! user
+    reindex_user
     EventsManager.account_information_changed(user: user, data: { full_name: full_name, company_name: company_name, email: email })
     user
   end
@@ -554,6 +561,7 @@ class UserProfileManager < BaseManager
 
     if user.changes.any?
       save_or_die! user
+      reindex_user
       EventsManager.profile_picture_changed(user: user, picture: upload)
     end
     user
@@ -564,6 +572,7 @@ class UserProfileManager < BaseManager
     user.small_profile_picture_url = nil
     user.original_profile_picture_url = nil
     save_or_die! user
+    reindex_user
   end
 
   # @param transloadit_data [Hash]
@@ -790,6 +799,11 @@ class UserProfileManager < BaseManager
   end
 
   private
+
+  def reindex_user
+    user.elastic_index_document
+    user
+  end
 
   # @param current_upload [Video, Audio]
   # @param clear_all [Boolean]
