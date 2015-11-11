@@ -81,7 +81,9 @@ class User < ActiveRecord::Base
     field :full_name, :profile_name, :profile_types_text
     field :subscribers_count # used for boosting results
     field :visible do
-      is_profile_owner? && has_complete_profile? && (subscribers_count > 0 || profile_picture_url.present?) && !hidden? && !has_mature_content?
+      is_profile_owner? && has_complete_profile? &&
+        (subscribers_count > 0 || profile_picture_url.present?) &&
+          !(hidden? || has_mature_content?)
     end
   end
 
