@@ -200,7 +200,11 @@ module Elasticpal
       # @param type [String]
       def elastic_bulk_index(batch_size: 100, type: nil)
         find_in_batches(batch_size: batch_size) do |group|
-          Elasticpal::Client.bulk(body: group.flat_map { |record| record.elastic_indexator(type: type).index_query_body }, refresh: true)
+          bulk_query = group.flat_map do |record|
+            record.elastic_indexator(type: type).index_query_body
+          end
+
+          Elasticpal::Client.bulk(body: bulk_query, refresh: true)
         end
       end
     end
