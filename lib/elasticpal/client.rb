@@ -11,7 +11,7 @@ module Elasticpal
     # @param path [String]
     # @param params [Hash]
     # @param body [Hash, nil]
-    # @return [Faraday::Response]
+    # @return [Faraday::Response, EmptyResponse]
     def perform_request(method, path, params, body)
       return EmptyResponse.instance unless config[:enabled]
 
