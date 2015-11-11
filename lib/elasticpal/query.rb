@@ -3,6 +3,47 @@ require 'elasticpal/response'
 
 module Elasticpal
   class Query
+
+    # Defines query body
+    # @example
+    #   class ProfilesQuery < Elasticpal::Query
+    #     type 'profiles'
+    #
+    #     scope do
+    #       User.with_complete_profile
+    #     end
+    #
+    #     body do |fulltext_query|
+    #       {
+    #         query: {
+    #           filtered: {
+    #             query: {
+    #               function_score: {
+    #                 query: {
+    #                   dis_max: {
+    #                     queries: [
+    #                       {match: {profile_name: fulltext_query}},
+    #                       {match: {full_name: fulltext_query}},
+    #                     ]
+    #                   }
+    #                 },
+    #                 field_value_factor: {
+    #                   field: 'subscribers_count',
+    #                   modifier: 'log1p',
+    #                   factor: 0.15
+    #                 },
+    #                 boost_mode: 'sum'
+    #               }
+    #             },
+    #             filter: {term: {visible: true}}
+    #           }
+    #         }
+    #       }
+    #     end
+    #   end
+    #
+    #   ProfilesQuery.search('John Doe')
+    # @yield
     def self.body(&block)
       @body_block = block
     end
@@ -45,6 +86,10 @@ module Elasticpal
       define_method :type do
         type_name
       end
+    end
+
+    def self.search(*args)
+      new.search(*args)
     end
 
     # @param index [String]

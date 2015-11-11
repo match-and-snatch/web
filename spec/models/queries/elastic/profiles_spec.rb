@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe Queries::Elastic::Profiles do
-  subject { described_class.new }
+  subject(:query) { described_class.new }
 
   describe '#search' do
-    subject { described_class.new.search('Test') }
+    subject { query.search('Test') }
 
     context 'multiple users' do
       let!(:popular_user) { create(:user, :profile_owner, subscribers_count: 3, profile_name: 'Test') }
