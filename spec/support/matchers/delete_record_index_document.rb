@@ -1,5 +1,6 @@
 RSpec::Matchers.define :delete_record_index_document do |record|
   match do |block|
+    @record = record
     refresh_index(index)
     before = query(record)
     refresh_index(index)
@@ -40,6 +41,10 @@ RSpec::Matchers.define :delete_record_index_document do |record|
 
   def type
     @type || 'default'
+  end
+
+  def record
+    @record
   end
 
   def supports_block_expectations?

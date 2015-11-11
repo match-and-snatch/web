@@ -1,7 +1,7 @@
 RSpec::Matchers.define :index_record do |record|
   match do |block|
+    @record = record
     Elasticpal::Client.clear_data
-
     refresh_index(index) rescue nil
     before = query(record) rescue []
     refresh_index(index) rescue nil
@@ -42,6 +42,10 @@ RSpec::Matchers.define :index_record do |record|
 
   def type
     @type || 'default'
+  end
+
+  def record
+    @record
   end
 
   def supports_block_expectations?

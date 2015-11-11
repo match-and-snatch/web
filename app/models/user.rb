@@ -80,11 +80,7 @@ class User < ActiveRecord::Base
   elastic_type 'profiles' do
     field :full_name, :profile_name, :profile_types_text
     field :subscribers_count # used for boosting results
-    field :visible do
-      is_profile_owner? && has_complete_profile? &&
-        (subscribers_count > 0 || profile_picture_url.present?) &&
-          !(hidden? || has_mature_content?)
-    end
+    field :publicly_visible?
   end
 
   def self.random_public_profile
@@ -134,6 +130,12 @@ class User < ActiveRecord::Base
 
   def staff?
     roles.any?
+  end
+
+  def publicly_visible?
+    is_profile_owner? && has_complete_profile? &&
+      (subscribers_count > 0 || profile_picture_url.present?) &&
+        !(hidden? || has_mature_content?)
   end
 
   def cc_decline

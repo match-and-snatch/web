@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe UserProfileManager do
-  let(:user) { create_user }
+  let(:user) { create(:user) }
   subject(:manager) { described_class.new(user) }
 
   describe '#add_profile_type' do
@@ -27,9 +27,49 @@ describe UserProfileManager do
     end
   end
 
+  describe '#toggle' do
+    context 'visible' do
+      let(:user) { create(:user, :profile_owner) }
+
+      it { expect { manager.toggle }.to change { user.hidden? }.from(false).to(true) }
+
+      context 'indexed profile' do
+        before { update_index user }
+
+        it { expect { manager.toggle }.to delete_record_index_document(user).from_type('profiles') }
+      end
+    end
+
+    context 'hidden' do
+      let(:user) { create(:user, :profile_owner, hidden: true) }
+
+      it { expect { manager.toggle }.to change { user.hidden? }.from(true).to(false) }
+    end
+  end
+
+  describe '#toggle_mature_content' do
+    context 'has mature content' do
+      let(:user) { create(:user, :profile_owner, has_mature_content: true) }
+
+      it { expect { manager.toggle_mature_content }.to change { user.has_mature_content? }.from(true).to(false) }
+    end
+
+    context 'does not have mature content' do
+      let(:user) { create(:user, :profile_owner, has_mature_content: false) }
+
+      it { expect { manager.toggle_mature_content }.to change { user.has_mature_content? }.from(false).to(true) }
+
+      context 'indexed profile' do
+        before { update_index user }
+
+        it { expect { manager.toggle_mature_content }.to delete_record_index_document(user).from_type('profiles') }
+      end
+    end
+  end
+
   describe '#enable_vacation_mode' do
     let(:reason) { 'because i can' }
-    let(:user) { create_profile email: 'profiled@gmail.com' }
+    let(:user) { create :user, :profile_owner }
 
     subject(:enable_vacation_mode) { manager.enable_vacation_mode(reason: reason) }
 
@@ -91,7 +131,7 @@ describe UserProfileManager do
   end
 
   describe '#disable_message_notifications' do
-    let(:user) { create_profile email: 'profile@gmail.com' }
+    let(:user) { create :user, :profile_owner }
 
     context 'notifications enabled' do
       specify do
@@ -111,7 +151,7 @@ describe UserProfileManager do
   end
 
   describe '#enable_message_notifications' do
-    let(:user) { create_profile email: 'profile@gmail.com' }
+    let(:user) { create :user, :profile_owner }
 
     context 'notifications disabled' do
       before do
@@ -131,7 +171,7 @@ describe UserProfileManager do
   end
 
   describe '#disable_vacation_mode' do
-    let(:user) { create_profile email: 'profiled@gmail.com' }
+    let(:user) { create :user, :profile_owner }
     let(:vacation_start_date) { Time.zone.now }
 
     before do
@@ -272,7 +312,7 @@ describe UserProfileManager do
   end
 
   describe '#delete_profile_page' do
-    let(:user) { create_profile email: 'profiled@gmail.com' }
+    let(:user) { create(:user, :profile_owner) }
 
     it 'returns user' do
       expect(manager.delete_profile_page).to eq(user)
@@ -309,8 +349,13 @@ describe UserProfileManager do
     before { manager.create_profile_page }
 
     it { expect { manager.delete_profile_page! }.to change { user.is_profile_owner }.from(true).to(false) }
-
     it { expect { manager.delete_profile_page! }.to create_event(:profile_page_removed) }
+
+    context 'indexed profile' do
+      before { update_index user }
+
+      it { expect { manager.delete_profile_page }.to delete_record_index_document(user).from_type('profiles') }
+    end
   end
 
   describe '#update' do
@@ -528,7 +573,7 @@ describe UserProfileManager do
     end
 
     context 'user has outstanding payments' do
-      let(:target_user) { create_profile email: 'profiled@gmail.com' }
+      let(:target_user) { create :user, :profile_owner }
 
       before do
         SubscriptionManager.new(subscriber: user).subscribe_to(target_user)
@@ -638,7 +683,7 @@ describe UserProfileManager do
     end
 
     context 'user has recurring contributions' do
-      let(:target_user) { create_profile email: 'profiled@gmail.com' }
+      let(:target_user) { create :user, :profile_owner }
 
       before do
         5.times do |i|
@@ -653,7 +698,7 @@ describe UserProfileManager do
     end
 
     context 'user has subscriptions' do
-      let(:target_user) { create_profile email: 'profiled@gmail.com' }
+      let(:target_user) { create :user, :profile_owner }
       let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
       before { subscription }
@@ -1128,7 +1173,7 @@ describe UserProfileManager do
     end
 
     context 'existing user tries to change his cost' do
-      let(:user) { create_profile cost: 5 }
+      let(:user) { create :user, :profile_owner, cost: 500 }
       before { manager.update_cost(45) }
 
       specify do

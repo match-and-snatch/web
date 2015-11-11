@@ -40,14 +40,14 @@ class UserProfileManager < BaseManager
   def toggle
     @user.hidden = !@user.hidden
     @user.save!
-    reindex_profile(delete: @user.hidden?)
+    reindex_profile
   end
 
   # Displays warning to unsubscribed users
   def toggle_mature_content
     @user.has_mature_content = !@user.has_mature_content
     @user.save!
-    reindex_profile(delete: @user.has_mature_content?)
+    reindex_profile
   end
 
   # @param profile_type [ProfileType]
@@ -93,7 +93,7 @@ class UserProfileManager < BaseManager
         SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
       end
       user.save!
-      reindex_profile(delete: true)
+      reindex_profile
       EventsManager.profile_page_removed(user: user)
       delete_profile_page_request.try(:approve!)
     end
@@ -572,7 +572,7 @@ class UserProfileManager < BaseManager
     user.small_profile_picture_url = nil
     user.original_profile_picture_url = nil
     save_or_die! user
-    reindex_profile(delete: true)
+    reindex_profile
   end
 
   # @param transloadit_data [Hash]
@@ -800,16 +800,17 @@ class UserProfileManager < BaseManager
 
   private
 
-  def reindex_profile(delete: false)
-    reindex_user(delete: delete, type: 'profiles')
+  def reindex_profile
+    if user.publicly_visible?
+      user.elastic_index_document(type: 'profiles')
+    else
+      user.elastic_delete_document(type: 'profiles')
+    end
+    user
   end
 
-  def reindex_user(delete: false, type: nil)
-    if delete
-      user.elastic_index_document(type: type)
-    else
-      user.elastic_delete_document(type: type)
-    end
+  def reindex_user
+    user.elastic_index_document
     user
   end
 

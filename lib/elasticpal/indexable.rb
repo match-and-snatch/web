@@ -114,7 +114,7 @@ module Elasticpal
             if params[:value_block]
               result[name] = record.instance_eval(&params[:value_block])
             else
-              result[name] = record.send(name)
+              result[name.to_s.sub(/\?$/, '').to_sym] = record.send(name)
             end
           end
         end

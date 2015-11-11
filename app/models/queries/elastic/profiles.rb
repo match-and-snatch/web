@@ -33,7 +33,7 @@ module Queries
                   boost_mode: 'sum'
                 }
               },
-              filter: {term: {visible: true}}
+              filter: {term: {publicly_visible: true}}
             }
           }
         }
