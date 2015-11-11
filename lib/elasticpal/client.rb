@@ -7,6 +7,11 @@ module Elasticpal
     include Elasticsearch::API
     include Singleton
 
+    # @param method [String]
+    # @param path [String]
+    # @param params [Hash]
+    # @param body [Hash, nil]
+    # @return [Faraday::Response]
     def perform_request(method, path, params, body)
       return EmptyResponse.instance unless config[:enabled]
 
@@ -17,10 +22,12 @@ module Elasticpal
         {'Content-Type' => 'application/json'})
     end
 
+    # @return [Faraday::Connection]
     def connection
       @connection ||= ::Faraday::Connection.new url: config[:url]
     end
 
+    # @return [Hash<Symbol>]
     def config
       @config ||= YAML.load_file(Rails.root.join('config', 'elasticpal.yml'))[ENV['RAILS_ENV'] || Rails.env].symbolize_keys
     end
@@ -37,9 +44,6 @@ module Elasticpal
       def body
         @body ||= {}.freeze
       end
-    end
-
-    class InvalidResponseError < StandardError
     end
   end
 end

@@ -51,10 +51,8 @@ module Elasticpal
     # @param arguments [Hash]
     #
     # @example
-    #   ElasticPal::Query.new(model: 'Profile', index: 'User').search do
-    #     query do
-    #       match title: 'Foo'
-    #     end
+    #   ElasticPal::Query.new(model: 'Profile', index: 'User').search do |title|
+    #     {match: {title: title}}
     #   end
     #
     # @example
