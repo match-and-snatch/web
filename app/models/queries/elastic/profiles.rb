@@ -28,7 +28,7 @@ module Queries
                   field_value_factor: {
                     field: 'subscribers_count',
                     modifier: 'log1p',
-                    factor: 0.05
+                    factor: 0.15
                   },
                   boost_mode: 'sum'
                 }
