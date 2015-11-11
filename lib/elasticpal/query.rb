@@ -11,12 +11,17 @@ module Elasticpal
       @body_block
     end
 
+    # Sets index to use
+    # @param index_name [String]
     def self.index(index_name)
       define_method :index do
         index_name
       end
     end
 
+    # Sets model to perform query on
+    # @param model_name [String]
+    # @yield model class
     def self.model(model_name = nil, &block)
       if block
         define_method :model, &block
@@ -27,17 +32,26 @@ module Elasticpal
       end
     end
 
+    # Sets default scope to perform query on
+    # @param model_name [String]
+    # @yield model scope
     def self.scope(*args, &block)
       self.model(*args, &block)
     end
 
+    # Sets type within which query will be performed, default is 'default'
+    # @param type_name [String]
     def self.type(type_name)
       define_method :type do
         type_name
       end
     end
 
-    def initialize(index: nil, model: nil, type: nil, arguments: {})
+    # @param index [String]
+    # @param type [String]
+    # @param model [Class]
+    # @param arguments [Hash]
+    def initialize(index: nil, type: nil, model: nil, arguments: {})
       @index = index
       @model = model
       @type = type
@@ -79,6 +93,8 @@ module Elasticpal
       end
     end
 
+    # Removes documents from the index type
+    # @param batch_size [Integer]
     def delete(batch_size: 100)
       scope.find_in_batches(batch_size: batch_size) do |group|
         client.bulk(body: group.map { |record| { delete: { _index: index, _type: type, _id: record.id } } })
@@ -89,18 +105,22 @@ module Elasticpal
       Elasticpal::Client.instance
     end
 
+    # @return [String]
     def index
       @index ||= model.name.downcase.pluralize
     end
 
+    # @return [Class]
     def model
       @model or raise NotImplementedError
     end
 
+    # @return [ActiveRecord::Relation, Class]
     def scope
       model
     end
 
+    # @return [String] 'default' by default
     def type
       @type ||= 'default'.freeze
     end
