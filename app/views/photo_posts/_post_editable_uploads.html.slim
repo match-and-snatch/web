@@ -1,10 +1,11 @@
 - if post.uploads.any?
   input type='hidden' name="uploads[_]" value=0
+  label Posted Photo(s)
   ul.edit_post_photo
     - post.uploads.each_with_index do |upload, index|
       li data-identifier='upload-#{upload.id}'
         input type='hidden' name="uploads[#{index}]" value=upload.id
         img src=upload.preview_url
-          a.Cleaner href='#' data-target='upload-#{upload.id}'
-            span.delete_button.fa.fa-times.Toggler data-target='upload-#{upload.id}'
-  .clearfix
+        a.delete_button.Cleaner href='#' data-target='upload-#{upload.id}'
+          span.fa.fa-times.Toggler data-target='upload-#{upload.id}'
+        .clearfix

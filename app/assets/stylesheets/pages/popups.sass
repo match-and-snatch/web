@@ -583,63 +583,88 @@
         text-align: center
 
   // Edit Post Popup
-  //.edit_post_popup
+  .edit_post_popup
     padding: 10px 15px 15px 15px
-    min-width: 350px
-    max-width: 400px
+    width: 500px
+    .close
+      position: relative
+      top: -6px
+      right: -10px
     label
+      display: block
       color: $color_text_dark
       font-size: 13px
+      margin-bottom: 10px
     .edit_field
       font-size: 13px
     textarea.edit_field
       height: 100px
+    .error
+      padding: 8px 0
+    .update-post
+      width: 100%
+    // Edit Shared CSS
+    .edit_post_audio,
+    .edit_post_doc,
     .edit_post_photo
-      margin: 0
-      li
-        display: inline-block
-        position: relative
-        height: 102px
-        overflow: hidden
-        margin: 15px 15px 0 0
-        img
-          border: 1px solid $color_border
-        .delete_photo
-          @include border-radius(0 0 0 5px)
-          position: absolute
-          top: 0px
-          right: 0px
-          text-decoration: none
-          height: 17px
-          width: 17px
-          &:before
-            background-color: #FFFFFF
-            padding: 3px
-
-    .edit_post_audio, .edit_post_doc
       @include border-radius(5px)
       border: 1px solid $color_border
-      margin: 15px 0 0 0
-      overflow: hidden
+      height: 150px
+      margin: 15px 0
+      overflow-y: scroll
+    // Edit Audio & Doc
+    .edit_post_audio, .edit_post_doc
       li
         background-color: #FFFFFF
-        border-bottom: 1px solid $color_border
         border-top: 1px solid $color_border
-        border-right: 1px dotted $color_border
-        border-left: 1px dotted $color_border
-        font-size: 12px
-        padding: 5px
+        font-size: 13px
+        height: 33px
+        overflow: hidden
+        padding: 7px
+        position: relative
         width: 100%
-        .fa-arrows-v
-          cursor: pointer
-          font-size: 11px
-          padding: 3px 3px 0
+        &:first-child
+          border: none
+        .file_name
+          overflow: hidden
+          text-overflow: ellipsis
+          width: 400px
+          white-space: nowrap
         .delete_button
-          margin-left: 5px
-          text-decoration: none
-
+          position: absolute
+          top: 10px
+          right: 10px
+    // Edit Photo
+    .edit_post_photo
+      li
+        @include border-radius(5px)
+        background-color: $color_background
+        border: 1px solid $color_border
+        float: left
+        margin: 8px
+        overflow: hidden
+        padding: 0
+        position: relative
+        height: 95px
+        width: 95px
+        img
+          width: 95px
+        .delete_button
+          @include border-radius(0 0 0 5px)
+          background-color: $color_background
+          border: 1px solid $color_border
+          border-top: none
+          border-right: none
+          padding: 0 5px
+          position: absolute
+          top: 0
+          right: 0
+    // Edit Video
     .edit_post_video
-      margin: 15px 0 0 0
+      @include border-radius(5px)
+      border: 1px solid $color_border
+      margin: 0 0 15px
+      overflow: hidden
       li
         img
           width: 100%
