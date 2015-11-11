@@ -1,11 +1,13 @@
 namespace :index do
-  desc 'Index profiles records into elasticsearch'
-  task profiles: :environment do
-    Queries::Elastic::Profiles.new.scope.elastic_bulk_index
+  desc 'Index public profiles'
+  task profiles_autocomplete: :environment do
+    Queries::Elastic::Profiles.new.scope.elastic_bulk_index(type: 'profiles')
   end
 
-  desc 'Index users records into elasticsearch'
-  task users: :environment do
-    User.elastic_bulk_index
+  desc 'Index users autocomplete'
+  task users_autocomplete: :environment do
+    User.unscoped.elastic_bulk_index(type: 'default')
   end
+
+  task all: [:profiles_autocomplete, :users_autocomplete]
 end
