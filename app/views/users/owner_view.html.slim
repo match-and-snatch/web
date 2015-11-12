@@ -18,15 +18,11 @@
 
       /Profile Details
       .profile_details_l
-
-        /Profile Name
         .profile_name.own-role
           .fa.fa-gear.edit-gear.PopupTrigger data-target='name-editor'
             .edit-text Edit
           h1 data-identifier='profile-name'= @profile.profile_name
           .clearfix
-
-        /Profile Type
         .profile_type.own-role
           .fa.fa-gear.edit-gear.PopupTrigger data-target='type-editor'
             .edit-text Edit
@@ -35,8 +31,6 @@
 
       /Subscribe & Welcome Video
       .profile_details_r
-
-        /Cost Container
         .cost_container.own-role
           .amount
             - if @profile.cost_approved?
@@ -50,8 +44,6 @@
           .fa.fa-gear.edit-gear.PopupTrigger data-target='cost-editor'
             .edit-text Edit
           .clearfix
-
-        /Add Welcome Video
         - if @profile.welcome_media
           .add_welcome_video.btn.pink.PopupTrigger data-target='welcome-editor'
             span.fa.fa-plus Change Welcome Video
@@ -96,20 +88,17 @@
           .heading Make a Contribution
           span Support this profile!
 
-        /Profile Action
         .share_url.btn.pink.PopupTrigger data-target='share'
           i.fa.fa-share-square-o
           .heading Share Your Profile
           span Expand your audience!
 
-        /Search
         .search.input-group
           span.input-group-addon
             i.fa.fa-search.fa-fw.fa-lg
           form.Form action=user_posts_path(@profile.object) method='get' data-target='posts'
             input.Autocomplete.form-control data-identifier='search-posts-autocomplete' type="text" name='q' placeholder="Search profile content"
 
-        /Category Cloud
         .archive_cloud.box
           span Archived Content
           ul
