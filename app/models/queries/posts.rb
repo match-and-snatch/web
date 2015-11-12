@@ -15,15 +15,19 @@ module Queries
     # @return [Array<Post>]
     def results
       @results ||= begin
-        posts = @query.present? ? matching_posts : recent_posts
-        posts = posts.where(['id < ?', @start_id]) if @start_id.present?
+                     if @query.present?
+                       posts = matching_posts
+                     else
+                       posts = recent_posts
+                       posts = posts.where(['id < ?', @start_id]) if @start_id.present?
 
-        if @user != @current_user
-          posts = posts.where(hidden: false)
-        end
+                       unless include_hidden?
+                         posts = posts.where(hidden: false)
+                       end
+                     end
 
-        posts
-      end.to_a
+                     posts
+                   end.to_a
     end
 
     def autocomplete?
@@ -50,19 +54,30 @@ module Queries
     end
 
     def types
-      @query.split(/\W+/).map(&:singularize).map(&:camelize).map { |x| x << 'Post' } & %w(AudioPost VideoPost PhotoPost DocumentPost StatusPost)
+      @query
+        .split(/\W+/)
+        .map(&:singularize).map(&:camelize)
+        .map { |x| x << 'Post' } & %w(AudioPost VideoPost PhotoPost DocumentPost StatusPost)
     end
 
     def matching_posts
       if tagged?
-        @user.posts.where(type: types).order('created_at DESC, id DESC').limit(5)
+        Queries::Elastic::PostsByType.search(user_id: @user.id,
+                                             tags: types,
+                                             include_hidden: include_hidden?)
       else
-        @user.posts.search_by_message(@query).limit(10)
+        Queries::Elastic::Posts.search(user_id: @user.id,
+                                       fulltext_query: @query,
+                                       include_hidden: include_hidden?)
       end
     end
 
     def recent_posts
       @user.posts.recent(@limit)
+    end
+
+    def include_hidden?
+      @user != @current_user
     end
   end
 end

@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  include PgSearch
+  include Elasticpal::Indexable
   include Concerns::Likable
 
   LIKABLE_TYPE = 'Post'.freeze
@@ -8,9 +8,15 @@ class Post < ActiveRecord::Base
   has_many :comments
   has_many :uploads, as: :uploadable
 
-  pg_search_scope :search_by_message, against: [:message, :title],
-                                      using: [:tsearch, :dmetaphone, :trigram],
-                                      ignoring: :accents
+  elastic_index 'posts' do
+    elastic_type do
+      field :message, :title
+      field :user_id
+      field :hidden
+      field :type
+      field(:created_at) { created_at.to_i }
+    end
+  end
 
   scope :recent, -> (limit = 5) { order('created_at DESC, id DESC').limit(limit) }
 
