@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe UploadManager do
-  let(:user) { create_profile }
+  let(:user) { create(:user, :profile_owner) }
 
   subject { described_class.new(user) }
 
@@ -33,5 +33,15 @@ describe UploadManager do
     let(:audios) { subject.create_audio(ActionController::ManagebleParameters.new(transloadit_audio_data_params)) }
 
     it { expect(audios.first.transloadit_data.class).to eq(Hash) }
+  end
+
+  describe '#create_welcome_media' do
+    context 'passes video file' do
+      it { expect(subject.create_welcome_media(transloadit_video_data_params)).to be_a(Video) }
+    end
+
+    context 'passes audio file' do
+      it { expect(subject.create_welcome_media(transloadit_audio_data_params)).to be_a(Audio) }
+    end
   end
 end
