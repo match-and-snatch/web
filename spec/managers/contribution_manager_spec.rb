@@ -64,6 +64,10 @@ describe ContributionManager do
     end
 
     context 'huge contribution' do
+      context 'too huge' do
+        it { expect { manager.create(amount: 100000000000000000000, target_user: target_user) }.to raise_error(ManagerError, /large/) }
+      end
+
       it 'has $100 limit' do
         expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
       end

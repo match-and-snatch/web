@@ -1,5 +1,6 @@
 class ContributionManager < BaseManager
   VERIFIED_PROFILE_CONTRIBUTION_LIMIT = 100000
+  INTEGER_RANGE_LIMIT = 2147483647
 
   # @param user [User]
   # @param target_user [User]
@@ -15,6 +16,7 @@ class ContributionManager < BaseManager
   def create(target_user: , amount: nil, recurring: false, message: nil)
     amount = amount.to_i
     fail_with! amount: :zero if amount < 1
+    fail_with! amount: :too_large if amount > INTEGER_RANGE_LIMIT
     fail_with! "You can't contribute to this profile" unless target_user.contributions_allowed?
     if limit_reached?(amount, target_user)
       unless @user.contribution_requests.by_target_user(target_user).pending.any?
