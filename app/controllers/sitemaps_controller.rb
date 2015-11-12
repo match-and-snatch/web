@@ -18,6 +18,6 @@ class SitemapsController < ApplicationController
 
   def load_public_profiles!
     @public_profiles = User.profile_owners.with_complete_profile
-                         .where("(users.hidden = 'f' AND users.has_mature_content = 'f') OR (users.subscribers_count > 0)")
+                         .where("(users.hidden = 'f' AND users.has_mature_content = 'f')")
   end
 end
