@@ -1022,7 +1022,6 @@ CREATE TABLE users (
     rss_enabled boolean DEFAULT true NOT NULL,
     downloads_enabled boolean DEFAULT true NOT NULL,
     itunes_enabled boolean DEFAULT true NOT NULL,
-    profile_types_text text,
     subscribers_count integer DEFAULT 0 NOT NULL,
     billing_failed boolean DEFAULT false NOT NULL,
     stripe_recipient_id character varying(255),
@@ -1813,3 +1812,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151023111938');
 INSERT INTO schema_migrations (version) VALUES ('20151030103407');
 
 INSERT INTO schema_migrations (version) VALUES ('20151101223552');
+
+INSERT INTO schema_migrations (version) VALUES ('20151102154643');
+

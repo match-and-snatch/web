@@ -13,6 +13,8 @@ gem 'actionpack-action_caching'
 gem 'pg'
 gem 'pg_search', '~> 1.0.0'
 
+gem 'elasticsearch', git: 'git://github.com/elasticsearch/elasticsearch-ruby.git'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
@@ -72,6 +74,7 @@ gem 'mailcatcher', group: :development
 group :development, :test do
   gem 'jazz_fingers'
   gem 'pry-rails'
+  gem "factory_girl_rails", "~> 4.5.0"
 end
 
 group :test do

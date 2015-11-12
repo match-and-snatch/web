@@ -32,5 +32,8 @@ module BuddyPlatform
     config.eager_load_paths += %W(#{config.root}/app/loggers #{config.root}/app/mailers)
     config.middleware.delete 'ActiveRecord::QueryCache'
 
+    config.generators do |g|
+      g.factory_girl dir: 'spec/factories'
+    end
   end
 end

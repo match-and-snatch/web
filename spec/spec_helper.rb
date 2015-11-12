@@ -16,6 +16,12 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
+
+  config.run_all_when_everything_filtered = true
+  config.filter_run focus: true
+
+  config.include FactoryGirl::Syntax::Methods
+
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -70,6 +76,22 @@ RSpec.configure do |config|
            end
     Timecop.freeze(time) { example.run }
   end
+end
+
+# @param index [String] index name
+def refresh_index(name = '_all')
+  Elasticpal::Client.refresh_index(name)
+end
+
+def update_index(*records)
+  Elasticpal::Client.clear_data
+  if records.any?
+    records.each(&:elastic_index_document)
+  else
+    User.elastic_bulk_index
+  end
+  refresh_index
+  yield if block_given?
 end
 
 # @param message [String, Symbol]

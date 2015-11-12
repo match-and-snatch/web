@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe ::UsersController, type: :controller do
+  let(:profile) { create :user, :profile_owner }
+
   describe 'GET index' do
     context 'as HTML' do
       subject { get 'index' }
@@ -36,8 +38,9 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'GET #show' do
-    let!(:owner)  { create_profile email: 'owner@gmail.com' }
-    let(:visitor) { create_user email: 'visitor@gmail.com' }
+    let!(:owner)  { create :user, :profile_owner }
+    let(:visitor) { create :user }
+
     subject { get 'show', id: owner.slug  }
 
     context 'authorized access' do
@@ -52,13 +55,12 @@ describe ::UsersController, type: :controller do
     end
 
     context 'when profile public' do
-      let!(:owner) { create_public_profile email: 'owner_with_public@gmail.com' }
+      let!(:owner) { create :user, :public_profile }
       it { should be_success }
       it{ should render_template('show') }
     end
   end
 
-  let(:profile) { create_profile email: 'profile@gmail.com' }
   describe 'PUT #update_name' do
     subject { put 'update_name', id: profile.slug, profile_name: 'anotherName', format: :json }
 
@@ -130,7 +132,7 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'GET #edit_welcome_media' do
-    let!(:owner)  { create_profile email: 'owner@gmail.com' }
+    let!(:owner)  { create :user, :profile_owner }
     subject { get 'edit_welcome_media', id: owner.slug, format: :json }
 
     context 'authorized access' do
@@ -217,22 +219,25 @@ describe ::UsersController, type: :controller do
   end
 
   describe 'GET #search' do
-    let!(:profile1) { create_profile profile_name: 'serg', profile_picture_url: 'set', is_profile_owner: true }
-    subject(:perform_request) { get 'search', q: 'serg', format: :json }
+    let!(:not_matching) { create :user, :profile_owner, profile_name: 'serg' }
+    subject(:perform_request) { get 'search', q: 'sergei', format: :json }
+
+    before { update_index }
 
     context 'user is hidden' do
+      let!(:user) { create :user, :profile_owner, hidden: true, profile_name: 'sergei' }
+      before { update_index }
       before { perform_request }
 
       specify { expect(assigns('users')).to eq [] }
     end
 
     context 'user is not hidden' do
-      before do
-        UserProfileManager.new(profile1).toggle
-        perform_request
-      end
+      let!(:user) { create :user, :profile_owner, hidden: false, profile_name: 'sergei' }
+      before { update_index }
+      before { perform_request }
 
-      specify { expect(assigns('users')).to eq [profile1] }
+      specify { expect(assigns('users')).to eq [user] }
     end
 
     its(:status) { should == 200 }

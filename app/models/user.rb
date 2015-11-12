@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
   FAKE_TOKEN = 'fake'.freeze
   ROLE_FIELDS = {is_admin: 'admin', is_sales: 'sales'}.freeze
 
-  include PgSearch
   include Concerns::Subscribable
+  include Elasticpal::Indexable
 
   serialize :contacts_info, Hash
 
@@ -73,19 +73,15 @@ class User < ActiveRecord::Base
     end
   }
 
-  pg_search_scope :search_by_text_fields, against: [[:full_name, 'B'], [:profile_name, 'A'], [:profile_types_text, 'C']],
-                                        using: {
-                                          :tsearch => {:prefix => true},
-                                          :dmetaphone => {},
-                                          :trigram => {}
-                                        },
-                                        ignoring: :accents,
-                                        ranked_by: ":dmetaphone + (0.25 * :trigram) + (0.25 * users.subscribers_count)"
+  elastic_type do
+    field :full_name, :profile_name
+  end
 
-  pg_search_scope :search_by_admin_fields, against: [:full_name, :profile_name, :email],
-                  using: [:tsearch, :dmetaphone, :trigram],
-                  ignoring: :accents,
-                  ranked_by: ":dmetaphone + (0.25 * :trigram)"
+  elastic_type 'profiles' do
+    field :full_name, :profile_name, :profile_types_text
+    field :subscribers_count # used for boosting results
+    field :publicly_visible?
+  end
 
   def self.random_public_profile
     where(has_public_profile: true).order("random()").first
@@ -134,6 +130,12 @@ class User < ActiveRecord::Base
 
   def staff?
     roles.any?
+  end
+
+  def publicly_visible?
+    is_profile_owner? && has_complete_profile? &&
+      (subscribers_count > 0 || profile_picture_url.present?) &&
+        !(hidden? || has_mature_content?)
   end
 
   def cc_decline
@@ -302,7 +304,10 @@ class User < ActiveRecord::Base
   end
 
   def generate_slug
-    self.slug = sample_slug
+    unless slug.present?
+      self.slug = sample_slug
+    end
+
     true
   end
 
@@ -359,6 +364,10 @@ class User < ActiveRecord::Base
         user.send("#{key}=", val)
       end
     end
+  end
+
+  def profile_types_text
+    profile_types.map(&:title).join(', ')
   end
 
   def created_profile_page?

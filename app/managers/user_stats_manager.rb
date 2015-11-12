@@ -18,6 +18,7 @@ class UserStatsManager < BaseManager
 
     user.subscribers_count = subscriptions_count
     save_or_die! user
+    user.elastic_index_document
 
     stat_entry = SubscriptionDailyCountChangeEvent.where(created_on: current_date, user_id: user.id).first
 

@@ -9,7 +9,7 @@ describe WelcomeController, type: :controller do
       before { perform_request }
 
       context 'when has profile' do
-        let(:user) { create_profile }
+        let(:user) { create :user, :profile_owner }
 
         specify do
           expect(response).to redirect_to profile_path(user)

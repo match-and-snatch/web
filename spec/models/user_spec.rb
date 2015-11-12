@@ -1,6 +1,44 @@
 require 'spec_helper'
 
 describe User do
+  describe 'Elasticpal::Indexable' do
+    subject { Elasticpal::Query.new(model: User).search(match: {profile_name: 'Test'}) }
+
+    describe 'elastic_index_document' do
+      context 'with a not matching user in db' do
+        let!(:not_matching) { create :user }
+        let!(:user) { create :user, :profile_owner, profile_name: 'Test' }
+
+        before { update_index(not_matching, user) }
+
+        it 'finds the matching record' do
+          expect(subject.records).to eq([user])
+        end
+      end
+    end
+
+    describe '#elastic_delete_document' do
+      let!(:user) { create :user, :profile_owner, profile_name: 'Test' }
+
+      before do
+        update_index do
+          user.elastic_delete_document
+          refresh_index
+        end
+      end
+
+      it { expect(subject.records).to eq([]) }
+    end
+
+    describe '.elastic_bulk_index' do
+      let!(:first_user) { create(:user, :profile_owner, profile_name: 'Test') }
+      let!(:second_user) { create(:user, :profile_owner, profile_name: 'Test') }
+      before { update_index }
+
+      it { expect(subject.records).to match_array([second_user, first_user]) }
+    end
+  end
+
   describe '.create' do
     context 'profile owner' do
       it 'assigns slug' do
@@ -321,20 +359,6 @@ describe User do
           end
         end
       end
-    end
-  end
-
-  describe '.search_by_text_fields' do
-    let!(:matching_by_full_name) { create_user first_name: 'sergei', last_name: 'zinin' }
-    let!(:matching_by_profile_name) do
-      create_user(first_name: 'another', last_name: 'one', email: 'another@email.com').tap do |user|
-        UserProfileManager.new(user).update_profile_name('serge')
-      end
-    end
-    let!(:not_mathing) { create_user first_name: 'slava', last_name: 'popov', email: 'slava@gmail.com' }
-
-    specify do
-      expect(described_class.search_by_text_fields('sergei')).to eq [matching_by_profile_name, matching_by_full_name]
     end
   end
 
