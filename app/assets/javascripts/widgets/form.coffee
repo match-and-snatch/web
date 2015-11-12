@@ -21,7 +21,7 @@ class bud.widgets.Form extends bud.Widget
     @submit(after) unless @requesting
 
   submit: (after) ->
-    @after_once = after
+    @after_callback = after
     @$container.submit()
 
   on_submit: =>
@@ -80,9 +80,7 @@ class bud.widgets.Form extends bud.Widget
       @$submit_button.removeAttr('disabled')
     , 1000
 
-    if @after_once
-      @after_once()
-      @after_once = null
+    @after_callback?()
 
   on_fail: (response) =>
     if message = response['message']
