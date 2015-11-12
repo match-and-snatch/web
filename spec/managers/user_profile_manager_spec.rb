@@ -5,11 +5,10 @@ describe UserProfileManager do
   subject(:manager) { described_class.new(user) }
 
   describe '#add_profile_type' do
+    let(:user) { create(:user, :profile_owner) }
     let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
 
-    specify do
-      expect(user.profile_types).to be_empty
-    end
+    specify { expect(user.profile_types).to be_empty }
 
     specify do
       expect { manager.add_profile_type(profile_type.title) }.to change(user.profile_types, :count).from(0).to(1)
@@ -18,6 +17,10 @@ describe UserProfileManager do
 
     it 'creates added_profile_type event' do
       expect { manager.add_profile_type(profile_type.title) }.to create_event(:profile_type_added)
+    end
+
+    it 'indexes profile' do
+      expect { manager.add_profile_type(profile_type.title) }.to index_record(user).using_type('profiles')
     end
   end
 
@@ -44,6 +47,10 @@ describe UserProfileManager do
       let(:user) { create(:user, :profile_owner, hidden: true) }
 
       it { expect { manager.toggle }.to change { user.hidden? }.from(true).to(false) }
+
+      it 'indexes user' do
+        expect { manager.toggle }.to index_record(user).using_type('profiles')
+      end
     end
   end
 
@@ -52,6 +59,10 @@ describe UserProfileManager do
       let(:user) { create(:user, :profile_owner, has_mature_content: true) }
 
       it { expect { manager.toggle_mature_content }.to change { user.has_mature_content? }.from(true).to(false) }
+
+      it 'indexes user' do
+        expect { manager.toggle_mature_content }.to index_record(user).using_type('profiles')
+      end
     end
 
     context 'does not have mature content' do
@@ -306,9 +317,15 @@ describe UserProfileManager do
   end
 
   describe '#create_profile_page' do
+    let(:user) { create(:user, :profile_owner) }
+
     before { manager.delete_profile_page! }
 
     it { expect { manager.create_profile_page }.to change { user.is_profile_owner }.from(false).to(true) }
+
+    it 'indexes user' do
+      expect { manager.create_profile_page }.to index_record(user.reload).using_type('profiles')
+    end
   end
 
   describe '#delete_profile_page' do
