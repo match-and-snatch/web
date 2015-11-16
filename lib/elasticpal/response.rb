@@ -7,7 +7,7 @@ module Elasticpal
     end
 
     def records(scope = {})
-      results = @scope.where(scope).to_a
+      results = @scope.where(id: ids).where(scope).to_a
       ids.map do |id|
         results.find { |x| x.id == id }
       end.compact.sort do |r1, r2|
