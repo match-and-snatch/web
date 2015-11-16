@@ -125,10 +125,11 @@ module Elasticpal
       attr_reader :name, :types
 
       # @param name [String]
-      def initialize(name, &block)
+      # @param indexable_class [Class]
+      def initialize(name, indexable_class, &block)
         @name = name
         @types = []
-        instance_eval(&block) if block
+        indexable_class.instance_eval(&block) if block
       end
 
       def type(name = 'default', &block)
@@ -219,7 +220,7 @@ module Elasticpal
       #   end
       def elastic_index(name = nil, &block)
         name ||= elastic_default_index_name
-        elastic_indexes[name] = Index.new(name, &block)
+        elastic_indexes[name] = Index.new(name, self, &block)
       end
 
       # @param name [String]
@@ -239,7 +240,7 @@ module Elasticpal
       #     end
       #   end
       def elastic_type(name = 'default', &block)
-        elastic_indexes[elastic_default_index_name] ||= Index.new(elastic_default_index_name)
+        elastic_indexes[elastic_default_index_name] ||= Index.new(elastic_default_index_name, self)
         elastic_indexes[elastic_default_index_name].type(name, &block)
       end
 
