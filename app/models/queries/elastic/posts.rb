@@ -19,7 +19,7 @@ module Queries
                   ]
                 }
               },
-              filter: {term: filters}
+              filter: filters.map{|k, v| {term: {k => v}}}
             }
           },
           sort: [{created_at: {order: 'desc'}}]

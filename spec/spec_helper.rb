@@ -89,6 +89,7 @@ def update_index(*records)
     records.each(&:elastic_index_document)
   else
     User.elastic_bulk_index
+    Post.elastic_bulk_index
   end
   refresh_index
   yield if block_given?
