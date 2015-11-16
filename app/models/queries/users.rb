@@ -40,6 +40,8 @@ module Queries
 
       if letter.include?('0')
         base_query.where("users.profile_name SIMILAR TO '[0-9]%'")
+      elsif letter.include?('~')
+        base_query.where("users.profile_name SIMILAR TO '[^0-9a-zA-Z]%'")
       else
         base_query.where(['users.profile_name ILIKE ?', "#{letter}%"])
       end.order(:profile_name)
