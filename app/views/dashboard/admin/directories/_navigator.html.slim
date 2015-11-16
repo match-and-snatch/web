@@ -3,7 +3,7 @@ h1 Profiles directory
 .AjaxContainer data-url=public_admin_profiles_path
 
 ul.search_directory
-  - (('A'..'Z').to_a << '0-9').each do |letter|
+  - (('A'..'Z').to_a << '0-9' << '~').each do |letter|
     li
       a.HistoryLink href=admin_directory_path(id: letter) = letter
 .clearfix
