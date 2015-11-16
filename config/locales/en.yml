@@ -5,6 +5,7 @@ en:
     taken: This is already taken by someone else.
     too_short: Please enter at least %{minimum} characters.
     too_long: Seems to be too long.
+    too_large: Seems to be too large.
     does_not_match_password: Does not match password.
     zero: Must be greater than zero.
     not_a_slug: Must contain only a-z characters and dashes.

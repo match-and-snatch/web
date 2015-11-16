@@ -164,6 +164,19 @@ class UploadManager < BaseManager
   end
 
   # @param transloadit_data [Hash]
+  # @return [Upload]
+  def create_welcome_media(transloadit_data)
+    mimetype = transloadit_data['uploads'][0]['type']
+    if mimetype == 'video'
+       create_video(transloadit_data, template: 'welcome_media')
+     elsif mimetype == 'audio'
+       create_audio(transloadit_data, template: 'welcome_media').first
+    end
+  rescue => e
+    throw_an_error(e: e, transloadit_data: transloadit_data)
+  end
+
+  # @param transloadit_data [Hash]
   # @param uploadable [ActiveRecord::Base]
   # @param attributes [Hash] upload attributes
   # @return [Upload]
