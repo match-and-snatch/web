@@ -7,6 +7,19 @@ class CurrentUserDecorator < UserDecorator
     @object = user || User.new
   end
 
+  def dialogues
+    object.dialogues
+      .not_removed
+      .includes(recent_message: :user)
+      .order(recent_message_at: :desc)
+      .limit(200).to_a.tap do |result|
+      result.keep_if! do |dialogue|
+        antiuser = dialogue.antiuser(object)
+        object.subscribed_to?(antiuser) || antiuser.subscribed_to?(object)
+      end
+    end
+  end
+
   # @return [Symbol]
   def lock_reason
     if object.lock_reason.present?
