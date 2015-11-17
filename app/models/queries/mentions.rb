@@ -12,25 +12,13 @@ module Queries
 
     def by_name
       return [] if @query.length < 2
-
-      results = if @profile_id
-                  if @current_user.id == @profile_id
-                    users.merge!(users.joins(:subscriptions).where(subscriptions: {target_user_id: @profile_id}))
-                  else
-                    users.merge!(users.joins("LEFT OUTER JOIN subscriptions ON subscriptions.user_id = users.id")
-                                      .where(["subscriptions.target_user_id = ? OR users.id = ?", @profile_id, @profile_id])
-                                      .group("users.id"))
-                  end
-                else
-                  users
-                end
-      limit(results, 5)
+      users
     end
 
     private
 
     def users
-      @users = Queries::Elastic::Users.new.search(@query).relation(["users.id != ?", @current_user.id]).limit(5)
+      @users = Queries::Elastic::Mentions.search(@query, profile_id: @profile_id).records(['users.id <> ?', @current_user.id])
     end
   end
 end

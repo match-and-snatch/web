@@ -215,6 +215,8 @@ class SubscriptionManager < BaseManager
     # Any subscriber should be activated
     UserManager.new(@subscriber).activate
 
+    @subscriber.elastic_index_document(type: 'mentions')
+
     @subscription
   end
 

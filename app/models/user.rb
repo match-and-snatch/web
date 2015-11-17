@@ -70,6 +70,13 @@ class User < ActiveRecord::Base
     field :publicly_visible?
   end
 
+  elastic_type 'mentions' do
+    field :full_name, :profile_name
+    field :subscription_target_user_ids do
+      subscriptions.map(&:target_user_id) << id
+    end
+  end
+
   def self.random_public_profile
     where(has_public_profile: true).order("random()").first
   end
