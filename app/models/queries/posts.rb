@@ -16,7 +16,11 @@ module Queries
     def results
       @results ||= begin
                      if @query.present?
-                       posts = matching_posts.records
+                       posts = if @start_id.present?
+                                 matching_posts.records(['id < ?', @start_id])
+                               else
+                                 matching_posts.records
+                               end
                      else
                        posts = recent_posts
                        posts = posts.where(['id < ?', @start_id]) if @start_id.present?

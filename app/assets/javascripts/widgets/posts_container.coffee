@@ -40,7 +40,7 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
 
   request_params: ->
     result = {last_post_id: @last_post_id}
-    if !_.isEmpty(@q)
+    unless _.isEmpty(@q)
       result['q'] = @q
     result
 
