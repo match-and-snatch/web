@@ -1,65 +1,54 @@
 require 'spec_helper'
 
 describe PostManager, freeze: true do
-  let(:user) { create_user }
-  subject(:manager) { described_class.new(user: user) }
+  let(:user) { create(:user, :profile_owner) }
+  let(:post) { create(:status_post, user: user, message: 'test') }
 
-  describe '#create' do
-    specify do
-      expect(manager.create_status_post(message: 'some text')).to be_a Post
-    end
+  subject(:manager) { described_class.new(user: user, post: post) }
 
-    specify do
-      expect(manager.create_status_post(message: 'some text')).to be_persisted
-    end
+  describe '#create_status_post' do
+    subject(:manager) { described_class.new(user: user) }
 
-    specify do
-      expect { manager.create_status_post(message: 'some text') }.to change { user.reload.last_post_created_at }.from(nil)
-    end
-
+    it { expect(manager.create_status_post(message: 'some text')).to be_a(Post) }
+    it { expect(manager.create_status_post(message: 'some text')).to be_persisted }
+    it { expect { manager.create_status_post(message: 'some text') }.to change { user.reload.last_post_created_at }.from(nil) }
     it 'creates status_post_created event' do
       expect { manager.create_status_post(message: 'some text') }.to create_event(:status_post_created)
     end
   end
 
   describe '#hide' do
-    let(:post) { manager.create_status_post(message: 'test') }
-    let(:hiding_manager) { described_class.new(user: user, post: post) }
+    before { user.denormalize_last_post_created_at!(post.created_at) }
 
-    specify do
-      expect { hiding_manager.hide }.to change { user.reload.last_post_created_at }.from(post.created_at).to(nil)
+    it { expect { manager.hide }.to change { user.last_post_created_at }.from(post.created_at).to(nil) }
+    it 'indexes post' do
+      expect { manager.hide }.to index_record(post).using_index('posts')
     end
   end
 
   describe '#show' do
-    let(:post) { manager.create_status_post(message: 'test') }
-    let(:hiding_manager) { described_class.new(user: user, post: post) }
+    before { manager.hide }
 
-    before do
-      hiding_manager.hide
-    end
-
-    specify do
-      expect { hiding_manager.show }.to change { user.reload.last_post_created_at }.from(nil).to(post.created_at)
+    it { expect { manager.show }.to change { user.last_post_created_at }.from(nil).to(post.created_at) }
+    it 'indexes post' do
+      expect { manager.hide }.to index_record(post).using_index('posts')
     end
   end
 
   describe '#update' do
     context 'status post' do
-      let(:post) { manager.create_status_post(message: 'test') }
-
-      specify do
-        expect { manager.update(title: 'test', message: 'updated') }.to change { post.reload.message }.to('updated')
-      end
-
-      specify do
-        expect { manager.update(title: 'test', message: 'updated') }.not_to change { post.reload.title }.from(nil)
+      it { expect { manager.update(title: 'test', message: 'updated') }.to change { post.reload.message }.to('updated') }
+      it { expect { manager.update(title: 'test', message: 'updated') }.not_to change { post.reload.title }.from(nil) }
+      it 'indexes post' do
+        expect { manager.update(title: 'test', message: 'updated') }.to index_record(post).using_index('posts')
       end
     end
 
     context 'photo post' do
       let!(:photo) { UploadManager.new(user).create_pending_photos(transloadit_photo_data_params).first }
       let!(:post) { manager.create_photo_post(title: 'test', message: 'test') }
+
+      subject(:manager) { described_class.new(user: user) }
 
       it { expect { manager.update(title: 'updated', message: 'updated') }.to change { post.reload.title }.to('updated') }
       it { expect { manager.update(title: 'updated', message: 'updated') }.to change { post.reload.message }.to('updated') }
@@ -75,38 +64,25 @@ describe PostManager, freeze: true do
         expect { manager.update(title: 'updated', message: 'updated', upload_ids: []) }.to delete_record(Photo).matching(id: photo.id)
       end
 
+      it 'indexes post' do
+        expect { manager.update(title: 'updated', message: 'updated') }.to index_record(post).using_index('posts')
+      end
     end
   end
 
   describe '#update_pending' do
-    specify do
-      expect(manager.update_pending(message: 'message', keywords: 'keyword')).to be_a PendingPost
-    end
+    subject(:manager) { described_class.new(user: user) }
 
-    specify do
-      expect(manager.update_pending(message: 'message', keywords: 'keyword')).to be_persisted
-    end
-
-    specify do
-      expect(manager.update_pending(message: 'message', keywords: 'keyword').message).to eq('message')
-    end
-
-    specify do
-      expect(manager.update_pending(message: 'message', keywords: 'keyword').user).to eq(user)
-    end
+    it { expect(manager.update_pending(message: 'message', keywords: 'keyword')).to be_a(PendingPost) }
+    it { expect(manager.update_pending(message: 'message', keywords: 'keyword')).to be_persisted }
+    it { expect(manager.update_pending(message: 'message', keywords: 'keyword').message).to eq('message') }
+    it { expect(manager.update_pending(message: 'message', keywords: 'keyword').user).to eq(user) }
 
     context 'already created' do
-      before do
-        manager.update_pending(message: 'message', keywords: 'keyword')
-      end
+      before { manager.update_pending(message: 'message', keywords: 'keyword') }
 
-      specify do
-        expect { manager.update_pending(message: 'new one') }.to change { user.pending_post.message }.from('message').to('new one')
-      end
-
-      specify do
-        expect { manager.update_pending(keywords: 'new one') }.to change { user.pending_post.keywords }.from('keyword').to('new one')
-      end
+      it { expect { manager.update_pending(message: 'new one') }.to change { user.pending_post.message }.from('message').to('new one') }
+      it { expect { manager.update_pending(keywords: 'new one') }.to change { user.pending_post.keywords }.from('keyword').to('new one') }
     end
   end
 end

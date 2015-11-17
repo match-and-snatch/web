@@ -21,4 +21,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.synced_folder ".", "/home/vagrant/app"
+
+  config.ssh.forward_agent = true
 end
