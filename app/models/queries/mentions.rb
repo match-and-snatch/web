@@ -1,5 +1,6 @@
 module Queries
   class Mentions < BaseQuery
+
     # @param query [String]
     # @param current_user [User]
     # @param profile_id [String]
@@ -10,9 +11,11 @@ module Queries
     end
 
     def by_name
+      return [] if @query.length < 2
+
       results = if @profile_id
                   if @current_user.id == @profile_id
-                    users.merge!(users.joins(:subscriptions).where(subscriptions: { target_user_id: @profile_id }))
+                    users.merge!(users.joins(:subscriptions).where(subscriptions: {target_user_id: @profile_id}))
                   else
                     users.merge!(users.joins("LEFT OUTER JOIN subscriptions ON subscriptions.user_id = users.id")
                                       .where(["subscriptions.target_user_id = ? OR users.id = ?", @profile_id, @profile_id])
