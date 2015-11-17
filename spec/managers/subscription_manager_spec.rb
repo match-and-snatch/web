@@ -129,7 +129,12 @@ describe SubscriptionManager do
       it { should_not be_new_record }
 
       specify do
-        expect { manager.subscribe_to(another_user) }.to change { Subscription.count }.by(1)
+        expect { manager.subscribe_to(another_user) }.to create_record(Subscription)
+          .once.matching(target_user_id: another_user.id, user_id: subscriber.id)
+      end
+
+      specify do
+        expect { manager.subscribe_to(another_user) }.to index_record(subscriber).using_index('users').using_type('mentions')
       end
 
       context 'fake' do

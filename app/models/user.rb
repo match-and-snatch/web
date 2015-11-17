@@ -59,19 +59,6 @@ class User < ActiveRecord::Base
   scope :with_complete_profile, -> { where(has_complete_profile: true) }
   scope :by_email, -> (email) { where(['email ILIKE ?', email]) }
   scope :top, -> { profile_owners.joins(:top_profile).order('top_profiles.position') }
-  scope :mentions, -> (current_user: , query: , profile_id: nil) {
-    where.not(id: current_user.id).search_by_text_fields(query).limit(5).tap do |users|
-      if profile_id
-        if current_user.id == profile_id.to_i
-          users.merge! users.joins(:subscriptions).where(subscriptions: {target_user_id: profile_id})
-        else
-          users.merge! users.joins("LEFT OUTER JOIN subscriptions ON subscriptions.user_id = users.id")
-                            .where(["subscriptions.target_user_id = ? OR users.id = ?", profile_id, profile_id])
-                            .group("users.id, pg_search.rank")
-        end
-      end
-    end
-  }
 
   elastic_type do
     field :full_name, :profile_name
@@ -81,6 +68,13 @@ class User < ActiveRecord::Base
     field :full_name, :profile_name, :profile_types_text
     field :subscribers_count # used for boosting results
     field :publicly_visible?
+  end
+
+  elastic_type 'mentions' do
+    field :full_name, :profile_name
+    field :subscription_target_user_ids do
+      subscriptions.map(&:target_user_id) << id
+    end
   end
 
   def self.random_public_profile

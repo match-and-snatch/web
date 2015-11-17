@@ -9,5 +9,10 @@ namespace :index do
     User.unscoped.elastic_bulk_index(type: 'default')
   end
 
-  task all: [:profiles_autocomplete, :users_autocomplete]
+  desc 'Index user metions per subscription'
+  task mentions: :environment do
+    Queries::Elastic::Mentions.new.scope.includes(:subscriptions).elastic_bulk_index(type: 'mentions')
+  end
+
+  task all: %i[profiles_autocomplete mentions users_autocomplete]
 end
