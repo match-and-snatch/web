@@ -166,6 +166,7 @@ class PostManager < BaseManager
     if Rails.env.production?
       UploadManager.delay.remove_post_uploads(ids: post.uploads.pluck(:id)) unless post.status?
     end
+    post.elastic_delete_document
     post.destroy.tap do
       user.denormalize_last_post_created_at!
     end

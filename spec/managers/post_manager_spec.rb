@@ -85,4 +85,13 @@ describe PostManager, freeze: true do
       it { expect { manager.update_pending(keywords: 'new one') }.to change { user.pending_post.keywords }.from('keyword').to('new one') }
     end
   end
+
+  describe '#delete' do
+    let(:another_post) { create(:status_post, user: user, message: 'another test') }
+
+    before { update_index another_post }
+
+    it { expect { manager.delete(another_post) }.to delete_record(StatusPost) }
+    it { expect { manager.delete(another_post) }.to delete_record_index_document(another_post).from_index('posts') }
+  end
 end
