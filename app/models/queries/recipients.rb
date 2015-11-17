@@ -1,5 +1,5 @@
 module Queries
-  class Recipients
+  class Recipients < BaseQuery
     # @param query [String]
     # @param user [User]
     def initialize(query: '', user: nil)
@@ -12,18 +12,19 @@ module Queries
       when 0, 1
         User.none
       when 2
-        base_query.where(['users.profile_name ILIKE ?', "%#@query%"]).order('subscribers_count DESC').limit(5)
+        limit(User.where(recipients_ids).where(['users.profile_name ILIKE ?', "%#@query%"]).order(subscribers_count: :desc), 5)
       else
-        base_query.search_by_text_fields(@query).limit(5).to_a
+        limit(Queries::Elastic::Users.new.search(@query).records(recipients_ids), 5)
       end
     end
 
     private
 
-    def base_query
-      t = Subscription.arel_table
-      ids ||= Subscription.where(t[:user_id].eq(@user.id).or(t[:target_user_id].eq(@user.id))).pluck(:user_id, :target_user_id).flatten.uniq - [@user.id]
-      User.where(id: ids)
+    def recipients_ids
+      {}.tap do |data|
+        t = Subscription.arel_table
+        data[:id] ||= Subscription.where(t[:user_id].eq(@user.id).or(t[:target_user_id].eq(@user.id))).pluck(:user_id, :target_user_id).flatten.uniq - [@user.id]
+      end
     end
   end
 end
