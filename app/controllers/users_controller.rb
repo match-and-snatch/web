@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   end
 
   def mentions
-    @users = User.mentions(current_user: current_user, profile_id: params[:profile_id], query: params[:q]).to_a
+    @users = Queries::Mentions.new(current_user: current_user, profile_id: params[:profile_id], query: params[:q]).by_name
     json_replace
   end
 
