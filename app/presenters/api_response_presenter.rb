@@ -41,7 +41,7 @@ class ApiResponsePresenter
       profile_enabled: user.profile_enabled?,
       passed_profile_steps: user.passed_profile_steps?,
       profile_name: user.profile_name,
-      is_admin: user.is_admin,
+      is_staff: user.staff?,
       contacts_info: user.contacts_info,
       cost: user.cost,
       subscription_fees: user.subscription_fees,

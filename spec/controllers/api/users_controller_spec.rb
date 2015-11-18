@@ -113,7 +113,7 @@ describe Api::UsersController, type: :controller do
       end
 
       context 'valid token' do
-        let(:api_user) { create_user email: 'api@user.ru', api_token: 'test_token' }
+        let(:api_user) { create :user, email: 'api@user.ru', api_token: 'test_token' }
         let(:token) { api_user.api_token }
 
         its(:status) { is_expected.to eq(200) }
@@ -129,5 +129,24 @@ describe Api::UsersController, type: :controller do
     its(:status) { is_expected.to eq(200) }
     its(:body) { is_expected.to include 'success' }
     its(:body) { is_expected.to include 'data' }
+  end
+
+  describe 'POST #login_as' do
+    let(:another_user) { create(:user, :profile_owner) }
+    let(:user) { create(:user) }
+
+    subject { post 'login_as', id: another_user.slug, format: :json }
+
+    before { sign_in_with_token(user.api_token) }
+
+    it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
+
+    context 'user is admin' do
+      let(:user) { create(:user, :admin) }
+
+      its(:status) { is_expected.to eq(200) }
+      its(:body) { is_expected.to include 'success' }
+      its(:body) { is_expected.to include 'data' }
+    end
   end
 end
