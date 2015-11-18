@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Api::DialoguesController, type: :controller do
-  let(:user) { create_user api_token: 'token' }
-  let(:friend) { create_user email: 'sender@gmail.com', api_token: 'friend_token' }
+  let(:user) { create(:user, api_token: 'token') }
+  let(:friend) { create(:user, email: 'sender@gmail.com', api_token: 'friend_token') }
   let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
 
   describe 'GET #index' do
@@ -132,7 +132,7 @@ describe Api::DialoguesController, type: :controller do
       end
 
       context 'as anybody else' do
-        let(:anybody) { create_user email: 'anybody@else.com', api_token: 'anybody' }
+        let(:anybody) { create(:user, email: 'anybody@else.com', api_token: 'anybody') }
 
         before { sign_in_with_token anybody.api_token }
 
