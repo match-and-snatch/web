@@ -297,12 +297,12 @@ class UserProfileManager < BaseManager
   # @param cost_change_requets [CostChangeRequest]
   # @param cost [Integer]
   def rollback_cost!(cost_change_request, cost: )
-    cost = cost || (cost_change_request.old_cost / 100)
+    if cost_change_request.old_cost.nil? || cost
+      validate! { validate_cost cost }
 
-    validate! { validate_cost cost }
-
-    user.cost = (cost.to_f * 100).to_i
-    save_or_die! user
+      user.cost = (cost.to_f * 100).to_i
+      save_or_die! user
+    end
 
     cost_change_request.reject!
   end

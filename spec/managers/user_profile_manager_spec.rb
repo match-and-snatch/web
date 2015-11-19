@@ -1176,31 +1176,25 @@ describe UserProfileManager do
     let(:request) { user.cost_change_requests.last }
 
     context 'new user with large cost' do
-      let(:user) { create_profile cost: 35 }
+      let(:user) { create_profile(cost: 35) }
 
-      specify do
-        expect { manager.rollback_cost!(request, cost: nil) }.to raise_error
-      end
-      specify do
-        expect { manager.rollback_cost!(request, cost: 20) }.to change { request.rejected? }.from(false).to(true)
-      end
+      it { expect { manager.rollback_cost!(request, cost: nil) }.to raise_error(ManagerError) }
+      it { expect { manager.rollback_cost!(request, cost: 20) }.to change { request.rejected? }.from(false).to(true) }
       it 'sets specified new cost' do
         expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(3500).to(2000)
       end
     end
 
     context 'existing user tries to change his cost' do
-      let(:user) { create :user, :profile_owner, cost: 500 }
+      let(:user) { create(:user, :profile_owner, cost: 500, subscription_fees: 123) }
+
       before { manager.update_cost(45) }
 
-      specify do
-        expect { manager.rollback_cost!(request, cost: nil) }.not_to raise_error
-      end
-      specify do
-        expect { manager.rollback_cost!(request, cost: nil) }.to change { request.rejected? }.from(false).to(true)
-      end
-      it 'sets old cost if new is not provided' do
+      it { expect { manager.rollback_cost!(request, cost: nil) }.not_to raise_error }
+      it { expect { manager.rollback_cost!(request, cost: nil) }.to change { request.rejected? }.from(false).to(true) }
+      it 'does not change old cost if new is not provided' do
         expect { manager.rollback_cost!(request, cost: nil) }.not_to change { user.cost }.from(500)
+        expect { manager.rollback_cost!(request, cost: nil) }.not_to change { user.subscription_fees }.from(123)
       end
       it 'sets specified new cost' do
         expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(500).to(2000)
