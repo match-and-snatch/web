@@ -18,8 +18,6 @@ class Post < ActiveRecord::Base
     end
   end
 
-  scope :recent, -> (limit = 5) { order('created_at DESC, id DESC').limit(limit) }
-
   # @param user [User]
   # @return [Array<Upload>]
   def self.pending_uploads_for(user)

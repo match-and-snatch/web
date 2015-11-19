@@ -14,7 +14,6 @@ describe Queries::Posts do
     before { update_index }
 
     context 'query is present' do
-
       it { expect(subject.results).to match_array([first_post, second_post]) }
 
       context 'tagged post' do
@@ -37,16 +36,6 @@ describe Queries::Posts do
     end
   end
 
-  describe '#autocomplete?' do
-    it { expect(subject.autocomplete?).to eq(true) }
-
-    context 'blank query' do
-      subject { described_class.new }
-
-      it { expect(subject.autocomplete?).to eq(false) }
-    end
-  end
-
   describe '#last_post_id' do
     pending
   end
@@ -54,7 +43,7 @@ describe Queries::Posts do
   describe '#user_input?' do
     it { expect(described_class.new.user_input?).to eq(false) }
     it { expect(described_class.new(query: 'test').user_input?).to eq(true) }
-    it { expect(described_class.new(start_id: 1).user_input?).to eq(false) }
-    it { expect(described_class.new(query: 'test', start_id: 1).user_input?).to eq(false) }
+    it { expect(described_class.new(page: 2).user_input?).to eq(false) }
+    it { expect(described_class.new(query: 'test', page: 2).user_input?).to eq(false) }
   end
 end

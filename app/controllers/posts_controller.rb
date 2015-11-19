@@ -11,7 +11,7 @@ class PostsController < ApplicationController
   protect(:edit, :update, :hide, :make_visible) { can? :manage, @post }
 
   def index
-    query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], start_id: params[:last_post_id])
+    query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], page: params[:page])
     resp = {last_post_id: query.last_post_id}
     @posts = query.results
 
