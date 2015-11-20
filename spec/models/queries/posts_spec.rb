@@ -2,42 +2,75 @@ require 'spec_helper'
 
 describe Queries::Posts do
   let(:user) { create(:user, :profile_owner) }
+  let(:query) { 'test' }
 
-  subject { described_class.new(user: user, query: 'test') }
+  subject { described_class.new(user: user, query: query) }
 
   describe '#results' do
-    let!(:first_post) { create(:status_post, user: user, message: 'test') }
-    let!(:second_post) { create(:status_post, user: user, message: 'test') }
+    let!(:first_post)   { Timecop.freeze(3.days.from_now) { create(:status_post, user: user, message: 'test') } }
+    let!(:second_post)  { Timecop.freeze(2.days.from_now) { create(:status_post, user: user, message: 'test') } }
+    let!(:third_post)   { Timecop.freeze(1.days.from_now) { create(:status_post, user: user, message: 'test') } }
     let!(:another_post) { create(:status_post, user: user, message: 'some another post') }
-    let!(:hidden_post) { create(:status_post, user: user, message: 'hidden post', hidden: true) }
+    let!(:hidden_post)  { create(:status_post, user: user, message: 'hidden post', hidden: true) }
 
     before { update_index }
 
     context 'query is present' do
-      it { expect(subject.results).to match_array([first_post, second_post]) }
+      it { expect(subject.results).to match_array([second_post, first_post, third_post]) }
 
       context 'tagged post' do
-        pending
+        let(:query) { '#status' }
+
+        it { expect(subject.results).to eq([first_post, second_post, third_post, another_post]) }
+
+        context 'wrong tag' do
+          let(:query) { '#tag' }
+
+          it { expect(subject.results).to be_empty }
+        end
+      end
+
+      context 'page is present' do
+        it do
+          expect(described_class.new(user: user, query: query, page: 1, limit: 2).results).to match_array([second_post, first_post])
+          expect(described_class.new(user: user, query: query, page: 2, limit: 2).results).to match_array([third_post])
+        end
       end
     end
 
     context 'blank query' do
       subject { described_class.new(user: user, current_user: user) }
 
-      it { expect(subject.results).to match_array([first_post, second_post, another_post]) }
+      it { expect(subject.results).to match_array([first_post, second_post, third_post, another_post]) }
 
       context 'include hidden' do
         let(:another_user) { create(:user) }
 
         subject { described_class.new(user: user, current_user: another_user) }
 
-        it { expect(subject.results).to match_array([first_post, second_post, another_post, hidden_post]) }
+        it { expect(subject.results).to match_array([first_post, second_post, third_post, another_post, hidden_post]) }
       end
     end
   end
 
   describe '#last_post_id' do
-    pending
+    let!(:post) { create(:status_post, user: user, message: 'post') }
+
+    before { update_index }
+
+    it { expect(subject.last_post_id).to be_nil }
+
+    context 'no query' do
+      let(:query) { nil }
+
+      it { expect(subject.last_post_id).to eq(post.id) }
+    end
+
+    context 'posts present' do
+      let(:query) { 'post' }
+
+      it { expect(subject.last_post_id).to eq(post.id) }
+    end
   end
 
   describe '#user_input?' do
