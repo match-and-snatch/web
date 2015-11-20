@@ -10,6 +10,7 @@
 - [Ruby](https://www.ruby-lang.org/en/)
 - [Rails](http://guides.rubyonrails.org/)
 - [PostgreSQL](www.postgresql.org)
+- [ElasticSearch](https://www.elastic.co)
 - [RSpec](http://rspec.info/)
 - [Stripe](stripe.com)
 - [Transloadit](https://transloadit.com)
@@ -33,6 +34,7 @@
 - Checkout development branch `git checkout development`.
 - Install [Ruby 2.2.3](http://rvm.io/).
 - Setup [Postgres App](http://postgresapp.com/). >= v.9.3
+- Setup [Elastic Search](https://www.elastic.co). >= 2.0
 - Setup Guard (if you use it).
 - Run `bundle install`.
 - Create `config/database.yml` using [config/database.yml.example](config/database.yml.example) file.
