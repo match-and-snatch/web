@@ -11,16 +11,11 @@ class PaymentManager < BaseManager
     fail_with! 'Credit card is declined' if @user.cc_declined?
     fail_with! 'Account locked' if @user.locked?
 
-    statement = statement_description.to_s.gsub(/\W+/, '')
-                  .gsub(/xxx/i, 'yyy')
-                  .gsub(/porn/i, 'corn')
-                  .gsub(/sex/i, 'cookies')
-
     Stripe::Charge.create amount: amount,
                           customer: (customer || user.try(:stripe_user_id)),
                           currency: 'usd',
-                          description: description,
-                          statement_description: statement.first(14),
+                          description: cut_adult_words(description),
+                          statement_description: cut_adult_words(statement_description).gsub(/\W+/, '').first(14),
                           metadata: metadata
   end
 
@@ -111,5 +106,12 @@ class PaymentManager < BaseManager
 
     EventsManager.payment_failed(user: user, payment_failure: failure)
     failure
+  end
+
+  def cut_adult_words(sentence = nil)
+    sentence.to_s
+        .gsub(/xxx/i, '')
+        .gsub(/porn/i, 'corn')
+        .gsub(/sex/i, 'cookies')
   end
 end
