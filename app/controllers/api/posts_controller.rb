@@ -8,7 +8,7 @@ class Api::PostsController < Api::BaseController
   protect(:destroy_upload) { can? :manage, @post }
 
   def index
-    query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], start_id: params[:last_post_id], limit: params[:limit])
+    query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], page: params[:page], limit: params[:limit])
     @posts = query.results.map { |p| api_response.post_data(p) }
     json_success posts: @posts, last_post_id: query.last_post_id
   end

@@ -11,6 +11,7 @@ class PostManager < BaseManager
   def show
     @post.hidden = false
     @post.save or fail_with! @post.errors
+    @post.elastic_index_document
     user.denormalize_last_post_created_at!
     @post
   end
@@ -18,6 +19,7 @@ class PostManager < BaseManager
   def hide
     @post.hidden = true
     @post.save or fail_with! @post.errors
+    @post.elastic_index_document
     user.denormalize_last_post_created_at!
     EventsManager.post_hidden(user: @user, post: @post)
     @post
@@ -35,6 +37,7 @@ class PostManager < BaseManager
     @post.title = title unless title == :unset
     @post.message = CGI.escapeHTML(message)
     @post.save or fail_with!(@post.errors)
+    @post.elastic_index_document
     EventsManager.post_updated(user: @user, post: @post)
 
     if upload_ids.is_a?(Array)
@@ -56,6 +59,7 @@ class PostManager < BaseManager
 
     @post = StatusPost.new(user: user, message: message).tap do |post|
       post.save or fail_with! post.errors
+      post.elastic_index_document
       EventsManager.post_created(user: user, post: post)
       StatusFeedEvent.create! subscription_target_user: user, target: post, data: {message: message}
       user.pending_post.try(:destroy!)
@@ -162,6 +166,7 @@ class PostManager < BaseManager
     if Rails.env.production?
       UploadManager.delay.remove_post_uploads(ids: post.uploads.pluck(:id)) unless post.status?
     end
+    post.elastic_delete_document
     post.destroy.tap do
       user.denormalize_last_post_created_at!
     end
@@ -176,6 +181,7 @@ class PostManager < BaseManager
       @post.type = 'StatusPost'
       @post.title = nil
       @post.save or fail_with! @post.errors
+      @post.elastic_index_document
       @post
     end
   end
@@ -207,6 +213,7 @@ class PostManager < BaseManager
 
     @post = post_class.new(user: user, message: message, title: title, keywords_text: keywords_text).tap do |post|
       post.save or fail_with! post.errors
+      post.elastic_index_document
       uploads.each { |upload| post.uploads << upload }
       user.pending_post.try(:destroy!)
       user.denormalize_last_post_created_at!(post.created_at)

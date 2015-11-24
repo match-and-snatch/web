@@ -16,7 +16,7 @@ class bud.widgets.Autocomplete extends bud.Widget
 
     @input.on 'input', =>
       @submit()
-      bud.pub('search.changed', [@recent_val])
+      bud.pub('search.changed', [@input.val()])
 
   submit: =>
     if @form_widget()

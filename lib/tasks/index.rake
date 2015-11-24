@@ -14,5 +14,10 @@ namespace :index do
     Queries::Elastic::Mentions.new.scope.includes(:subscriptions).elastic_bulk_index(type: 'mentions')
   end
 
-  task all: %i[profiles_autocomplete mentions users_autocomplete]
+  desc 'Index posts'
+  task posts: :environment do
+    Post.unscoped.elastic_bulk_index
+  end
+
+  task all: %i[profiles_autocomplete mentions users_autocomplete posts]
 end

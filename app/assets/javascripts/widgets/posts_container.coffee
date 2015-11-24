@@ -5,6 +5,7 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
 
   initialize: ->
     @pending = true
+    @current_page = 0
     super
     @ajaxify_links = false
     $(window).scroll @on_scroll
@@ -17,6 +18,7 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
     bud.unsub('search.changed', @on_search_changed)
 
   on_search_changed: (e, q) =>
+    @current_page = 1
     @q = q
 
   on_scroll: =>
@@ -35,12 +37,15 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
   on_response_received: (response) =>
     super
     @last_post_id = response['last_post_id']
+    @current_page += 1
     @disabled = !!!@last_post_id
     @pending = false
 
   request_params: ->
-    result = {last_post_id: @last_post_id}
-    if !_.isEmpty(@q)
+    result =
+      last_post_id: @last_post_id
+      page: @current_page + 1
+    unless _.isEmpty(@q)
       result['q'] = @q
     result
 

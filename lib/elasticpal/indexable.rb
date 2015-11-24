@@ -38,7 +38,14 @@ module Elasticpal
       private
 
       def each_index(&block)
-        @record.class.elastic_indexes.map do |_ ,index|
+        klass = case @record
+                when ActiveRecord::Base
+                  @record.class.base_class
+                else
+                  @record.class
+                end
+
+        klass.elastic_indexes.map do |_ ,index|
           block.call(index)
         end
       end
@@ -125,10 +132,9 @@ module Elasticpal
       attr_reader :name, :types
 
       # @param name [String]
-      def initialize(name, &block)
+      def initialize(name)
         @name = name
         @types = []
-        instance_eval(&block) if block
       end
 
       def type(name = 'default', &block)
@@ -219,7 +225,8 @@ module Elasticpal
       #   end
       def elastic_index(name = nil, &block)
         name ||= elastic_default_index_name
-        elastic_indexes[name] = Index.new(name, &block)
+        elastic_indexes[name] = Index.new(name)
+        instance_eval(&block) if block
       end
 
       # @param name [String]

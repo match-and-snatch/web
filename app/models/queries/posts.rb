@@ -3,31 +3,28 @@ module Queries
 
     # @param user [User]
     # @param query [String, nil]
-    # @param start_id [Integer, nil]
-    def initialize(user: nil, current_user: user, query: nil, start_id: nil, limit: nil)
+    # @param page [Integer, nil]
+    def initialize(user: nil, current_user: user, query: nil, page: nil, limit: nil)
       @user = user
       @current_user = current_user
       @query = query
-      @start_id = start_id
+      @page = [page.to_i, 1].max
       @limit = [limit.try(:to_i) || 5, 50].compact.min
     end
 
     # @return [Array<Post>]
     def results
       @results ||= begin
-        posts = @query.present? ? matching_posts : recent_posts
-        posts = posts.where(['id < ?', @start_id]) if @start_id.present?
-
-        if @user != @current_user
-          posts = posts.where(hidden: false)
-        end
-
-        posts
-      end.to_a
-    end
-
-    def autocomplete?
-      !@query.nil?
+                     if @query.present?
+                       if tagged?
+                         tagged_posts
+                       else
+                         matching_posts
+                       end
+                     else
+                       recent_posts
+                     end
+                   end.to_a
     end
 
     # @return [Integer, nil]
@@ -36,33 +33,43 @@ module Queries
     end
 
     def user_input?
-      !(not_a_first_page? || !autocomplete?)
+      @page == 1 && !@query.nil?
     end
 
     private
-
-    def not_a_first_page?
-      @start_id.present?
-    end
 
     def tagged?
       @query.include?('#')
     end
 
     def types
-      @query.split(/\W+/).map(&:singularize).map(&:camelize).map { |x| x << 'Post' } & %w(AudioPost VideoPost PhotoPost DocumentPost StatusPost)
+      @query
+          .split(/\W+/)
+          .map { |x| x.singularize.camelize << 'Post' } & %w(AudioPost VideoPost PhotoPost DocumentPost StatusPost)
     end
 
     def matching_posts
-      if tagged?
-        @user.posts.where(type: types).order('created_at DESC, id DESC').limit(5)
-      else
-        @user.posts.search_by_message(@query).limit(10)
-      end
+      Queries::Elastic::Posts.search(user_id: @user.id,
+                                     fulltext_query: @query,
+                                     include_hidden: include_hidden?,
+                                     from: (@page - 1) * @limit,
+                                     size: @limit).records
     end
 
-    def recent_posts
-      @user.posts.recent(@limit)
+    def tagged_posts
+      recent_posts(type: types)
+    end
+
+    def recent_posts(scope = {})
+      posts = @user.posts.where(scope)
+      unless include_hidden?
+        posts = posts.where(hidden: false)
+      end
+      posts.order(created_at: :desc).page(@page).per(@limit)
+    end
+
+    def include_hidden?
+      @user != @current_user
     end
   end
 end
