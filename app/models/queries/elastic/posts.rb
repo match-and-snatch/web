@@ -10,7 +10,7 @@ module Queries
 
         query = {multi_match: {
             query: fulltext_query,
-            fields: ["title^3", "message"]
+            fields: %w(title^3 message)
         }}
 
         unless filters.empty?
@@ -24,7 +24,8 @@ module Queries
           from: from,
           size: size,
           query: query,
-          sort: ["_score", {created_at: {order: 'desc'}}]
+          track_scores: true,
+          sort: [{created_at: {order: 'desc'}}]
         }
       end
     end

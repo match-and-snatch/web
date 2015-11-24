@@ -40,12 +40,11 @@ describe Queries::Posts do
       let(:second_post_message) { 'post test' }
       let(:third_post_message)  { 'message test' }
 
+      before { update_index }
+
       it do
-        # TODO: FIX IT
-        # expect(described_class.new(user: user, query: query, page: 1, limit: 2).results).to eq([first_post, third_post])
-        # expect(described_class.new(user: user, query: query, page: 2, limit: 2).results).to eq([second_post])
-        expect(described_class.new(user: user, query: query, page: 1, limit: 2).results.count).to eq(2)
-        expect(described_class.new(user: user, query: query, page: 2, limit: 2).results.count).to eq(1)
+        expect(described_class.new(user: user, query: query, page: 1, limit: 2).results).to match_array([first_post, second_post])
+        expect(described_class.new(user: user, query: query, page: 2, limit: 2).results).to match_array([third_post])
       end
     end
 

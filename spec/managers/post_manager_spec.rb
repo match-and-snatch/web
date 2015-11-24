@@ -7,13 +7,14 @@ describe PostManager, freeze: true do
   subject(:manager) { described_class.new(user: user, post: post) }
 
   describe '#create_status_post' do
-    subject(:manager) { described_class.new(user: user) }
+    subject { described_class.new(user: user).create_status_post(message: 'some text') }
 
-    it { expect(manager.create_status_post(message: 'some text')).to be_a(Post) }
-    it { expect(manager.create_status_post(message: 'some text')).to be_persisted }
-    it { expect { manager.create_status_post(message: 'some text') }.to change { user.reload.last_post_created_at }.from(nil) }
+    it { expect(subject).to be_persisted }
+
+    it { expect { subject }.to create_record(Post).matching(message: 'some text', user: user) }
+    it { expect { subject }.to change { user.reload.last_post_created_at }.from(nil) }
     it 'creates status_post_created event' do
-      expect { manager.create_status_post(message: 'some text') }.to create_event(:status_post_created)
+      expect { subject }.to create_event(:status_post_created)
     end
   end
 
@@ -37,49 +38,53 @@ describe PostManager, freeze: true do
 
   describe '#update' do
     context 'status post' do
-      it { expect { manager.update(title: 'test', message: 'updated') }.to change { post.reload.message }.to('updated') }
-      it { expect { manager.update(title: 'test', message: 'updated') }.not_to change { post.reload.title }.from(nil) }
+      subject { manager.update(title: 'test', message: 'updated') }
+
+      it { expect { subject }.to change { post.reload.message }.to('updated') }
+      it { expect { subject }.not_to change { post.reload.title }.from(nil) }
       it 'indexes post' do
-        expect { manager.update(title: 'test', message: 'updated') }.to index_record(post).using_index('posts')
+        expect { subject }.to index_record(post).using_index('posts')
       end
     end
 
     context 'photo post' do
       let!(:photo) { UploadManager.new(user).create_pending_photos(transloadit_photo_data_params).first }
       let!(:post) { manager.create_photo_post(title: 'test', message: 'test') }
+      let(:update_params) { { title: 'updated', message: 'updated' } }
 
       subject(:manager) { described_class.new(user: user) }
 
-      it { expect { manager.update(title: 'updated', message: 'updated') }.to change { post.reload.title }.to('updated') }
-      it { expect { manager.update(title: 'updated', message: 'updated') }.to change { post.reload.message }.to('updated') }
+      it { expect { manager.update(update_params) }.to change { post.reload.title }.to('updated') }
+      it { expect { manager.update(update_params) }.to change { post.reload.message }.to('updated') }
 
-      it { expect { manager.update(title: 'updated', message: 'updated') }.not_to delete_record(Photo) }
-      it { expect { manager.update(title: 'updated', message: 'updated', upload_ids: 123) }.not_to delete_record(Photo) }
+      it { expect { manager.update(update_params) }.not_to delete_record(Photo) }
+      it { expect { manager.update(update_params.merge(upload_ids: 123)) }.not_to delete_record(Photo) }
 
       it 'does not delete specified photo' do
-        expect { manager.update(title: 'updated', message: 'updated', upload_ids: [photo]) }.not_to delete_record(Photo).matching(id: photo.id)
+        expect { manager.update(update_params.merge(upload_ids: [photo])) }.not_to delete_record(Photo).matching(id: photo.id)
       end
 
       it 'delete all photos' do
-        expect { manager.update(title: 'updated', message: 'updated', upload_ids: []) }.to delete_record(Photo).matching(id: photo.id)
+        expect { manager.update(update_params.merge(upload_ids: [])) }.to delete_record(Photo).matching(id: photo.id)
       end
 
       it 'indexes post' do
-        expect { manager.update(title: 'updated', message: 'updated') }.to index_record(post).using_index('posts')
+        expect { manager.update(update_params) }.to index_record(post).using_index('posts')
       end
     end
   end
 
   describe '#update_pending' do
+    let(:update_params) { { message: 'message', keywords: 'keyword' } }
+
     subject(:manager) { described_class.new(user: user) }
 
-    it { expect(manager.update_pending(message: 'message', keywords: 'keyword')).to be_a(PendingPost) }
-    it { expect(manager.update_pending(message: 'message', keywords: 'keyword')).to be_persisted }
-    it { expect(manager.update_pending(message: 'message', keywords: 'keyword').message).to eq('message') }
-    it { expect(manager.update_pending(message: 'message', keywords: 'keyword').user).to eq(user) }
+    it { expect(manager.update_pending(update_params)).to be_persisted }
+
+    it { expect { manager.update_pending(update_params) }.to create_record(PendingPost).matching(message: 'message', keywords: 'keyword', user: user) }
 
     context 'already created' do
-      before { manager.update_pending(message: 'message', keywords: 'keyword') }
+      before { manager.update_pending(update_params) }
 
       it { expect { manager.update_pending(message: 'new one') }.to change { user.pending_post.message }.from('message').to('new one') }
       it { expect { manager.update_pending(keywords: 'new one') }.to change { user.pending_post.keywords }.from('keyword').to('new one') }
