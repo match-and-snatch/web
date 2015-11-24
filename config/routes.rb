@@ -14,6 +14,7 @@ BuddyPlatform::Application.routes.draw do
       end
 
       member do
+        post :login_as
         post :update_profile_name
         post :update_profile_picture
         post :update_cover_picture

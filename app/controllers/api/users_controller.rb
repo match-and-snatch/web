@@ -1,9 +1,10 @@
 class Api::UsersController < Api::BaseController
   include Transloadit::Rails::ParamsDecoder
 
-  before_action :load_user!, only: %i[show update_profile_name update_profile_picture update_cover_picture update_cover_picture_position update_cost]
+  before_action :load_user!, only: %i[show update_profile_name update_profile_picture update_cover_picture update_cover_picture_position update_cost login_as]
 
   protect(:update_profile_name, :update_profile_picture, :update_cover_picture, :update_cost) { current_user == @user }
+  protect(:login_as) { can?(:login_as, @user) }
 
   def index
     top_users = User.top
@@ -63,6 +64,11 @@ class Api::UsersController < Api::BaseController
   def mentions
     @users = Queries::Mentions.new(current_user: current_user, profile_id: params[:profile_id], query: params[:q]).by_name
     json_success api_response.mentions_data(@users)
+  end
+
+  def login_as
+    session_manager.login_as(current_user.object, @user)
+    json_success user: api_response.current_user_data(@user)
   end
 
   private
