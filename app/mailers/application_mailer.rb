@@ -1,4 +1,8 @@
 class ApplicationMailer < ActionMailer::Base
+  include CensorshipHelper
+
+  add_template_helper CensorshipHelper
+
   layout 'mail'
   default from: 'ConnectPal <noreply@connectpal.com>'
 
@@ -20,6 +24,8 @@ class ApplicationMailer < ActionMailer::Base
     unless Rails.env.production? || Rails.env.test?
       headers[:to] = "\"#{headers[:to]}\" <debug@connectpal.com>"
     end
+
+    headers[:subject] = cut_adult_words(headers[:subject])
 
     super(headers) do |format|
       block.call if block

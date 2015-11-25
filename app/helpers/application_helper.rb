@@ -116,8 +116,9 @@ module ApplicationHelper
   # @param user [User]
   # @param possessive [Boolean]
   # @param shorten [Boolean]
+  # @param hide_adult_words [Boolean]
   # @return [String, nil]
-  def link_to_user(user, possessive: false, shorten: false)
+  def link_to_user(user, possessive: false, shorten: false, hide_adult_words: false)
     return unless user
 
     user = user.object if user.kind_of? BaseDecorator
@@ -126,6 +127,10 @@ module ApplicationHelper
 
     if possessive
       name = name.possessive
+    end
+
+    if hide_adult_words
+      name = cut_adult_words(name)
     end
 
     if shorten && name.size > 13
