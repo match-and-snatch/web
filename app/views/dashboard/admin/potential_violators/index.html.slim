@@ -1,0 +1,40 @@
+h1 Potential violators
+
+.table-responsive
+  table.table.table-striped
+    th
+      strong #ID
+    th
+      strong Name
+    th
+      strong Email
+    th
+      strong Registered
+    th
+      strong Subscriptions
+    th
+      strong Lock
+    th
+      strong Billing Status
+
+    - @users.each do |user|
+      tr
+        td ##{user.id}
+        td
+          = dashboard_link_to_user user
+        td= user.email
+        td style='min-width: 100px'= user.created_at.try(:to_s, :short)
+        td
+          ul
+            - user.subscriptions.sort_by(&:created_at).each do |subscription|
+              li= link_to_user subscription.target_user, shorten: true
+        td
+          = user.lock_reason.humanize if user.locked?
+        td
+          - if user.billing_failed?
+            strong style='color: red; font-size: 14px' Failed
+          - else
+            small style='color: gray' Active
+  .clearfix
+
+.TopJumper= paginate @users
