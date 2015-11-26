@@ -129,7 +129,7 @@ module ApplicationHelper
     end
 
     if shorten && name.size > 13
-      name = "#{name.first(13)}..."
+      name = name.truncate(13)
       options[:title] = user.name
     else
       name = name.first(40)

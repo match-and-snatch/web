@@ -380,6 +380,7 @@ BuddyPlatform::Application.routes.draw do
       concerns :profile_owners_dashboard
 
       resources :potential_violators, only: [:index]
+      resources :potential_contribution_violators, only: [:index]
 
       resources :top_profiles, except: [:show, :new] do
         collection do
