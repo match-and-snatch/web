@@ -10,12 +10,13 @@ class CurrentUserDecorator < UserDecorator
   def dialogues
     object.dialogues
       .not_removed
-      .includes(recent_message: :user)
+      .includes(recent_message: [:user, :target_user])
       .order(recent_message_at: :desc)
       .limit(200).to_a.tap do |result|
-      result.keep_if! do |dialogue|
-        antiuser = dialogue.antiuser(object)
-        object.subscribed_to?(antiuser) || antiuser.subscribed_to?(object)
+      result.select! do |dialogue|
+        user = dialogue.recent_message.user
+        target_user = dialogue.recent_message.target_user
+        user.subscribed_to?(target_user) || target_user.subscribed_to?(user)
       end
     end
   end
