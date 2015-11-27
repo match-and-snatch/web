@@ -10,7 +10,7 @@ class Api::PostsController < Api::BaseController
   def index
     query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], page: params[:page], limit: params[:limit])
     @posts = query.results.map { |p| api_response.post_data(p) }
-    json_success posts: @posts, last_post_id: query.last_post_id
+    json_success posts: @posts, has_more: query.has_more?
   end
 
   def show

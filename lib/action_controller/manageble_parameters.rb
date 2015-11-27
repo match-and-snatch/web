@@ -25,5 +25,11 @@ module ActionController
         nil
       end
     end
+
+    # @param key [Symbol, String]
+    # @return [Boolean]
+    def first_page?(key = :page)
+      self[key].blank? || self[key] == '1'
+    end
   end
 end

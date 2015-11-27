@@ -1,17 +1,17 @@
 - if @posts.any?
-  - if params[:q].present? && !params[:last_post_id]
+  - if params[:q].present? && params.first_page?
     .show_results.bg-warning
       |Results for "
       b= params[:q]
       |"
   /= render partial: 'video_post'
   = render partial: 'post', collection: @posts
-- elsif !params[:last_post_id]
+- elsif params.first_page?
   - if params[:q].present?
     |No posts for "
     b= params[:q]
     |"
-  - elsif !params[:last_post_id]
+  - elsif params.first_page?
     |
     .no_post_yet
       span.fa-stack.fa-lg

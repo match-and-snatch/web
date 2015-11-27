@@ -12,7 +12,7 @@ class PostsController < ApplicationController
 
   def index
     query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], page: params[:page])
-    resp = {last_post_id: query.last_post_id}
+    resp = {has_more: query.has_more?}
     @posts = query.results
 
     query.user_input? ? json_replace(resp) : json_append(resp)
