@@ -4,6 +4,7 @@ describe AccountInfo::DialoguesController, type: :controller do
   let(:user) { create_user }
   let(:friend) { create_user email: 'sender@gmail.com' }
   let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
+  let!(:subscription) { create :subscription, user: user, target_user: friend }
 
   describe 'GET #index' do
     subject(:perform_request) { get 'index' }

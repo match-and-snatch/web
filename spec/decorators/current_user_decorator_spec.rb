@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CurrentUserDecorator do
   let(:user) { User.new }
-  subject { described_class.new(user) }
+  subject(:decorator) { described_class.new(user) }
 
   describe '#can?' do
     context 'admin' do
@@ -38,6 +38,36 @@ describe CurrentUserDecorator do
 
     specify do
       expect(subject).not_to eq(User.new)
+    end
+  end
+
+  describe '#dialogues' do
+    subject(:dialogues) { decorator.dialogues }
+
+    let!(:dialogue) { create :dialogue, users: [user, target_user] }
+    let(:user) { create :user }
+    let(:target_user) { create :user }
+
+    it { is_expected.to be_empty }
+
+    context 'subscribed' do
+      let!(:subscription) { create :subscription, user: user, target_user: target_user }
+      it { is_expected.to match_array([dialogue]) }
+
+      context 'removed subscription' do
+        let!(:subscription) { create :subscription, user: user, target_user: target_user, removed: true }
+        it { is_expected.to match_array([dialogue]) }
+
+        context 'long time ago' do
+          let!(:subscription) { create :subscription, user: user, target_user: target_user, removed: true, charged_at: 32.days.ago }
+          it { is_expected.to be_empty }
+        end
+      end
+
+      context 'rejected subscription' do
+        let!(:subscription) { create :subscription, user: user, target_user: target_user, rejected: true }
+        it { is_expected.to be_empty }
+      end
     end
   end
 

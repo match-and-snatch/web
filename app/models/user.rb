@@ -248,7 +248,7 @@ class User < ActiveRecord::Base
     return false unless subscription
 
     active = !(subscription.removed? && subscription.expired?)
-    paid  = subscription.processing_payment? || !subscription.rejected?
+    paid = subscription.processing_payment? || !subscription.rejected?
 
     paid && active
   end
