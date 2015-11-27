@@ -3,7 +3,7 @@
 
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
   | &nbsp;You just received a new message from&nbsp;
-  span style="color: #ea2e49;"= link_to_user(@message.user, hide_adult_words: true)
+  span style="color: #ea2e49;"= link_to_user(@message.user)
   |.
 
 a href='https://connectpal.com/account#/account_info/dialogues' target='_blank'

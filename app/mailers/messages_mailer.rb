@@ -1,6 +1,4 @@
 class MessagesMailer < ApplicationMailer
-  add_template_helper ApplicationHelper
-
   def new_message(message)
     @message = message
 

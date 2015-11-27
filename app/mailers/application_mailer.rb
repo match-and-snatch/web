@@ -1,6 +1,9 @@
 class ApplicationMailer < ActionMailer::Base
   include CensorshipHelper
+  include UserLinksHelper
+  include ActionView::Helpers::UrlHelper
 
+  add_template_helper ApplicationHelper
   add_template_helper CensorshipHelper
 
   layout 'mail'
@@ -41,6 +44,11 @@ class ApplicationMailer < ActionMailer::Base
       end
     end
   end
+
+  def link_to_user(user, possessive: false, shorten: false, show_mature_name: false)
+    super
+  end
+  helper_method :link_to_user
 
   private
 

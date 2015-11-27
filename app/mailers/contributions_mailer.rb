@@ -1,6 +1,4 @@
 class ContributionsMailer < ApplicationMailer
-  add_template_helper ApplicationHelper
-
   def sent(contribution)
     @contribution = contribution
     mail to: @contribution.user.email, subject: "You have successfully made a contribution to #{contribution.target_user.name}!"
