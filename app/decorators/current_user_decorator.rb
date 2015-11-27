@@ -7,6 +7,8 @@ class CurrentUserDecorator < UserDecorator
     @object = user || User.new
   end
 
+  # Returns dialogues with active subscribers / profile owners
+  # @return [Array<Dialogue>]
   def dialogues
     object.dialogues
       .not_removed
