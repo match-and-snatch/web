@@ -14,9 +14,11 @@ class CurrentUserDecorator < UserDecorator
       .order(recent_message_at: :desc)
       .limit(200).to_a.tap do |result|
       result.select! do |dialogue|
-        user = dialogue.recent_message.user
-        target_user = dialogue.recent_message.target_user
-        user.subscribed_to?(target_user) || target_user.subscribed_to?(user)
+        if dialogue.recent_message
+          user = dialogue.recent_message.user
+          target_user = dialogue.recent_message.target_user
+          user.subscribed_to?(target_user) || target_user.subscribed_to?(user)
+        end
       end
     end
   end

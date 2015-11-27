@@ -4,6 +4,7 @@ describe Api::DialoguesController, type: :controller do
   let(:user) { create_user api_token: 'token' }
   let(:friend) { create_user email: 'sender@gmail.com', api_token: 'friend_token' }
   let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
+  let!(:subscription) { create :subscription, user: user, target_user: friend }
 
   describe 'GET #index' do
     subject(:perform_request) { get 'index', format: :json }
