@@ -19,7 +19,7 @@ h2 Profile Owners on vacation
         td
           a> href=profile_path(vacation.user) target='_blank' = vacation.user.name
           - if vacation.user.vacation_enabled?
-            span on vacation
+            p Away Mode
         td= vacation.user.email
         td= vacation.user.subscribers_count
       tr style='border-bottom: 4px solid gray'
