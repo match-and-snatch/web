@@ -41,8 +41,8 @@ describe CurrentUserDecorator do
     end
   end
 
-  describe '#dialogues' do
-    subject(:dialogues) { decorator.dialogues }
+  describe '#accessible_dialogues' do
+    subject(:dialogues) { decorator.accessible_dialogues }
 
     let!(:dialogue) { create :dialogue, users: [user, target_user] }
     let(:user) { create :user }

@@ -6,8 +6,8 @@ class Api::DialoguesController < Api::BaseController
   protect(:destroy) { can? :manage, @dialogue }
 
   def index
-    @dialogues = current_user.dialogues
-    json_success dialogues: api_response.dialogues_data(@dialogues)
+    @dialogues = current_user.accessible_dialogues(params.slice(:page))
+    json_success dialogues: api_response.dialogues_data(@dialogues), has_more: !current_user.dialogues.last_page?
   end
 
   def show

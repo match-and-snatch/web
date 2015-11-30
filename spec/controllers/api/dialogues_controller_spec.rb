@@ -64,7 +64,8 @@ describe Api::DialoguesController, type: :controller do
                 "recent_message_at"=>dialogue.recent_message_at.to_i,
                 "unread"=>false
               }
-            }
+            },
+            "has_more"=>false
           })
         end
       end

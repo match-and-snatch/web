@@ -5,8 +5,8 @@ class AccountInfo::DialoguesController < AccountInfo::BaseController
   protect(:destroy) { can? :manage, @dialogue }
 
   def index
-    @dialogues = current_user.dialogues
-    json_render
+    @dialogues = current_user.accessible_dialogues(params.slice(:page))
+    params[:page] ? json_replace(partial: 'dialogues_list') : json_render
   end
 
   def show

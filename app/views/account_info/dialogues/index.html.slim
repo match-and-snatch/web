@@ -3,6 +3,6 @@
 
   - if @dialogues.any?
     ul.mailbox
-      = render partial: 'dialogue', collection: @dialogues
+      = render 'dialogues_list'
   - else
     .well style='text-align: center;' You do not have any messages at this time.
