@@ -1,5 +1,14 @@
 h2 Banned users
 
+ol.pull-left style='padding: 0 15px 15px 0'
+  - @counters.each do |lock_type, count|
+    li class="#{lock_type == params[:id] ? 'pending' : ''}"
+      a href=admin_ban_path(lock_type)
+        span= lock_type.humanize
+      small<
+        | (#{count})
+.clearfix
+
 form.Form action=search_admin_bans_path method='get' data-target='bans'
   input.Autocomplete.form-control type="text" name='q' placeholder="Search users by email"
 

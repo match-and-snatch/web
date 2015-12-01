@@ -393,7 +393,7 @@ BuddyPlatform::Application.routes.draw do
           get :search
         end
       end
-      resources :bans, only: [:index, :create, :destroy] do
+      resources :bans, only: [:index, :show, :create, :destroy] do
         member do
           delete :unsubscribe
         end
