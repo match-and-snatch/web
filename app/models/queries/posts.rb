@@ -27,9 +27,9 @@ module Queries
                    end.to_a
     end
 
-    # @return [Integer, nil]
-    def last_post_id
-      results.last.try(:id)
+    # @return [Boolean]
+    def has_more?
+      results.any? # TODO: FIX ME
     end
 
     def user_input?

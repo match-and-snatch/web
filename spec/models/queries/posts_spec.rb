@@ -63,23 +63,23 @@ describe Queries::Posts do
     end
   end
 
-  describe '#last_post_id' do
+  describe '#has_more?' do
     let!(:post) { create(:status_post, user: user, message: 'post') }
 
     before { update_index }
 
-    it { expect(subject.last_post_id).to be_nil }
+    it { expect(subject.has_more?).to eq(false) }
 
     context 'no query' do
       let(:query) { nil }
 
-      it { expect(subject.last_post_id).to eq(post.id) }
+      it { expect(subject.has_more?).to eq(true) }
     end
 
     context 'posts present' do
       let(:query) { 'post' }
 
-      it { expect(subject.last_post_id).to eq(post.id) }
+      it { expect(subject.has_more?).to eq(true) }
     end
   end
 
