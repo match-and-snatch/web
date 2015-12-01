@@ -7,6 +7,7 @@ br
     th Old cost
     th New cost
     th Date
+    th Active Subscribers
     th
     th
     - @cost_change_requests.each do |cost_change_request|
@@ -16,6 +17,7 @@ br
         td= cents_to_dollars(cost_change_request.old_cost)
         td= cents_to_dollars(cost_change_request.new_cost)
         td= cost_change_request.created_at.to_s(:short)
+        td align='center'= cost_change_request.user.subscribers_count
         td
           .btn.green.pull-right.AjaxLink href=confirm_approve_admin_cost_change_request_path(cost_change_request) APPROVE
         td
