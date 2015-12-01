@@ -34,11 +34,10 @@ class ContributionManager < BaseManager
 
     fail_with! 'Payment has been failed' if @contribution.new_record?
 
-    if message.present?
-      MessagesManager.new(user: @user).create(target_user: target_user,
-                                              message: message,
-                                              contribution: @contribution)
-    end
+    message = message.presence || 'Contribution'
+    MessagesManager.new(user: @user).create(target_user: target_user,
+                                            message: message,
+                                            contribution: @contribution)
 
     UserManager.new(@user).lock(:weekly_contribution_limit) if weekly_limit_reached?
 

@@ -21,6 +21,10 @@ describe ContributionManager do
       expect { manager.create(amount: 1, target_user: target_user) }.to create_record(Contribution)
     end
 
+    it 'creates a message' do
+      expect { manager.create(amount: 1, target_user: target_user) }.to create_record(Message).matching(message: 'Contribution')
+    end
+
     it 'sends email about contribution to target user' do
       expect { manager.create(amount: 1, target_user: target_user) }.to deliver_email(to: target_user, subject: /You have received a contribution/)
     end
