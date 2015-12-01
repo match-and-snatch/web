@@ -9,7 +9,9 @@ class Contribution < ActiveRecord::Base
   validates :amount, presence: true
 
   scope :recurring, -> { where(recurring: true) }
-  scope :to_charge, -> { recurring.where('updated_at <= ?', 1.month.ago) }
+  scope :to_charge, -> { recurring
+    .joins("INNER JOIN users ON users.id = contributions.target_user_id AND users.has_complete_profile = 't'")
+    .where('contributions.updated_at <= ?', 1.month.ago) }
 
   def self.each_year_month(&block)
     self.reorder('contributions.created_at DESC').to_a.group_by(&:year_month).each(&block)
