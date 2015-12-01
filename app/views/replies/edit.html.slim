@@ -1,6 +1,6 @@
 .nested_row.edit_nested_row data-identifier='comment-#{@reply.id}'
   .photo.pull-left
-    img src=@reply.user.comment_picture_url width=50 height=50
+    img src=@reply.user_picture_url width=50 height=50
 
   form.edit_form.pull-right.Commenter data-target='comment-#{@reply.id}' action=comment_reply_path(@comment.id, @reply.id) method='POST'
     input type='hidden' name='_method' value='PUT'

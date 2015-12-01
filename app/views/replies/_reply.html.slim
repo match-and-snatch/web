@@ -2,7 +2,7 @@
   .nested_row data-identifier='comment-#{reply.id}' style='#{"opacity: 0.5" if (reply.hidden? && reply.user_id != current_user.id) || (reply.hidden? && reply.post_user_id == current_user.id)}'
     .nested_content
       .photo
-        img src=reply.user.comment_picture_url width=50 height=50
+        img src=reply.user_picture_url width=50 height=50
 
       // Display Delete & Edit Only if profile owner or if it the subscribers reply.
 

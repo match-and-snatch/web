@@ -56,7 +56,6 @@ class ApiResponsePresenter
       company_name: user.company_name,
       small_account_picture_url: user.small_account_picture_url,
       original_account_picture_url: user.original_account_picture_url,
-      comment_picture_url: user.comment_picture_url,
       activated: user.activated,
       notifications_debug_enabled: user.notifications_debug_enabled,
       message_notifications_enabled: user.message_notifications_enabled,
@@ -163,9 +162,11 @@ class ApiResponsePresenter
         post_owner: current_user == comment.post_user
       },
       user: {
+        id: comment.user.id,
         slug: comment.user.slug,
         name: comment.user.name,
-        picture_url: comment.user.comment_picture_url,
+        small_account_picture_url: comment.user.small_account_picture_url,
+        small_profile_picture_url: comment.user.small_profile_picture_url,
         has_profile: comment.user.has_profile_page?
       },
       profile: basic_profile_data(comment.user),
@@ -225,7 +226,8 @@ class ApiResponsePresenter
         id: user.id,
         name: user.name,
         slug: user.slug,
-        picture_url: user.comment_picture_url
+        small_account_picture_url: user.small_account_picture_url,
+        small_profile_picture_url: user.small_profile_picture_url
       }
     end
   end
@@ -241,7 +243,8 @@ class ApiResponsePresenter
       id: user.id,
       name: user.name,
       slug: user.slug,
-      picture_url: user.comment_picture_url,
+      small_account_picture_url: user.small_account_picture_url,
+      small_profile_picture_url: user.small_profile_picture_url,
       has_profile: user.has_profile_page?,
       downloads_enabled: user.downloads_enabled?,
       itunes_enabled: user.itunes_enabled?
