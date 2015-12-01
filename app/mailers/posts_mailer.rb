@@ -1,6 +1,4 @@
 class PostsMailer < ApplicationMailer
-  add_template_helper ApplicationHelper
-
   subscribe :comment_created do
     recipients { payload.subject.mentioned_users }
 

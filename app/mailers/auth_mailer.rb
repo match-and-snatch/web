@@ -1,5 +1,4 @@
 class AuthMailer < ApplicationMailer
-
   # @param user [User]
   def forgot_password(user)
     @user = user

@@ -1,7 +1,7 @@
 - content_for :custom_heading do
   strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 32px; line-height: 100%;' New post available!
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 15px; line-height: 120%; padding: 0; margin: 0 0 15px 0;'
-  | &nbsp;Check out this post on #{link_to_user @post.user, possessive: true} page.
+  | &nbsp;Check out this post on #{link_to_user(@post.user, possessive: true)} page.
 img src='https://connectpal-assets.s3.amazonaws.com/images/email/email-hr.png' border='0' height='1px' width='420px' alt='divider' title='divider' style='display: block; border: none; padding: 0; margin: 0 0 15px 0;'
 p style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 11px; line-height: 150%; padding: 0; margin: 0 0 15px 0;'
   | If you do not want to receive email notifications from this profile,

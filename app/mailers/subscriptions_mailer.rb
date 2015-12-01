@@ -1,6 +1,4 @@
 class SubscriptionsMailer < ApplicationMailer
-  add_template_helper ApplicationHelper
-
   def subscribed(subscription)
     @subscription = subscription
     @subscriber = subscription.user

@@ -1,4 +1,11 @@
 class ApplicationMailer < ActionMailer::Base
+  include CensorshipHelper
+  include UserLinksHelper
+  include ActionView::Helpers::UrlHelper
+
+  add_template_helper ApplicationHelper
+  add_template_helper CensorshipHelper
+
   layout 'mail'
   default from: 'ConnectPal <noreply@connectpal.com>'
 
@@ -21,6 +28,8 @@ class ApplicationMailer < ActionMailer::Base
       headers[:to] = "\"#{headers[:to]}\" <debug@connectpal.com>"
     end
 
+    headers[:subject] = cut_adult_words(headers[:subject])
+
     super(headers) do |format|
       block.call if block
 
@@ -35,6 +44,11 @@ class ApplicationMailer < ActionMailer::Base
       end
     end
   end
+
+  def link_to_user(user, possessive: false, shorten: false, show_mature_name: false)
+    super
+  end
+  helper_method :link_to_user
 
   private
 

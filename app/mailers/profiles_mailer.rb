@@ -1,6 +1,4 @@
 class ProfilesMailer < ApplicationMailer
-  add_template_helper ApplicationHelper
-
   # @param user [User]
   # @param cost [Integer]
   def changed_cost(user, old_cost, cost)
