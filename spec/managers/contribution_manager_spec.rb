@@ -4,8 +4,8 @@ describe ContributionManager do
   subject(:manager) { ContributionManager.new(user: user, contribution: contribution) }
   let(:contribution) { nil }
 
-  let(:user) { create_user }
-  let(:target_user) { create_profile email: 'target@gmail.com' }
+  let(:user) { create :user }
+  let(:target_user) { create :user, :profile_owner }
 
   before { StripeMock.start }
   after { StripeMock.stop }
@@ -60,6 +60,37 @@ describe ContributionManager do
 
       it do
         expect { manager.create(amount: nil, target_user: target_user) }.to raise_error(ManagerError, /zero/)
+      end
+    end
+
+    context 'multiple contributions to different profiles' do
+      context '$500 in 1 week' do
+        before do
+          ContributionManager.new(user: user).create(amount: 100_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5))
+          Timecop.travel(1.day.since) do
+            ContributionManager.new(user: user).create(amount: 100_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5))
+          end
+
+          Timecop.travel(2.days.since) do
+            ContributionManager.new(user: user).create(amount: 100_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5))
+          end
+
+          Timecop.travel(3.days.since) do
+            ContributionManager.new(user: user).create(amount: 100_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5))
+          end
+        end
+
+        specify do
+          Timecop.travel(4.days.since) do
+            expect { ContributionManager.new(user: user).create(amount: 100_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5)) }.to change { user.reload.locked? }.to(true)
+          end
+        end
+
+        specify do
+          Timecop.travel(4.days.since) do
+            expect { ContributionManager.new(user: user).create(amount: 100_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5)) }.to change { user.reload.lock_reason }.to('weekly_contribution_limit')
+          end
+        end
       end
     end
 

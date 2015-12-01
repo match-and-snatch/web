@@ -11,6 +11,12 @@ class ApiResponsePresenter
 
   # @param user [User]
   def current_user_data(user = current_user.object)
+    lock_reason = case user.lock_reason.try(:to_sym)
+                  when :billing, :weekly_contribution_limit
+                    :billing
+                  else
+                    user.lock_reason
+                  end
     {
       id: user.id,
       created_at: user.created_at,
@@ -72,7 +78,7 @@ class ApiResponsePresenter
       auth_token: user.auth_token,
       api_token: user.api_token,
       locked: user.locked?,
-      lock_reason: user.lock_reason,
+      lock_reason: lock_reason,
       cost_approved: user.cost_approved?,
       cc_declined: user.cc_declined?
     }.merge(account_data(user))

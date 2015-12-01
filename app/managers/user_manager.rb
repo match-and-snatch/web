@@ -55,7 +55,7 @@ class UserManager < BaseManager
 
   # @param reason [String, Symbol] account, billing or tos
   def lock(reason = :account)
-    fail_with! 'No valid reason provided' unless %w(account billing tos).include?(reason.to_s)
+    fail_with! 'No valid reason provided' unless %w(account billing weekly_contribution_limit tos).include?(reason.to_s)
 
     @user.lock!(reason).tap do
       EventsManager.account_locked(user: @user, reason: reason.to_s)

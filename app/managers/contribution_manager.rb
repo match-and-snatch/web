@@ -1,5 +1,5 @@
 class ContributionManager < BaseManager
-  VERIFIED_PROFILE_CONTRIBUTION_LIMIT = 100000
+  VERIFIED_PROFILE_CONTRIBUTION_LIMIT = 1000_00
   INTEGER_RANGE_LIMIT = 2147483647
 
   # @param user [User]
@@ -10,7 +10,7 @@ class ContributionManager < BaseManager
   end
 
   # @param target_user [User]
-  # @param amount [Integer, String]
+  # @param amount [Integer, String] Amount in cents
   # @param message [String, nil]
   # @return [Contribution]
   def create(target_user: , amount: nil, recurring: false, message: nil)
@@ -39,6 +39,8 @@ class ContributionManager < BaseManager
                                               message: message,
                                               contribution: @contribution)
     end
+
+    UserManager.new(@user).lock(:weekly_contribution_limit) if weekly_limit_reached?
 
     @contribution
   end
@@ -71,6 +73,14 @@ class ContributionManager < BaseManager
   end
 
   private
+
+  def weekly_limit_reached?
+    recently_contributed = Contribution.where(user: @user)
+      .where("created_at > ?", 7.days.ago)
+      .sum(:amount)
+
+    recently_contributed >= 500_00
+  end
 
   def limit_reached?(amount, target_user)
     if target_user.accepts_large_contributions?
