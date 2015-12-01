@@ -8,13 +8,11 @@ class CurrentUserDecorator < UserDecorator
   end
 
   # Returns dialogues with active subscribers / profile owners
+  # @param page [Integer, String]
+  # @param per_page [Integer]
   # @return [Array<Dialogue>]
-  def dialogues
-    object.dialogues
-      .not_removed
-      .includes(recent_message: [:user, :target_user])
-      .order(recent_message_at: :desc)
-      .limit(200).to_a.tap do |result|
+  def accessible_dialogues(page: 1, per_page: 15)
+    dialogues(page: page, per_page: per_page).to_a.tap do |result|
       result.select! do |dialogue|
         if dialogue.recent_message
           user = dialogue.recent_message.user
@@ -23,6 +21,18 @@ class CurrentUserDecorator < UserDecorator
         end
       end
     end
+  end
+
+  # Returns all dialogues
+  # @param page [Integer, String]
+  # @param per_page [Integer]
+  # @return [ActiveRecord::Relation]
+  def dialogues(page: 1, per_page: 15)
+    @dialogues ||= object.dialogues
+      .not_removed
+      .includes(recent_message: [:user, :target_user])
+      .order(recent_message_at: :desc)
+      .page(page).per(per_page)
   end
 
   # @return [Symbol]

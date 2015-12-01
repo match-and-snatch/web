@@ -33,7 +33,7 @@ describe Api::DialoguesController, type: :controller do
         end
       end
 
-      context 'with dialogue' do
+      context 'with dialogue', freeze: true do
         let(:recent_message) { MessagesManager.new(user: user).create(target_user: friend, message: 'test') }
 
         before { recent_message }
@@ -64,7 +64,8 @@ describe Api::DialoguesController, type: :controller do
                 "recent_message_at"=>dialogue.recent_message_at.to_i,
                 "unread"=>false
               }
-            }
+            },
+            "has_more"=>false
           })
         end
       end

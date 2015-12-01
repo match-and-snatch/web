@@ -41,8 +41,8 @@ describe CurrentUserDecorator do
     end
   end
 
-  describe '#dialogues' do
-    subject(:dialogues) { decorator.dialogues }
+  describe '#accessible_dialogues' do
+    subject(:dialogues) { decorator.accessible_dialogues }
 
     let!(:dialogue) { create :dialogue, users: [user, target_user] }
     let(:user) { create :user }
@@ -68,6 +68,22 @@ describe CurrentUserDecorator do
         let!(:subscription) { create :subscription, user: user, target_user: target_user, rejected: true }
         it { is_expected.to be_empty }
       end
+    end
+  end
+
+  describe '#dialogues' do
+    subject(:dialogues) { decorator.dialogues }
+
+    let!(:dialogue) { create :dialogue, users: [user, target_user] }
+    let(:user) { create :user }
+    let(:target_user) { create :user }
+
+    it { is_expected.to eq([dialogue]) }
+
+    context 'removed dialogue' do
+      before { MessagesManager.new(user: user, dialogue: dialogue).remove }
+
+      it { is_expected.to be_empty }
     end
   end
 
