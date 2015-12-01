@@ -8,6 +8,8 @@ class CurrentUserDecorator < UserDecorator
   end
 
   # Returns dialogues with active subscribers / profile owners
+  # @param page [Integer, String]
+  # @param per_page [Integer]
   # @return [Array<Dialogue>]
   def accessible_dialogues(page: 1, per_page: 15)
     dialogues(page: page, per_page: per_page).to_a.tap do |result|
@@ -22,6 +24,9 @@ class CurrentUserDecorator < UserDecorator
   end
 
   # Returns all dialogues
+  # @param page [Integer, String]
+  # @param per_page [Integer]
+  # @return [ActiveRecord::Relation]
   def dialogues(page: 1, per_page: 15)
     @dialogues ||= object.dialogues
       .not_removed
