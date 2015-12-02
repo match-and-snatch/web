@@ -43,6 +43,7 @@ h1 Potential contribution violators
                   table
                     tr
                       td style='min-width:115px'= link_to_user contribution.target_user, shorten: true
+                      td style='min-width:50px; font-weight: bold'= cents_to_dollars contribution.amount
                       td= contribution.created_at.to_s(:short)
           td
             = user.lock_reason.humanize if user.locked?
