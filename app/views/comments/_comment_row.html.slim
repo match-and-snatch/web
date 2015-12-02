@@ -1,7 +1,7 @@
 .comment_row data-identifier='comment-#{comment.id}' style='#{"opacity: 0.5" if (comment.hidden? && comment.user_id != current_user.id) || (comment.hidden? && comment.post_user_id == current_user.id)}'
   .content
     .photo
-      img src=comment.user.comment_picture_url width=50 height=50 border=0
+      img src=comment.user_picture_url width=50 height=50 border=0
 
     // Display Delete & Edit Only if profile owner or if it the subscribers comment.
 

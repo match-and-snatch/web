@@ -18,4 +18,8 @@ class Comment < ActiveRecord::Base
   def target_user
     post_user
   end
+
+  def user_picture_url
+    user.comment_picture_url(profile_image: user_id == post_user_id)
+  end
 end

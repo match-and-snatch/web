@@ -166,8 +166,10 @@ class User < ActiveRecord::Base
     cost_change_requests.new_large_cost.pending.empty?
   end
 
-  def comment_picture_url
-    small_account_picture_url || small_profile_picture_url
+  def comment_picture_url(profile_image: false)
+    images = [small_account_picture_url, small_profile_picture_url]
+    images.reverse! if profile_image
+    images.compact.first
   end
 
   def custom_profile_page_css
