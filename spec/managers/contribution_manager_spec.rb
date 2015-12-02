@@ -124,15 +124,17 @@ describe ContributionManager do
 
         context 'multiple contributions' do
           before do
-            manager.create(amount: 50000, target_user: target_user)
+            manager.create(amount: 30000, target_user: target_user)
           end
 
           it 'allows contributing up to 1000$' do
-            expect { manager.create(amount: 50000, target_user: target_user) }.to create_record(Contribution).matching(amount: 50000, user: user, target_user: target_user)
+            Timecop.freeze(8.days.from_now) do
+              expect { manager.create(amount: 70000, target_user: target_user) }.to create_record(Contribution).matching(amount: 70000, user: user, target_user: target_user)
+            end
           end
 
           it 'does not allow contributing more than 1000$' do
-            expect { manager.create(amount: 50001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+            expect { manager.create(amount: 70001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
           end
         end
       end
