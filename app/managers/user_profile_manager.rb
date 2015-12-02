@@ -168,7 +168,7 @@ class UserProfileManager < BaseManager
     user.holder_name    = holder_name.try(:strip)
     user.routing_number = routing_number.try(:strip)
     user.account_number = account_number.try(:strip)
-    user.generate_slug
+    user.generate_slug(force: true)
 
     save_or_die! user
 

@@ -24,6 +24,26 @@ describe UserProfileManager do
     end
   end
 
+  describe '#finish_owner_registration' do
+    let!(:user) { create :user, full_name: 'Barak Obama' }
+
+    specify do
+      expect do
+        manager.finish_owner_registration(profile_name: 'The President', cost: 9900)
+      end.to change { user.reload.slug }.to('thepresident')
+    end
+
+    context 'initially profile owner' do
+      let!(:user) { create :user, full_name: 'Barak Obama', is_profile_owner: true }
+
+      specify do
+        expect do
+          manager.finish_owner_registration(profile_name: 'The President', cost: 9900)
+        end.to change { user.reload.slug }.to('thepresident')
+      end
+    end
+  end
+
   describe '#toggle_accepting_large_contributions' do
     specify do
       expect { manager.toggle_accepting_large_contributions }.to change { user.reload.accepts_large_contributions? }

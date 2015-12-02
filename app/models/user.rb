@@ -282,8 +282,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  # @param force [Boolean] expires cache
   # @return [String]
-  def sample_slug
+  def sample_slug(force)
+    @slug_example = nil if force
+
     @slug_example ||= begin
       slug_base = (profile_name || full_name).parameterize.gsub('-', '')
       slug = slug_base
@@ -297,9 +300,11 @@ class User < ActiveRecord::Base
     end
   end
 
-  def generate_slug
-    unless slug.present?
-      self.slug = sample_slug
+  # @param force [Boolean]
+  # @return [true]
+  def generate_slug(force: false)
+    if slug.blank? || force
+      self.slug = sample_slug(force)
     end
 
     true
