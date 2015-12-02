@@ -25,9 +25,14 @@ h1 Potential violators
         td= user.email
         td style='min-width: 100px'= user.created_at.try(:to_s, :short)
         td
-          ul
+          table
             - user.subscriptions.sort_by(&:created_at).each do |subscription|
-              li= link_to_user subscription.target_user, shorten: true
+              tr
+                td
+                  = link_to_user subscription.target_user, shorten: true
+                  | &nbsp;
+                  | &nbsp;
+                td.small= subscription.created_at.to_s(:short)
         td
           = user.lock_reason.humanize if user.locked?
         td
