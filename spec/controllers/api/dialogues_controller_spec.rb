@@ -47,7 +47,7 @@ describe Api::DialoguesController, type: :controller do
                   "id"=>friend.id,
                   "name"=>friend.name,
                   "slug"=>nil,
-                  "picture_url"=>nil,
+                  "picture_url"=>friend.small_account_picture_url,
                   "has_profile_page"=>false
                 },
                 "recent_message"=>{
@@ -58,7 +58,7 @@ describe Api::DialoguesController, type: :controller do
                   "contribution"=>{},
                   "user"=>{
                     "name"=>recent_message.user.name,
-                    "picture_url"=>nil
+                    "picture_url"=>recent_message.user.small_account_picture_url
                   }
                 },
                 "recent_message_at"=>dialogue.recent_message_at.to_i,
