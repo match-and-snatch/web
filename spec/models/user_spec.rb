@@ -81,6 +81,32 @@ describe User do
     end
   end
 
+  describe '#comment_picture_url' do
+    let(:user) { create(:user, small_account_picture_url: nil) }
+
+    it { expect(user.comment_picture_url).to be_nil }
+    it { expect(user.comment_picture_url(profile_image: true)).to be_nil }
+
+    context 'with account image' do
+      let(:user) { create(:user) }
+
+      it { expect(user.comment_picture_url).to eq(user.small_account_picture_url) }
+      it { expect(user.comment_picture_url(profile_image: true)).to eq(user.small_account_picture_url) }
+    end
+
+    context 'with profile image' do
+      let(:user) { create(:user, :profile_owner) }
+
+      it { expect(user.comment_picture_url(profile_image: true)).to eq(user.small_profile_picture_url) }
+    end
+
+    context 'without profile image' do
+      let(:user) { create(:user, :profile_owner, small_profile_picture_url: nil) }
+
+      it { expect(user.comment_picture_url(profile_image: true)).to eq(user.small_account_picture_url) }
+    end
+  end
+
   describe '#denormalize_last_post_created_at!', freeze: true do
     let!(:user) { create_user }
 

@@ -3,9 +3,12 @@ module Factories
     PASSWORD = '$2a$10$8Gk6WhiLCq7wxNh4risWK.04.hvmxRl481fhQId7h1CVopXk/B2.2'.freeze
     PROFILE_PICTURE_URL = 'https://connectpal-uploads.s3.amazonaws.com/profile_pictures/andydean/f17d2ed0cb1d11e3bb32d3ced4f53641____180x180____9646f3e0c76a11e399f355076bd8c6c3____250x250____andyprofile.png'.freeze
     ORIGINAL_PROFILE_PICTURE_URL = PROFILE_PICTURE_URL
+    SMALL_PROFILE_PICTURE_URL = 'https://connectpal-uploads.s3.amazonaws.com/profile_pictures/andydean/f17d2ed0cb1d11e3bb32d3ced4f53641____50x50____9646f3e0c76a11e399f355076bd8c6c3____250x250____andyprofile.png'.freeze
+    ACCOUNT_PICTURE_URL = 'https://connectpal-uploads.s3.amazonaws.com/uploads/profile_pictures/dmitrii-iakovlev/09f99270061c11e5bd3a2b752b2dc7ca____180x180____cat.jpg'.freeze
+    ORIGINAL_ACCOUNT_PICTURE_URL = 'https://connectpal-uploads.s3.amazonaws.com/uploads/profile_pictures/dmitrii-iakovlev/09f99270061c11e5bd3a2b752b2dc7ca____634x513____cat.jpg'.freeze
+    SMALL_ACCOUNT_PICTURE_URL = 'https://connectpal-uploads.s3.amazonaws.com/uploads/profile_pictures/dmitrii-iakovlev/09f99270061c11e5bd3a2b752b2dc7ca____50x50____cat.jpg'.freeze
     COVER_PICTURE_URL = 'https://connectpal-assets.s3.amazonaws.com/uploads/profile_covers/andydeanradio/2b5dabb0c75a11e3a40a276c3783ecc4____970x606____american-flag-wallpaper.jpg'.freeze
     ORIGINAL_COVER_PICTURE_URL = 'https://connectpal-assets.s3.amazonaws.com/uploads/profile_covers/andydeanradio/2b5dabb0c75a11e3a40a276c3783ecc4____1280x800____american-flag-wallpaper.jpg'.freeze
-    SMALL_PROFILE_PICTURE_URL = 'https://connectpal-uploads.s3.amazonaws.com/profile_pictures/andydean/f17d2ed0cb1d11e3bb32d3ced4f53641____50x50____9646f3e0c76a11e399f355076bd8c6c3____250x250____andyprofile.png'.freeze
   end
 end
 
@@ -18,6 +21,9 @@ FactoryGirl.define do
     sequence(:registration_token) { |n| "registration_token-#{n}" }
     password_hash Factories::Defaults::PASSWORD
     activated true
+    account_picture_url Factories::Defaults::ACCOUNT_PICTURE_URL
+    small_account_picture_url Factories::Defaults::SMALL_ACCOUNT_PICTURE_URL
+    original_account_picture_url Factories::Defaults::ORIGINAL_ACCOUNT_PICTURE_URL
 
     trait :admin do
       is_admin true
