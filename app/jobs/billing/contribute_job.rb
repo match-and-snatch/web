@@ -10,7 +10,7 @@ module Billing
       Contribution.to_charge.find_each do |contribution|
         user = contribution.user
 
-        if user && !user.locked?
+        if contribution.recurring_performable?
           begin
             p "Contributing ##{contribution.id}" unless Rails.env.test?
             ContributionManager.new(user: user, contribution: contribution).create_child

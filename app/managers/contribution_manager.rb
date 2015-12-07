@@ -18,6 +18,7 @@ class ContributionManager < BaseManager
     fail_with! amount: :zero if amount < 1
     fail_with! amount: :too_large if amount > INTEGER_RANGE_LIMIT
     fail_with! "You can't contribute to this profile" unless target_user.contributions_allowed?
+
     if limit_reached?(amount, target_user)
       unless @user.contribution_requests.by_target_user(target_user).pending.any?
         @user.contribution_requests.create!(target_user: target_user,

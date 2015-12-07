@@ -10,7 +10,7 @@ module Billing
       Subscription.to_charge.find_each do |subscription|
         p "Paying for subscription ##{subscription.id}" unless Rails.env.test?
 
-        if subscription.user && !subscription.user.locked?
+        if subscription.payable?
           begin
             SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).pay if subscription.user
           rescue ManagerError => e

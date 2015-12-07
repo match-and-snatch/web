@@ -6,4 +6,4 @@ dependencies:
     - elasticsearch-2.0.0/bin/elasticsearch: {background: true}
 test:
   override:
-    - bundle exec rspec spec --format documentation
+    - bundle exec rspec spec

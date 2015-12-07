@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Subscription do
-  let(:user) { create_user }
-  let(:target_user) { create_profile email: 'target@user.com' }
+  let(:user) { create :user, :with_cc }
+  let(:target_user) { create :user, :profile_owner }
 
   subject { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
@@ -225,6 +225,49 @@ describe Subscription do
       it 'becomes paid today', freeze: true do
         expect(subject.billing_date).to eq(Time.zone.today)
       end
+    end
+  end
+
+  describe '#payable?' do
+    subject(:subscription) { create :subscription, {user: user, target_user: target_user}.merge(attributes) }
+
+    let(:attributes) { {} }
+
+    context 'not charged' do
+      let(:attributes) { {charged_at: nil} }
+      its(:payable?) { is_expected.to eq(true) }
+
+      context 'subscriber locked' do
+        let(:user) { create :user, :with_cc, locked: true, lock_reason: 'billing' }
+        its(:payable?) { is_expected.to eq(false) }
+      end
+
+      context 'profile owner locked' do
+        context 'by billing' do
+          let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'billing' }
+          its(:payable?) { is_expected.to eq(true) }
+        end
+
+        context 'by account' do
+          let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'account' }
+          its(:payable?) { is_expected.to eq(false) }
+        end
+
+        context 'by tos' do
+          let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'tos' }
+          its(:payable?) { is_expected.to eq(false) }
+        end
+      end
+
+      context 'profile owner deleted his profile page' do
+        before { UserProfileManager.new(target_user).delete_profile_page! }
+        its(:payable?) { is_expected.to eq(false) }
+      end
+    end
+
+    context 'recently charged' do
+      let(:attributes) { {charged_at: 2.days.ago} }
+      its(:payable?) { is_expected.to eq(false) }
     end
   end
 end

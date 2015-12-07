@@ -27,6 +27,8 @@ class PaymentManager < BaseManager
       raise ArgumentError, "Don't know how to pay for #{subscription.class.name}"
     end
 
+    fail_with!('The subscription is not payable', PaymentError) unless subscription.payable?
+
     @user ||= subscription.customer
 
     charge = create_charge amount: subscription.total_cost,
