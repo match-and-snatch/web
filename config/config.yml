@@ -3,7 +3,6 @@ defaults: &defaults
   stripe_percent: 0.018
   media_host: buddy-video-assets.s3.amazonaws.com
   http_access: false
-  adult_filter_regex: !ruby/regexp '/(xxx|\bporn\b|\bsex\b|\btits\b|\bboobs\b|\bass\b|\bpussy\b|\bcum\b|\b69\b)/i'
   javascript:
     log_level: 0
   admins:
@@ -19,6 +18,71 @@ defaults: &defaults
     "/account_info/dialogues": "/dialogues"
     "/account_info/details": "/details"
     "/account_info/edit_payment_information": "/settings/profile/payout"
+  adult_filter_regex: !ruby/regexp '/(xxx|\bporn\b|\bsex\b|\btits\b|\bboobs\b|\bass\b|\bpussy\b|\bcum\b|\b69\b)/i'
+  adult_words:
+    - xxx
+    - porn
+    - sex
+    - tits
+    - boobs
+    - ass
+    - pussy
+    - cum
+    - 69
+    - bunz
+    - drugs
+    - bootie
+    - booty
+    - freak
+    - mowett
+    - xx
+    - suck
+    - cock
+    - dick
+    - penis
+    - fetish
+    - juicy
+    - bbw
+    - juggs
+    - jug
+    - dirty
+    - anaconda
+    - hard
+    - lust
+    - boooty
+    - throat
+    - deep
+    - bitch
+    - cheek
+    - naughty
+    - rape
+    - gape
+    - babe
+    - nympho
+    - mistress
+    - azz
+    - kiss
+    - milk
+    - honey
+    - ebony
+    - whore
+    - slut
+    - cyber
+    - exotic
+    - erotic
+    - busty
+    - thick
+    - bet
+    - uncut
+    - body
+    - hung
+    - kitty
+    - pretty
+    - sucks
+    - rose
+    - key
+    - barbie
+    - doll
 
 jwplayer: &jwplayer
   jwplayer:
