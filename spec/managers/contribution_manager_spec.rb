@@ -53,7 +53,7 @@ describe ContributionManager do
       before { UserManager.new(target_user).lock(:tos) }
 
       it 'does not send email about contribution to target user' do
-        expect { manager.create(amount: 1, target_user: target_user) }.not_to deliver_email(to: target_user, subject: /You have received a contribution/)
+        expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to deliver_email(to: target_user, subject: /You have received a contribution/)
       end
     end
 
