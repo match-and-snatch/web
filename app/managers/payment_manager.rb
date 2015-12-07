@@ -109,6 +109,6 @@ class PaymentManager < BaseManager
   end
 
   def cut_adult_words(sentence = nil)
-    sentence.to_s.gsub(APP_CONFIG['adult_filter_regex'], '').squish
+    sentence.to_s.gsub(Regexp.new("(#{APP_CONFIG['adult_words'].join('|')})", true), '').squish
   end
 end
