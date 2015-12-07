@@ -12,6 +12,11 @@ module Concerns::Payable
     raise NotImplementedError
   end
 
+  # @return [Boolean]
+  def payable?
+    raise NotImplementedError
+  end
+
   # @return [User]
   def recipient
     raise NotImplementedError

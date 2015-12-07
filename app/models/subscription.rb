@@ -37,6 +37,11 @@ class Subscription < ActiveRecord::Base
     user
   end
 
+  # @return [Boolean]
+  def payable?
+    user && target_user && (!user.locked?) && target_user.profile_payable? && !paid?
+  end
+
   def expired?
     billing_date < Time.zone.today
   end

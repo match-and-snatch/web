@@ -375,8 +375,14 @@ class User < ActiveRecord::Base
     !((!passed_profile_steps? && is_profile_owner?) || (!is_profile_owner?))
   end
 
+  # Returns true whenever the user can accept any payments
+  def profile_payable?
+    is_profile_owner? && !(locked? && %w[tos account].include?(lock_reason))
+  end
+
+  # Returns true whenever the user can accept contributions
   def contributions_allowed?
-    contributions_enabled? && subscribers_count > 4
+    profile_payable? && contributions_enabled? && subscribers_count > 4
   end
 
   def bank_account_data

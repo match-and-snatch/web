@@ -3,21 +3,47 @@ require 'spec_helper'
 describe PaymentManager do
   subject { PaymentManager.new(user: user) }
 
-  let(:user) { create_user }
-  let(:target_user) { create_profile email: 'target@gmail.com' }
+  let(:user) { create :user, :with_cc }
+  let(:target_user) { create :user, :profile_owner }
 
   before { StripeMock.start }
   after { StripeMock.stop }
 
   describe '#pay_for' do
-    let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
+    let(:subscription) { create :subscription, user: user, target_user: target_user, charged_at: nil }
 
-    it 'activates subscriber if he is not yet active' do
-      expect { subject.pay_for(subscription) }.to change { user.reload.activated? }.to(true)
+    context 'user is not activated yet' do
+      let(:user) { create :user, :with_cc, activated: false }
+
+      it 'activates subscriber' do
+        expect { subject.pay_for(subscription) }.to change { user.reload.activated? }.to(true)
+      end
     end
 
     it 'creates payment_created event' do
       expect { subject.pay_for(subscription) }.to create_event(:payment_created)
+    end
+
+    context 'subscription is paid' do
+      let(:subscription) { create :subscription, user: user, target_user: target_user, charged_at: 1.day.ago }
+      specify { expect { subject.pay_for(subscription) }.to raise_error(PaymentError, /is not payable/) }
+    end
+
+    context 'target user locked' do
+      context 'billing lock' do
+        let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'billing' }
+        specify { expect { subject.pay_for(subscription) }.not_to raise_error }
+      end
+
+      context 'account lock' do
+        let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'account' }
+        specify { expect { subject.pay_for(subscription) }.to raise_error(PaymentError, /is not payable/) }
+      end
+
+      context 'tos lock' do
+        let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'tos' }
+        specify { expect { subject.pay_for(subscription) }.to raise_error(PaymentError, /is not payable/) }
+      end
     end
 
     context 'profile owner is on vacation' do

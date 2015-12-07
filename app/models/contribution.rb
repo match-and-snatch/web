@@ -34,4 +34,12 @@ class Contribution < ActiveRecord::Base
   def year_month
     @year_month ||= YearMonth.new(created_at.year, created_at.month)
   end
+
+  def recurring_performable?
+    recurring? &&
+      (next_billing_date <= Time.zone.now.to_date) &&
+        user && target_user &&
+          (!user.locked?) &&
+            target_user.contributions_allowed?
+  end
 end

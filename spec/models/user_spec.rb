@@ -473,24 +473,79 @@ describe User do
   end
 
   describe '#contributions_allowed?' do
-    let(:user) { create_profile }
+    subject(:user) { create :user, :profile_owner }
 
-    it { expect(user.contributions_allowed?).to eq(false) }
+    context 'default' do
+      its(:contributions_allowed?) { is_expected.to eq(false) }
+    end
 
     context 'contribution enabled' do
       before { UserProfileManager.new(user).enable_contributions }
 
-      it { expect(user.contributions_allowed?).to eq(false) }
+      its(:contributions_allowed?) { is_expected.to eq(false) }
 
       context 'user has 5 or more subscribers' do
-        before do
-          5.times do |i|
-            SubscriptionManager.new(subscriber: create_user(email: "subscriber_#{i}@test.com")).subscribe_to(user)
-          end
+        subject(:user) { create :user, :profile_owner, subscribers_count: 5 }
+
+        its(:contributions_allowed?) { is_expected.to eq(true) }
+
+        context 'user deleted his profile page' do
+          subject(:user) { create :user, :profile_owner, subscribers_count: 5, is_profile_owner: false }
+          its(:contributions_allowed?) { is_expected.to eq(false) }
         end
 
-        it { expect(user.contributions_allowed?).to eq(true) }
+        context 'user account is locked' do
+          before { UserManager.new(subject).lock(reason) }
+
+          context 'with account related issue' do
+            let(:reason) { :account }
+            its(:contributions_allowed?) { is_expected.to eq(false) }
+          end
+
+          context 'with tos violation reason' do
+            let(:reason) { :tos }
+            its(:contributions_allowed?) { is_expected.to eq(false) }
+          end
+
+          context 'with billing' do
+            let(:reason) { :billing }
+            its(:contributions_allowed?) { is_expected.to eq(true) }
+          end
+        end
       end
+    end
+  end
+
+  describe '#profile_payable?' do
+    context 'profile owner' do
+      subject { build :user, :profile_owner, user_attributes }
+      let(:user_attributes) { {} }
+
+      its(:profile_payable?) { is_expected.to eq(true) }
+
+      context 'locked account' do
+        let(:user_attributes) { {locked: true, lock_reason: lock_reason} }
+
+        context 'with billing locked' do
+          let(:lock_reason) { 'billing' }
+          its(:profile_payable?) { is_expected.to eq(true) }
+        end
+
+        context 'with tos locked' do
+          let(:lock_reason) { 'tos' }
+          its(:profile_payable?) { is_expected.to eq(false) }
+        end
+
+        context 'with account locked' do
+          let(:lock_reason) { 'account' }
+          its(:profile_payable?) { is_expected.to eq(false) }
+        end
+      end
+    end
+
+    context 'not a profile owner' do
+      subject { create :user }
+      its(:profile_payable?) { is_expected.to eq(false) }
     end
   end
 end
