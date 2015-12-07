@@ -53,7 +53,7 @@ describe SubscriptionsController, type: :controller do
                                    address_line_2: '',
                                    city: '',
                                    state: '',
-                                   zip: '' }
+                                   zip: '123456' }
 
     it { should be_success }
     its(:body) { should match_regex /reload/ }

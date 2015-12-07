@@ -18,7 +18,7 @@ describe SubscriptionManager do
           cvc: '000',
           expiry_month: '05',
           expiry_year: '18',
-          zip: nil,
+          zip: '123456',
           city: nil,
           state: nil,
           address_line_1: nil,

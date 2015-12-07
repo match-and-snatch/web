@@ -27,7 +27,7 @@
       .clearfix
       .form-group
         label style='width: auto;' ZIP Code
-        input.form-control type='text' name='zip' style='width: 100%;' validate='nothing' value=@user.billing_address_zip
+        input.form-control type='text' name='zip' style='width: 100%;' validate='require' value=@user.billing_address_zip
         .error data-field='zip'
       .clearfix
       hr
@@ -106,7 +106,7 @@
       .clearfix
       .form-group style='margin-top: 15px'
         label.pull-left ZIP Code
-        input.pull-right.form-control type='text' name='zip' validate='nothing' value=@user.billing_address_zip
+        input.pull-right.form-control type='text' name='zip' validate='require' value=@user.billing_address_zip
         .error data-field='zip'
       .clearfix
       hr
