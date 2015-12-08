@@ -376,9 +376,11 @@ class UserProfileManager < BaseManager
     end
 
     card_data = customer['sources']['data'][0]
+    cc_fingerprint = card_data['fingerprint']
+
     user.stripe_user_id = customer['id']
     user.stripe_card_id = card_data['id']
-    user.stripe_card_fingerprint = card_data['fingerprint']
+    user.stripe_card_fingerprint = cc_fingerprint
     user.last_four_cc_numbers = card_data['last4']
     user.card_type = card_data['type']
     user.billing_address_zip = card_data['address_zip']
@@ -391,8 +393,18 @@ class UserProfileManager < BaseManager
 
     user.credit_card_update_requests.create!(approved: true, performed: true)
     EventsManager.credit_card_updated(user: user)
-    UserManager.new(user).remove_mark_billing_failed
-    PaymentManager.new(user: user).perform_test_payment
+
+    card_already_used_by_another_account = User.where(stripe_card_fingerprint: cc_fingerprint).
+      where("users.id <> ?", user.id).
+      where("(users.locked = 'f' OR users.lock_reason IN ('tos', 'account'))").
+      any?
+
+    if card_already_used_by_another_account
+      UserManager.new(user).lock(:billing)
+    else
+      UserManager.new(user).remove_mark_billing_failed
+      PaymentManager.new(user: user).perform_test_payment
+    end
 
     user
   rescue Stripe::CardError => e
