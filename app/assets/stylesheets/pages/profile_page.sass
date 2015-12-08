@@ -834,7 +834,8 @@
 
     // Profile Action
 
-    .share_url, .contribute_url
+    .share_url, .contribute_url, .contact_url
+      margin-bottom: $box_margin
       padding: 15px
       text-align: left
       position: relative
@@ -855,6 +856,12 @@
       span
         font-size: 13px
 
+    .contact_url
+      .fa
+        top: 12px
+        &:before
+          font-size: 48px
+
     .contribute_url
       .heading, span
         padding-left: 40px
@@ -865,7 +872,7 @@
     // Search Profile Content
 
     .search
-      margin-top: $box_margin
+      margin-bottom: $box_margin
       .input-group-addon
         @include black-area
         @include border-radius($border_radius 0 0 $border_radius)
@@ -876,10 +883,10 @@
         @include border-radius(0 $border_radius $border_radius 0)
         height: 47px !important
 
-    // Cat Cloud & Contact Info
+    // Archived Content
 
-    .archive_cloud, .contact
-      margin-top: 30px
+    .archive_cloud
+      margin-bottom: $box_margin
       padding: 15px
       position: relative
       span
@@ -889,10 +896,6 @@
         font-weight: 600
         line-height: 100%
         padding-bottom: 10px
-
-    // Category Cloud
-
-    .archive_cloud
       ul
         margin: 0
         li
