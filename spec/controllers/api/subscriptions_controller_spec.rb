@@ -59,7 +59,7 @@ describe Api::SubscriptionsController, type: :controller do
                    address_line_2: '',
                    city: '',
                    state: '',
-                   zip: '',
+                   zip: '123456',
                    format: :json }
 
     it { should be_success }
