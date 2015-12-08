@@ -101,7 +101,7 @@
               a.SearchTag data-target='search-posts-autocomplete' data-tag='document' href="#" Documents
 
         // Message Action
-        .contact_url.btn.blue.PopupTrigger data-target='share'
+        .contact_url.btn.blue.AjaxLink href=new_user_message_path(@profile.id)
           i.fa.fa-envelope
           .heading New Message
           span Stay connected!
