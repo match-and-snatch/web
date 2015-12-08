@@ -68,7 +68,7 @@ describe ContributionManager do
     end
 
     context 'multiple contributions to different profiles' do
-      context '$500 in 1 week' do
+      context '$200 in 1 week' do
         before do
           ContributionManager.new(user: user).create(amount: 100_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5))
           Timecop.travel(1.day.since) do
@@ -224,12 +224,12 @@ describe ContributionManager do
           expect { manager.create(amount: 10001, target_user: target_user) rescue nil }.to create_record(Contribution)
         end
 
-        it 'has $500 limit' do
-          expect { another_manager.create(amount: 50001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+        it 'has $200 limit' do
+          expect { another_manager.create(amount: 20001, target_user: target_user) rescue nil }.not_to create_record(Contribution)
         end
 
         it do
-          expect { manager.create(amount: 50001, target_user: target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
+          expect { manager.create(amount: 20001, target_user: target_user) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(amount: t_error(:contribution_limit_reached)) }
         end
       end
     end
