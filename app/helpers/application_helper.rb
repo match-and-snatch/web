@@ -185,9 +185,9 @@ module ApplicationHelper
     dashboard_link_to title, [:profile_owners, sort_direction_params(field)]
   end
 
-  def dashboard_link_to_user(user)
+  def dashboard_link_to_user(user, truncate: true)
     if current_user.admin?
-      link_to user.name, admin_profile_owner_path(user.id), class: 'truncate'
+      link_to user.name, admin_profile_owner_path(user.id), class: (truncate ? 'truncate' : nil)
     else
       if user.slug.present?
         link_to user.name, profile_path(user.slug), target: '_blank'
