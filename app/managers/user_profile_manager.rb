@@ -405,6 +405,8 @@ class UserProfileManager < BaseManager
       fail_with! expiry_date: err[:message]
     when 'invalid_cvc', 'incorrect_cvc'
       fail_with! cvc: err[:message]
+    when 'incorrect_zip'
+      fail_with! zip: :invalid_zip
     else
       fail_with! number: err[:code]
     end

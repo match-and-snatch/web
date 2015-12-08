@@ -26,6 +26,7 @@ en:
     user_does_not_exist: There is nobody registered with this email.
     invalid_password: This password is incorrect.
     contribution_limit_reached: We're sorry, your contribution amount has exceeded the total daily limit allowed.
+    invalid_zip: Incorrect Postal Code
   messages:
     activated: Congratulations, your account has been activated. You are now ready to use our service.
     congrats: "Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!"
