@@ -6,10 +6,9 @@
     / Direct Deposit
     div style='#{"display: none" if @user.prefers_paypal?}' data-identifier='wire-option'
       .alert.alert-warning.fade.in
-        | Direct Deposit is available for USA clients only.  If you are located outside the USA, you can be paid via PayPal by selecting the PayPal option at the bottom of this box.
-        br
-        br
-        | Also, USA clients can choose to be paid via PayPal (instead of Direct Deposit) by selecting the PayPal option at the bottom.  
+        | Direct Deposit is available for USA clients only.  If you are located outside the USA, please email us at
+        a>< href='mailto:help@connectpal.com' help@connectpal.com
+        | to discuss payment options.  International payouts may be subject to transfer fees.  Please note, both USA and international clients must earn a minimum of $200 in a calendar month to receive a payout.  
 
       .form-group
         label.pull-left Pay to the order of
@@ -28,23 +27,6 @@
         input.form-control.pull-right type='text' name='account_number' placeholder='000123456789' value=@user.account_number validate='account_number'
         .clearfix
         .error data-field='account_number'
-
-    / Paypal
-    div style='#{"display: none" unless @user.prefers_paypal?}' data-identifier='paypal-option'
-      .alert.alert-warning.fade.in Please note, all ConnectPal money transfers via Direct Deposit will be done completely free of charge for our clients.  However, PayPal transfers may be subject to transfer fees.  ConnectPal will only charge for the amount that is equal to the PayPal fee, there will be no additional ConnectPal fees for money transfers.
-
-      .form-group
-        label.pull-left PayPal Email
-        input.form-control.pull-right type='text' name='paypal_email' value=@user.paypal_email placeholder='Email Address' validate='email'
-        .clearfix
-        .error data-field='paypal_email'
-
-    .paypal-payout.pull-left
-      label.radio-inline Would you rather get paid out via PayPal?
-      label.radio-inline
-        input.RadioToggler data-target='paypal-option' value='1' type='radio' id='paypal_payout_email' name='prefer_paypal' checked=(@user.prefers_paypal? ? 'checked' : false) Yes
-      label.radio-inline
-        input.RadioToggler data-target='wire-option' value='0' type='radio' id='paypal_payout_email' name='prefer_paypal' checked=(@user.prefers_paypal? ? false : 'checked') No
 
     input.btn.pink.pull-right type='submit' value='Update Payout Information'
     .clearfix
