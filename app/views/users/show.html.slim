@@ -100,45 +100,11 @@
             li
               a.SearchTag data-target='search-posts-autocomplete' data-tag='document' href="#" Documents
 
-        /Contact Info
-        .contact.box
-          span Contact
-          ul
-            li
-              a.fa.fa-envelope.AjaxLink href=new_user_message_path(@profile.id) Message
-            - if url = @profile.contacts_info['website'].presence
-              li
-                a.fa.fa-globe href=url target="_blank" Website
-            - if url = @profile.contacts_info['facebook'].presence
-              li
-                a.fa.fa-facebook-square href=url target="_blank" Facebook
-            - if url = @profile.contacts_info['twitter'].presence
-              li
-                a.fa.fa-twitter href=url target="_blank" Twitter
-            - if url = @profile.contacts_info['youtube'].presence
-              li
-                a.fa.fa-youtube href=url target="_blank" YouTube
-            - if url = @profile.contacts_info['instagram'].presence
-              li
-                a.fa.fa-instagram href=url target="_blank" Instagram
-            - if url = @profile.contacts_info['pinterest'].presence
-              li
-                a.fa.fa-pinterest-square href=url target="_blank" Pinterest
-            - if url = @profile.contacts_info['dribble'].presence
-              li
-                a.fa.fa-dribbble href=url target="_blank" Dribble
-            - if url = @profile.contacts_info['flickr'].presence
-              li
-                a.fa.fa-flickr  href=url target="_blank" Flickr
-            - if url = @profile.contacts_info['google+'].presence
-              li
-                a.fa.fa-google-plus-square href=url target="_blank" Google+
-            - if url = @profile.contacts_info['tumblr'].presence
-              li
-                a.fa.fa-tumblr-square href=url target="_blank" Tumblr
-            - if url = @profile.contacts_info['vimeo'].presence
-              li
-                a.fa.fa-vimeo-square  href=url target="_blank" Vimeo
+        // Message Action
+        .contact_url.btn.blue.PopupTrigger data-target='share'
+          i.fa.fa-envelope
+          .heading New Message
+          span Stay connected!
 
         /Contribute
         - if @profile.contributions_allowed?
