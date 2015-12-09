@@ -84,6 +84,7 @@ defaults: &defaults
     - barbie
     - doll
     - sin
+    - baby
 
 jwplayer: &jwplayer
   jwplayer:
