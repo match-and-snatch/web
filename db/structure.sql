@@ -1055,7 +1055,7 @@ CREATE TABLE users (
     partner_id integer,
     partner_fees integer DEFAULT 0 NOT NULL,
     locked boolean DEFAULT false NOT NULL,
-    daily_contributions_limit integer DEFAULT 10000 NOT NULL,
+    daily_contributions_limit integer DEFAULT 3000 NOT NULL,
     last_post_created_at timestamp without time zone,
     last_time_locked_at timestamp without time zone,
     accepts_large_contributions boolean DEFAULT false NOT NULL,
@@ -1837,4 +1837,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151101223552');
 INSERT INTO schema_migrations (version) VALUES ('20151102154643');
 
 INSERT INTO schema_migrations (version) VALUES ('20151112105603');
+
+INSERT INTO schema_migrations (version) VALUES ('20151209101344');
 

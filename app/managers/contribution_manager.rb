@@ -62,7 +62,7 @@ class ContributionManager < BaseManager
   end
 
   def approve!(contribution_request)
-    UserManager.new(@user).update_daily_contributions_limit(limit: 20000)
+    UserManager.new(@user).update_daily_contributions_limit(limit: 120_00)
     create(target_user: contribution_request.target_user,
            amount: contribution_request.amount,
            recurring: contribution_request.recurring,
@@ -79,7 +79,7 @@ class ContributionManager < BaseManager
       .where("created_at > ?", 7.days.ago)
       .sum(:amount)
 
-    recently_contributed >= 200_00
+    recently_contributed >= 120_00
   end
 
   def limit_reached?(amount, target_user)
