@@ -4,7 +4,7 @@ describe Api::SubscriptionsController, type: :controller do
   let(:owner) do
     create_user(api_token: 'owner_token').tap do |user|
       UserProfileManager.new(user).create_profile_page
-      UserProfileManager.new(user).update cost:           10,
+      UserProfileManager.new(user).update cost:           5,
                                           profile_name:   'profile name',
                                           holder_name:    'Sergei Zinin',
                                           routing_number: '123456789',
