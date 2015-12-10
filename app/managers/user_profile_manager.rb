@@ -396,7 +396,6 @@ class UserProfileManager < BaseManager
 
     card_already_used_by_another_account = User.where(stripe_card_fingerprint: cc_fingerprint).
       where("users.id <> ?", user.id).
-      where("(users.locked = 'f' OR users.lock_reason IN ('tos', 'account'))").
       any?
 
     if card_already_used_by_another_account

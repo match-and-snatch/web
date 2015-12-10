@@ -629,58 +629,6 @@ describe UserProfileManager do
       it { expect { update_cc }.not_to change { user.reload.billing_failed? } }
       it { expect { update_cc }.to create_event(:credit_card_updated) }
       it { expect { update_cc }.to create_record(CreditCardUpdateRequest) }
-
-      context 'another credit card holder is locked' do
-        let!(:another_user) { create :user, stripe_card_fingerprint: user.stripe_card_fingerprint, locked: true, lock_reason: lock_reason }
-
-        context 'by billing' do
-          let(:lock_reason) { 'billing' }
-
-          it 'does not lock user account' do
-            expect { update_cc }.not_to change { user.reload.locked? }.from(false)
-          end
-
-          it 'does not lock billing' do
-            expect { update_cc }.not_to change { user.reload.lock_reason }
-          end
-
-          it { expect { update_cc }.not_to change { user.reload.billing_failed? }.from(false) }
-          it { expect { update_cc }.to create_event(:credit_card_updated) }
-          it { expect { update_cc }.to create_record(CreditCardUpdateRequest) }
-        end
-
-        context 'by tos' do
-          let(:lock_reason) { 'tos' }
-
-          it 'locks user account' do
-            expect { update_cc }.to change { user.reload.locked? }.to(true)
-          end
-
-          it 'locks billing' do
-            expect { update_cc }.to change { user.reload.lock_reason }.to('billing')
-          end
-
-          it { expect { update_cc }.not_to change { user.reload.billing_failed? } }
-          it { expect { update_cc }.to create_event(:credit_card_updated) }
-          it { expect { update_cc }.to create_record(CreditCardUpdateRequest) }
-        end
-
-        context 'by account' do
-          let(:lock_reason) { 'account' }
-
-          it 'locks user account' do
-            expect { update_cc }.to change { user.reload.locked? }.to(true)
-          end
-
-          it 'locks billing' do
-            expect { update_cc }.to change { user.reload.lock_reason }.to('billing')
-          end
-
-          it { expect { update_cc }.not_to change { user.reload.billing_failed? } }
-          it { expect { update_cc }.to create_event(:credit_card_updated) }
-          it { expect { update_cc }.to create_record(CreditCardUpdateRequest) }
-        end
-      end
     end
 
     context 'user has outstanding payments' do
