@@ -93,5 +93,5 @@ BuddyPlatform::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  config.stripe.api_key = 'sk_test_onN61JMWKmncifVcCx8tsmGA'
+  config.stripe.secret_key = 'sk_test_onN61JMWKmncifVcCx8tsmGA'
 end
