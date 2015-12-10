@@ -5,7 +5,10 @@ h1
 hr
 .row
   .col-md-2
-    a href=profile_path(@user.slug) target='_blank'
+    - if @user.slug.present?
+      a href=profile_path(@user.slug) target='_blank'
+        img src=@user.profile_picture_url height='150px' width='150px' style="border: 1px solid #d7d7d7;"
+    - elsif @user.profile_picture_url.present?
       img src=@user.profile_picture_url height='150px' width='150px' style="border: 1px solid #d7d7d7;"
   .col-md-4
     ul.profile_detail_list
@@ -116,7 +119,10 @@ h1
 hr
 .row
   .col-md-2
-    a href=profile_path(@user.slug) target='_blank'
+    - if @user.slug.present?
+      a href=profile_path(@user.slug) target='_blank'
+        img src=@user.profile_picture_url height='150px' width='150px' style="border: 1px solid #d7d7d7;"
+    - elsif @user.profile_picture_url.present?
       img src=@user.profile_picture_url height='150px' width='150px' style="border: 1px solid #d7d7d7;"
   .col-md-4
     ul.profile_detail_list

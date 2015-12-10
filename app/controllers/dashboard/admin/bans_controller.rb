@@ -1,5 +1,5 @@
 class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
-  before_action :load_user!, only: %i[destroy unsubscribe]
+  before_action :load_user!, only: %i[destroy unsubscribe delete_profile_page restore_profile_page]
   before_action :load_counters, only: %i[index show]
 
   def index
@@ -29,6 +29,21 @@ class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
 
   def unsubscribe
     SubscriptionManager.new(subscriber: @user).unsubscribe_entirely
+    json_reload
+  end
+
+  def delete_profile_page
+    UserProfileManager.new(@user).delete_profile_page
+
+    if @user.has_profile_page?
+      json_reload notice: "Profile page removal requested for #{@user.name}"
+    else
+      json_reload notice: "Profile page has been removed for #{@user.name}"
+    end
+  end
+
+  def restore_profile_page
+    UserProfileManager.new(@user).create_profile_page
     json_reload
   end
 

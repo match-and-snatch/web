@@ -20,19 +20,25 @@ div data-identifier='bans'
       strong Name
     th
       strong Email
-    th
+    th style='min-width: 200px'
       strong Locked Date
     th
       strong Lock Type
     th
     th
+    th
 
     - @users.each do |user|
       tr
-        td= user.name
+        td= dashboard_link_to_user user, truncate: false
         td= user.email
         td= user.last_time_locked_at.try(:to_s, :long)
         td= user.lock_reason.to_s.humanize
+        td
+          - if user.is_profile_owner?
+            button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=delete_profile_page_admin_ban_path(user.id) Delete Profile
+          - else
+            button.AjaxFormLink.btn.black.pull-right data-_method='POST' href=restore_profile_page_admin_ban_path(user.id) Create Profile
         td
           - if user.not_removed_subscriptions_count > 0
             button.AjaxFormLink.btn.pink.pull-right data-_method='DELETE' href=unsubscribe_admin_ban_path(user.id) Unsubscribe (#{user.not_removed_subscriptions_count})
