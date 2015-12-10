@@ -314,7 +314,8 @@ class ApiResponsePresenter
       itunes_enabled: user.itunes_enabled?,
       rss_enabled: user.rss_enabled?,
       is_profile_owner: user.is_profile_owner?,
-      vacation_enabled: user.vacation_enabled?
+      vacation_enabled: user.vacation_enabled?,
+      accepts_large_contributions: user.accepts_large_contributions?
     }
   end
 
