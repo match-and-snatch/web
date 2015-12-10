@@ -19,9 +19,9 @@ describe SubscriptionManager do
           expiry_month: '05',
           expiry_year: '18',
           zip: '123456',
-          city: nil,
-          state: nil,
-          address_line_1: nil,
+          city: 'LA',
+          state: 'CA',
+          address_line_1: 'Test',
           address_line_2: nil
       }
     end
