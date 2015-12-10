@@ -609,6 +609,28 @@ describe UserProfileManager do
       expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.to create_record(CreditCardUpdateRequest)
     end
 
+    context 'the card is already in the system' do
+      def update_cc
+        manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+      end
+
+      before { update_cc } # generate fingerprint
+
+      let!(:another_user) { create :user, stripe_card_fingerprint: user.stripe_card_fingerprint }
+
+      it 'locks user account' do
+        expect { update_cc }.to change { user.reload.locked? }.to(true)
+      end
+
+      it 'locks billing' do
+        expect { update_cc }.to change { user.reload.lock_reason }.to('billing')
+      end
+
+      it { expect { update_cc }.not_to change { user.reload.billing_failed? } }
+      it { expect { update_cc }.to create_event(:credit_card_updated) }
+      it { expect { update_cc }.to create_record(CreditCardUpdateRequest) }
+    end
+
     context 'user has outstanding payments' do
       let(:target_user) { create :user, :profile_owner }
 
