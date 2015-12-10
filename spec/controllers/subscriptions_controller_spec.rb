@@ -49,10 +49,10 @@ describe SubscriptionsController, type: :controller do
                                    cvc: '123',
                                    expiry_month: '12',
                                    expiry_year: '17',
-                                   address_line_1: '',
+                                   address_line_1: 'Test',
                                    address_line_2: '',
-                                   city: '',
-                                   state: '',
+                                   city: 'LA',
+                                   state: 'CA',
                                    zip: '123456' }
 
     it { should be_success }
