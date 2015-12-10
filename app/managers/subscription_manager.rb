@@ -245,6 +245,8 @@ class SubscriptionManager < BaseManager
   end
 
   def unsubscribe
+    fail_with! 'Already unsubscribed' if @subscription.removed?
+
     @subscription.remove!
 
     unmark_as_processing

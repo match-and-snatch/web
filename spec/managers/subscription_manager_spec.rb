@@ -104,8 +104,16 @@ describe SubscriptionManager do
       before { manager.subscribe_to(another_user, fake: true) }
 
       it { expect { manager.unsubscribe }.to change { another_user.subscribers_count }.by(-1) }
-      it { expect { manager.unsubscribe }.not_to change { FeedEvent.count } }
+      it { expect { manager.unsubscribe }.not_to create_record(UnsubscribedFeedEvent) }
       it { expect { manager.unsubscribe }.to create_event(:subscription_canceled).with_subject(another_user) }
+    end
+
+    context 'unsubscribe one more time' do
+      before { manager.unsubscribe }
+
+      it { expect { manager.unsubscribe }.to raise_error(ManagerError,  /Already unsubscribed/) }
+      it { expect { manager.unsubscribe rescue nil }.not_to create_record(UnsubscribedFeedEvent) }
+      it { expect { manager.unsubscribe rescue nil }.not_to create_event(:subscription_canceled).with_subject(another_user) }
     end
   end
 
