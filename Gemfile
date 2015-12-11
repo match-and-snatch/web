@@ -16,7 +16,9 @@ gem 'pg_search', '~> 1.0.5'
 gem 'elasticsearch', git: 'git://github.com/elasticsearch/elasticsearch-ruby.git'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0.4'
+gem 'sass-rails', '~> 4.0.5'
+gem 'sprockets', '2.12.4'
+gem 'sprockets-rails', '2.3.2'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 2.7.2'
