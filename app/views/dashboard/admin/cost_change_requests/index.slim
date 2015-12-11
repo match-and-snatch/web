@@ -1,7 +1,14 @@
 h2 Change cost requests
-br
+
+ol.pull-left style='padding: 0 15px 15px 0'
+  li
+    a href=admin_cost_change_requests_path(new_users: true) class="#{'pending' if params[:new_users]}" New users
+  li
+    a href=admin_cost_change_requests_path class="#{'pending' unless params[:new_users]}" Existing users
+.clearfix
+
 - if @cost_change_requests.any?
-  table.table
+  table.table.table-striped
     th Profile Page
     th Email
     th Old cost

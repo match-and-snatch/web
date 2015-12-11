@@ -2,7 +2,12 @@ class Dashboard::Admin::CostChangeRequestsController < Dashboard::Admin::BaseCon
   before_action :initialize_cost_change_request!, only: [:confirm_reject, :reject, :confirm_approve, :approve]
 
   def index
-    @cost_change_requests = CostChangeRequest.pending.order(created_at: :desc).page(params[:page]).per(100)
+    base_query = CostChangeRequest.pending
+    @cost_change_requests = if params[:new_users]
+                              base_query.where(old_cost: nil)
+                            else
+                              base_query.where.not(old_cost: nil)
+                            end.order(created_at: :desc).page(params[:page]).per(100)
     json_render
   end
 
