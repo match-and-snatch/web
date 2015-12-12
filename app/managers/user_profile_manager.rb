@@ -225,7 +225,7 @@ class UserProfileManager < BaseManager
     user.routing_number = routing_number.try(:strip)
     user.account_number = account_number.try(:strip)
     user.paypal_email   = paypal_email.try(:strip)
-    user.prefers_paypal = prefer_paypal
+    user.prefers_paypal = prefer_paypal || false
 
     save_or_die! user
 
