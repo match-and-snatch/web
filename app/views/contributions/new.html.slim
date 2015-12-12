@@ -40,7 +40,7 @@
           input id='amount_cont_30' type='radio' name='amount' value='3000' style='margin: 0 5px 0 10px;'
           label for='amount_cont_30' style='font-size: 13px;' $30
 
-          - if @target_user.accepts_large_contributions?
+          - if @target_user.try(:accepts_large_contributions?)
             label.custom-amount for='custom_amount_cont_rb'
               input id='custom_amount_cont_rb' type='radio' name='amount' value='0' style='margin: 0 5px 0 10px;'
               input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter other value' style='width: 140px;'

@@ -8,7 +8,8 @@ class UploadsController < ApplicationController
 
   def show
     @upload.user.itunes_enabled? or error(404)
-    @post = @upload.uploadable or error(404)
+    @post = @upload.uploadable
+    @post.is_a?(Post) or error(404)
   end
 
   def create
