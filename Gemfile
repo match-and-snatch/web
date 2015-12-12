@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.5'
 gem 'responders', '~> 2.1'
 
 # Caching
@@ -11,20 +11,18 @@ gem 'actionpack-action_caching'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
-gem 'pg_search', '~> 1.0.5'
+gem 'pg_search', '~> 1.0.0'
 
 gem 'elasticsearch', git: 'git://github.com/elasticsearch/elasticsearch-ruby.git'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.5'
-gem 'sprockets', '2.12.4'
-gem 'sprockets-rails', '2.3.2'
+gem 'sass-rails', '~> 4.0.0'
 
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 2.7.2'
+gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -33,7 +31,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.3.2'
+gem 'jbuilder', '~> 1.2'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -53,17 +51,17 @@ gem 'daemons'
 gem 'delayed_job_active_record'
 
 # Exception handling
-gem 'rollbar', '~> 2.6.3'
+gem 'rollbar', '~> 2.5.0'
 
 # Play with time
 gem 'chronic'
 
 # Credit cards, billing, charges, payments
-gem 'stripe', '1.31.0'
+gem 'stripe', '1.16.0'
 gem 'stripe-rails'
 
 # Amazon S3
-gem 'aws-sdk', '~> 2.2.4'
+gem 'aws-sdk', '~> 2.0.48'
 
 # Uploads, assets
 gem 'transloadit-rails'
@@ -85,7 +83,7 @@ group :test do
   gem 'guard-rspec', require: false
   gem 'guard-cucumber', require: false
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
-  gem 'stripe-ruby-mock'
+  gem 'stripe-ruby-mock', '1.10.1.7'
   gem 'timecop'
   gem 'cucumber-rails', require: false
   gem 'capybara-webkit'
