@@ -185,6 +185,10 @@ module ApplicationHelper
     dashboard_link_to title, [:profile_owners, sort_direction_params(field)]
   end
 
+  def sort_potential_violators_link(title, field)
+    dashboard_link_to title, [:potential_violators, sort_direction_params(field)]
+  end
+
   def dashboard_link_to_user(user, truncate: true)
     if current_user.admin?
       link_to user.name, admin_profile_owner_path(user.id), class: (truncate ? 'truncate' : nil)

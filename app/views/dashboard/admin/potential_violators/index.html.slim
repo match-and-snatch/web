@@ -9,7 +9,8 @@ h1 Potential violators
     th
       strong Email
     th
-      strong Registered
+      strong
+        = sort_potential_violators_link 'Registered', :created_at
     th
       strong Subscriptions
     th
@@ -23,7 +24,7 @@ h1 Potential violators
         td
           = dashboard_link_to_user user
         td= user.email
-        td style='min-width: 100px'= user.created_at.try(:to_s, :short)
+        td style='min-width: 100px'= user.created_at.try(:to_date).try(:to_s, :rfc822)
         td
           table
             - user.subscriptions.sort_by(&:created_at).each do |subscription|
