@@ -10,13 +10,23 @@ class ApiResponsePresenter
   end
 
   # @param user [User]
-  def current_user_data(user = current_user.object)
+  def lock_info(user = current_user.object)
     lock_type = case user.lock_type.try(:to_sym)
                   when :billing, :weekly_contribution_limit
                     :billing
                   else
                     user.lock_type
                   end
+
+    {
+      banned: user.locked? || user.cc_declined?,
+      locked: user.locked?,
+      lock_type: lock_type
+    }
+  end
+
+  # @param user [User]
+  def current_user_data(user = current_user.object)
     {
       id: user.id,
       created_at: user.created_at,
@@ -30,7 +40,6 @@ class ApiResponsePresenter
       stripe_card_id: user.stripe_card_id,
       has_cc_payment_account: user.has_cc_payment_account?,
       card_type: user.card_type,
-      banned: user.locked? || user.cc_declined?, # TODO : FIX ME, Fix Api, Fix all crap
       profile_picture_url: user.profile_picture_url,
       small_profile_picture_url: user.small_profile_picture_url,
       original_profile_picture_url: user.original_profile_picture_url,
@@ -76,11 +85,9 @@ class ApiResponsePresenter
       registration_token: user.registration_token,
       auth_token: user.auth_token,
       api_token: user.api_token,
-      locked: user.locked?,
-      lock_type: lock_type,
       cost_approved: user.cost_approved?,
       cc_declined: user.cc_declined?
-    }.merge(account_data(user))
+    }.merge(account_data(user)).merge(lock_info(user))
   end
 
   # @param subscriptions [SubscriptionsPresenter]
