@@ -1,7 +1,7 @@
 class Dashboard::Admin::PotentialViolatorsController < Dashboard::Admin::BaseController
 
   def index
-    query = User.joins(:subscriptions)
+    query = User.select("users.*, COUNT(subscriptions.id) as subscriptions_count").joins(:subscriptions)
       .includes(subscriptions: :target_user)
       .group('users.id').having('COUNT(subscriptions.id) >= 8')
 

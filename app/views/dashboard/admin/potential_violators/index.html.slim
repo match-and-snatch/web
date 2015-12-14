@@ -12,7 +12,8 @@ h1 Potential violators
       strong
         = sort_potential_violators_link 'Registered', :created_at
     th
-      strong Subscriptions
+      strong
+        = sort_potential_violators_link 'Subscriptions', :subscriptions_count
     th
       strong Lock
     th
