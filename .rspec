@@ -1,1 +1,3 @@
 --color
+--require christmas_tree_formatter
+--format ChristmasTreeFormatter

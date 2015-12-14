@@ -104,6 +104,8 @@ GEM
     capybara-webkit (1.7.1)
       capybara (>= 2.3.0, < 2.6.0)
       json
+    christmas_tree_formatter (0.1.0)
+      rspec-core (~> 3.0)
     chronic (0.10.2)
     coderay (1.1.0)
     coffee-rails (4.0.1)
@@ -403,6 +405,7 @@ DEPENDENCIES
   bcrypt-ruby
   bootstrap-sass
   capybara-webkit
+  christmas_tree_formatter
   chronic
   coffee-rails (~> 4.0.0)
   cucumber-rails

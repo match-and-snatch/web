@@ -79,6 +79,7 @@ end
 
 group :test do
   gem 'rspec-rails'
+  gem 'christmas_tree_formatter'
   gem 'rspec-its'
   gem 'guard-rspec', require: false
   gem 'guard-cucumber', require: false
