@@ -225,7 +225,7 @@ class UserProfileManager < BaseManager
     user.routing_number = routing_number.try(:strip)
     user.account_number = account_number.try(:strip)
     user.paypal_email   = paypal_email.try(:strip)
-    user.prefers_paypal = prefer_paypal
+    user.prefers_paypal = prefer_paypal || false
 
     save_or_die! user
 
@@ -359,12 +359,12 @@ class UserProfileManager < BaseManager
                      full_name: user.full_name}
     customer_data = {metadata:  metadata,
                      email:     user.email,
-                     source:    card.to_stripe}
+                     card:      card.to_stripe}
 
     if user.stripe_user_id
       begin
         customer = Stripe::Customer.retrieve(user.stripe_user_id)
-        customer.source   = card.to_stripe
+        customer.card     = card.to_stripe
         customer.metadata = metadata
         customer.email    = user.email
         customer = customer.save
@@ -375,7 +375,7 @@ class UserProfileManager < BaseManager
       customer = Stripe::Customer.create customer_data
     end
 
-    card_data = customer['sources']['data'][0]
+    card_data = customer['cards']['data'][0]
     cc_fingerprint = card_data['fingerprint']
 
     user.stripe_user_id = customer['id']
