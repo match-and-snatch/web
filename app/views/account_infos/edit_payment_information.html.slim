@@ -2,9 +2,10 @@
   h2 Profile Payout Information
   form.Form action=update_bank_account_data_account_info_path method='post' style='margin-bottom: 15px;'
     input type='hidden' name='_method' value='put'
+    input type='hidden' name='prefers_paypal' value=false
 
     / Direct Deposit
-    div style='#{"display: none" if @user.prefers_paypal?}' data-identifier='wire-option'
+    div data-identifier='wire-option'
       .alert.alert-warning.fade.in
         | Direct Deposit is available for USA clients only.  If you are located outside the USA, please email us at
         a>< href='mailto:help@connectpal.com' help@connectpal.com
