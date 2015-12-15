@@ -393,6 +393,22 @@ describe UserProfileManager do
 
       it { expect { manager.delete_profile_page }.to delete_record_index_document(user).from_type('profiles') }
     end
+
+    context 'with source subscriptions' do
+      let(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let!(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(user) }
+
+      it { expect { manager.delete_profile_page! }.to change { user.reload.subscribers_count }.by(-1) }
+      it { expect { manager.delete_profile_page! }.to create_event(:subscription_canceled).with_subject(user) }
+
+      context 'with removed source subscriptions' do
+        before { SubscriptionManager.new(subscription: subscription).unsubscribe }
+
+        it { expect { manager.delete_profile_page! }.not_to raise_error }
+        it { expect { manager.delete_profile_page! }.not_to change { user.subscribers_count } }
+        it { expect { manager.delete_profile_page! }.not_to create_event(:subscription_canceled).with_subject(subscriber) }
+      end
+    end
   end
 
   describe '#update' do
