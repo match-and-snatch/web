@@ -6,17 +6,16 @@ class CardsDuplicatesPresenter < DuplicatesPresenter
     @collection ||= users.group_by { |user| user.stripe_card_fingerprint }
   end
 
+  # @return [Array<String>]
+  def duplicates_values
+    User.group(:stripe_card_fingerprint).having('COUNT(id) > 1').select(:stripe_card_fingerprint).page(page).per(per_page)
+  end
+
   private
 
   # Returns users with duplicate stripe_card_fingerprint
   # @return [Array<User>]
   def users
-    User.where <<-SQL.squish
-      stripe_card_fingerprint IN (
-        SELECT stripe_card_fingerprint
-        FROM users
-        GROUP BY stripe_card_fingerprint
-        HAVING COUNT(id) > 1)
-    SQL
+    User.where(stripe_card_fingerprint: duplicates_values)
   end
 end

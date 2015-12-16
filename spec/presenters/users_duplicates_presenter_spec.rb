@@ -6,20 +6,16 @@ describe UsersDuplicatesPresenter do
   end
 
   context 'no duplicates' do
-    before do
-      create_user email: 'no@duplicates.com'
-    end
+    before { create(:user, email: 'no@duplicates.com') }
 
     its(:collection) { should be_empty }
   end
 
   context 'with duplicates' do
-    before do
-      create_user email: 'no@duplicates.com'
-    end
+    before { create(:user, email: 'no@duplicates.com') }
 
-    let!(:first_duplicate) { create_user email: 'duplicate@gmail.com' }
-    let!(:second_duplicate) { create_user email: 'DUPLICATE_@gmaiL.com' }
+    let!(:first_duplicate) { create(:user, email: 'duplicate@gmail.com') }
+    let!(:second_duplicate) { create(:user, email: 'DUPLICATE_@gmaiL.com') }
 
     before do
       second_duplicate.update_attribute(:email, 'duplicate@gmail.com')
