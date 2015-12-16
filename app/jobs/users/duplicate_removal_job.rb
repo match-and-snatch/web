@@ -23,7 +23,7 @@ module Users
     end
 
     def cleanup_by_duplicate_subscriptions
-      UsersDuplicatesPresenter.new.each do |email, users|
+      UsersDuplicatesPresenter.new(per_page: limit).each do |email, users|
         original = users.first
 
         if users.all? { |u| u.subscriptions.map(&:target_user).sort_by(&:id) == original.subscriptions.map(&:target_user).sort_by(&:id) }
@@ -34,7 +34,7 @@ module Users
     end
 
     def cleanup_by_creation_date
-      UsersDuplicatesPresenter.new.each do |email, users|
+      UsersDuplicatesPresenter.new(per_page: limit).each do |email, users|
         unsubscribed = users.select { |u| u.subscriptions.count == 0 && !u.has_profile_page? }
         original = unsubscribed.sort_by(&:created_at).first
 
@@ -45,7 +45,7 @@ module Users
     end
 
     def cleanup_by_subscriptions
-      UsersDuplicatesPresenter.new.each do |email, users|
+      UsersDuplicatesPresenter.new(per_page: limit).each do |email, users|
         subscribed = users.select { |u| u.subscriptions.count > 0 }
         unsubscribed = users.select { |u| u.subscriptions.count == 0 && !u.has_profile_page? }
 
@@ -54,6 +54,10 @@ module Users
         end
         cleanup(unsubscribed)
       end
+    end
+
+    def limit
+      @limit ||= User.count
     end
   end
 end

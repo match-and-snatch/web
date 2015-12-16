@@ -1,13 +1,14 @@
-h2 Users Duplicates (#{@duplicates.count})
+h2 Users Duplicates (#{@duplicates.duplicates_values.total_count})
+
+ol.pull-left style='padding: 0 15px 15px 0'
+  li
+    a href=admin_duplicates_path class="#{'pending' unless params[:by_card]}" By Email
+  li
+    a href=admin_duplicates_path(by_card: true) class="#{'pending' if params[:by_card]}" By Credit Card
+.clearfix
 
 - if @duplicates.any?
   = render 'duplicates_table', duplicates: @duplicates
-- else
-  strong No duplicates so far
-
-h2 Cards Duplicates (#{@card_duplicates.count})
-
-- if @card_duplicates.any?
-  = render 'duplicates_table', duplicates: @card_duplicates
+  .TopJumper= paginate @duplicates.duplicates_values
 - else
   strong No duplicates so far

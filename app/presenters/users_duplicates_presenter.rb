@@ -6,12 +6,12 @@ class UsersDuplicatesPresenter < DuplicatesPresenter
     @collection ||= users.group_by { |user| user.email.downcase }
   end
 
-  private
-
   # @return [Array<String>]
-  def duplicate_emails
-    email_counts.keys.map(&:downcase)
+  def duplicates_values
+    Kaminari.paginate_array(email_counts.keys.map(&:downcase)).page(page).per(per_page)
   end
+
+  private
 
   # Returns counts per each duplicated email
   # @return [Hash<String, Integer>]
@@ -22,7 +22,7 @@ class UsersDuplicatesPresenter < DuplicatesPresenter
   # Returns users with duplicate emails
   # @return [Array<User>]
   def users
-    User.where(['lower(users.email) IN (?)', duplicate_emails]).order('users.created_at')
+    User.where(['lower(users.email) IN (?)', duplicates_values]).order('users.created_at')
   end
 end
 

@@ -1,8 +1,11 @@
 class Dashboard::Admin::DuplicatesController < Dashboard::Admin::BaseController
 
   def index
-    @duplicates = UsersDuplicatesPresenter.new
-    @card_duplicates = CardsDuplicatesPresenter.new
+    @duplicates = if params[:by_card]
+                    CardsDuplicatesPresenter.new(page: params[:page])
+                  else
+                    UsersDuplicatesPresenter.new(page: params[:page])
+                  end
     json_render
   end
 end
