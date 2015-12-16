@@ -11,6 +11,12 @@ class Dashboard::Admin::PotentialViolatorsController < Dashboard::Admin::BaseCon
       query = query.order(recent_subscription_at: :desc)
     end
 
+    if params[:active]
+      query = query.where('users.locked = ?', false)
+    elsif params[:locked]
+      query = query.where('users.locked = ?', true)
+    end
+
     @users = query.page(params[:page]).per(20)
 
     json_render

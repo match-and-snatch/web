@@ -1,5 +1,13 @@
 h1 Potential violators
 
+ol.pull-left style='padding: 0 15px 15px 0'
+  li= dashboard_link_to('All', [:potential_violators])
+  li class="#{params[:active] ? 'pending' : ''}"
+    = dashboard_link_to('Active Billing', [:potential_violators, {active: true}])
+  li class="#{params[:locked] ? 'pending' : ''}"
+    = dashboard_link_to('Locked', [:potential_violators, {locked: true}])
+.clearfix
+
 .table-responsive
   table.table.table-striped
     th
