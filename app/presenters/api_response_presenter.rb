@@ -263,19 +263,20 @@ class ApiResponsePresenter
   def account_data(user)
     {
       active_subscriptions_count: user.subscriptions.active.count,
-      slug: user.slug,
-      is_profile_owner: user.is_profile_owner?,
-      full_name: user.full_name,
-      email: user.email,
       account_picture_url: user.account_picture_url,
       billing_address_line_1: user.billing_address_line_1,
       billing_address_line_2: user.billing_address_line_2,
       billing_address_city: user.billing_address_city,
       billing_address_state: user.billing_address_state,
       billing_address_zip: user.billing_address_zip,
-      last_four_cc_numbers: user.last_four_cc_numbers,
       billing_failed: user.billing_failed,
-      billing_failed_at: user.billing_failed_at
+      billing_failed_at: user.billing_failed_at,
+      email: user.email,
+      full_name: user.full_name,
+      has_cc_payment_account: user.has_cc_payment_account?,
+      is_profile_owner: user.is_profile_owner?,
+      last_four_cc_numbers: user.last_four_cc_numbers,
+      slug: user.slug
     }
   end
 

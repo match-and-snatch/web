@@ -2,14 +2,12 @@ require 'spec_helper'
 
 describe Users::DuplicateRemovalJob do
   describe '#perform' do
-    let!(:user) { create_user email: 'szinin@gmail.com' }
+    let!(:user) { create(:user, email: 'szinin@gmail.com') }
 
-    specify do
-      expect { subject.perform }.not_to change { user.reload.destroyed? }
-    end
+    it { expect { subject.perform }.not_to change { user.reload.destroyed? } }
 
     context 'having duplicate' do
-      let!(:duplicate) { create_user email: 'szinin_duplicate@gmail.com' }
+      let!(:duplicate) { create(:user, email: 'szinin_duplicate@gmail.com') }
 
       before do
         duplicate.email = 'szinin@gmail.com'
@@ -21,14 +19,11 @@ describe Users::DuplicateRemovalJob do
         expect { user.reload }.not_to raise_error
       end
 
-      specify do
-        subject.perform
-        expect { duplicate.reload }.to raise_error
-      end
+      it { expect { subject.perform }.to delete_record(User).matching(id: duplicate.id) }
 
       context 'with subscription' do
-        let!(:user) { create_profile email: 'szinin@gmail.com' }
-        let!(:another_duplicate) { create_user email: 'szinin_another@gmail.com' }
+        let!(:user) { create(:user, :profile_owner, email: 'szinin@gmail.com') }
+        let!(:another_duplicate) { create(:user, email: 'szinin_another@gmail.com') }
 
         before do
           another_duplicate.email = 'szinin@gmail.com'
@@ -49,10 +44,7 @@ describe Users::DuplicateRemovalJob do
           expect { duplicate.reload }.not_to raise_error
         end
 
-        specify do
-          subject.perform
-          expect { another_duplicate.reload }.to raise_error
-        end
+        it { expect { subject.perform }.to delete_record(User).matching(id: another_duplicate.id) }
       end
     end
   end
