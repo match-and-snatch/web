@@ -39,7 +39,18 @@ describe SubscriptionsController, type: :controller do
     before { StripeMock.start }
     after { StripeMock.stop }
 
-    let(:stripe_token) { '4242424242424242' }
+    let(:cc_data) do
+      { number: '4242424242424242',
+        cvc: '000',
+        expiry_month: '12',
+        expiry_year: '17',
+        zip: '123456',
+        city: 'LA',
+        state: 'CA',
+        address_line_1: 'Test',
+        address_line_2: '' }
+    end
+    let(:stripe_token) { StripeMock.generate_card_token(cc_data) }
 
     subject { post 'via_register', user_id: owner.slug,
                                    email: 'subscriber@gmail.com',
