@@ -16,6 +16,6 @@ class CardsDuplicatesPresenter < DuplicatesPresenter
   # Returns users with duplicate stripe_card_fingerprint
   # @return [Array<User>]
   def users
-    User.where(stripe_card_fingerprint: duplicates_values)
+    User.where(stripe_card_fingerprint: duplicates_values).order(created_at: :desc)
   end
 end

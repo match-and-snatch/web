@@ -22,6 +22,6 @@ describe UsersDuplicatesPresenter do
       second_duplicate.reload
     end
 
-    its(:collection) { should == {'duplicate@gmail.com' => [first_duplicate, second_duplicate]} }
+    its(:collection) { should == {'duplicate@gmail.com' => [second_duplicate, first_duplicate]} }
   end
 end

@@ -22,7 +22,7 @@ class UsersDuplicatesPresenter < DuplicatesPresenter
   # Returns users with duplicate emails
   # @return [Array<User>]
   def users
-    User.where(['lower(users.email) IN (?)', duplicates_values]).order('users.created_at')
+    User.where(['lower(users.email) IN (?)', duplicates_values]).order(created_at: :desc)
   end
 end
 

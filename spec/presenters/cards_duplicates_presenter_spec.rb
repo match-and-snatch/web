@@ -22,6 +22,6 @@ describe CardsDuplicatesPresenter do
       second_duplicate.reload
     end
 
-    its(:collection) { should == {first_duplicate.stripe_card_fingerprint => [first_duplicate, second_duplicate]} }
+    its(:collection) { should == {first_duplicate.stripe_card_fingerprint => [second_duplicate, first_duplicate]} }
   end
 end
