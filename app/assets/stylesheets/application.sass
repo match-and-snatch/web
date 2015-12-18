@@ -192,10 +192,13 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
     h2
       text-decoration: underline
       margin: 0 0 15px 0
-    ol
+    ol, ul
       font-size: 13px
-      list-style: decimal
-      margin-left: 15px
+      margin-left: 20px
+      &.letter
+        list-style-type: upper-alpha
+      &.number
+        list-style-type: decimal
     p
       white-space: pre-wrap
     // Search Directory
@@ -793,7 +796,7 @@ footer
       a
         color: #FFFFFF
         text-decoration: none
-        &:hover
+        &:hover, &:focus
           color: #FFFFFF
           text-decoration: underline
   .copyright
@@ -932,17 +935,15 @@ footer
     .margin-left
       margin-left: 10px
     .terms_text
-      color: #cccccc
+      color: $color_text_light
       font-size: 11px
       margin-top: 5px
-      width: 180px
+      width: 190px
       @media screen and (max-width: 767px)
         float: none !important
         width: 100%
       a
-        color: #cccccc
-        &:hover
-          color: $color_text_light
+        color: $color_text_light
     .btn.blue
       @media screen and (max-width: 767px)
         width: 100% !important
@@ -1035,6 +1036,7 @@ footer
         font-size: 18px !important
         padding: 10px 15px
       .terms_text
+        margin-top: 5px
         text-align: center
         width: 100%
 

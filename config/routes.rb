@@ -509,7 +509,7 @@ BuddyPlatform::Application.routes.draw do
   get '/about' => 'pages#about', as: :about
   get '/pricing' => 'pages#pricing', as: :pricing
   get '/contact_us' => 'pages#contact_us', as: :contact_us
-  get '/terms_of_use' => 'pages#terms_of_use', as: :terms_of_use
+  get '/terms_of_service' => 'pages#terms_of_service', as: :terms_of_service
   get '/privacy_policy' => 'pages#privacy_policy', as: :privacy_policy
   get '/faq' => 'pages#faq', as: :faq
   get '/sampleprofile' => 'pages#sampleprofile', as: :sampleprofile
