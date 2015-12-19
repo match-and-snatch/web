@@ -5,7 +5,7 @@ xml.urlset "xmlns" => "http://www.sitemaps.org/schemas/sitemap/0.9" do
     xml.priority 1.0
   end
 
-  %w(about pricing contact_us terms_of_use privacy_policy faq users search login signup).each do |page|
+  %w(about pricing contact_us terms_of_service privacy_policy faq users search login signup).each do |page|
     xml.url do
       xml.loc mobile_url(page)
       xml.priority 0.7

@@ -16,8 +16,8 @@ describe PagesController, type: :controller do
     it { should be_success }
   end
 
-  describe 'GET #terms_of_use' do
-    subject { get 'terms_of_use' }
+  describe 'GET #terms_of_service' do
+    subject { get 'terms_of_service' }
     it { should be_success }
   end
 
