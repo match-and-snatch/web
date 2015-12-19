@@ -267,11 +267,16 @@ describe SubscriptionManager do
       end
 
       context 'subscribing more than 4 times' do
+        let(:profiles) do
+          4.times.map do
+            create :user, :profile_owner
+          end
+        end
+
         before do
-          manager.subscribe_to(create_profile(email: 'another_1@user.com'))
-          manager.subscribe_to(create_profile(email: 'another_2@user.com'))
-          manager.subscribe_to(create_profile(email: 'another_3@user.com'))
-          manager.subscribe_to(create_profile(email: 'another_4@user.com'))
+          profiles.each do |profile|
+            manager.subscribe_to(profile)
+          end
         end
 
         it 'locks an account' do
@@ -280,6 +285,22 @@ describe SubscriptionManager do
 
         it 'sets billing lock reason' do
           expect { manager.subscribe_to(another_user) }.to create_event('account_locked').with_user(subscriber).including_data(reason: 'billing')
+        end
+
+        context 'mature profiles' do
+          let(:profiles) do
+            4.times.map do
+              create :user, :profile_owner, has_mature_content: true
+            end
+          end
+
+          it "doesn't allow user to subscribe on any other profile" do
+            expect { manager.subscribe_to(create(:user, :profile_owner)) rescue nil }.not_to change { subscriber.subscriptions.count }
+          end
+
+          specify do
+            expect { manager.subscribe_to(create(:user, :profile_owner)) }.to raise_error(ManagerError, /maximum subscription limit/)
+          end
         end
 
         context '48 hours passed' do
