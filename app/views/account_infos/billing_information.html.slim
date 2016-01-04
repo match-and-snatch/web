@@ -27,7 +27,7 @@
       tbody
         - @subscriptions.active.each do |subscription|
           tr
-            td width='300px'= link_to_user subscription.target_user
+            td width='300px'= link_to_user(subscription.target_user, force_profile_name: true)
             td= subscription.target_user.vacation_enabled? ? 'Away Mode - No Billing' : subscription.billing_date.to_s(:long)
             td style='text-align: right;'
               a.fa.fa-close.AjaxLink href=cancel_subscription_path(subscription.id) Cancel Subscription
@@ -53,7 +53,7 @@
       tbody
         - @contributions.each do |contribution|
           tr
-            td width='300px'= link_to_user contribution.target_user
+            td width='300px'= link_to_user(contribution.target_user, force_profile_name: true)
             td= contribution.next_billing_date.to_s(:long)
             td style='text-align: right;'
               a.fa.fa-close.AjaxLink href=cancel_contribution_path(contribution.id) Cancel Contribution
@@ -73,7 +73,7 @@
         th style='width: 170px;'
       - @subscriptions.canceled.each do |subscription|
         tr
-          td width='300px'= link_to_user subscription.target_user
+          td width='300px'= link_to_user(subscription.target_user, force_profile_name: true)
           td= subscription.canceled_at.to_s(:long) if subscription.canceled_at
           - if @subscriptions.show_failed_column?
             td
