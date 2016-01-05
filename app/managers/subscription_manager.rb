@@ -176,7 +176,7 @@ class SubscriptionManager < BaseManager
     fail_with! "Can't subscribe to self" if @subscriber == target
     fail_with! "Can't subscribe to user with not approved cost" unless target.cost_approved?
 
-    if @subscriber.subscriptions.joins(:target_user).where(users: {has_mature_content: true}).count >= 4
+    if @subscriber.subscriptions.joins(:target_user).where(users: {has_mature_content: true}).count >= 6
       fail_with! 'You have reached your maximum subscription limit. Please contact help@connectpal.com to discuss your situation.'
     end
 
