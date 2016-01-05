@@ -185,6 +185,10 @@ module ApplicationHelper
     dashboard_link_to title, [:profile_owners, sort_direction_params(field)]
   end
 
+  def sort_profile_deserters_link(title, field)
+    dashboard_link_to title, [:profile_deserters, sort_direction_params(field)]
+  end
+
   def sort_potential_violators_link(title, field)
     dashboard_link_to title, [:potential_violators, sort_direction_params(field).merge(request.GET).except('authenticity_token')]
   end
