@@ -3,12 +3,17 @@ module UserLinksHelper
   # @param possessive [Boolean]
   # @param shorten [Boolean]
   # @param hide_adult_words [Boolean]
+  # @param force_profile_name [Boolean]
   # @return [String, nil]
-  def link_to_user(user, possessive: false, shorten: false, show_mature_name: true)
+  def link_to_user(user, possessive: false, shorten: false, show_mature_name: true, force_profile_name: false)
     return unless user
 
     user = user.object if user.kind_of? BaseDecorator
-    name = user.name
+    name = if force_profile_name
+             user.profile_name.presence || user.name
+           else
+             user.name
+           end
     options = {}
 
     if possessive
