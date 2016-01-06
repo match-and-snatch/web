@@ -293,12 +293,25 @@ describe SubscriptionManager do
               create :user, :profile_owner, has_mature_content: true
             end
           end
+          let(:new_profiles) do
+            2.times.map do
+              create :user, :profile_owner, has_mature_content: true
+            end
+          end
 
-          it "doesn't allow user to subscribe on any other profile" do
+          before do
+            Timecop.freeze(2.days.from_now) do
+              new_profiles.each do |profile|
+                manager.subscribe_to(profile)
+              end
+            end
+          end
+
+          it "doesn't allow user to subscribe on any other profile", freeze: 2.days.from_now do
             expect { manager.subscribe_to(create(:user, :profile_owner)) rescue nil }.not_to change { subscriber.subscriptions.count }
           end
 
-          specify do
+          specify freeze: 2.days.from_now do
             expect { manager.subscribe_to(create(:user, :profile_owner)) }.to raise_error(ManagerError, /maximum subscription limit/)
           end
         end
