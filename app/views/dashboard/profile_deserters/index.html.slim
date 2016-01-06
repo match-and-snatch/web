@@ -1,0 +1,50 @@
+h2 Profile Deserters
+.table-responsive
+  table.table.table-striped
+    th
+      strong #ID
+    th
+    th
+      strong
+        = sort_profile_deserters_link 'Profile Name', :profile_name
+    th
+      strong Email
+    th
+      strong
+        = sort_profile_deserters_link 'Deleted Date', :profile_page_removed_at
+    th
+      strong Payout Type
+    /th
+      strong Total Subscribers
+    th
+      strong
+        = sort_profile_deserters_link 'Last Post Date', :last_post_created_at
+    th
+      strong
+        = sort_profile_deserters_link 'Created Date', :created_at
+    th
+      strong
+        = sort_profile_deserters_link 'Subscription Cost', :subscription_cost
+
+    - @users.each do |user|
+      tr
+        td ##{user.id}
+        td
+          img src=user.small_profile_picture_url width=50 height=50
+        td
+          = dashboard_link_to_user user
+        td= user.email
+        td style='min-width: 100px'= user.profile_page_removed_at.try(:to_date).try(:to_s, :long)
+        td
+          - if user.account_number.present? || user.paypal_email.present?
+            = user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : "Wire - *#{user.account_number.to_s.last(4)}"
+          - else
+            | N/A
+        /td= user.subscriptions_count
+        td style='min-width: 100px'= user.last_post_created_at.try(:to_date).try(:to_s, :long)
+        td style='min-width: 100px'= user.created_at
+        td
+          = cents_to_dollars user.subscription_cost
+  .clearfix
+
+.TopJumper= paginate @users

@@ -357,6 +357,10 @@ BuddyPlatform::Application.routes.draw do
       end
     end
 
+    concern :profile_deserters_dashboard do
+      resources :profile_deserters, only: [:index]
+    end
+
     namespace :sales do
       resource :dashboard, only: [:show]
       resources :recent_profiles, only: :index
@@ -372,12 +376,14 @@ BuddyPlatform::Application.routes.draw do
       end
 
       concerns :profile_owners_dashboard
+      concerns :profile_deserters_dashboard
     end
 
     namespace :admin do
       resource :dashboard, only: [:show]
 
       concerns :profile_owners_dashboard
+      concerns :profile_deserters_dashboard
 
       resources :potential_violators, only: [:index]
       resources :potential_contribution_violators, only: [:index]
