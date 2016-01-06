@@ -92,7 +92,7 @@
               input.form-control.input-sm type='text' name='state' placeholder='State' validate='require'
               span.error data-field='state'
             .form-group.pull-left style='width: 80px;'
-              input.form-control.input-sm.pull-left type='text' name='zip' placeholder='Postal Code' validate='require'
+              input.form-control.input-sm.pull-left type='text' name='zip' placeholder='Postal Code' validate='require,digit'
               span.error data-field='zip'
           .clearfix
       - else
@@ -177,7 +177,7 @@
             span.error data-field='state'
 
           .form-group.address.pull-left style='width: 135px;'
-            input.form-control type='text' name='zip' placeholder='Postal Code' validate='require'
+            input.form-control type='text' name='zip' placeholder='Postal Code' validate='require,digit'
             span.error data-field='zip'
           .clearfix
 
