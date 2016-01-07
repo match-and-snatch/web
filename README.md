@@ -1,4 +1,6 @@
 ![Buddy Rocks](http://buddy-assets.s3.amazonaws.com/images/logo_github.png)
+
+[![Circle CI](https://circleci.com/gh/connectpal/connectpal.svg?style=svg&circle-token=679a593a64991abe2ff99b05af9ac51e249bac24)](https://circleci.com/gh/connectpal/connectpal)
 #### Frontend
 - [Assets Pipeline](http://guides.rubyonrails.org/asset_pipeline.html)
 - [CoffeeScript](http://coffeescript.org/)
