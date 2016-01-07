@@ -31,17 +31,17 @@ describe PaymentManager do
 
     context 'target user locked' do
       context 'billing lock' do
-        let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'billing' }
+        let(:target_user) { create :user, :profile_owner, locked: true, lock_type: 'billing' }
         specify { expect { subject.pay_for(subscription) }.not_to raise_error }
       end
 
       context 'account lock' do
-        let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'account' }
+        let(:target_user) { create :user, :profile_owner, locked: true, lock_type: 'account' }
         specify { expect { subject.pay_for(subscription) }.to raise_error(PaymentError, /is not payable/) }
       end
 
       context 'tos lock' do
-        let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'tos' }
+        let(:target_user) { create :user, :profile_owner, locked: true, lock_type: 'tos' }
         specify { expect { subject.pay_for(subscription) }.to raise_error(PaymentError, /is not payable/) }
       end
     end

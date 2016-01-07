@@ -64,6 +64,10 @@ describe User do
 
     it { expect { user.lock! }.to change { user.reload.last_time_locked_at }.to(Time.zone.now) }
     it { expect { user.lock! }.to change { user.reload.locked? }.to(true) }
+    it { expect { user.lock! }.to change { user.reload.lock_type }.to('account') }
+    it { expect { user.lock! }.to change { user.reload.lock_reason }.to('manually_set') }
+    it { expect { user.lock!(type: 'billing') }.to change { user.reload.lock_type }.to('billing') }
+    it { expect { user.lock!(reason: 'cc_update_limit') }.to change { user.reload.lock_reason }.to('cc_update_limit') }
   end
 
   describe '#unlock!', freeze: true do
@@ -495,20 +499,20 @@ describe User do
         end
 
         context 'user account is locked' do
-          before { UserManager.new(subject).lock(reason) }
+          before { UserManager.new(subject).lock(type: lock_type) }
 
           context 'with account related issue' do
-            let(:reason) { :account }
+            let(:lock_type) { :account }
             its(:contributions_allowed?) { is_expected.to eq(false) }
           end
 
-          context 'with tos violation reason' do
-            let(:reason) { :tos }
+          context 'with tos violation type' do
+            let(:lock_type) { :tos }
             its(:contributions_allowed?) { is_expected.to eq(false) }
           end
 
-          context 'with billing' do
-            let(:reason) { :billing }
+          context 'with billing type' do
+            let(:lock_type) { :billing }
             its(:contributions_allowed?) { is_expected.to eq(true) }
           end
         end
@@ -524,20 +528,20 @@ describe User do
       its(:profile_payable?) { is_expected.to eq(true) }
 
       context 'locked account' do
-        let(:user_attributes) { {locked: true, lock_reason: lock_reason} }
+        let(:user_attributes) { {locked: true, lock_type: lock_type} }
 
         context 'with billing locked' do
-          let(:lock_reason) { 'billing' }
+          let(:lock_type) { 'billing' }
           its(:profile_payable?) { is_expected.to eq(true) }
         end
 
         context 'with tos locked' do
-          let(:lock_reason) { 'tos' }
+          let(:lock_type) { 'tos' }
           its(:profile_payable?) { is_expected.to eq(false) }
         end
 
         context 'with account locked' do
-          let(:lock_reason) { 'account' }
+          let(:lock_type) { 'account' }
           its(:profile_payable?) { is_expected.to eq(false) }
         end
       end

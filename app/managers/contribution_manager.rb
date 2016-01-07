@@ -40,7 +40,7 @@ class ContributionManager < BaseManager
                                             message: message,
                                             contribution: @contribution)
 
-    UserManager.new(@user).lock(:weekly_contribution_limit) if weekly_limit_reached?
+    UserManager.new(@user).lock(type: :billing, reason: :contribution_limit) if weekly_limit_reached?
 
     @contribution
   end

@@ -44,7 +44,7 @@ ol.pull-left style='padding: 0 15px 15px 0'
                   | &nbsp;
                 td.small= subscription.created_at.to_s(:short)
         td
-          = user.lock_reason.humanize if user.locked?
+          = user.lock_type.humanize if user.locked?
         td
           - if user.billing_failed?
             strong style='color: red; font-size: 14px' Failed

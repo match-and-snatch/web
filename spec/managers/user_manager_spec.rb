@@ -21,17 +21,28 @@ describe UserManager do
 
   describe '#lock', freeze: true do
     let(:user) { create_user }
-    let(:lock) { manager.lock(:billing) }
+    let(:lock) { manager.lock(type: :billing) }
 
     it { expect { lock }.to change { user.reload.last_time_locked_at }.to(Time.zone.now) }
     it { expect { lock }.to change { user.reload.locked? }.to(true) }
-    it { expect { lock }.to create_event('account_locked').with_user(user).including_data(reason: 'billing') }
+    it { expect { lock }.to create_event('account_locked').with_user(user).including_data(type: 'billing', reason: 'manually_set') }
 
-    it { expect { manager.lock(:account) }.to create_event('account_locked').with_user(user).including_data(reason: 'account') }
-    it { expect { manager.lock('account') }.to create_event('account_locked').with_user(user).including_data(reason: 'account') }
+    it { expect { manager.lock(type: :account) }.to create_event('account_locked').with_user(user).including_data(type: 'account', reason: 'manually_set') }
+    it { expect { manager.lock(type: 'account') }.to create_event('account_locked').with_user(user).including_data(type: 'account', reason: 'manually_set') }
+
+    it { expect { manager.lock(type: :account, reason: :contribution_limit) }.to create_event('account_locked').with_user(user).including_data(type: 'account', reason: 'contribution_limit') }
+    it { expect { manager.lock(type: :account, reason: 'contribution_limit') }.to create_event('account_locked').with_user(user).including_data(type: 'account', reason: 'contribution_limit') }
+
+    context 'invalid type provided' do
+      let(:lock) { manager.lock(type: 'invlid type') }
+
+      it { expect { lock rescue nil }.not_to create_event('account_locked') }
+      it { expect { lock rescue nil }.not_to change { user.reload.last_time_locked_at } }
+      it { expect { lock rescue nil }.not_to change { user.reload.locked? } }
+    end
 
     context 'invalid reason provided' do
-      let(:lock) { manager.lock('invlid reason') }
+      let(:lock) { manager.lock(reason: 'invlid reason') }
 
       it { expect { lock rescue nil }.not_to create_event('account_locked') }
       it { expect { lock rescue nil }.not_to change { user.reload.last_time_locked_at } }
@@ -44,7 +55,7 @@ describe UserManager do
     let(:unlock) { manager.unlock }
 
     context 'locked' do
-      before { manager.lock('account') }
+      before { manager.lock(type: 'account') }
 
       it { expect { unlock }.to change { user.reload.locked? }.to(false) }
       it { expect { unlock }.not_to change { user.reload.last_time_locked_at } }

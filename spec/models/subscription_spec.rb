@@ -238,23 +238,23 @@ describe Subscription do
       its(:payable?) { is_expected.to eq(true) }
 
       context 'subscriber locked' do
-        let(:user) { create :user, :with_cc, locked: true, lock_reason: 'billing' }
+        let(:user) { create :user, :with_cc, locked: true, lock_type: 'billing' }
         its(:payable?) { is_expected.to eq(false) }
       end
 
       context 'profile owner locked' do
         context 'by billing' do
-          let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'billing' }
+          let(:target_user) { create :user, :profile_owner, locked: true, lock_type: 'billing' }
           its(:payable?) { is_expected.to eq(true) }
         end
 
         context 'by account' do
-          let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'account' }
+          let(:target_user) { create :user, :profile_owner, locked: true, lock_type: 'account' }
           its(:payable?) { is_expected.to eq(false) }
         end
 
         context 'by tos' do
-          let(:target_user) { create :user, :profile_owner, locked: true, lock_reason: 'tos' }
+          let(:target_user) { create :user, :profile_owner, locked: true, lock_type: 'tos' }
           its(:payable?) { is_expected.to eq(false) }
         end
       end

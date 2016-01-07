@@ -283,8 +283,8 @@ describe SubscriptionManager do
           expect { manager.subscribe_to(another_user) }.to change { subscriber.locked? }.from(false).to(true)
         end
 
-        it 'sets billing lock reason' do
-          expect { manager.subscribe_to(another_user) }.to create_event('account_locked').with_user(subscriber).including_data(reason: 'billing')
+        it 'sets billing lock type' do
+          expect { manager.subscribe_to(another_user) }.to create_event('account_locked').with_user(subscriber).including_data(type: 'billing', reason: 'subscription_limit')
         end
 
         context 'mature profiles' do

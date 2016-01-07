@@ -49,8 +49,8 @@ describe ContributionManager do
       expect { manager.create(amount: 1, target_user: target_user, message: 'test') }.to change { Message.count }.by(1)
     end
 
-    context 'target user blocked with ToS reason' do
-      before { UserManager.new(target_user).lock(:tos) }
+    context 'target user blocked with ToS type' do
+      before { UserManager.new(target_user).lock(type: :tos) }
 
       it 'does not send email about contribution to target user' do
         expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to deliver_email(to: target_user, subject: /You have received a contribution/)
@@ -92,7 +92,13 @@ describe ContributionManager do
 
         specify do
           Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5)) }.to change { user.reload.lock_reason }.to('weekly_contribution_limit')
+            expect { ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5)) }.to change { user.reload.lock_type }.to('billing')
+          end
+        end
+
+        specify do
+          Timecop.travel(4.days.since) do
+            expect { ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5)) }.to change { user.reload.lock_reason }.to('contribution_limit')
           end
         end
       end
