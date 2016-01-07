@@ -90,8 +90,9 @@ class UploadManager < BaseManager
       if original
         preview = search_related_result(transloadit_data['results']['preview'], original_id)
         retina_preview = search_related_result(transloadit_data['results']['retina_preview'], original_id)
+        source_file = search_related_result(transloadit_data['results'][':original'], original_id)
 
-        s3_paths = { bucket => [original['ssl_url'], preview['ssl_url'], retina_preview['ssl_url']].map { |e| { key: get_file_path(e) } } }
+        s3_paths = { bucket => [original['ssl_url'], preview['ssl_url'], retina_preview['ssl_url'], source_file['ssl_url']].map { |e| { key: get_file_path(e) } } }
 
         upload = Photo.new transloadit_data: transloadit_data.to_hash,
                            s3_paths:         s3_paths,
@@ -258,7 +259,7 @@ class UploadManager < BaseManager
     user.pending_video_preview_photos.each(&:destroy)
     thumbs.each do |thumb|
       preview = PendingVideoPreviewPhoto.new transloadit_data: thumb.to_hash,
-                                             s3_paths:   {preview_bucket => {key: get_file_path(thumb['ssl_url'])}},
+                                             s3_paths:   {preview_bucket => [{key: get_file_path(thumb['ssl_url'])}]},
                                              uploadable_type: 'Video',
                                              user_id:    user.id,
                                              mime_type:  thumb['mime'],
