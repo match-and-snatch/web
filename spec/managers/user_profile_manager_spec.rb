@@ -639,7 +639,7 @@ describe UserProfileManager do
       end
 
       it 'locks billing' do
-        expect { update_cc }.to change { user.reload.lock_reason }.to('billing')
+        expect { update_cc }.to change { user.reload.lock_type }.to('billing')
       end
 
       it { expect { update_cc }.not_to change { user.reload.billing_failed? } }
@@ -685,7 +685,7 @@ describe UserProfileManager do
       end
 
       it 'sets billing lock reason' do
-        expect { update_cc_data rescue nil }.to create_event('account_locked').with_user(user).including_data(reason: 'billing')
+        expect { update_cc_data rescue nil }.to create_event('account_locked').with_user(user).including_data(type: 'billing', reason: 'cc_update_limit')
       end
 
       specify do

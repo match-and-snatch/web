@@ -1063,6 +1063,7 @@ CREATE TABLE users (
     recent_subscriptions_count integer DEFAULT 0 NOT NULL,
     recent_subscription_at timestamp without time zone,
     is_sales boolean DEFAULT false NOT NULL,
+    lock_type character varying,
     lock_reason character varying
 );
 
@@ -1839,4 +1840,8 @@ INSERT INTO schema_migrations (version) VALUES ('20151102154643');
 INSERT INTO schema_migrations (version) VALUES ('20151112105603');
 
 INSERT INTO schema_migrations (version) VALUES ('20151209101344');
+
+INSERT INTO schema_migrations (version) VALUES ('20160107065147');
+
+INSERT INTO schema_migrations (version) VALUES ('20160107093009');
 

@@ -1,5 +1,5 @@
 .box.blocked_account
-  - case current_user.lock_reason
+  - case current_user.lock_type
   - when :account
     h2 Account Locked
   - when :billing, :weekly_contribution_limit

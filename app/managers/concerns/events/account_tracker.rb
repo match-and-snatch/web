@@ -4,10 +4,10 @@ module Concerns::Events::AccountTracker
   # @param reason [String]
   # @yield
   # @return [Event]
-  def account_locked(user: , reason: , &block)
+  def account_locked(user: , type: , reason: , &block)
     Event.create! user: user,
                   action: 'account_locked',
-                  data: { reason: reason },
+                  data: { type: type, reason: reason },
                   &block
   end
 

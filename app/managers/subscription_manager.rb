@@ -210,7 +210,7 @@ class SubscriptionManager < BaseManager
       UserStatsManager.new(target.subscription_source_user).log_subscriptions_count
       unless fake
         user_manager = UserManager.new(@subscriber)
-        user_manager.lock(:billing) if recent_subscriptions_count >= 4
+        user_manager.lock(type: :billing, reason: :subscription_limit) if recent_subscriptions_count >= 4
         user_manager.log_recent_subscriptions_count(recent_subscriptions_count + 1)
       end
       @subscription

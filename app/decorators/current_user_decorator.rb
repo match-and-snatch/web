@@ -36,9 +36,9 @@ class CurrentUserDecorator < UserDecorator
   end
 
   # @return [Symbol]
-  def lock_reason
-    if object.lock_reason.present?
-      object.lock_reason.to_sym
+  def lock_type
+    if object.lock_type.present?
+      object.lock_type.to_sym
     end
   end
 

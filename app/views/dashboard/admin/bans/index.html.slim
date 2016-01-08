@@ -25,6 +25,8 @@ div data-identifier='bans'
     th
       strong Lock Type
     th
+      strong Lock Reason
+    th
     th
     th
 
@@ -33,6 +35,7 @@ div data-identifier='bans'
         td= dashboard_link_to_user user, truncate: false
         td= user.email
         td= user.last_time_locked_at.try(:to_s, :long)
+        td= user.lock_type.to_s.humanize
         td= user.lock_reason.to_s.humanize
         td
           - if user.is_profile_owner?

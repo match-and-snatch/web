@@ -7,7 +7,7 @@ class NotificationManager < BaseManager
     # @param contribution [Contribution]
     def notify_contributed(contribution)
       target_user = contribution.target_user
-      unless target_user.locked? && target_user.lock_reason == 'tos'
+      unless target_user.locked? && target_user.lock_type == 'tos'
         ContributionsMailer.received(contribution).deliver_now
       end
       ContributionsMailer.sent(contribution).deliver_now

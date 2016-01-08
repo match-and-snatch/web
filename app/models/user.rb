@@ -149,7 +149,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def lock!(reason = 'account')
+  def lock!(type: 'account', reason: 'manually_set')
+    self.lock_type = type
     self.lock_reason = reason
     self.locked = true
     self.last_time_locked_at = Time.zone.now
@@ -377,7 +378,7 @@ class User < ActiveRecord::Base
 
   # Returns true whenever the user can accept any payments
   def profile_payable?
-    is_profile_owner? && !(locked? && %w[tos account].include?(lock_reason))
+    is_profile_owner? && !(locked? && %w[tos account].include?(lock_type))
   end
 
   # Returns true whenever the user can accept contributions

@@ -11,11 +11,11 @@ class ApiResponsePresenter
 
   # @param user [User]
   def current_user_data(user = current_user.object)
-    lock_reason = case user.lock_reason.try(:to_sym)
+    lock_type = case user.lock_type.try(:to_sym)
                   when :billing, :weekly_contribution_limit
                     :billing
                   else
-                    user.lock_reason
+                    user.lock_type
                   end
     {
       id: user.id,
@@ -77,7 +77,7 @@ class ApiResponsePresenter
       auth_token: user.auth_token,
       api_token: user.api_token,
       locked: user.locked?,
-      lock_reason: lock_reason,
+      lock_type: lock_type,
       cost_approved: user.cost_approved?,
       cc_declined: user.cc_declined?
     }.merge(account_data(user))

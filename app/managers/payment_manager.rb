@@ -103,7 +103,7 @@ class PaymentManager < BaseManager
                                      description:        description
 
     if e.json_body.try(:[], :error).try(:[], :decline_code) == 'fraudulent'
-      UserManager.new(subscription.customer).lock(:billing)
+      UserManager.new(subscription.customer).lock(type: :billing, reason: :fraudulent)
     end
 
     EventsManager.payment_failed(user: user, payment_failure: failure)

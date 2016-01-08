@@ -8,7 +8,7 @@ class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
   end
 
   def show
-    @users = users_query.where(lock_reason: params[:id]).page(params[:page]).per(100)
+    @users = users_query.where(lock_type: params[:id]).page(params[:page]).per(100)
     json_render template: :index
   end
 
@@ -18,7 +18,7 @@ class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
   end
 
   def create
-    UserManager.new(User.where(email: params[:email]).first).lock(params[:reason])
+    UserManager.new(User.where(email: params[:email]).first).lock(type: params[:type])
     json_reload
   end
 
@@ -50,7 +50,7 @@ class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
   private
 
   def load_counters
-    @counters = User.where(locked: true).group(:lock_reason).count
+    @counters = User.where(locked: true).group(:lock_type).count
   end
 
   def load_user!

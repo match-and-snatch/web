@@ -339,7 +339,7 @@ class UserProfileManager < BaseManager
                      address_line_1: nil, address_line_2: nil, state: nil, city: nil, zip: nil)
     fail_with! "You can't update your credit card since your current one was declined" if user.cc_declined?
 
-    UserManager.new(user).lock(:billing) if user.credit_card_update_requests.recent.count >= 3
+    UserManager.new(user).lock(type: :billing, reason: :cc_update_limit) if user.credit_card_update_requests.recent.count >= 3
     fail_locked! if user.locked?
 
     card = CreditCard.new number: number,
@@ -399,7 +399,7 @@ class UserProfileManager < BaseManager
       any?
 
     if card_already_used_by_another_account
-      UserManager.new(user).lock(:billing)
+      UserManager.new(user).lock(type: :billing, reason: :cc_used_by_another_account)
     else
       UserManager.new(user).remove_mark_billing_failed
       PaymentManager.new(user: user).perform_test_payment

@@ -1,6 +1,9 @@
 class UserManager < BaseManager
   attr_reader :user
 
+  LOCK_TYPES = %w(account billing tos).freeze
+  LOCK_REASONS = %w(manually_set fraudulent contribution_limit subscription_limit cc_update_limit cc_used_by_another_account).freeze
+
   # @param user [User]
   def initialize(user)
     raise ArgumentError unless user.is_a?(User)
@@ -53,12 +56,13 @@ class UserManager < BaseManager
     end
   end
 
-  # @param reason [String, Symbol] account, billing or tos
-  def lock(reason = :account)
-    fail_with! 'No valid reason provided' unless %w(account billing weekly_contribution_limit tos).include?(reason.to_s)
+  # @param type [String, Symbol] account, billing or tos
+  def lock(type: :account, reason: :manually_set)
+    fail_with! 'No valid type provided' unless LOCK_TYPES.include?(type.to_s)
+    fail_with! 'No valid reason provided' unless LOCK_REASONS.include?(reason.to_s)
 
-    @user.lock!(reason).tap do
-      EventsManager.account_locked(user: @user, reason: reason.to_s)
+    @user.lock!(type: type, reason: reason).tap do
+      EventsManager.account_locked(user: @user, type: type.to_s, reason: reason.to_s)
     end
   end
 
