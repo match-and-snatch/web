@@ -23,7 +23,11 @@ module Posts
             end
             post.destroy
           end
+          user.pending_post_uploads.find_each do |upload|
+            upload.delete_s3_files!
+          end
         end
+        puts "[#{Time.zone.now.to_s(:long)}] #{user.email} - #{user.slug} processed"
       end
     end
   end
