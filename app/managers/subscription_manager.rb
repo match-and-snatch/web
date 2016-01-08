@@ -177,7 +177,7 @@ class SubscriptionManager < BaseManager
     fail_with! "Can't subscribe to user with not approved cost" unless target.cost_approved?
 
     if @subscriber.subscriptions.joins(:target_user).where(users: {has_mature_content: true}).count >= 6
-      fail_with! 'You have reached your maximum subscription limit. Please contact help@connectpal.com to discuss your situation.'
+      fail_with! 'You have reached your maximum subscription limit.  Please check back in the next 7-10 days to see if your limit has been increased.  Thank you.'
     end
 
     # Never restore removed fake subscriptions
