@@ -1,0 +1,755 @@
+// Popup Styles
+.popup
+
+  // Authentication Popup
+  &.authentication_popup
+    width: 400px
+    .modal-header
+      .register_tagline
+        color: #464646
+        text-decoration: underline
+    .modal-body
+      .form-group
+        margin-bottom: 5px
+        &.submit_area
+          margin: 15px 0
+          input[type='email']
+            width: 260px
+      .login_btn, .register_btn
+        float: right
+      .register_btn
+        padding: 10px 0
+        width: 170px
+      .checkbox
+        float: left
+        margin: 7px 0 0 0
+        width: 150px
+        .remember_me
+          color: $color_text_light
+          font-size: 12px
+          input
+            margin-top: 3px
+      .terms_text
+        float: left
+        width: 180px
+
+  // Search Profiles Popup
+  &.search_popup
+    width: 450px
+    .modal-body
+      padding: 0
+      input.search_user
+        margin: 0 auto 15px
+        width: 420px
+      .user_list
+        .bg-danger,
+        .list-group-item-heading
+          font-size: 12px
+          margin: 0 15px 15px
+        .bg-danger
+          @include border-radius($border_radius)
+          padding: 10px 15px
+        .list-group
+          border-bottom: 1px solid #d7d7d7
+          font-size: 13px
+          .list-group-item
+            border: none
+            border-top: 1px solid $color_border
+            padding: 10px 0
+            position: relative
+            img
+              border: 1px solid $color_border
+              display: inline-block
+              margin-right: 15px
+            small
+              @include pink-area
+              @include border-radius(5px)
+              color: #FFFFFF
+              font-size: 11px
+              margin-top: 10px
+              padding: 5px
+            a
+              color: $color_text_dark
+              display: inline-block
+              padding-top: 15px
+              width: 210px
+              &:hover
+                color: $color_text_light
+            &:first-child
+              border-top: none
+              padding-top: 0
+            &:last-child
+              padding-bottom: 0
+      .search_user_results
+        .list-group
+          .list-group-item
+            @include border-radius (0)
+            color: $color_text_dark
+            border-top: 1px solid $color_border !important
+            padding: 10px 15px !important
+            img
+              background-color: #FFFFFF
+              float: left
+            .profile_name
+              float: left
+              margin-top: 12px
+              overflow: hidden
+              padding: 3px 0
+              text-overflow: ellipsis
+              white-space: nowrap
+              mark
+                @include border-radius (5px)
+                background: $color_blue
+                color: #FFFFFF
+                margin-right: 1px
+                padding: 3px
+            &:hover
+              background-color: $color_pink
+              color: #FFFFFF
+      .btn.pink
+        display: block
+        font-size: 12px
+        margin: 0 auto 15px
+        padding: 10px
+        text-align: center
+        width: 250px
+
+  // Subscribe Popup
+  &.subscribe_popup
+    .modal-body
+      .terms_text
+        font-size: 12px
+        padding: 10px 0
+      .subscribe_container
+        color: $color_text_dark
+        font-size: 16px
+        padding: 0 15px 15px
+        max-width: 680px
+      .order_summary, .account_payment
+        background: none
+        padding: 15px
+      .btn
+        font-size: 16px !important
+        margin: 15px 0
+        padding: 7px
+        width: 100%
+      .terms_text
+        margin: 0
+        padding: 0 0 10px
+        text-align: center
+        width: 100%
+      .order_summary
+        background-color: none
+        padding: 0
+        .heading
+          border-bottom: 1px solid #e1e1e1
+          font-size: 20px
+          font-weight: 600
+          padding-bottom: 5px
+          margin-bottom: 10px
+        .subtotal, .transaction_fee
+          margin: 15px 0
+        .total_cost
+          border-top: 1px solid #e1e1e1
+          font-size: 20px
+          font-weight: bold
+          padding-top: 5px
+          margin-top: 10px
+          .cost
+            color: $color_blue
+        .note
+          @include border-radius($border_radius)
+          font-size: 12px
+          padding: 10px
+          margin-top: 28px
+        .asterisk
+          display: inline-block
+          font-size: 12px
+          font-weight: normal
+      .account_payment
+        padding: 10px 15px 15px
+        .form-group
+          margin-bottom: 0
+        .form-control
+          background-color: #FFFFFF
+          border: 1px solid $color_border
+          &:focus
+            background-color: #FFFFFF
+            border: 1px solid $color_blue
+        .cc_row
+          position: relative
+          width: 300px
+          margin-right: 15px
+          ul.cc_images
+            list-style: none
+            position: absolute
+            top: 4px
+            right: 4px
+            li
+              display: inline-block
+              padding-right: 5px
+              img
+                height: 20px
+                width: 28px
+          input.has-valid, input.has-error
+            background-position-x: 145px
+        .exp_date
+          position: relative
+          margin-right: 15px
+          .small
+            font-size: 12px
+            font-weight: 400
+            padding: 8px 5px 0 0
+        .cvc
+          width: 76px
+          input
+            width: 62px
+          .fa
+            cursor: pointer
+            padding-top: 8px
+            position: relative
+            right: 0
+            &:before
+              color: $color_text_light
+            &:hover
+              &:before
+                color: $color_text_dark
+              .cvc_example
+                display: block
+            .cvc_example
+              @include border-radius(5px)
+              background-color: $color_pink
+              border: 1px solid #cd233b
+              color: #FFFFFF
+              display: none
+              padding: 10px
+              position: absolute
+              top: -90px
+              right: 0
+              width: 260px
+              img
+                margin-right: 5px
+              span
+                display: block
+                font-weight: bold
+                margin-bottom: 5px
+              span
+                font-size: 12px
+              p
+                font-size: 11px
+                margin-bottom: 0
+                width: 170px
+        .address
+          margin-top: 15px
+      &.existing_billing
+        width: 400px
+        .order_summary
+          margin-right: 0
+      // Mobile
+      @media screen and (max-width: 767px)
+        .new_subscriber
+          form
+            float: none !important
+          .order_summary, .account_payment
+            margin: 0
+            width: 100%
+            float: none
+          .order_summary
+            font-size: 11px
+            min-height: 100px
+            margin-bottom: 10px
+            margin-top: -25px
+            .heading
+              font-size: 16px
+              padding: 0 0 5px 0
+              margin: 0 0 5px 0
+              text-align: center
+            .item_row
+              font-size: 12px
+            .subtotal, .transaction_fee
+              font-size: 12px
+              margin: 0
+              padding: 5px 0
+            .total_cost
+              font-size: 13px
+              padding: 5px 0
+            .note
+              display: none
+          .account_payment
+            padding: 0
+            label
+              font-weight: bold !important
+            .form-group
+              float: left
+              width: 100%
+              margin: 5px 0 0 0
+              &:first-child
+                margin-top: 0
+        .existing_billing
+          .order_summary
+            min-height: 150px
+            width: 100%
+            .heading
+              text-align: center
+            .item_row
+              font-size: 12px
+            .subtotal, .transaction_fee
+              font-size: 12px
+              margin: 0
+              padding: 5px 0
+            .total_cost
+              font-size: 13px
+              padding: 5px 0
+            .btn.blue
+              margin-top: 5px !important
+          .note
+            display: none
+        .new_billing
+          form
+            float: none !important
+          .order_summary, .account_payment
+            margin: 0
+            width: 100%
+            float: none
+          .order_summary
+            font-size: 11px
+            min-height: 100px !important
+            margin-bottom: 10px
+            margin-top: -25px
+            .heading
+              font-size: 16px
+              padding: 0 0 5px 0
+              margin: 0 0 5px 0
+              text-align: center
+            .item_row
+              font-size: 12px
+            .subtotal, .transaction_fee
+              font-size: 12px
+              margin: 0
+              padding: 5px 0
+            .total_cost
+              font-size: 13px
+              padding: 5px 0
+            .note
+              display: none
+          .account_payment
+            padding: 0
+            label
+              font-weight: bold !important
+            .form-group
+              margin: 0
+              label
+                font-size: 11px
+                font-weight: normal
+                margin-bottom: 0
+            .cc_row
+              ul
+                display: none
+              input
+                width: 100% !important
+            .exp_date
+              .small
+                font-size: 11px
+                font-weight: !important
+              .month
+                width: 92px !important
+              .year
+                width: 85px !important
+            .cvc
+              width: 70px !important
+          .btn.blue
+            margin-top: 10px !important
+        .btn.blue
+          font-size: 14px !important
+          margin-top: 0 !important
+      // Tablet
+      @media screen and (min-width: 768px)
+        .account_payment
+          background: $color_background !important
+          padding: 15px
+        .order_summary
+          margin-right: 15px
+
+  // Profile Header Details Popup
+  &.header_edit
+    overflow: hidden
+    .nav
+      @include border_radius (10px 10px 0 0)
+      background-color: $color_background
+      margin-top: -1px
+      li
+        margin-right: 5px
+        &:first-child
+          margin-left: 20px
+        a
+          color: $color_text_light
+          text-decoration: none
+          &:hover
+            color: $color_text_dark
+            background-color: #FFFFFF
+        &.active
+          a
+            @include border_radius (0)
+            color: $color_text_dark
+            font-weight: 600
+    .modal-header
+      padding: 0
+      margin-top: 10px
+      .modal-title
+        font-size: 24px
+        padding-top: 5px
+      span
+        color: $color_text_light
+        display: block
+        font-size: 13px
+        margin-top: 5px
+    .modal-body
+      padding-top: 15px
+      .welcome_media_player
+        margin: 0 auto
+        width: 585px
+        .no-media
+          @include border-radius(10px)
+          background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
+          background-position: 50% 50%
+          border: 1px solid $color_border
+          height: 332px
+          width: 587px
+        .btn.blue,
+        .btn.pink
+          font-size: 13px
+        .audio_player, .video_player
+          span.file_name
+            font-size: 12px
+            padding: 15px 0 0 0
+            text-align: center
+            display: block
+        .video_player
+          .jwplayer
+            background-color: $color_background !important
+            border: 1px solid $color_border
+            margin: 0 auto
+            min-height: 330px !important
+        .select_file_container
+          height: 50px
+          width: 585px
+          position: relative
+          margin: 0 auto
+          margin-top: 15px
+          .btn, .hide_btn
+            position: absolute
+            top: 0
+            left: 0
+            height: 34px
+            width: 585px
+          .hide_btn
+            opacity: 0
+            cursor: pointer
+            position: absolute
+            bottom: 0
+            left: 0
+      .pricing_table
+        color: $color_text_light
+        table
+          color: $color_text_dark
+          font-size: 13px
+          span
+            display: block
+        p
+          text-align: center
+      .input-group-addon
+        @include black-area
+        @include border-radius($border_radius 0 0 $border_radius)
+        .fa
+          color: #FFFFFF
+      .profile_address
+        color: #cccccc
+        font-size: 11px
+
+  // Photo Popup
+  &.photo_popup
+    max-height: 100% !important
+    .modal-body
+      background-color: #252525
+      position: relative
+      padding: 0 !important
+      .close
+        position: absolute
+        top: 3px
+        right: 1px
+        &.mobile_close
+          cursor: pointer
+          opacity: 0.6
+          text-shadow: none
+          height: 28px
+          width: 28px
+          z-index: 9999
+          .fa.fa-circle
+            color: $color_background
+            font-size: 25px
+          .fa.fa-times
+            color: $color_text_dark
+            font-size: 15px
+            top: 5px
+          &:hover
+            opacity: 1
+      a
+        display: block
+        z-index: 9998
+      img
+        @include border_radius (0)
+        max-height: 90vh
+        width: auto
+      .photo_nav
+        background-color: #252525
+        border-top: 1px solid #252525
+        font-size: 12px
+        a
+          color: #FFFFFF
+          display: inline-block
+          padding: 10px 30px
+          text-decoration: none
+          width: 50%
+          text-align: center
+          i.fa.fa-chevron-left
+            &:before
+              margin-right: 5px
+          &:hover
+            background: $color_blue
+            color: #FFFFFF
+
+  // Contacts Popup
+  &.contacts_edit
+    overflow: hidden
+    width: 400px
+    .input-group-addon
+      @include black-area
+      color: #FFFFFF
+    .input-group
+      margin-bottom: 15px
+
+  // Contribution Popup
+  .contribution
+    .modal-body
+      margin-bottom: 15px
+      max-width: 500px
+      text-align: center
+      .contribute-value
+        margin: -15px 0 0
+        span
+          font-size: 13px
+          font-weight: bold
+          width: auto
+        input[type='radio']
+          margin: 0 5px 0 10px
+        .custom-amount
+          position: relative
+          top: 16px
+          input
+            float: left
+          input[type='radio']
+            margin: 0 5px 0 10px
+            position: relative
+            top: 12px
+          input[type='text']
+            width: 140px
+      .custom-message
+        margin: 0
+        textarea
+          font-size: 13px
+          height: 80px
+          margin-top: 15px
+      hr
+        height: 1px
+      .contribute-type
+        input[type='radio']
+          margin-right: 5px
+        label
+          font-size: 13px
+          &#recurring_cont_0
+            margin-right: 15px
+      input.btn.blue
+        width: 300px
+      p.small
+        font-size: 12px
+        margin-top: 10px
+      .error.limit
+        @include border-radius(5px)
+        background-color: #faf258
+        border: 1px solid #f4cf3e
+        color: #b29525
+        font-size: 13px
+        margin-top: 10px
+        padding: 15px
+        text-align: center
+
+  // Edit Post Popup
+  .edit_post_popup
+    padding: 10px 15px 15px 15px
+    width: 500px
+    .close
+      position: relative
+      top: -6px
+      right: -10px
+    label
+      display: block
+      color: $color_text_dark
+      font-size: 13px
+      margin-bottom: 10px
+    .edit_field
+      font-size: 13px
+    textarea.edit_field
+      height: 100px
+    .error
+      padding: 8px 0
+    .update-post
+      width: 100%
+    // Edit Shared CSS
+    .edit_post_audio,
+    .edit_post_doc,
+    .edit_post_photo
+      @include border-radius(5px)
+      border: 1px solid $color_border
+      height: 150px
+      margin: 15px 0
+      overflow-y: scroll
+    // Edit Audio & Doc
+    .edit_post_audio, .edit_post_doc
+      li
+        background-color: #FFFFFF
+        border-top: 1px solid $color_border
+        font-size: 13px
+        height: 33px
+        overflow: hidden
+        padding: 7px
+        position: relative
+        width: 100%
+        &:first-child
+          border: none
+        .file_name
+          overflow: hidden
+          text-overflow: ellipsis
+          width: 400px
+          white-space: nowrap
+        .delete_button
+          position: absolute
+          top: 10px
+          right: 10px
+    // Edit Photo
+    .edit_post_photo
+      li
+        @include border-radius(5px)
+        background-color: $color_background
+        border: 1px solid $color_border
+        float: left
+        margin: 8px
+        overflow: hidden
+        padding: 0
+        position: relative
+        height: 95px
+        width: 95px
+        img
+          width: 95px
+        .delete_button
+          @include border-radius(0 0 0 5px)
+          background-color: $color_background
+          border: 1px solid $color_border
+          border-top: none
+          border-right: none
+          padding: 0 5px
+          position: absolute
+          top: 0
+          right: 0
+    // Edit Video
+    .edit_post_video
+      @include border-radius(5px)
+      border: 1px solid $color_border
+      margin: 0 0 15px
+      overflow: hidden
+      li
+        img
+          width: 100%
+
+  // Compose New Message Popup
+  .compose_message_popup
+    padding: 10px 15px 15px 15px
+    width: 400px
+    textarea
+      font-size: 12px
+      height: 100px
+      margin-top: 5px
+    .error
+      padding: 8px 0
+    .btn.blue
+      width: 100%
+
+  // Modal Header
+  .modal-header
+    border: none
+    position: relative
+    text-align: center
+    .close
+      position: absolute
+      top: 5px
+      right: 5px
+      z-index: 2
+    .modal-title
+      color: $color_blue
+      font-size: 32px
+      line-height: 100%
+      &.Question
+        color: $color_text_dark !important
+        font-size: 14px !important
+        padding: 0 15px
+    span
+      color: $color_text_light
+      display: block
+      font-size: 13px
+      margin-top: 5px
+
+  // Modal Body
+  .modal-body
+    display: block
+    padding: 5px 20px 0
+    .terms_text
+      color: #cccccc
+      float: left
+      font-size: 11px
+      margin-top: 5px
+      width: 180px
+      a
+        color: #cccccc
+        &:hover
+          color: $color_text_light
+    .form-group
+      label
+        color: $color_text_dark
+        font-size: 12px
+        padding-top: 0px
+    .form-control
+      background-color: $color_background
+      border: 1px solid $color_border
+      &:focus
+        background-color: #FFFFFF
+        border: 1px solid $color_blue
+    .text-danger
+      color: $color_pink
+      font-size: 11px
+      margin: 0
+      padding: 5px 0 0 0
+    .email_share
+      display: inline-block
+      img
+        margin: -25px 0 0 3px
+
+  // Modal Footer
+  .modal-footer
+    font-size: 12px
+    margin-top: 0
+    text-align: center
+    span
+      color: $color_text_light
+    a
+      color: $color_text_light
+      &:hover
+        color: $color_text_dark

@@ -1,7 +1,8 @@
 - content_for :head do
   = render 'meta'
 
-.container.mobile
+/Header
+.container
   #header.box
     .photo_cover
       - if @profile.cover_picture_url.present?
@@ -10,49 +11,46 @@
     .photo_profile
       img src=@profile.profile_picture_url
 
+    /Admin Login
+    - if can? :login_as, @profile.object
+      a.admin_login.AjaxFormLink href=login_as_user_path(@profile.object.id) data-_method='post' Login as this User
+      .clearfix
+
     /Details Container
-    .details_container.row
-      .col-md-8.col-sm-8.col-xs-12.profile_details
+    .details_container
 
-        /Profile Name
-        h1.profile_name.visitor = @profile.profile_name
+      /Profile Details
+      .profile_details_l
+        .profile_name
+          h1= @profile.profile_name
         .clearfix
-        - if can? :login_as, @profile.object
-          a.admin_login.AjaxFormLink href=login_as_user_path(@profile.object.id) data-_method='post' Login as this User
-          .clearfix
+        .profile_type
+          h3= @profile.types
 
-        /Profile Type
-        .profile_type= @profile.types
-
-      - unless mobile_phone_device?
-        .col-md-4.col-sm-4.col-xs-12
-          .subscribe_cont
-            a.cost_visitor
-              .amount
-                - if @profile.cost_approved?
-                  span
-                    = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-                  span.month
-                    |/month
-                - else
-                  span.pending Pending Approval
-              .btn.pink.fa.fa-usd.fa-2x
-              .clearfix
+      /Subscribe
+      .profile_details_r
+        .cost_container
+          .visitor
+            .amount
+              - if @profile.cost_approved?
+                span.cost
+                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+                span.month
+                  |/month
+              - else
+                span.pending_approval Pending Approval
+            .red-icon.fa.fa-usd
             - if @profile.cost_approved?
-              a.subscribe.PopupTrigger data-target='subscription' Subscribe
+              .subscribe.btn.PopupTrigger data-target='subscription' Subscribe
             - else
-              a.subscribe.pending.PopupTrigger data-target='pending-cost-popup' Pending Approval
+              .pending_visitor.btn.PopupTrigger data-target='pending-cost-popup' Pending Approval
+      .clearfix
 
-    /RSS
-    - if @profile.rss_enabled?
-      a.fa.fa-rss.rss target='_blank' href=user_rss_feed_path(@profile.id, format: :rss)
-
-    /Subscriber Benefits
-    .benefits_container.row
-      .col-md-12.col-sm-12.col-xs-12
-        - if @profile.benefits.any?
-          .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
-          div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
+      /Subscriber Benefits
+      - if @profile.benefits.any?
+        .benefits_container
+          .label.btn Subscriber Benefits
+          .benefits-list data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
 
   /Visitor View
   - if @profile.welcome_video.present?
@@ -163,7 +161,7 @@
 
           = render 'adult_content_warning' if @profile.has_mature_content?
 
-  .popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
+  .popup.subscribe_popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
   - unless @profile.cost_approved?
     = render 'pending_cost_approval_popup'
 

@@ -1,10 +1,6 @@
 i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style='margin: 5px 5px 0 0'
-.compose_message_popup
-  form.form.PopupForm action=user_messages_path(@target_user.id) method='post'
-    label Compose New Message
-    textarea.form-control name='message'placeholder='Your message for #{@target_user.name}' validate='require'
-    .clearfix
-    .error data-field='message' style='margin-top: 5px'
-
-    input.btn.blue.pull-right type='Submit' value='Send Message' style="margin-top: 15px"
-    .clearfix
+form.form.compose_message_popup.PopupForm action=user_messages_path(@target_user.id) method='post'
+  label Compose New Message
+  textarea.form-control name='message'placeholder='Your message for #{@target_user.name}' validate='require'
+  .error data-field='message'
+  input.btn.blue type='Submit' value='Send Message'

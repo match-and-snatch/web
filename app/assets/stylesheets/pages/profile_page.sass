@@ -1,10 +1,26 @@
-// Header
-
+// Profile Header
 #header
   margin-top: 20px
   overflow: hidden
   position: relative
 
+  // Admin Login
+  .admin_login
+    background: $color_green
+    border-bottom: 1px solid #87bf3b
+    color: #FFFFFF
+    display: block
+    margin: -15px 0 15px
+    padding: 10px 0
+    text-align: center
+    text-decoration: none
+    text-transform: uppercase
+    width: 100%
+    &:hover
+      background: $color_blue
+      border-color: #277aa3
+
+  // RSS
   .rss
     opacity: 0.7
     color: $color_blue
@@ -26,7 +42,6 @@
       text-decoration: none
 
   // Photo Cover
-
   .photo_cover
     background-color: $color_background
     background: asset-url('//connectpal-assets.s3.amazonaws.com/images/cover-default.png') no-repeat
@@ -46,30 +61,8 @@
       right: 110px
     .delete_photo, .add_photo
       right: 15px
-    // Mobile
-    @media screen and (max-width: 767px)
-      height: 184px
-      div
-        background-size: 100% !important
-        #background-position-y: 0 !important
-      .btn
-        display: none !important
-    // Apple iPhone 4 & 5
-    @media screen and (max-width: 320px)
-      height: 84px
-    // Apple iPhone 6
-    @media screen and (min-width: 321px) and (max-width: 375px)
-      height: 100px
-    // Apple iPhone 6 Plus
-    @media screen and (min-width: 376px) and (max-width: 414px)
-      height: 111px
-    // Tablet
-    @media screen and (min-width: 768px)
-      height: 122px
-      background-size: 100%
 
   // Photo Profile
-
   .photo_profile
     background: asset-url('//connectpal-assets.s3.amazonaws.com/images/default_profile_pic.png') no-repeat
     background-size: 100%
@@ -97,39 +90,7 @@
       .file
         height: 32px !important
 
-    //Mobile
-    @media screen and (max-width: 767px)
-      top: 10px
-      left: 10px
-      height: 164px
-      width: 164px
-      img
-        height: 162px
-        width: 162px
-      .btn, form
-        display: none
-    // Apple iPhone 4 & 5
-    @media screen and (max-width: 320px)
-      height: 62px
-      width: 62px
-      img
-        height: 60px
-        width: 60px
-    // Apple iPhone 6
-    @media screen and (min-width: 321px) and (max-width: 375px)
-      height: 79px
-      width: 79px
-      img
-        height: 77px
-        width: 77px
-    // Apple iPhone 6 Plus
-    @media screen and (min-width: 376px) and (max-width: 414px)
-      height: 90px
-      width: 90px
-      img
-        height: 88px
-        width: 88px
-
+  // Photo Profile & Cover Buttons
   .photo_cover, .photo_profile
     .btn
       position: absolute
@@ -146,103 +107,131 @@
         display: block
 
   // Details Container
-
   .details_container
+    min-height: 65px
     padding: 0 15px
     position: relative
 
-    // Profile Name
+    // Edit Gear
+    .edit-gear
+      color: $color_gear
+      cursor: pointer
+      font-size: 20px
+      float: left
+      position: relative
+      width: 25px
+      .edit-text
+        @include border-radius(5px)
+        @include linear-gradient(#ea4e65, #ea2f49)
+        @include box-shadow(inset 0 1px 0 0 #ef7b8c)
+        border: 1px solid #cd233b
+        color: #FFFFFF
+        display: none
+        font-size: 12px
+        padding: 5px
+        text-align: center
+        text-shadow: -1px -1px 0 #c3384c
+        position: absolute
+        top: -2px
+        left: 23px
+        z-index: 1
+      &:hover
+        .edit-text
+          display: block
 
-    .profile_details
+    // Profile Details Left - Name & Types
+    .profile_details_l
       color: $color_text_dark
+      display: inline-block
       font-weight: 600
       font-size: 34px
       line-height: 120%
-      margin-bottom: 5px
-      @media screen and (max-width: 767px)
-        font-size: 26px
-        text-align: center
+      margin: 0 28px 0 0
+
+      // Profile Name
       .profile_name
-        color: $color_text_dark
-        cursor: pointer
-        display: inline-block
-        font-size: 34px
-        font-weight: 600
-        line-height: 120%
-        min-height: 45px
-        margin: 10px 0 0
-        text-decoration: none
-        word-wrap: break-word
-        .name
-          font-size: 34px
+        padding: 5px 0 6px
+        h1
+          color: $color_text_dark
+          font-size: 36px
           font-weight: 600
-        &.visitor
-          cursor: default
-        .fa
-          &:before
-            color: $color_gear
-            font-size: 20px
-            padding-right: 5px
-            position: relative
-            top: -5px
-        &:hover
-          .fa
-            &:before
-              color: $color_gear_hover
-      .profile_name
-        &.visitor
-          cursor: default
-      .profile_type
-        color: #898989
-        display: inline
-        font-size: 12px
-        font-weight: 400
-        line-height: 22px
-        margin: 10px 0
-        text-decoration: none
-        .fa
-          cursor: pointer
-          max-width: 517px
+          line-height: 110%
+          margin: 0
+          text-decoration: none
           word-wrap: break-word
-          &:before
-            color: $color_gear
-            font-size: 20px
-            padding-right: 5px
-            position: relative
-            top: 2px
-        &:hover
-          .fa
-            &:before
+
+        // Owner Role
+        &.own-role
+          .edit-gear
+            top: 10px
+          h1
+            float: left
+          &:hover
+            .edit-gear
               color: $color_gear_hover
-      .admin_login
-        @include green-area
-        @include border-radius (5px)
-        display: inline-block
-        color: #FFFFFF
-        font-size: 14px
-        font-weight: 400
-        line-height: 100%
-        padding: 10px
-        text-decoration: none
 
+      // Profile Type
+      .profile_type
+        padding: 17px 0 15px
+        h3
+          color: #898989
+          font-size: 12px
+          font-weight: 400
+          line-height: 22px
+          margin: 0
+          text-decoration: none
 
-    // Cost Button/Subscribe Button
+        // Owner Role
+        &.own-role
+          h3
+            float: left
+          &:hover
+            .edit-gear
+              color: $color_gear_hover
 
-    .subscribe_cont
-      font-weight: 600
-      text-align: center
+      @media screen and (max-width: 990px)
+        width: 400px
+        .profile_name, .profile_type
+          &.own-role
+            h1, h3
+              width: 375px
 
-      // Cost Owner/Visitor
+      @media screen and (min-width: 991px)
+        width: 600px
+        .profile_name, .profile_type
+          &.own-role
+            h1, h3
+              width: 575px
 
-      .cost_owner, .cost_visitor
+    // Profile Details Right - Cost & Welcome Video
+    .profile_details_r
+      display: inline-block
+      position: absolute
+      top: 0
+      right: 15px
+      width: 290px
+
+      // Cost & Subscribe Container
+      .cost_container
         display: block
-        float: right
-        margin-bottom: 15px
-        .btn
-          @include border-radius($border_radius 0 0 10px)
-          cursor: default
+        width: 100%
+        .edit-gear
           float: right
-          width: 65px
+          top: 15px
+        .red-icon, .amount
+          float: right
+          height: 50px
+        .red-icon
+          @include border-radius($border_radius 0 0 10px)
+          @include box-shadow(inset 0 1px 0 0 #ef7b8c)
+          @include linear-gradient(#ea4e65, #ea2f49)
+          border: 1px solid #cd233b
+          color: #FFFFFF
+          font-size: 24px
+          padding-top: 11px
+          text-align: center
+          text-shadow: -1px -1px 0 #c3384c
+          width: 50px
         .amount
           @include border-radius(0 $border_radius $border_radius 0)
           background-color: $color_background
@@ -250,135 +239,124 @@
           border-right: 1px solid $color_border
           border-bottom: 1px solid $color_border
           color: $color_pink
-          cursor: default
           float: right
+          font-weight: 600
+          line-height: 100%
+          min-width: 170px
           overflow: hidden
-          padding: 0 15px
+          padding: 17px 10px 0
+          .cost
+            font-size: 36px
           .month
             font-size: 20px
-          .pending
+          .pending_approval
             font-size: 17px
-            position: relative
-            top: -6px
-        &:hover
-          .btn
-            @include pink-area
 
-      // Cost Owner
+        // Visitor View
+        .visitor
+          .subscribe, .pending_visitor
+            color: #FFFFFF
+            padding: 0
+            height: 50px
+            width: 220px
+            position: absolute
+            right: 0
+            top: 0
+          .subscribe
+            @include linear-gradient(#a4e052, #8dc63f)
+            @include box-shadow(inset 0 1px 0 0 #e8f7d4)
+            border: 1px solid #87bf3b
+            display: none
+            font-size: 32px
+            text-shadow: -1px -1px 0 #8ec245
+          .pending_visitor
+            @include linear-gradient(#ea4e65, #ea2f49)
+            @include box-shadow(inset 0 1px 0 0 #ef7b8c)
+            border: 1px solid #cd233b
+            display: block
+            font-size: 22px
+            padding-top: 7px
+            text-shadow: -1px -1px 0 #c3384c
+          &:hover
+            .amount, .red-icon
+              display: none
+            .subscribe
+              display: block
 
-      .cost_owner
-        cursor: pointer
-        .btn, .amount
-          cursor: pointer
-        .fa-gear
-          &:before
-            color: $color_gear
-            font-size: 20px
-            padding-right: 10px
-            position: relative
-            top: -3px
-        &:hover
-          .fa-gear
-            &:before
+        // Owner View
+        &.own-role
+          &:hover
+            .edit-gear
               color: $color_gear_hover
-
-      // Cost Visitor
-
-      .subscribe
-        display: none
-
-      // Cost Visitor Hover
-
-      &:hover
-        .cost_visitor
-          display: none
-        .subscribe
-          @include border-radius($border_radius)
-          @include blue-area
-          display: block
-          color: #FFFFFF
-          cursor: pointer
-          float: right
-          font-weight: 400
-          margin-bottom: 15px
-          text-decoration: none
-          &.pending
-            opacity: 1
-            font-size: 18px
-            padding-top: 13px
-            width: 225px
+              &:hover
+                .edit-text
+                  left: -40px
 
       // Subscribed
-
       .subscribed
         @include border-radius($border_radius)
         @include green-area
-        display: block
         color: #FFFFFF
-        cursor: default
+        display: block
+        height: 50px
         float: right
-        font-weight: 400
-        margin-bottom: 15px
-        text-decoration: none
+        font-size: 32px
+        text-align: center
         width: 240px
 
-  // Details Container
+      // Add Welcome Video
+      .add_welcome_video
+        float: right
+        font-size: 16px
+        margin-top: 15px
+        padding: 10px 0
+        width: 220px
+        .fa-plus
+          &:before
+            margin-right: 5px
 
+  // Details Container
   .benefits_container
-    padding: 0 15px
-    position: relative
+    margin: 0 -15px
+    .edit-gear
+      cursor: pointer
+      float: left
+      left: 5px
+      top: 7px
     .label
       @include black-area
       @include border-radius(0 10px 10px 0)
       color: #FFFFFF
-      // cursor: default
+      cursor: default
+      float: left
       font-size: 13px
       font-weight: 400
       padding: 10px 15px
-      position: absolute
-      top: 0
-      left: -1px
-      cursor: default
-    ul
-      font-size: 13px
-      line-height: 20px
-      margin-top: 46px
-      margin-left: 20px !important
-      li
-        color: $color_text_dark
+    .benefits-list
+      padding: 50px 15px 15px
+      ul
         font-size: 13px
-        .fa
-          font-weight: 400
-          top: 3px
-          &:before
-            color: $color_green
-
-    // Mobile
-
-    @media screen and (max-width: 767px)
-      .label
-        @include border-radius(0)
-        width: 100%
-        left: 0
-
-    .edit
-      position: absolute
-      top: 8px
-      left: 150px
-      &.fa
-        cursor: pointer
-        &:before
-          color: $color_gear
-          font-size: 20px
-        &:hover
-          &:before
-            color: $color_gear_hover
+        line-height: 20px
+        margin: 0 0 0 20px
+        li
+          color: $color_text_dark
+          font-size: 13px
+          .fa
+            font-weight: 400
+            top: 3px
+            &:before
+              color: $color_green
+    &.own-role
+      &:hover
+        .edit-gear
+          color: $color_gear_hover
+          &:hover
+            .edit-text
+              left: 23px
 
 // Create Post (Owner View)
-
 #create_post_container
   position: relative
-
   #create_post_nav
     @include linear-gradient(#FFFFFF, #F7F7F7)
     @include border-radius($border_radius $border_radius 0 0)
@@ -413,7 +391,6 @@
           &:before
             color: $color_text_dark
             padding-right: 10px
-
         &:hover
           color: $color_blue
           .fa
@@ -421,10 +398,8 @@
               color: $color_blue
 
   // Create Post
-
   #create_post
     @include border-radius(0 0 $border_radius $border_radius)
-
     // Submitted Post
     .submit_cancel_container
       -webkit-transition: opacity 1s ease-in-out
@@ -454,7 +429,6 @@
         opacity: 1
 
     // Status Post Textarea
-
     #post
       padding: 15px
       position: relative
@@ -479,13 +453,11 @@
           outline: none
 
     // Uploading Container
-
     #uploading
       margin: 15px 0
       position: relative
 
       // Progress Bar
-
       .progress_title
         color: $color_blue
         font-size: 16px
@@ -493,7 +465,6 @@
         padding: 10px 15px 15px
 
       // File Status
-
       .file_status
         border-bottom: 1px solid $color_border
         font-size: 13px
@@ -507,11 +478,9 @@
           text-align: right
 
       // Pending Files
-
       .pending_audio, .pending_video, .pending_photo, .pending_document
         overflow: hidden
         position: relative
-
         .video_bg_preupload
           @include border-radius (5px)
           border: 1px solid $color_border
@@ -521,7 +490,6 @@
             background-position-x: -60px
 
         // Listed Files
-
         .added_audio, .added_video, .added_photo, .added_document
           overflow: hidden
           height: 270px
@@ -556,7 +524,6 @@
               padding: 0 10px
 
               // Sort Related
-
               .dragger
                 cursor: move
                 margin: 8px 5px 0 0
@@ -567,7 +534,6 @@
                 width: 100%
 
               // Details
-
               .file_name
                 font-size: 12px
                 margin-top: 6px
@@ -590,7 +556,6 @@
                 padding-top: 0
 
               // Delete X icon
-
               a.delete_button
                 float: right
                 margin: 8px 0 0 10px
@@ -607,7 +572,6 @@
             text-align: center
 
         // Supported File Type
-
         span.supported_files
           color: $color_text_light
           cursor: pointer
@@ -635,7 +599,6 @@
               display: block
 
         // Listed Video
-
         .added_video
           .heading
             color: $color_text_light
@@ -718,7 +681,6 @@
                     cursor: pointer
 
         // Listed Photo
-
         .added_photo
           ul
             padding: 5px
@@ -751,7 +713,6 @@
                   background-color: $color_blue
 
         // Select Files Container
-
         .select_file_container
           .multi
             @include border-radius (5px)
@@ -772,7 +733,6 @@
             width: 439px
 
       // Upload Details
-
       .upload_details
         .form-control
           color: $color_text_dark !important
@@ -820,12 +780,10 @@
           padding: 6px 0
 
 // Subscriber Display
-
 #subscriber_display
   margin-top: $box_margin
 
   // Sidebar
-
   .sidebar
     @media screen and (min-width: 991px)
       display: block !important
@@ -833,7 +791,6 @@
       display: none
 
     // Profile Action
-
     .share_url, .contribute_url, .contact_url
       margin-bottom: $box_margin
       padding: 15px
@@ -870,7 +827,6 @@
         top: 13px
 
     // Search Profile Content
-
     .search
       margin-bottom: $box_margin
       .input-group-addon
@@ -884,7 +840,6 @@
         height: 47px !important
 
     // Archived Content
-
     .archive_cloud
       margin-bottom: $box_margin
       padding: 15px
@@ -906,7 +861,6 @@
             color: $color_text_dark
 
     // Contact Info
-
     .contact
       padding-bottom: 0
       margin-bottom: 30px
@@ -949,11 +903,9 @@
                   color: $color_blue
 
   // Recent Posts
-
   .recent_posts
 
     // Search Posts
-
     .show_results
       @include border-radius($border_radius)
       border: 1px solid #e6d996
@@ -961,7 +913,6 @@
       padding: 15px
 
     // No Posts
-
     .no_post_yet
       color: #e1e1e1
       font-size: 24px
@@ -980,7 +931,6 @@
         margin-bottom: 80px
 
     // Single Post
-
     .post
       margin-bottom: $box_margin
       padding-top: 15px
@@ -1125,7 +1075,6 @@
               max-width: 282px
 
       // Doc View
-
       .doc_list
         li
           .doc_view
@@ -1176,7 +1125,6 @@
                   color: #FFFFFF
 
       // Message
-
       .message
         font-size: 13px
         line-height: 20px
@@ -1187,7 +1135,6 @@
           font-size: 12px
 
       // Action Bar
-
       .action_bar
         @include white-area
         border-top: 1px solid $color_border
@@ -1238,7 +1185,6 @@
           width: 350px
 
     // Mobile
-
     @media screen and (max-width: 767px)
       .post
         .post_title
@@ -1329,7 +1275,6 @@
             height: auto !important
 
     // Discussion Dropdown
-
     .comment_container
       background-color: $color_background
       border-top: 1px solid $color_border
@@ -1503,14 +1448,12 @@
             display: block
 
       // Nested Comments
-
       .nested_row
         padding-left: 80px
         .nested_content
           width: 100%
 
       // Reply Container
-
       .reply_container
         padding: 0 15px 15px 15px
         .reply_input
@@ -1566,7 +1509,6 @@
                 margin: 7px 0 0 5px
 
 // Visitor View
-
 #visitor
   color: $color_text_light
   margin-top: $box_margin
@@ -1675,33 +1617,7 @@
       margin: 0 0 15px
 
 // Mobile
-
 @media screen and (max-width: 767px)
-  #header
-    .details_container
-      .subscribe_cont
-        height: 55px
-        font-size: 36px
-        max-width: 240px
-        margin: 0 auto
-        .cost_owner, .cost_visitor
-          .amount, .fa
-            height: 55px
-          .fa
-            padding: 6px 0 0 0
-            width: 40px
-            &:before
-              font-size: 30px
-        &:hover
-          .subscribe
-            font-size: 36px
-            height: 55px
-            padding: 0
-            width: 240px
-        .subscribed
-          font-size: 24px
-          padding: 10px 0
-
   .container.mobile
     margin-bottom: 30px !important
   #subscriber_display
@@ -1738,7 +1654,6 @@
       height: auto !important
 
 // Tablet
-
 @media screen and (min-width: 768px)
   #header
     .photo_cover
@@ -1752,32 +1667,6 @@
         li
           font-size: 13px
           -webkit-text-size-adjust: none
-    .details_container
-      .subscribe_cont
-        height: 55px
-        font-size: 26px
-        .cost_owner, .cost_visitor
-          .amount, .fa
-            height: 42px
-          .fa
-            padding: 6px 0 0 0
-            width: 47px
-            &:before
-              font-size: 20px
-          .fa.fa-gear
-            padding-top: 10px
-            width: 25px
-        &:hover
-          .subscribe
-            font-size: 36px
-            height: 55px
-            padding: 0
-            width: 240px
-        .subscribed
-          padding: 5px
-      .add_welcome_media
-        width: 203px
-        padding: 8px 0
   #create_post_nav
     li
       font-size: 13px
@@ -1844,7 +1733,6 @@
             width: 440px
             img
               width: 438px !important
-
       .comment_container
         .comment_row
           .content
@@ -1858,7 +1746,6 @@
             width: 626px !important
         .reply_post
           margin-top: 5px
-
   #visitor
     margin-bottom: 20px
     &.with_video
@@ -1885,40 +1772,8 @@
       font-size: 12px
       margin: 0 0 10px
 
-
 // Desktop
-
 @media screen and (min-width: 991px)
-  #header
-    .details_container
-      .subscribe_cont
-        height: 55px
-        font-size: 36px
-        .cost_owner, .cost_visitor
-          .amount, .fa
-            height: 55px
-          .fa.fa-usd
-            width: 50px
-            &:before
-              font-size: 30px
-          .fa.fa-gear
-            float: left
-            position: relative
-            top: 0
-            width: 35px
-            &:before
-              font-size: 30px
-        &:hover
-          .subscribe
-            font-size: 36px
-            height: 55px
-            padding: 0
-            width: 240px
-
-      .add_welcome_media
-        width: 225px
-        padding: 10px 0
-
   #create_post_nav
     li
       font-size: 16px
@@ -1982,213 +1837,6 @@
                 img
                   min-width: 284px
 
-// Edit Post Popup & Compose Message Popup
-
-.edit_post_popup, .compose_message_popup
-  padding: 10px 15px 15px 15px
-  min-width: 350px
-  max-width: 400px
-  label
-    color: $color_text_dark
-    font-size: 13px
-  .edit_field
-    font-size: 13px
-  textarea.edit_field
-    height: 100px
-  .edit_post_photo
-    margin: 0
-    li
-      display: inline-block
-      position: relative
-      height: 102px
-      overflow: hidden
-      margin: 15px 15px 0 0
-      img
-        border: 1px solid $color_border
-      .delete_photo
-        @include border-radius(0 0 0 5px)
-        position: absolute
-        top: 0px
-        right: 0px
-        text-decoration: none
-        height: 17px
-        width: 17px
-        &:before
-          background-color: #FFFFFF
-          padding: 3px
-
-  .edit_post_audio, .edit_post_doc
-    @include border-radius(5px)
-    border: 1px solid $color_border
-    margin: 15px 0 0 0
-    overflow: hidden
-    li
-      background-color: #FFFFFF
-      border-bottom: 1px solid $color_border
-      border-top: 1px solid $color_border
-      border-right: 1px dotted $color_border
-      border-left: 1px dotted $color_border
-      font-size: 12px
-      padding: 5px
-      width: 100%
-      .fa-arrows-v
-        cursor: pointer
-        font-size: 11px
-        padding: 3px 3px 0
-      .delete_button
-        margin-left: 5px
-        text-decoration: none
-
-  .edit_post_video
-    margin: 15px 0 0 0
-    li
-      img
-        width: 100%
-
-// Compose Message Popup
-
-.compose_message_popup
-  width: 600px
-  label
-    padding-bottom: 5px
-  textarea
-    height: 100px !important
-    font-size: 12px !important
-
-// Photo Popup
-
-.photo_popup
-  @include border_radius (0)
-  max-height: 100% !important
-  .modal-body
-    background-color: #252525
-    position: relative
-    padding: 0 !important
-    .close
-      position: absolute
-      top: 3px
-      right: 1px
-      &.mobile_close
-        cursor: pointer
-        opacity: 0.6
-        text-shadow: none
-        height: 28px
-        width: 28px
-        z-index: 9999
-        .fa.fa-circle
-          color: $color_background
-          font-size: 25px
-        .fa.fa-times
-          color: $color_text_dark
-          font-size: 15px
-          top: 5px
-        &:hover
-          opacity: 1
-    a
-      display: block
-      z-index: 9998
-    img
-      @include border_radius (0)
-      // Mobile & Tablet
-      @media screen and (max-width: 991px)
-        height: auto
-        width: 100%
-      // Desktop
-      @media screen and (min-width: 992px)
-        max-height: 90vh
-        width: auto
-    .photo_nav
-      background-color: #252525
-      border-top: 1px solid #252525
-      font-size: 12px
-      a
-        color: #FFFFFF
-        display: inline-block
-        padding: 10px 30px
-        text-decoration: none
-        width: 50%
-        text-align: center
-        i.fa.fa-chevron-left
-          &:before
-            margin-right: 5px
-        &:hover
-          background: $color_blue
-          color: #FFFFFF
-
-  // Mobile
-  @media screen and (max-width: 767px)
-    .fa.fa-chevron-left
-      left: 5px
-    .fa.fa-chevron-right
-      right: 5px
-
-  // Mobile
-  @media screen and (min-width: 768px)
-    .fa.fa-chevron-left
-      left: 5px
-    .fa.fa-chevron-right
-      right: 5px
-
-// Popup
-.popup
-  .modal-body
-    .contribution
-      margin-bottom: 15px
-      max-width: 500px
-      text-align: center
-      .contribute-value
-        margin: -15px 0 0
-        .custom-amount
-          position: relative
-          top: 16px
-          input[type='radio']
-            position: relative
-            top: 12px
-          input
-            float: left
-      .error.limit
-        @include border-radius(5px)
-        background-color: #faf258
-        border: 1px solid #f4cf3e
-        color: #b29525
-        font-size: 13px
-        margin-top: 10px
-        padding: 15px 100px
-        text-align: center
-    .welcome_media_player
-      margin: 0 auto
-      width: 585px
-      .audio_player, .video_player
-        span.file_name
-          font-size: 12px
-          padding: 15px 0 0 0
-          text-align: center
-          display: block
-      .video_player
-        .jwplayer
-          background-color: $color_background !important
-          border: 1px solid $color_border
-          margin: 0 auto
-          min-height: 330px !important
-      .select_file_container
-        height: 50px
-        width: 585px
-        position: relative
-        margin: 0 auto
-        margin-top: 15px
-        .btn, .hide_btn
-          position: absolute
-          top: 0
-          left: 0
-          height: 34px
-          width: 585px
-        .hide_btn
-          opacity: 0
-          cursor: pointer
-          position: absolute
-          bottom: 0
-          left: 0
-
 .comment_text
   word-break: break-word
   b
@@ -2197,10 +1845,10 @@
     border-radius: 3px
     padding: 0 4px
 
+// Mobile for delete when ready
 .mobile_nav
   @media screen and (min-width: 768px)
     display: none
-
 .mobile_create_popup
   max-width: 100% !important
   position: relative
