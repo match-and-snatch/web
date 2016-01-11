@@ -263,6 +263,7 @@ BuddyPlatform::Application.routes.draw do
       get :cancel
       put :enable_notifications
       put :disable_notifications
+      get :confirm_restore
       put :restore
     end
   end

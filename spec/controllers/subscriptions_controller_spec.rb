@@ -75,4 +75,36 @@ describe SubscriptionsController, type: :controller do
     #   its(:body) { should match_regex /failed/ }
     # end
   end
+
+  describe 'GET #confirm_restore' do
+    let(:user) { create(:user) }
+    let(:subscription) { create(:subscription, user: user, target_user: owner) }
+
+    subject { get 'confirm_restore', id: subscription.id }
+
+    context 'not authorized' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
+
+  describe 'PUT #restore' do
+    let(:user) { create(:user) }
+    let(:subscription) { create(:subscription, user: user, target_user: owner) }
+
+    subject { put 'restore', id: subscription.id }
+
+    context 'not authorized' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
 end
