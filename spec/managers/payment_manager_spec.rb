@@ -24,6 +24,10 @@ describe PaymentManager do
       expect { subject.pay_for(subscription) }.to create_event(:payment_created)
     end
 
+    it 'logs gross sales' do
+      expect { subject.pay_for(subscription) }.to change { target_user.gross_sales }.from(0).to(599)
+    end
+
     context 'subscription is paid' do
       let(:subscription) { create :subscription, user: user, target_user: target_user, charged_at: 1.day.ago }
       specify { expect { subject.pay_for(subscription) }.to raise_error(PaymentError, /is not payable/) }
@@ -53,6 +57,9 @@ describe PaymentManager do
 
       specify { expect { subject.pay_for(subscription) }.not_to raise_error }
       specify { expect { subject.pay_for(subscription) }.to create_event(:payment_created) }
+      it 'logs gross sales' do
+        expect { subject.pay_for(subscription) }.to change { target_user.gross_sales }.from(0).to(599)
+      end
     end
 
     context 'billing failed' do
@@ -77,6 +84,10 @@ describe PaymentManager do
 
         it 'creates payment_created event' do
           expect { subject.pay_for(subscription) }.to create_event(:payment_created)
+        end
+
+        it 'logs gross sales' do
+          expect { subject.pay_for(subscription) }.to change { target_user.gross_sales }.from(0).to(599)
         end
 
         it 'increases subscriptions count daily statistic' do
@@ -104,6 +115,10 @@ describe PaymentManager do
 
         it 'does not create event about new payment' do
           expect { subject.pay_for(subscription) rescue nil }.not_to create_event(:payment_created)
+        end
+
+        it 'does not log gross sales' do
+          expect { subject.pay_for(subscription) }.not_to change { target_user.gross_sales }
         end
 
         it 'creates payment_failed event' do

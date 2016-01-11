@@ -37,6 +37,16 @@ class UserStatsManager < BaseManager
     end
   end
 
+  def increment_gross_sales_log_by(amount = 0)
+    user.gross_sales += amount.to_i
+    save_or_die! user
+  end
+
+  def increment_gross_contributions_log_by(amount = 0)
+    user.gross_contributions += amount.to_i
+    save_or_die! user
+  end
+
   private
 
   def current_month

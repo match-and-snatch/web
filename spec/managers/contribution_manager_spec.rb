@@ -42,7 +42,11 @@ describe ContributionManager do
     end
 
     it 'creates events' do
-       expect { manager.create(amount: 1, target_user: target_user)  }.to create_event(:contribution_created)
+       expect { manager.create(amount: 1, target_user: target_user) }.to create_event(:contribution_created)
+    end
+
+    it 'logs gross contributions' do
+      expect { manager.create(amount: 1, target_user: target_user) }.to change { target_user.gross_contributions }.from(0).to(1)
     end
 
     it 'creates message' do
@@ -249,6 +253,10 @@ describe ContributionManager do
         expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to create_event(:contribution_created)
       end
 
+      it 'does not log gross contributions' do
+        expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to change { target_user.gross_contributions }.from(0)
+      end
+
       it do
         expect { manager.create(amount: 1, target_user: target_user) rescue nil }.to create_event(:contribution_failed)
       end
@@ -297,6 +305,10 @@ describe ContributionManager do
        expect { manager.create_child }.to create_event(:contribution_created)
     end
 
+    it 'logs gross contributions' do
+      expect { manager.create_child }.to change { target_user.gross_contributions }.from(1).to(2)
+    end
+
     context 'charge fails' do
       before do
         StripeMock.prepare_card_error(:card_declined)
@@ -304,6 +316,10 @@ describe ContributionManager do
 
       it 'does not create event about new contribution' do
         expect { manager.create_child rescue nil }.not_to create_event(:contribution_created)
+      end
+
+      it 'does not log gross contributions' do
+        expect { manager.create_child }.not_to change { target_user.gross_contributions }.from(1)
       end
 
       it do

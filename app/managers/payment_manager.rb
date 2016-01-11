@@ -60,7 +60,9 @@ class PaymentManager < BaseManager
       EventsManager.payment_created(user: user, payment: payment)
       user_manager = UserManager.new(subscription.customer)
       user_manager.remove_mark_billing_failed
-      UserStatsManager.new(subscription.target_user).log_subscriptions_count
+      user_stats_manager = UserStatsManager.new(subscription.target_user)
+      user_stats_manager.log_subscriptions_count
+      user_stats_manager.increment_gross_sales_log_by(payment.amount)
       user_manager.activate # Anybody who paid us should be activated
     end
   rescue Stripe::CardError => e
