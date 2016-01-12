@@ -8,7 +8,6 @@ class UserProfileManager < BaseManager
   SLUG_REGEXP  = /^[a-zA-Z0-9]+(\w|_|-)+[a-zA-Z0-9]+$/i
   COST_REGEXP  = /^\d+(\.\d+)?$/i
   ONLY_DIGITS  = /^[0-9]*$/i
-  MAX_COST     = 1100
 
   # @param user [User]
   def initialize(user)
@@ -160,7 +159,7 @@ class UserProfileManager < BaseManager
     end
 
     new_cost = (cost.to_f * 100).to_i
-    if new_cost >= MAX_COST
+    if new_cost >= CostChangeRequest::MAX_COST
       create_cost_change_request(cost: new_cost, update_existing_subscriptions: false)
     end
     user.cost           = new_cost
@@ -258,7 +257,7 @@ class UserProfileManager < BaseManager
 
     cost = (cost.to_f * 100).to_i
 
-    if user.source_subscriptions.any? || cost >= MAX_COST
+    if user.source_subscriptions.any? || cost >= CostChangeRequest::MAX_COST
       create_cost_change_request(cost: cost, update_existing_subscriptions: update_existing_subscriptions)
     else
       user.cost_change_requests.pending.each(&:reject!)
