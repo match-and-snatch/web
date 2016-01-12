@@ -58,6 +58,7 @@ en:
     cost_change_request_submitted: "Your price change request has been submitted.<br/>For security purposes, a ConnectPal representative will contact you within 72 hours to confirm your price change. Thanks."
     delete_profile_page_request_submitted: "Your profile page removal request has been submitted.  For security purposes, a ConnectPal representative will contact you within 72 hours to confirm your request. Thanks."
     profile_page_deleted: Your profile page has been deleted.
+    subscription_limit_reached: You have reached your maximum subscription limit. Please check back in the next 7-10 days to see if your limit has been increased. Thank you.
   feed:
     audios: Just added a new audio file to their profile.
     videos: Just posted a new video to their profile.
