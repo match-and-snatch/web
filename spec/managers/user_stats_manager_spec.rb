@@ -67,4 +67,14 @@ describe UserStatsManager do
       end
     end
   end
+
+  describe '#increment_gross_sales_log_by' do
+    it { expect { subject.increment_gross_sales_log_by }.not_to change { target_user.gross_sales }.from(0) }
+    it { expect { subject.increment_gross_sales_log_by(1) }.to change { target_user.gross_sales }.from(0).to(1) }
+  end
+
+  describe '#increment_gross_contributions_log_by' do
+    it { expect { subject.increment_gross_contributions_log_by }.not_to change { target_user.gross_contributions }.from(0) }
+    it { expect { subject.increment_gross_contributions_log_by(1) }.to change { target_user.gross_contributions }.from(0).to(1) }
+  end
 end

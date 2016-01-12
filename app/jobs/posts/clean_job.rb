@@ -27,7 +27,7 @@ module Posts
             upload.delete_s3_files!
           end
         end
-        puts "[#{Time.zone.now.to_s(:long)}] #{user.email} - #{user.slug} processed"
+        puts "[#{Time.zone.now.to_s(:long)}] #{user.email} - #{user.slug} processed" unless Rails.env.test?
       end
     end
   end

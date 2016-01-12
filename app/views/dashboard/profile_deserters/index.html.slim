@@ -14,8 +14,13 @@ h2 Profile Deserters
         = sort_profile_deserters_link 'Deleted Date', :profile_page_removed_at
     th
       strong Payout Type
-    /th
-      strong Total Subscribers
+    - if current_user.admin?
+      th
+        strong
+          = sort_profile_owners_link 'Gross Sales', :gross_sales
+      th
+        strong
+          = sort_profile_owners_link 'Gross Contributions', :gross_contributions
     th
       strong
         = sort_profile_deserters_link 'Last Post Date', :last_post_created_at
@@ -40,7 +45,11 @@ h2 Profile Deserters
             = user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : "Wire - *#{user.account_number.to_s.last(4)}"
           - else
             | N/A
-        /td= user.subscriptions_count
+        - if current_user.admin?
+          td
+            = cents_to_dollars user.gross_sales
+          td
+            = cents_to_dollars user.gross_contributions
         td style='min-width: 100px'= user.last_post_created_at.try(:to_date).try(:to_s, :long)
         td style='min-width: 100px'= user.created_at
         td
