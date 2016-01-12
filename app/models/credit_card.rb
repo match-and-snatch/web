@@ -10,7 +10,7 @@ class CreditCard
     @cvc          = cvc         .to_s.gsub /\D/, ''
     @expiry_month = expiry_month.to_s.gsub /\D/, ''
     @expiry_year  = expiry_year .to_s.gsub /\D/, ''
-    @zip = zip.to_s.gsub /\D/, ''
+    @zip = zip.to_s
     @city = city
     @state = state
     @address_line_1 = address_line_1
