@@ -8,7 +8,7 @@ class UserProfileManager < BaseManager
   SLUG_REGEXP  = /^[a-zA-Z0-9]+(\w|_|-)+[a-zA-Z0-9]+$/i
   COST_REGEXP  = /^\d+(\.\d+)?$/i
   ONLY_DIGITS  = /^[0-9]*$/i
-  MAX_COST     = 600
+  MAX_COST     = 1100
 
   # @param user [User]
   def initialize(user)
