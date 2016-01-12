@@ -15,8 +15,8 @@ class bud.widgets.Validator extends bud.Widget
       @validate(e)
 
   validate: (e) =>
-    unless e.relatedTarget
-      return false
+    return false unless e.relatedTarget
+    return false if $(e.relatedTarget).is('a')
 
     setTimeout( =>
       key_code = e.keyCode || e.which
