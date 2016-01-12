@@ -1,0 +1,2 @@
+class SubscriptionLimitReachedError < ManagerError
+end

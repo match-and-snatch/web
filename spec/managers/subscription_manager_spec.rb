@@ -312,7 +312,7 @@ describe SubscriptionManager do
           end
 
           specify freeze: 2.days.from_now do
-            expect { manager.subscribe_to(create(:user, :profile_owner)) }.to raise_error(ManagerError, /maximum subscription limit/)
+            expect { manager.subscribe_to(create(:user, :profile_owner)) }.to raise_error(SubscriptionLimitReachedError)
           end
         end
 
