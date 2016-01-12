@@ -2,7 +2,7 @@ class SubscriptionsController < ApplicationController
   before_action :authenticate!, except: [:new, :via_register]
   before_action :load_owner!, only: [:new, :create, :via_register, :via_update_cc_data]
   before_action :filter_card_params, only: [:via_register, :via_update_cc_data]
-  before_action :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :restore]
+  before_action :load_subscription!, only: [:cancel, :destroy, :enable_notifications, :disable_notifications, :confirm_restore, :restore]
 
   protect(:destroy) { can? :delete, @subscription }
 
@@ -90,6 +90,10 @@ class SubscriptionsController < ApplicationController
     SubscriptionManager.new(subscription: @subscription).unsubscribe
     notice(:subscription_cancelled, profile_name: @subscription.target_user.profile_name)
     json_reload
+  end
+
+  def confirm_restore
+    json_popup
   end
 
   def restore
