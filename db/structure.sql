@@ -38,20 +38,6 @@ COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance betwe
 
 
 --
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
-
-
---
 -- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -206,7 +192,7 @@ ALTER SEQUENCE contributions_id_seq OWNED BY contributions.id;
 CREATE TABLE credit_card_declines (
     id integer NOT NULL,
     user_id integer,
-    stripe_fingerprint character varying(255),
+    stripe_fingerprint character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -244,8 +230,8 @@ CREATE TABLE delayed_jobs (
     run_at timestamp without time zone,
     locked_at timestamp without time zone,
     failed_at timestamp without time zone,
-    locked_by character varying(255),
-    queue character varying(255),
+    locked_by character varying,
+    queue character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -341,8 +327,8 @@ ALTER SEQUENCE dialogues_users_id_seq OWNED BY dialogues_users.id;
 
 CREATE TABLE events (
     id integer NOT NULL,
-    action character varying(255),
-    message character varying(255),
+    action character varying,
+    message character varying,
     data text,
     user_id integer,
     created_at timestamp without time zone,
@@ -377,9 +363,9 @@ ALTER SEQUENCE events_id_seq OWNED BY events.id;
 
 CREATE TABLE feed_events (
     id integer NOT NULL,
-    type character varying(255),
+    type character varying,
     target_id integer,
-    target_type character varying(255),
+    target_type character varying,
     target_user_id integer,
     subscription_target_user_id integer,
     data text,
@@ -416,7 +402,7 @@ CREATE TABLE likes (
     id integer NOT NULL,
     user_id integer,
     likable_id integer,
-    likable_type character varying(255),
+    likable_type character varying,
     post_id integer,
     target_user_id integer,
     created_at timestamp without time zone,
@@ -489,7 +475,7 @@ CREATE TABLE payment_failures (
     id integer NOT NULL,
     user_id integer,
     target_id integer,
-    target_type character varying(255),
+    target_type character varying,
     exception_data text,
     stripe_charge_data text,
     description text,
@@ -525,7 +511,7 @@ ALTER SEQUENCE payment_failures_id_seq OWNED BY payment_failures.id;
 CREATE TABLE payments (
     id integer NOT NULL,
     target_id integer,
-    target_type character varying(255),
+    target_type character varying,
     user_id integer,
     amount integer,
     stripe_charge_data text,
@@ -602,7 +588,7 @@ CREATE TABLE posts (
     updated_at timestamp without time zone,
     title character varying(512),
     keywords_text character varying(512),
-    type character varying(255),
+    type character varying,
     hidden boolean DEFAULT false NOT NULL
 );
 
@@ -664,7 +650,7 @@ ALTER SEQUENCE profile_pages_id_seq OWNED BY profile_pages.id;
 
 CREATE TABLE profile_types (
     id integer NOT NULL,
-    title character varying(255),
+    title character varying,
     ordering integer DEFAULT 0 NOT NULL,
     user_id integer
 );
@@ -770,7 +756,7 @@ ALTER SEQUENCE requests_id_seq OWNED BY requests.id;
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
@@ -783,7 +769,7 @@ CREATE TABLE stripe_transfers (
     user_id integer,
     stripe_response text,
     amount integer,
-    description character varying(255),
+    description character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -851,7 +837,7 @@ CREATE TABLE subscriptions (
     id integer NOT NULL,
     user_id integer,
     target_id integer,
-    target_type character varying(255),
+    target_type character varying,
     target_user_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -899,7 +885,7 @@ CREATE TABLE top_profiles (
     "position" integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    profile_name character varying(255),
+    profile_name character varying,
     profile_types_text text
 );
 
@@ -930,12 +916,12 @@ ALTER SEQUENCE top_profiles_id_seq OWNED BY top_profiles.id;
 CREATE TABLE uploads (
     id integer NOT NULL,
     uploadable_id integer,
-    uploadable_type character varying(255),
+    uploadable_type character varying,
     transloadit_data text,
     user_id integer,
     duration double precision,
-    type character varying(255),
-    mime_type character varying(255),
+    type character varying,
+    mime_type character varying,
     width integer,
     height integer,
     preview_url text,
@@ -982,20 +968,20 @@ ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 CREATE TABLE users (
     id integer NOT NULL,
-    slug character varying(255),
-    email character varying(255),
-    password_hash character varying(255),
+    slug character varying,
+    email character varying,
+    password_hash character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     full_name character varying(512),
     subscription_cost integer,
-    holder_name character varying(255),
-    routing_number character varying(255),
-    account_number character varying(255),
-    stripe_user_id character varying(255),
-    stripe_card_id character varying(255),
-    last_four_cc_numbers character varying(255),
-    card_type character varying(255),
+    holder_name character varying,
+    routing_number character varying,
+    account_number character varying,
+    stripe_user_id character varying,
+    stripe_card_id character varying,
+    last_four_cc_numbers character varying,
+    card_type character varying,
     profile_picture_url text,
     original_profile_picture_url text,
     cover_picture_url text,
@@ -1005,44 +991,44 @@ CREATE TABLE users (
     profile_name character varying(512),
     is_admin boolean DEFAULT false NOT NULL,
     contacts_info text,
-    auth_token character varying(255),
+    auth_token character varying,
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees integer,
     cost integer,
-    password_reset_token character varying(255),
     has_public_profile boolean DEFAULT false,
-    company_name character varying(255),
+    password_reset_token character varying,
+    company_name character varying,
     small_profile_picture_url text,
     account_picture_url text,
     small_account_picture_url text,
     original_account_picture_url text,
     cost_changed_at timestamp without time zone,
     activated boolean DEFAULT false NOT NULL,
-    registration_token character varying(255),
+    registration_token character varying,
     rss_enabled boolean DEFAULT true NOT NULL,
     downloads_enabled boolean DEFAULT true NOT NULL,
     itunes_enabled boolean DEFAULT true NOT NULL,
     subscribers_count integer DEFAULT 0 NOT NULL,
     billing_failed boolean DEFAULT false NOT NULL,
-    stripe_recipient_id character varying(255),
+    stripe_recipient_id character varying,
     billing_failed_at timestamp without time zone,
     vacation_enabled boolean DEFAULT false NOT NULL,
     vacation_message text,
     last_visited_profile_id integer,
     vacation_enabled_at timestamp without time zone,
-    billing_address_city character varying(255),
-    billing_address_state character varying(255),
-    billing_address_zip character varying(255),
+    billing_address_city character varying,
+    billing_address_state character varying,
+    billing_address_zip character varying,
     billing_address_line_1 text,
     billing_address_line_2 text,
     contributions_enabled boolean DEFAULT true NOT NULL,
     notifications_debug_enabled boolean DEFAULT true,
+    api_token character varying,
     custom_profile_page_css text,
-    api_token character varying(255),
     hidden boolean DEFAULT true NOT NULL,
     prefers_paypal boolean DEFAULT false NOT NULL,
-    paypal_email character varying(255),
-    stripe_card_fingerprint character varying(255),
+    paypal_email character varying,
+    stripe_card_fingerprint character varying,
     has_mature_content boolean DEFAULT false NOT NULL,
     custom_head_js text,
     cover_picture_width integer,
@@ -1066,7 +1052,9 @@ CREATE TABLE users (
     lock_type character varying,
     lock_reason character varying,
     gross_sales integer DEFAULT 0 NOT NULL,
-    gross_contributions integer DEFAULT 0 NOT NULL
+    gross_contributions integer DEFAULT 0 NOT NULL,
+    lock_reason character varying,
+    adult_subscriptions_limit integer DEFAULT 6 NOT NULL
 );
 
 
@@ -1850,4 +1838,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160107093009');
 INSERT INTO schema_migrations (version) VALUES ('20160111104245');
 
 INSERT INTO schema_migrations (version) VALUES ('20160111105423');
+
+INSERT INTO schema_migrations (version) VALUES ('20160112081924');
+
+INSERT INTO schema_migrations (version) VALUES ('20160112083017');
 

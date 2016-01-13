@@ -178,7 +178,7 @@ class SubscriptionManager < BaseManager
 
     fail! SubscriptionLimitReachedError if @subscriber.subscriptions
                                                .joins(:target_user)
-                                               .where(users: {has_mature_content: true}).count >= 6
+                                               .where(users: {has_mature_content: true}).count >= @subscriber.adult_subscriptions_limit
 
     # Never restore removed fake subscriptions
     removed_subscription = @subscriber.subscriptions.by_target(target).where(removed: true, fake: false).first

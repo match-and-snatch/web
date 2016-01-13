@@ -314,6 +314,14 @@ describe SubscriptionManager do
           specify freeze: 2.days.from_now do
             expect { manager.subscribe_to(create(:user, :profile_owner)) }.to raise_error(SubscriptionLimitReachedError)
           end
+
+          context 'adult subscriptions limit is increased' do
+            before { subscriber.update_attribute(:adult_subscriptions_limit, 7) }
+
+            specify freeze: 2.days.from_now do
+              expect { manager.subscribe_to(create(:user, :profile_owner)) }.to create_record(Subscription)
+            end
+          end
         end
 
         context '48 hours passed' do
