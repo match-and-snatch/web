@@ -19,8 +19,9 @@
       /Profile Details
       .profile_details_l
         .profile_name.own-role
-          .fa.fa-gear.edit-gear.PopupTrigger data-target='name-editor'
-            .edit-text Edit
+          - unless @profile.gross_threshold_reached?
+            .fa.fa-gear.edit-gear.PopupTrigger data-target='name-editor'
+              .edit-text Edit
           h1 data-identifier='profile-name'= @profile.profile_name
           .clearfix
         .profile_type.own-role
@@ -134,39 +135,41 @@
   .AjaxPopup.popup.header_edit.modal-content data-identifier='welcome-editor' data-url=edit_welcome_media_user_path(current_user.object) style="width: 745px"
 
   /Profile Name Popup
-  .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 745px"
-    ul.nav.nav-tabs
-      li
-        a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
-      li.active
-        a href='javascript: void(0)' Profile Name
-      li
-        a.PopupTrigger data-target='type-editor' href='#' Profile Type
-      li
-        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
-      li
-        a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
-    .modal-header
-      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
-      .modal-title Edit Profile Name
-      span This is the name that appears at the top of your profile page.
-    .modal-body
-      form.Form action=update_name_user_path(@profile.object) method='post'
-        .form-group
-          input type='hidden' name='_method' value='put'
-          input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name' validate='require'
-        .form-group
-          .pull-left.error data-field='profile_name'
-          input.btn.pink.pull-right type='submit' value='Update Profile Name'
-          .clearfix
+  - unless @profile.gross_threshold_reached?
+    .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 745px"
+      ul.nav.nav-tabs
+        li
+          a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
+        li.active
+          a href='javascript: void(0)' Profile Name
+        li
+          a.PopupTrigger data-target='type-editor' href='#' Profile Type
+        li
+          a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+        li
+          a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
+      .modal-header
+        i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="name-editor" aria-hidden="true"
+        .modal-title Edit Profile Name
+        span This is the name that appears at the top of your profile page.
+      .modal-body
+        form.Form action=update_name_user_path(@profile.object) method='post'
+          .form-group
+            input type='hidden' name='_method' value='put'
+            input.form-control type='text' name='profile_name' value=@profile.profile_name data-target='profile-name' validate='require'
+          .form-group
+            .pull-left.error data-field='profile_name'
+            input.btn.pink.pull-right type='submit' value='Update Profile Name'
+            .clearfix
 
   /Profile Type Popup
   .Popup.popup.header_edit.modal-content data-identifier='type-editor' style="width: 745px"
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
-      li
-        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      - unless @profile.gross_threshold_reached?
+        li
+          a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li.active
         a href='javascript: void(0)' Profile Type
       li
@@ -197,8 +200,9 @@
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
-      li
-        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      - unless @profile.gross_threshold_reached?
+        li
+          a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li
         a.PopupTrigger data-target='type-editor' href='#' Profile Type
       li.active
@@ -259,8 +263,9 @@
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
-      li
-        a.PopupTrigger data-target='name-editor' href='#' Profile Name
+      - unless @profile.gross_threshold_reached?
+        li
+          a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li
         a.PopupTrigger data-target='type-editor' href='#' Profile Type
       li

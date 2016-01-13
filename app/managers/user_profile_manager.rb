@@ -236,7 +236,9 @@ class UserProfileManager < BaseManager
 
   # @param profile_name [String]
   # @return [User]
-  def update_profile_name(profile_name)
+  def update_profile_name(profile_name, performer: user)
+    fail_with! 'You can\'t change profile name' if !performer.admin? && user.gross_threshold_reached?
+
     profile_name = profile_name.to_s.strip.squeeze(' ')
 
     fail_with! profile_name: :empty    if profile_name.blank?

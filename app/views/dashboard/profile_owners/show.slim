@@ -1,6 +1,10 @@
 h1
   strong style="color: #3b9fd1;" Profile Name:
   '
+  = @user.profile_name
+  '
+  strong style="color: #3b9fd1;" Full Name:
+  '
   = @user.full_name
 hr
 .row
@@ -66,6 +70,19 @@ hr
         strong Total Paid Out:
         span style="color: #ea2e49;"= cents_to_dollars @user.total_paid_out
     .clearfix
+
+.row
+  .col-md-12
+    hr
+    h2
+      strong Profile Name
+    form.form-inline.Form action=change_profile_name_admin_profile_owner_path(@user.id) method='POST'
+      .form-group
+        label style='margin-right: 5px' Profile Name
+        input.form-control type='text' name='profile_name' style='margin-right: 15px; width: 100px' value=@user.profile_name
+      input.btn.pink type='submit' value='Change Profile Name'
+    .clearfix
+
 .row
   .col-md-12
     hr
