@@ -8,6 +8,7 @@ module Billing
       end
 
       Subscription.to_charge.find_each do |subscription|
+        subscription.reload
         p "Paying for subscription ##{subscription.id}" unless Rails.env.test?
 
         if subscription.payable?
