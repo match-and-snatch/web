@@ -35,6 +35,9 @@ class bud.widgets.Commenter extends bud.widgets.Form
     if e.which == 13 && !e.shiftKey
       @$container.submit()
       return false
+    else if e.which == 27
+      bud.pub('commenter.commented', [@])
+      @$container.find('a').click()
     else
       return true
 

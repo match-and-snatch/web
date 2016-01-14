@@ -6,5 +6,6 @@
     input type='hidden' name='_method' value='PUT'
     textarea.Autofocus name='message'
       = @comment.message
+    a.AjaxLink href=comment_path(@comment.id) data-target='comment-#{@comment.id}' Cancel Edit
   .clearfix
 .cleafix

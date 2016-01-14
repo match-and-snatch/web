@@ -6,5 +6,6 @@
     input type='hidden' name='_method' value='PUT'
     textarea.Autofocus name='message' style='width: 100%'
       = @reply.message
+    a.AjaxLink href=comment_reply_path(@comment.id, @reply.id) data-target='comment-#{@reply.id}' Cancel Edit
   .clearfix
 .cleafix

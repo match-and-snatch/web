@@ -1,12 +1,16 @@
 class RepliesController < ApplicationController
   include Concerns::PublicProfileHandler
 
-  before_action :authenticate!, except: [:create]
-  before_action :load_comment!, only: [:create, :edit, :update]
-  before_action :load_reply!, only: [:edit, :update, :make_visible, :hide]
+  before_action :authenticate!, except: [:show, :create]
+  before_action :load_comment!, only: [:show, :create, :edit, :update]
+  before_action :load_reply!, only: [:show, :edit, :update, :make_visible, :hide]
 
-  protect(:create) { can? :comment, @comment.post }
+  protect(:create, :show) { can? :comment, @comment.post }
   protect(:edit, :update) { can? :delete, @reply }
+
+  def show
+    json_replace partial: 'reply', locals: { reply: @reply }
+  end
 
   def create
     comment_flow.create(new_comment_params).pass do |reply|

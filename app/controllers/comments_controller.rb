@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   before_action :load_post!, only: [:index, :create]
   before_action :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide, :like, :show]
 
-  protect(:index, :create, :like, :show) { can? :comment, post }
+  protect(:index, :create, :like, :show, :full_text) { can? :comment, post }
   protect(:edit, :update, :make_visible, :hide, :destroy) { can? :manage, @comment }
 
   def index
@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
   end
 
   def show
-    json_replace
+    json_replace partial: 'comment_row', locals: { comment: @comment }
   end
 
   def create
@@ -30,6 +30,10 @@ class CommentsController < ApplicationController
 
   def update
     comment_flow.update(params.slice(:message)).pass { render_comment_row }
+  end
+
+  def full_text
+    json_replace
   end
 
   def make_visible
