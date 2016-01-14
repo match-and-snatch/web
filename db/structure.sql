@@ -1053,7 +1053,6 @@ CREATE TABLE users (
     lock_reason character varying,
     gross_sales integer DEFAULT 0 NOT NULL,
     gross_contributions integer DEFAULT 0 NOT NULL,
-    lock_reason character varying,
     adult_subscriptions_limit integer DEFAULT 6 NOT NULL
 );
 
