@@ -16,7 +16,7 @@ module Queries
       when -> (q) { /^cus_/.match(q) && q.length == 18 }
         User.where(stripe_user_id: @query)
       when /@/
-        User.where(email: @query)
+        User.by_email(@query)
       when /^\d+$/
         User.where(id: @query)
       else
