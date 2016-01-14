@@ -77,10 +77,10 @@ describe Api::UsersController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      subject { post 'update_cost', id: user.slug, cost: 5, format: :json }
+      subject { post 'update_cost', id: user.slug, cost: 10, format: :json }
 
       its(:status) { is_expected.to eq(200) }
-      it { expect { subject }.to change { user.reload.cost }.to(5_00) }
+      it { expect { subject }.to change { user.reload.cost }.to(10_00) }
       it { expect(subject.body).to include("data") }
     end
 
