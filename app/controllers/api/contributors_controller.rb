@@ -7,7 +7,7 @@ class Api::ContributorsController < Api::BaseController
       year_month = YearMonth.to_date_from_string(params[:year_month])
       @contributions = @contributions.where(created_at: (year_month.beginning_of_month..year_month.end_of_month))
     end
-    json_success @contributions.map {|contribution| api_response.contribution_data(contribution)}
+    json_success contributors: @contributions.map {|contribution| api_response.contribution_data(contribution)}
   end
 end
 

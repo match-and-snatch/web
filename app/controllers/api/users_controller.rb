@@ -63,7 +63,7 @@ class Api::UsersController < Api::BaseController
 
   def mentions
     @users = Queries::Mentions.new(current_user: current_user, profile_id: params[:profile_id], query: params[:q]).by_name
-    json_success api_response.mentions_data(@users)
+    json_success mentions: api_response.mentions_data(@users)
   end
 
   def login_as
