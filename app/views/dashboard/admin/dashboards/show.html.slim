@@ -30,60 +30,34 @@ h2
       'Total Failed Payments
       strong= @overview.current_failed_payments_count
       = @overview.total_failed_payments_count
-.row style="padding-top: 15px"
-  .col-md-3.dashboard-overview
-    img.img-responsive width=100 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-sales.png')
-    p
-      'Total Gross Sales
-      strong= cents_to_dollars @overview.total_gross_sales
-  .col-md-3.dashboard-overview
-    img.img-responsive width=100 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-sales.png')
-    p
-      'Total Subscription Sales
-      strong= cents_to_dollars @overview.total_subscription_sales
-  .col-md-3.dashboard-overview
-    img.img-responsive width=100 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
-    p
-      'Total ConnectPal Fees
-      strong= cents_to_dollars @overview.total_connectpal_fees
-  .col-md-3.dashboard-overview
-    img.img-responsive width=100 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-tos.png')
-    p
-      'Total ToS Fees
-      strong= cents_to_dollars @overview.total_tos_fees
-  .col-md-3.dashboard-overview
-    img.img-responsive width=100 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-stripe.png')
-    p
-      'Total Stripe Fees
-      strong= cents_to_dollars @overview.total_stripe_fees
 hr
-h2
-  strong Daily Snapshot
-.row
-  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-    p
-      'Total Gross Sales
-      strong= cents_to_dollars @overview.daily_gross_sales
-  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-    p
-      'Total Subscribers
-      strong= @overview.daily_subscribers_count
-      = @overview.daily_total_subscribers_count
-  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-    p
-      'Total Unsubscribers
-      strong= @overview.daily_unsubscribers_count
-      = @overview.daily_total_unsubscribers_count
-  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-    p
-      'Total Failed Payments
-      strong= @overview.daily_failed_payments_count
-  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-    p
-      'Total ToS Fees
-      strong= cents_to_dollars @overview.daily_tos_fees
-  .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-    p
-      'Total Stripe Fees
-      strong= cents_to_dollars @overview.daily_stripe_fees
+  h2
+    strong Daily Snapshot
+  .row
+    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+      p
+        'Total Gross Sales
+        strong= cents_to_dollars @overview.daily_gross_sales
+    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+      p
+        'Total Subscribers
+        strong= @overview.daily_subscribers_count
+        = @overview.daily_total_subscribers_count
+    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+      p
+        'Total Unsubscribers
+        strong= @overview.daily_unsubscribers_count
+        = @overview.daily_total_unsubscribers_count
+    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+      p
+        'Total Failed Payments
+        strong= @overview.daily_failed_payments_count
+    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+      p
+        'Total ToS Fees
+        strong= cents_to_dollars @overview.daily_tos_fees
+    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+      p
+        'Total Stripe Fees
+        strong= cents_to_dollars @overview.daily_stripe_fees
 .clearfix
