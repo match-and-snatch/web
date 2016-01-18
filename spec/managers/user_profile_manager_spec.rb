@@ -887,6 +887,40 @@ describe UserProfileManager do
     end
   end
 
+  describe '#update_profile_name' do
+    it { expect { manager.update_profile_name('Slava') }.to change { user.profile_name }.from(nil).to('Slava') }
+    it { expect { manager.update_profile_name('Slava') }.to create_event(:profile_name_changed).including_data(name: 'Slava') }
+
+    it 'strips whitespaces around the name' do
+      expect { manager.update_profile_name(' Slava  ') }.to change { user.profile_name }.from(nil).to('Slava')
+    end
+
+    it 'indexes profile' do
+      expect { manager.update_profile_name('Slava') }.to index_record(user).using_type('profiles')
+    end
+
+    it 'raises an error if new profile_name is empty' do
+      expect { manager.update_profile_name('').to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) } }
+      expect { manager.update_profile_name(nil).to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) } }
+    end
+
+    it 'raises an error if new profile_name longer than 140 characters' do
+      expect { manager.update_profile_name('Hubert Blaine Wolfeschlegelsteinhausenbergerdorff Hubert Blaine Wolfeschlegelsteinhausenbergerdorff Hubert Blaine Wolfeschlegelsteinhausenbergerdorff').to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:too_long)) } }
+    end
+
+    context 'gross sales threshold reached' do
+      before { user.update_attributes(gross_sales: 1000_00) }
+
+      it { expect { manager.update_profile_name('Slava') }.to raise_error(ManagerError, /can't change profile name/) }
+
+      context 'admin changes profile name for owner' do
+        let(:admin) { create(:user, :admin) }
+
+        it { expect { manager.update_profile_name('Slava', performer: admin) }.to change { user.profile_name }.from(nil).to('Slava') }
+      end
+    end
+  end
+
   describe '#update_cost' do
     before do
       manager.update_cost(1)

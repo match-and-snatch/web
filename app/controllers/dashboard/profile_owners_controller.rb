@@ -1,5 +1,5 @@
 class Dashboard::ProfileOwnersController < Dashboard::BaseController
-  before_action :load_user!, only: [:show, :update, :change_fake_subscriptions_number, :total_subscribed,
+  before_action :load_user!, only: [:show, :update, :change_fake_subscriptions_number, :change_profile_name, :total_subscribed,
                                     :total_new_subscribed, :total_unsubscribed, :failed_billing_subscriptions,
                                     :pending_payments, :this_month_subscribers_unsubscribers]
 
@@ -33,6 +33,11 @@ class Dashboard::ProfileOwnersController < Dashboard::BaseController
   def change_fake_subscriptions_number
     SubscriptionManager.create_fakes(count: params[:count], target_user: @user)
     json_reload notice: 'Fake Subscriptions Were Successfully Added'
+  end
+
+  def change_profile_name
+    UserProfileManager.new(@user).update_profile_name(params[:profile_name], performer: current_user)
+    json_reload notice: 'Profile Name updated successfully'
   end
 
   def total_subscribed

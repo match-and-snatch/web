@@ -85,6 +85,7 @@ class ApiResponsePresenter
       registration_token: user.registration_token,
       auth_token: user.auth_token,
       api_token: user.api_token,
+      gross_threshold_reached: user.gross_threshold_reached?,
       cost_approved: user.cost_approved?,
       cc_declined: user.cc_declined?
     }.merge(account_data(user)).merge(lock_info(user))

@@ -386,6 +386,10 @@ class User < ActiveRecord::Base
     profile_payable? && contributions_enabled? && subscribers_count > 4
   end
 
+  def gross_threshold_reached?
+    gross_sales >= 100_00
+  end
+
   def bank_account_data
     {
       country: 'US',
