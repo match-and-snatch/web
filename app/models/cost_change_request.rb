@@ -16,4 +16,8 @@ class CostChangeRequest < Request
   def initial?
     old_cost.nil?
   end
+
+  def completes_profile?
+    initial? && user.passed_profile_steps?
+  end
 end

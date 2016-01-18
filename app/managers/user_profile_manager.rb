@@ -109,71 +109,8 @@ class UserProfileManager < BaseManager
   # @param account_number [String]
   # @return [User]
   def finish_owner_registration(*args)
-    had_complete_profile = user.has_complete_profile?
-
-    update(*args).tap do
-      send_welcome_email if user.has_profile_page? && !had_complete_profile
-    end
-  end
-
-  # @param cost [Float, String]
-  # @param profile_name [String]
-  # @param holder_name [String]
-  # @param routing_number [String]
-  # @param account_number [String]
-  # @return [User]
-  def update(cost: nil, profile_name: nil, holder_name: nil, routing_number: nil, account_number: nil)
-    profile_name   = profile_name.to_s.strip.squeeze(' ')
-    holder_name    = holder_name.to_s.strip
-    routing_number = routing_number.to_s.strip
-    account_number = account_number.to_s.strip
-
-    validate! do
-      if profile_name.blank?
-        fail_with profile_name: :empty
-      elsif profile_name.length > 140
-        fail_with profile_name: :too_long
-      else
-        fail_with profile_name: :taken if (/connect.?pal/i).match(profile_name)
-      end
-
-      validate_cost cost
-
-      if holder_name.present? || routing_number.present? || account_number.present?
-        fail_with holder_name: :empty if holder_name.blank?
-
-        if routing_number.match ONLY_DIGITS
-          fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
-        else
-          fail_with routing_number: :not_an_integer
-        end
-
-        if account_number.match ONLY_DIGITS
-          fail_with account_number: :not_an_account_number unless (3..20).include?(account_number.try(:length))
-        else
-          fail_with account_number: :not_an_integer
-        end
-      end
-    end
-
-    new_cost = (cost.to_f * 100).to_i
-    if new_cost >= CostChangeRequest::MAX_COST
-      create_cost_change_request(cost: new_cost, update_existing_subscriptions: false)
-    end
-    user.cost           = new_cost
-    user.profile_name   = profile_name.try(:strip)
-    user.holder_name    = holder_name.try(:strip)
-    user.routing_number = routing_number.try(:strip)
-    user.account_number = account_number.try(:strip)
-    user.generate_slug(force: true)
-
-    save_or_die! user
-
-    reindex_user
-    EventsManager.profile_created(user: user, data: { cost: cost, profile_name: profile_name })
-
-    sync_stripe_recipient! if user.stripe_recipient_id
-    user
+    never_passed_second_step = !user.passed_profile_steps?
+    update(*args).tap { send_welcome_email if never_passed_second_step && !user.cost_change_request }
   end
 
   # @param benefits [Array<String>]
@@ -249,7 +186,7 @@ class UserProfileManager < BaseManager
     EventsManager.profile_name_changed(user: user, name: profile_name)
   end
 
-  # @param cost [Integer, Float, String]
+  # @param cost [Integer, Float, String] in dollars
   # @param update_existing_subscriptions [true, false, nil]
   # @return [User]
   def update_cost(cost, update_existing_subscriptions: false)
@@ -260,7 +197,7 @@ class UserProfileManager < BaseManager
     if user.source_subscriptions.any? || cost >= CostChangeRequest::MAX_COST
       create_cost_change_request(cost: cost, update_existing_subscriptions: update_existing_subscriptions)
     else
-      user.cost_change_requests.pending.each(&:reject!)
+      user.cost_change_request.try(:reject!)
       change_cost!(cost: cost, update_existing_subscriptions: update_existing_subscriptions)
     end
 
@@ -290,11 +227,11 @@ class UserProfileManager < BaseManager
     if cost_change_request.initial? || user.source_subscriptions.active.empty?
       change_cost!(cost: cost_change_request.new_cost, update_existing_subscriptions: cost_change_request.update_existing_subscriptions)
       cost_change_request.perform!
-      send_welcome_email if cost_change_request.initial?
+      send_welcome_email if cost_change_request.completes_profile?
     end
   end
 
-  # @param cost_change_requets [CostChangeRequest]
+  # @param cost_change_request [CostChangeRequest]
   # @param cost [Integer]
   def rollback_cost!(cost_change_request, cost: )
     if cost_change_request.initial? || cost
@@ -305,7 +242,7 @@ class UserProfileManager < BaseManager
     end
 
     cost_change_request.reject!
-    send_welcome_email if cost_change_request.initial?
+    send_welcome_email if cost_change_request.completes_profile?
   end
 
   # @param contacts_info [Hash]
@@ -916,5 +853,66 @@ class UserProfileManager < BaseManager
 
   def send_welcome_email
     AuthMailer.delay.registered(user) if user.cost_approved?
+  end
+
+  # Registration, step 2
+  # @param cost [Float, String]
+  # @param profile_name [String]
+  # @param holder_name [String]
+  # @param routing_number [String]
+  # @param account_number [String]
+  # @return [User]
+  def update(cost: nil, profile_name: nil, holder_name: nil, routing_number: nil, account_number: nil)
+    profile_name   = profile_name.to_s.strip.squeeze(' ')
+    holder_name    = holder_name.to_s.strip
+    routing_number = routing_number.to_s.strip
+    account_number = account_number.to_s.strip
+
+    validate! do
+      if profile_name.blank?
+        fail_with profile_name: :empty
+      elsif profile_name.length > 140
+        fail_with profile_name: :too_long
+      else
+        fail_with profile_name: :taken if (/connect.?pal/i).match(profile_name)
+      end
+
+      validate_cost cost
+
+      if holder_name.present? || routing_number.present? || account_number.present?
+        fail_with holder_name: :empty if holder_name.blank?
+
+        if routing_number.match ONLY_DIGITS
+          fail_with routing_number: :not_a_routing_number if routing_number.try(:length) != 9
+        else
+          fail_with routing_number: :not_an_integer
+        end
+
+        if account_number.match ONLY_DIGITS
+          fail_with account_number: :not_an_account_number unless (3..20).include?(account_number.try(:length))
+        else
+          fail_with account_number: :not_an_integer
+        end
+      end
+    end
+
+    new_cost = (cost.to_f * 100).to_i
+    if new_cost >= CostChangeRequest::MAX_COST
+      create_cost_change_request(cost: new_cost, update_existing_subscriptions: false)
+    end
+    user.cost           = new_cost
+    user.profile_name   = profile_name.try(:strip)
+    user.holder_name    = holder_name.try(:strip)
+    user.routing_number = routing_number.try(:strip)
+    user.account_number = account_number.try(:strip)
+    user.generate_slug(force: true)
+
+    save_or_die! user
+
+    reindex_user
+    EventsManager.profile_created(user: user, data: { cost: cost, profile_name: profile_name })
+
+    sync_stripe_recipient! if user.stripe_recipient_id
+    user
   end
 end

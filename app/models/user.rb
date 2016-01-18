@@ -236,9 +236,8 @@ class User < ActiveRecord::Base
     @profile_page_data ||= ProfilePageDataProxy.new(self)
   end
 
-  # Checks if a user hasn't passed three steps of registration
+  # Checks if a user hasn't passed two steps of registration
   def passed_profile_steps?
-    # [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
     [profile_name, slug, cost].all?(&:present?)
   end
 
