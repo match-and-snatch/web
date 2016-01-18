@@ -27,20 +27,19 @@ describe UserProfileManager do
   describe '#finish_owner_registration' do
     let!(:user) { create :user, full_name: 'Barak Obama' }
 
-    specify do
-      expect do
-        manager.finish_owner_registration(profile_name: 'The President', cost: 9900)
-      end.to change { user.reload.slug }.to('thepresident')
-    end
+    subject(:finish) { manager.finish_owner_registration(profile_name: 'The President', cost: 9) }
+
+    it { expect { finish }.to change { user.reload.slug }.to('thepresident') }
 
     context 'initially profile owner' do
       let!(:user) { create :user, full_name: 'Barak Obama', is_profile_owner: true }
 
-      specify do
-        expect do
-          manager.finish_owner_registration(profile_name: 'The President', cost: 9900)
-        end.to change { user.reload.slug }.to('thepresident')
-      end
+      it { expect { finish }.to change { user.reload.slug }.to('thepresident') }
+      it { expect { finish }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/) }
+    end
+
+    context 'sets large cost' do
+      it { expect { manager.finish_owner_registration(profile_name: 'The President', cost: 25) }.not_to deliver_email(to: user.email) }
     end
   end
 
@@ -1233,6 +1232,9 @@ describe UserProfileManager do
       specify do
         expect { manager.approve_and_change_cost!(request) }.not_to change { user.cost }.from(3500)
       end
+      specify do
+        expect { manager.approve_and_change_cost!(request) }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/)
+      end
     end
 
     context 'existing user tries to change his cost' do
@@ -1248,6 +1250,9 @@ describe UserProfileManager do
       specify do
         expect { manager.approve_and_change_cost!(request) }.to change { user.cost }.from(500)
       end
+      specify do
+        expect { manager.approve_and_change_cost!(request) }.not_to deliver_email(to: user.email)
+      end
 
       context 'with subscribers' do
         let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
@@ -1259,6 +1264,9 @@ describe UserProfileManager do
         end
         specify do
           expect { manager.approve_and_change_cost!(request) }.not_to change { user.cost }.from(500)
+        end
+        specify do
+          expect { manager.approve_and_change_cost!(request) }.not_to deliver_email(to: user.email)
         end
       end
     end
@@ -1275,6 +1283,7 @@ describe UserProfileManager do
       it 'sets specified new cost' do
         expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(3500).to(2000)
       end
+      it { expect { manager.rollback_cost!(request, cost: 20) }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/) }
     end
 
     context 'existing user tries to change his cost' do
@@ -1291,6 +1300,7 @@ describe UserProfileManager do
       it 'sets specified new cost' do
         expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(500).to(2000)
       end
+      it { expect { manager.rollback_cost!(request, cost: 20) }.not_to deliver_email(to: user.email) }
     end
   end
 end

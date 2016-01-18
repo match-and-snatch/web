@@ -112,9 +112,7 @@ class UserProfileManager < BaseManager
     had_complete_profile = user.has_complete_profile?
 
     update(*args).tap do
-      if user.has_profile_page? && !had_complete_profile
-        AuthMailer.delay.registered(user)
-      end
+      send_welcome_email if user.has_profile_page? && !had_complete_profile
     end
   end
 
@@ -292,6 +290,7 @@ class UserProfileManager < BaseManager
     if cost_change_request.old_cost.nil? || user.source_subscriptions.active.empty?
       change_cost!(cost: cost_change_request.new_cost, update_existing_subscriptions: cost_change_request.update_existing_subscriptions)
       cost_change_request.perform!
+      send_welcome_email if cost_change_request.old_cost.nil?
     end
   end
 
@@ -306,6 +305,7 @@ class UserProfileManager < BaseManager
     end
 
     cost_change_request.reject!
+    send_welcome_email if cost_change_request.old_cost.nil?
   end
 
   # @param contacts_info [Hash]
@@ -912,5 +912,9 @@ class UserProfileManager < BaseManager
       ProfilesMailer.delay.cost_change_request(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
       @cost_change_request_submitted = true
     end
+  end
+
+  def send_welcome_email
+    AuthMailer.delay.registered(user) if user.cost_approved?
   end
 end
