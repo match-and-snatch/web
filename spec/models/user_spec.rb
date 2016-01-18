@@ -552,4 +552,46 @@ describe User do
       its(:profile_payable?) { is_expected.to eq(false) }
     end
   end
+
+  describe '#cost_change_requests' do
+    subject(:user) { create :user }
+
+    describe '#current' do
+      subject(:current_cost_request) { user.cost_change_requests.current }
+
+      context 'there is a request pending' do
+        let!(:pending_request) { create :cost_change_request, :pending, user: user }
+
+        it 'returns current cost change request' do
+          expect(current_cost_request).to eq(pending_request)
+        end
+      end
+
+      context 'no pending requests' do
+        specify do
+          expect(current_cost_request).to be_nil
+        end
+      end
+    end
+  end
+
+  describe '#cost_change_request' do
+    subject(:user) { create :user }
+
+    subject(:cost_change_request) { user.cost_change_request }
+
+    context 'there is a request pending' do
+      let!(:pending_request) { create :cost_change_request, :pending, user: user }
+
+      it 'returns current cost change request' do
+        expect(cost_change_request).to eq(pending_request)
+      end
+    end
+
+    context 'no pending requests' do
+      specify do
+        expect(cost_change_request).to be_nil
+      end
+    end
+  end
 end

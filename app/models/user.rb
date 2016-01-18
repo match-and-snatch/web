@@ -37,7 +37,11 @@ class User < ActiveRecord::Base
   end
   has_many :messages
   has_many :events
-  has_many :cost_change_requests
+  has_many :cost_change_requests do
+    def current
+      pending.order(created_at: :desc).first
+    end
+  end
   has_many :delete_profile_page_requests
   has_many :contribution_requests
   has_many :credit_card_update_requests
@@ -161,6 +165,12 @@ class User < ActiveRecord::Base
     raise ArgumentError unless locked?
     self.locked = false
     save!
+  end
+
+  # Returns pending request
+  # @return [CostChangeRequest]
+  def cost_change_request
+    @cost_change_request ||= cost_change_requests.current
   end
 
   def cost_approved?

@@ -287,17 +287,17 @@ class UserProfileManager < BaseManager
   # @param update_existing_subscriptions [Boolean]
   def approve_and_change_cost!(cost_change_request, update_existing_subscriptions: false)
     cost_change_request.approve!(update_existing_costs: update_existing_subscriptions)
-    if cost_change_request.old_cost.nil? || user.source_subscriptions.active.empty?
+    if cost_change_request.initial? || user.source_subscriptions.active.empty?
       change_cost!(cost: cost_change_request.new_cost, update_existing_subscriptions: cost_change_request.update_existing_subscriptions)
       cost_change_request.perform!
-      send_welcome_email if cost_change_request.old_cost.nil?
+      send_welcome_email if cost_change_request.initial?
     end
   end
 
   # @param cost_change_requets [CostChangeRequest]
   # @param cost [Integer]
   def rollback_cost!(cost_change_request, cost: )
-    if cost_change_request.old_cost.nil? || cost
+    if cost_change_request.initial? || cost
       validate! { validate_cost cost }
 
       user.cost = (cost.to_f * 100).to_i
@@ -305,7 +305,7 @@ class UserProfileManager < BaseManager
     end
 
     cost_change_request.reject!
-    send_welcome_email if cost_change_request.old_cost.nil?
+    send_welcome_email if cost_change_request.initial?
   end
 
   # @param contacts_info [Hash]
@@ -903,7 +903,7 @@ class UserProfileManager < BaseManager
   end
 
   def create_cost_change_request(cost: , update_existing_subscriptions: )
-    if user.cost_change_requests.pending.any?
+    if user.cost_change_requests.current
       fail_with! cost: :pending_request_present
     else
       user.cost_change_requests.create!(old_cost: user.cost,

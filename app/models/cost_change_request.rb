@@ -12,4 +12,8 @@ class CostChangeRequest < Request
     self.approved_at = Time.zone.now
     self.save!
   end
+
+  def initial?
+    old_cost.nil?
+  end
 end
