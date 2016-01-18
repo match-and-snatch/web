@@ -76,6 +76,58 @@ describe CommentsController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
+    subject { get 'show', id: comment.id }
+
+    context 'unauthorized access' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized access' do
+      context 'as comment owner' do
+        before { sign_in commenter }
+        it { should be_success }
+      end
+
+      context 'as a post owner' do
+        before { sign_in poster }
+        its(:status) { should eq(200) }
+      end
+
+      context 'as anybody else' do
+        before { sign_in }
+        its(:status) { should eq(401) }
+      end
+    end
+  end
+
+  describe 'GET #full_text' do
+    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
+    subject { get 'full_text', id: comment.id }
+
+    context 'unauthorized access' do
+      its(:status) { should eq(401) }
+    end
+
+    context 'authorized access' do
+      context 'as comment owner' do
+        before { sign_in commenter }
+        it { should be_success }
+      end
+
+      context 'as a post owner' do
+        before { sign_in poster }
+        its(:status) { should eq(200) }
+      end
+
+      context 'as anybody else' do
+        before { sign_in }
+        its(:status) { should eq(401) }
+      end
+    end
+  end
+
   describe 'PUT #update' do
     before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
     subject(:perform_request) { put 'update', post_id: _post.id, id: comment.id, message: 'updated' }

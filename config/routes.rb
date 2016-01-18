@@ -207,11 +207,12 @@ BuddyPlatform::Application.routes.draw do
 
   resources :comments, only: [:show, :edit, :update, :destroy] do
     member do
+      get :full_text
       put :make_visible
       put :hide
       put :like
     end
-    resources :replies, only: [:create, :edit, :update] do
+    resources :replies, only: [:show, :create, :edit, :update] do
       member do
         put :make_visible
         put :hide
