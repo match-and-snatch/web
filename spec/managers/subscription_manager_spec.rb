@@ -145,6 +145,14 @@ describe SubscriptionManager do
         expect { manager.subscribe_to(another_user) }.to index_record(subscriber).using_index('users').using_type('mentions')
       end
 
+      context 'locked profile owner' do
+        let(:another_user) { create :user, :profile_owner, locked: true }
+
+        specify do
+          expect { manager.subscribe_to(another_user) }.to raise_error(ManagerError, /disabled/)
+        end
+      end
+
       context 'fake' do
         subject(:subscribe) { manager.subscribe_to(another_user, fake: true) }
 

@@ -173,6 +173,7 @@ class SubscriptionManager < BaseManager
     end
 
     fail_locked! if @subscriber.locked?
+    fail_with! "Subscriptions to this profile temporally disabled. Please try again later." if target.locked?
     fail_with! "Can't subscribe to self" if @subscriber == target
     fail_with! "Can't subscribe to user with not approved cost" unless target.cost_approved?
 
