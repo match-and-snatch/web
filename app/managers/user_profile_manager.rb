@@ -199,6 +199,7 @@ class UserProfileManager < BaseManager
     else
       user.cost_change_request.try(:reject!)
       change_cost!(cost: cost, update_existing_subscriptions: update_existing_subscriptions)
+      send_welcome_email if user.cost_change_request.try(:completes_profile?) # TODO(DJ): specs
     end
 
     user
@@ -220,7 +221,7 @@ class UserProfileManager < BaseManager
     EventsManager.subscription_cost_changed(user: user, from: previous_cost, to: cost)
   end
 
-  # @param cost_change_requets [CostChangeRequest]
+  # @param cost_change_request [CostChangeRequest]
   # @param update_existing_subscriptions [Boolean]
   def approve_and_change_cost!(cost_change_request, update_existing_subscriptions: false)
     cost_change_request.approve!(update_existing_costs: update_existing_subscriptions)
@@ -840,7 +841,7 @@ class UserProfileManager < BaseManager
   end
 
   def create_cost_change_request(cost: , update_existing_subscriptions: )
-    if user.cost_change_requests.current
+    if user.cost_change_request
       fail_with! cost: :pending_request_present
     else
       user.cost_change_requests.create!(old_cost: user.cost,
