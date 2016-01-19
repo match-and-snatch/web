@@ -39,11 +39,11 @@ def create_profile(_params = {})
                         routing_number:   '123456789',
                         is_profile_owner: true
 
-  UserProfileManager.new(create_user(params)).update account_number:    params[:account_number],
-                                                     cost:              params[:cost],
-                                                     holder_name:       params[:holder_name],
-                                                     profile_name:      params[:profile_name],
-                                                     routing_number:    params[:routing_number]
+  UserProfileManager.new(create_user(params)).send(:update, account_number:    params[:account_number],
+                                                            cost:              params[:cost],
+                                                            holder_name:       params[:holder_name],
+                                                            profile_name:      params[:profile_name],
+                                                            routing_number:    params[:routing_number])
 end
 
 # @param _params [Hash]

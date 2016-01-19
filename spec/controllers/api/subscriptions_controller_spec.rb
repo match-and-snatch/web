@@ -1,16 +1,7 @@
 require 'spec_helper'
 
 describe Api::SubscriptionsController, type: :controller do
-  let(:owner) do
-    create_user(api_token: 'owner_token').tap do |user|
-      UserProfileManager.new(user).create_profile_page
-      UserProfileManager.new(user).update cost:           10,
-                                          profile_name:   'profile name',
-                                          holder_name:    'Sergei Zinin',
-                                          routing_number: '123456789',
-                                          account_number: '000123456789'
-    end
-  end
+  let(:owner) { create :user, :profile_owner }
 
   describe 'POST #create' do
     before do
@@ -22,18 +13,7 @@ describe Api::SubscriptionsController, type: :controller do
     it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
 
     context 'authorized access' do
-      let(:subscriber) do
-        create_user(email: 'subscriber@gmail.com', api_token: 'subscriber_token').tap do |user|
-          UserProfileManager.new(user).update_cc_data number: '4242424242424242',
-                                                      cvc: '123',
-                                                      expiry_month: '12',
-                                                      expiry_year: '15',
-                                                      address_line_1: 'test',
-                                                      zip: '12345',
-                                                      city: 'LA',
-                                                      state: 'CA'
-        end
-      end
+      let(:subscriber) { create :subscriber, :with_cc }
 
       before { sign_in_with_token subscriber.api_token }
 

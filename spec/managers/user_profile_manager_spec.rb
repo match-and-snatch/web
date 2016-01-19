@@ -27,19 +27,175 @@ describe UserProfileManager do
   describe '#finish_owner_registration' do
     let!(:user) { create :user, full_name: 'Barak Obama' }
 
-    specify do
-      expect do
-        manager.finish_owner_registration(profile_name: 'The President', cost: 9900)
-      end.to change { user.reload.slug }.to('thepresident')
-    end
+    subject(:finish) { manager.finish_owner_registration(profile_name: 'The President', cost: 9) }
+
+    it { expect { finish }.to change { user.reload.slug }.to('thepresident') }
 
     context 'initially profile owner' do
       let!(:user) { create :user, full_name: 'Barak Obama', is_profile_owner: true }
 
+      it { expect { finish }.to change { user.reload.slug }.to('thepresident') }
+      it { expect { finish }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/) }
+    end
+
+    context 'sets large cost' do
+      it { expect { manager.finish_owner_registration(profile_name: 'The President', cost: 25) }.not_to deliver_email(to: user.email) }
+    end
+
+    describe '#update' do
       specify do
-        expect do
-          manager.finish_owner_registration(profile_name: 'The President', cost: 9900)
-        end.to change { user.reload.slug }.to('thepresident')
+        expect { manager.finish_owner_registration(cost: 1, profile_name: 'some-random-name', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
+      end
+
+      it 'updates slug' do
+        expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :slug).to('obama')
+      end
+
+      it 'creates profile_created event' do
+        expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to create_event(:profile_created)
+      end
+
+      it 'updates cost' do
+        expect { manager.finish_owner_registration(cost: 5, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(500)
+        expect { manager.finish_owner_registration(cost:' 6', profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(600)
+      end
+
+      context 'empty cost' do
+        specify do
+          expect { manager.finish_owner_registration(cost: '', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:empty)) }
+        end
+
+        specify do
+          expect { manager.finish_owner_registration(cost: '', profile_name: '') rescue nil }.not_to create_event(:profile_created)
+        end
+
+        specify do
+          expect { manager.finish_owner_registration(cost: 0, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) }
+          # expect { manager.finish_owner_registration(cost: 0, profile_name: '')}.not_to create_event(:profile_created)
+        end
+
+        specify do
+          expect { manager.finish_owner_registration(cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) }
+          # expect { manager.finish_owner_registration(cost: '-100', profile_name: '') }.not_to create_event(:profile_created)
+        end
+
+        specify do
+          expect { manager.finish_owner_registration(cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) }
+          # expect { manager.finish_owner_registration(cost: -200, profile_name: '') }.not_to create_event(:profile_created)
+        end
+
+        specify do
+          expect { manager.finish_owner_registration(cost: 20.00, profile_name: 'putin') }.not_to raise_error
+        end
+
+        specify do
+          expect { manager.finish_owner_registration(cost: 20.01, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_whole_number)) }
+        end
+      end
+
+      context 'cost more or equal $30' do
+        specify { expect { manager.finish_owner_registration(cost: 45, profile_name: 'merkel') }.not_to raise_error }
+
+        it 'creates cost change request' do
+          expect { manager.finish_owner_registration(cost: 30, profile_name: 'merkel', holder_name: 'merkel', routing_number: '123456789', account_number: '000123456789') }.to create_record(CostChangeRequest)
+        end
+
+        it 'notify support if new change cost request was created' do
+          expect(ProfilesMailer).to receive(:cost_change_request).with(user, nil, 3450).and_return(double('mailer').as_null_object)
+          manager.finish_owner_registration(cost: 30, profile_name: 'merkel')
+        end
+      end
+
+      context 'empty slug' do
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) }
+        end
+
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: '') rescue nil }.not_to create_event(:profile_created)
+        end
+      end
+
+      context 'trailing spaces in slug' do
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: ' obama ', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
+        end
+      end
+
+      context 'upcase in slug' do
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: 'FUck', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
+        end
+      end
+
+      context 'underscore in slug' do
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama_the_president', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
+        end
+      end
+
+      context 'numbers in slug' do
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: 'agent-007', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
+        end
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: '007-agent', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
+        end
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: 'a-007-gent', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
+        end
+      end
+
+      describe 'payment information' do
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :holder_name).to('holder')
+        end
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :routing_number).to('123456789')
+        end
+        specify do
+          expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :account_number).to('000123456789')
+        end
+
+        context 'empty holder name' do
+          specify do
+            expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: '', routing_number: '123456789', account_number: '000123456789') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:holder_name) }
+          end
+        end
+
+        context 'entire empty payment information' do
+          specify do
+            expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: '', routing_number: '', account_number: '') }.not_to raise_error
+          end
+        end
+
+        context 'invalid routing number' do
+          specify do
+            expect { manager.finish_owner_registration(routing_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_an_integer)) }
+          end
+
+          specify do
+            expect { manager.finish_owner_registration(routing_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_a_routing_number)) }
+          end
+
+          specify do
+            expect { manager.finish_owner_registration(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
+          end
+        end
+
+        context 'invalid account number' do
+          specify do
+            expect { manager.finish_owner_registration(account_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_integer)) }
+          end
+
+          specify do
+            expect { manager.finish_owner_registration(account_number: '12') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
+          end
+
+          specify do
+            expect { manager.finish_owner_registration(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
+          end
+        end
       end
     end
   end
@@ -407,163 +563,6 @@ describe UserProfileManager do
         it { expect { manager.delete_profile_page! }.not_to raise_error }
         it { expect { manager.delete_profile_page! }.not_to change { user.subscribers_count } }
         it { expect { manager.delete_profile_page! }.not_to create_event(:subscription_canceled).with_subject(subscriber) }
-      end
-    end
-  end
-
-  describe '#update' do
-    specify do
-      expect { manager.update(cost: 1, profile_name: 'some-random-name', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-    end
-
-    it 'updates slug' do
-      expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :slug).to('obama')
-    end
-
-    it 'creates profile_created event' do
-      expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to create_event(:profile_created)
-    end
-
-    it 'updates cost' do
-      expect { manager.update(cost: 5, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(500)
-      expect { manager.update(cost:' 6', profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(600)
-    end
-
-    context 'empty cost' do
-      specify do
-        expect { manager.update(cost: '', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:empty)) }
-      end
-
-      specify do
-        expect { manager.update(cost: '', profile_name: '') rescue nil }.not_to create_event(:profile_created)
-      end
-
-      specify do
-        expect { manager.update(cost: 0, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) }
-        # expect { manager.update(cost: 0, profile_name: '')}.not_to create_event(:profile_created)
-      end
-
-      specify do
-        expect { manager.update(cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) }
-        # expect { manager.update(cost: '-100', profile_name: '') }.not_to create_event(:profile_created)
-      end
-
-      specify do
-        expect { manager.update(cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) }
-        # expect { manager.update(cost: -200, profile_name: '') }.not_to create_event(:profile_created)
-      end
-
-      specify do
-        expect { manager.update(cost: 20.00, profile_name: 'putin') }.not_to raise_error
-      end
-
-      specify do
-        expect { manager.update(cost: 20.01, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_whole_number)) }
-      end
-    end
-
-    context 'cost more or equal $30' do
-      specify { expect { manager.update(cost: 45, profile_name: 'merkel') }.not_to raise_error }
-
-      it 'creates cost change request' do
-        expect { manager.update(cost: 30, profile_name: 'merkel', holder_name: 'merkel', routing_number: '123456789', account_number: '000123456789') }.to create_record(CostChangeRequest)
-      end
-
-      it 'notify support if new change cost request was created' do
-        expect(ProfilesMailer).to receive(:cost_change_request).with(user, nil, 3450).and_return(double('mailer').as_null_object)
-        manager.update(cost: 30, profile_name: 'merkel')
-      end
-    end
-
-    context 'empty slug' do
-      specify do
-        expect { manager.update(cost: 1, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) }
-      end
-
-      specify do
-        expect { manager.update(cost: 1, profile_name: '') rescue nil }.not_to create_event(:profile_created)
-      end
-    end
-
-    context 'trailing spaces in slug' do
-      specify do
-        expect { manager.update(cost: 1, profile_name: ' obama ', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-      end
-    end
-
-    context 'upcase in slug' do
-      specify do
-        expect { manager.update(cost: 1, profile_name: 'FUck', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-      end
-    end
-
-    context 'underscore in slug' do
-      specify do
-        expect { manager.update(cost: 1, profile_name: 'obama_the_president', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-      end
-    end
-
-    context 'numbers in slug' do
-      specify do
-        expect { manager.update(cost: 1, profile_name: 'agent-007', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-      end
-      specify do
-        expect { manager.update(cost: 1, profile_name: '007-agent', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-      end
-      specify do
-        expect { manager.update(cost: 1, profile_name: 'a-007-gent', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-      end
-    end
-
-    describe 'payment information' do
-      specify do
-        expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :holder_name).to('holder')
-      end
-      specify do
-        expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :routing_number).to('123456789')
-      end
-      specify do
-        expect { manager.update(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :account_number).to('000123456789')
-      end
-
-      context 'empty holder name' do
-        specify do
-          expect { manager.update(cost: 1, profile_name: 'obama', holder_name: '', routing_number: '123456789', account_number: '000123456789') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:holder_name) }
-        end
-      end
-
-      context 'entire empty payment information' do
-        specify do
-          expect { manager.update(cost: 1, profile_name: 'obama', holder_name: '', routing_number: '', account_number: '') }.not_to raise_error
-        end
-      end
-
-      context 'invalid routing number' do
-        specify do
-          expect { manager.update(routing_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_an_integer)) }
-        end
-
-        specify do
-          expect { manager.update(routing_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_a_routing_number)) }
-        end
-
-        specify do
-          expect { manager.update(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
-        end
-      end
-
-      context 'invalid account number' do
-        specify do
-          expect { manager.update(account_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_integer)) }
-        end
-
-        specify do
-          expect { manager.update(account_number: '12') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
-        end
-
-        specify do
-          expect { manager.update(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
-        end
       end
     end
   end
@@ -1002,6 +1001,20 @@ describe UserProfileManager do
     end
   end
 
+  describe '#update_cost' do
+    context 'pending initial request is present' do
+      before { manager.finish_owner_registration(profile_name: 'The President', cost: 25) }
+
+      it 'does not send welcome email if cost too high' do
+        expect { manager.update_cost(16) rescue nil }.not_to deliver_email(to: user.email)
+      end
+
+      it 'sends welcome email if cost less than limit' do
+        expect { manager.update_cost(6) }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/)
+      end
+    end
+  end
+
   describe '#change_cost!' do
     specify do
       expect { manager.change_cost!(cost: 400) }.to change { user.reload.cost }.from(nil).to(400)
@@ -1248,6 +1261,9 @@ describe UserProfileManager do
       specify do
         expect { manager.approve_and_change_cost!(request) }.to change { user.cost }.from(500)
       end
+      specify do
+        expect { manager.approve_and_change_cost!(request) }.not_to deliver_email(to: user.email)
+      end
 
       context 'with subscribers' do
         let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
@@ -1260,6 +1276,9 @@ describe UserProfileManager do
         specify do
           expect { manager.approve_and_change_cost!(request) }.not_to change { user.cost }.from(500)
         end
+        specify do
+          expect { manager.approve_and_change_cost!(request) }.not_to deliver_email(to: user.email)
+        end
       end
     end
   end
@@ -1268,10 +1287,15 @@ describe UserProfileManager do
     let(:request) { user.cost_change_requests.last }
 
     context 'new user with large cost' do
-      let(:user) { create_profile(cost: 35) }
+      let(:user) { create(:user, :profile_owner, cost: 35_00) }
 
-      it { expect { manager.rollback_cost!(request, cost: nil) }.to raise_error(ManagerError) }
+      before do
+        create :cost_change_request, :pending, user: user, old_cost: nil
+      end
+
+      it { expect { manager.rollback_cost!(request, cost: nil) }.to raise_error(ManagerError, /cost/) }
       it { expect { manager.rollback_cost!(request, cost: 20) }.to change { request.rejected? }.from(false).to(true) }
+
       it 'sets specified new cost' do
         expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(3500).to(2000)
       end
@@ -1284,13 +1308,17 @@ describe UserProfileManager do
 
       it { expect { manager.rollback_cost!(request, cost: nil) }.not_to raise_error }
       it { expect { manager.rollback_cost!(request, cost: nil) }.to change { request.rejected? }.from(false).to(true) }
+
       it 'does not change old cost if new is not provided' do
         expect { manager.rollback_cost!(request, cost: nil) }.not_to change { user.cost }.from(500)
         expect { manager.rollback_cost!(request, cost: nil) }.not_to change { user.subscription_fees }.from(123)
       end
+
       it 'sets specified new cost' do
         expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(500).to(2000)
       end
+
+      it { expect { manager.rollback_cost!(request, cost: 20) }.not_to deliver_email(to: user.email) }
     end
   end
 end

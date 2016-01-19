@@ -37,7 +37,11 @@ class User < ActiveRecord::Base
   end
   has_many :messages
   has_many :events
-  has_many :cost_change_requests
+  has_many :cost_change_requests do
+    def current
+      pending.order(created_at: :desc).first
+    end
+  end
   has_many :delete_profile_page_requests
   has_many :contribution_requests
   has_many :credit_card_update_requests
@@ -163,6 +167,12 @@ class User < ActiveRecord::Base
     save!
   end
 
+  # Returns pending request
+  # @return [CostChangeRequest]
+  def cost_change_request
+    @cost_change_request ||= cost_change_requests.current
+  end
+
   def cost_approved?
     cost_change_requests.new_large_cost.pending.empty?
   end
@@ -226,9 +236,8 @@ class User < ActiveRecord::Base
     @profile_page_data ||= ProfilePageDataProxy.new(self)
   end
 
-  # Checks if a user hasn't passed three steps of registration
+  # Checks if a user hasn't passed two steps of registration
   def passed_profile_steps?
-    # [slug, subscription_cost, holder_name, routing_number, account_number].all?(&:present?)
     [profile_name, slug, cost].all?(&:present?)
   end
 
