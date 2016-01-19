@@ -1,3 +1,5 @@
+- logo_image = (@user || @current_user).profile_picture_url || 'http://connectpal-assets.s3.amazonaws.com/images/logo.png'
+
 doctype XML
 rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:rawvoice="http://www.rawvoice.com/rawvoiceRssModule/"
   channel
@@ -17,7 +19,7 @@ rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns
     itunes:summary Exclusive fresh media content.
     itunes:author Connectpal
     itunes:explicit yes
-    itunes:image href='http://connectpal-assets.s3.amazonaws.com/images/logo.png' /
+    itunes:image href='#{logo_image}'
     itunes:owner
       itunes:name Andy Dean Media
       itunes:email support@connectpal.com
@@ -25,7 +27,7 @@ rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns
     itunes:subtitle Connectpal, the Best Podcast on the net.
     image
       title Connectpal Podcasts
-      url #{@user.profile_picture_url || 'http://connectpal-assets.s3.amazonaws.com/images/logo.png'}
+      url #{logo_image}
       link https://www.connectpal.com
     itunes:category text="Education"
 
