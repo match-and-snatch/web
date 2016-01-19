@@ -1001,6 +1001,20 @@ describe UserProfileManager do
     end
   end
 
+  describe '#update_cost' do
+    context 'pending initial request is present' do
+      before { manager.finish_owner_registration(profile_name: 'The President', cost: 25) }
+
+      it 'does not send welcome email if cost too high' do
+        expect { manager.update_cost(16) rescue nil }.not_to deliver_email(to: user.email)
+      end
+
+      it 'sends welcome email if cost less than limit' do
+        expect { manager.update_cost(6) }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/)
+      end
+    end
+  end
+
   describe '#change_cost!' do
     specify do
       expect { manager.change_cost!(cost: 400) }.to change { user.reload.cost }.from(nil).to(400)
