@@ -110,7 +110,9 @@ class UserProfileManager < BaseManager
   # @return [User]
   def finish_owner_registration(*args)
     never_passed_second_step = !user.passed_profile_steps?
-    update(*args).tap { send_welcome_email if never_passed_second_step && !user.cost_change_request }
+    update(*args).tap do
+      AuthMailer.delay.registered(user) if never_passed_second_step && !user.cost_change_request && user.cost_approved?
+    end
   end
 
   # @param benefits [Array<String>]
@@ -199,7 +201,6 @@ class UserProfileManager < BaseManager
     else
       user.cost_change_request.try(:reject!)
       change_cost!(cost: cost, update_existing_subscriptions: update_existing_subscriptions)
-      send_welcome_email if user.cost_change_request.try(:completes_profile?) # TODO(DJ): specs
     end
 
     user
@@ -228,7 +229,6 @@ class UserProfileManager < BaseManager
     if cost_change_request.initial? || user.source_subscriptions.active.empty?
       change_cost!(cost: cost_change_request.new_cost, update_existing_subscriptions: cost_change_request.update_existing_subscriptions)
       cost_change_request.perform!
-      send_welcome_email if cost_change_request.completes_profile?
     end
   end
 
@@ -243,7 +243,6 @@ class UserProfileManager < BaseManager
     end
 
     cost_change_request.reject!
-    send_welcome_email if cost_change_request.completes_profile?
   end
 
   # @param contacts_info [Hash]
@@ -850,10 +849,6 @@ class UserProfileManager < BaseManager
       ProfilesMailer.delay.cost_change_request(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)
       @cost_change_request_submitted = true
     end
-  end
-
-  def send_welcome_email
-    AuthMailer.delay.registered(user) if user.cost_approved?
   end
 
   # Registration, step 2

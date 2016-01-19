@@ -1232,9 +1232,6 @@ describe UserProfileManager do
       specify do
         expect { manager.approve_and_change_cost!(request) }.not_to change { user.cost }.from(3500)
       end
-      specify do
-        expect { manager.approve_and_change_cost!(request) }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/)
-      end
     end
 
     context 'existing user tries to change his cost' do
@@ -1288,8 +1285,6 @@ describe UserProfileManager do
       it 'sets specified new cost' do
         expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(3500).to(2000)
       end
-
-      it { expect { manager.rollback_cost!(request, cost: 20) }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/) }
     end
 
     context 'existing user tries to change his cost' do
