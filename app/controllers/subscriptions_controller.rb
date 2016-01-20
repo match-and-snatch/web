@@ -6,6 +6,10 @@ class SubscriptionsController < ApplicationController
 
   protect(:destroy) { can? :delete, @subscription }
 
+  rescue_from SubscriptionLimitReachedError do |error|
+    json_reload notice: :subscription_limit_reached
+  end
+
   def new
     template = current_user.authorized? ? 'new' : 'new_unauthorized'
     json_render template: template
@@ -22,8 +26,6 @@ class SubscriptionsController < ApplicationController
     rescue PaymentError
     end
     json_reload
-  rescue SubscriptionLimitReachedError
-    json_reload notice: :subscription_limit_reached
   end
 
   def via_register
@@ -47,8 +49,6 @@ class SubscriptionsController < ApplicationController
       session_manager.login(params[:email], params[:password])
     end
     json_reload
-  rescue SubscriptionLimitReachedError
-    json_reload notice: :subscription_limit_reached
   end
 
   def via_update_cc_data
@@ -68,8 +68,6 @@ class SubscriptionsController < ApplicationController
       end
     end
     json_reload
-  rescue SubscriptionLimitReachedError
-    json_reload notice: :subscription_limit_reached
   end
 
   def cancel
