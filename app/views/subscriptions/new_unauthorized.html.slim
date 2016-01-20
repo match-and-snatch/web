@@ -96,7 +96,7 @@
               span.error data-field='zip'
           .clearfix
       - else
-        .account_payment.pull-left style='padding: 10px 15px 15px 15px; min-height: 210px;'
+        .account_payment.pull-left style='padding: 10px 15px 15px 15px; min-height: 200px;'
           label style='font-size: 13px; margin-bottom: 10px;' Account Information
           .clearfix
           .form-group
@@ -117,7 +117,7 @@
             .pull-left Total Monthly Cost
             .pull-right.cost= profile_cost(@target_user)
             .clearfix
-          .note.bg-warning style='margin: 10px 0 15px'= special_offer_message(@target_user)
+          .note.bg-warning style='margin: 10px 0 5px'= special_offer_message(@target_user)
         .clearfix
 
         .account_payment style='width: 100%; padding: 0 15px 15px 15px;'

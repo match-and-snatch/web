@@ -1,8 +1,9 @@
 ul.nav.nav-tabs
   li.active
     a href='javascript: void(0)' Welcome Video
-  li
-    a.PopupTrigger data-target='name-editor' href='#' Profile Name
+  - unless current_user.gross_threshold_reached?
+    li
+      a.PopupTrigger data-target='name-editor' href='#' Profile Name
   li
     a.PopupTrigger data-target='type-editor' href='#' Profile Type
   li
