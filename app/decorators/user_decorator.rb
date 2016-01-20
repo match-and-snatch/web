@@ -20,6 +20,7 @@ class UserDecorator < BaseDecorator
            :last_visited_profile,
            :subscribers_count,
            :profile_page_data,
+           :gross_threshold_reached?,
            to: :object
 
   # @param object [User]
