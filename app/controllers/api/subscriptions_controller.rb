@@ -6,6 +6,10 @@ class Api::SubscriptionsController < Api::BaseController
   protect(:create, :via_update_cc_data) { current_user.authorized? } # TODO (DJ): FIX IT
   protect(:destroy) { can? :delete, @subscription }
 
+  rescue_from SubscriptionLimitReachedError do |error|
+    json_fail message: translate_message(:subscription_limit_reached)
+  end
+
   def index
     @subscriptions = current_user.object.subscriptions.joins(:target_user).accessible.order('subscriptions.created_at DESC')
     json_success subscriptions: api_response.subscriptions_data(@subscriptions)
