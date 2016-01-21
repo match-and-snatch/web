@@ -115,6 +115,10 @@ describe SubscriptionManager do
       it { expect { manager.unsubscribe rescue nil }.not_to create_record(UnsubscribedFeedEvent) }
       it { expect { manager.unsubscribe rescue nil }.not_to create_event(:subscription_canceled).with_subject(another_user) }
     end
+
+    context 'logger disabled' do
+      it { expect { manager.unsubscribe(log_subscriptions_count: false) }.not_to change { another_user.subscribers_count } }
+    end
   end
 
   describe '#unsubscribe_entirely' do
