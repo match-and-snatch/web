@@ -7,12 +7,6 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
-  remote: git://github.com/bmabey/database_cleaner.git
-  revision: b87f00320f8aa0f7e499d183128f05ce29cedc33
-  specs:
-    database_cleaner (1.5.1)
-
-GIT
   remote: git://github.com/einzige/slim.git
   revision: 5ea3b99886fe2102f30a862be9c3701a8b846b9b
   specs:
@@ -132,6 +126,7 @@ GEM
     daemons (1.2.3)
     dalli (2.7.4)
     dante (0.2.0)
+    database_cleaner (1.5.1)
     delayed_job (4.1.1)
       activesupport (>= 3.0, < 5.0)
     delayed_job_active_record (4.1.0)
@@ -411,7 +406,7 @@ DEPENDENCIES
   cucumber-rails
   daemons
   dalli
-  database_cleaner!
+  database_cleaner
   delayed_job_active_record
   elasticsearch!
   factory_girl_rails (~> 4.5.0)

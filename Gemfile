@@ -83,7 +83,7 @@ group :test do
   gem 'rspec-its'
   gem 'guard-rspec', require: false
   gem 'guard-cucumber', require: false
-  gem 'database_cleaner', github: 'bmabey/database_cleaner'
+  gem 'database_cleaner'
   gem 'stripe-ruby-mock', '1.10.1.7'
   gem 'timecop'
   gem 'cucumber-rails', require: false
