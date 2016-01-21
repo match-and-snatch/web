@@ -88,9 +88,10 @@ class UserProfileManager < BaseManager
   def delete_profile_page!(delete_profile_page_request = nil)
     if user.is_profile_owner?
       user.is_profile_owner = false
-      user.source_subscriptions.not_removed.find_each do |subscription|
-        SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe
+      user.source_subscriptions.includes(:user, :target_user, :target).not_removed.find_each do |subscription|
+        SubscriptionManager.new(subscriber: subscription.user, subscription: subscription).unsubscribe(log_subscriptions_count: false)
       end
+      UserStatsManager.new(user).log_subscriptions_count
       user.save!
       reindex_profile
       EventsManager.profile_page_removed(user: user)

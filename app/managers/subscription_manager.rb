@@ -249,14 +249,14 @@ class SubscriptionManager < BaseManager
     end
   end
 
-  def unsubscribe
+  def unsubscribe(log_subscriptions_count: true)
     fail_with! 'Already unsubscribed' if @subscription.removed?
 
     @subscription.remove!
 
     unmark_as_processing
     target_user = @subscription.target_user
-    UserStatsManager.new(target_user).log_subscriptions_count
+    UserStatsManager.new(target_user).log_subscriptions_count if log_subscriptions_count
 
     if @subscription.rejected?
       # TODO: create another type of event
