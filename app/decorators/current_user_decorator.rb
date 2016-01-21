@@ -14,10 +14,9 @@ class CurrentUserDecorator < UserDecorator
   def accessible_dialogues(page: 1, per_page: 15)
     dialogues(page: page, per_page: per_page).to_a.tap do |result|
       result.select! do |dialogue|
-        if dialogue.recent_message
-          user = dialogue.recent_message.user
+        if user = dialogue.recent_message.try(:user)
           target_user = dialogue.recent_message.target_user
-          user.subscribed_to?(target_user) || target_user.subscribed_to?(user)
+          target_user && user.subscribed_to?(target_user) || target_user.subscribed_to?(user)
         end
       end
     end
