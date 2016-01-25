@@ -1,12 +1,10 @@
 // My Account Info
-
 .my_account
   font-size: 13px
   margin: 30px 0
   position: relative
 
   // Sidebar
-
   .sidebar
     padding: 0
     position: fixed
@@ -15,7 +13,6 @@
     margin-bottom: 60px
 
     // Header
-
     .header
       border-bottom: 1px solid $color_border
       font-size: 13px
@@ -27,7 +24,6 @@
         font-size: 16px
 
     // Navigation
-
     ul
       border-top: 1px solid $color_border
       &.general
@@ -55,7 +51,6 @@
           li
             @include linear-gradient(#3e3e3e, #2d2d2d)
             text-shadow: -1px -1px 0 #000000
-            // @include linear-gradient(#7dd3f3, #359acd)
             color: #FFFFFF
     .subscriptions, .profile
       color: #000000
@@ -65,7 +60,6 @@
       padding: 0 0 5px 15px
 
   // Content
-
   .content
     min-height: 90px
     h2
@@ -76,7 +70,6 @@
       padding: 0
 
     // Form & Labels
-
     .account_photo
       height: 150px
       width: 435px
@@ -117,14 +110,12 @@
         margin: 5px 0 0 197px
 
     // Button
-
     .btn
       font-size: 13px
       font-weight: normal
       padding: 10px 30px
 
     // Item Blocks
-
     .item_block, .item_sub, .item_feed
       border-top: 1px solid $color_border
       padding: 15px 0
@@ -149,7 +140,6 @@
           width: 20px
 
     // My Feed
-
     .item_feed
       .name
         color: $color_text_dark
@@ -175,7 +165,6 @@
           font-weight: bold
 
     // CC Row
-
     .cc_row
       position: relative
       ul
@@ -196,7 +185,6 @@
       margin: 13px 0 0 195px
 
     // View/Cancel Subscriptions
-
     ul
       li.item_sub
         .name, .cost
@@ -235,7 +223,6 @@
                 padding-right: 5px
 
     // Mailbox
-
     .mailbox
       font-size: 13px
       .deleted
@@ -280,9 +267,7 @@
           padding: 2px 5px
           margin: 0 0 0 5px
         .message_preview
-          // @include border-radius(5px)
           background-color: #FFFFFF
-          // border: 1px solid $color_border
           color: $color_text_light
           margin-top: 5px
           padding: 0
@@ -309,7 +294,6 @@
         color: $color_text_light
 
     // In-depth message
-
     .detail_message
       border: 1px solid $color_border
       overflow: scroll
@@ -350,7 +334,6 @@
             color: $color_text_light
 
     // Message Reply
-
     .message_reply
       .form-control
         font-size: 13px !important
@@ -360,7 +343,49 @@
         margin-bottom: 15px
         padding: 8px 10px
 
-    // Profile Details
+    // Profile Stats
+    .profile_stats
+      @include linear-gradient(#3e3e3e, #2d2d2d)
+      @include border-radius($border_radius)
+      margin: 15px
+      padding: 15px
+      text-align: center
+      text-shadow: -1px -1px 0 #1c1c1c
+      .stats_col
+        color: #FFFFFF
+        float: left
+        width: 50%
+        strong
+          font-size: 60px
+          font-weight: 600
+          line-height: 100%
+        span
+          color: #FFFFFF
+          display: block
+          font-size: 12px
+          padding-top: 10px
+          text-shadow: none
+
+    // Profile Stats Note
+    .profile_stats_note
+      font-size: 12px
+      margin: 0 15px
+      padding-bottom: 15px
+      position: relative
+      .read_more
+        background-color: #FFFFFF
+        display: block
+        padding-left: 5px
+        text-decoration: none
+        position: absolute
+        top: 0
+        right: 0
+      a
+        color: $color_blue
+        &:hover
+          color: $color_blue
+          text-decoration: none
+
 
     .example_url
       @include border-radius($border_radius)
@@ -373,34 +398,12 @@
         color: $color_text_dark
         font-weight: bold
 
-    .stats
-      @include linear-gradient(#3e3e3e, #2d2d2d)
-      @include border-radius($border_radius)
-      border-left: none
-      border-right: none
-      color: #FFFFFF
-      margin: 15px 15px 0 15px
-      padding: 30px
-      text-align: center
-      text-shadow: -1px -1px 0 #1c1c1c
-      .value
-        font-size: 60px
-        font-weight: 600
-        line-height: 100%
-      span
-        color: #FFFFFF
-        display: block
-        font-size: 12px
-        padding-top: 10px
-        text-shadow: none
-
     .graph
       color: $color_text_light
       height: 200px
       padding: 15px
 
     // View Subscribers
-
     .subscriber_table
       font-size: 12px !important
       a
@@ -420,7 +423,6 @@
         width: 145px
 
     // PayPal Payout
-
     .paypal-payout
       font-weight: normal
       margin-top: 10px
@@ -433,7 +435,6 @@
       width: 660px
 
 // Tablet
-
 @media screen and (max-width: 991px)
   .my_account
     .sidebar
@@ -471,7 +472,6 @@
           width: 335px
 
 // Contributors Popup
-
 .contributors
   margin-bottom: 5px
   padding: 5px 0 0 !important
@@ -500,7 +500,6 @@
     width: 90px
 
 // Mobile
-
 @media screen and (max-width: 767px)
   .content
     width: 100% !important
@@ -523,13 +522,11 @@
         font-size: 12px
 
 // Tablet
-
 @media screen and (min-width: 768px)
   .content
     width: 660px
 
 // Medium
-
 @media screen and (min-width: 992px)
   .content
     width: 660px
