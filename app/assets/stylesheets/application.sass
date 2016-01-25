@@ -673,7 +673,6 @@ textarea
           text-shadow: none
 
 // Notifcation Bar
-
 .notification_bar
   background-color: #faf258
   border-bottom: 1px solid #f4cf3e
@@ -686,23 +685,15 @@ textarea
   .cont
     margin: 0 auto
     text-align: center
-
     // Mobile
-
     @media screen and (max-width: 767px)
       width: auto
-
     // Tablet
-
     @media screen and (min-width: 768px)
       width: auto
-
     // Desktop
-
     @media screen and (min-width: 991px)
       width: 970px !important
-
-
   .close
     position: absolute
     top: 15px
@@ -715,7 +706,6 @@ textarea
         color: #b29525
 
 // Custom Profile Type
-
 .profile-type-input
   .search-type
     font-weight: 400
@@ -784,8 +774,41 @@ textarea
       .fa-times
         padding-top: 2px
 
-// Footer
+// ToS Footer
+.tos-footer
+  background-color: #faf258
+  border-top: 1px solid #f4cf3e
+  bottom: 0
+  color: #b29525
+  font-size: 13px
+  text-align: center
+  padding: 15px 0
+  position: fixed
+  width: 100%
+  z-index: 10001
+  .content
+    text-align: center
+    position: relative
+    width: 100%
+    a
+      color: #b29525
+    .hide-footer
+      @include border-radius(5px 5px 0 0)
+      background-color: #faf258
+      border: 1px solid #f4cf3e
+      border-bottom: none
+      color: #b29525
+      font-weight: bold
+      position: absolute
+      top: -40px
+      right: 15px
+      text-align: center
+      padding: 5px 8px 1px
+      .fa-times
+        font-size: 14px
+        padding-left: 5px
 
+// Footer
 footer
   background-color: $color_text_dark
   border-top: 1px solid $color_border
