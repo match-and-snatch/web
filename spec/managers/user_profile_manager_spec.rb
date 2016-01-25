@@ -1229,6 +1229,12 @@ describe UserProfileManager do
         end
       end
     end
+
+    context 'forbidden email' do
+      it 'raises an error' do
+        expect { manager.update_general_information(full_name: 'new', email: "tester@#{APP_CONFIG['forbidden_email_domains'].sample}") }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:invalid)) }
+      end
+    end
   end
 
   describe '#approve_and_change_cost!' do
