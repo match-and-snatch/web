@@ -283,6 +283,16 @@
             .subscribe
               display: block
 
+        // Failed View
+        .failed_billing
+          .amount
+            font-size: 14px
+          &:hover
+            .amount, .red-icon
+              display: block
+            .subscribe
+              display: none
+
         // Owner View
         &.own-role
           &:hover

@@ -1,7 +1,7 @@
 - content_for :head do
   = render 'meta'
 
-.container style="margin-bottom: 73px;"
+.container
   #header.box
     .photo_cover
       - if @profile.cover_picture_url.present?
@@ -9,56 +9,34 @@
         .BackgroundScroller data-target='cover-photo' data-position=@profile.cover_picture_position_perc
     .photo_profile
       img src=@profile.profile_picture_url
-
-    /* Details Container */
-    .details_container.row
-      .col-md-7.col-sm-7.col-xs-7.profile_details
-
-        /* Profile Name */
-        span.profile_name.visitor = @profile.profile_name
+    - if can? :login_as, @profile.object
+      a.admin_login.AjaxFormLink href=login_as_user_path(@profile.object.id) data-_method='post' Login as this User
+      .clearfix
+    .details_container
+      .profile_details_l
+        .profile_name
+          h1= @profile.profile_name
         .clearfix
-        - if can? :login_as, @profile.object
-          a.admin_login.AjaxFormLink href=login_as_user_path(@profile.object.id) data-_method='post' Login as this User
-        .clearfix
-
-        /* Profile Type */
-        span.profile_type= @profile.types
-
-      .col-md-5.col-sm-5.col-xs-5
-
-        /* Subscribe Container */
-        .subscribe_cont
-
-          /* Cost Button Visitor (Show Logged User/Visitor) */
-          a.cost_visitor
-            .amount
-              span Disabled
-            .btn.pink.fa.fa-usd.fa-2x
-            .clearfix
-
-    /* Subscriber Benefits */
-
-    .benefits_container.row
-      .col-md-12.col-sm-12.col-xs-12
-        - if @profile.benefits.any?
-          .label.visitor.btn data-target='benefits-editor' Subscriber Benefits
-          div data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
-
-  /* Visitor View */
-
+        .profile_type
+          h3= @profile.types
+      .profile_details_r
+        a href="#{account_info_url(anchor: '/account_info/billing_information')}"
+          .cost_container
+            .visitor.failed_billing
+              .amount Update Billing Information
+              .red-icon.fa.fa-usd
+      .clearfix
+      - if @profile.benefits.any?
+        .benefits_container
+          .label.btn Subscriber Benefits
+          .benefits-list data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
   #visitor.box
     .row
       .col-md-12.col-sm-12.col-xs-12
         .title Please fix your billing details to see #{@profile.profile_name.possessive} profile page
         span.tagline We encountered a problem with your credit card.
-
         span.sub_heading
           ' In order to fix this, please update your credit card information
           a href="#{account_info_url(anchor: '/account_info/billing_information')}" here
           ' .
         = render 'adult_content_warning' if @profile.has_mature_content?
-
-/* Footer */
-
-div style='position: fixed; bottom: 0; width: 100%'
-  = render 'footer'
