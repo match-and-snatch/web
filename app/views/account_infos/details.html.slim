@@ -26,24 +26,25 @@
 
     .AjaxContainer data-url=contributions_path
 
-    h2 Change Profile Page URL
+    - unless @user.gross_threshold_reached?
+      h2 Change Profile Page URL
 
-    form.Form action=update_slug_account_info_path method='post'
-      input type='hidden' name='_method' value='put'
+      form.Form action=update_slug_account_info_path method='post'
+        input type='hidden' name='_method' value='put'
 
-      .form-group
-        label.pull-left Profile URL
-        input.form-control.pull-right type='text' name='slug' value=@user.slug validate='require,slug'
+        .form-group
+          label.pull-left Profile URL
+          input.form-control.pull-right type='text' name='slug' value=@user.slug validate='require,slug'
+          .clearfix
+          .error data-field='slug'
+
+        .example_url.bg-warning.pull-right
+          |www.ConnectPal.com/
+          span YourProfileURL
         .clearfix
-        .error data-field='slug'
 
-      .example_url.bg-warning.pull-right
-        |www.ConnectPal.com/
-        span YourProfileURL
-      .clearfix
-
-      input.btn.pink.pull-right type='submit' value='Update Profile URL' style="margin-bottom: 15px"
-      .clearfix
+        input.btn.pink.pull-right type='submit' value='Update Profile URL' style="margin-bottom: 15px"
+        .clearfix
 
     .item_block
       h2 Profile Display Settings
