@@ -325,7 +325,8 @@ class ApiResponsePresenter
       is_profile_owner: user.is_profile_owner?,
       vacation_enabled: user.vacation_enabled?,
       contributions_enabled: user.contributions_allowed?,
-      accepts_large_contributions: user.accepts_large_contributions?
+      accepts_large_contributions: user.accepts_large_contributions?,
+      has_mature_content: user.has_mature_content?
     }
   end
 

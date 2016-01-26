@@ -18,9 +18,10 @@
         label for='amount_cont_20' style='font-size: 13px;' $20
         input id='amount_cont_30' type='radio' name='amount' value='3000'
         label for='amount_cont_30' style='font-size: 13px;' $30
-        label.custom-amount for='custom_amount_cont_rb'
-          input id='custom_amount_cont_rb' type='radio' name='amount' value='0'
-          input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter other value'
+        - if @target_user.accepts_large_contributions? || !@target_user.has_mature_content?
+          label.custom-amount for='custom_amount_cont_rb'
+            input id='custom_amount_cont_rb' type='radio' name='amount' value='0'
+            input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter other value'
         .clearfix
         .error.limit data-field='amount' style='display: none;'
       .clearfix
