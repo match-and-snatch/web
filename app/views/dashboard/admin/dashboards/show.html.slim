@@ -54,10 +54,6 @@ hr
         strong= @overview.daily_failed_payments_count
     .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
       p
-        'Total ToS Fees
-        strong= cents_to_dollars @overview.daily_tos_fees
-    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
-      p
         'Total Stripe Fees
         strong= cents_to_dollars @overview.daily_stripe_fees
 .clearfix
