@@ -614,7 +614,6 @@ describe UserProfileManager do
 
     let(:cc_data) do
       {stripe_token: token,
-       card: {},
        expiry_month: 9,
        expiry_year: 2019,
        address_line_1: 'set',
