@@ -25,14 +25,13 @@ describe Api::SubscriptionsController, type: :controller do
     before { StripeMock.start }
     after { StripeMock.stop }
 
-    let(:card_number) { '4242424242424242' }
+    let(:stripe_token) { '4242424242424242' }
 
     subject { post 'via_register', user_id: owner.slug,
                    email: 'subscriber@gmail.com',
                    password: 'gfhjkmqe',
                    full_name: 'tester tester',
-                   number: card_number,
-                   cvc: '123',
+                   stripe_token: stripe_token,
                    expiry_month: '12',
                    expiry_year: '17',
                    address_line_1: 'Test',

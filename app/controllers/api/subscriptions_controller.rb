@@ -22,16 +22,15 @@ class Api::SubscriptionsController < Api::BaseController
 
   def via_update_cc_data
     SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
-      manager.update_cc_subscribe_and_pay target:       @target_user,
-                                          number:       params[:number],
-                                          cvc:          params[:cvc],
-                                          expiry_month: params[:expiry_month],
-                                          expiry_year:  params[:expiry_year],
-                                          zip:          params[:zip],
-                                          city:         params[:city],
-                                          address_line_1: params[:address_line_1],
-                                          address_line_2: params[:address_line_2],
-                                          state:          params[:state]
+      manager.pull_cc_subscribe_and_pay target:       @target_user,
+                                        stripe_token: params[:stripe_token],
+                                        expiry_month: params[:expiry_month],
+                                        expiry_year:  params[:expiry_year],
+                                        zip:          params[:zip],
+                                        city:         params[:city],
+                                        address_line_1: params[:address_line_1],
+                                        address_line_2: params[:address_line_2],
+                                        state:          params[:state]
     end
     json_success api_response.current_user_data.slice(:subscriptions_count, :has_cc_payment_account)
   end
@@ -39,19 +38,18 @@ class Api::SubscriptionsController < Api::BaseController
   def via_register
     SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
       begin
-        manager.register_subscribe_and_pay target:       @target_user,
-                                           email:        params[:email],
-                                           password:     params[:password],
-                                           full_name:    params[:full_name],
-                                           number:       params[:number],
-                                           cvc:          params[:cvc],
-                                           expiry_month: params[:expiry_month],
-                                           expiry_year:  params[:expiry_year],
-                                           zip:          params[:zip],
-                                           city:         params[:city],
-                                           address_line_1: params[:address_line_1],
-                                           address_line_2: params[:address_line_2],
-                                           state:          params[:state]
+        manager.register_subscribe_and_pay_via_token target:       @target_user,
+                                                     email:        params[:email],
+                                                     password:     params[:password],
+                                                     full_name:    params[:full_name],
+                                                     stripe_token: params[:stripe_token],
+                                                     expiry_month: params[:expiry_month],
+                                                     expiry_year:  params[:expiry_year],
+                                                     zip:          params[:zip],
+                                                     city:         params[:city],
+                                                     address_line_1: params[:address_line_1],
+                                                     address_line_2: params[:address_line_2],
+                                                     state:          params[:state]
       rescue PaymentError
       end
     end

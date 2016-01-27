@@ -38,7 +38,7 @@ class Api::AccountInfosController < Api::BaseController
   end
 
   def update_cc_data
-    manager.update_cc_data(params.slice(:number, :cvc, :expiry_month, :expiry_year, :zip, :city, :state, :address_line_1, :address_line_2))
+    manager.pull_cc_data(params.slice(:stripe_token, :expiry_month, :expiry_year, :zip, :city, :state, :address_line_1, :address_line_2))
     respond_with_account_data
   end
 
