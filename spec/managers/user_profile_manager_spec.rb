@@ -1327,4 +1327,33 @@ describe UserProfileManager do
       it { expect { manager.rollback_cost!(request, cost: 20) }.not_to deliver_email(to: user.email) }
     end
   end
+
+  describe '#update_slug' do
+    let(:user) { create(:user, slug: 'test') }
+
+    it { expect { manager.update_slug('slava') }.to change { user.slug }.from('test').to('slava') }
+    it { expect { manager.update_slug('slava-popov') }.to change { user.slug }.from('test').to('slava-popov') }
+    it { expect { manager.update_slug('slava') }.to create_event(:slug_changed).including_data(slug: 'slava') }
+
+    it 'raises an error if wrong characters are present' do
+      expect { manager.update_slug(' slava12').to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(slug: t_error(:not_a_slug)) } }
+    end
+
+    it 'raises an error if new slug is empty' do
+      expect { manager.update_slug('').to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(slug: t_error(:empty)) } }
+      expect { manager.update_slug(nil).to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(slug: t_error(:empty)) } }
+    end
+
+    context 'slug is taken' do
+      let(:another_user) { create(:user, slug: 'another') }
+
+      it { expect { manager.update_slug('another').to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(slug: t_error(:taken)) } } }
+    end
+
+    context 'gross sales threshold reached' do
+      before { user.update_attributes(gross_sales: 1000_00) }
+
+      it { expect { manager.update_slug('slava') }.to raise_error(ManagerError, /can't update your profile page url/) }
+    end
+  end
 end

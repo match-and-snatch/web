@@ -470,6 +470,8 @@ class UserProfileManager < BaseManager
   # @param slug [String]
   # @return [User]
   def update_slug(slug)
+    fail_with! 'You can\'t update your profile page url' if user.gross_threshold_reached?
+
     validate! { validate_slug slug }
 
     user.slug = slug.parameterize
