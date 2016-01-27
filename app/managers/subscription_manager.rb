@@ -33,6 +33,74 @@ class SubscriptionManager < BaseManager
   # @param email [String]
   # @param full_name [String]
   # @param password [String]
+  # @param card [Hash<String>]
+  # @param target [Concerns::Subscribable]
+  # @return [Subscription]
+  def register_subscribe_and_pay_via_token(email: nil,
+                                           full_name: nil,
+                                           password: nil,
+                                           stripe_token: nil,
+                                           expiry_month: nil,
+                                           expiry_year: nil,
+                                           zip: nil,
+                                           city: nil,
+                                           state: nil,
+                                           address_line_1: nil,
+                                           address_line_2: nil,
+                                           card: {},
+                                           target: )
+
+    unless target.is_a?(Concerns::Subscribable)
+      raise ArgumentError, "Cannot subscribe to #{target.class.name}"
+    end
+
+    card = CreditCard.new stripe_token: stripe_token,
+                          expiry_month: expiry_month,
+                          expiry_year:  expiry_year,
+                          zip: zip,
+                          city: city,
+                          state: state,
+                          holder_name: full_name,
+                          address_line_1: address_line_1,
+                          address_line_2: address_line_2
+
+    validate! do
+      fail_with full_name: :empty if full_name.blank?
+      validate_email email
+      validate_password password: password,
+                        password_confirmation: password
+      validate_cc(card, sensitive: false)
+    end
+
+    fail_with!({stripe_token: :empty}, MissingCcTokenError) unless card.registered?
+
+    auth = AuthenticationManager.new email: email,
+                                     full_name: full_name,
+                                     password: password,
+                                     password_confirmation: password
+    if auth.valid_input?
+      ActiveRecord::Base.transaction do
+        @subscriber = auth.register
+        UserProfileManager.new(@subscriber).pull_cc_data stripe_token: stripe_token,
+                                                         expiry_month: expiry_month,
+                                                         expiry_year: expiry_year,
+                                                         zip: zip,
+                                                         city: city,
+                                                         state: state,
+                                                         address_line_1: address_line_1,
+                                                         address_line_2: address_line_2,
+                                                         card: {}
+      end
+      subscribe_and_pay_for target
+    else
+      fail_with! auth.errors
+    end
+  end
+
+
+  # @param email [String]
+  # @param full_name [String]
+  # @param password [String]
   # @param number [String]
   # @param cvc [String]
   # @param expiry_year [String]

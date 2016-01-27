@@ -1,0 +1,2 @@
+class MissingCcTokenError < ManagerError
+end

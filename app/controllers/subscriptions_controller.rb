@@ -31,19 +31,19 @@ class SubscriptionsController < ApplicationController
   def via_register
     SubscriptionManager.new(subscriber: current_user.object).tap do |manager|
       begin
-        manager.register_subscribe_and_pay target:       @target_user,
-                                           email:        params[:email],
-                                           password:     params[:password],
-                                           full_name:    params[:full_name],
-                                           number:       params[:number],
-                                           cvc:          params[:cvc],
-                                           expiry_month: params[:expiry_month],
-                                           expiry_year:  params[:expiry_year],
-                                           zip:          params[:zip],
-                                           city:         params[:city],
-                                           address_line_1: params[:address_line_1],
-                                           address_line_2: params[:address_line_2],
-                                           state:          params[:state]
+        manager.register_subscribe_and_pay_via_token target:       @target_user,
+                                                     email:        params[:email],
+                                                     password:     params[:password],
+                                                     full_name:    params[:full_name],
+                                                     stripe_token: params[:stripe_token],
+                                                     card:         params[:card],
+                                                     expiry_month: params[:expiry_month],
+                                                     expiry_year:  params[:expiry_year],
+                                                     zip:          params[:zip],
+                                                     city:         params[:city],
+                                                     address_line_1: params[:address_line_1],
+                                                     address_line_2: params[:address_line_2],
+                                                     state:          params[:state]
       rescue PaymentError
       end
       session_manager.login(params[:email], params[:password])

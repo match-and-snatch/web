@@ -6,6 +6,97 @@ describe SubscriptionManager do
 
   subject(:manager) { described_class.new(subscriber: subscriber) }
 
+  describe '#register_subscribe_and_pay_via_token' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    let(:register_data) do
+      {
+          stripe_token: token,
+          card: {},
+          email: 'tester@tester.com',
+          full_name: 'Tester Ivanovitch',
+          password: 'gfhjkmqe',
+          expiry_month: '05',
+          expiry_year: '18',
+          zip: '123456',
+          city: 'LA',
+          state: 'CA',
+          address_line_1: 'Test',
+          address_line_2: nil,
+          target: another_user
+      }
+    end
+
+    context 'stripe token is not set (eg failed validation on frontend)' do
+      let(:token) { }
+
+      subject(:subscribe) do
+        manager.register_subscribe_and_pay_via_token(register_data)
+      end
+
+      specify do
+        expect { subscribe }.to raise_error(MissingCcTokenError)
+      end
+
+      specify do
+        expect { subscribe rescue nil }.not_to change { Payment.count }
+      end
+
+      specify do
+        expect { subscribe rescue nil }.not_to change { Subscription.count }
+      end
+    end
+
+    context 'stripe token is invalid' do
+      let(:token) { 'invalid' }
+
+      subject(:subscribe) do
+        manager.register_subscribe_and_pay_via_token(register_data)
+      end
+
+      xit do
+        expect { subscribe }.to raise_error
+      end
+
+      xit do
+        expect { subscribe rescue nil }.not_to change { Payment.count }
+      end
+
+      xit do
+        expect { subscribe rescue nil }.not_to change { Subscription.count }
+      end
+    end
+
+    context 'stripe token is set (received one from Stripe via stripe.js)' do
+      let(:cc_data) do
+        { number: '4242424242424242',
+          cvc: '000',
+          expiry_month: '05',
+          expiry_year: '18',
+          zip: '123456',
+          city: 'LA',
+          state: 'CA',
+          address_line_1: 'Test',
+          address_line_2: nil }
+      end
+
+      let(:token) { StripeMock.generate_card_token(cc_data) }
+
+      subject(:subscribe) do
+        manager.register_subscribe_and_pay_via_token(register_data)
+      end
+
+      specify do
+        expect { subscribe rescue nil }.to change { Payment.count }
+      end
+
+      specify do
+        expect { subscribe rescue nil }.to change { Subscription.count }
+      end
+    end
+  end
+
   describe '#register_subscribe_and_pay' do
     before { StripeMock.start }
     after { StripeMock.stop }

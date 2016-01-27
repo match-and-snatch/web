@@ -63,23 +63,15 @@ class bud.widgets.Form extends bud.Widget
     bud.append_html(@$target, response['html'])
 
   on_before: =>
-    @$submit_button.val(@wait_text)
-    @$submit_button.attr('disabled', 'disabled')
+    @enable_pending_state()
 
     _.each @params(), (value, field) =>
       @$container.find("[data-field]").html('').hide()
       @$container.find("[name='#{field}'], [data-error_field='#{field}']").filter('.has-error').addClass('has-valid').removeClass('has-error')
-    @$container.addClass('pending')
 
   on_after: =>
     @requesting = false
-    @$container.removeClass('pending')
-    @$submit_button.val(@submitted_text)
-    setTimeout =>
-      @$submit_button.val(@submit_text)
-      @$submit_button.removeAttr('disabled')
-    , 1000
-
+    @disable_pending_state()
     @after_callback?()
 
   on_fail: (response) =>
@@ -124,3 +116,16 @@ class bud.widgets.Form extends bud.Widget
           result[$input.attr('name')] = $input.val()
 
     result
+
+  enable_pending_state: ->
+    @$submit_button.val(@wait_text)
+    @$submit_button.attr('disabled', 'disabled')
+    @$container.addClass('pending')
+
+  disable_pending_state: ->
+    @$submit_button.val(@submitted_text)
+    @$container.removeClass('pending')
+    setTimeout =>
+      @$submit_button.val(@submit_text)
+      @$submit_button.removeAttr('disabled')
+    , 1000
