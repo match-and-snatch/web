@@ -36,7 +36,6 @@ class SubscriptionsController < ApplicationController
                                                      password:     params[:password],
                                                      full_name:    params[:full_name],
                                                      stripe_token: params[:stripe_token],
-                                                     card:         params[:card],
                                                      expiry_month: params[:expiry_month],
                                                      expiry_year:  params[:expiry_year],
                                                      zip:          params[:zip],
