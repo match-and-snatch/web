@@ -24,7 +24,7 @@
         label style='font-size: 13px; margin-bottom: 10px;' Account Information
         .clearfix
         .form-group
-          input.form-control type='text' name='full_name' validate='require' placeholder='Full Name on Card' style='width: 300px;'
+          input.form-control type='text' data-stripe='name' name='full_name' validate='require' placeholder='Full Name on Card' style='width: 300px;'
           span.error data-field='full_name'
         .form-group
           input.form-control type='email' name='email' validate='require,email' placeholder='Email Address' style='margin-top: 15px; width: 300px;'
@@ -64,8 +64,8 @@
 
         .form-group.exp_date.pull-left
           label.pull-left style='margin: 10px 10px 0 0;' Expiration
-          input.form-control.pull-left type='text' data-stripe='exp-month' data-error_field='expiry_date' name='expiry_month' placeholder='Month' style="width: 70px; margin-right: 15px;" validate='expiry_month'
-          input.form-control.pull-left type='text' data-stripe='exp-year' data-error_field='expiry_date' name='expiry_year' placeholder='Year' style="width: 55px" validate='expiry_year'
+          input.form-control.pull-left type='text' data-stripe='exp_month' data-error_field='expiry_date' name='expiry_month' placeholder='Month' style="width: 70px; margin-right: 15px;" validate='expiry_month'
+          input.form-control.pull-left type='text' data-stripe='exp_year' data-error_field='expiry_date' name='expiry_year' placeholder='Year' style="width: 55px" validate='expiry_year'
           .clearfix
           span.error data-field='expiry_date'
 
@@ -82,24 +82,24 @@
         .clearfix
 
         .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
-          input.form-control type='text' name='address_line_1' placeholder='Street Address' validate='require'
+          input.form-control type='text' data-stripe='address_line_1' name='address_line_1' placeholder='Street Address' validate='require'
           span.error data-field='address_line_1'
 
         .form-group.address.pull-left style='width: 300px;'
-          input.form-control type='text' name='address_line_2' placeholder='Address 2'
+          input.form-control type='text' data-stripe='address_line_1' name='address_line_2' placeholder='Address 2'
           span.error data-field='address_line_2'
         .clearfix
 
         .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
-          input.form-control type='text' name='city' placeholder='City' validate='require'
+          input.form-control type='text' data-stripe='address_city' name='city' placeholder='City' validate='require'
           span.error data-field='city'
 
         .form-group.address.pull-left style='width: 150px; margin-right: 15px'
-          input.form-control type='text' name='state' placeholder='State' validate='require'
+          input.form-control type='text' data-stripe='address_state' name='state' placeholder='State' validate='require'
           span.error data-field='state'
 
         .form-group.address.pull-left style='width: 135px;'
-          input.form-control type='text' name='zip' placeholder='Postal Code' validate='require'
+          input.form-control type='text' data-stripe='address_zip' name='zip' placeholder='Postal Code' validate='require'
           span.error data-field='zip'
         .clearfix
 
