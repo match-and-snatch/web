@@ -4,7 +4,7 @@ class Api::AccountInfosController < Api::BaseController
   before_action :load_user!
 
   protect(:settings, :billing_information, :update_account_picture, :change_password,
-          :update_general_information, :update_cc_data, :delete_cc_data) { current_user.authorized? }
+          :update_general_information, :update_cc_data, :delete_cc_data, :accept_tos) { current_user.authorized? }
 
   def settings
     respond_with_account_data
@@ -45,6 +45,11 @@ class Api::AccountInfosController < Api::BaseController
   def delete_cc_data
     manager.delete_cc_data!
     notice :removed_cc_data
+    respond_with_account_data
+  end
+
+  def accept_tos
+    UserManager.new(@user).mark_tos_accepted
     respond_with_account_data
   end
 

@@ -175,6 +175,11 @@ class AccountInfosController < ApplicationController
     json_reload
   end
 
+  def accept_tos
+    UserManager.new(@user).mark_tos_accepted
+    json_replace html: ''
+  end
+
   private
 
   # @return [UserProfileManager]

@@ -49,6 +49,10 @@ class CurrentUserDecorator < UserDecorator
     object.locked? || object.cc_declined?
   end
 
+  def tos_accepted?
+    object.new_record? || object.tos_accepted?
+  end
+
   # @param action [Symbol]
   # @param subject
   # @raise [ArgumentError] if action or subject are not registered

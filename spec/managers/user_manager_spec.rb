@@ -196,4 +196,11 @@ describe UserManager do
     it { expect { manager.update_adult_subscriptions_limit('') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
     it { expect { manager.update_adult_subscriptions_limit(nil) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
   end
+
+  describe 'mark_tos_accepted' do
+    let(:user) { create_user }
+
+    it { expect { manager.mark_tos_accepted }.to change { user.tos_accepted? }.from(false).to(true) }
+    it { expect { manager.mark_tos_accepted }.to create_event(:tos_accepted) }
+  end
 end

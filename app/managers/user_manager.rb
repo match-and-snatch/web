@@ -101,4 +101,10 @@ class UserManager < BaseManager
     @user.recent_subscription_at = Time.zone.now
     save_or_die! @user
   end
+
+  def mark_tos_accepted
+    @user.tos_accepted = true
+    save_or_die! @user
+    EventsManager.tos_accepted(user: @user)
+  end
 end

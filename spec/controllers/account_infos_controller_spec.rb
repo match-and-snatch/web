@@ -365,4 +365,17 @@ describe AccountInfosController, type: :controller do
       it { should be_success }
     end
   end
+
+  describe 'POST #accept_tos' do
+    subject { post 'accept_tos' }
+
+    context 'not authorized' do
+      its(:status) { should == 401 }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { should be_success }
+    end
+  end
 end
