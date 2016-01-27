@@ -55,6 +55,12 @@ describe AuthenticationManager do
       specify { expect { register rescue nil }.not_to create_event(:registered) }
     end
 
+    context 'forbidden email' do
+      let(:email) { "tester@#{APP_CONFIG['forbidden_email_domains'].sample}" }
+      specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:invalid)) } }
+      specify { expect { register rescue nil }.not_to create_event(:registered) }
+    end
+
     context 'password confirmation does not match' do
       let(:password_confirmation) { 'qwertyui' }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:password_confirmation) } }

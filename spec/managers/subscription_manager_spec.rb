@@ -92,6 +92,18 @@ describe SubscriptionManager do
       it 'sends email about subscription' do
         expect { subscribe }.to deliver_email(to: register_data[:email], subject: /You're now subscribed to/)
       end
+
+      context 'forbidden email' do
+        subject(:subscribe) { manager.register_subscribe_and_pay(register_data.merge(email: "tester@#{APP_CONFIG['forbidden_email_domains'].sample}", number: '4242424242424242', target: another_user)) }
+
+        it 'returns error' do
+          expect { subscribe }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:invalid)) }
+        end
+
+        it 'does not register user' do
+          expect { subscribe rescue nil }.to create_record(User)
+        end
+      end
     end
   end
 

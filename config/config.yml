@@ -86,6 +86,20 @@ defaults: &defaults
     - doll
     - sin
     - baby
+  forbidden_email_domains:
+    - yommail.com
+    - yopmail.fr
+    - yopmail.net
+    - cool.fr.nf
+    - jetable.fr.nf
+    - nospam.ze.tc
+    - nomail.xl.cx
+    - mega.zik.dj
+    - speed.1s.fr
+    - courriel.fr.nf
+    - moncourrier.fr.nf
+    - monemail.fr.nf
+    - monmail.fr.nf
 
 jwplayer: &jwplayer
   jwplayer:
