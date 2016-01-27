@@ -13,7 +13,6 @@ describe SubscriptionManager do
     let(:register_data) do
       {
           stripe_token: token,
-          card: {},
           email: 'tester@tester.com',
           full_name: 'Tester Ivanovitch',
           password: 'gfhjkmqe',

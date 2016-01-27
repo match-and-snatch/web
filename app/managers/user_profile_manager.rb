@@ -272,7 +272,7 @@ class UserProfileManager < BaseManager
   # @param city [String]
   # @param zip [String]
   # @return [User]
-  def pull_cc_data(stripe_token: nil, card: {}, expiry_month: nil, expiry_year: nil,
+  def pull_cc_data(stripe_token: nil, expiry_month: nil, expiry_year: nil,
                    address_line_1: nil, address_line_2: nil, state: nil, city: nil, zip: nil)
     fail_with! "You can't update your credit card since your current one was declined" if user.cc_declined?
 

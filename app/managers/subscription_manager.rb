@@ -33,7 +33,6 @@ class SubscriptionManager < BaseManager
   # @param email [String]
   # @param full_name [String]
   # @param password [String]
-  # @param card [Hash<String>]
   # @param target [Concerns::Subscribable]
   # @return [Subscription]
   def register_subscribe_and_pay_via_token(email: nil,
@@ -47,7 +46,6 @@ class SubscriptionManager < BaseManager
                                            state: nil,
                                            address_line_1: nil,
                                            address_line_2: nil,
-                                           card: {},
                                            target: )
 
     unless target.is_a?(Concerns::Subscribable)
@@ -88,8 +86,7 @@ class SubscriptionManager < BaseManager
                                                          city: city,
                                                          state: state,
                                                          address_line_1: address_line_1,
-                                                         address_line_2: address_line_2,
-                                                         card: {}
+                                                         address_line_2: address_line_2
       end
       subscribe_and_pay_for target
     else
