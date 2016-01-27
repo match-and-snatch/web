@@ -276,7 +276,10 @@ class UserProfileManager < BaseManager
                    address_line_1: nil, address_line_2: nil, state: nil, city: nil, zip: nil)
     fail_with! "You can't update your credit card since your current one was declined" if user.cc_declined?
 
-    UserManager.new(user).lock(type: :billing, reason: :cc_update_limit) if user.credit_card_update_requests.recent.count >= 3
+    if Rails.env.production?
+      UserManager.new(user).lock(type: :billing, reason: :cc_update_limit) if user.credit_card_update_requests.recent.count >= 3
+    end
+
     fail_locked! if user.locked?
 
     card = CreditCard.new stripe_token: stripe_token,
@@ -328,9 +331,11 @@ class UserProfileManager < BaseManager
     user.credit_card_update_requests.create!(approved: true, performed: true)
     EventsManager.credit_card_updated(user: user)
 
-    card_already_used_by_another_account = User.where(stripe_card_fingerprint: cc_fingerprint).
-      where("users.id <> ?", user.id).
-      any?
+    if Rails.env.production?
+      card_already_used_by_another_account = User.where(stripe_card_fingerprint: cc_fingerprint).
+        where("users.id <> ?", user.id).
+        any?
+    end
 
     if card_already_used_by_another_account
       UserManager.new(user).lock(type: :billing, reason: :cc_used_by_another_account)
