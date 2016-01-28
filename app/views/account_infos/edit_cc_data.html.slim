@@ -6,12 +6,12 @@
     input type='hidden' name='_method' value='put'
     .form-group
       label.pull-left Street Address
-      input.pull-right.form-control type='text' data-stripe='address_line_1' name='address_line_1' validate='nothing' value=@user.billing_address_line_1
+      input.pull-right.form-control type='text' data-stripe='address_line1' name='address_line_1' validate='nothing' value=@user.billing_address_line_1
       .error data-field='address_line_1'
     .clearfix
     .form-group style='margin-top: 15px'
       label.pull-left Address 2
-      input.pull-right.form-control type='text' data-stripe='address_line_2' name='address_line_2' value=@user.billing_address_line_2
+      input.pull-right.form-control type='text' data-stripe='address_line2' name='address_line_2' value=@user.billing_address_line_2
       .error data-field='address_line_2'
     .clearfix
     .form-group style='margin-top: 15px'
