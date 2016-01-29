@@ -14,12 +14,23 @@ class bud.widgets.StripeForm extends bud.widgets.Form
     @enable_pending_state()
     @$stripe_token_field.val('')
     @$stripe_error_container.hide().html('')
+    @$container.find("[data-stripe=#{@stripe_error_param}]").removeClass('has-error').addClass('has-valid')
+    @$container.find("[data-field=#{@error_param}]").hide().html('')
+    @error_param = null
+    @stripe_error_param = null
 
     Stripe.card.createToken(@$container, @on_token_received)
 
   on_token_received: (status, response) =>
     if response.error
-      @$stripe_error_container.show().html(response.error.message)
+      @stripe_error_param = response.error.param
+      @error_param = if @stripe_error_param == 'exp_year' || @stripe_error_param == 'exp_month'
+       'expiry_date'
+      else
+        @stripe_error_param
+
+      @$container.find("[data-stripe=#{@stripe_error_param}]").removeClass('has-valid').addClass('has-error')
+      @$container.find("[data-field=#{@error_param}]").show().html(response.error.message)
       @disable_pending_state()
     else
       @$stripe_token_field.val(response.id)

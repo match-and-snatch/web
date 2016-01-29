@@ -57,7 +57,7 @@
               img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
             li
               img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-          input.form-control type='text' data-stripe='number' placeholder='Credit Card Number' validate='cc_number'
+          input.form-control type='text' data-stripe='number' data-error_field='number' placeholder='Credit Card Number' validate='cc_number'
           span.error data-field='number'
           .clearfix
           span.error data-field='stripe_token'
@@ -70,7 +70,7 @@
           span.error data-field='expiry_date'
 
         .form-group.cvc.pull-left
-          input.form-control.pull-left type='text' data-stripe='cvc' maxlength='4' validate='cvc' placeholder='CVC'
+          input.form-control.pull-left type='text' data-stripe='cvc' data-error_field='cvc' maxlength='4' validate='cvc' placeholder='CVC'
           .pull-right
             i.fa.fa-question
               .cvc_example

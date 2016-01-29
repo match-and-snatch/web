@@ -42,7 +42,7 @@
             img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
           li
             img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-      input.form-control.pull-right type='text' data-stripe='number' placeholder=current_user.cc_placeholder validate='cc_number'
+      input.form-control.pull-right type='text' data-stripe='number' data-error_field='number' placeholder=current_user.cc_placeholder validate='cc_number'
       .clearfix
       .error data-field='number'
       .clearix
@@ -58,7 +58,7 @@
       .error data-field='expiry_date'
     .form-group
       label.pull-left CVC Code
-      input.form-control.pull-left type='text' data-stripe='cvc' style="width: 55px; margin-left: 19px" validate='cvc'
+      input.form-control.pull-left type='text' data-stripe='cvc' data-error_field='cvc' style="width: 55px; margin-left: 19px" validate='cvc'
       .clearfix
       .error data-field='cvc'
     - if @user.has_cc_payment_account? && @subscriptions.active.empty?
