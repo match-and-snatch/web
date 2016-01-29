@@ -4,6 +4,7 @@
 - else
   form.StripeForm action=update_cc_data_account_info_path method='post'
     input type='hidden' name='_method' value='put'
+    input type='hidden' data-stripe='name' value='#{current_user.full_name}'
     .form-group
       label.pull-left Street Address
       input.pull-right.form-control type='text' data-stripe='address_line1' name='address_line_1' validate='nothing' value=@user.billing_address_line_1

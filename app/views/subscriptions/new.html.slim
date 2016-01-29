@@ -61,6 +61,7 @@
 
         .form-group.exp_date.pull-left
           label.pull-left style='margin: 10px 10px 0 0;' Expiration
+          input type='hidden' data-stripe='name' value='#{current_user.full_name}'
           input.form-control.pull-left type='text' data-stripe='exp_month' data-error_field='expiry_date' name='expiry_month' placeholder='Month' style="width: 70px; margin-right: 15px;" validate='expiry_month'
           input.form-control.pull-left type='text' data-stripe='exp_year' data-error_field='expiry_date' name='expiry_year' placeholder='Year' style="width: 55px" validate='expiry_year'
           .clearfix
