@@ -23,6 +23,8 @@ class bud.widgets.StripeForm extends bud.widgets.Form
 
   on_token_received: (status, response) =>
     if response.error
+      @$stripe_token_field.val('')
+
       @stripe_error_param = response.error.param
       @error_param = if @stripe_error_param == 'exp_year' || @stripe_error_param == 'exp_month'
        'expiry_date'
