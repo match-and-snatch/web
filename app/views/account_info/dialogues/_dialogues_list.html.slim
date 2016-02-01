@@ -1,4 +1,7 @@
 = render partial: 'dialogue', collection: @dialogues
 - unless current_user.dialogues.last_page?
-  div data-identifier='dialogues-list'
-    li.AjaxLink href=account_info_dialogues_path(page: current_user.dialogues.next_page) data-target='dialogues-list' Load More Dialogues
+  .load_more_msg data-identifier='dialogues-list'
+    li.load_more_action.AjaxLink href=account_info_dialogues_path(page: current_user.dialogues.next_page) data-target='dialogues-list'
+      .fa.fa-angle-double-down
+      span Load More Messages
+      .fa.fa-angle-double-down
