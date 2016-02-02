@@ -193,14 +193,14 @@ module ApplicationHelper
     dashboard_link_to title, [:potential_violators, sort_direction_params(field).merge(request.GET).except('authenticity_token')]
   end
 
-  def dashboard_link_to_user(user, truncate: true)
+  def dashboard_link_to_user(user, truncate: true, link_title: user.name)
     if current_user.admin?
-      link_to user.name, admin_profile_owner_path(user.id), class: (truncate ? 'truncate' : nil)
+      link_to link_title, admin_profile_owner_path(user.id), class: (truncate ? 'truncate' : nil)
     else
       if user.slug.present?
-        link_to user.name, profile_path(user.slug), target: '_blank'
+        link_to link_title, profile_path(user.slug), target: '_blank'
       else
-        user.name
+        link_title
       end
     end
   end

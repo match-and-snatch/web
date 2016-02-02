@@ -37,7 +37,7 @@ h2 Profile Deserters
         td
           img src=user.small_profile_picture_url width=50 height=50
         td
-          = dashboard_link_to_user user
+          = dashboard_link_to_user user, link_title: "#{user.profile_name} (#{user.full_name})"
         td= user.email
         td style='min-width: 100px'= user.profile_page_removed_at.try(:to_date).try(:to_s, :long)
         td
