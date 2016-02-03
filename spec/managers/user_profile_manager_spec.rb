@@ -604,6 +604,61 @@ describe UserProfileManager do
     end
   end
 
+  describe '#pull_cc_data' do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    subject(:pull_cc_data) do
+      manager.pull_cc_data(cc_data)
+    end
+
+    let(:cc_data) do
+      {stripe_token: token,
+       expiry_month: 9,
+       expiry_year: 2019,
+       address_line_1: 'set',
+       zip: '12355',
+       city: 'LA',
+       state: 'CA'}
+    end
+
+    context 'missing stripe token' do
+      let(:token) { }
+
+      specify do
+        expect { pull_cc_data }.to raise_error(MissingCcTokenError)
+      end
+    end
+
+    context 'invalid stripe token' do
+      let(:token) { 'invalid' }
+
+      xit 'stripe mocks can not handle this' do
+        expect { pull_cc_data }.to raise_error(ManagerError)
+      end
+    end
+
+    context 'valid stripe token' do
+      let(:token_cc_data) do
+        { number: '4242424242424242',
+          cvc: '000',
+          expiry_month: '05',
+          expiry_year: '18',
+          zip: '123456',
+          city: 'LA',
+          state: 'CA',
+          address_line_1: 'Test',
+          address_line_2: nil }
+      end
+
+      let(:token) { StripeMock.generate_card_token(token_cc_data) }
+
+      specify do
+        expect { pull_cc_data }.not_to raise_error
+      end
+    end
+  end
+
   describe '#update_cc_data' do
     before { StripeMock.start }
     after { StripeMock.stop }

@@ -1,5 +1,6 @@
 defaults: &defaults
   api_version: 0.0.2
+  stripe_pk: pk_test_uYMjbYk64dDXYZhlHS4mk8UC
   stripe_percent: 0.018
   media_host: buddy-video-assets.s3.amazonaws.com
   http_access: false
@@ -115,6 +116,7 @@ development:
 production:
   <<: *defaults
   media_host: connectpal-media.s3.amazonaws.com
+  stripe_pk: pk_live_rVrv3urJfHHncX0oOQmgKceL
   http_access: false
   javascript:
     log_level: 0

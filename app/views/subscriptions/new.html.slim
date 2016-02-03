@@ -5,15 +5,11 @@
     span Review your subscription order
 
   .modal-body.subscribe_container.existing_billing
-
-    /Order Summary Column
     .order_summary
       .heading Your Order Summary
 
-      /Item Row
       .item_row style='height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 15px;' #{@target_user.profile_name}
 
-      /Total Cost
       .total_cost
         .pull-left Total Monthly Cost
         .pull-right.cost= profile_cost(@target_user)
@@ -31,14 +27,11 @@
 
   .modal-body.subscribe_container.new_subscriber
 
-    /Order Summary Column
     .order_summary style="margin-right: 15px; width: 100%"
       .heading Your Order Summary
 
-      /Item Row
       .item_row #{@target_user.profile_name}
 
-      /Total Cost
       .total_cost
         .pull-left Total Monthly Cost
         .pull-right.cost= profile_cost(@target_user)
@@ -46,135 +39,63 @@
 
       .note.bg-warning style='margin: 10px 0 15px; text-align: center'= special_offer_message(@target_user)
 
-    form.Form action=via_update_cc_data_user_subscriptions_path(@target_user) method='POST' style='width: 100%'
-      - if mobile_phone_device?
-        hr style='margin: -10px 0 5px 0; padding: 0'
-        .account_payment
-          .form-group
-            label.control-label Billing Information
-            input.form-control.input-sm type='text' name='number' placeholder='Credit Card Number' validate='cc_number'
-            span.error data-field='number'
-
-          .form-group style='margin-bottom: 15px;'
-            select.form-control.input-sm.pull-left data-error_field='expiry_date' name='expiry_month' style='width: 100px; margin-right: 10px;'
-              option value='' Month
-              option value='01' 01 - January
-              option value='02' 02 - February
-              option value='03' 03 - March
-              option value='04' 04 - April
-              option value='05' 05 - May
-              option value='06' 06 - June
-              option value='07' 07 - July
-              option value='08' 08 - August
-              option value='09' 09 - September
-              option value='10' 10 - October
-              option value='11' 11 - November
-              option value='12' 12 - December
-
-            select.form-control.input-sm.pull-left type='text' data-error_field='expiry_date' name='expiry_year' style='width: 70px; margin-right: 10px;'
-              option value='' Year
-              option value='16' 2016
-              option value='17' 2017
-              option value='18' 2018
-              option value='19' 2019
-              option value='20' 2020
-              option value='21' 2021
-              option value='22' 2022
-              option value='23' 2023
-              option value='24' 2024
-              option value='25' 2025
-              option value='26' 2026
-              option value='27' 2027
-              option value='28' 2028
-              option value='29' 2029
-              option value='30' 2030
-
-            input.form-control.input-sm type='text' name='cvc' placeholder='CVC' maxlength='4' style='width: 60px;' validate='cvc'
-            span.error data-field='cvc'
-
-            .form-group
-              input.form-control.input-sm type='text' name='address_line_1' placeholder='Street Address' validate='require'
-              span.error data-field='address_line_1'
-
-            .form-group
-              input.form-control.input-sm type='text' name='address_line_2' placeholder='Address 2'
-              span.error data-field='address_line_2'
-
-            .form-group.pull-left style='width: 88px; margin-right: 10px;'
-              input.form-control.input-sm.pull-left type='text' name='city' placeholder='City' validate='require'
-              span.error data-field='city'
-
-            .form-group.pull-left style='width: 70px; margin-right: 10px;'
-              input.form-control.input-sm type='text' name='state' placeholder='State' validate='require'
-              span.error data-field='state'
-
-            .form-group.pull-left style='width: 80px;'
-              input.form-control.input-sm.pull-left type='text' name='zip' placeholder='Postal Code' validate='require'
-              span.error data-field='zip'
-          .clearfix
-
-      - else
+    form.StripeForm action=via_update_cc_data_user_subscriptions_path(@target_user) method='POST' style='width: 100%'
+      .clearfix
+      .account_payment
+        label style='font-size: 13px; margin: 0 0 15px 0; width: 310px;' Billing Information
         .clearfix
-        .account_payment
-          label style='font-size: 13px; margin: 0 0 15px 0; width: 310px;' Billing Information
+        .form-group.cc_row.pull-left
+          ul.cc_images
+            li
+              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Visa@2x.png')
+            li
+              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Mastercard@2x.png')
+            li
+              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
+            li
+              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
+          input.form-control type='text' data-stripe='number' data-error_field='number' placeholder='Credit Card Number' validate='cc_number'
+          span.error data-field='number'
           .clearfix
-          .form-group.cc_row.pull-left
-            ul.cc_images
-              li
-                img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Visa@2x.png')
-              li
-                img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Mastercard@2x.png')
-              li
-                img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
-              li
-                img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-            input.form-control type='text' name='number' placeholder='Credit Card Number' validate='cc_number'
-            span.error data-field='number'
+          span.error data-field='stripe_token'
 
-          / .form-group.exp_date.pull-left
-          /   input.form-control.MonthYearField type='text' name='expiry_date' placeholder='Expires MM / YYYY' validate='require'
-          /   span.error data-field='expiry_date'
-
-          .form-group.exp_date.pull-left
-            label.pull-left style='margin: 10px 10px 0 0;' Expiration
-            input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_month' placeholder='Month' style="width: 70px; margin-right: 15px;" validate='expiry_month'
-            input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_year' placeholder='Year' style="width: 55px" validate='expiry_year'
-            .clearfix
-            span.error data-field='expiry_date'
-
-          .form-group.cvc.pull-left
-            input.form-control.pull-left type='text' name='cvc' maxlength='4' validate='cvc' placeholder='CVC'
-            .pull-right
-              i.fa.fa-question
-                .cvc_example
-                  span Discover, MasterCard, Visa, and Others
-                  img.pull-left src="//connectpal-assets.s3.amazonaws.com/images/cvc_example.png" alt="CVC Example"
-                  p.pull-right The security code is the last three digits of the number that appears on the back of your card in the signature bar.
-            .clearfix
-            span.error data-field='cvc'
+        .form-group.exp_date_cvc.pull-left
+          label.pull-left style='margin: 10px 10px 0 0;' Expiration
+          input type='hidden' data-stripe='name' value='#{current_user.full_name}'
+          input.form-control.pull-left type='text' data-stripe='exp_month' data-error_field='expiry_date' name='expiry_month' placeholder='Month' style="width: 70px; margin-right: 15px;" validate='expiry_month'
+          input.form-control.pull-left type='text' data-stripe='exp_year' data-error_field='expiry_date' name='expiry_year' placeholder='Year' style="width: 55px" validate='expiry_year'
+          input.form-control.cvc.pull-left type='text' data-stripe='cvc' data-error_field='cvc' maxlength='4' validate='cvc' placeholder='CVC'
+          i.fa.fa-question.pull-right.cvc_question
+            .cvc_example
+              span Discover, MasterCard, Visa, and Others
+              img.pull-left src="//connectpal-assets.s3.amazonaws.com/images/cvc_example.png" alt="CVC Example"
+              p.pull-right The security code is the last three digits of the number that appears on the back of your card in the signature bar.
           .clearfix
+          span.error data-field='expiry_date'
+          span.error data-field='cvc'
+        .clearfix
 
-          .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
-            input.form-control type='text' name='address_line_1' placeholder='Street Address' validate='require'
-            span.error data-field='address_line_1'
+        .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
+          input.form-control type='text' data-stripe='address_line1' name='address_line_1' placeholder='Street Address' validate='require'
+          span.error data-field='address_line_1'
 
-          .form-group.address.pull-left style='width: 300px;'
-            input.form-control type='text' name='address_line_2' placeholder='Address 2'
-            span.error data-field='address_line_2'
-          .clearfix
+        .form-group.address.pull-left style='width: 300px;'
+          input.form-control type='text' data-stripe='address_line2' name='address_line_2' placeholder='Address 2'
+          span.error data-field='address_line_2'
+        .clearfix
 
-          .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
-            input.form-control type='text' name='city' placeholder='City' validate='require'
-            span.error data-field='city'
+        .form-group.address.pull-left style='width: 300px; margin-right: 15px;'
+          input.form-control type='text' data-stripe='address_city' name='city' placeholder='City' validate='require'
+          span.error data-field='city'
 
-          .form-group.address.pull-left style='width: 150px; margin-right: 15px'
-            input.form-control type='text' name='state' placeholder='State' validate='require'
-            span.error data-field='state'
+        .form-group.address.pull-left style='width: 150px; margin-right: 15px'
+          input.form-control type='text' data-stripe='address_state' name='state' placeholder='State' validate='require'
+          span.error data-field='state'
 
-          .form-group.address.pull-left style='width: 135px;'
-            input.form-control type='text' name='zip' placeholder='Postal Code' validate='require'
-            span.error data-field='zip'
-          .clearfix
+        .form-group.address.pull-left style='width: 135px;'
+          input.form-control type='text' data-stripe='address_zip' name='zip' placeholder='Postal Code' validate='require'
+          span.error data-field='zip'
+        .clearfix
 
       input.btn.blue type='submit' value='Pay & Subscribe'
       .clearfix

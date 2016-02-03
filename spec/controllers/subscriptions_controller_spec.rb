@@ -39,14 +39,13 @@ describe SubscriptionsController, type: :controller do
     before { StripeMock.start }
     after { StripeMock.stop }
 
-    let(:card_number) { '4242424242424242' }
+    let(:stripe_token) { '4242424242424242' }
 
     subject { post 'via_register', user_id: owner.slug,
                                    email: 'subscriber@gmail.com',
                                    password: 'gfhjkmqe',
                                    full_name: 'tester tester',
-                                   number: card_number,
-                                   cvc: '123',
+                                   stripe_token: stripe_token,
                                    expiry_month: '12',
                                    expiry_year: '17',
                                    address_line_1: 'Test',
@@ -58,11 +57,11 @@ describe SubscriptionsController, type: :controller do
     it { should be_success }
     its(:body) { should match_regex /reload/ }
 
-    context 'with failed payment' do
-      let(:card_number) { '4000000000000341' }
+    context 'with empty stripe token' do
+      let(:stripe_token) { }
 
       it { should be_success }
-      its(:body) { should match_regex /reload/ }
+      its(:body) { should match_regex /failed/ }
     end
 
     # TODO : WHY IT DOESN'T WORK?

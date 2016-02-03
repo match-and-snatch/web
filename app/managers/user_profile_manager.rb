@@ -263,6 +263,113 @@ class UserProfileManager < BaseManager
     user
   end
 
+  # @param stripe_token [String]
+  # @param expiry_month [String]
+  # @param expiry_year [String]
+  # @param address_line_1 [String]
+  # @param address_line_2 [String]
+  # @param state [String]
+  # @param city [String]
+  # @param zip [String]
+  # @return [User]
+  def pull_cc_data(stripe_token: nil, expiry_month: nil, expiry_year: nil,
+                   address_line_1: nil, address_line_2: nil, state: nil, city: nil, zip: nil)
+    fail_with! "You can't update your credit card since your current one was declined" if user.cc_declined?
+
+    if Rails.env.production?
+      UserManager.new(user).lock(type: :billing, reason: :cc_update_limit) if user.credit_card_update_requests.recent.count >= 3
+    end
+
+    fail_locked! if user.locked?
+
+    card = CreditCard.new stripe_token: stripe_token,
+                          holder_name: user.full_name,
+                          expiry_month: expiry_month,
+                          expiry_year: expiry_year,
+                          address_line_1: address_line_1,
+                          address_line_2: address_line_2,
+                          state: state,
+                          city: city,
+                          zip: zip
+
+    validate! { validate_cc card, sensitive: false }
+    fail_with!({stripe_token: :empty}, MissingCcTokenError) unless card.registered?
+
+    metadata = {user_id: user.id, full_name: user.full_name}
+    customer_data = {metadata: metadata, email: user.email, card: stripe_token}
+
+    if user.stripe_user_id
+      begin
+        customer = Stripe::Customer.retrieve(user.stripe_user_id)
+        customer.card = stripe_token
+        customer.metadata = metadata
+        customer.email = user.email
+        customer = customer.save
+      rescue Stripe::InvalidRequestError
+        customer = Stripe::Customer.create customer_data
+      end
+    else
+      customer = Stripe::Customer.create customer_data
+    end
+
+    card_data = customer['cards']['data'][0]
+    cc_fingerprint = card_data['fingerprint']
+
+    user.stripe_user_id = customer['id']
+    user.stripe_card_id = card_data['id']
+    user.stripe_card_fingerprint = cc_fingerprint
+    user.last_four_cc_numbers = card_data['last4']
+    user.card_type = card_data['type']
+    user.billing_address_zip = card_data['address_zip']
+    user.billing_address_line_1 = card_data['address_line1']
+    user.billing_address_line_2 = card_data['address_line2']
+    user.billing_address_city = card_data['address_city']
+    user.billing_address_state = card_data['address_state']
+
+    save_or_die! user
+
+    user.credit_card_update_requests.create!(approved: true, performed: true)
+    EventsManager.credit_card_updated(user: user)
+
+    if Rails.env.production?
+      card_already_used_by_another_account = User.where(stripe_card_fingerprint: cc_fingerprint).
+        where("users.id <> ?", user.id).
+        any?
+    end
+
+    if card_already_used_by_another_account
+      UserManager.new(user).lock(type: :billing, reason: :cc_used_by_another_account)
+    else
+      UserManager.new(user).remove_mark_billing_failed
+      PaymentManager.new(user: user).perform_test_payment
+    end
+
+    user
+  rescue Stripe::CardError => e
+    err = e.json_body[:error]
+
+    case err[:code]
+    when 'incorrect_number', 'invalid_number', 'card_declined', 'missing', 'processing_error'
+      fail_with! number: err[:message]
+    when 'invalid_expiry_month', 'invalid_expiry_year', 'expired_card'
+      fail_with! expiry_date: err[:message]
+    when 'invalid_cvc', 'incorrect_cvc'
+      fail_with! cvc: err[:message]
+    when 'incorrect_zip'
+      fail_with! zip: :invalid_zip
+    else
+      fail_with! number: err[:code]
+    end
+  rescue Stripe::InvalidRequestError
+    fail_with! number: 'Invalid stripe request'
+  rescue Stripe::AuthenticationError
+    fail_with! number: 'Stripe auth error'
+  rescue Stripe::APIConnectionError
+    fail_with! number: 'Stripe API connection error'
+  rescue Stripe::StripeError
+    fail_with! number: 'Generic Stripe error'
+  end
+
   # @param number [String]
   # @param cvc [String]
   # @param expiry_month [String]

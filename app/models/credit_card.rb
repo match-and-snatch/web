@@ -1,11 +1,13 @@
 class CreditCard
-  attr_reader :number, :cvc, :expiry_month, :expiry_year, :address_line_1, :address_line_2, :city, :zip, :state, :holder_name
+  attr_reader :stripe_token, :number, :cvc, :expiry_month, :expiry_year, :address_line_1, :address_line_2, :city, :zip, :state, :holder_name
 
+  # @param stripe_token [String, nil]
   # @param number [String]
   # @param cvc [String]
   # @param expiry_month [String]
   # @param expiry_year [String]
-  def initialize(number: nil, cvc: nil, expiry_month: nil, expiry_year: nil, zip: nil, city: nil, state: nil, address_line_1: nil, address_line_2: nil, holder_name: nil)
+  def initialize(stripe_token: nil, number: nil, cvc: nil, expiry_month: nil, expiry_year: nil, zip: nil, city: nil, state: nil, address_line_1: nil, address_line_2: nil, holder_name: nil)
+    @stripe_token = stripe_token
     @number       = number      .to_s.gsub /\D/, ''
     @cvc          = cvc         .to_s.gsub /\D/, ''
     @expiry_month = expiry_month.to_s.gsub /\D/, ''
@@ -16,6 +18,10 @@ class CreditCard
     @address_line_1 = address_line_1
     @address_line_2 = address_line_2
     @holder_name = holder_name
+  end
+
+  def registered?
+    @stripe_token.present?
   end
 
   # @return [Hash]

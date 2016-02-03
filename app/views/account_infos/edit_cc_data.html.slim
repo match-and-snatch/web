@@ -2,142 +2,67 @@
   .well style='text-align: center; background-color: #FFFA4F'
     = t('messages.cc_declined')
 - else
-  form.Form action=update_cc_data_account_info_path method='post'
+  form.StripeForm action=update_cc_data_account_info_path method='post'
     input type='hidden' name='_method' value='put'
-    - if mobile_phone_device?
-      .form-group
-        label style='width: auto;' Street Address
-        input.form-control type='text' name='address_line_1' style='width: 100%' validate='nothing' value=@user.billing_address_line_1
-        .error data-field='address_line_1'
+    input type='hidden' data-stripe='name' value='#{current_user.full_name}'
+    .form-group
+      label.pull-left Street Address
+      input.pull-right.form-control type='text' data-stripe='address_line1' name='address_line_1' validate='nothing' value=@user.billing_address_line_1
+      .error data-field='address_line_1'
+    .clearfix
+    .form-group style='margin-top: 15px'
+      label.pull-left Address 2
+      input.pull-right.form-control type='text' data-stripe='address_line2' name='address_line_2' value=@user.billing_address_line_2
+      .error data-field='address_line_2'
+    .clearfix
+    .form-group style='margin-top: 15px'
+      label.pull-left City
+      input.pull-right.form-control type='text' data-stripe='address_city' name='city' validate='nothing' value=@user.billing_address_city
+      .error data-field='city'
+    .clearfix
+    .form-group style='margin-top: 15px'
+      label.pull-left State
+      input.pull-right.form-control type='text' data-stripe='address_state' name='state' validate='nothing' value=@user.billing_address_state
+      .error data-field='state'
+    .clearfix
+    .form-group style='margin-top: 15px'
+      label.pull-left Postal Code
+      input.pull-right.form-control type='text' data-stripe='address_zip' name='zip' validate='require' value=@user.billing_address_zip
+      .error data-field='zip'
+    .clearfix
+    hr
+    .form-group.cc_row
+      label.pull-left
+        |Card Number
+        ul
+          li
+            img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Visa@2x.png')
+          li
+            img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Mastercard@2x.png')
+          li
+            img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
+          li
+            img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
+      input.form-control.pull-right type='text' data-stripe='number' data-error_field='number' placeholder=current_user.cc_placeholder validate='cc_number'
       .clearfix
-      .form-group
-        label style='width: auto;' Address 2
-        input.form-control type='text' name='address_line_2' style='width: 100%' value=@user.billing_address_line_2
-        .error data-field='address_line_2'
+      .error data-field='number'
+      .clearix
+      .error data-field='stripe_token'
+    .form-group
+      label.pull-left Expiration Date
+      .pull-right.expiry_date
+        input.form-control.pull-left type='text' data-stripe='exp_month' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 50px;" validate='expiry_month'
+        label.pull-left style="width: 80px; text-align: left; padding-left: 10px;" Month
+        input.form-control.pull-left type='text' data-stripe='exp_year' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 50px;" validate='expiry_year'
+        label.pull-left style="width: 60px; text-align: left; padding-left: 10px;" Year
       .clearfix
-      .form-group
-        label style='width: auto;' City
-        input.form-control.pull-left type='text' name='city' style='width: 100%' validate='nothing' value=@user.billing_address_city
-        .error data-field='city'
+      .error data-field='expiry_date'
+    .form-group
+      label.pull-left CVC Code
+      input.form-control.pull-left type='text' data-stripe='cvc' data-error_field='cvc' style="width: 55px; margin-left: 19px" validate='cvc'
       .clearfix
-      .form-group
-        label style='width: auto;' State
-        input.form-control type='text' name='state' style='width: 100%;' validate='nothing' value=@user.billing_address_state
-        .error data-field='state'
-      .clearfix
-      .form-group
-        label style='width: auto;' Postal Code
-        input.form-control type='text' name='zip' style='width: 100%;' validate='require' value=@user.billing_address_zip
-        .error data-field='zip'
-      .clearfix
-      hr
-      .form-group
-        label style='width: auto;' Card Number
-        input.form-control type='text' name='number' placeholder=current_user.cc_placeholder validate='cc_number' style='width: 100%'
-        .clearfix
-      .error data-field='number' style='width: 100%;'
-      div
-        .form-group.pull-left style='width: 200px'
-          label style='width: auto;' Expiration Date
-          .expiry_date
-            select.form-control.input-sm.pull-left data-error_field='expiry_date' name='expiry_month' style='width: 100px; margin-right: 10px;'
-              option value='' Month
-              option value='01' 01 - January
-              option value='02' 02 - February
-              option value='03' 03 - March
-              option value='04' 04 - April
-              option value='05' 05 - May
-              option value='06' 06 - June
-              option value='07' 07 - July
-              option value='08' 08 - August
-              option value='09' 09 - September
-              option value='10' 10 - October
-              option value='11' 11 - November
-              option value='12' 12 - December
-            select.form-control.input-sm.pull-left type='text' data-error_field='expiry_date' name='expiry_year' style='width: 70px; margin-right: 10px;'
-              option value='' Year
-              option value='16' 2016
-              option value='17' 2017
-              option value='18' 2018
-              option value='19' 2019
-              option value='20' 2020
-              option value='21' 2021
-              option value='22' 2022
-              option value='23' 2023
-              option value='24' 2024
-              option value='25' 2025
-              option value='26' 2026
-              option value='27' 2027
-              option value='28' 2028
-              option value='29' 2029
-              option value='30' 2030
-            .clearfix
-            .error data-field='expiry_date' style='margin: 10px 0 0'
-        .form-group.pull-left style='width: 100px'
-          label style='width: auto;' CVC Code
-          input.form-control type='text' name='cvc' style="width: 55px;" validate='cvc'
-          .clearfix
-          .error data-field='cvc' style='margin: 10px 0 0'
-        .clearfix
-      input.btn.pink type='submit' value='Update Credit Card Information' style='width: 100%;'
-      .clearfix
-    - else
-      .form-group
-        label.pull-left Street Address
-        input.pull-right.form-control type='text' name='address_line_1' validate='nothing' value=@user.billing_address_line_1
-        .error data-field='address_line_1'
-      .clearfix
-      .form-group style='margin-top: 15px'
-        label.pull-left Address 2
-        input.pull-right.form-control type='text' name='address_line_2' value=@user.billing_address_line_2
-        .error data-field='address_line_2'
-      .clearfix
-      .form-group style='margin-top: 15px'
-        label.pull-left City
-        input.pull-right.form-control type='text' name='city' validate='nothing' value=@user.billing_address_city
-        .error data-field='city'
-      .clearfix
-      .form-group style='margin-top: 15px'
-        label.pull-left State
-        input.pull-right.form-control type='text' name='state' validate='nothing' value=@user.billing_address_state
-        .error data-field='state'
-      .clearfix
-      .form-group style='margin-top: 15px'
-        label.pull-left Postal Code
-        input.pull-right.form-control type='text' name='zip' validate='require' value=@user.billing_address_zip
-        .error data-field='zip'
-      .clearfix
-      hr
-      .form-group.cc_row
-        label.pull-left
-          |Card Number
-          ul
-            li
-              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Visa@2x.png')
-            li
-              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Mastercard@2x.png')
-            li
-              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
-            li
-              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
-        input.form-control.pull-right type='text' name='number' placeholder=current_user.cc_placeholder validate='cc_number'
-        .clearfix
-        .error data-field='number'
-      .form-group
-        label.pull-left Expiration Date
-        .pull-right.expiry_date
-          input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_month' placeholder='00' style="width: 50px;" validate='expiry_month'
-          label.pull-left style="width: 80px; text-align: left; padding-left: 10px;" Month
-          input.form-control.pull-left type='text' data-error_field='expiry_date' name='expiry_year' placeholder='00' style="width: 50px;" validate='expiry_year'
-          label.pull-left style="width: 60px; text-align: left; padding-left: 10px;" Year
-        .clearfix
-        .error data-field='expiry_date'
-      .form-group
-        label.pull-left CVC Code
-        input.form-control.pull-left type='text' name='cvc' style="width: 55px; margin-left: 19px" validate='cvc'
-        .clearfix
-        .error data-field='cvc'
-      - if @user.has_cc_payment_account? && @subscriptions.active.empty?
-        a.remove-billing href=confirm_cc_data_removal_account_info_path Remove Billing Information
-      input.btn.pink.pull-right type='submit' value='Update Credit Card Information'
-      .clearfix
+      .error data-field='cvc'
+    - if @user.has_cc_payment_account? && @subscriptions.active.empty?
+      a.remove-billing href=confirm_cc_data_removal_account_info_path Remove Billing Information
+    input.btn.pink.pull-right type='submit' value='Update Credit Card Information'
+    .clearfix
