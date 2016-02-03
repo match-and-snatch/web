@@ -1,93 +1,97 @@
-- if mobile_phone_device?
-  .stats.row-fluid style='margin-bottom: 15px;'
-    .col-md-12.col-sm-12.col-xs-12 style='margin: 0 0 60px; padding: 0;'
-      .value= @user.subscriptions_count
-      span Active Subscriptions
-    .col-md-12.col-sm-12.col-xs-12 style='margin: 0; padding: 0;'
-      .value= cents_to_dollars(@user.monthly_earnings, use_ceil: true)
-      span Monthly Earnings
-    .clearfix
-- else
-  .stats.row-fluid
-    .col-md-6.col-sm-6.col-xs-6
-      .value= @user.subscriptions_count
-      span Active Subscriptions
-    .col-md-6.col-sm-6.col-xs-6
-      .value= cents_to_dollars(@user.monthly_earnings, use_ceil: true)
-      span Monthly Earnings
-    .clearfix
+/Profile Stats
+.profile_stats
+  .stats_col
+    strong= @user.subscriptions_count
+    span Active Subscriptions
+  .stats_col
+    strong= cents_to_dollars(@user.monthly_earnings, use_ceil: true)
+    span Monthly Earnings
+  .clearfix
 
-  .col-md-12
-    - if @user.subscriptions_chart_visible?
-      h2 Subscriber Monthly Growth
-      div style='padding: 15px'
-        .graph.Graph#chart style='padding: 0px' data-label='Subscriptions' data-data=@user.graph_data.to_json Please wait...
-      hr
+.profile_stats_note data-identifier='profile-details-notice'
+  a.read_more.Toggler href='#' data-target='profile-details-notice' ...read more
+  | * Payouts within the United States are transferred via ACH bank deposit, and ConnectPal will pay the
+.profile_stats_note style="display:none;" data-identifier='profile-details-notice'
+  | * Payouts within the United States are transferred via ACH bank deposit, and ConnectPal will pay the ACH bank transfer fees within the USA.&nbsp;&nbsp;International profile owners should contact us at
+  a>< href="mailto:business@connectpal.com" business@connectpal.com
+  | to discuss International payout procedures, as some fees may apply for International money transfers.&nbsp;&nbsp;Please read our
+  a>< href="faq" FAQ
+  | and
+  a>< href="terms_of_service" Terms of Service
+  | for important information about payout procedures, taxes, credit card disputes, and more.&nbsp;&nbsp;To update your Payout Information, please click
+  a< href="account#/account_info/edit_payment_information" here
+  |.&nbsp;&nbsp;Please note, a profile owner must earn $200 or more in a calendar month to receive a Payout.
 
-    .AjaxContainer data-url=contributions_path
+.col-md-12
+  - if @user.subscriptions_chart_visible?
+    h2 Subscriber Monthly Growth
+    div style='padding: 15px'
+      .graph.Graph#chart style='padding: 0px' data-label='Subscriptions' data-data=@user.graph_data.to_json Please wait...
 
-    - unless @user.gross_threshold_reached?
-      h2 Change Profile Page URL
+  .AjaxContainer data-url=contributions_path
 
-      form.Form action=update_slug_account_info_path method='post'
-        input type='hidden' name='_method' value='put'
+  - unless @user.gross_threshold_reached?
+    h2 Change Profile Page URL
 
-        .form-group
-          label.pull-left Profile URL
-          input.form-control.pull-right type='text' name='slug' value=@user.slug validate='require,slug'
-          .clearfix
-          .error data-field='slug'
+    form.Form action=update_slug_account_info_path method='post'
+      input type='hidden' name='_method' value='put'
 
-        .example_url.bg-warning.pull-right
-          |www.ConnectPal.com/
-          span YourProfileURL
+      .form-group
+        label.pull-left Profile URL
+        input.form-control.pull-right type='text' name='slug' value=@user.slug validate='require,slug'
         .clearfix
+        .error data-field='slug'
 
-        input.btn.pink.pull-right type='submit' value='Update Profile URL' style="margin-bottom: 15px"
-        .clearfix
-
-    .item_block
-      h2 Profile Display Settings
-      p Specify which features will be shown/hidden for users on your profile page.
-      .form-group.profile_display_settings
-        label for='rss_checker' Enable RSS
-        = checker_tag(current_user.object, :rss, :account_info)
-        .clearfix
-      .form-group.profile_display_settings
-        label for='downloads_checker' Enable Audio Download
-        = checker_tag(current_user.object, :downloads, :account_info)
-        .clearfix
-      .form-group.profile_display_settings
-        label for='itunes_checker' Enable iTunes Download
-        = checker_tag(current_user.object, :itunes, :account_info)
-        .clearfix
-
-    .item_block
-      h2 Notification Settings
-      p Specify which notifications you want to enable/disable.
-      .form-group.profile_display_settings
-        label for='notifications_debug_checker' style='width: 250px' Receive my post notifications
-        = checker_tag(current_user.object, :notifications_debug, :account_info)
-        .clearfix
-      .form-group.profile_display_settings
-        label for='message_notifications_checker' style='width: 250px' Receive new message email notifications
-        = checker_tag(current_user.object, :message_notifications, :account_info)
-        .clearfix
-
-    .item_block
-      h2 Away Mode
-      p Click here to enable away mode for your profile. While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. When you come back from away mode, you can disable away mode at this same location.
-
-      - if @user.vacation_enabled?
-        .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_deactivation_account_info_path Disable Away Mode
-      - else
-        .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_activation_account_info_path Enable Away Mode
+      .example_url.bg-warning.pull-right
+        |www.ConnectPal.com/
+        span YourProfileURL
       .clearfix
 
-    - if @user.has_profile_page?
-      .item_block
-        h2 Delete Profile
-        p You can delete your profile at anytime. Please note that doing this will remove your profile page from our system. We cannot do anything to bring your profile back. Please think twice.
-        .btn.pink.pull-right.AjaxLink href=confirm_profile_page_removal_account_info_path Delete My Profile Page
-        .clearfix
+      input.btn.pink.pull-right type='submit' value='Update Profile URL' style="margin-bottom: 15px"
+    .clearfix
+
+  .item_block
+    h2 Profile Display Settings
+    p Specify which features will be shown/hidden for users on your profile page.
+    .form-group.profile_display_settings
+      label for='rss_checker' Enable RSS
+      = checker_tag(current_user.object, :rss, :account_info)
+      .clearfix
+    .form-group.profile_display_settings
+      label for='downloads_checker' Enable Audio Download
+      = checker_tag(current_user.object, :downloads, :account_info)
+      .clearfix
+    .form-group.profile_display_settings
+      label for='itunes_checker' Enable iTunes Download
+      = checker_tag(current_user.object, :itunes, :account_info)
+      .clearfix
+
+  .item_block
+    h2 Notification Settings
+    p Specify which notifications you want to enable/disable.
+    .form-group.profile_display_settings
+      label for='notifications_debug_checker' style='width: 250px' Receive my post notifications
+      = checker_tag(current_user.object, :notifications_debug, :account_info)
+      .clearfix
+    .form-group.profile_display_settings
+      label for='message_notifications_checker' style='width: 250px' Receive new message email notifications
+      = checker_tag(current_user.object, :message_notifications, :account_info)
+      .clearfix
+
+  .item_block
+    h2 Away Mode
+    p Click here to enable away mode for your profile. While your profile is on away mode, monthly recurring billing will be turned off for your subscribers. When you come back from away mode, you can disable away mode at this same location.
+
+    - if @user.vacation_enabled?
+      .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_deactivation_account_info_path Disable Away Mode
+    - else
+      .btn.pink.pull-right.AjaxLink href=confirm_vacation_mode_activation_account_info_path Enable Away Mode
+    .clearfix
+
+  - if @user.has_profile_page?
+    .item_block
+      h2 Delete Profile
+      p You can delete your profile at anytime. Please note that doing this will remove your profile page from our system. We cannot do anything to bring your profile back. Please think twice.
+      .btn.pink.pull-right.AjaxLink href=confirm_profile_page_removal_account_info_path Delete My Profile Page
+      .clearfix
 
