@@ -25,15 +25,8 @@ class bud.widgets.StripeForm extends bud.widgets.Form
     if response.error
       @$stripe_token_field.val('')
 
-      @stripe_error_param = response.error.param
-
-      if @stripe_error_param == ''
-        @stripe_error_param = 'number'
-
-      @error_param = if @stripe_error_param == 'exp_year' || @stripe_error_param == 'exp_month'
-       'expiry_date'
-      else
-        @stripe_error_param
+      @stripe_error_param = if _.isEmpty(response.error.param) then 'number' else response.error.param
+      @error_param = @stripe_error_param.replace('address_', '').replace(/exp_month|exp_year/, 'expiry_date').replace('line1', 'address_line_1').replace('line2', 'address_line_2')
 
       @$container.find("[data-stripe=#{@stripe_error_param}]").removeClass('has-valid').addClass('has-error')
       @$container.find("[data-field=#{@error_param}]").show().html(response.error.message)
