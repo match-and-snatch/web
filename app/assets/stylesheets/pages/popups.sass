@@ -5,46 +5,52 @@
   &.authentication_popup
     width: 400px
     .modal-header
-      padding: 15px 20px
+      .register_tagline
+        color: #464646
+        text-decoration: underline
     .modal-body
-      .mobile_message
-        display: none
-      .checkbox
-        width: 150px
       .form-group
         margin-bottom: 5px
-      .remember_me
-        color: $color_text_light
-        font-size: 12px
-      .login_btn
+        &.submit_area
+          margin: 15px 0
+          input[type='email']
+            width: 260px
+      .login_btn, .register_btn
         float: right
+      .register_btn
+        padding: 10px 0
+        width: 170px
+      .checkbox
+        float: left
+        margin: 7px 0 0 0
+        width: 150px
+        .remember_me
+          color: $color_text_light
+          font-size: 12px
+          input
+            margin-top: 3px
       .terms_text
-        color: #cccccc
-        font-size: 11px
-        margin-top: 5px
+        float: left
         width: 180px
-        a
-          color: #cccccc
-          &:hover
-            color: $color_text_light
 
   // Search Profiles Popup
   &.search_popup
+    width: 450px
     .modal-body
-      .search_user
-        margin: 0 15px 15px
-        width: 467px
+      padding: 0
+      input.search_user
+        margin: 0 auto 15px
+        width: 420px
       .user_list
+        .bg-danger,
+        .list-group-item-heading
+          font-size: 12px
+          margin: 0 15px 15px
         .bg-danger
           @include border-radius($border_radius)
           padding: 10px 15px
-          margin: 0 15px 15px
-          font-size: 12px
-        .list-group-item-heading
-          font-size: 12px
-          padding-bottom: 15px
-          margin: 0
         .list-group
+          border-bottom: 1px solid #d7d7d7
           font-size: 13px
           .list-group-item
             border: none
@@ -74,68 +80,64 @@
               padding-top: 0
             &:last-child
               padding-bottom: 0
-        // @media screen and (max-width: 767px)
-        //   width: 100%
-        //   margin: 0 0 15px 0
       .search_user_results
-        margin-bottom: 15px
-        .list-group-item-heading
-          padding: 0 15px !important
-          margin-bottom: 10px
         .list-group
-          margin-bottom: 0
           .list-group-item
             @include border-radius (0)
             color: $color_text_dark
             border-top: 1px solid $color_border !important
             padding: 10px 15px !important
-            width: 498px
             img
               background-color: #FFFFFF
+              float: left
             .profile_name
-              padding-top: 15px
-              white-space: nowrap
+              float: left
+              margin-top: 12px
               overflow: hidden
+              padding: 3px 0
               text-overflow: ellipsis
-              // Mobile
-              @media screen and (max-width: 767px)
-                width: 380px
-              // Apple iPhone 4 & 5
-              @media screen and (max-width: 320px)
-                width: 190px
-              // Apple iPhone 6
-              @media screen and (min-width: 321px) and (max-width: 375px)
-                width: 250px
-              // Apple iPhone 6 Plus
-              @media screen and (min-width: 376px) and (max-width: 414px)
-                width: 290px
-              // Tablet & Desktop
-              @media screen and (min-width: 768px)
-                width: 400px
+              white-space: nowrap
+              mark
+                @include border-radius (5px)
+                background: $color_blue
+                color: #FFFFFF
+                margin-right: 1px
+                padding: 3px
             &:hover
               background-color: $color_pink
               color: #FFFFFF
+      .btn.pink
+        display: block
+        font-size: 12px
+        margin: 0 auto 15px
+        padding: 10px
+        text-align: center
+        width: 250px
 
   // Subscribe Popup
   &.subscribe_popup
     .modal-body
+      .terms_text
+        font-size: 12px
+        padding: 10px 0
       .subscribe_container
-      color: $color_text_dark
-      font-size: 16px
-      padding: 0 15px 15px
-      max-width: 680px
+        color: $color_text_dark
+        font-size: 16px
+        padding: 0 15px 15px
+        max-width: 680px
       .order_summary, .account_payment
         background: none
         padding: 15px
       .btn
-        font-size: 18px !important
-        padding: 10px 15px
+        font-size: 16px !important
+        margin: 15px 0
+        padding: 7px
+        width: 100%
       .terms_text
+        margin: 0
+        padding: 0 0 10px
         text-align: center
         width: 100%
-
-      // Popup Order Summary
-
       .order_summary
         background-color: none
         padding: 0
@@ -164,9 +166,6 @@
           display: inline-block
           font-size: 12px
           font-weight: normal
-
-      // Popup Account Payment
-
       .account_payment
         padding: 10px 15px 15px
         .form-group
@@ -236,8 +235,8 @@
                 width: 170px
         .address
           margin-top: 15px
-      .existing_billing
-        max-width: 400px
+      &.existing_billing
+        width: 400px
         .order_summary
           margin-right: 0
       // Mobile
@@ -358,8 +357,6 @@
   // Profile Header Details Popup
   &.header_edit
     overflow: hidden
-
-    // Profile Header Popup Navigation
     .nav
       @include border_radius (10px 10px 0 0)
       background-color: $color_background
@@ -379,8 +376,6 @@
             @include border_radius (0)
             color: $color_text_dark
             font-weight: 600
-
-    // Modal Header
     .modal-header
       padding: 0
       margin-top: 10px
@@ -392,15 +387,21 @@
         display: block
         font-size: 13px
         margin-top: 5px
-
-    // Modal Body
     .modal-body
       padding-top: 15px
-
-      // Welcome Video Player
       .welcome_media_player
         margin: 0 auto
         width: 585px
+        .no-media
+          @include border-radius(10px)
+          background: asset-url('//connectpal-assets.s3.amazonaws.com/images/create_post_video.png') no-repeat
+          background-position: 50% 50%
+          border: 1px solid $color_border
+          height: 332px
+          width: 587px
+        .btn.blue,
+        .btn.pink
+          font-size: 13px
         .audio_player, .video_player
           span.file_name
             font-size: 12px
@@ -431,7 +432,6 @@
             position: absolute
             bottom: 0
             left: 0
-
       .pricing_table
         color: $color_text_light
         table
@@ -482,14 +482,8 @@
         z-index: 9998
       img
         @include border_radius (0)
-        // Mobile & Tablet
-        @media screen and (max-width: 991px)
-          height: auto
-          width: 100%
-        // Desktop
-        @media screen and (min-width: 992px)
-          max-height: 90vh
-          width: auto
+        max-height: 90vh
+        width: auto
       .photo_nav
         background-color: #252525
         border-top: 1px solid #252525
@@ -508,23 +502,10 @@
             background: $color_blue
             color: #FFFFFF
 
-    // Mobile
-    @media screen and (max-width: 767px)
-      .fa.fa-chevron-left
-        left: 5px
-      .fa.fa-chevron-right
-        right: 5px
-
-    // Mobile
-    @media screen and (min-width: 768px)
-      .fa.fa-chevron-left
-        left: 5px
-      .fa.fa-chevron-right
-        right: 5px
-
   // Contacts Popup
   &.contacts_edit
     overflow: hidden
+    width: 400px
     .input-group-addon
       @include black-area
       color: #FFFFFF
@@ -539,14 +520,43 @@
       text-align: center
       .contribute-value
         margin: -15px 0 0
+        span
+          font-size: 13px
+          font-weight: bold
+          width: auto
+        input[type='radio']
+          margin: 0 5px 0 10px
         .custom-amount
           position: relative
           top: 16px
-          input[type='radio']
-            position: relative
-            top: 12px
           input
             float: left
+          input[type='radio']
+            margin: 0 5px 0 10px
+            position: relative
+            top: 12px
+          input[type='text']
+            width: 140px
+      .custom-message
+        margin: 0
+        textarea
+          font-size: 13px
+          height: 80px
+          margin-top: 15px
+      hr
+        height: 1px
+      .contribute-type
+        input[type='radio']
+          margin-right: 5px
+        label
+          font-size: 13px
+          &#recurring_cont_0
+            margin-right: 15px
+      input.btn.blue
+        width: 300px
+      p.small
+        font-size: 12px
+        margin-top: 10px
       .error.limit
         @include border-radius(5px)
         background-color: #faf258
@@ -560,61 +570,86 @@
   // Edit Post Popup
   .edit_post_popup
     padding: 10px 15px 15px 15px
-    min-width: 350px
-    max-width: 400px
+    width: 500px
+    .close
+      position: relative
+      top: -6px
+      right: -10px
     label
+      display: block
       color: $color_text_dark
       font-size: 13px
+      margin-bottom: 10px
     .edit_field
       font-size: 13px
     textarea.edit_field
       height: 100px
+    .error
+      padding: 8px 0
+    .update-post
+      width: 100%
+    // Edit Shared CSS
+    .edit_post_audio,
+    .edit_post_doc,
     .edit_post_photo
-      margin: 0
-      li
-        display: inline-block
-        position: relative
-        height: 102px
-        overflow: hidden
-        margin: 15px 15px 0 0
-        img
-          border: 1px solid $color_border
-        .delete_photo
-          @include border-radius(0 0 0 5px)
-          position: absolute
-          top: 0px
-          right: 0px
-          text-decoration: none
-          height: 17px
-          width: 17px
-          &:before
-            background-color: #FFFFFF
-            padding: 3px
-
-    .edit_post_audio, .edit_post_doc
       @include border-radius(5px)
       border: 1px solid $color_border
-      margin: 15px 0 0 0
-      overflow: hidden
+      height: 150px
+      margin: 15px 0
+      overflow-y: scroll
+    // Edit Audio & Doc
+    .edit_post_audio, .edit_post_doc
       li
         background-color: #FFFFFF
-        border-bottom: 1px solid $color_border
         border-top: 1px solid $color_border
-        border-right: 1px dotted $color_border
-        border-left: 1px dotted $color_border
-        font-size: 12px
-        padding: 5px
+        font-size: 13px
+        height: 33px
+        overflow: hidden
+        padding: 7px
+        position: relative
         width: 100%
-        .fa-arrows-v
-          cursor: pointer
-          font-size: 11px
-          padding: 3px 3px 0
+        &:first-child
+          border: none
+        .file_name
+          overflow: hidden
+          text-overflow: ellipsis
+          width: 400px
+          white-space: nowrap
         .delete_button
-          margin-left: 5px
-          text-decoration: none
-
+          position: absolute
+          top: 10px
+          right: 10px
+    // Edit Photo
+    .edit_post_photo
+      li
+        @include border-radius(5px)
+        background-color: $color_background
+        border: 1px solid $color_border
+        float: left
+        margin: 8px
+        overflow: hidden
+        padding: 0
+        position: relative
+        height: 95px
+        width: 95px
+        img
+          width: 95px
+        .delete_button
+          @include border-radius(0 0 0 5px)
+          background-color: $color_background
+          border: 1px solid $color_border
+          border-top: none
+          border-right: none
+          padding: 0 5px
+          position: absolute
+          top: 0
+          right: 0
+    // Edit Video
     .edit_post_video
-      margin: 15px 0 0 0
+      @include border-radius(5px)
+      border: 1px solid $color_border
+      margin: 0 0 15px
+      overflow: hidden
       li
         img
           width: 100%
@@ -623,11 +658,14 @@
   .compose_message_popup
     padding: 10px 15px 15px 15px
     width: 400px
-    label
-      padding-bottom: 5px
     textarea
-      height: 100px !important
-      font-size: 12px !important
+      font-size: 12px
+      height: 100px
+      margin-top: 5px
+    .error
+      padding: 8px 0
+    .btn.blue
+      width: 100%
 
   // Modal Header
   .modal-header
@@ -652,18 +690,21 @@
       display: block
       font-size: 13px
       margin-top: 5px
-      &.register_tagline
-        color: #464646
-        text-decoration: underline
 
   // Modal Body
   .modal-body
     display: block
     padding: 5px 20px 0
-    &.photo-error
-      .deleted
-        color: #FFFFFF
-        padding: 50px
+    .terms_text
+      color: $color_text_light
+      float: left
+      font-size: 11px
+      margin-top: 5px
+      width: 180px
+      a
+        color: $color_text_light
+        &:hover
+          color: $color_text_light
     .form-group
       label
         color: $color_text_dark
