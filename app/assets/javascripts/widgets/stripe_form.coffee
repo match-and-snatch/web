@@ -26,6 +26,10 @@ class bud.widgets.StripeForm extends bud.widgets.Form
       @$stripe_token_field.val('')
 
       @stripe_error_param = response.error.param
+
+      if @stripe_error_param == ''
+        @stripe_error_param = 'number'
+
       @error_param = if @stripe_error_param == 'exp_year' || @stripe_error_param == 'exp_month'
        'expiry_date'
       else
