@@ -19,5 +19,6 @@ namespace :index do
     Post.unscoped.elastic_bulk_index
   end
 
+  desc 'Index all'
   task all: %i[profiles_autocomplete mentions users_autocomplete posts]
 end

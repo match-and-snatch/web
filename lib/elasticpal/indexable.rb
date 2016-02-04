@@ -174,6 +174,57 @@ module Elasticpal
       end
     end
 
+    class IndexBuilder
+      attr_reader :index
+
+      # @param index [Index]
+      def initialize(index)
+        @index = index
+      end
+
+      # @return [Hash]
+      def params
+        {}.tap do |res|
+          index.types.each do |type|
+            type.fields.each do |field_name, params|
+              if params.has_key?(:partial)
+                (res[:settings] ||= {}).tap do |settings|
+                  (settings[:analysis] ||= {}).tap do |analysis|
+                    (analysis[:filter] ||= {}).tap do |filter|
+                      filter["#{type.name}_#{field_name}_ngram_filter".to_sym] = {
+                        type: 'edge_ngram',
+                        min_gram: params[:partial].is_a?(Hash) ? params[:partial][:min_gram] || 2 : 2,
+                        max_gram: params[:partial].is_a?(Hash) ? params[:partial][:max_gram] || 20 : 20
+                      }
+                    end
+                    (analysis[:analyzer] ||= {}).tap do |analyzer|
+                      analyzer["#{type.name}_#{field_name}_ngram_analyzer".to_sym] = {
+                        type: 'custom',
+                        tokenizer: 'standard',
+                        filter: ['lowercase', "#{type.name}_#{field_name}_ngram_filter"]
+                      }
+                    end
+                  end
+                end
+
+                (res[:mappings] ||= {}).tap do |mappings|
+                  (mappings[type.name.to_sym] ||= {}).tap do |mapping_type|
+                    (mapping_type[:properties] ||= {}).tap do |properties|
+                      properties[field_name.to_sym] = {
+                        type: 'string',
+                        analyzer: "#{type.name}_#{field_name}_ngram_analyzer",
+                        search_analyzer: 'standard'
+                      }
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
     # Reindexes current document
     # @param type [String]
     def elastic_index_document(type: nil)
@@ -265,6 +316,15 @@ module Elasticpal
 
           Elasticpal::Client.bulk(body: bulk_query, refresh: true)
         end
+      end
+
+      # @param batch_size [Integer]
+      def elastic_reindex!(batch_size: 100)
+        Elasticpal::Client.delete_index(elastic_indexes.keys)
+        elastic_indexes.each do |index_name, index|
+          Elasticpal::Client.create_index(index_name, params: IndexBuilder.new(index).params)
+        end
+        elastic_bulk_index(batch_size: batch_size)
       end
     end
   end

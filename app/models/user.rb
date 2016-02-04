@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
   end
 
   elastic_type 'profiles' do
-    field :full_name, :profile_name, :profile_types_text
+    field :full_name, :profile_name, :profile_types_text, partial: { min_gram: 2, max_gram: 10 }
     field :subscribers_count # used for boosting results
     field :publicly_visible?
   end
