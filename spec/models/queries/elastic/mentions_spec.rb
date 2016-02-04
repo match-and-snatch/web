@@ -23,6 +23,16 @@ describe Queries::Elastic::Mentions do
       subject(:results) { described_class.search('Dimka').records }
       it { is_expected.to be_empty }
     end
+
+    context 'search for subscriber by part of a word' do
+      subject(:results) { described_class.search('Dmit').records }
+      it { is_expected.to eq([subscriber]) }
+    end
+
+    context 'search for owner by part of a word' do
+      subject(:results) { described_class.search('And').records }
+      it { is_expected.to eq([profile_owner]) }
+    end
   end
 
   context 'with profile owner id scope' do
@@ -31,6 +41,17 @@ describe Queries::Elastic::Mentions do
 
     context 'searching for profile owner' do
       subject(:results) { described_class.search('Andy', profile_id: profile_owner.id).records }
+      it { is_expected.to eq([profile_owner]) }
+    end
+
+
+    context 'search for subscriber by part of a word' do
+      subject(:results) { described_class.search('Dmi', profile_id: profile_owner.id).records }
+      it { is_expected.to eq([subscriber]) }
+    end
+
+    context 'search for owner by part of a word' do
+      subject(:results) { described_class.search('An', profile_id: profile_owner.id).records }
       it { is_expected.to eq([profile_owner]) }
     end
 
@@ -58,6 +79,11 @@ describe Queries::Elastic::Mentions do
 
       context 'searching for profile owner' do
         subject(:results) { described_class.search('Andy', profile_id: profile_owner.id).records }
+        it { is_expected.to eq([profile_owner]) }
+      end
+
+      context 'search for owner by part of a word' do
+        subject(:results) { described_class.search('And', profile_id: profile_owner.id).records }
         it { is_expected.to eq([profile_owner]) }
       end
     end

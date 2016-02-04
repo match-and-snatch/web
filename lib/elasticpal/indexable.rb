@@ -318,13 +318,16 @@ module Elasticpal
         end
       end
 
-      # @param batch_size [Integer]
-      def elastic_reindex!(batch_size: 100)
-        Elasticpal::Client.delete_index(elastic_indexes.keys)
-        elastic_indexes.each do |index_name, index|
+      # @param name [String] index name
+      def elastic_rebuild_index!(name = nil)
+        if name.present? && !elastic_indexes.keys.include?(name)
+          raise ArgumentError, "Can't find index with name #{name}"
+        end
+
+        Elasticpal::Client.delete_index(name || elastic_indexes.keys)
+        (name ? {name => elastic_indexes[name]} : elastic_indexes).each do |index_name, index|
           Elasticpal::Client.create_index(index_name, params: IndexBuilder.new(index).params)
         end
-        elastic_bulk_index(batch_size: batch_size)
       end
     end
   end

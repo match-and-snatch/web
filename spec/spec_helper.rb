@@ -85,6 +85,8 @@ end
 
 def update_index(*records)
   Elasticpal::Client.clear_data
+  User.elastic_rebuild_index!
+  Post.elastic_rebuild_index!
   if records.any?
     records.each(&:elastic_index_document)
   else

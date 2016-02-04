@@ -37,6 +37,18 @@ describe User do
 
       it { expect(subject.records).to match_array([second_user, first_user]) }
     end
+
+    describe '.elastic_rebuild_index!' do
+      let!(:user) { create(:user, :profile_owner, profile_name: 'Test') }
+
+      before { update_index(user) }
+
+      it { expect(subject.records).to match_array([user]) }
+
+      context 'specified wrong index name' do
+        it { expect { described_class.elastic_rebuild_index!('chuck norris') }.to raise_error(ArgumentError) }
+      end
+    end
   end
 
   describe '.create' do
