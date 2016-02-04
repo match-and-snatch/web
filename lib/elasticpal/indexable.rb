@@ -177,6 +177,9 @@ module Elasticpal
     class IndexBuilder
       attr_reader :index
 
+      MIN_GRAM = 2
+      MAX_GRAM = 20
+
       # @param index [Index]
       def initialize(index)
         @index = index
@@ -191,18 +194,11 @@ module Elasticpal
                 (res[:settings] ||= {}).tap do |settings|
                   (settings[:analysis] ||= {}).tap do |analysis|
                     (analysis[:filter] ||= {}).tap do |filter|
-                      filter["#{type.name}_#{field_name}_ngram_filter".to_sym] = {
-                        type: 'edge_ngram',
-                        min_gram: params[:partial].is_a?(Hash) ? params[:partial][:min_gram] || 2 : 2,
-                        max_gram: params[:partial].is_a?(Hash) ? params[:partial][:max_gram] || 20 : 20
-                      }
+                      filter["#{type.name}_#{field_name}_ngram_filter".to_sym] = filter_properties(params[:partial])
                     end
+
                     (analysis[:analyzer] ||= {}).tap do |analyzer|
-                      analyzer["#{type.name}_#{field_name}_ngram_analyzer".to_sym] = {
-                        type: 'custom',
-                        tokenizer: 'standard',
-                        filter: ['lowercase', "#{type.name}_#{field_name}_ngram_filter"]
-                      }
+                      analyzer["#{type.name}_#{field_name}_ngram_analyzer".to_sym] = analyzer_properties("#{type.name}_#{field_name}_ngram_filter")
                     end
                   end
                 end
@@ -210,11 +206,7 @@ module Elasticpal
                 (res[:mappings] ||= {}).tap do |mappings|
                   (mappings[type.name.to_sym] ||= {}).tap do |mapping_type|
                     (mapping_type[:properties] ||= {}).tap do |properties|
-                      properties[field_name.to_sym] = {
-                        type: 'string',
-                        analyzer: "#{type.name}_#{field_name}_ngram_analyzer",
-                        search_analyzer: 'standard'
-                      }
+                      properties[field_name.to_sym] = mapping_properties("#{type.name}_#{field_name}_ngram_analyzer")
                     end
                   end
                 end
@@ -222,6 +214,32 @@ module Elasticpal
             end
           end
         end
+      end
+
+      private
+
+      def filter_properties(partial)
+        {
+          type: 'edge_ngram',
+          min_gram: partial.is_a?(Hash) ? partial[:min_gram] || MIN_GRAM : MIN_GRAM,
+          max_gram: partial.is_a?(Hash) ? partial[:max_gram] || MAX_GRAM : MAX_GRAM
+        }
+      end
+
+      def analyzer_properties(filter_name)
+        {
+          type: 'custom',
+          tokenizer: 'standard',
+          filter: ['lowercase', filter_name]
+        }
+      end
+
+      def mapping_properties(analyzer_name)
+        {
+          type: 'string',
+          analyzer: analyzer_name,
+          search_analyzer: 'standard'
+        }
       end
     end
 
