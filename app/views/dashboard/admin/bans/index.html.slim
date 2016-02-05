@@ -1,13 +1,66 @@
-h2 Banned users
+h2 Locked Users
 
-ol.pull-left style='padding: 0 15px 15px 0'
-  - @counters.each do |lock_type, count|
-    li class="#{lock_type == params[:id] ? 'pending' : ''}"
-      a href=admin_ban_path(lock_type)
-        span= lock_type.humanize
-      small<
-        | (#{count})
+ul.cat_links
+  li
+    a href=""
+      span Show All
+    small<
+      | (#)
+  li
+    a href=""
+      span Billing
+    small<
+      | (#)
+  li
+    a href=""
+      span ToS
+    small<
+      | (#)
+  li
+    a href=""
+      span Account
+    small<
+      | (#)
+  li
+    a href=""
+      span Contribution Limit
+    small<
+      | (#)
+  li
+    a href=""
+      span Subscription Limit
+    small<
+      | (#)
+  li
+    a href=""
+      span CC Update Limit
+    small<
+      | (#)
+  li
+    a href=""
+      span CC Fingerprint Lock
+    small<
+      | (#)
+  li
+    a href=""
+      span Stripe Fraud
+    small<
+      | (#)
+  li
+    a href=""
+      span Manual Lock
+    small<
+      | (#)
+
+  / - @counters.each do |lock_type, count|
+  /   li class="#{lock_type == params[:id] ? 'pending' : ''}"
+  /     a href=admin_ban_path(lock_type)
+  /       span= lock_type.humanize
+  /     small<
+  /       | (#{count})
 .clearfix
+
+hr
 
 form.Form action=search_admin_bans_path method='get' data-target='bans'
   input.Autocomplete.form-control type="text" name='q' placeholder="Search users by email"
