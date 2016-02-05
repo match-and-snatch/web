@@ -39,7 +39,7 @@ module Queries
     private
 
     def tagged?
-      @query.include?('#')
+      @query.match(/#audio|#video|#document|#photo|#document|#status/i)
     end
 
     def types

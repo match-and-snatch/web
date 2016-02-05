@@ -8,8 +8,8 @@ describe Queries::Posts do
 
   describe '#results' do
     let(:first_post_message)  { 'test' }
-    let(:second_post_message) { 'test' }
-    let(:third_post_message)  { 'test' }
+    let(:second_post_message) { 'test post # 2' }
+    let(:third_post_message)  { 'test post #3' }
 
     let!(:first_post)  { Timecop.freeze(3.days.from_now) { create(:status_post, user: user, message: first_post_message) } }
     let!(:second_post) { Timecop.freeze(2.days.from_now) { create(:status_post, user: user, message: second_post_message) } }
@@ -33,6 +33,12 @@ describe Queries::Posts do
 
           it { expect(subject.results).to be_empty }
         end
+      end
+
+      context '# character is present but not a tag' do
+        let(:query) { 'test #' }
+
+        it { expect(subject.results).to eq([first_post, second_post, third_post]) }
       end
     end
 
