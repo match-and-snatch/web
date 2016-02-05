@@ -24,15 +24,15 @@
           li
             strong Locked Date:
             | &nbsp;
-            span January 1, 2016
+            span= user.last_time_locked_at.try(:to_s, :long)
           li
             strong Lock Type:
             | &nbsp;
-            span Billing
+            span= user.lock_type.to_s.humanize
           li
             strong Lock Reason:
             | &nbsp;
-            span Subscription Limit
+            span= user.lock_reason.to_s.humanize
         .clearfix
 
 

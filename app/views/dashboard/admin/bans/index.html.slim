@@ -2,62 +2,18 @@ h2 Locked Accounts
 
 ul.cat_links
   li
-    a href=""
+    a href=admin_bans_path
       span Show All
     small<
-      | (#)
-  li
-    a href=""
-      span Billing
-    small<
-      | (#)
-  li
-    a href=""
-      span ToS
-    small<
-      | (#)
-  li
-    a href=""
-      span Account
-    small<
-      | (#)
-  li
-    a href=""
-      span Contribution Limit
-    small<
-      | (#)
-  li
-    a href=""
-      span Subscription Limit
-    small<
-      | (#)
-  li
-    a href=""
-      span CC Update Limit
-    small<
-      | (#)
-  li
-    a href=""
-      span CC Fingerprint Lock
-    small<
-      | (#)
-  li
-    a href=""
-      span Stripe Fraud
-    small<
-      | (#)
-  li
-    a href=""
-      span Manual Lock
-    small<
-      | (#)
+      | (#{@users.total_count})
 
-  / - @counters.each do |lock_type, count|
-  /   li class="#{lock_type == params[:id] ? 'pending' : ''}"
-  /     a href=admin_ban_path(lock_type)
-  /       span= lock_type.humanize
-  /     small<
-  /       | (#{count})
+  - @counters.each do |lock_type, count|
+    li class="#{lock_type == params[:id] ? 'pending' : ''}"
+      a href=admin_ban_path(lock_type)
+        span= lock_type.humanize
+      small<
+        | (#{count})
+
 .clearfix
 
 hr
