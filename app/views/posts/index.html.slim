@@ -4,6 +4,7 @@
       |Results for "
       b= params[:q]
       |"
+      a.SearchCleaner data-target='search-posts-autocomplete' href="#" Clear
   /= render partial: 'video_post'
   = render partial: 'post', collection: @posts
 - elsif params.first_page?
