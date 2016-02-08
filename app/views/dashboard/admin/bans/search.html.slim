@@ -1,21 +1,41 @@
 - if @users.any?
-  br
-  .list-group-item-heading Search results
-  ul.list-group
+  ul.list-group.lock-results
     - @users.each do |user|
       li.list-group-item
         .pull-left
-          span= user.full_name
-          | &nbsp;
-          strong= user.email
-        - if user.locked?
-          button.AjaxFormLink.btn.pink.pull-right data-_method='delete' href=admin_ban_path(user.id) Unlock
-        - else
-          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-type='billing' data-email=user.email href=admin_bans_path Billing Lock
-          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-type='account' data-email=user.email href=admin_bans_path Account Lock
-          button.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-type='tos' data-email=user.email href=admin_bans_path ToS Lock
+          p.user-name
+            strong= user.full_name
+            | &nbsp;
+            small<
+              | (
+              = user.email
+              | )
+
+        .pull-right
+          - if user.locked?
+            button.btn.black.AjaxFormLink.btn.pink.pull-right data-_method='delete' href=admin_ban_path(user.id) Unlock
+          - else
+            button.btn.black.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-type='account' data-email=user.email href=admin_bans_path Account Lock
+            button.btn.black.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-type='billing' data-email=user.email href=admin_bans_path Billing Lock
+            button.btn.black.AjaxFormLink.btn.btn-warning.pull-right data-_method='post' data-type='tos' data-email=user.email href=admin_bans_path ToS Lock
         .clearfix
-  .clearfix
+
+        ul.lock-stats
+          li
+            strong Locked Date:
+            | &nbsp;
+            span= user.last_time_locked_at.try(:to_s, :long)
+          li
+            strong Lock Type:
+            | &nbsp;
+            span= user.lock_type.to_s.humanize
+          li
+            strong Lock Reason:
+            | &nbsp;
+            span= user.lock_reason.to_s.humanize
+        .clearfix
+
+
 - else
   - if params[:q].present?
     p.bg-danger

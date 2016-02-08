@@ -18,6 +18,30 @@
   .content
     background-color: #FFFFFF
     min-height: 810px
+    .cat_links
+      margin: 0
+      li
+        display: inline-block
+        margin-right: 15px
+        a
+          text-transform: capitalize
+        .btn
+          font-size: 13px
+    .lock-results
+      margin-top: 15px
+      li
+        .user-name
+          font-size: 16px
+          small
+            color: $color_pink
+            font-size: 12px
+        .lock-stats
+          margin: 0
+          li
+            display: inline-block
+            margin-right: 30px
+        .btn.black
+          margin-left: 15px
     .top-profiles-list
       .sort-lists
         @include border-radius(5px)

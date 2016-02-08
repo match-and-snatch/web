@@ -8,7 +8,9 @@ class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
   end
 
   def show
-    @users = users_query.where(lock_type: params[:id]).page(params[:page]).per(100)
+    q = params[:id] == 'unspecified' ? nil : params[:id]
+    t = User.arel_table
+    @users = users_query.where(t[:lock_type].eq(q).or(t[:lock_reason].eq(q))).page(params[:page]).per(100)
     json_render template: :index
   end
 
@@ -50,7 +52,8 @@ class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
   private
 
   def load_counters
-    @counters = User.where(locked: true).group(:lock_type).count
+    @counters = User.where(locked: true).group(:lock_type).count.merge(User.where(locked: true).group(:lock_reason).count)
+    @counters['unspecified'] = @counters.delete(nil)
   end
 
   def load_user!
