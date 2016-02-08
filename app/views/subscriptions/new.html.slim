@@ -42,8 +42,7 @@
     form.StripeForm action=via_update_cc_data_user_subscriptions_path(@target_user) method='POST' style='width: 100%'
       .clearfix
       .account_payment
-        label style='font-size: 13px; margin: 0 0 5px 0; width: 310px;' Billing Information
-        div style="font-size: 11px; padding-bottom: 10px; text-decoration: underline;" WE DO NOT ACCEPT AMERICAN EXPRESS!
+        label style='font-size: 13px; margin: 0 0 15px 0; width: 310px;' Billing Information
         .clearfix
         .form-group.cc_row.pull-left
           ul.cc_images
@@ -51,6 +50,8 @@
               img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Visa@2x.png')
             li
               img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Mastercard@2x.png')
+            li
+              img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Amex@2x.png')
             li
               img src=image_path('//connectpal-assets.s3.amazonaws.com/images/Discover@2x.png')
           input.form-control type='text' data-stripe='number' data-error_field='number' placeholder='Credit Card Number' validate='cc_number'
