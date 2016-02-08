@@ -37,5 +37,17 @@ describe Post do
 
       it { expect(subject.records).to match_array([second_post, first_post]) }
     end
+
+    describe '.elastic_rebuild_index!' do
+      let!(:post) { create(:status_post, message: 'Test') }
+
+      before { update_index(post) }
+
+      it { expect(subject.records).to match_array([post]) }
+
+      context 'specified wrong index name' do
+        it { expect { described_class.elastic_rebuild_index!('chuck norris') }.to raise_error(ArgumentError) }
+      end
+    end
   end
 end

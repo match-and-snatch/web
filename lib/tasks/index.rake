@@ -19,5 +19,12 @@ namespace :index do
     Post.unscoped.elastic_bulk_index
   end
 
-  task all: %i[profiles_autocomplete mentions users_autocomplete posts]
+  desc 'Rebuild indexes'
+  task rebuild: :environment do
+    User.elastic_rebuild_index!
+    Post.elastic_rebuild_index!
+  end
+
+  desc 'Index all'
+  task all: %i[rebuild profiles_autocomplete mentions users_autocomplete posts]
 end

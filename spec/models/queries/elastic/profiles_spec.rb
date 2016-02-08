@@ -27,6 +27,19 @@ describe Queries::Elastic::Profiles do
         expect(subject.records).to eq([regular_user])
       end
     end
+
+    context 'search by part of word' do
+      subject { query.search('Tes') }
+
+      let!(:popular_user) { create(:user, :profile_owner, subscribers_count: 3, profile_name: 'Test') }
+      let!(:luser) { create(:user, :profile_owner, subscribers_count: 1, profile_name: 'Test') }
+
+      before { update_index }
+
+      it 'orders records by popularity' do
+        expect(subject.records).to eq([popular_user, luser])
+      end
+    end
   end
 
   describe '#delete' do

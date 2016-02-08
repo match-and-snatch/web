@@ -8,7 +8,7 @@ module Elasticpal
     include Singleton
 
     class << self
-      delegate :bulk, :perform_request, :connection, :config, :clear_data, :delete_index, :refresh_index, to: :instance
+      delegate :bulk, :perform_request, :connection, :config, :clear_data, :create_index, :delete_index, :refresh_index, to: :instance
     end
 
     # @param method [String]
@@ -42,6 +42,12 @@ module Elasticpal
     end
 
     # @param name [String] index name
+    # @param params [Hash]
+    def create_index(name, params: {})
+      indices.create index: name, body: params
+    end
+
+    # @param name [String, Array<String>] index name
     def delete_index(name)
       indices.delete index: name
     end

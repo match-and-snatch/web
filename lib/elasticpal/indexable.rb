@@ -174,6 +174,75 @@ module Elasticpal
       end
     end
 
+    class IndexBuilder
+      attr_reader :index
+
+      MIN_GRAM = 2
+      MAX_GRAM = 20
+
+      # @param index [Index]
+      def initialize(index)
+        @index = index
+      end
+
+      # @return [Hash]
+      def params
+        {}.tap do |res|
+          index.types.each do |type|
+            type.fields.each do |field_name, params|
+              if params.has_key?(:partial)
+                (res[:settings] ||= {}).tap do |settings|
+                  (settings[:analysis] ||= {}).tap do |analysis|
+                    (analysis[:filter] ||= {}).tap do |filter|
+                      filter["#{type.name}_#{field_name}_ngram_filter".to_sym] = filter_properties(params[:partial])
+                    end
+
+                    (analysis[:analyzer] ||= {}).tap do |analyzer|
+                      analyzer["#{type.name}_#{field_name}_ngram_analyzer".to_sym] = analyzer_properties("#{type.name}_#{field_name}_ngram_filter")
+                    end
+                  end
+                end
+
+                (res[:mappings] ||= {}).tap do |mappings|
+                  (mappings[type.name.to_sym] ||= {}).tap do |mapping_type|
+                    (mapping_type[:properties] ||= {}).tap do |properties|
+                      properties[field_name.to_sym] = mapping_properties("#{type.name}_#{field_name}_ngram_analyzer")
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+
+      private
+
+      def filter_properties(partial)
+        {
+          type: 'edge_ngram',
+          min_gram: partial.is_a?(Hash) ? partial[:min_gram] || MIN_GRAM : MIN_GRAM,
+          max_gram: partial.is_a?(Hash) ? partial[:max_gram] || MAX_GRAM : MAX_GRAM
+        }
+      end
+
+      def analyzer_properties(filter_name)
+        {
+          type: 'custom',
+          tokenizer: 'standard',
+          filter: ['lowercase', filter_name]
+        }
+      end
+
+      def mapping_properties(analyzer_name)
+        {
+          type: 'string',
+          analyzer: analyzer_name,
+          search_analyzer: 'standard'
+        }
+      end
+    end
+
     # Reindexes current document
     # @param type [String]
     def elastic_index_document(type: nil)
@@ -264,6 +333,18 @@ module Elasticpal
           end
 
           Elasticpal::Client.bulk(body: bulk_query, refresh: true)
+        end
+      end
+
+      # @param name [String] index name
+      def elastic_rebuild_index!(name = nil)
+        if name.present? && !elastic_indexes.keys.include?(name)
+          raise ArgumentError, "Can't find index with name #{name}"
+        end
+
+        Elasticpal::Client.delete_index(name || elastic_indexes.keys)
+        (name ? {name => elastic_indexes[name]} : elastic_indexes).each do |index_name, index|
+          Elasticpal::Client.create_index(index_name, params: IndexBuilder.new(index).params)
         end
       end
     end
