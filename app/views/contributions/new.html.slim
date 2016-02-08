@@ -9,7 +9,7 @@
         input type='hidden' name='target_user_id' value=params[:target_user_id]
       - else
         select.form-control name='target_user_id' style='margin-bottom: 15px; font-size: 12px;'
-          = options_for_select(current_user.recent_subscriptions_options, params[:selected_user_id])
+          = options_for_select(current_user.recent_subscriptions_options)
       .form-group.contribute-value
         span Amount:
         input id='amount_cont_10' type='radio' name='amount' value='1000'
@@ -18,7 +18,7 @@
         label for='amount_cont_20' style='font-size: 13px;' $20
         input id='amount_cont_30' type='radio' name='amount' value='3000'
         label for='amount_cont_30' style='font-size: 13px;' $30
-        - if @target_user.accepts_large_contributions? || !@target_user.has_mature_content?
+        - if @target_user && (@target_user.accepts_large_contributions? || !@target_user.has_mature_content?)
           label.custom-amount for='custom_amount_cont_rb'
             input id='custom_amount_cont_rb' type='radio' name='amount' value='0'
             input.form-control onclick='$("#custom_amount_cont_rb").attr("checked", "checked")' type='text' name='custom_amount' placeholder='Enter other value'
