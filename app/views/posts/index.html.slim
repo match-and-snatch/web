@@ -4,6 +4,11 @@
       |Results for "
       b= params[:q]
       |"
+      a.SearchCleaner.clear-search data-target='search-posts-autocomplete' href="#"
+        | Clear Results
+        .fa.fa-times
+      .clearfix
+
   /= render partial: 'video_post'
   = render partial: 'post', collection: @posts
 - elsif params.first_page?

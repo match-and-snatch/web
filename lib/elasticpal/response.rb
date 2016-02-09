@@ -44,7 +44,8 @@ module Elasticpal
     end
 
     def order(record)
-      hits.find { |hit| hit['_id'] == record.id.to_s }['_score']
+      hit = hits.find { |hit| hit['_id'] == record.id.to_s }
+      hit.has_key?('sort') ? hit['sort'][0] : hit['_score']
     end
 
     def response

@@ -46,7 +46,7 @@ describe Queries::Elastic::Posts do
 
       before { update_index }
 
-      it { expect(subject.records).to eq([first_post, second_post]) }
+      it { expect(subject.records).to eq([second_post, first_post]) }
     end
   end
 

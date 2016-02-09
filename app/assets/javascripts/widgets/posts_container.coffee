@@ -12,13 +12,21 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
     @q = null
     @disabled = false
     bud.sub('search.changed', @on_search_changed)
+    bud.sub('search.finished', @on_search_finished)
 
   destroy: ->
     bud.unsub('search.changed', @on_search_changed)
+    bud.unsub('search.finished', @on_search_finished)
 
   on_search_changed: (e, q) =>
+    @$container.addClass('pending')
+    @pending = true
     @current_page = 1
     @q = q
+
+  on_search_finished: =>
+    @$container.removeClass('pending')
+    @pending = false
 
   on_scroll: =>
     return if @disabled || @pending

@@ -24,8 +24,7 @@ module Queries
           from: from,
           size: size,
           query: query,
-          track_scores: true,
-          sort: [{created_at: {order: 'desc'}}]
+          sort: [{created_at: {order: 'desc'}}, '_score']
         }
       end
     end
