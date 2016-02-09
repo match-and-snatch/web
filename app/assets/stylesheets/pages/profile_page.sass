@@ -904,6 +904,7 @@
 
   // Recent Posts
   .recent_posts
+    position: relative
 
     // Search Posts
     .show_results
@@ -911,6 +912,13 @@
       border: 1px solid #e6d996
       color: #b7a549
       padding: 15px
+      .clear-search
+        font-size: 13px
+        float: right
+        .fa.fa-times
+          padding-left: 5px
+        &:hover
+          color: $color_pink
 
     // No Posts
     .no_post_yet
