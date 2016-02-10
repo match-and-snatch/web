@@ -63,6 +63,7 @@ class User < ActiveRecord::Base
   scope :with_complete_profile, -> { where(has_complete_profile: true) }
   scope :by_email, -> (email) { where(['email ILIKE ?', email]) }
   scope :top, -> { profile_owners.joins(:top_profile).order('top_profiles.position') }
+  scope :respectable, -> { profile_owners.with_complete_profile.where('users.subscribers_count > 0 OR users.profile_picture_url IS NOT NULL') }
 
   elastic_type do
     field :full_name, :profile_name
