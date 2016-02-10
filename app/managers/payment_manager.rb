@@ -11,12 +11,15 @@ class PaymentManager < BaseManager
     fail_with! 'Credit card is declined' if @user.cc_declined?
     fail_with! 'Account locked' if @user.locked?
 
-    Stripe::Charge.create amount: amount,
-                          customer: (customer || user.try(:stripe_user_id)),
-                          currency: 'usd',
-                          description: cut_adult_words(description),
-                          statement_description: cut_adult_words(statement_description).gsub(/\W+/, '').first(14),
-                          metadata: metadata
+    params = {amount: amount,
+              customer: (customer || user.try(:stripe_user_id)),
+              currency: 'usd',
+              description: cut_adult_words(description),
+              statement_description: cut_adult_words(statement_description).gsub(/\W+/, '').first(14),
+              metadata: metadata}
+
+    params.reject! { |_, v| v.blank? }
+    Stripe::Charge.create(params)
   end
 
   # @param subscription [Concerns::Payable]
