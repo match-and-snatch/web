@@ -276,7 +276,7 @@ class UserProfileManager < BaseManager
                    address_line_1: nil, address_line_2: nil, state: nil, city: nil, zip: nil)
     fail_with! "You can't update your credit card since your current one was declined" if user.cc_declined?
 
-    if Rails.env.production?
+    if APP_CONFIG['enable_cc_locks']
       UserManager.new(user).lock(type: :billing, reason: :cc_update_limit) if user.credit_card_update_requests.recent.count >= 3
     end
 
@@ -331,7 +331,7 @@ class UserProfileManager < BaseManager
     user.credit_card_update_requests.create!(approved: true, performed: true)
     EventsManager.credit_card_updated(user: user)
 
-    if Rails.env.production?
+    if APP_CONFIG['enable_cc_locks']
       card_already_used_by_another_account = User.where(stripe_card_fingerprint: cc_fingerprint).
         where("users.id <> ?", user.id).
         any?
