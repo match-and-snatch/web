@@ -19,7 +19,7 @@ class AccountInfo::DialoguesController < AccountInfo::BaseController
 
   def destroy
     MessagesManager.new(user: current_user.object, dialogue: @dialogue).remove
-    json_replace
+    current_user.accessible_dialogues.any? ? json_replace : json_replace(partial: 'no_messages_label')
   end
 
   private
