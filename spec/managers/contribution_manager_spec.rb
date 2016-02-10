@@ -72,37 +72,63 @@ describe ContributionManager do
     end
 
     context 'multiple contributions to different profiles' do
+      let(:target_user) { create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5) }
+      let(:amount) { 24_00 }
+
+      before do
+        ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
+        Timecop.travel(1.day.since) do
+          ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
+        end
+
+        Timecop.travel(2.days.since) do
+          ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
+        end
+
+        Timecop.travel(3.days.since) do
+          ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
+        end
+      end
+
       context '$120 in 1 week' do
-        before do
-          ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5))
-          Timecop.travel(1.day.since) do
-            ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5))
-          end
-
-          Timecop.travel(2.days.since) do
-            ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5))
-          end
-
-          Timecop.travel(3.days.since) do
-            ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5))
+        specify do
+          Timecop.travel(4.days.since) do
+            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.locked? }.to(true)
           end
         end
 
         specify do
           Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5)) }.to change { user.reload.locked? }.to(true)
+            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.lock_type }.to('billing')
           end
         end
 
         specify do
           Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5)) }.to change { user.reload.lock_type }.to('billing')
+            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.lock_reason }.to('contribution_limit')
+          end
+        end
+      end
+
+      context '$250 in 1 week if accepts large contributions' do
+        let(:target_user) { create(:user, :profile_owner, contributions_enabled: true, accepts_large_contributions: true, subscribers_count: 5) }
+        let(:amount) { 50_00 }
+
+        specify do
+          Timecop.travel(4.days.since) do
+            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.locked? }.to(true)
           end
         end
 
         specify do
           Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: 24_00, target_user: create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5)) }.to change { user.reload.lock_reason }.to('contribution_limit')
+            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.lock_type }.to('billing')
+          end
+        end
+
+        specify do
+          Timecop.travel(4.days.since) do
+            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.lock_reason }.to('contribution_limit')
           end
         end
       end
