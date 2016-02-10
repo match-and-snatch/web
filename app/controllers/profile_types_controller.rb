@@ -9,13 +9,13 @@ class ProfileTypesController < ApplicationController
 
   def create
     UserProfileManager.new(current_user.object).add_profile_type(params['type'])
-    json_replace html: types_html
+    json_replace html: types_html, types_text: current_user.types_text
   end
 
   def destroy
     profile_type = ProfileType.where(id: params[:id]).first or error(404)
     UserProfileManager.new(current_user.object).remove_profile_type(profile_type)
-    json_replace html: types_html
+    json_replace html: types_html, types_text: current_user.types_text
   end
 
   private
