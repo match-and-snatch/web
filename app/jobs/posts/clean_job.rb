@@ -3,7 +3,7 @@ module Posts
     PERIOD = 2.months
 
     def self.perform
-      return if Rails.env.staging?
+      return unless APP_CONFIG['enable_post_clean_job']
 
       sql = <<-SQL.squish, false, 'profile_page_removed', PERIOD.ago, 0
         (users.is_profile_owner = ?
