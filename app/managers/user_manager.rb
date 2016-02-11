@@ -58,6 +58,8 @@ class UserManager < BaseManager
 
   # @param type [String, Symbol] account, billing or tos
   def lock(type: :account, reason: :manually_set)
+    return if @user.is_admin?
+
     fail_with! 'No valid type provided' unless LOCK_TYPES.include?(type.to_s)
     fail_with! 'No valid reason provided' unless LOCK_REASONS.include?(reason.to_s)
 
