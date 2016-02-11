@@ -40,7 +40,7 @@ class ContributionManager < BaseManager
                                             message: message,
                                             contribution: @contribution)
 
-    UserManager.new(@user).lock(type: :billing, reason: :contribution_limit) if weekly_limit_reached?
+    UserManager.new(@user).lock(type: :billing, reason: :contribution_limit) if weekly_limit_reached?(target_user)
 
     @contribution
   end
@@ -74,12 +74,12 @@ class ContributionManager < BaseManager
 
   private
 
-  def weekly_limit_reached?
+  def weekly_limit_reached?(target_user)
     recently_contributed = Contribution.where(user: @user)
       .where("created_at > ?", 7.days.ago)
       .sum(:amount)
 
-    recently_contributed >= 120_00
+    recently_contributed >= (target_user.accepts_large_contributions? ? 250_00 : 120_00)
   end
 
   def limit_reached?(amount, target_user)
