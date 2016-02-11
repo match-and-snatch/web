@@ -100,9 +100,7 @@ module Queries
 
     # @return [ActiveRecord::Relation]
     def base_query
-      result = User.profile_owners
-                   .with_complete_profile
-                   .where('users.subscribers_count > 0 OR users.profile_picture_url IS NOT NULL')
+      result = User.respectable
       result = result.where(hidden: false) unless @include_hidden
       result
     end
