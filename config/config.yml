@@ -3,6 +3,7 @@ defaults: &defaults
   stripe_pk: pk_test_uYMjbYk64dDXYZhlHS4mk8UC
   stripe_percent: 0.018
   enable_cc_locks: yes
+  enable_post_clean_job: no
   media_host: buddy-video-assets.s3.amazonaws.com
   http_access: false
   javascript:
@@ -116,6 +117,7 @@ development:
 
 production:
   <<: *defaults
+  enable_post_clean_job: yes
   media_host: connectpal-media.s3.amazonaws.com
   stripe_pk: pk_live_rVrv3urJfHHncX0oOQmgKceL
   http_access: false
@@ -141,4 +143,5 @@ staging:
 
 test:
   <<: *defaults
+  enable_post_clean_job: yes
   http_access: false
