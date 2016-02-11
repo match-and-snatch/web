@@ -1,0 +1,16 @@
+h3 Summary:
+p
+  | Execution time: #{distance_of_time_in_words(@report.execution_time)}
+p
+  | Started at: #{@report.started_at.to_s(:short)}
+p
+  | Finished at: #{@report.forwarded_at.to_s(:short)}
+
+- @report.each do |key, val|
+  p
+    | #{key.to_s.humanize}: #{val}
+
+h3 Errors:
+- @report.errors. each do |message, count|
+  p
+    | #{message.to_s.humanize}: #{count}
