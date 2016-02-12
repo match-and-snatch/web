@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Posts::CleanJob do
   describe '.perform' do
-    subject(:perform) { described_class.perform }
+    subject(:perform) { described_class.new.perform }
 
     let(:user) { create_profile }
     let(:manager) { UserProfileManager.new(user) }
@@ -13,6 +13,7 @@ describe Posts::CleanJob do
     end
 
     it { expect { perform }.not_to raise_error }
+    it { expect { perform }.to deliver_email(to: 'debug@connectpal.com', subject: /Clean Job/) }
 
     context '2 months not passed after remove profile' do
       before { manager.delete_profile_page! }

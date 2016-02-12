@@ -2,13 +2,14 @@ require 'spec_helper'
 
 describe Costs::ChangeCostJob do
   describe '.perform' do
-    subject(:perform) { described_class.perform }
+    subject(:perform) { described_class.new.perform }
 
     let(:profile_owner) { create_profile email: 'profile@user.com' }
     let(:user) { create_user }
     let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(profile_owner) }
 
-    specify { expect { perform }.not_to raise_error }
+    it { expect { perform }.not_to raise_error }
+    it { expect { perform }.to deliver_email(to: 'debug@connectpal.com', subject: /Change Cost Job/) }
 
     context 'update_existing_subscriptions is false' do
       before do

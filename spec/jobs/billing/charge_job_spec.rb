@@ -2,8 +2,10 @@ require 'spec_helper'
 
 describe Billing::ChargeJob do
   describe '.perform' do
-    subject(:perform) { described_class.perform }
+    subject(:perform) { described_class.new.perform }
 
+    it { expect { perform }.to deliver_email(to: 'debug@connectpal.com', subject: /Charge Job/) }
+    
     context 'no subscriptions on charge' do
       specify do
         expect { perform }.not_to raise_error
