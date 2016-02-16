@@ -18,7 +18,7 @@ rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns
 
     itunes:summary Exclusive fresh media content.
     itunes:author ConnectPal
-    itunes:explicit yes
+    itunes:explicit no
     itunes:image href='#{logo_image}'
     itunes:owner
       itunes:name Andy Dean Media
@@ -44,7 +44,7 @@ rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns
             itunes:subtitle= upload.filename
             itunes:summary= post.message
             itunes:author= post.user.name
-            itunes:explicit yes
+            itunes:explicit no
             itunes:duration= upload.duration.to_i
             itunes:image href=post.user.profile_picture_url.gsub('https', 'http') /
             enclosure length="#{(upload.transloadit_data['results'][':original'])[0]['size']}" type="#{upload.mime_type}" url="#{upload.original_url.gsub('https', 'http')}" /
