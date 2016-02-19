@@ -13,6 +13,7 @@ class UserProfileManager < BaseManager
   # @param performer [User]
   def initialize(user, performer = user)
     raise ArgumentError unless user.is_a?(User)
+    raise ArgumentError unless performer.is_a?(User)
     @user = user
     @performer = performer
   end
