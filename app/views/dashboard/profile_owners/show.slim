@@ -72,7 +72,7 @@ hr
     .clearfix
 
 .row
-  .col-md-12
+  .col-md-4
     hr
     h2
       strong Profile Name
@@ -80,32 +80,27 @@ hr
       .form-group
         label style='margin-right: 5px' Profile Name
         input.form-control type='text' name='profile_name' style='margin-right: 15px; width: 100px' value=@user.profile_name
-      input.btn.pink type='submit' value='Change Profile Name'
-    .clearfix
+      input.btn.pink type='submit' value='Update'
 
-.row
-  .col-md-12
+  .col-md-4
     hr
     h2
       strong Profile Page URL
     form.form-inline.Form action=change_slug_admin_profile_owner_path(@user.id) method='POST'
       .form-group
-        label style='margin-right: 5px' Profile Page URL
+        label style='margin-right: 5px' Profile URL
         input.form-control type='text' name='slug' style='margin-right: 15px; width: 100px' value=@user.slug
-      input.btn.pink type='submit' value='Change Profile Page URL'
-    .clearfix
+      input.btn.pink type='submit' value='Update'
 
-.row
-  .col-md-12
+  .col-md-4
     hr
     h2
       strong Fake Subscriptions
     form.form-inline.Form action=change_fake_subscriptions_number_admin_profile_owner_path(@user.id) method='POST'
       .form-group
-        label style='margin-right: 5px' Subscriptions Count
+        label style='margin-right: 5px' Subscriber Count
         input.form-control type='text' name='count' style='margin-right: 15px; width: 100px' value=@user.fake_subscriptions_count
-      input.btn.pink type='submit' value='Change Number of Fake Subscriptions'
-    .clearfix
+      input.btn.pink type='submit' value='Update'
 
 .AjaxContainer data-identifier='vacations' data-url=history_admin_profile_owner_vacations_path(@user.id)
 .AjaxContainer data-identifier='payments' data-url=admin_profile_owner_transfers_path(@user.id)
