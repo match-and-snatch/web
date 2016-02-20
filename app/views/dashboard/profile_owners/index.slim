@@ -8,8 +8,6 @@ h2 Profile Owners
       strong
         = sort_profile_owners_link 'Profile Name', :profile_name
     th
-      strong Email
-    th
       strong Payout Type
     - if current_user.admin?
       th
@@ -25,19 +23,20 @@ h2 Profile Owners
         = sort_profile_owners_link 'Created Date', :created_at
     th
       strong
-        = sort_profile_owners_link 'Subscription Cost', :subscription_cost
+        = sort_profile_owners_link 'Cost', :subscription_cost
     th
-      strong Billing Status
+      strong Status
 
     - @users.each do |user|
       tr
         td ##{user.id}
-        td
+        td width="50"
           img src=user.small_profile_picture_url width=50 height=50
         td
           = dashboard_link_to_user user
-        td= user.email
+          div style="color: grey; font-size: 11px;"= user.email
         td
+          i.fa.fa-exclamation-triangle style='color: orange; padding-right: 5px;'
           - if user.account_number.present? || user.paypal_email.present?
             = user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : "Wire - *#{user.account_number.to_s.last(4)}"
           - else
