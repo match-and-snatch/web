@@ -970,7 +970,9 @@ describe UserProfileManager do
       context 'admin changes profile name for owner' do
         let(:admin) { create(:user, :admin) }
 
-        it { expect { manager.update_profile_name('Slava', performer: admin) }.to change { user.profile_name }.from(nil).to('Slava') }
+        subject(:manager) { described_class.new(user, admin) }
+
+        it { expect { manager.update_profile_name('Slava') }.to change { user.profile_name }.from(nil).to('Slava') }
       end
     end
   end
@@ -1409,6 +1411,14 @@ describe UserProfileManager do
       before { user.update_attributes(gross_sales: 1000_00) }
 
       it { expect { manager.update_slug('slava') }.to raise_error(ManagerError, /can't update your profile page url/) }
+
+      context 'admin changes slug for owner' do
+        let(:admin) { create(:user, :admin) }
+
+        subject(:manager) { described_class.new(user, admin) }
+
+        it { expect { manager.update_slug('slava') }.to change { user.slug }.from('test').to('slava') }
+      end
     end
   end
 end
