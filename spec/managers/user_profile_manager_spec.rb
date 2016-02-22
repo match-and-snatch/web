@@ -865,18 +865,19 @@ describe UserProfileManager do
   end
 
   describe '#update_payment_information' do
-    specify do
-      expect { manager.update_payment_information(holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :holder_name).to('holder')
-    end
-    specify do
-      expect { manager.update_payment_information(holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :routing_number).to('123456789')
-    end
-    specify do
-      expect { manager.update_payment_information(holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :account_number).to('000123456789')
+    let(:info) { {holder_name: 'holder', routing_number: '123456789', account_number: '000123456789'} }
+
+    it { expect { manager.update_payment_information(info) }.to change(user, :holder_name).to('holder') }
+    it { expect { manager.update_payment_information(info) }.to change(user, :routing_number).to('123456789') }
+    it { expect { manager.update_payment_information(info) }.to change(user, :account_number).to('000123456789') }
+
+
+    it 'logs update time', freeze: true do
+      expect { manager.update_payment_information(info) }.to change(user, :payout_updated_at).to(Time.zone.now)
     end
 
     it 'creates payout_information_changed event' do
-      expect { manager.update_payment_information(holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to create_event(:payout_information_changed)
+      expect { manager.update_payment_information(info) }.to create_event(:payout_information_changed)
     end
 
     context 'empty holder name' do

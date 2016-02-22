@@ -36,7 +36,8 @@ h2 Profile Owners
           = dashboard_link_to_user user
           div style="color: grey; font-size: 11px;"= user.email
         td
-          i.fa.fa-exclamation-triangle style='color: orange; padding-right: 5px;'
+          - if user.payout_changed_this_month?
+            i.fa.fa-exclamation-triangle style='color: orange; padding-right: 5px;'
           - if user.account_number.present? || user.paypal_email.present?
             = user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : "Wire - *#{user.account_number.to_s.last(4)}"
           - else

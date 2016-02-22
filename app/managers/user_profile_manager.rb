@@ -164,6 +164,7 @@ class UserProfileManager < BaseManager
     user.account_number = account_number.try(:strip)
     user.paypal_email   = paypal_email.try(:strip)
     user.prefers_paypal = prefer_paypal || false
+    user.payout_updated_at = Time.zone.now
 
     save_or_die! user
 
