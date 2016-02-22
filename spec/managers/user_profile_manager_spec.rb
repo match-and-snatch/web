@@ -22,6 +22,26 @@ describe UserProfileManager do
     it 'indexes profile' do
       expect { manager.add_profile_type(profile_type.title) }.to index_record(user).using_type('profiles')
     end
+
+    context 'different title case' do
+      it 'upcases first character for each word in title' do
+        expect { manager.add_profile_type('band') }.to create_record(ProfileType).matching(title: 'Band')
+        expect { manager.add_profile_type('rock band') }.to create_record(ProfileType).matching(title: 'Rock Band')
+      end
+
+      it 'keeps case for second characters' do
+        expect { manager.add_profile_type('bAnd') }.to create_record(ProfileType).matching(title: 'BAnd')
+        expect { manager.add_profile_type('roCK BAnd') }.to create_record(ProfileType).matching(title: 'RoCK BAnd')
+      end
+
+      context 'add the same type with different case' do
+        before { manager.add_profile_type('band') }
+
+        it 'does not create duplicates' do
+          expect { manager.add_profile_type('bAnd') }.not_to create_record(ProfileType)
+        end
+      end
+    end
   end
 
   describe '#finish_owner_registration' do
