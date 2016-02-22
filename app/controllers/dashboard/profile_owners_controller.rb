@@ -119,6 +119,6 @@ class Dashboard::ProfileOwnersController < Dashboard::BaseController
   end
 
   def manager
-    UserProfileManager.new(@user, current_user)
+    UserProfileManager.new(@user, current_user.object)
   end
 end
