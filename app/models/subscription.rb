@@ -22,7 +22,20 @@ class Subscription < ActiveRecord::Base
   # Returns upcoming billing date
   # @return [Date]
   def billing_date
-    processing_payment? ? Time.zone.today : ((charged_at || created_at || Time.zone.now) + 30.days).to_date
+    if processing_payment?
+      Time.zone.today
+    else
+      return (created_at || Time.zone.now).to_date unless charged_at
+
+      upcoming_billing_date = charged_at + Concerns::Payable::DEFAULT_BILLING_CYCLE_LENGTH
+
+      # Handle February
+      if upcoming_billing_date.month > charged_at.month + 1
+        upcoming_billing_date = charged_at.next_month
+      end
+
+      upcoming_billing_date.to_date
+    end
   end
 
   def actualize_cost!
@@ -47,7 +60,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def paid?
-    charged_at && charged_at > (Time.zone.now.end_of_day - 30.days)
+    !!(charged_at && charged_at > billing_edge_date)
   end
 
   # @return [User]
