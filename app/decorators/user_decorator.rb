@@ -16,6 +16,7 @@ class UserDecorator < BaseDecorator
            :cover_picture_height,
            :cost, :name, :has_profile_page?,
            :posts, :source_uploads, :account_number, :holder_name, :routing_number,
+           :paypal_email, :prefers_paypal?,
            :vacation_enabled?, :vacation_message,
            :last_visited_profile,
            :subscribers_count,

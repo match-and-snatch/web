@@ -134,6 +134,34 @@ hr
         strong Routing Number:
         span= @user.routing_number
     .clearfix
+
+.row
+  .col-md-4
+    form.Form action=update_payout_information_admin_profile_owner_path(@user.id) method='post'
+      div style='#{"display: none" if @user.prefers_paypal?}' data-identifier='wire-option'
+        .form-group
+          label.pull-left Pay to the order of
+          input.form-control.pull-right type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name
+        .form-group
+          label.pull-left Routing Number
+          input.form-control.pull-right type='text' name='routing_number' placeholder='123456789' value=@user.routing_number
+        .form-group
+          label.pull-left Account Number
+          input.form-control.pull-right type='text' name='account_number' placeholder='000123456789' value=@user.account_number
+
+      div style='#{"display: none" unless @user.prefers_paypal?}' data-identifier='paypal-option'
+        .form-group
+          label.pull-left PayPal Email
+          input.form-control.pull-right type='text' name='paypal_email' value=@user.paypal_email placeholder='Email Address'
+      .paypal-payout.pull-left
+        label.radio-inline Would you rather get paid out via PayPal?
+        label.radio-inline
+          input.RadioToggler data-target='paypal-option' value='1' type='radio' id='paypal_payout_email' name='prefer_paypal' checked=(@user.prefers_paypal? ? 'checked' : false) Yes
+        label.radio-inline
+          input.RadioToggler data-target='wire-option' value='0' type='radio' id='paypal_payout_email' name='prefer_paypal' checked=(@user.prefers_paypal? ? false : 'checked') No
+      input.btn.pink.pull-right type='submit' value='Update Payout Information'
+      .clearfix
+
 / Subscriber Information
 hr
 h1
