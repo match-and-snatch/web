@@ -356,6 +356,7 @@ BuddyPlatform::Application.routes.draw do
           get :pending_payments
           post :change_fake_subscriptions_number
           post :change_profile_name
+          post :change_slug
         end
       end
     end

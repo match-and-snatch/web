@@ -1,5 +1,5 @@
 class Dashboard::ProfileOwnersController < Dashboard::BaseController
-  before_action :load_user!, only: [:show, :update, :change_fake_subscriptions_number, :change_profile_name, :total_subscribed,
+  before_action :load_user!, only: [:show, :update, :change_fake_subscriptions_number, :change_profile_name, :change_slug, :total_subscribed,
                                     :total_new_subscribed, :total_unsubscribed, :failed_billing_subscriptions,
                                     :pending_payments, :this_month_subscribers_unsubscribers]
 
@@ -36,8 +36,13 @@ class Dashboard::ProfileOwnersController < Dashboard::BaseController
   end
 
   def change_profile_name
-    UserProfileManager.new(@user).update_profile_name(params[:profile_name], performer: current_user)
+    manager.update_profile_name(params[:profile_name])
     json_reload notice: 'Profile Name updated successfully'
+  end
+
+  def change_slug
+    manager.update_slug(params[:slug])
+    json_reload notice: 'Profile Page URL updated successfully'
   end
 
   def total_subscribed
@@ -111,5 +116,9 @@ class Dashboard::ProfileOwnersController < Dashboard::BaseController
 
   def load_user!
     @user = User.where(id: params[:id]).first or error(404)
+  end
+
+  def manager
+    UserProfileManager.new(@user, current_user.object)
   end
 end

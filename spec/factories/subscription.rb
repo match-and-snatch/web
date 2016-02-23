@@ -9,6 +9,14 @@ FactoryGirl.define do
     total_cost 599
 
     before(:create) do |subscription|
+      unless subscription.user_id
+        subscription.user_id = FactoryGirl.create(:user).id
+      end
+
+      unless subscription.target_user_id
+        subscription.target_user_id = FactoryGirl.create(:user).id
+      end
+
       unless subscription.target_id
         subscription.target = subscription.target_user
       end

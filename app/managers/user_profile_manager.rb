@@ -3,22 +3,25 @@ class UserProfileManager < BaseManager
   include Concerns::EmailValidator
   include Concerns::PasswordValidator
 
-  attr_reader :user
+  attr_reader :user, :performer
 
   SLUG_REGEXP  = /^[a-zA-Z0-9]+(\w|_|-)+[a-zA-Z0-9]+$/i
   COST_REGEXP  = /^\d+(\.\d+)?$/i
   ONLY_DIGITS  = /^[0-9]*$/i
 
   # @param user [User]
-  def initialize(user)
+  # @param performer [User]
+  def initialize(user, performer = user)
     raise ArgumentError unless user.is_a?(User)
+    raise ArgumentError unless performer.is_a?(User)
     @user = user
+    @performer = performer
   end
 
   # @param type [String]
   def add_profile_type(type)
     return if type.blank?
-    type = type.squish.titleize
+    type = type.squish.gsub(/\b(.)/) { $1.upcase }
     return if type.blank?
     profile_type = ProfileType.where(['title ILIKE ?', type]).where(user_id: nil).first
     profile_type ||= ProfileType.where(['title ILIKE ?', type]).where(user_id: @user.id).first
@@ -172,7 +175,7 @@ class UserProfileManager < BaseManager
 
   # @param profile_name [String]
   # @return [User]
-  def update_profile_name(profile_name, performer: user)
+  def update_profile_name(profile_name)
     fail_with! 'You can\'t change profile name' if !performer.admin? && user.gross_threshold_reached?
 
     profile_name = profile_name.to_s.strip.squeeze(' ')
@@ -577,7 +580,7 @@ class UserProfileManager < BaseManager
   # @param slug [String]
   # @return [User]
   def update_slug(slug)
-    fail_with! 'You can\'t update your profile page url' if user.gross_threshold_reached?
+    fail_with! 'You can\'t update your profile page url' if !performer.admin? && user.gross_threshold_reached?
 
     validate! { validate_slug slug }
 

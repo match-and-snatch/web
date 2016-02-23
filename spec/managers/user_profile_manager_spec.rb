@@ -22,6 +22,26 @@ describe UserProfileManager do
     it 'indexes profile' do
       expect { manager.add_profile_type(profile_type.title) }.to index_record(user).using_type('profiles')
     end
+
+    context 'different title case' do
+      it 'upcases first character for each word in title' do
+        expect { manager.add_profile_type('band') }.to create_record(ProfileType).matching(title: 'Band')
+        expect { manager.add_profile_type('rock band') }.to create_record(ProfileType).matching(title: 'Rock Band')
+      end
+
+      it 'keeps case for second characters' do
+        expect { manager.add_profile_type('bAnd') }.to create_record(ProfileType).matching(title: 'BAnd')
+        expect { manager.add_profile_type('roCK BAnd') }.to create_record(ProfileType).matching(title: 'RoCK BAnd')
+      end
+
+      context 'add the same type with different case' do
+        before { manager.add_profile_type('band') }
+
+        it 'does not create duplicates' do
+          expect { manager.add_profile_type('bAnd') }.not_to create_record(ProfileType)
+        end
+      end
+    end
   end
 
   describe '#finish_owner_registration' do
@@ -970,7 +990,9 @@ describe UserProfileManager do
       context 'admin changes profile name for owner' do
         let(:admin) { create(:user, :admin) }
 
-        it { expect { manager.update_profile_name('Slava', performer: admin) }.to change { user.profile_name }.from(nil).to('Slava') }
+        subject(:manager) { described_class.new(user, admin) }
+
+        it { expect { manager.update_profile_name('Slava') }.to change { user.profile_name }.from(nil).to('Slava') }
       end
     end
   end
@@ -1409,6 +1431,14 @@ describe UserProfileManager do
       before { user.update_attributes(gross_sales: 1000_00) }
 
       it { expect { manager.update_slug('slava') }.to raise_error(ManagerError, /can't update your profile page url/) }
+
+      context 'admin changes slug for owner' do
+        let(:admin) { create(:user, :admin) }
+
+        subject(:manager) { described_class.new(user, admin) }
+
+        it { expect { manager.update_slug('slava') }.to change { user.slug }.from('test').to('slava') }
+      end
     end
   end
 end
