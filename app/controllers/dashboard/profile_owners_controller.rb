@@ -1,5 +1,6 @@
 class Dashboard::ProfileOwnersController < Dashboard::BaseController
-  before_action :load_user!, only: [:show, :update, :change_fake_subscriptions_number, :change_profile_name, :change_slug, :total_subscribed,
+  before_action :load_user!, only: [:show, :update, :change_fake_subscriptions_number, :change_profile_name, :change_slug,
+                                    :update_payout_information, :total_subscribed,
                                     :total_new_subscribed, :total_unsubscribed, :failed_billing_subscriptions,
                                     :pending_payments, :this_month_subscribers_unsubscribers]
 
@@ -43,6 +44,11 @@ class Dashboard::ProfileOwnersController < Dashboard::BaseController
   def change_slug
     manager.update_slug(params[:slug])
     json_reload notice: 'Profile Page URL updated successfully'
+  end
+
+  def update_payout_information
+    manager.update_payment_information(params.slice(:holder_name, :routing_number, :account_number, :paypal_email).merge(prefer_paypal: params.bool(:prefer_paypal)))
+    json_reload notice: 'Payout information updated successfully'
   end
 
   def total_subscribed

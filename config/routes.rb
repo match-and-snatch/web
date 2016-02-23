@@ -357,6 +357,7 @@ BuddyPlatform::Application.routes.draw do
           post :change_fake_subscriptions_number
           post :change_profile_name
           post :change_slug
+          post :update_payout_information
         end
       end
     end
