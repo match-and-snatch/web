@@ -1,4 +1,17 @@
-h2 Profile Owners
+h2 Profile Owners (#{@users.total_count} total)
+
+ul.cat_links
+  li
+    a href=admin_profile_owners_path
+      span Show All
+
+  li class="#{params[:filter] == 'payout_updated' ? 'pending' : ''}"
+    a href=admin_profile_owners_path(filter: :payout_updated)
+      span Payout updated this month
+
+.clearfix
+hr
+
 .table-responsive
   table.table.table-striped
     th
