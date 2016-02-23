@@ -16,6 +16,6 @@ class bud.widgets.AjaxPopup extends bud.widgets.Popup
   on_response_received: (response) =>
     @$container.css('max-height', "#{$(window).height() - 30}px")
     @$container.css('max-width', "#{$(window).width() - 30}px")
-    bud.replace_html(@$container, response['html'])
+    bud.replace_html(@$container, response)
     @autoplace()
     @$container.find('img').load(@autoplace)

@@ -59,12 +59,12 @@ class bud.widgets.AjaxLink extends bud.Widget
 
   render_page: (response) =>
     @make_active()
-    bud.replace_html(@$target, response['html'])
+    bud.replace_html(@$target, response)
     @$target.removeClass('pending')
     @$target.show()
 
   replace_page: (response) =>
     @make_active()
-    bud.replace_container(@$target, response['html'])
+    bud.replace_container(@$target, response)
     @$target.removeClass('pending')
     @$target.show()

@@ -51,4 +51,4 @@ class bud.widgets.PostForm extends bud.Widget
     bud.Ajax.get(@$current_tab.data('url'), {}, replace: @on_render_form)
 
   on_render_form: (response) =>
-    bud.replace_html(@$target, response['html'])
+    bud.replace_html(@$target, response)

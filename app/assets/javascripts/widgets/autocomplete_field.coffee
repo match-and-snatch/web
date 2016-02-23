@@ -20,4 +20,4 @@ class bud.widgets.AutocompleteField extends bud.Widget
     @$container.val()
 
   on_replace: (response) =>
-    bud.replace_html(@$target, response['html'])
+    bud.replace_html(@$target, response)

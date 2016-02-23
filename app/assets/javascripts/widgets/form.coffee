@@ -52,15 +52,15 @@ class bud.widgets.Form extends bud.Widget
 
   on_replace: (response) =>
     if @$target == @$container
-      bud.replace_container(@$target, response['html'])
+      bud.replace_container(@$target, response)
     else
-      bud.replace_html(@$target, response['html'])
+      bud.replace_html(@$target, response)
 
   on_prepend: (response) =>
-    bud.prepend_html(@$target, response['html'])
+    bud.prepend_html(@$target, response)
 
   on_append: (response) =>
-    bud.append_html(@$target, response['html'])
+    bud.append_html(@$target, response)
 
   on_before: =>
     @enable_pending_state()

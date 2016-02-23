@@ -10,29 +10,50 @@
 
 # HTML helpers
 window.bud.replace_container = (container, replacement) ->
-  $container = $(container)
-  bud.Widget.destroy($container)
-  bud.Core.destroy_widgets($container)
-  $parent = $container.parent()
-  $container.replaceWith(replacement)
-  bud.Core.init_widgets($parent)
+  replace_container = (target, content) ->
+    $container = $(target)
+    bud.Widget.destroy($container)
+    bud.Core.destroy_widgets($container)
+    $parent = $container.parent()
+    $container.replaceWith(content)
+    bud.Core.init_widgets($parent)
+
+  _call_action(replace_container, container, replacement)
 
 window.bud.replace_html = (container, replacement) ->
-  bud.Core.destroy_widgets($(container))
-  $(container).html(replacement)
-  bud.Core.init_widgets(container)
+  replace_html = (target, content) ->
+    $container = $(target)
+    bud.Core.destroy_widgets($container)
+    $container.html(content)
+    bud.Core.init_widgets($container)
+
+  _call_action(replace_html, container, replacement)
 
 window.bud.append_html = (container, replacement) ->
-  $(container).append(replacement)
-  bud.Core.init_widgets(container)
+  append_html = (target, content) ->
+    $(target).append(content)
+    bud.Core.init_widgets(target)
+
+  _call_action(append_html, container, replacement)
 
 window.bud.prepend_html = (container, replacement) ->
-  $(container).prepend(replacement)
-  bud.Core.init_widgets(container)
+  prepend_html = (target, content) ->
+    $(target).prepend(content)
+    bud.Core.init_widgets(target)
+
+  _call_action(prepend_html, container, replacement)
 
 window.bud.clear_html = (container) ->
-  bud.Core.destroy_widgets($(container))
-  $(container).empty()
+  clear_html = (target) ->
+    $container = $(target)
+    bud.Core.destroy_widgets($container)
+    $container.empty()
+
+  if _.isObject(container) && !(container instanceof jQuery)
+    _.each container, (target, key, list) ->
+      clear_html(target)
+  else
+    clear_html(container)
 
 window.bud.confirm = (string, callback) ->
   bud.widgets.ConfirmationPopup.ask(string, callback)
@@ -40,13 +61,17 @@ window.bud.confirm = (string, callback) ->
 window.bud.get = (identifier) ->
   if _.isArray(identifier)
     elem = $((_.map(identifier, (id) -> "[data-identifier=#{id}]")).join(','))
+  else if _.isObject(identifier)
+    elem = {}
+    _.each identifier, (id, key, list) ->
+      elem[key] = $("[data-identifier=#{id}]")
   else
     elem = $("[data-identifier=#{identifier}]")
 
-  if elem.length > 0
-    return elem
-  else
+  if _.isEmpty(elem)
     return null
+  else
+    return elem
 
 window.bud.is_mobile =
   Android: ->
@@ -67,3 +92,16 @@ window.bud.goto = (url) ->
 window.bud.replace_url = (url) ->
   window.history.replaceState(null, null, url)
   window.bud.pub('window.locationchange', url)
+
+_call_action = (callback, container, replacement) ->
+  if _.isObject(container) && !(container instanceof jQuery)
+    _.each container, (target, key, list) ->
+      callback(target, _get_replacement(replacement, key))
+  else
+    callback(container, _get_replacement(replacement))
+
+_get_replacement = (replacement, key = 'html') ->
+  if _.isObject(replacement) && !(replacement instanceof jQuery)
+    replacement[key]
+  else
+    replacement

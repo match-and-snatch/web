@@ -4,6 +4,6 @@ div data-identifier='user-profile-types' style="text-align: left"
       span.assigned Added Type(s):
       - profile_types.each do |profile_type|
         li
-          i.fa.fa-times.pull-left.DeleteProfileTypeButton data-_method='DELETE' data-target='user-profile-types' href=profile_type_path(profile_type.id)
+          i.fa.fa-times.pull-left.AjaxFormLink data-_method='DELETE' data-target='{"html":"user-profile-types","types_text":"user-types-text"}' href=profile_type_path(profile_type.id)
           .title= profile_type.title
           .clearfix
