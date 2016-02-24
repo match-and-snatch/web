@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe Dashboard::Admin::ProfileOwnersController, type: :controller do
+describe Dashboard::Sales::ProfileOwnersController, type: :controller do
   describe 'GET #index' do
     subject { get 'index' }
 
-    let(:admin) { create(:user, :admin) }
+    let(:sales) { create(:user, :sales) }
 
     context 'as an admin' do
-      before { sign_in admin }
+      before { sign_in sales }
       it { should be_success }
     end
 
@@ -17,7 +17,7 @@ describe Dashboard::Admin::ProfileOwnersController, type: :controller do
     end
 
     context 'filter applued' do
-      before { sign_in admin }
+      before { sign_in sales }
 
       subject { get 'index', filter: 'payout_updated' }
 

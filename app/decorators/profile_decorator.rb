@@ -77,7 +77,7 @@ class ProfileDecorator < UserDecorator
     @estimated_payout ||= object.cost * object.subscribers_count
   end
 
-  def payout_changed_this_month?
-    object.payout_updated_at ? object.payout_updated_at > Time.zone.now.beginning_of_month : false
+  def payout_recently_updated?
+    object.payout_updated_at && object.payout_updated_at > Time.zone.now.beginning_of_month
   end
 end

@@ -49,7 +49,7 @@ hr
           = dashboard_link_to_user user
           div style="color: grey; font-size: 11px;"= user.email
         td
-          - if user.payout_changed_this_month?
+          - if user.payout_recently_updated?
             img src='//connectpal-assets.s3.amazonaws.com/images/alert-circle.png' style='padding-right: 5px;'
           - if user.account_number.present? || user.paypal_email.present?
             = user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : "Wire - *#{user.account_number.to_s.last(4)}"
