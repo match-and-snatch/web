@@ -61,7 +61,7 @@ class PostManager < BaseManager
       post.save or fail_with! post.errors
       post.elastic_index_document
       EventsManager.post_created(user: user, post: post)
-      StatusFeedEvent.create! subscription_target_user: user, target: post, data: {message: message}
+      FeedEventsManager.new(user: user, target: post).create_status_event(message: message)
       user.pending_post.try(:destroy!)
       user.denormalize_last_post_created_at!(post.created_at)
 
@@ -75,7 +75,7 @@ class PostManager < BaseManager
     end
 
     create_media_post(AudioPost, *args).tap do |post|
-      AudioFeedEvent.create! subscription_target_user: user, target: post
+      FeedEventsManager.new(user: user, target: post).create_audio_event
       EventsManager.post_created(user: user, post: post)
     end
   end
@@ -89,7 +89,7 @@ class PostManager < BaseManager
     create_media_post(VideoPost, title: title, keywords_text: keyword_text, message: message, notify: notify).tap do |post|
       video.preview_url = preview_url
       video.save!
-      VideoFeedEvent.create! subscription_target_user: user, target: post
+      FeedEventsManager.new(user: user, target: post).create_video_event
       EventsManager.post_created(user: user, post: post)
     end
   end
@@ -100,7 +100,7 @@ class PostManager < BaseManager
     end
 
     create_media_post(PhotoPost, *args).tap do |post|
-      PhotoFeedEvent.create! subscription_target_user: user, target: post
+      FeedEventsManager.new(user: user, target: post).create_photo_event
       EventsManager.post_created(user: user, post: post)
     end
   end
@@ -111,7 +111,7 @@ class PostManager < BaseManager
     end
 
     create_media_post(DocumentPost, *args).tap do |post|
-      DocumentFeedEvent.create! subscription_target_user: user, target: post
+      FeedEventsManager.new(user: user, target: post).create_document_event
       EventsManager.post_created(user: user, post: post)
     end
   end
