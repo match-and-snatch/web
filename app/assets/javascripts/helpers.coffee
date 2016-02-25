@@ -18,7 +18,7 @@ window.bud.replace_container = (container, replacement) ->
     $container.replaceWith(content)
     bud.Core.init_widgets($parent)
 
-  _call_action(replace_container, container, replacement)
+  _fill_container(replace_container, container, replacement)
 
 window.bud.replace_html = (container, replacement) ->
   replace_html = (target, content) ->
@@ -27,21 +27,21 @@ window.bud.replace_html = (container, replacement) ->
     $container.html(content)
     bud.Core.init_widgets($container)
 
-  _call_action(replace_html, container, replacement)
+  _fill_container(replace_html, container, replacement)
 
 window.bud.append_html = (container, replacement) ->
   append_html = (target, content) ->
     $(target).append(content)
     bud.Core.init_widgets(target)
 
-  _call_action(append_html, container, replacement)
+  _fill_container(append_html, container, replacement)
 
 window.bud.prepend_html = (container, replacement) ->
   prepend_html = (target, content) ->
     $(target).prepend(content)
     bud.Core.init_widgets(target)
 
-  _call_action(prepend_html, container, replacement)
+  _fill_container(prepend_html, container, replacement)
 
 window.bud.clear_html = (container) ->
   clear_html = (target) ->
@@ -93,14 +93,14 @@ window.bud.replace_url = (url) ->
   window.history.replaceState(null, null, url)
   window.bud.pub('window.locationchange', url)
 
-_call_action = (callback, container, replacement) ->
+_fill_container = (callback, container, replacement) ->
   if _.isObject(container) && !(container instanceof jQuery)
     _.each container, (target, key, list) ->
-      callback(target, _get_replacement(replacement, key))
+      callback(target, _get_content(replacement, key))
   else
-    callback(container, _get_replacement(replacement))
+    callback(container, _get_content(replacement))
 
-_get_replacement = (replacement, key = 'html') ->
+_get_content = (replacement, key = 'html') ->
   if _.isObject(replacement) && !(replacement instanceof jQuery)
     replacement[key]
   else
