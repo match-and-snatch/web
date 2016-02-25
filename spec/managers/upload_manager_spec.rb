@@ -44,4 +44,8 @@ describe UploadManager do
       it { expect(subject.create_welcome_media(transloadit_audio_data_params)).to be_a(Audio) }
     end
   end
+
+  describe '#remove_upload' do
+    pending
+  end
 end

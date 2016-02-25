@@ -33,12 +33,14 @@ class PostManager < BaseManager
     fail_with! message: :empty if message.blank?
 
     title = nil if @post.status?
+    message = CGI.escapeHTML(message)
 
     @post.title = title unless title == :unset
-    @post.message = CGI.escapeHTML(message)
+    @post.message = message
     @post.save or fail_with!(@post.errors)
     @post.elastic_index_document
     EventsManager.post_updated(user: @user, post: @post)
+    FeedEventsManager.new(user: @user, target: @post).update_data(message: message)
 
     if upload_ids.is_a?(Array)
       @post.uploads.where.not(id: upload_ids).each do |upload|
@@ -181,6 +183,9 @@ class PostManager < BaseManager
       @post.type = 'StatusPost'
       @post.title = nil
       @post.save or fail_with! @post.errors
+
+      FeedEventsManager.new(user: user, target: @post).turn_to_status_event
+
       @post.elastic_index_document
       @post
     end

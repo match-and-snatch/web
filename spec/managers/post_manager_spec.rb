@@ -99,4 +99,8 @@ describe PostManager, freeze: true do
     it { expect { manager.delete(another_post) }.to delete_record(StatusPost) }
     it { expect { manager.delete(another_post) }.to delete_record_index_document(another_post).from_index('posts') }
   end
+
+  describe '#turn_to_status_post' do
+    pending
+  end
 end
