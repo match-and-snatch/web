@@ -101,6 +101,28 @@ describe PostManager, freeze: true do
   end
 
   describe '#turn_to_status_post' do
-    pending
+    it { expect { manager.turn_to_status_post }.to raise_error(ManagerError, /Post already is StatusPost/) }
+
+    context 'not a status post' do
+      let(:post) { create(:photo_post, user: user, message: 'test') }
+
+      it { expect { manager.turn_to_status_post }.not_to change { post.type }.from('PhotoPost') }
+
+      context 'without uploads' do
+        let!(:event) { FeedEventsManager.new(user: user, target: post).create_photo_event }
+
+        before { post.uploads.destroy_all }
+
+        it { expect { manager.turn_to_status_post }.to change { post.type }.from('PhotoPost').to('StatusPost') }
+        it { expect { manager.turn_to_status_post }.to change { post.title }.from(/title/).to(nil) }
+
+        it 'turns photo event to status event' do
+          expect { manager.turn_to_status_post }.to change { FeedEvent.find(event.id).type }.from('PhotoFeedEvent').to('StatusFeedEvent')
+        end
+        it 'logs message to event' do
+          expect { manager.turn_to_status_post }.to change { FeedEvent.find(event.id).data }.from({count: 1, label: 'photo'}).to({message: 'test'})
+        end
+      end
+    end
   end
 end

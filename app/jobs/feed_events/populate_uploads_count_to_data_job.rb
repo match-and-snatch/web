@@ -7,7 +7,7 @@ module FeedEvents
         uploads_count = event.target.uploads.count
 
         event.data = event.data.merge(count: uploads_count, label: 'audio'.pluralize(uploads_count))
-        event.save
+        event.save!
 
         puts "Processed #{index} records" if !Rails.env.test? && (index % 1000).zero?
       end
@@ -19,7 +19,7 @@ module FeedEvents
         uploads_count = event.target.uploads.count
 
         event.data = event.data.merge(count: uploads_count, label: 'photo'.pluralize(uploads_count))
-        event.save
+        event.save!
 
         puts "Processed #{index} records" if !Rails.env.test? && (index % 1000).zero?
       end
@@ -31,7 +31,7 @@ module FeedEvents
         uploads_count = event.target.uploads.count
 
         event.data = event.data.merge(count: uploads_count, label: 'document'.pluralize(uploads_count))
-        event.save
+        event.save!
 
         puts "Processed #{index} records" if !Rails.env.test? && (index % 1000).zero?
       end
