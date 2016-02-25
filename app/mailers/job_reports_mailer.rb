@@ -1,6 +1,6 @@
 class JobReportsMailer < ApplicationMailer
   def report(report)
     @report = report
-    mail to: 'debug@connectpal.com', subject: @report.title
+    mail to: APP_CONFIG['emails']['reports'], subject: @report.title
   end
 end

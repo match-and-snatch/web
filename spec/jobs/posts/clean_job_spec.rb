@@ -13,7 +13,7 @@ describe Posts::CleanJob do
     end
 
     it { expect { perform }.not_to raise_error }
-    it { expect { perform }.to deliver_email(to: 'debug@connectpal.com', subject: /Clean Job/) }
+    it { expect { perform }.to deliver_email(to: APP_CONFIG['emails']['reports'], subject: /Clean Job/) }
 
     context '2 months not passed after remove profile' do
       before { manager.delete_profile_page! }

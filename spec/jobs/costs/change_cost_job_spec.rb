@@ -9,7 +9,7 @@ describe Costs::ChangeCostJob do
     let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(profile_owner) }
 
     it { expect { perform }.not_to raise_error }
-    it { expect { perform }.to deliver_email(to: 'debug@connectpal.com', subject: /Change Cost Job/) }
+    it { expect { perform }.to deliver_email(to: APP_CONFIG['emails']['reports'], subject: /Change Cost Job/) }
 
     context 'update_existing_subscriptions is false' do
       before do
