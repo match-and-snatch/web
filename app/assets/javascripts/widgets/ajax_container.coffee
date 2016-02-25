@@ -63,16 +63,16 @@ class bud.widgets.AjaxContainer extends bud.Widget
     bud.Ajax.getJson(request_path, @request_params(), callbacks)
 
   append_page: (response) =>
-    bud.append_html(@$container, response['html'])
+    bud.append_html(@$container, response)
 
   prepend_page: (response) =>
-    bud.prepend_html(@$container, response['html'])
+    bud.prepend_html(@$container, response)
 
   replace_page: (response) =>
-    bud.replace_container(@$container, response['html'])
+    bud.replace_container(@$container, response)
 
   render_page: (response) =>
-    bud.replace_html(@$container, response['html'])
+    bud.replace_html(@$container, response)
 
   on_response_received: (response) =>
     @$container.removeClass('pending')

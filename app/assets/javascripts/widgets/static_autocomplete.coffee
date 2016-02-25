@@ -43,7 +43,7 @@ class bud.widgets.StaticAutocomplete extends bud.Widget
     @$container.val('')
     @$container.removeAttr('disabled')
     @$container.removeClass('pending')
-    bud.replace_html(@$target, response['html']) if response['html']
+    bud.replace_html(@$target, response)
 
   val: -> @$container.val()
 

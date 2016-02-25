@@ -27,7 +27,8 @@
         .profile_type.own-role
           .fa.fa-gear.edit-gear.PopupTrigger data-target='type-editor'
             .edit-text Edit
-          h3= @profile.types_text
+          h3 data-identifier='types-text'
+            = render partial: 'profile_types_text', locals: {types_text: @profile.types_text}
           .clearfix
 
       /Subscribe & Welcome Video
@@ -185,7 +186,7 @@
         |function find more potential subscribers who might like your content.
     .modal-body
       .profile-type-input
-        input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.' style='width: 567px'
+        input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='{"html":"profile-types","types_text":"types-text"}' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.' style='width: 567px'
         i.fa.fa-plus.pull-left data-identifier='types-submit' Add
         i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
         .clearfix

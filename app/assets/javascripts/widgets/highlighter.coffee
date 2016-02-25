@@ -91,7 +91,7 @@ class bud.widgets.Highlighter extends bud.Widget
 
   on_replace: (response) =>
     @$users_list.html(response['html'])
-    bud.replace_html(@$users_list, response['html'])
+    bud.replace_html(@$users_list, response)
 
   update_dimentions: ->
     @$textarea.height(@$container.height())

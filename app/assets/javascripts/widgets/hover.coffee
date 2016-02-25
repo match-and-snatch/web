@@ -40,5 +40,5 @@ class bud.widgets.Hover extends bud.Widget
 
   render_remote_content: (response) =>
     @remote_content_loaded = true
-    bud.replace_html(@$target, response['html'])
+    bud.replace_html(@$target, response)
 
