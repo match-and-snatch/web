@@ -11,6 +11,8 @@ li.dropdown.my_sub.Hover.hidden-xs data-target='subscriptions-dropdown'
             .name= user.profile_name
             .type= user.profile_types.pluck(:title).join(' / ')
           .clearfix
+    a.view-all
+      li View All Subscriptions
     a.add_subscription.PopupTrigger.hidden-xs data-target='search-users' href='javascript: void(0)'
       li
         .picture

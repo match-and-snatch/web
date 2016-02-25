@@ -2,34 +2,31 @@
   h2 View Subscriptions
 
   - if @subscriptions.any?
-    ul
+    ul.view-subscriptions
       - @subscriptions.each do |subscription|
         - is_profile_owner = subscription.target_user.is_profile_owner?
-        li.item_sub
-          - if is_profile_owner
-            a.Link href=profile_path(subscription.target_user)
-              img.pull-left src=subscription.target_user.profile_picture_url height='150px' width='150px'
-          - else
-            img.pull-left src=subscription.target_user.profile_picture_url height='150px' width='150px'
-          .name.pull-left= subscription.target_user.name
-          .cost.pull-right
-            = cents_to_dollars(subscription.total_cost, use_ceil: true)
-            |/month
+        a.Link href=profile_path(subscription.target_user)
+          li
+            img src=subscription.target_user.profile_picture_url
 
-          p.pull-left style='width: 450px'
-            ' Subscribe Date:
-            span= subscription.created_at.to_date.to_s(:long)
-          .actions.pull-left
-            .checkbox.pull-left style='display: block'
+            .name= subscription.target_user.name
+
+            .cost
+              = cents_to_dollars(subscription.total_cost, use_ceil: true)
+              |/month
+
+            p
+              ' Subscribe Date:
+              span= subscription.created_at.to_date.to_s(:long)
+
+
+            .checkbox
               label
                 = object_checker_tag(subscription, :notifications, disabled: !is_profile_owner)
                 | Receive email notifications from this profile.
+
             .clearfix
 
-            - if is_profile_owner
-              a.Link href=profile_path(subscription.target_user)
-                i.fa.fa-eye style='margin-top: 15px' View Profile
-          .clearfix
   - else
     strong You do not have any subscriptions.
     '

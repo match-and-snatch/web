@@ -185,42 +185,13 @@
       margin: 13px 0 0 195px
 
     // View/Cancel Subscriptions
-    ul
-      li.item_sub
-        .name, .cost
-          font-size: 16px
-          font-weight: bold
-          padding-bottom: 10px
-          padding-left: 15px
-        .name
-          color: $color_blue
-          width: 350px
-        .cost
-          color: $color_pink
-        p
-          font-weight: bold
-          margin: 0
-          padding-bottom: 15px
-          padding-left: 15px
-          span
-            font-weight: normal
-        .actions
-          font-size: 13px
-          padding-left: 15px
-          .checkbox
-            color: $color_text_light
-            margin: 0
-          a
-            color: $color_text_dark
-            &:hover
-              color: $color_text_light
-            .fa
-              &:before
-                color: $color_pink
-                font-size: 20px
-                position: relative
-                top: 2px
-                padding-right: 5px
+    ul.view-subscriptions
+      a
+        li
+        &:hover
+          li
+            background-color: $color_background
+
 
     // Mailbox
     .mailbox
