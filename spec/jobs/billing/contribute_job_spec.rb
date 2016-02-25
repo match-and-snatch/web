@@ -20,7 +20,7 @@ describe Billing::ContributeJob do
     end
   end
 
-  it { expect { perform }.to deliver_email(to: 'debug@connectpal.com', subject: /Contribute Job/) }
+  it { expect { perform }.to deliver_email(to: APP_CONFIG['emails']['reports'], subject: /Contribute Job/) }
   it { expect { perform }.to create_record(Contribution).matching(amount: 10 , target_user: target_user, recurring: false) }
 
   it 'logs gross contributions' do

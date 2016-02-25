@@ -23,7 +23,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def mail(headers = {}, &block)
     unless Rails.env.production? || Rails.env.test?
-      headers[:to] = "\"#{headers[:to]}\" <debug@connectpal.com>"
+      headers[:to] = "\"#{headers[:to]}\" <#{APP_CONFIG['emails']['debug']}>"
     end
 
     super(headers) do |format|

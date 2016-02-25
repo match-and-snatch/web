@@ -11,6 +11,9 @@ defaults: &defaults
   admins:
     - szinin@gmail.com
     - s.popov.design@gmail.com
+  emails:
+    debug: debug@connectpal.com
+    reports: reports@connectpal.com
   transloadit:
     uploads_bucket: 'buddy-assets'
     media_bucket: 'buddy-video-assets'
