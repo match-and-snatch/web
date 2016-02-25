@@ -5,11 +5,19 @@ class Dashboard::ProfileOwnersController < Dashboard::BaseController
                                     :pending_payments, :this_month_subscribers_unsubscribers]
 
   def index
-    query = User.profile_owners.includes(:profile_types).where('users.subscription_cost IS NOT NULL')
-    query = query.joins(:source_payments).
-      select('users.*, SUM(payments.amount) as transfer').
-      group('users.id').
-      having("SUM(payments.amount) > 9900")
+    query = User.profile_owners
+                .includes(:profile_types)
+                .where.not(users: {subscription_cost: nil})
+
+    if params[:filter] == 'payout_updated'
+      query = query.where('users.payout_updated_at > ?', Time.zone.now.beginning_of_month)
+    end
+
+    query = query.joins(:source_payments)
+                 .select('users.*, SUM(payments.amount) as transfer')
+                 .group('users.id')
+                 .having('SUM(payments.amount) > ?', 9900)
+
     if params[:sort_by]
       query = query.order("#{params[:sort_by]} #{params[:sort_direction]}")
     else

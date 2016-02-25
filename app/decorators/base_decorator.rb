@@ -11,7 +11,7 @@ class BaseDecorator
 
   class CollectionDecorator
     include Enumerable
-    delegate :current_page, :total_pages, :limit_value, to: :source
+    delegate :current_page, :total_pages, :total_count, :limit_value, to: :source
 
     attr_reader :source
 

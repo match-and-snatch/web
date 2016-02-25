@@ -1053,7 +1053,9 @@ CREATE TABLE users (
     lock_reason character varying,
     gross_sales integer DEFAULT 0 NOT NULL,
     gross_contributions integer DEFAULT 0 NOT NULL,
-    adult_subscriptions_limit integer DEFAULT 6 NOT NULL
+    adult_subscriptions_limit integer DEFAULT 6 NOT NULL,
+    tos_accepted boolean DEFAULT false NOT NULL,
+    payout_updated_at timestamp without time zone
 );
 
 
@@ -1841,4 +1843,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160111105423');
 INSERT INTO schema_migrations (version) VALUES ('20160112081924');
 
 INSERT INTO schema_migrations (version) VALUES ('20160112083017');
+
+INSERT INTO schema_migrations (version) VALUES ('20160127072439');
+
+INSERT INTO schema_migrations (version) VALUES ('20160222074243');
+
+INSERT INTO schema_migrations (version) VALUES ('20160222074636');
 

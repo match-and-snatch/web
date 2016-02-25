@@ -1,4 +1,17 @@
-h2 Profile Owners
+h2 Profile Owners (#{@users.total_count} total)
+
+ul.cat_links
+  li
+    a href=admin_profile_owners_path
+      span Show All
+
+  li class="#{params[:filter] == 'payout_updated' ? 'pending' : ''}"
+    a href=admin_profile_owners_path(filter: :payout_updated)
+      span Payout updated this month
+
+.clearfix
+hr
+
 .table-responsive
   table.table.table-striped
     th
@@ -7,8 +20,6 @@ h2 Profile Owners
     th
       strong
         = sort_profile_owners_link 'Profile Name', :profile_name
-    th
-      strong Email
     th
       strong Payout Type
     - if current_user.admin?
@@ -25,19 +36,21 @@ h2 Profile Owners
         = sort_profile_owners_link 'Created Date', :created_at
     th
       strong
-        = sort_profile_owners_link 'Subscription Cost', :subscription_cost
+        = sort_profile_owners_link 'Cost', :subscription_cost
     th
-      strong Billing Status
+      strong Status
 
     - @users.each do |user|
       tr
         td ##{user.id}
-        td
+        td width="50"
           img src=user.small_profile_picture_url width=50 height=50
         td
           = dashboard_link_to_user user
-        td= user.email
+          div style="color: grey; font-size: 11px;"= user.email
         td
+          - if user.payout_recently_updated?
+            img src='//connectpal-assets.s3.amazonaws.com/images/alert-circle.png' style='padding-right: 5px;'
           - if user.account_number.present? || user.paypal_email.present?
             = user.prefers_paypal? ? "Paypal (#{user.paypal_email})" : "Wire - *#{user.account_number.to_s.last(4)}"
           - else
