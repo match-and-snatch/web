@@ -16,7 +16,7 @@ describe Dashboard::Sales::ProfileOwnersController, type: :controller do
       it { should_not be_success }
     end
 
-    context 'filter applued' do
+    context 'filter applied' do
       before { sign_in sales }
 
       subject { get 'index', filter: 'payout_updated' }
