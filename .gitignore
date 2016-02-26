@@ -36,7 +36,6 @@ public/assets/*
 !public/assets/manifest*
 !public/assets/manifest-*
 !public/assets/manifest.*
-!.sprockets-manifest-*
 
 latest.dump
 

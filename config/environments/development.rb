@@ -1,7 +1,7 @@
 BuddyPlatform::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   #config.action_controller.asset_host = "//s3-us-west-1.amazonaws.com/buddy-assets"
-  # config.action_controller.asset_host = '//d37ecui9yfxlx3.cloudfront.net'
+  config.action_controller.asset_host = '//d37ecui9yfxlx3.cloudfront.net'
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -30,7 +30,7 @@ BuddyPlatform::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = false
+
   config.assets.use_cdn = false
-  config.assets.precompile += %w( ie.css underscore-min.js jquery.js )
   config.stripe.secret_key = 'sk_test_onN61JMWKmncifVcCx8tsmGA'
 end
