@@ -59,6 +59,8 @@ window.bud.confirm = (string, callback) ->
   bud.widgets.ConfirmationPopup.ask(string, callback)
 
 window.bud.get = (identifier) ->
+  return null unless identifier
+
   if _.isArray(identifier)
     elem = $((_.map(identifier, (id) -> "[data-identifier=#{id}]")).join(','))
   else if _.isObject(identifier)
@@ -68,7 +70,7 @@ window.bud.get = (identifier) ->
   else
     elem = $("[data-identifier=#{identifier}]")
 
-  if _.isEmpty(elem)
+  if _.isEmpty(elem) || elem?.length == 0
     return null
   else
     return elem

@@ -25,8 +25,6 @@
     - if post.comments_query.has_more_comments?
       a.AjaxLink.load_more_comments.fa.fa-angle-double-up href=post_comments_path(post.id, last_comment_id: post.comments_query.last_comment_id)  Load Older Comments
 
-    / Comment Row
-
     = render partial: 'comments/comment', collection: post.comments_query.results
     .new_comments data-identifier="comments_section-#{post.id}"
 
