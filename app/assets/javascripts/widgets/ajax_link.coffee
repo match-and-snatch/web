@@ -7,7 +7,7 @@ class bud.widgets.AjaxLink extends bud.Widget
   initialize: ->
     @href       = @$container.attr('href')
     @hash       = @href #.replace(/^\//, '')
-    @$target    = bud.get(@$container.data('target')) || @$container
+    @$target    = @get_target() || @$container
     @use_anchor = @data('use_anchor')
     @default    = @data('default')
 
