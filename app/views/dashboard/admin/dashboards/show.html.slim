@@ -34,26 +34,41 @@ hr
   h2
     strong Daily Snapshot
   .row
-    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    .col-sm-2.col-xs-4.dashboard-overview
       p
         'Total Gross Sales
         strong= cents_to_dollars @overview.daily_gross_sales
-    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    .col-sm-2.col-xs-4.dashboard-overview
       p
         'Total Subscribers
         strong= @overview.daily_subscribers_count
         = @overview.daily_total_subscribers_count
-    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    .col-sm-2.col-xs-4.dashboard-overview
       p
         'Total Unsubscribers
         strong= @overview.daily_unsubscribers_count
         = @overview.daily_total_unsubscribers_count
-    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    .col-sm-2.col-xs-4.dashboard-overview
       p
         'Total Failed Payments
         strong= @overview.daily_failed_payments_count
-    .col-sm-2.col-sm-2.col-xs-4.dashboard-overview
+    .col-sm-2.col-xs-4.dashboard-overview
       p
         'Total Stripe Fees
         strong= cents_to_dollars @overview.daily_stripe_fees
+
+  .row
+    .col-sm-2.col-xs-4.dashboard-overview
+      p
+        'Recurring Subscription Revenue
+        strong= cents_to_dollars @overview.daily_recurring_subscriptions_revenue
+    .col-sm-2.col-xs-4.dashboard-overview
+      p
+        'New Subscription Revenue (New Customers)
+        strong= cents_to_dollars @overview.daily_new_subscriptions_revenue
+    .col-sm-2.col-xs-4.dashboard-overview
+      p
+        'Contributions (New & Recurring)
+        strong= cents_to_dollars @overview.daily_contributions_revenue
+
 .clearfix

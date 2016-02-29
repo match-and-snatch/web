@@ -77,6 +77,23 @@ class OverviewPresenter
     Event.where(action: 'payment_failed', created_at: current_day).count
   end
 
+  def daily_new_subscriptions_revenue
+    Subscription.joins(:payments)
+        .where(subscriptions: {created_at: current_day})
+        .sum('payments.amount')
+  end
+
+  def daily_recurring_subscriptions_revenue
+    Subscription.joins(:payments)
+        .where(payments: {created_at: current_day})
+        .where('subscriptions.created_at < ?', current_day.first)
+        .sum('payments.amount')
+  end
+
+  def daily_contributions_revenue
+    Contribution.where(created_at: current_day).sum(:amount)
+  end
+
   private
 
   def daily_payments

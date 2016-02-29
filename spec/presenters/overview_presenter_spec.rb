@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe OverviewPresenter do
-  let(:user) { create_user }
-  let(:target_user) { create_profile(email: 'target@user.com') }
+  let(:user) { create(:user) }
+  let(:target_user) { create(:user, :profile_owner, email: 'target@user.com') }
   let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
   let(:restore) { SubscriptionManager.new(subscription: subscription).restore }
   let(:unsubscribe) { SubscriptionManager.new(subscription: subscription).unsubscribe }
@@ -17,7 +17,7 @@ describe OverviewPresenter do
 
   before { subscribe }
 
-  context 'subscribers count' do
+  context 'subscribers count and revenue' do
     describe '#current_subscribers_count' do
       specify { expect(subject.current_subscribers_count).to eq(1) }
 
@@ -47,6 +47,34 @@ describe OverviewPresenter do
 
       context 'canceled subscription' do
         specify { expect{ unsubscribe }.not_to change { subject.daily_total_subscribers_count } }
+      end
+    end
+
+    describe '#daily_new_subscriptions_revenue' do
+      specify { expect(subject.daily_new_subscriptions_revenue).to eq(499) }
+
+      context 'next day' do
+        specify do
+          Timecop.freeze(1.days.from_now) do
+            expect(subject.daily_new_subscriptions_revenue).to eq(0)
+          end
+        end
+      end
+    end
+
+    describe '#daily_recurring_subscriptions_revenue' do
+      specify { expect(subject.daily_recurring_subscriptions_revenue).to eq(0) }
+
+      context 'recurring payment is performed' do
+        def subscribe
+          SubscriptionManager.new(subscriber: user).subscribe_to(create(:user, :profile_owner, email: 'another_target@user.com'))
+        end
+
+        specify do
+          Timecop.freeze(1.days.from_now) do
+            expect { Billing::ChargeJob.new.perform }.to change { subject.daily_recurring_subscriptions_revenue }.from(0).to(499)
+          end
+        end
       end
     end
   end
@@ -124,42 +152,58 @@ describe OverviewPresenter do
   end
 
   describe '#total_gross_sales' do
-    specify { expect(subject.total_gross_sales).to eq(699) }
+    specify { expect(subject.total_gross_sales).to eq(499) }
   end
 
   describe '#total_connectpal_fees' do
-    specify { expect(subject.total_connectpal_fees).to eq(156.418) }
+    specify { expect(subject.total_connectpal_fees).to eq(60.018) }
   end
 
   describe '#total_stripe_fees' do
-    specify { expect(subject.total_stripe_fees).to eq(42.582) }
+    specify { expect(subject.total_stripe_fees).to eq(38.982) }
   end
 
   describe '#daily_gross_sales' do
-    specify { expect(subject.daily_gross_sales).to eq(699) }
+    specify { expect(subject.daily_gross_sales).to eq(499) }
   end
 
   context 'tos fees' do
     describe '#daily_tos_fees' do
-      specify { expect { unsubscribe }.to change { subject.daily_tos_fees }.from(0).to(500) }
+      specify { expect { unsubscribe }.to change { subject.daily_tos_fees }.from(0).to(400) }
 
       context 'restored subscription' do
         before { unsubscribe }
-        specify { expect{ restore }.to change { subject.daily_tos_fees }.from(500).to(0) }
+        specify { expect{ restore }.to change { subject.daily_tos_fees }.from(400).to(0) }
       end
     end
 
     describe '#total_tos_fees' do
-      specify { expect { unsubscribe }.to change { subject.total_tos_fees }.from(0).to(500) }
+      specify { expect { unsubscribe }.to change { subject.total_tos_fees }.from(0).to(400) }
 
       context 'restored subscription' do
         before { unsubscribe }
-        specify { expect{ restore }.to change { subject.total_tos_fees }.from(500).to(0) }
+        specify { expect{ restore }.to change { subject.total_tos_fees }.from(400).to(0) }
       end
     end
   end
 
   describe '#daily_stripe_fees' do
-    specify { expect(subject.daily_stripe_fees).to eq(42.582) }
+    specify { expect(subject.daily_stripe_fees).to eq(38.982) }
+  end
+
+  describe '#daily_contributions_revenue' do
+    specify { expect(subject.daily_contributions_revenue).to eq(0) }
+
+    context 'with contribution' do
+      let(:contribute) { ContributionManager.new(user: user).create(amount: 10, target_user: target_user) }
+
+      before do
+        4.times do |i|
+          SubscriptionManager.new(subscriber: create(:user)).subscribe_to(target_user)
+        end
+      end
+
+      specify { expect { contribute }.to change { subject.daily_contributions_revenue }.from(0).to(10) }
+    end
   end
 end
