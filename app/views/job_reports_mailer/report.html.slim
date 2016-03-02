@@ -10,7 +10,8 @@ p
   p
     | #{key.to_s.humanize}: #{val}
 
-h3 Errors:
-- @report.errors. each do |message, count|
-  p
-    | #{message.to_s.humanize}: #{count}
+- if @report.errors.any?
+  h3 Errors:
+  - @report.errors.each do |message, count|
+    p
+      | #{message.to_s.humanize}: #{count}
