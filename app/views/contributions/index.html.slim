@@ -3,6 +3,16 @@
   h2
     'Contributions
     span style='color: #555555;'(#{cents_to_dollars @contributions.total_amount})
+
+  - if @years.many?
+    form.Form action=contributions_path data-target="contributions-list"
+      label For year
+      select.form-control name='year'
+        = options_for_select(@years, selected: params[:year] || @years.last)
+      input.btn.pink.pull-right type='submit' value='Show'
+  - else
+    ' For year #{@years.last}
+
   table.table.table-hover.table-striped
     thead
       tr
@@ -16,7 +26,7 @@
     tbody
       - @contributions.each_year_month do |year_month, contributions|
         tr
-          td= year_month
+          td= year_month.month_name
           td style='text-align: center;'= contributions.count
           td style='text-align: center;'= cents_to_dollars contributions.sum(&:amount)
           td style='text-align: right;'

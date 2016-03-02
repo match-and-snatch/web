@@ -12,6 +12,7 @@ class Contribution < ActiveRecord::Base
   scope :to_charge, -> { recurring
     .joins("INNER JOIN users ON users.id = contributions.target_user_id AND users.has_complete_profile = 't'")
     .where('contributions.updated_at <= ?', 1.month.ago) }
+  scope :for_year, -> (year = Time.zone.now.year) { where(created_at: Time.new(year).beginning_of_year..Time.new(year).end_of_year) }
 
   def self.each_year_month(&block)
     self.reorder('contributions.created_at DESC').to_a.group_by(&:year_month).each(&block)
