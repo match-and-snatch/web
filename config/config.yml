@@ -93,7 +93,7 @@ defaults: &defaults
     - sin
     - baby
   forbidden_email_domains:
-    - yommail.com
+    - yopmail.com
     - yopmail.fr
     - yopmail.net
     - cool.fr.nf

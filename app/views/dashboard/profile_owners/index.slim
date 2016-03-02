@@ -21,6 +21,8 @@ hr
       strong
         = sort_profile_owners_link 'Profile Name', :profile_name
     th
+      strong Email
+    th
       strong Payout Type
     - if current_user.admin?
       th
@@ -47,6 +49,7 @@ hr
           img src=user.small_profile_picture_url width=50 height=50
         td
           = dashboard_link_to_user user
+        td
           div style="color: grey; font-size: 11px;"= user.email
         td
           - if user.payout_recently_updated?
