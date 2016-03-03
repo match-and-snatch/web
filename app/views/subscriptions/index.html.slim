@@ -1,31 +1,33 @@
-.col-md-12
+.col-md-12.view-subscriptions
   h2 View Subscriptions
-
   - if @subscriptions.any?
-    ul.view-subscriptions
+    ul.view-subscriptions-list
       - @subscriptions.each do |subscription|
         - is_profile_owner = subscription.target_user.is_profile_owner?
         a.Link href=profile_path(subscription.target_user)
           li
-            img src=subscription.target_user.profile_picture_url
-
-            .name= subscription.target_user.name
-
-            .cost
-              = cents_to_dollars(subscription.total_cost, use_ceil: true)
-              |/month
-
-            p
-              ' Subscribe Date:
-              span= subscription.created_at.to_date.to_s(:long)
-
-
-            .checkbox
-              label
-                = object_checker_tag(subscription, :notifications, disabled: !is_profile_owner)
-                | Receive email notifications from this profile.
-
+            .profile-photo.pull-left
+              img src=subscription.target_user.profile_picture_url
+            .profile-details.pull-left
+              .name.pull-left= subscription.target_user.name
+              .cost.pull-right
+                = cents_to_dollars(subscription.total_cost, use_ceil: true)
+                |/month
+              .clearfix
+              .timestamp
+                span.date
+                  'Subscribe Date:
+                  = subscription.created_at.to_date.to_s(:long)
+                span.fa-stack.fa.lg
+                  i.fa.fa-circle.fa-stack-2x
+                  i.fa.fa-calendar.fa-stack-1x.fa-inverse
+                .clearfix
+              .notifications
+                label
+                  ' Receive email notifications from this profile
+                  = object_checker_tag(subscription, :notifications, disabled: !is_profile_owner)
             .clearfix
+    a.btn.pink.add-new.PopupTrigger data-target='search-users' href='javascript: void(0)' Add New Subscription
 
   - else
     strong You do not have any subscriptions.
