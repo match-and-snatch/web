@@ -11,8 +11,8 @@ class ContributionsController < ApplicationController
 
   def index
     query = Contribution.where(target_user_id: current_user.id)
-    @years = query.pluck('DISTINCT(EXTRACT(YEAR FROM created_at)::integer)').sort
-    @contributions = query.for_year(params[:year].presence || @years.last || Time.zone.now.year)
+    @years = (query.pluck('DISTINCT(EXTRACT(YEAR FROM created_at)::integer)') << Time.zone.now.year).uniq.sort
+    @contributions = query.for_year(params[:year].presence || @years.last)
     params[:year] ? json_replace : json_render
   end
 
