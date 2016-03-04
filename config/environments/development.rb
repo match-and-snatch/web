@@ -31,6 +31,9 @@ BuddyPlatform::Application.configure do
   # number of complex assets.
   config.assets.debug = false
 
+  config.assets.digest = false
   config.assets.use_cdn = false
+  config.assets.precompile += %w(ie.css underscore-min.js jquery.js)
+  config.assets.paths << Rails.root.join('app', 'assets', 'images')
   config.stripe.secret_key = 'sk_test_onN61JMWKmncifVcCx8tsmGA'
 end
