@@ -18,7 +18,7 @@ module Concerns::Jobs::Reportable
 
     def forward
       @forwarded_at = Time.zone.now
-      JobReportsMailer.report(self).deliver_now
+      ReportsMailer.job_report(self).deliver_now
     end
 
     def execution_time
