@@ -6,22 +6,17 @@ class Dashboard::ProfileOwnersController < Dashboard::BaseController
 
   def index
     query = User.profile_owners
-                .includes(:profile_types)
                 .where.not(users: {subscription_cost: nil})
+                .where('gross_sales > ?', 9900)
 
     if params[:filter] == 'payout_updated'
       query = query.where('users.payout_updated_at > ?', Time.zone.now.beginning_of_month)
     end
 
-    query = query.joins(:source_payments)
-                 .select('users.*, SUM(payments.amount) as transfer')
-                 .group('users.id')
-                 .having('SUM(payments.amount) > ?', 9900)
-
     if params[:sort_by]
       query = query.order("#{params[:sort_by]} #{params[:sort_direction]}")
     else
-      query = query.order('transfer DESC')
+      query = query.order('gross_sales DESC')
     end
 
     @users = ProfileDecorator.decorate_collection(query.page(params[:page]).per(1000))

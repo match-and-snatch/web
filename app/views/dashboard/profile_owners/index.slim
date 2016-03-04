@@ -27,7 +27,7 @@ hr
     - if current_user.admin?
       th
         strong
-          = sort_profile_owners_link 'Gross Sales', :transfer
+          = sort_profile_owners_link 'Gross Sales', :gross_sales
     th
       strong Total Subscribers
     th
@@ -60,8 +60,8 @@ hr
             | N/A
         - if current_user.admin?
           td
-            = cents_to_dollars user.transfer
-        td= user.subscriptions_count
+            = cents_to_dollars user.gross_sales
+        td= user.subscribers_count
         td= user.last_post_created_at.try(:to_date).try(:to_s, :long)
         td style='min-width: 100px'= user.created_at
         td
