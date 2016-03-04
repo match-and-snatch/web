@@ -44,4 +44,18 @@ describe UploadManager do
       it { expect(subject.create_welcome_media(transloadit_audio_data_params)).to be_a(Audio) }
     end
   end
+
+  describe '#remove_upload' do
+    let(:post) { create(:photo_post, photos_count: 2) }
+    let(:upload) { post.uploads.first }
+
+    let(:event) { FeedEventsManager.new(user: user, target: post).create_photo_event }
+
+    it { expect { subject.remove_upload(upload: upload) }.to delete_record(Photo).matching(id: upload.id) }
+    it { expect { subject.remove_upload(upload: upload) }.to create_event(:photo_removed) }
+
+    it 'logs uploads count' do
+      expect { subject.remove_upload(upload: upload) }.to change { FeedEvent.find(event.id).data }.from({count: 2, label: 'photos'}).to({count: 1, label: 'photo'})
+    end
+  end
 end

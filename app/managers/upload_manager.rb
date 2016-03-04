@@ -325,6 +325,7 @@ class UploadManager < BaseManager
   def remove_upload(upload: , post: upload.uploadable)
     upload.delete
     EventsManager.upload_removed(user: user, upload: upload)
+    FeedEventsManager.new(user: user, target: post).update_uploads_log
     _post = PostManager.new(user: user, post: post).turn_to_status_post unless post.try(:status?)
     _post || post
   end
