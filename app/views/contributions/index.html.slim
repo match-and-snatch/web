@@ -1,31 +1,33 @@
-
-.contributions-stats
-  h2.pull-left
-    'Contributions
-    span style='color: #555555;'(#{cents_to_dollars @contributions.total_amount})
-  form.year-picker.pull-right.Form action=contributions_path data-target="contributions-list"
-    input.year-update.pull-right type='submit' value='Update'
-    select.year-select.form-control.pull-right name='year'
-      = options_for_select(@years, selected: params[:year] || @years.last)
-
 - if @contributions.any?
-  table.table.table-hover.table-striped
-    thead
-      tr
-        th width='140px'
-          b Month
-        th width='160px' style='text-align: center;'
-          b Contribution Count
-        th width='160px' style='text-align: center;'
-          b Total Value
-        th width=''
-    tbody
-      - @contributions.each_year_month do |year_month, contributions|
+  .contributions-stats
+    h2.pull-left
+      'Contributions
+      span style='color: #555555;'(#{cents_to_dollars @contributions.total_amount})
+
+    - if @contributions.contribution_years.many?
+      form.year-picker.pull-right.Form action=contributions_path data-target="contributions-list"
+        input.year-update.pull-right type='submit' value='Update'
+        select.year-select.form-control.pull-right name='year'
+          = options_for_select(@contributions.contribution_years, selected: @contributions.year)
+
+  - if @contributions.any_for_year?
+    table.table.table-hover.table-striped
+      thead
         tr
-          td= year_month.month_name
-          td style='text-align: center;'= contributions.count
-          td style='text-align: center;'= cents_to_dollars contributions.sum(&:amount)
-          td style='text-align: right;'
-            a.AjaxLink href=contributors_path(year_month: year_month) View Contributors
-- else
-  ' Sorry, you have yet to receive a contribution this year.
+          th width='140px'
+            b Month
+          th width='160px' style='text-align: center;'
+            b Contribution Count
+          th width='160px' style='text-align: center;'
+            b Total Value
+          th width=''
+      tbody
+        - @contributions.each_year_month do |year_month, contributions|
+          tr
+            td= year_month.month_name
+            td style='text-align: center;'= contributions.count
+            td style='text-align: center;'= cents_to_dollars contributions.sum(&:amount)
+            td style='text-align: right;'
+              a.AjaxLink href=contributors_path(year_month: year_month) View Contributors
+  - else
+    ' Sorry, you have yet to receive a contribution this year.

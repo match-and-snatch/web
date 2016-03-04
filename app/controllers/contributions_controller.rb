@@ -10,9 +10,7 @@ class ContributionsController < ApplicationController
   protect(:destroy) { can? :delete, @contribution }
 
   def index
-    query = Contribution.where(target_user_id: current_user.id)
-    @years = (query.pluck('DISTINCT(EXTRACT(YEAR FROM created_at)::integer)') << Time.zone.now.year).uniq.sort
-    @contributions = query.for_year(params[:year].presence || @years.last)
+    @contributions = ContributionsPresenter.new(user: current_user.object, year: params[:year])
     params[:year] ? json_replace : json_render
   end
 
