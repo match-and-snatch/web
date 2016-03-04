@@ -77,6 +77,6 @@ class UserDecorator < BaseDecorator
   protected
 
   def subscriptions
-    Subscription.not_removed.joins(:user).where({users: {billing_failed: false}}).where(target_user_id: object.id)
+    object.source_subscriptions.not_removed.not_rejected
   end
 end

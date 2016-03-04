@@ -133,6 +133,6 @@ class UserStatsDecorator < UserDecorator
   end
 
   def total_partner_fees
-    object.partner_fees.zero? ? 0 : subscriptions.count * object.partner_fees
+    object.partner_fees.zero? ? 0 : subscriptions_count * object.partner_fees
   end
 end

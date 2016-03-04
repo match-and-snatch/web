@@ -10,7 +10,7 @@ class UserStatsManager < BaseManager
   # Denormalizes into users table, saves stats in events
   # @return [SubscriptionDailyCountChangeEvent]
   def log_subscriptions_count
-    subscriptions_count   = user.source_subscriptions.not_removed.where(rejected: false).count
+    subscriptions_count   = user.source_subscriptions.not_removed.not_rejected.count
     unsubscribers_count   = user.source_subscriptions.where(removed_at: current_month, removed: true).count
     failed_payments_count = user.source_subscriptions
                                 .joins(:user)
