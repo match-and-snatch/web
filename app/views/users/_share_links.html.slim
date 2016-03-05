@@ -1,0 +1,9 @@
+- share_url   = CGI.escape(profile_url(profile.object))
+- share_title = CGI.escape("#{profile.name} on ConnectPal")
+- share_img   = CGI.escape(profile.profile_picture_url || 'http://connectpal-assets.s3.amazonaws.com/images/default_profile_pic.png')
+
+.modal-body
+  a.fa.fa-facebook-square href="http://www.facebook.com/sharer/sharer.php?u=#{share_url}&title=#{share_title}" target="_blank"
+  a.fa.fa-twitter-square href="http://twitter.com/intent/tweet?status=#{share_title}+#{share_url}" target="_blank"
+  a.fa.fa-pinterest-square href="http://pinterest.com/pin/create/bookmarklet/?media=#{share_img}&url=#{share_url}&is_video=false&description=#{share_title}" target="_blank"
+  = mail_to '', {subject: share_title, body: "#{profile.full_name} shared a profile with you on Connectpal.com\nCheck it out here #{profile_url(profile.object)}\n\nThank You.", class: 'fa fa-envelope-square'} do

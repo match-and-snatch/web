@@ -311,17 +311,9 @@
         .clearfix
 
   /Share popup
-  .Popup.popup.modal-content data-identifier='share' style="width: 350px"
+  .Popup.popup.share-popup.modal-content data-identifier='share'
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="share" aria-hidden="true"
       .modal-title Share Your Profile
       span Share your profile with your social networks!
-    .modal-body style="text-align: center; margin-bottom: 15px"
-      span class='st_facebook_large' displayText='Facebook'
-      span class='st_twitter_large' displayText='Tweet'
-      span class='st_googleplus_large' displayText='Google +'
-      span class='st_pinterest_large' displayText='Pinterest'
-      .email_share
-        = mail_to '', {subject: "#{@profile.name} on ConnectPal", body: "#{@profile.full_name} shared a profile with you on Connectpal.com\nCheck it out here #{profile_url(@profile.object)}\n\nThank You."} do
-          img src=image_path('//connectpal-assets.s3.amazonaws.com/images/email_32.png')
-      .clearfix
+    = render 'share_links', profile: @profile

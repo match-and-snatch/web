@@ -507,15 +507,29 @@
             background: $color_blue
             color: #FFFFFF
 
-  // Contacts Popup
-  &.contacts_edit
-    overflow: hidden
-    width: 400px
-    .input-group-addon
-      @include black-area
-      color: #FFFFFF
-    .input-group
-      margin-bottom: 15px
+  // Share Profile
+  &.share-popup
+    width: 350px
+    .modal-body
+      margin: 0 0 15px
+      text-align: center
+      a.fa
+        color: $color_text_light
+        font-size: 50px
+        margin: 0 5px
+        text-decoration: none
+      .fa-facebook-square
+        &:hover
+          color: #4b67a0
+      .fa-twitter-square
+        &:hover
+          color: #1da1f2
+      .fa-pinterest-square
+        &:hover
+          color: #bb232c
+      .fa-envelope-square
+        &:hover
+          color: $color_text_dark
 
   // Contribution Popup
   .contribution
