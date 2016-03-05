@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.5.2'
 gem 'responders', '~> 2.1'
 
 # Caching
@@ -15,20 +15,30 @@ gem 'pg_search', '~> 1.0.0'
 
 gem 'elasticsearch', git: 'git://github.com/elasticsearch/elasticsearch-ruby.git'
 
+# Frontend frameworks
+gem 'sprockets', '2.12.4'
+gem 'sprockets-rails', '2.3.3'
+
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails', '4.0.5'
+gem 'sass', '3.2.19'
+gem 'bootstrap-sass', '3.3.5'
+gem 'autoprefixer-rails', '6.1.2'
 
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '2.7.2'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '4.0.1'
+gem 'coffee-script', '2.4.1'
+gem 'coffee-script-source', '1.10.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jquery-rails', '4.0.5'
+gem 'execjs', '2.6.0'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
@@ -45,7 +55,6 @@ gem 'puma'
 gem 'slim', github: 'einzige/slim'
 gem 'slim-rails'
 gem 'bcrypt-ruby', require: 'bcrypt'
-gem 'bootstrap-sass'
 gem 'rails_autolink'
 gem 'daemons'
 gem 'delayed_job_active_record'
