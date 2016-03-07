@@ -5,8 +5,7 @@
       span style='color: #555555;'(#{cents_to_dollars @contributions.total_amount})
     - if @contributions.contribution_years.many?
       form.year-picker.pull-right.Form action=contributions_path data-target="contributions-list"
-        input.year-update.pull-right type='submit' value='Update'
-        select.year-select.form-control.pull-right name='year'
+        select.year-select.form-control.pull-right data-submitter=true name='year'
           = options_for_select(@contributions.contribution_years, selected: @contributions.year)
     .clearfix
     - if @contributions.any_for_year?
