@@ -34,8 +34,14 @@ hr
   .col-md-3
     ul.profile_detail_list
       li
-        strong Currently Subscribed:
+        strong Currently Subscribed (Active):
         span< style="color: #ea2e49;"= @user.subscribers_count
+      li
+        strong Currently Subscribed (Valid billing):
+        span< style="color: #ea2e49;"= @user.subscriptions_count
+      li
+        strong Currently Subscribed (Difference):
+        span< style="color: #ea2e49;"= @user.subscribers_count - @user.subscriptions_count
       li
         strong Fakes Subscribed:
         span< style="color: #ea2e49;"= @user.fakes_count
