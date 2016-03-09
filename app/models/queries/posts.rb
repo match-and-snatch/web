@@ -65,7 +65,7 @@ module Queries
       unless include_hidden?
         posts = posts.where(hidden: false)
       end
-      posts.includes(likes: :user).order(created_at: :desc).page(@page).per(@limit)
+      posts.includes(likes: :user).includes(:uploads).order(created_at: :desc).page(@page).per(@limit)
     end
 
     def include_hidden?
