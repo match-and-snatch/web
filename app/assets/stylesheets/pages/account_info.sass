@@ -185,42 +185,124 @@
       margin: 13px 0 0 195px
 
     // View/Cancel Subscriptions
-    ul
-      li.item_sub
-        .name, .cost
-          font-size: 16px
-          font-weight: bold
-          padding-bottom: 10px
-          padding-left: 15px
-        .name
-          color: $color_blue
-          width: 350px
-        .cost
-          color: $color_pink
-        p
-          font-weight: bold
-          margin: 0
-          padding-bottom: 15px
-          padding-left: 15px
-          span
-            font-weight: normal
-        .actions
-          font-size: 13px
-          padding-left: 15px
-          .checkbox
-            color: $color_text_light
-            margin: 0
-          a
-            color: $color_text_dark
-            &:hover
-              color: $color_text_light
-            .fa
-              &:before
-                color: $color_pink
-                font-size: 20px
+    .view-subscriptions
+      a.add-new
+        color: #FFFFFF
+        display: block
+        margin: 15px 0
+      ul.view-subscriptions-list
+        border-top: 1px solid $color_border
+        a
+          border-bottom: 1px solid $color_border
+          color: $color_text_dark
+          display: block
+          li
+            cursor: pointer
+            padding: 15px
+            position: relative
+            .profile-photo
+              background: asset-url('//connectpal-assets.s3.amazonaws.com/images/default_profile_pic.png') no-repeat
+              background-size: 100%
+              background-color: $color_background
+              border: 1px solid $color_border
+              height: 150px
+              width: 150px
+              overflow: hidden
+              img
+                height: 152px
+                width: 152px
                 position: relative
-                top: 2px
-                padding-right: 5px
+                top: -1px
+                left: -1px
+            .profile-details
+              margin-left: 15px
+              width: 433px
+              .name
+                display: block
+                font-size: 16px
+                font-weight: bold
+                margin-top: 20px
+                overflow: hidden
+                text-overflow: ellipsis
+                white-space: nowrap
+                width: 300px
+              .cost
+                @include blue-area
+                @include border-radius(5px)
+                color: #FFFFFF
+                font-weight: bold
+                margin-top: 10px
+                padding: 10px
+              .timestamp
+                margin-top: 15px
+                text-align: right
+                .fa-stack
+                  color: $color_text_light
+                  font-size: 16px
+                  width: 28px
+                .date
+                  color: $color_text_light
+                  font-size: 13px
+                  margin-right: 9px
+                  position: relative
+                  top: 3px
+              .notifications
+                text-align: right
+                label
+                  font-weight: normal
+                  font-size: 13px
+                  margin: 0
+                  padding: 0
+                input[type=checkbox]
+                  margin: 0 0 0 5px
+                  height: 30px
+                  width: 28px
+                  position: relative
+                  top: 7px
+                label>input[type=checkbox]:before
+                  background-color: #FFFFFF
+                  color: $color_text_light
+                  content: '\f096'
+                  display: inline-block
+                  font-family: FontAwesome
+                  font-size: 34px
+                  letter-spacing: 10px
+                  position: absolute
+                  height: 100%
+                  width: 100%
+                label>input[type=checkbox]:checked:before
+                  content: '\f14a'
+                  color: $color_green
+                  display: inline-block
+                  font-family: FontAwesome
+                  font-size: 32px
+            &:hover
+              background-color: $color_pink
+              .profile-photo
+                border: 1px solid #cd233b
+              .profile-details
+                .name
+                  color: #FFFFFF
+                .cost
+                  @include linear-gradient(#ffffff, #d5d5d5)
+                  @include box-shadow(inset 0 1px 0 0 #ffffff)
+                  background-color: #FFFFFF
+                  border: 1px solid #cd233b
+                  color: $color_pink
+                  text-shadow: 0 1px 0 #FFFFFF
+                .timestamp
+                  .date,
+                  .fa-stack
+                    color: #FFFFFF
+                    .fa-calendar
+                      color: $color_pink
+                .notifications
+                  label
+                    color: #FFFFFF
+                  label>input[type=checkbox]:before,
+                  label>input[type=checkbox]:checked:before
+                    background-color: $color_pink
+                    color: #FFFFFF
 
     // Mailbox
     .mailbox

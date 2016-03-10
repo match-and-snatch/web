@@ -69,7 +69,7 @@ class CurrentUserDecorator < UserDecorator
 
   # @return [Array]
   def latest_subscriptions
-    recent_subscriptions.limit(10).map do |subscription|
+    recent_subscriptions.limit(7).map do |subscription|
       [subscription, ProfileDecorator.new(subscription.target_user)]
     end
   end

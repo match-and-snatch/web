@@ -424,59 +424,68 @@ textarea
           a
             background-color: $color_background
             border-top: 1px solid $color_border
+            cursor: pointer
             display: block
-            min-height: 60px
+            height: 60px
             padding: 10px
             width: 255px
             z-index: auto
-            &:first-child
-              border-top: none
+            .view-all,
+            .add_subscription
+              .picture
+                background: none
+                border: none
+                i.fa.fa-search,
+                i.fa.fa-th-list
+                  font-size: 25px
+                  margin: 7px 0 0 10px
+              .details
+                .name
+                  margin-top: 8px
             .picture
               background: asset-url('profile_comment_default.png') no-repeat
               background-size: 100%
               background-color: #FFFFFF
               border: 1px solid $color_border
               float: left
-              height: 42px
-              width: 42px
+              height: 40px
+              width: 40px
               margin-right: 10px
               img
                 height: 40px
                 width: 40px
+                position: relative
+                top: -1px
+                left: -1px
             .details
               float: left
-              min-height: 42px
               width: 183px
               text-shadow: none !important
+              .name, .type
+                overflow: hidden
+                padding: 0
+                text-decoration: none
+                text-overflow: ellipsis
+                white-space: nowrap
+                height: 22px
+                width: 185px
               .name
                 color: $color_text_dark
                 font-size: 12px
                 font-weight: 600
-                padding: 0
                 padding-top: 3px
                 text-decoration: none
               .type
                 color: $color_text_light
                 font-size: 11px
-                padding: 0
-                text-decoration: none
+            &:first-child
+              border-top: none
             &:hover
               background-color: $color_pink
               .name, .type
                 color: #FFFFFF
               .type
                 color: #9e1528
-          .add_subscription
-            cursor: pointer
-            .picture
-              background: none
-              border: none
-              i.fa.fa-search
-                font-size: 25px
-                margin: 10px 0 0 12px
-            .details
-              .name
-                margin-top: 12px
         &:hover
           .my_sub_cont
             a
