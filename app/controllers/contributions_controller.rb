@@ -10,8 +10,8 @@ class ContributionsController < ApplicationController
   protect(:destroy) { can? :delete, @contribution }
 
   def index
-    @contributions = Contribution.where(target_user_id: current_user.id)
-    json_render
+    @contributions = ContributionsPresenter.new(user: current_user.object, year: params[:year])
+    params[:year] ? json_replace : json_render
   end
 
   def new
@@ -42,6 +42,10 @@ class ContributionsController < ApplicationController
   end
 
   private
+
+  def load_public_user!
+    @target_user = current_user
+  end
 
   def load_target_user
     @target_user = User.find_by_id(params[:target_user_id]) if params[:target_user_id]

@@ -28,7 +28,7 @@
     div style='padding: 15px'
       .graph.Graph#chart style='padding: 0px' data-label='Subscriptions' data-data=@user.graph_data.to_json Please wait...
 
-  .AjaxContainer data-url=contributions_path
+  .AjaxContainer data-url=contributions_path data-identifier="contributions-list"
 
   - unless @user.gross_threshold_reached?
     h2 Change Profile Page URL

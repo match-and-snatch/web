@@ -6,11 +6,15 @@ class YearMonth < Struct.new(:year, :month)
     year_month
   end
 
+  def month_name
+    Date::MONTHNAMES[month]
+  end
+
   def to_s
     if Time.zone.now.year == year
-      Date::MONTHNAMES[month]
+      month_name
     else
-      "#{Date::MONTHNAMES[month]} #{year}"
+      "#{month_name} #{year}"
     end
   end
 

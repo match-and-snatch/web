@@ -376,6 +376,38 @@
           padding-top: 10px
           text-shadow: none
 
+    // Contribution Stats
+    .contributions-stats
+      border-top: 1px solid #eeeeee
+      padding-top: 20px
+      position: relative
+      h2, .year-picker
+        height: 34px
+      h2
+        margin: 0
+        width: 300px
+      .year-picker
+        position: relative
+        top: -5px
+        width: 200px
+        .year-select, .year-update
+          font-size: 13px !important
+        .year-select
+          width: 70px
+        .year-update
+          @include white-area
+          @include border-radius(5px)
+          border: 1px solid #d7d7d7
+          font-weight: bold
+          height: 34px
+          width: 70px
+          padding: 0
+          &:hover
+            color: $color_blue
+    .no-contributions
+      margin-top: 15px
+      text-align: center
+
     // Profile Stats Note
     .profile_stats_note
       font-size: 12px

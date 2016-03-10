@@ -4,12 +4,14 @@ class bud.widgets.Form extends bud.Widget
 
   initialize: ->
     @$submit_button = @$container.find('input[type=submit]')
+    @$submitter     = @$container.find('[data-submitter]')
     @submitted_text = @$submit_button.data('submitted_text') || 'Submitted'
     @wait_text      = @$submit_button.data('wait_text') || 'Wait...'
     @submit_text    = @$submit_button.val()
 
     @requesting = false
 
+    @$submitter.change @on_submit
     @$container.submit @on_submit
     @$error = @$container.find('.Error')
     if @$container.data('target')
