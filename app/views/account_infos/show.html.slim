@@ -23,12 +23,13 @@
         / a.HashLink data-use_anchor='true' data-default='true' data-target='account-info' href=account_info_logs_path
           li Logs
 
-      h2.subscriptions My Subscriptions
-      ul
-        a.HashLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
-          li View Subscriptions
-        a.HashLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
-          li Billing Information
+      - if @user.subscriptions.any?
+        h2.subscriptions My Subscriptions
+        ul
+          a.HashLink data-use_anchor='true' data-target='account-info' href=subscriptions_path
+            li View Subscriptions
+          a.HashLink data-use_anchor='true' data-target='account-info' href=billing_information_account_info_path
+            li Billing Information
 
       h2.profile My Profile
       ul style="margin-bottom: 0"
