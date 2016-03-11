@@ -116,18 +116,3 @@ def sign_in_with_token(token = nil)
     request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(token)
   end
 end
-
-def eager_load_app!
-  unless @__eager_loaded
-    Rails.application.eager_load!
-    @__eager_loaded = true
-  end
-end
-
-def enable_notifications!(&block)
-  eager_load_app!
-  Rails.application.config.notifications_enabled = true
-  block.call.tap do
-    Rails.application.config.notifications_enabled = false
-  end
-end
