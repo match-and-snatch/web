@@ -1,4 +1,6 @@
 class NotificationManager < BaseManager
+  BATCH_SIZE = 200
+
   class << self
     def queue
       :mail
@@ -19,7 +21,7 @@ class NotificationManager < BaseManager
         PostsMailer.created(post, post.user).deliver_now
       end
 
-      post.user.source_subscriptions.where(notifications_enabled: true).not_removed.preload(:user).find_each do |s|
+      post.user.source_subscriptions.where(notifications_enabled: true).not_removed.preload(:user).find_each(batch_size: BATCH_SIZE) do |s|
         begin
           PostsMailer.created(post, s.user).deliver_now if s.user && post && !s.user.locked?
         rescue
@@ -30,21 +32,21 @@ class NotificationManager < BaseManager
 
     # @param comment [Comment]
     def notify_comment_created(comment)
-      comment.mentioned_users.where(locked: false).find_each do |user|
+      comment.mentioned_users.where(locked: false).find_each(batch_size: BATCH_SIZE) do |user|
         PostsMailer.mentioned(user, Flows::Payload.new(subject: comment)).deliver_now
       end
     end
 
     # @param profile_owner [User]
     def notify_vacation_enabled(profile_owner)
-      profile_owner.source_subscriptions.not_removed.joins(:user).find_each do |subscription|
+      profile_owner.source_subscriptions.not_removed.joins(:user).find_each(batch_size: BATCH_SIZE) do |subscription|
         ProfilesMailer.vacation_enabled(subscription).deliver_now
       end
     end
 
     # @param profile_owner [User]
     def notify_vacation_disabled(profile_owner)
-      profile_owner.source_subscriptions.not_removed.joins(:user).find_each do |subscription|
+      profile_owner.source_subscriptions.not_removed.joins(:user).find_each(batch_size: BATCH_SIZE) do |subscription|
         ProfilesMailer.vacation_disabled(subscription).deliver_now
       end
     end
