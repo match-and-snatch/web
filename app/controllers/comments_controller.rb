@@ -18,10 +18,8 @@ class CommentsController < ApplicationController
   end
 
   def create
-    comment_flow.create(new_comment_params).pass do |comment|
-      @comment = comment
-      json_render
-    end
+    @comment = CommentManager.new(user: current_user.object, post: @post).create(params.slice(:message, :mentions))
+    json_render
   end
 
   def edit
@@ -29,7 +27,9 @@ class CommentsController < ApplicationController
   end
 
   def update
-    comment_flow.update(params.slice(:message)).pass { render_comment_row }
+    @comment.update_attributes(message: params[:message])
+    EventsManager.comment_updated(user: current_user.object, comment: @comment)
+    render_comment_row
   end
 
   def full_text
@@ -37,21 +37,24 @@ class CommentsController < ApplicationController
   end
 
   def make_visible
-    comment_flow.show.pass { render_comment_row }
+    CommentManager.new(user: current_user.object, comment: @comment).show
+    render_comment_row
   end
 
   def hide
-    comment_flow.hide.pass { render_comment_row }
+    CommentManager.new(user: current_user.object, comment: @comment).hide
+    render_comment_row
   end
 
   def destroy
-    comment_flow.remove.pass { json_replace }
+    @comment.destroy
+    EventsManager.comment_removed(user: current_user.object, comment: @comment)
+    json_replace
   end
 
   def like
-    comment_flow.toggle_like.pass do
-      json_replace partial: 'like_small', locals: {comment: @comment}
-    end
+    LikesManager.new(current_user.object).toggle(@comment)
+    json_replace partial: 'like_small', locals: {comment: @comment}
   end
 
   protected
@@ -82,13 +85,4 @@ class CommentsController < ApplicationController
   def render_comment_row
     json_replace partial: 'comment_row', locals: {comment: @comment}
   end
-
-  def comment_flow
-    @comment_flow ||= CommentFlow.init(self, subject: @comment)
-  end
-
-  def new_comment_params
-    params.slice(:message, :mentions).merge(post: @post)
-  end
 end
-
