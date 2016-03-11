@@ -22,14 +22,12 @@ module BuddyPlatform
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.active_record.schema_format = :sql
-    config.notifications_enabled = true
 
     config.action_mailer.default_url_options = { host: 'www.connectpal.com', protocol: :https }
 
     I18n.enforce_available_locales = true
 
-    config.autoload_paths += %W(#{config.root}/lib #{config.root}/app/loggers)
-    config.eager_load_paths += %W(#{config.root}/app/loggers #{config.root}/app/mailers)
+    config.autoload_paths += %W(#{config.root}/lib)
     config.middleware.delete 'ActiveRecord::QueryCache'
 
     config.generators do |g|
