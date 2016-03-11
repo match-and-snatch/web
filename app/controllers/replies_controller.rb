@@ -13,10 +13,9 @@ class RepliesController < ApplicationController
   end
 
   def create
-    comment_flow.create(new_comment_params).pass do |reply|
-      @reply = reply
-      json_render notice: :new_comment
-    end
+    @reply = CommentManager.new(user: current_user.object, post: @comment.post, parent: @comment).
+        create(params.slice(:message, :mentions))
+    json_render notice: :new_comment
   end
 
   def edit
@@ -24,15 +23,18 @@ class RepliesController < ApplicationController
   end
 
   def update
-    comment_flow.update(params.slice(:message)).pass { render_comment_row }
+    @reply.update_attributes(message: params[:message])
+    json_replace html: reply_html
   end
 
   def make_visible
-    comment_flow.show.pass { render_comment_row }
+    CommentManager.new(user: current_user.object, comment: @reply).show
+    json_replace html: reply_html
   end
 
   def hide
-    comment_flow.hide.pass { render_comment_row }
+    CommentManager.new(user: current_user.object, comment: @reply).hide
+    json_replace html: reply_html
   end
 
   protected
@@ -54,17 +56,5 @@ class RepliesController < ApplicationController
 
   def reply_html
     render_to_string(partial: 'reply', locals: {reply: @reply})
-  end
-
-  def render_comment_row
-    json_replace html: reply_html
-  end
-
-  def comment_flow
-    @comment_flow ||= CommentFlow.init(self, subject: @reply)
-  end
-
-  def new_comment_params
-    params.slice(:message, :mentions).merge(parent: @comment)
   end
 end

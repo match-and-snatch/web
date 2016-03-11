@@ -1,36 +1,34 @@
 RSpec::Matchers.define :create_event do |action|
   match do |block|
-    enable_notifications! do
-      raise ArgumentError, 'Must specify an action' if action.blank?
+    raise ArgumentError, 'Must specify an action' if action.blank?
 
-      if @data
-        initial_event_ids = fetch_events(action).pluck(:id)
-        block.call
-        event_ids = fetch_events(action).pluck(:id)
-        diff_ids = (event_ids - initial_event_ids)
+    if @data
+      initial_event_ids = fetch_events(action).pluck(:id)
+      block.call
+      event_ids = fetch_events(action).pluck(:id)
+      diff_ids = (event_ids - initial_event_ids)
 
-        if diff_ids.count != 1
-          failures << (diff_ids.count.zero? ? "No events created." : "Created more than one event.")
-          false
-        else
-          result = true
-          event = Event.find_by_id(diff_ids.first)
-
-          @data.each do |key, value|
-            if event.data[key] != value
-              failures << "Missing data :#{key} => #{value} (actual data value is /#{event.data[key]}/)"
-              result = false
-            end
-          end
-
-          result
-        end
+      if diff_ids.count != 1
+        failures << (diff_ids.count.zero? ? "No events created." : "Created more than one event.")
+        false
       else
-        initial_events_count = fetch_events(action).count
-        block.call
-        events_count = fetch_events(action).count
-        initial_events_count + 1 == events_count
+        result = true
+        event = Event.find_by_id(diff_ids.first)
+
+        @data.each do |key, value|
+          if event.data[key] != value
+            failures << "Missing data :#{key} => #{value} (actual data value is /#{event.data[key]}/)"
+            result = false
+          end
+        end
+
+        result
       end
+    else
+      initial_events_count = fetch_events(action).count
+      block.call
+      events_count = fetch_events(action).count
+      initial_events_count + 1 == events_count
     end
   end
 

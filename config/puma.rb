@@ -7,3 +7,12 @@ on_worker_boot do
   end
 end
 
+before_fork do
+  ActiveRecord::Base.connection_pool.disconnect!
+end
+on_restart do
+  ActiveRecord::Base.connection_pool.disconnect!
+end
+on_worker_shutdown do
+  ActiveRecord::Base.connection_pool.disconnect!
+end

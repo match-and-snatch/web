@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include Concerns::ControllerFramework
-  include Flows::Protocol
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -12,30 +11,6 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :redirect_to_mobile!, if: -> { mobile_device? && !account_page? && !request.xhr? }
-
-  def self.subject(&block)
-    @subject_block = block
-  end
-
-  def self.subject_block
-    @subject_block
-  end
-
-  # @overload
-  def flow_subject
-    @flow_subject ||= instance_eval(&subject_block) if subject_block
-  end
-
-  # @overload
-  # @return [User]
-  def flow_performer
-    current_user.object
-  end
-
-  # @overload
-  def flow_failure_callback
-    -> (flow) { json_fail errors: translate_flow_errors(flow.errors) }
-  end
 
   protected
 
@@ -183,32 +158,5 @@ class ApplicationController < ActionController::Base
 
   def request_variant
     @request_variant ||= request.variant || detect_device_format
-  end
-
-  def subject_block
-    self.class.subject_block
-  end
-
-  # @param message [String, Symbol]
-  # @param opts [Hash]
-  # @return [String]
-  def translate_flow_message(message, opts = {}, scope = :messages)
-    return message if message.is_a? String
-    raise ArgumentError unless message.is_a? Symbol
-    I18n.t(message, opts.reverse_merge(scope: scope, default: [:default, message])).html_safe
-  end
-
-  # @param errors [Hash]
-  # @return [Hash]
-  def translate_flow_errors(errors)
-    {}.tap do |result|
-      errors.each do |field, field_errors|
-        if field_errors.is_a?(Array)
-          result[field] = field_errors.map { |e| translate_flow_message(e, {}, :errors) }
-        elsif field_errors.is_a?(Hash)
-          result[field] = translate_errors(field_errors)
-        end
-      end
-    end
   end
 end
