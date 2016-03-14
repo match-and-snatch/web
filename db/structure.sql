@@ -127,7 +127,8 @@ CREATE TABLE comments (
     post_user_id integer,
     parent_id integer,
     mentions text,
-    hidden boolean DEFAULT false NOT NULL
+    hidden boolean DEFAULT false NOT NULL,
+    likes_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -589,7 +590,9 @@ CREATE TABLE posts (
     title character varying(512),
     keywords_text character varying(512),
     type character varying,
-    hidden boolean DEFAULT false NOT NULL
+    hidden boolean DEFAULT false NOT NULL,
+    comments_count integer DEFAULT 0 NOT NULL,
+    likes_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1054,7 +1057,6 @@ CREATE TABLE users (
     gross_sales integer DEFAULT 0 NOT NULL,
     gross_contributions integer DEFAULT 0 NOT NULL,
     adult_subscriptions_limit integer DEFAULT 6 NOT NULL,
-    tos_accepted boolean DEFAULT false NOT NULL,
     payout_updated_at timestamp without time zone
 );
 
@@ -1844,9 +1846,9 @@ INSERT INTO schema_migrations (version) VALUES ('20160112081924');
 
 INSERT INTO schema_migrations (version) VALUES ('20160112083017');
 
-INSERT INTO schema_migrations (version) VALUES ('20160127072439');
-
 INSERT INTO schema_migrations (version) VALUES ('20160222074243');
 
 INSERT INTO schema_migrations (version) VALUES ('20160222074636');
+
+INSERT INTO schema_migrations (version) VALUES ('20160308064956');
 
