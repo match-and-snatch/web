@@ -85,10 +85,8 @@ class CurrentUserDecorator < UserDecorator
   # @param likable [Post, Comment]
   def likes?(likable)
     case likable
-    when Post
+    when Post, Comment
       likable.likes.any? { |like| like.user_id == object.id }
-    when Comment
-      object.likes.where(comment_id: likable.id).any?
     else
       raise ArgumentError
     end
