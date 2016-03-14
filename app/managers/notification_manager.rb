@@ -33,7 +33,7 @@ class NotificationManager < BaseManager
     # @param comment [Comment]
     def notify_comment_created(comment)
       comment.mentioned_users.where(locked: false).find_each(batch_size: BATCH_SIZE) do |user|
-        PostsMailer.mentioned(user, Flows::Payload.new(subject: comment)).deliver_now
+        PostsMailer.mentioned(comment, user).deliver_now
       end
     end
 

@@ -57,7 +57,7 @@ describe NotificationManager do
     end
 
     specify do
-      expect(PostsMailer).to receive(:mentioned).with(profile_owner, Flows::Payload.new(subject: comment))
+      expect(PostsMailer).to receive(:mentioned).with(comment, profile_owner)
       notify
     end
   end
