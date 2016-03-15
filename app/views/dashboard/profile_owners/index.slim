@@ -61,7 +61,7 @@ hr
         - if current_user.admin?
           td
             = cents_to_dollars user.gross_sales
-        td= user.subscribers_count
+        td= user.subscriptions_count
         td= user.last_post_created_at.try(:to_date).try(:to_s, :long)
         td style='min-width: 100px'= user.created_at
         td
