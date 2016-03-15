@@ -278,9 +278,11 @@ class SubscriptionManager < BaseManager
     fail_with! "Can't subscribe to self" if @subscriber == target
     fail_with! "Can't subscribe to user with not approved cost" unless target.cost_approved?
 
-    fail! SubscriptionLimitReachedError if @subscriber.subscriptions
-                                               .joins(:target_user)
-                                               .where(users: {has_mature_content: true}).count >= @subscriber.adult_subscriptions_limit
+    unless fake
+      fail! SubscriptionLimitReachedError if @subscriber.subscriptions
+                                                 .joins(:target_user)
+                                                 .where(users: {has_mature_content: true}).count >= @subscriber.adult_subscriptions_limit
+    end
 
     # Never restore removed fake subscriptions
     removed_subscription = @subscriber.subscriptions.by_target(target).where(removed: true, fake: false).first
