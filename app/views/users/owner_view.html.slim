@@ -318,3 +318,17 @@
       .modal-title Share Your Profile
       span Share your profile with your social networks!
     = render 'share_links', profile: @profile
+
+  /Share popup
+  .Popup.popup.hide-options-popup.modal-content data-identifier='hide-options'
+    .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="hide-options" aria-hidden="true"
+    .modal-body
+      a.btn.pink href="" Hide just this comment
+      p.or or
+      a.btn.pink href=""
+        ' Hide all existing and future
+        br
+        ' comments from this subscriber
+      .clearfix
+      a.PopupTrigger type="button" data-target="hide-options" Nevermind
