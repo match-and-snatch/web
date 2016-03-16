@@ -154,7 +154,7 @@ class ApiResponsePresenter
     }
   end
 
-  def comment_data(comment)
+  def comment_data(comment, include_replies: true)
     {
       id: comment.id,
       message: comment.message,
@@ -165,6 +165,9 @@ class ApiResponsePresenter
       parent_id: comment.parent_id,
       post_id: comment.post_id,
       post_user_id: comment.post_user_id,
+      post: {
+        profile: basic_profile_data(comment.post.user)
+      },
       access: {
         owner: current_user.id == comment.user_id,
         post_owner: current_user.id == comment.post_user_id
@@ -177,15 +180,23 @@ class ApiResponsePresenter
         small_profile_picture_url: comment.user.small_profile_picture_url,
         has_profile: comment.user.has_profile_page?
       },
-      profile: basic_profile_data(comment.user),
-      replies: comment.replies.map {
-        |r| comment_data(r)
+      profile: {
+        slug: comment.user.slug,
+        name: comment.user.name,
+        has_profile: comment.user.has_profile_page?
       },
+      replies: [],
       likes: {
         total_count: comment.likes_count,
         liked: current_user.likes?(comment)
       }
-    }
+    }.tap do |data|
+      if include_replies
+        data[:replies] = comment.replies.map do |reply|
+          comment_data(reply, include_replies: false)
+        end
+      end
+    end
   end
 
   def dialogues_data(dialogues = [])
