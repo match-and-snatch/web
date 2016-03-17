@@ -166,13 +166,13 @@ class PostManager < BaseManager
     FeedEvent.where(target_type: 'Post', target_id: post.id).delete_all
     EventsManager.post_removed(user: user, post: post)
 
-    number_of_deleted_posts = user.events
-                                  .daily
-                                  .where('action LIKE ?', '%_post_removed')
-                                  .group('EXTRACT(HOUR FROM created_at)::integer')
-                                  .count
-                                  .select { |hour, count| count >= 5 }
-    if number_of_deleted_posts.one? && number_of_deleted_posts[Time.now.hour] == 5
+    events = user.events.daily.where('action LIKE ?', '%_post_removed').limit(100)
+
+    created_once_5_in_an_hour = events.group_by { |e| e.created_at.hour }
+                                      .map(&:second)
+                                      .select { |events| events.count == 5 }
+                                      .one?
+    if created_once_5_in_an_hour
       ReportsMailer.delay.deleted_posts_too_often(user)
     end
 
