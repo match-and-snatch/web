@@ -11,7 +11,7 @@ class Api::RepliesController < Api::BaseController
   end
 
   def update
-    @reply.update_attributes(params.slice(:message, :mentions))
+    CommentManager.new(user: current_user.object, comment: @reply).update(params.slice(:message, :mentions))
     json_success api_response.comment_data(@reply)
   end
 

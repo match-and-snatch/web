@@ -27,8 +27,7 @@ class CommentsController < ApplicationController
   end
 
   def update
-    @comment.update_attributes(message: params[:message])
-    EventsManager.comment_updated(user: current_user.object, comment: @comment)
+    CommentManager.new(user: current_user.object, comment: @comment).update(params.slice(:message, :mentions))
     render_comment_row
   end
 

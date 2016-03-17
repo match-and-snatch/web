@@ -23,7 +23,7 @@ class RepliesController < ApplicationController
   end
 
   def update
-    @reply.update_attributes(message: params[:message])
+    CommentManager.new(user: current_user.object, comment: @reply).update(params.slice(:message, :mentions))
     json_replace html: reply_html
   end
 
