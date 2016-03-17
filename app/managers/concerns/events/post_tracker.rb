@@ -44,6 +44,6 @@ module Concerns::Events::PostTracker
   # @yield
   # @return [Event]
   def post_canceled(user: , post_type: nil, &block)
-    Event.create! user: user, subject: post, action: 'post_canceled', data: { post_type: post_type }, &block
+    Event.create! user: user, action: 'post_canceled', data: { post_type: post_type }, &block
   end
 end
