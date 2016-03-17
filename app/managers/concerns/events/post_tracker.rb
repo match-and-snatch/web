@@ -4,7 +4,7 @@ module Concerns::Events::PostTracker
   # @yield
   # @return [Event]
   def post_created(user: , post: , &block)
-    Event.create! user: user, action: "#{post.type.tableize.singularize}_created", data: { id: post.id, type: post.type }, &block
+    Event.create! user: user, subject: post, action: "#{post.type.tableize.singularize}_created", data: { id: post.id, type: post.type }, &block
   end
 
   # @param user [User]
@@ -14,6 +14,7 @@ module Concerns::Events::PostTracker
   def post_removed(user: , post: , &block)
     Event.create! user: user,
                   action: "#{post.type.tableize.singularize}_removed",
+                  subject: post,
                   data: { id: post.id,
                           type: post.type,
                           title: post.title,
@@ -27,7 +28,7 @@ module Concerns::Events::PostTracker
   # @yield
   # @return [Event]
   def post_hidden(user: , post: , &block)
-    Event.create! user: user, action: "#{post.type.tableize.singularize}_hidden", data: { id: post.id, type: post.type }, &block
+    Event.create! user: user, subject: post, action: "#{post.type.tableize.singularize}_hidden", data: { id: post.id, type: post.type }, &block
   end
 
   # @param user [User]
@@ -35,7 +36,7 @@ module Concerns::Events::PostTracker
   # @yield
   # @return [Event]
   def post_updated(user: , post: , &block)
-    Event.create! user: user, action: "#{post.type.tableize.singularize}_updated", data: { id: post.id, type: post.type }, &block
+    Event.create! user: user, subject: post, action: "#{post.type.tableize.singularize}_updated", data: { id: post.id, type: post.type }, &block
   end
 
   # @param user [User]
@@ -43,6 +44,6 @@ module Concerns::Events::PostTracker
   # @yield
   # @return [Event]
   def post_canceled(user: , post_type: nil, &block)
-    Event.create! user: user, action: 'post_canceled', data: { post_type: post_type }, &block
+    Event.create! user: user, subject: post, action: 'post_canceled', data: { post_type: post_type }, &block
   end
 end
