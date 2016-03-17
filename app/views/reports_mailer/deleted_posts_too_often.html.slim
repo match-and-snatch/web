@@ -1,14 +1,15 @@
-h1 Achtung!
+h1 Warning
 p
-  |Thist user (#{link_to_user(@user)}) doing something strange, he is deleting his posts too fast!
+  |The user (#{link_to_user(@user)}) deleted more than 5 posts within an hour.
 
 p
   |ID: #{@user.id}
   br
-  |Slug:
+  |Slug: #{@user.slug}
   br
   |Email: #{@user.email}
   br
   |Full name: #{@user.full_name}
   br
-h2 Please check his profile ASAP. Thank you!
+  |Profile name: #{@user.name}
+  br
