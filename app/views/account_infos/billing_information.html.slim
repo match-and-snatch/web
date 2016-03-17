@@ -30,7 +30,8 @@
             td width='300px'= link_to_user(subscription.target_user, force_profile_name: true)
             td= subscription.target_user.vacation_enabled? ? 'Away Mode - No Billing' : subscription.billing_date.to_s(:long)
             td style='text-align: right;'
-              a.fa.fa-close.AjaxLink href=cancel_subscription_path(subscription.id) Cancel Subscription
+              span.fa.fa-times.pink style='color: #ea2e49' &nbsp;
+              a.AjaxLink href=cancel_subscription_path(subscription.id) Cancel Subscription
   - else
     .well style='text-align:center; margin-bottom: 0'
       |You do not have any active subscriptions.
@@ -91,6 +92,6 @@
               - if !subscription.removed?
                 br
                 span.fa.fa-times.pink style='color: #ea2e49' &nbsp;
-                a.fa.fa-close.AjaxLink href=cancel_subscription_path(subscription.id) Cancel
+                a.AjaxLink href=cancel_subscription_path(subscription.id) Cancel
             - else
               span Deleted Profile
