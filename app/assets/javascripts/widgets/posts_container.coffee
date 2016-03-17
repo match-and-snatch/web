@@ -37,7 +37,7 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
     elTop = @$container.offset().top
     elBottom = elTop + @$container.height()
 
-    if docViewBottom >= elBottom - 40
+    if docViewBottom >= elBottom
       @pending = true
       @render()
 
