@@ -21,8 +21,7 @@ class Api::CommentsController < Api::BaseController
   end
 
   def update
-    @comment.update_attributes(params.slice(:message, :mentions))
-    EventsManager.comment_updated(user: current_user.object, comment: @comment)
+    CommentManager.new(user: current_user.object, comment: @comment).update(params.slice(:message, :mentions))
     json_success api_response.comment_data(@comment)
   end
 
