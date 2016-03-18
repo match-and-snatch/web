@@ -148,9 +148,9 @@ describe Subscription do
         end
       end
 
-      context 'eight days later (last try)' do
+      context 'five days later (last try)' do
         it 'does notify' do
-          Timecop.freeze(8.days.from_now) do
+          Timecop.freeze(5.days.from_now) do
             expect(subject.notify_about_payment_failure?).to eq(true)
           end
         end
@@ -158,7 +158,7 @@ describe Subscription do
 
       context 'any time later after last try' do
         it 'does notify' do
-          Timecop.freeze(9.days.from_now) do
+          Timecop.freeze(6.days.from_now) do
             expect(subject.notify_about_payment_failure?).to eq(true)
           end
         end
@@ -175,9 +175,9 @@ describe Subscription do
         expect(subject.payment_attempts_expired?).to eq(false)
       end
 
-      context 'on 8th day' do
+      context 'on 5th day' do
         specify do
-          Timecop.freeze(8.days.from_now) do
+          Timecop.freeze(5.days.from_now) do
             expect(subject.payment_attempts_expired?).to eq(false)
           end
         end
@@ -194,9 +194,9 @@ describe Subscription do
         expect(subject.payment_attempts_expired?).to eq(false)
       end
 
-      context 'on 8th day' do
+      context 'on 5th day' do
         specify do
-          Timecop.freeze(8.days.from_now) do
+          Timecop.freeze(5.days.from_now) do
             expect(subject.payment_attempts_expired?).to eq(true)
           end
         end
@@ -204,7 +204,7 @@ describe Subscription do
 
       context 'on any day later' do
         specify do
-          Timecop.freeze(9.days.from_now) do
+          Timecop.freeze(6.days.from_now) do
             expect(subject.payment_attempts_expired?).to eq(true)
           end
         end
