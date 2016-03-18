@@ -35,9 +35,7 @@ describe Subscription do
 
     let(:user) { create :user }
     let(:target_user) { create :user, :profile_owner }
-    let(:subscription) do
-      create :subscription, {user: user, target_user: target_user}.merge(attributes)
-    end
+    let(:subscription) { create :subscription, {user: user, target_user: target_user}.merge(attributes) }
     let(:attributes) { {} }
 
     context 'never paid' do
@@ -52,6 +50,11 @@ describe Subscription do
 
     context 'removed subscription' do
       let(:attributes) { {removed: true} }
+      it { expect(subject).not_to include(subscription) }
+    end
+
+    context 'fake subscription' do
+      let(:attributes) { {charged_at: nil, fake: true} }
       it { expect(subject).not_to include(subscription) }
     end
 

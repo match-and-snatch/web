@@ -4,6 +4,7 @@ FactoryGirl.define do
     charged_at { Time.zone.now }
     removed false
     rejected false
+    fake false
     cost 500
     fees 99
     total_cost 599
