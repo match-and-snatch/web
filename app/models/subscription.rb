@@ -85,12 +85,12 @@ class Subscription < ActiveRecord::Base
   end
 
   def payment_attempts_expired?
-    day_of_payment_attempts >= 8
+    day_of_payment_attempts >= 5
   end
 
   def notify_about_payment_failure?
     current_day = day_of_payment_attempts
-    current_day.in?([0, 1, 3, 8]) || current_day > 8
+    current_day.in?([0, 1, 3, 5]) || current_day > 5
   end
 
   # @return [DateTime]
