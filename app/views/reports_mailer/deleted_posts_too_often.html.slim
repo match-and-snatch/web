@@ -1,0 +1,15 @@
+h1 Warning
+p
+  |The user (#{link_to_user(@user)}) deleted more than 5 posts within an hour.
+
+p
+  |ID: #{@user.id}
+  br
+  |Slug: #{@user.slug}
+  br
+  |Email: #{@user.email}
+  br
+  |Full name: #{@user.full_name}
+  br
+  |Profile name: #{@user.name}
+  br

@@ -165,6 +165,17 @@ class PostManager < BaseManager
   def delete(post)
     FeedEvent.where(target_type: 'Post', target_id: post.id).delete_all
     EventsManager.post_removed(user: user, post: post)
+
+    events = user.events.daily.where('action LIKE ?', '%_post_removed').limit(100)
+
+    created_once_5_in_an_hour = events.group_by { |e| e.created_at.hour }
+                                      .map(&:second)
+                                      .select { |events| events.count == 5 }
+                                      .one?
+    if created_once_5_in_an_hour
+      ReportsMailer.delay.deleted_posts_too_often(user)
+    end
+
     if Rails.env.production?
       UploadManager.delay.remove_post_uploads(ids: post.uploads.pluck(:id)) unless post.status?
     end
