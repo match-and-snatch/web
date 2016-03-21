@@ -1,6 +1,11 @@
 class Dashboard::Admin::LimitsController < Dashboard::Admin::BaseController
   before_action :load_user!, only: [:edit, :update]
 
+  def search
+    @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_admin_fields
+    json_replace
+  end
+
   def index
     @users = User.where.not(adult_subscriptions_limit: 6)
                  .order(adult_subscriptions_limit: :desc)

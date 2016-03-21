@@ -3,6 +3,11 @@ h2
   small default limit is 6
 hr
 
+form.Form action=search_admin_limits_path method='get' data-target='limits'
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search by email, first name, or last name..."
+
+div data-identifier='limits'
+
 - if @users.any?
   table.table.table-striped style='margin-top: 15px;'
     th
