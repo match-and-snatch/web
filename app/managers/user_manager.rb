@@ -88,7 +88,10 @@ class UserManager < BaseManager
     save_or_die! @user
   end
 
-  def update_adult_subscriptions_limit(limit: )
+  def update_adult_subscriptions_limit(limit)
+    fail_with! adult_subscriptions_limit: :empty if limit.blank?
+    fail_with! adult_subscriptions_limit: :zero  if limit.to_i < 1
+
     @user.adult_subscriptions_limit = limit.to_i
     save_or_die! @user
   end

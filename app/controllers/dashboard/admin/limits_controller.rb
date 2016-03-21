@@ -18,7 +18,7 @@ class Dashboard::Admin::LimitsController < Dashboard::Admin::BaseController
   end
 
   def update
-    UserManager.new(@user).update_adult_subscriptions_limit(limit: params[:limit])
+    UserManager.new(@user).update_adult_subscriptions_limit(params[:limit])
     json_reload notice: "Subscriptions limit has been changed for #{@user.name}"
   end
 

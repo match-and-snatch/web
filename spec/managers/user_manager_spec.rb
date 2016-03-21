@@ -191,8 +191,9 @@ describe UserManager do
   describe '#update_adult_subscriptions_limit' do
     let(:user) { create(:user) }
 
-    it { expect { manager.update_adult_subscriptions_limit(limit: 10) }.to change { user.reload.adult_subscriptions_limit }.from(6).to(10) }
-    it { expect { manager.update_adult_subscriptions_limit(limit: '') }.to change { user.reload.adult_subscriptions_limit }.from(6).to(0) }
-    it { expect { manager.update_adult_subscriptions_limit(limit: nil) }.to change { user.reload.adult_subscriptions_limit }.from(6).to(0) }
+    it { expect { manager.update_adult_subscriptions_limit(10) }.to change { user.reload.adult_subscriptions_limit }.from(6).to(10) }
+    it { expect { manager.update_adult_subscriptions_limit(0) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:zero)) } }
+    it { expect { manager.update_adult_subscriptions_limit('') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
+    it { expect { manager.update_adult_subscriptions_limit(nil) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
   end
 end
