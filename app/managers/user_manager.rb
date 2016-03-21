@@ -88,6 +88,11 @@ class UserManager < BaseManager
     save_or_die! @user
   end
 
+  def update_adult_subscriptions_limit(limit: )
+    @user.adult_subscriptions_limit = limit.to_i
+    save_or_die! @user
+  end
+
   def log_recent_subscriptions_count(recent_subscriptions_count)
     @user.recent_subscriptions_count = recent_subscriptions_count
     @user.recent_subscription_at = Time.zone.now

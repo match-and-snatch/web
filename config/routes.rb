@@ -424,6 +424,7 @@ BuddyPlatform::Application.routes.draw do
       resources :payments, only: :index
       resources :payout_details, only: :index
       resources :vacations, only: :index
+      resources :limits, only: [:index, :edit, :update]
       resources :staffs, only: :index do
         collection do
           get :search

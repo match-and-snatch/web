@@ -1,0 +1,26 @@
+h2
+  'Limits
+  small default limit is 6
+hr
+
+- if @users.any?
+  table.table.table-striped style='margin-top: 15px;'
+    th
+      strong Name
+    th
+      strong Email
+    th
+      strong Adult Subscriptions Limit
+    th
+    th
+
+    - @users.each do |user|
+      tr
+        td= dashboard_link_to_user user, truncate: false
+        td= user.email
+        td= user.adult_subscriptions_limit
+        td
+          button.AjaxLink.btn.pink.pull-right href=edit_admin_limit_path(user.id) Change limit
+  .TopJumper= paginate @users
+- else
+  h3.pending No accounts with custom subscriptions limit
