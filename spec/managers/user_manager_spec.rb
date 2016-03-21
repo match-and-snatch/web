@@ -187,4 +187,13 @@ describe UserManager do
     it { expect { manager.log_recent_subscriptions_count(1) }.to change { user.recent_subscriptions_count }.from(0).to(1) }
     it { expect { manager.log_recent_subscriptions_count(1) }.to change { user.recent_subscription_at }.from(nil).to(Time.zone.now) }
   end
+
+  describe '#update_adult_subscriptions_limit' do
+    let(:user) { create(:user) }
+
+    it { expect { manager.update_adult_subscriptions_limit(10) }.to change { user.reload.adult_subscriptions_limit }.from(6).to(10) }
+    it { expect { manager.update_adult_subscriptions_limit(0) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:zero)) } }
+    it { expect { manager.update_adult_subscriptions_limit('') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
+    it { expect { manager.update_adult_subscriptions_limit(nil) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
+  end
 end
