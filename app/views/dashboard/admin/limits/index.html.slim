@@ -1,6 +1,6 @@
 h2
-  'Limits
-  small default limit is 6
+  'Subscription Limits
+  small Subscription limit is 6 by default
 hr
 
 form.Form action=search_admin_limits_path method='get' data-target='limits'
@@ -28,4 +28,4 @@ div data-identifier='limits'
           button.AjaxLink.btn.pink.pull-right href=edit_admin_limit_path(user.id) Change limit
   .TopJumper= paginate @users
 - else
-  h3.pending No accounts with custom subscriptions limit
+  h3.pending No accounts with custom subscription limits exist.
