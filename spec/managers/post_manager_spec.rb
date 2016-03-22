@@ -100,44 +100,44 @@ describe PostManager, freeze: true do
     it { expect { manager.delete(another_post) }.to delete_record_index_document(another_post).from_index('posts') }
     it { expect { manager.delete(another_post) }.not_to deliver_email(to: APP_CONFIG['emails']['reports']) }
 
-    context 'deleted less than 5 posts in a hour' do
+    context 'deleted less than 5 posts in a day' do
       before { 3.times { manager.delete(create(:status_post)) } }
 
       it { expect { manager.delete(another_post) }.not_to deliver_email(to: APP_CONFIG['emails']['reports']) }
     end
 
-    context 'deleted 5 posts in a hour' do
+    context 'deleted 5 posts in a day' do
       before { 4.times { manager.delete(create(:status_post)) } }
 
-      it { expect { manager.delete(another_post) }.to deliver_email(to: APP_CONFIG['emails']['reports'], subject: /deleted 5 or more posts in a hour/) }
-
-      context 'deleted posts in previous hours' do
-        let(:count) { 5 }
-
-        before do
-          Timecop.freeze Time.zone.now - 2.hours do
-            count.times do
-              manager.delete(create(:status_post))
-            end
-          end
-        end
-
-        context 'deleted less than 5 posts in previous hours' do
-          let(:count) { 4 }
-
-          it { expect { manager.delete(another_post) }.to deliver_email(to: APP_CONFIG['emails']['reports'], subject: /deleted 5 or more posts in a hour/) }
-        end
-
-        context 'deleted 5 posts in previous hours' do
-          it { expect { manager.delete(another_post) }.not_to deliver_email(to: APP_CONFIG['emails']['reports']) }
-        end
-      end
+      it { expect { manager.delete(another_post) }.to deliver_email(to: APP_CONFIG['emails']['reports'], subject: /deleted 5 or more posts in a day/) }
     end
 
-    context 'deleted more than 5 posts in a hour' do
+    context 'deleted more than 5 posts in a day' do
       before { 5.times { manager.delete(create(:status_post)) } }
 
       it { expect { manager.delete(another_post) }.not_to deliver_email(to: APP_CONFIG['emails']['reports']) }
+    end
+
+    context 'deleted posts on previous days' do
+      before do
+        Timecop.freeze Time.zone.now - 2.days do
+          count.times do
+            manager.delete(create(:status_post))
+          end
+        end
+      end
+
+      context 'deleted 6th post only today' do
+        let(:count) { 5 }
+
+        it { expect { manager.delete(another_post) }.not_to deliver_email(to: APP_CONFIG['emails']['reports']) }
+      end
+
+      context 'deleted 5th post only today' do
+        let(:count) { 4 }
+
+        it { expect { manager.delete(another_post) }.not_to deliver_email(to: APP_CONFIG['emails']['reports']) }
+      end
     end
   end
 
