@@ -522,7 +522,8 @@ CREATE TABLE payments (
     target_user_id integer,
     cost integer,
     subscription_fees integer,
-    subscription_cost integer
+    subscription_cost integer,
+    source_country character varying
 );
 
 
@@ -1855,3 +1856,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160308064956');
 INSERT INTO schema_migrations (version) VALUES ('20160309105538');
 
 INSERT INTO schema_migrations (version) VALUES ('20160323064600');
+
+INSERT INTO schema_migrations (version) VALUES ('20160323074945');
+
+INSERT INTO schema_migrations (version) VALUES ('20160323075112');
+
