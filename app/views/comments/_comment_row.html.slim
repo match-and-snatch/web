@@ -13,15 +13,13 @@
             li.first
               i.fa.fa-times
                 |&nbsp;Close
-          - if current_user.id == comment.post_user_id
+          - if current_user.id == comment.post_user_id && current_user.id != comment.user_id
             - if comment.hidden?
-              a.AjaxFormLink.delete_btn href=make_visible_comment_path(comment.id) data-_method='put' data-target='comment-#{comment.id}'
+              a.AjaxLink href=confirm_make_visible_comment_path(comment.id)
                 li Show
             - else
-              a.PopupTrigger data-target='hide-options'
+              a.AjaxLink href=confirm_hide_comment_path(comment.id)
                 li Hide
-              / a.AjaxFormLink.delete_btn href=hide_comment_path(comment.id) data-_method='put' data-target='comment-#{comment.id}'
-              /   li Hide
           a.AjaxLink.delete_btn href=edit_comment_path(comment.id) data-target='comment-#{comment.id}'
             li Edit
           a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}'

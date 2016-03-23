@@ -1,0 +1,13 @@
+.modal-header
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
+.modal-body
+  a.AjaxFormLink.btn.pink href=make_visible_comment_reply_path(@reply.parent.id, @reply.id) data-_method='put' data-target='comment-#{@reply.id}'
+    i.PopupTrigger data-target="remote-popup" aria-hidden="true" Show just this comment
+  p.or or
+  a.AjaxFormLink.btn.pink href=make_visible_comment_reply_path(@reply.parent.id, @reply.id) data-_method='put' data-target='comment-#{@reply.id}'
+    i.PopupTrigger data-target="remote-popup" aria-hidden="true"
+      ' Show all existing and future
+      br
+      ' comments from this subscriber
+  .clearfix
+  a.PopupTrigger type="button" data-target="remote-popup" Nevermind

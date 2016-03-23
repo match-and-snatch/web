@@ -15,12 +15,12 @@
               li.first
                 i.fa.fa-times
                   |&nbsp;Close
-            - if current_user.id == reply.post_user_id
+            - if current_user.id == reply.post_user_id && current_user.id != reply.user_id
               - if reply.hidden?
-                a.AjaxFormLink.delete_btn href=make_visible_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
+                a.AjaxLink href=confirm_make_visible_comment_reply_path(reply.parent.id, reply.id)
                   li Show
               - else
-                a.AjaxFormLink.delete_btn href=hide_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
+                a.AjaxLink href=confirm_hide_comment_reply_path(reply.parent.id, reply.id)
                   li Hide
             a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}'
               li Edit

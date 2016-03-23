@@ -3,10 +3,10 @@ class RepliesController < ApplicationController
 
   before_action :authenticate!, except: [:show, :create]
   before_action :load_comment!, only: [:show, :create, :edit, :update]
-  before_action :load_reply!, only: [:show, :edit, :update, :make_visible, :hide]
+  before_action :load_reply!, only: [:show, :edit, :update, :confirm_make_visible, :make_visible, :confirm_hide, :hide]
 
   protect(:create, :show) { can? :comment, @comment.post }
-  protect(:edit, :update) { can? :delete, @reply }
+  protect(:edit, :update, :make_visible, :confirm_hide, :hide) { can? :manage, @reply }
 
   def show
     json_replace partial: 'reply', locals: { reply: @reply }
@@ -27,9 +27,17 @@ class RepliesController < ApplicationController
     json_replace html: reply_html
   end
 
+  def confirm_make_visible
+    json_popup
+  end
+
   def make_visible
     CommentManager.new(user: current_user.object, comment: @reply).show
     json_replace html: reply_html
+  end
+
+  def confirm_hide
+    json_popup
   end
 
   def hide
