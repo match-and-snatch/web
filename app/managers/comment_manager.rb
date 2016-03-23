@@ -23,6 +23,22 @@ class CommentManager < BaseManager
     @comment
   end
 
+  def hide_all_comments_for_user
+    ignore = @user.comment_ignores.find_or_initialize_by(commenter_id: @comment.user.id)
+    ignore.enabled = true
+    save_or_die! ignore
+    @comment.user.comments.where(post_user_id: @user.id).update_all(hidden: true)
+  end
+
+  def show_all_comments_for_user
+    ignore = @user.comment_ignores.where(commenter_id: @comment.user.id).first
+    if ignore
+      ignore.enabled = false
+      save_or_die! ignore
+    end
+    @comment.user.comments.where(post_user_id: @user.id).update_all(hidden: false)
+  end
+
   # @param message [String]
   # @param mentions [Hash]
   # @return [Comment]
@@ -34,6 +50,7 @@ class CommentManager < BaseManager
     end
 
     comment = Comment.new(post: @post, user: @user, post_user: @post.user, parent: @parent, message: strip_tags(message), mentions: mentions)
+    comment.hidden = @post.user.comment_ignores.by_commenter(@user).enabled.any?
     save_or_die! comment
     EventsManager.comment_created(user: @user, comment: comment)
     NotificationManager.delay.notify_comment_created(comment)

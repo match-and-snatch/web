@@ -214,6 +214,8 @@ BuddyPlatform::Application.routes.draw do
       put :make_visible
       get :confirm_hide
       put :hide
+      put :make_all_visible
+      put :hide_all
       put :like
     end
     resources :replies, only: [:show, :create, :edit, :update] do
