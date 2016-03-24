@@ -3,10 +3,10 @@ class CommentsController < ApplicationController
 
   before_action :authenticate!, except: [:show, :create]
   before_action :load_post!, only: [:index, :create]
-  before_action :load_comment!, only: [:edit, :update, :destroy, :confirm_make_visible, :make_visible, :confirm_hide, :hide, :make_all_visible, :hide_all, :like, :show]
+  before_action :load_comment!, only: [:edit, :update, :destroy, :confirm_make_visible, :make_visible, :confirm_hide, :hide, :show_siblings, :hide_siblings, :like, :show]
 
   protect(:index, :create, :like, :show, :full_text) { can? :comment, post }
-  protect(:edit, :update, :confirm_make_visible, :make_visible, :confirm_hide, :hide, :make_all_visible, :hide_all, :destroy) { can? :manage, @comment }
+  protect(:edit, :update, :confirm_make_visible, :make_visible, :confirm_hide, :hide, :show_siblings, :hide_siblings, :destroy) { can? :manage, @comment }
 
   def index
     @query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id])
@@ -53,13 +53,13 @@ class CommentsController < ApplicationController
     render_comment_row
   end
 
-  def make_all_visible
-    CommentManager.new(user: current_user.object, comment: @comment).show_all_comments_for_user
+  def show_siblings
+    CommentManager.new(user: current_user.object, comment: @comment).show_siblings
     json_replace partial: 'visible_comment'
   end
 
-  def hide_all
-    CommentManager.new(user: current_user.object, comment: @comment).hide_all_comments_for_user
+  def hide_siblings
+    CommentManager.new(user: current_user.object, comment: @comment).hide_siblings
     json_replace partial: 'hidden_comment'
   end
 

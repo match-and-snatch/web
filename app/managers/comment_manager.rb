@@ -23,20 +23,24 @@ class CommentManager < BaseManager
     @comment
   end
 
-  def hide_all_comments_for_user
+  # @return [Comment]
+  def hide_siblings
     ignore = @user.comment_ignores.find_or_initialize_by(commenter_id: @comment.user.id)
     ignore.enabled = true
     save_or_die! ignore
     @comment.user.comments.where(post_user_id: @user.id).update_all(hidden: true)
+    @comment.reload
   end
 
-  def show_all_comments_for_user
+  # @return [Comment]
+  def show_siblings
     ignore = @user.comment_ignores.where(commenter_id: @comment.user.id).first
     if ignore
       ignore.enabled = false
       save_or_die! ignore
     end
     @comment.user.comments.where(post_user_id: @user.id).update_all(hidden: false)
+    @comment.reload
   end
 
   # @param message [String]

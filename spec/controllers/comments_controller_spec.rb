@@ -283,8 +283,8 @@ describe CommentsController, type: :controller do
     end
   end
 
-  describe 'PUT #make_all_visible' do
-    subject { put 'make_all_visible', id: comment.id }
+  describe 'PUT #show_siblings' do
+    subject { put 'show_siblings', id: comment.id }
 
     before { subscribe }
 
@@ -310,8 +310,8 @@ describe CommentsController, type: :controller do
     end
   end
 
-  describe 'PUT #hide_all' do
-    subject { put 'hide_all', id: comment.id }
+  describe 'PUT #hide_siblings' do
+    subject { put 'hide_siblings', id: comment.id }
 
     before { subscribe }
 

@@ -1,9 +1,9 @@
 class Api::CommentsController < Api::BaseController
   before_action :load_post!, only: [:index, :create]
-  before_action :load_comment!, only: [:show, :update, :destroy, :make_visible, :hide]
+  before_action :load_comment!, only: [:show, :update, :destroy, :make_visible, :hide, :show_siblings, :hide_siblings]
 
   protect(:index, :create, :show) { can? :comment, post }
-  protect(:update, :destroy, :make_visible, :hide) { can? :manage, @comment }
+  protect(:update, :destroy, :make_visible, :hide, :show_siblings, :hide_siblings) { can? :manage, @comment }
 
   def index
     query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id], limit: 10)
@@ -39,6 +39,16 @@ class Api::CommentsController < Api::BaseController
   def hide
     comment = CommentManager.new(user: current_user.object, comment: @comment).hide
     json_success api_response.comment_data(comment)
+  end
+
+  def show_siblings
+    CommentManager.new(user: current_user.object, comment: @comment).show_siblings
+    json_success api_response.comment_data(@comment)
+  end
+
+  def hide_siblings
+    CommentManager.new(user: current_user.object, comment: @comment).hide_siblings
+    json_success api_response.comment_data(@comment)
   end
 
   private
