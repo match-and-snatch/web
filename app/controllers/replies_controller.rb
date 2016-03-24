@@ -6,7 +6,7 @@ class RepliesController < ApplicationController
   before_action :load_reply!, only: [:show, :edit, :update, :confirm_make_visible, :make_visible, :confirm_hide, :hide]
 
   protect(:create, :show) { can? :comment, @comment.post }
-  protect(:edit, :update, :make_visible, :confirm_hide, :hide) { can? :manage, @reply }
+  protect(:edit, :update, :confirm_make_visible, :make_visible, :confirm_hide, :hide) { can? :manage, @reply }
 
   def show
     json_replace partial: 'reply', locals: { reply: @reply }

@@ -55,13 +55,11 @@ class CommentsController < ApplicationController
 
   def make_all_visible
     CommentManager.new(user: current_user.object, comment: @comment).show_all_comments_for_user
-    # render_comment_row
     json_replace partial: 'visible_comment'
   end
 
   def hide_all
     CommentManager.new(user: current_user.object, comment: @comment).hide_all_comments_for_user
-    # render_comment_row
     json_replace partial: 'hidden_comment'
   end
 

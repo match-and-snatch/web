@@ -50,4 +50,47 @@ describe CommentManager do
       it { expect { manager.update(message: 'edited', mentions: mentions) }.to change { comment.mentions }.from({}).to(mentions) }
     end
   end
+
+  describe '#hide_all_comments_for_user' do
+    subject(:manager) { described_class.new(user: user, comment: comment) }
+
+    let(:commenter) { create(:user) }
+    let(:comment) { described_class.new(user: commenter, post: post).create(message: 'comment') }
+
+    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(user) }
+
+    it { expect { manager.hide_all_comments_for_user }.to change { comment.reload.hidden? }.from(false).to(true) }
+    it { expect { manager.hide_all_comments_for_user }.to create_record(CommentIgnore).matching(user_id: user.id, commenter_id: commenter.id, enabled: true) }
+
+    context 'hide more than once' do
+      before do
+        manager.hide_all_comments_for_user
+        manager.show_all_comments_for_user
+      end
+
+      it { expect { manager.hide_all_comments_for_user }.to change { comment.reload.hidden? }.from(false).to(true) }
+      it { expect { manager.hide_all_comments_for_user }.not_to create_record(CommentIgnore) }
+      it { expect { manager.hide_all_comments_for_user }.to change { user.comment_ignores.first.enabled? }.from(false).to(true) }
+    end
+  end
+
+  describe '#show_all_comments_for_user' do
+    subject(:manager) { described_class.new(user: user, comment: comment) }
+
+    let(:commenter) { create(:user) }
+    let(:comment) { described_class.new(user: commenter, post: post).create(message: 'comment') }
+
+    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(user) }
+
+    context 'without hidden comments' do
+      it { expect { manager.show_all_comments_for_user }.not_to change { comment.reload.hidden? }.from(false) }
+    end
+
+    context 'with hidden comments' do
+      before { manager.hide_all_comments_for_user }
+
+      it { expect { manager.show_all_comments_for_user }.to change { comment.reload.hidden? }.from(true).to(false) }
+      it { expect { manager.show_all_comments_for_user }.to change { user.comment_ignores.first.enabled? }.from(true).to(false) }
+    end
+  end
 end

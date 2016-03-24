@@ -1,29 +1,33 @@
 require 'spec_helper'
 
 describe CommentsController, type: :controller do
-  let(:poster) { create_user email: 'poster@gmail.com' }
-  let(:commenter) { create_user email: 'commenter@gmail.com' }
-  let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
+  let(:poster) { create(:user) }
+  let(:commenter) { create(:user) }
+  let(:_post) { create(:status_post, user: poster) }
   let(:comment) { CommentManager.new(user: commenter, post: _post).create(message: 'test') }
+
+  def subscribe
+    SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)
+  end
 
   describe 'GET #index' do
     subject { get 'index', post_id: _post.id }
 
     context 'unauthorized access' do
       before { sign_in commenter }
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as poster' do
         before { sign_in poster }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'as subscriber' do
-        before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
+        before { subscribe }
         before { sign_in commenter }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
     end
   end
@@ -33,113 +37,115 @@ describe CommentsController, type: :controller do
 
     context 'unauthorized access' do
       before { sign_in commenter }
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as poster' do
         before { sign_in poster }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'as subscriber' do
-        before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
-        before { sign_in commenter }
-        it { should be_success }
+        before do
+          subscribe
+          sign_in commenter
+        end
+        it { is_expected.to be_success }
       end
     end
   end
 
   describe 'GET #edit' do
-    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
+    before { subscribe }
     subject { get 'edit', post_id: _post.id, id: comment.id }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as comment owner' do
         before { sign_in commenter }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'as a post owner' do
         before { sign_in poster }
-        its(:status) { should == 200 }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
         before { sign_in }
-        its(:status) { should == 401 }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
 
   describe 'GET #show' do
-    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
+    before { subscribe }
     subject { get 'show', id: comment.id }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as comment owner' do
         before { sign_in commenter }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'as a post owner' do
         before { sign_in poster }
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
         before { sign_in }
-        its(:status) { should eq(401) }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
 
   describe 'GET #full_text' do
-    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
+    before { subscribe }
     subject { get 'full_text', id: comment.id }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as comment owner' do
         before { sign_in commenter }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'as a post owner' do
         before { sign_in poster }
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
         before { sign_in }
-        its(:status) { should eq(401) }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
 
   describe 'PUT #update' do
-    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
+    before { subscribe }
     subject(:perform_request) { put 'update', post_id: _post.id, id: comment.id, message: 'updated' }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as comment owner' do
         before { sign_in commenter }
-        it { should be_success }
+        it { is_expected.to be_success }
 
         specify do
           expect { perform_request }.to change { comment.reload.message }.to('updated')
@@ -148,32 +154,59 @@ describe CommentsController, type: :controller do
 
       context 'as a post owner' do
         before { sign_in poster }
-        its(:status) { should == 200 }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
         before { sign_in }
-        its(:status) { should == 401 }
+        its(:status) { is_expected.to eq(401) }
+      end
+    end
+  end
+
+  describe 'GET #confirm_make_visible' do
+    before { subscribe }
+
+    subject(:perform_request) { get 'confirm_make_visible', id: comment.id }
+
+    context 'unauthorized access' do
+      its(:status) { is_expected.to eq(401) }
+    end
+
+    context 'authorized access' do
+      context 'as comment owner' do
+        before { sign_in commenter }
+        it { is_expected.to be_success }
+      end
+
+      context 'as a post owner' do
+        before { sign_in poster }
+        its(:status) { is_expected.to eq(200) }
+      end
+
+      context 'as anybody else' do
+        before { sign_in }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
 
   describe 'PUT #make_visible' do
     before do
-      SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)
+      subscribe
       CommentManager.new(user: poster, comment: comment).hide
     end
 
     subject(:perform_request) { put 'make_visible', post_id: _post.id, id: comment.id }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as comment owner' do
         before { sign_in commenter }
-        it { should be_success }
+        it { is_expected.to be_success }
 
         specify do
           expect { perform_request }.to change { comment.reload.hidden? }.to(false)
@@ -182,31 +215,56 @@ describe CommentsController, type: :controller do
 
       context 'as a post owner' do
         before { sign_in poster }
-        its(:status) { should == 200 }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
         before { sign_in }
-        its(:status) { should == 401 }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
 
-  describe 'PUT #hide' do
-    before do
-      SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)
-    end
+  describe 'GET #confirm_hide' do
+    before { subscribe }
 
-    subject(:perform_request) { put 'hide', post_id: _post.id, id: comment.id }
+    subject(:perform_request) { get 'confirm_hide', id: comment.id }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as comment owner' do
         before { sign_in commenter }
-        it { should be_success }
+        it { is_expected.to be_success }
+      end
+
+      context 'as a post owner' do
+        before { sign_in poster }
+        its(:status) { is_expected.to eq(200) }
+      end
+
+      context 'as anybody else' do
+        before { sign_in }
+        its(:status) { is_expected.to eq(401) }
+      end
+    end
+  end
+
+  describe 'PUT #hide' do
+    before { subscribe }
+
+    subject(:perform_request) { put 'hide', post_id: _post.id, id: comment.id }
+
+    context 'unauthorized access' do
+      its(:status) { is_expected.to eq(401) }
+    end
+
+    context 'authorized access' do
+      context 'as comment owner' do
+        before { sign_in commenter }
+        it { is_expected.to be_success }
 
         specify do
           expect { perform_request }.to change { comment.reload.hidden? }.to(true)
@@ -215,39 +273,93 @@ describe CommentsController, type: :controller do
 
       context 'as a post owner' do
         before { sign_in poster }
-        its(:status) { should == 200 }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
         before { sign_in }
-        its(:status) { should == 401 }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
 
-  describe 'DELETE #destroy' do
-    before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
-    let(:comment) { CommentManager.new(user: commenter, post: _post).create(message: 'test') }
-    subject { delete 'destroy', post_id: _post.id, id: comment.id }
+  describe 'PUT #make_all_visible' do
+    subject { put 'make_all_visible', id: comment.id }
+
+    before { subscribe }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as comment owner' do
         before { sign_in commenter }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'as a post owner' do
         before { sign_in poster }
-        its(:status) { should == 200 }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
         before { sign_in }
-        its(:status) { should == 401 }
+        its(:status) { is_expected.to eq(401) }
+      end
+    end
+  end
+
+  describe 'PUT #hide_all' do
+    subject { put 'hide_all', id: comment.id }
+
+    before { subscribe }
+
+    context 'unauthorized access' do
+      its(:status) { is_expected.to eq(401) }
+    end
+
+    context 'authorized access' do
+      context 'as comment owner' do
+        before { sign_in commenter }
+        it { is_expected.to be_success }
+      end
+
+      context 'as a post owner' do
+        before { sign_in poster }
+        its(:status) { is_expected.to eq(200) }
+      end
+
+      context 'as anybody else' do
+        before { sign_in }
+        its(:status) { is_expected.to eq(401) }
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { subscribe }
+    let(:comment) { CommentManager.new(user: commenter, post: _post).create(message: 'test') }
+    subject { delete 'destroy', post_id: _post.id, id: comment.id }
+
+    context 'unauthorized access' do
+      its(:status) { is_expected.to eq(401) }
+    end
+
+    context 'authorized access' do
+      context 'as comment owner' do
+        before { sign_in commenter }
+        it { is_expected.to be_success }
+      end
+
+      context 'as a post owner' do
+        before { sign_in poster }
+        its(:status) { is_expected.to eq(200) }
+      end
+
+      context 'as anybody else' do
+        before { sign_in }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
