@@ -15,6 +15,7 @@ class bud.widgets.Popup extends bud.Widget
 
     # Move into proper HTML position
     @$container.appendTo($('body'))
+    bud.Core.init_widgets(@$container)
 
   destroy: ->
     bud.unsub("popup.show", @autoclose)

@@ -91,6 +91,7 @@
 
   .Popup.popup.modal-content data-identifier='pricing-popup' style="width: 610px"
     .modal-header
+      i.PopupTrigger.fa.fa-times-circle.close type="button" aria-hidden="true"
       .modal-title Pricing Breakdown
       span
         | Please note, to keep subscribers happy and billing cycles consistent,
@@ -106,7 +107,7 @@
             td
               |
               b ConnectPal Service Fee
-              span style="font-size: 11px;"(includes all fees & credit card processing)
+              span style="font-size: 11px;" (includes all fees & credit card processing)
           tr
             td $4 or less
             td $0.99
