@@ -917,6 +917,18 @@
   .recent_posts
     position: relative
 
+    span.loading
+      content: asset-url('preloader.gif')
+      display: none
+      margin: 0 auto 15px
+      height: 76px
+      width: 76px
+
+    &.pending
+      opacity: 1 !important
+      span.loading
+        display: block
+
     // Search Posts
     .show_results
       @include border-radius($border_radius)

@@ -119,7 +119,9 @@
       /Recent Posts
       .pull-right.col-md-8.col-sm-12.col-xs-12
         .PostsContainer.recent_posts data-identifier='posts' data-ajaxify_links='false' data-url=user_posts_path(@profile.object)
+          span.loading
           = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
+
 
   .mobile_nav.HidesOnMobileInput.hidden-md.hidden-sm.col-xs-12= render 'navigation_mobile'
   .AjaxPopup.popup.mobile_create_popup.status.modal-content data-identifier='status-post-mobile' data-url=new_status_post_path

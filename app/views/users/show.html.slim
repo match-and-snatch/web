@@ -123,6 +123,7 @@
             span style='margin-left: 10px;' Make a contribution, support this profile!
           .clearfix
         .PostsContainer.recent_posts data-ajaxify_links='false' data-identifier='posts' data-url=user_posts_path(@profile.object)
+          span.loading
           = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
 
   .mobile_nav.HidesOnMobileInput.hidden-md.hidden-sm.col-xs-12= render 'navigation_mobile'
