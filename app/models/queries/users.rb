@@ -92,7 +92,7 @@ module Queries
       when 0, 1
         User.none
       else
-        limit(Queries::Elastic::Profiles.new.search(@query).records, 5)
+        limit(Queries::Elastic::Profiles.new.search(@query, include_hidden: @include_hidden).records, 5)
       end
     end
 

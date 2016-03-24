@@ -6,6 +6,8 @@ describe Dashboard::Admin::LimitsController, type: :controller do
   describe 'GET #search' do
     subject { get 'search', q: 'query' }
 
+    before { update_index }
+
     context 'as an admin' do
       before { sign_in create(:user, :admin) }
       it { is_expected.to be_success }

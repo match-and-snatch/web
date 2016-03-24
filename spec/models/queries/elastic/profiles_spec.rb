@@ -26,6 +26,14 @@ describe Queries::Elastic::Profiles do
       it 'does not search mature content' do
         expect(subject.records).to eq([regular_user])
       end
+
+      context 'includes hidden' do
+        subject { query.search('Test', include_hidden: true) }
+
+        it 'search mature content' do
+          expect(subject.records).to match_array([regular_user, mature_user])
+        end
+      end
     end
 
     context 'search by part of word' do
