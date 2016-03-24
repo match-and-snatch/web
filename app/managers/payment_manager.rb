@@ -42,6 +42,8 @@ class PaymentManager < BaseManager
                                        target_type: subscription.class.name,
                                        user_id:     subscription.customer.id }
 
+    country_code = charge['source'].try(:[], 'country') || charge['card'].try(:[], 'country')
+
     payment = Payment.create! target:             subscription,
                               user:               subscription.customer,
                               target_user:        subscription.recipient,
@@ -50,7 +52,8 @@ class PaymentManager < BaseManager
                               description:        description,
                               cost:              subscription.cost,
                               subscription_fees: subscription.fees,
-                              subscription_cost: subscription.total_cost
+                              subscription_cost: subscription.total_cost,
+                              source_country:    country_code
 
     subscription.charged_at = Time.zone.now
 

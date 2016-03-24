@@ -28,6 +28,10 @@ describe PaymentManager do
       expect { subject.pay_for(subscription) }.to change { target_user.gross_sales }.from(0).to(599)
     end
 
+    it 'sets contry code' do
+      expect(subject.pay_for(subscription).payments.last.source_country).to eq('US')
+    end
+
     context 'subscription is paid' do
       let(:subscription) { create :subscription, user: user, target_user: target_user, charged_at: 1.day.ago }
       specify { expect { subject.pay_for(subscription) }.to raise_error(PaymentError, /is not payable/) }
