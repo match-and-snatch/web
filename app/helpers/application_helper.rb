@@ -190,7 +190,15 @@ module ApplicationHelper
   end
 
   def sort_potential_violators_link(title, field)
-    dashboard_link_to title, [:potential_violators, sort_direction_params(field).merge(request.GET).except('authenticity_token')]
+    sort_dashboard_link :potential_violators, title, field
+  end
+
+  def sort_dashboard_link(resource, title, field)
+    dashboard_link_to title, [resource, sort_direction_params(field).merge(request.GET).except('authenticity_token')]
+  end
+
+  def add_request_params(hash)
+    request.GET.except('authenticity_token').merge(hash)
   end
 
   def dashboard_link_to_user(user, truncate: true, link_title: user.name)

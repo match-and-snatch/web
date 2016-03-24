@@ -390,6 +390,8 @@ BuddyPlatform::Application.routes.draw do
       concerns :profile_owners_dashboard
       concerns :profile_deserters_dashboard
 
+      resources :payment_sources, only: [:index]
+
       resources :potential_violators, only: [:index]
       resources :potential_contribution_violators, only: [:index]
 

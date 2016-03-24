@@ -1,0 +1,56 @@
+h2 Payment sources
+
+- @payment_sources.each_slice(3) do |group|
+  ol.pull-left style='padding: 0 15px 15px 0'
+    - group.each do |source, count|
+      li class="#{source == params[:source_country] ? 'pending' : ''}"
+        a href=admin_payment_sources_path(add_request_params(source_country: source))
+          span= source
+        small<
+          | (#{count})
+.clearfix
+
+h3 Filter by profile name
+form action=admin_payment_sources_path method='get'
+  input.form-control type="text" name='profile' placeholder="Search by profile name..." value=params[:profile]
+br
+.clearfix
+
+.table-responsive
+  table.table.table-striped
+    tr
+      th
+        strong ID #
+      th
+        strong Date
+      th
+        strong Origin
+      th
+        strong Subscriber
+      th
+        / Email
+      th
+        strong Profile
+      th
+        strong Amount
+      th
+        strong Subscription Date
+
+    - @payments.each do |payment|
+      tr
+        td= payment.id
+        td= payment.created_at.try(:to_s, :long)
+        td= payment.source_country
+        td
+          = dashboard_link_to_user payment.user
+        td
+          a href="mailto:#{payment.user.email}"= payment.user.email
+        td
+          = dashboard_link_to_user payment.target_user
+
+        td= cents_to_dollars payment.amount
+
+        td= payment.subscription.created_at.try(:to_s, :long)
+
+.TopJumper= paginate @payments
+
