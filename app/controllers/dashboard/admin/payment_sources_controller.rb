@@ -2,7 +2,6 @@ class Dashboard::Admin::PaymentSourcesController < Dashboard::BaseController
   include Dashboard::Concerns::AdminController
 
   def index
-    @payment_sources = Payment.group(:source_country).count
     @payments = Payment.order(created_at: :desc).includes(:subscription, :user, :target_user)
 
     if params[:source_country].present?
@@ -10,7 +9,11 @@ class Dashboard::Admin::PaymentSourcesController < Dashboard::BaseController
     end
 
     if params[:profile].present?
-      @payments = @payments.joins("INNER JOIN users ON payments.target_user_id = users.id AND users.profile_name ILIKE '%#{params[:profile]}%'")
+      join = "INNER JOIN users ON payments.target_user_id = users.id AND users.profile_name ILIKE '%#{params[:profile]}%'"
+      @payments = @payments.joins(join)
+      @payment_sources = Payment.joins(join).group(:source_country).count
+    else
+      @payment_sources = Payment.group(:source_country).count
     end
 
     @payments = @payments.page(params[:page]).per(25)
