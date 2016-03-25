@@ -1827,14 +1827,18 @@
     &.with_video
       .no-radius
         min-height: 326px
-      // .jwplayer
-      //   height: auto !important
-      //   min-height: 330px
-      //   width: 585px !important
-      //   margin-bottom: 15px
   #subscriber_display
     .recent_posts
       .post
+        .hide-show-comment
+          @include pink-area
+          @include border-radius(10px)
+          color: #FFFFFF
+          padding: 15px
+          position: absolute
+          text-align: center
+          top: 0
+          left: 0
         .post_title
           width: 100%
           font-size: 14px
@@ -1844,6 +1848,9 @@
           .comment_row
             .content
               width: 100%
+              .hide-show-comment
+                margin-left: 62px
+                width: 523px
           .nested_row
             padding-left: 77px
             .nested_content
