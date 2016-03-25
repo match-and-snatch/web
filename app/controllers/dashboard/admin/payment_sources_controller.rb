@@ -5,7 +5,7 @@ class Dashboard::Admin::PaymentSourcesController < Dashboard::BaseController
     @payments = Payment.order(created_at: :desc).includes(:subscription, :user, :target_user)
 
     if params[:source_country].present?
-      @payments = @payments.where(source_country: params[:source_country])
+      @payments = @payments.where(source_country: params[:source_country] == 'empty' ? nil : params[:source_country])
     end
 
     if params[:profile].present?
