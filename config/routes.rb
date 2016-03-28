@@ -426,6 +426,17 @@ BuddyPlatform::Application.routes.draw do
       resources :payments, only: :index
       resources :payout_details, only: :index
       resources :vacations, only: :index
+      resources :tos_acceptors, only: :index do
+        member do
+          get :confirm_toggle_tos_acceptance
+          put :toggle_tos_acceptance
+        end
+        collection do
+          get :search
+          get :confirm_reset_tos_acceptance
+          post :reset_tos_acceptance
+        end
+      end
       resources :limits, only: [:index, :edit, :update] do
         collection do
           get :search

@@ -1,0 +1,11 @@
+.modal-header style='width: 480px;'
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
+  .modal-title Toggle ToS acceptance
+  p style="font-size: 13px; margin-top: 15px;" Are you sure you want to #{@user.tos_accepted? ? 'Reset' : 'Accept'} ToS for #{@user.full_name}?
+
+  .modal-body style="padding-bottom: 15px;"
+    form.Form action=toggle_tos_acceptance_admin_tos_acceptor_path(@user.id) method='put'
+      .form-group style="margin: 15px 0 0"
+        input.btn.pink.pull-left type='submit' value='Confirm' style="margin-left: 85px; text-decoration: none;"
+        a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
+        .clearfix

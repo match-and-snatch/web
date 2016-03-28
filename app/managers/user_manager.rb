@@ -107,4 +107,13 @@ class UserManager < BaseManager
     save_or_die! @user
     EventsManager.tos_accepted(user: @user)
   end
+
+  def toggle_tos_acceptance
+    @user.tos_accepted = !@user.tos_accepted?
+    save_or_die! @user
+  end
+
+  def self.reset_tos_acceptance
+    User.where(tos_accepted: true).update_all(tos_accepted: false)
+  end
 end

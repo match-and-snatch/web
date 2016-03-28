@@ -197,10 +197,30 @@ describe UserManager do
     it { expect { manager.update_adult_subscriptions_limit(nil) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
   end
 
-  describe 'mark_tos_accepted' do
-    let(:user) { create_user }
+  describe '#mark_tos_accepted' do
+    let(:user) { create(:user) }
 
-    it { expect { manager.mark_tos_accepted }.to change { user.tos_accepted? }.from(false).to(true) }
+    it { expect { manager.mark_tos_accepted }.to change { user.reload.tos_accepted? }.from(false).to(true) }
     it { expect { manager.mark_tos_accepted }.to create_event(:tos_accepted) }
+  end
+
+  describe '#toggle_tos_acceptance' do
+    context 'tos accepted' do
+      let(:user) { create(:user, tos_accepted: true) }
+
+      it { expect { manager.toggle_tos_acceptance }.to change { user.reload.tos_accepted? }.from(true).to(false) }
+    end
+
+    context 'tos not accepted' do
+      let(:user) { create(:user) }
+
+      it { expect { manager.toggle_tos_acceptance }.to change { user.reload.tos_accepted? }.from(false).to(true) }
+    end
+  end
+
+  describe '.reset_tos_acceptance' do
+    let(:user) { create(:user, tos_accepted: true) }
+
+    it { expect { described_class.reset_tos_acceptance }.to change { user.reload.tos_accepted? }.from(true).to(false) }
   end
 end
