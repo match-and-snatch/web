@@ -148,6 +148,7 @@ BuddyPlatform::Application.routes.draw do
         put :update_general_information
         put :update_cc_data
         delete :delete_cc_data
+        post :accept_tos
       end
     end
 
@@ -191,6 +192,7 @@ BuddyPlatform::Application.routes.draw do
       put :disable_contributions
       post :enable_vacation_mode
       put :disable_vacation_mode
+      post :accept_tos
     end
 
     scope module: :account_info do
@@ -424,6 +426,17 @@ BuddyPlatform::Application.routes.draw do
       resources :payments, only: :index
       resources :payout_details, only: :index
       resources :vacations, only: :index
+      resources :tos_acceptors, only: :index do
+        member do
+          get :confirm_toggle_tos_acceptance
+          put :toggle_tos_acceptance
+        end
+        collection do
+          get :search
+          get :confirm_reset_tos_acceptance
+          post :reset_tos_acceptance
+        end
+      end
       resources :limits, only: [:index, :edit, :update] do
         collection do
           get :search

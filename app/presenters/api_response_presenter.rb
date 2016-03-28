@@ -21,7 +21,8 @@ class ApiResponsePresenter
     {
       banned: user.locked? || user.cc_declined?,
       locked: user.locked?,
-      lock_type: lock_type
+      lock_type: lock_type,
+      tos_accepted: user.tos_accepted?
     }
   end
 

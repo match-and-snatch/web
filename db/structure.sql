@@ -114,6 +114,39 @@ ALTER SEQUENCE benefits_id_seq OWNED BY benefits.id;
 
 
 --
+-- Name: comment_ignores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE comment_ignores (
+    id integer NOT NULL,
+    enabled boolean DEFAULT true NOT NULL,
+    user_id integer,
+    commenter_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comment_ignores_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comment_ignores_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comment_ignores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comment_ignores_id_seq OWNED BY comment_ignores.id;
+
+
+--
 -- Name: comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -522,7 +555,8 @@ CREATE TABLE payments (
     target_user_id integer,
     cost integer,
     subscription_fees integer,
-    subscription_cost integer
+    subscription_cost integer,
+    source_country character varying
 );
 
 
@@ -1057,7 +1091,8 @@ CREATE TABLE users (
     gross_sales integer DEFAULT 0 NOT NULL,
     gross_contributions integer DEFAULT 0 NOT NULL,
     adult_subscriptions_limit integer DEFAULT 6 NOT NULL,
-    payout_updated_at timestamp without time zone
+    payout_updated_at timestamp without time zone,
+    tos_accepted boolean DEFAULT false NOT NULL
 );
 
 
@@ -1085,6 +1120,13 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 --
 
 ALTER TABLE ONLY benefits ALTER COLUMN id SET DEFAULT nextval('benefits_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comment_ignores ALTER COLUMN id SET DEFAULT nextval('comment_ignores_id_seq'::regclass);
 
 
 --
@@ -1261,6 +1303,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY benefits
     ADD CONSTRAINT benefits_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comment_ignores_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY comment_ignores
+    ADD CONSTRAINT comment_ignores_pkey PRIMARY KEY (id);
 
 
 --
@@ -1846,6 +1896,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160112081924');
 
 INSERT INTO schema_migrations (version) VALUES ('20160112083017');
 
+INSERT INTO schema_migrations (version) VALUES ('20160127072439');
+
 INSERT INTO schema_migrations (version) VALUES ('20160222074243');
 
 INSERT INTO schema_migrations (version) VALUES ('20160222074636');
@@ -1854,4 +1906,11 @@ INSERT INTO schema_migrations (version) VALUES ('20160308064956');
 
 INSERT INTO schema_migrations (version) VALUES ('20160309105538');
 
+INSERT INTO schema_migrations (version) VALUES ('20160322123833');
+
 INSERT INTO schema_migrations (version) VALUES ('20160323064600');
+
+INSERT INTO schema_migrations (version) VALUES ('20160323074945');
+
+INSERT INTO schema_migrations (version) VALUES ('20160323075112');
+

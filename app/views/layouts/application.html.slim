@@ -65,6 +65,19 @@ html
         = render 'blocked_view'
       - else
         = yield
+
+      - unless current_user.tos_accepted?
+        .tos-footer data-identifier='tos-notice'
+          .content
+            a.AjaxFormLink.hide-footer href=accept_tos_account_info_path data-target='tos-notice'
+              | CLOSE
+              .fa.fa-times
+            | Our Privacy Policy and Terms of Service have been updated. By using this site, you agree to the
+            a>< href="/privacy_policy" Privacy Policy
+            | and
+            a< href="/terms_of_service" Terms of Service
+            |.
+
     #overlay.Overlay
     = render 'search_users_popup'
     #ClickBlocker
