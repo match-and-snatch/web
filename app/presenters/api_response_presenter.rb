@@ -143,8 +143,8 @@ class ApiResponsePresenter
       timestamp: post.created_at.to_i,
       created_at: time_ago_in_words(post.created_at),
       comments_count: post.comments_count,
-      uploads: post.uploads.map {
-        |upload| upload_data(upload)
+      uploads: post.uploads.map { |upload|
+        upload_data(upload)
       },
       likes: {
         total_count: post.likes_count,
