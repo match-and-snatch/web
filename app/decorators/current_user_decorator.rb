@@ -58,7 +58,7 @@ class CurrentUserDecorator < UserDecorator
   # @raise [ArgumentError] if action or subject are not registered
   # @return [true, false]
   def can?(action, subject)
-    Ability.new(object).can?(action, subject)
+    ability.can?(action, subject)
   end
 
   # @return [Array]
@@ -85,10 +85,8 @@ class CurrentUserDecorator < UserDecorator
   # @param likable [Post, Comment]
   def likes?(likable)
     case likable
-    when Post
-      object.likes.where(post_id: likable.id).any?
-    when Comment
-      object.likes.where(comment_id: likable.id).any?
+    when Post, Comment
+      likable.likes.any? { |like| like.user_id == object.id }
     else
       raise ArgumentError
     end
@@ -131,5 +129,11 @@ class CurrentUserDecorator < UserDecorator
 
   def pending_video_previews
     @pending_video_previews ||= object.pending_video_preview_photos.to_a
+  end
+
+  private
+
+  def ability
+    @ability ||= Ability.new(object)
   end
 end

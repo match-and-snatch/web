@@ -140,24 +140,26 @@ class ApiResponsePresenter
       type: post.type,
       title: post.title,
       message: post.message,
-      created_at: time_ago_in_words(post.created_at),
-      uploads: post.uploads.ordered.map { |upload| upload_data(upload) },
-      profile: basic_profile_data(post.user),
-      likes: post.likers_data.merge(liked: current_user.likes?(post)),
-      comments_count: post.comments.count,
       timestamp: post.created_at.to_i,
-      access: {
-        owner: post.user == current_user.object
-      }
+      created_at: time_ago_in_words(post.created_at),
+      comments_count: post.comments_count,
+      uploads: post.uploads.map { |upload|
+        upload_data(upload)
+      },
+      likes: {
+        total_count: post.likes_count,
+        liked: current_user.likes?(post)
+      },
+      profile: basic_profile_data(post.user)
     }
   end
 
-  def comment_data(comment)
+  def comment_data(comment, include_replies: true)
     {
       id: comment.id,
       message: comment.message,
-      created_at: time_ago_in_words(comment.created_at),
       timestamp: comment.created_at.to_i,
+      created_at: time_ago_in_words(comment.created_at),
       hidden: comment.hidden,
       mentions: comment.mentions,
       parent_id: comment.parent_id,
@@ -167,8 +169,8 @@ class ApiResponsePresenter
         profile: basic_profile_data(comment.post.user)
       },
       access: {
-        owner: current_user == comment.user,
-        post_owner: current_user == comment.post_user
+        owner: current_user.id == comment.user_id,
+        post_owner: current_user.id == comment.post_user_id
       },
       user: {
         id: comment.user.id,
@@ -178,10 +180,23 @@ class ApiResponsePresenter
         small_profile_picture_url: comment.user.small_profile_picture_url,
         has_profile: comment.user.has_profile_page?
       },
-      profile: basic_profile_data(comment.user),
-      replies: comment.replies.map { |r| comment_data(r) },
-      likes: comment.likers_data.merge(liked: current_user.likes?(comment))
-    }
+      profile: {
+        slug: comment.user.slug,
+        name: comment.user.name,
+        has_profile: comment.user.has_profile_page?
+      },
+      replies: [],
+      likes: {
+        total_count: comment.likes_count,
+        liked: current_user.likes?(comment)
+      }
+    }.tap do |data|
+      if include_replies
+        data[:replies] = comment.replies.map do |reply|
+          comment_data(reply, include_replies: false)
+        end
+      end
+    end
   end
 
   def dialogues_data(dialogues = [])
@@ -244,8 +259,8 @@ class ApiResponsePresenter
   def basic_profile_data(user)
     {
       access: {
-        owner: current_user == user,
-        subscribed: current_user.subscribed_to?(user),
+        owner: current_user.id == user.id,
+        subscribed: subscribed_to?(user),
         billing_failed: current_user.billing_failed?,
         public_profile: user.has_public_profile?
       },
@@ -430,7 +445,8 @@ class ApiResponsePresenter
       preview_url: upload.preview_url,
       retina_preview_url: upload.retina_preview_url,
       original_url: upload.original_url,
-      url: upload.url
+      url: upload.url,
+      ordering: upload.ordering
     }.tap do |data|
       if upload.video?
         data[:hdfile_url] = upload.hd_rtmp_path
@@ -444,5 +460,12 @@ class ApiResponsePresenter
       id: audio.id,
       filename: audio.filename
     }
+  end
+
+  def subscribed_to?(target)
+    return false if current_user.id == target.id
+
+    @st_cache ||= {}
+    @st_cache[target.id] ||= current_user.subscribed_to?(target)
   end
 end

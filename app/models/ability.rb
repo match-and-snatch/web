@@ -68,8 +68,9 @@ class Ability
 
   private
 
-  def subscribed_to?(*args)
-    performer.subscribed_to?(*args)
+  def subscribed_to?(target)
+    @st_cache ||= {}
+    @st_cache[target.id] ||= performer.subscribed_to?(target)
   end
 
   def billing_failed?
