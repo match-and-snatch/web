@@ -55,12 +55,12 @@ class CommentsController < ApplicationController
 
   def show_siblings
     CommentManager.new(user: current_user.object, comment: @comment).show_siblings
-    json_replace partial: 'visible_comment'
+    json_success visible: true
   end
 
   def hide_siblings
     CommentManager.new(user: current_user.object, comment: @comment).hide_siblings
-    json_replace partial: 'hidden_comment'
+    json_success visible: false
   end
 
   def destroy

@@ -1,6 +1,6 @@
 - if (!reply.hidden? || current_user.id == reply.post_user_id) || current_user.id == reply.user_id
   .nested_row data-identifier='comment-#{reply.id}' style='#{"opacity: 0.5" if (reply.hidden? && reply.user_id != current_user.id) || (reply.hidden? && reply.post_user_id == current_user.id)}'
-    .nested_content
+    .nested_content data-identifier='comment-user-#{reply.user_id}'
       .photo
         img src=reply.user_picture_url width=50 height=50
 
@@ -17,10 +17,10 @@
             - if current_user.id == reply.post_user_id && current_user.id != reply.user_id
               - if reply.hidden?
                 a.AjaxLink href=confirm_make_visible_comment_reply_path(reply.parent.id, reply.id)
-                  li Show
+                  li.visibility_toggler Show
               - else
                 a.AjaxLink href=confirm_hide_comment_reply_path(reply.parent.id, reply.id)
-                  li Hide
+                  li.visibility_toggler Hide
             a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}'
               li Edit
             a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}'

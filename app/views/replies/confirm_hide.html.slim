@@ -4,7 +4,7 @@
   a.AjaxFormLink.btn.pink href=hide_comment_reply_path(@reply.parent.id, @reply.id) data-_method='put' data-target='comment-#{@reply.id}'
     i.PopupTrigger data-target="remote-popup" aria-hidden="true" Hide just this comment
   p.or or
-  a.AjaxFormLink.btn.pink href=hide_siblings_comment_path(@reply.id) data-_method='put' data-target='comment-user-#{@reply.user_id}'
+  a.SiblingCommentsToggler.btn.pink href=hide_siblings_comment_path(@reply.id) data-_method='put' data-target='comment-user-#{@reply.user_id}'
     i.PopupTrigger data-target="remote-popup" aria-hidden="true"
       ' Hide all existing and future
       br
