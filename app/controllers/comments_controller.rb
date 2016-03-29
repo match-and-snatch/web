@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
   protect(:edit, :update, :confirm_make_visible, :make_visible, :confirm_hide, :hide, :show_siblings, :hide_siblings, :destroy) { can? :manage, @comment }
 
   def index
-    @query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id])
+    @query = Queries::Comments.new(post: @post, performer: current_user, start_id: params[:last_comment_id])
     json_replace
   end
 
