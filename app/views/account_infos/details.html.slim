@@ -2,26 +2,27 @@
 .profile_stats
   .stats_col
     strong= @user.subscriptions_count
-    span Active Subscriptions
+    span * Active Subscriptions
   .stats_col
     strong= cents_to_dollars(@user.monthly_earnings, use_ceil: true)
-    span Monthly Earnings
+    span * Monthly Earnings
   .clearfix
 
 .profile_stats_note data-identifier='profile-details-notice'
   a.read_more.Toggler href='#' data-target='profile-details-notice' ...read more
   | * Payouts within the United States are transferred via ACH bank deposit, and ConnectPal will pay the
 .profile_stats_note style="display:none;" data-identifier='profile-details-notice'
-  | * Payouts within the United States are transferred via ACH bank deposit, and ConnectPal will pay the ACH bank transfer fees within the USA.&nbsp;&nbsp;International profile owners should contact us at
+  | * Payouts within the United States are transferred via ACH bank deposit, and ConnectPal will pay the ACH bank transfer fees within the USA.  International profile owners should contact us at
   a>< href="mailto:business@connectpal.com" business@connectpal.com
-  | to discuss International payout procedures, as some fees may apply for International money transfers.&nbsp;&nbsp;Please read our
+  | to discuss International payout procedures, as some fees may apply for International money transfers.  Please read our
   a>< href="faq" FAQ
   | and
   a>< href="terms_of_service" Terms of Service
-  | for important information about payout procedures, taxes, credit card disputes, and more.&nbsp;&nbsp;To update your Payout Information, please click
+  | for important information about payout procedures, taxes, credit card disputes, and more.  The Monthly Earnings number displayed in Profile Details is a projection based upon that exact moment’s active subscriber number.  Payouts are based on the active subscriber number at the end of the month; for more information, please see our
+  a< href="terms_of_service" Terms of Service
+  |.  To update your Payout Information, please click
   a< href="account#/account_info/edit_payment_information" here
-  |.&nbsp;&nbsp;Please note, a profile owner must earn $200 or more in a calendar month to receive a Payout.
-
+  |.  Please note, a profile owner must earn $200 or more in a calendar month to receive a Payout.
 .col-md-12
   - if @user.subscriptions_chart_visible?
     h2 Subscriber Monthly Growth
