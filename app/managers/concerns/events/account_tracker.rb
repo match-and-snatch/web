@@ -116,4 +116,13 @@ module Concerns::Events::AccountTracker
   def tos_accepted(user: , &block)
     Event.create! user: user, subject: user, action: 'tos_accepted', &block
   end
+
+  # @param user [User]
+  # @param from [Integer]
+  # @param to [Integer]
+  # @yield
+  # @return [Event]
+  def subscriptions_limit_changed(user: , from: , to: , &block)
+    Event.create! user: user, subject: user, action: 'subscriptions_limit_changed', data: { from: from, to: to }, &block
+  end
 end

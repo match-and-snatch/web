@@ -1,5 +1,5 @@
 class Dashboard::Admin::LimitsController < Dashboard::Admin::BaseController
-  before_action :load_user!, only: [:edit, :update]
+  before_action :load_user!, only: [:edit, :update, :events]
 
   def search
     @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_admin_fields
@@ -20,6 +20,11 @@ class Dashboard::Admin::LimitsController < Dashboard::Admin::BaseController
   def update
     UserManager.new(@user).update_adult_subscriptions_limit(params[:limit])
     json_reload notice: "Subscriptions limit has been changed for #{@user.name}"
+  end
+
+  def events
+    @events = @user.events.where(action: 'subscriptions_limit_changed').order(created_at: :desc)
+    json_render
   end
 
   private
