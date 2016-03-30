@@ -198,7 +198,7 @@ describe UserManager do
   end
 
   describe '#mark_tos_accepted' do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, tos_accepted: false) }
 
     it { expect { manager.mark_tos_accepted }.to change { user.reload.tos_accepted? }.from(false).to(true) }
     it { expect { manager.mark_tos_accepted }.to create_event(:tos_accepted) }
@@ -212,7 +212,7 @@ describe UserManager do
     end
 
     context 'tos not accepted' do
-      let(:user) { create(:user) }
+      let(:user) { create(:user, tos_accepted: false) }
 
       it { expect { manager.toggle_tos_acceptance }.to change { user.reload.tos_accepted? }.from(false).to(true) }
     end
