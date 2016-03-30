@@ -1,7 +1,7 @@
 class Subscription < ActiveRecord::Base
   include Concerns::Payable
 
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   belongs_to :target, polymorphic: true
   belongs_to :target_user, class_name: 'User'
   has_many :payments, as: :target
