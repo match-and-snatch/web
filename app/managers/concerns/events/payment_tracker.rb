@@ -5,6 +5,7 @@ module Concerns::Events::PaymentTracker
   # @return [Event]
   def contribution_created(user: , contribution: , &block)
     Event.create! user: user,
+                  subject: contribution,
                   action: 'contribution_created',
                   data: { amount: contribution.amount,
                           user_id: contribution.user_id,
@@ -20,6 +21,7 @@ module Concerns::Events::PaymentTracker
   # @return [Event]
   def contribution_failed(user: , contribution: , &block)
     Event.create! user: user,
+                  subject: contribution,
                   action: 'contribution_failed',
                   data: { amount: contribution.amount,
                           user_id: contribution.user_id,
@@ -35,6 +37,7 @@ module Concerns::Events::PaymentTracker
   # @return [Event]
   def contribution_cancelled(user: , contribution: , &block)
     Event.create! user: user,
+                  subject: contribution,
                   action: 'contribution_cancelled',
                   data: { amount: contribution.amount,
                           user_id: contribution.user_id,
@@ -50,6 +53,7 @@ module Concerns::Events::PaymentTracker
   # @return [Event]
   def payment_created(user: , payment: , &block)
     Event.create! user: user,
+                  subject: payment,
                   action: 'payment_created',
                   data: { amount: payment.amount,
                           cost: payment.cost,
@@ -68,6 +72,7 @@ module Concerns::Events::PaymentTracker
   # @return [Event]
   def payment_failed(user: , payment_failure: , &block)
     Event.create! user: user,
+                  subject: payment_failure,
                   action: 'payment_failed',
                   data: { failure_id: payment_failure.id,
                           target_user_id: payment_failure.target_user_id,
