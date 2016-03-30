@@ -1061,7 +1061,8 @@ CREATE TABLE users (
     adult_subscriptions_limit integer DEFAULT 6 NOT NULL,
     tos_accepted boolean DEFAULT true NOT NULL,
     payout_updated_at timestamp without time zone,
-    subscriptions_count integer DEFAULT 0 NOT NULL
+    subscriptions_count integer DEFAULT 0 NOT NULL,
+    adult_subscriptions_limit_changed_at timestamp without time zone
 );
 
 
@@ -1911,6 +1912,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160323075112');
 INSERT INTO schema_migrations (version) VALUES ('20160330033850');
 
 INSERT INTO schema_migrations (version) VALUES ('20160330034103');
+
+INSERT INTO schema_migrations (version) VALUES ('20160330042049');
 
 INSERT INTO schema_migrations (version) VALUES ('20160330131651');
 

@@ -93,6 +93,7 @@ class UserManager < BaseManager
     fail_with! adult_subscriptions_limit: :zero  if limit.to_i < 1
 
     @user.adult_subscriptions_limit = limit.to_i
+    @user.adult_subscriptions_limit_changed_at = Time.zone.now
     save_or_die! @user
   end
 

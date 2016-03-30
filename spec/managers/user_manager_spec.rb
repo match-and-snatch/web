@@ -195,6 +195,10 @@ describe UserManager do
     it { expect { manager.update_adult_subscriptions_limit(0) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:zero)) } }
     it { expect { manager.update_adult_subscriptions_limit('') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
     it { expect { manager.update_adult_subscriptions_limit(nil) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
+
+    it 'saves update time', freeze: true do
+      expect { manager.update_adult_subscriptions_limit(10) }.to change { user.reload.adult_subscriptions_limit_changed_at }.from(nil).to(Time.zone.now)
+    end
   end
 
   describe '#mark_tos_accepted' do

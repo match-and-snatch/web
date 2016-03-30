@@ -17,6 +17,8 @@ div data-identifier='limits'
     th
       strong Adult Subscriptions Limit
     th
+      strong Changed at
+    th
       strong Lifetime Subscriptions
     th
     th
@@ -26,6 +28,7 @@ div data-identifier='limits'
         td= dashboard_link_to_user user, truncate: false
         td= user.email
         td= user.adult_subscriptions_limit
+        td= user.adult_subscriptions_limit_changed_at.try(:to_s, :long)
         td= user.subscriptions_count
         td
           button.AjaxLink.btn.pink.pull-right href=edit_admin_limit_path(user.id) Change limit
