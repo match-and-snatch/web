@@ -1494,6 +1494,13 @@ CREATE INDEX index_likes_on_post_id ON likes USING btree (post_id);
 
 
 --
+-- Name: index_uploads_on_uploadable_id_and_uploadable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_uploads_on_uploadable_id_and_uploadable_type ON uploads USING btree (uploadable_id, uploadable_type);
+
+
+--
 -- Name: index_users_on_api_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1898,4 +1905,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160330131651');
 INSERT INTO schema_migrations (version) VALUES ('20160331042433');
 
 INSERT INTO schema_migrations (version) VALUES ('20160331042455');
+
+INSERT INTO schema_migrations (version) VALUES ('20160331050339');
 
