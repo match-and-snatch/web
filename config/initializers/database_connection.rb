@@ -1,9 +1,8 @@
 module BuddyPlatform
   module Database
-    def connect(size = 32)
+    def connect(size = nil)
       config = Rails.application.config.database_configuration[Rails.env]
-      config['reaping_frequency'] = ENV['DB_REAP_FREQ'] || 10 # seconds
-      config['pool']              = ENV['DB_POOL']      || size
+      config['pool'] = size if size
       ActiveRecord::Base.establish_connection(config)
     end
 
@@ -24,11 +23,7 @@ Rails.application.config.after_initialize do
   BuddyPlatform::Database.disconnect
 
   ActiveSupport.on_load(:active_record) do
-    if Puma.respond_to?(:cli_config)
-      size = Puma.cli_config.options.fetch(:max_threads)
-      BuddyPlatform::Database.reconnect(size)
-    else
-      BuddyPlatform::Database.connect
-    end
+    size = Puma.cli_config.options.fetch(:max_threads)
+    BuddyPlatform::Database.reconnect(size)
   end
 end
