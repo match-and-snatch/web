@@ -1465,6 +1465,20 @@ CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at
 
 
 --
+-- Name: index_likes_on_comment_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_likes_on_comment_id ON likes USING btree (comment_id);
+
+
+--
+-- Name: index_likes_on_post_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_likes_on_post_id ON likes USING btree (post_id);
+
+
+--
 -- Name: index_users_on_api_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1865,4 +1879,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160323074945');
 INSERT INTO schema_migrations (version) VALUES ('20160323075112');
 
 INSERT INTO schema_migrations (version) VALUES ('20160330131651');
+
+INSERT INTO schema_migrations (version) VALUES ('20160331042433');
 
