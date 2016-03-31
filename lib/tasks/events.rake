@@ -3,4 +3,9 @@ namespace :events do
   task populate_subjects: :environment do
     Events::PopulateSubjectsJob.perform
   end
+
+  desc 'Clear old events'
+  task clear: :environment do
+    Events::ClearJob.perform
+  end
 end
