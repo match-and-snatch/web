@@ -128,7 +128,8 @@ CREATE TABLE comments (
     parent_id integer,
     mentions text,
     hidden boolean DEFAULT false NOT NULL,
-    likes_count integer DEFAULT 0 NOT NULL
+    likes_count integer DEFAULT 0 NOT NULL,
+    replies_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1465,6 +1466,48 @@ CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at
 
 
 --
+-- Name: index_comments_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_comments_on_parent_id ON comments USING btree (parent_id);
+
+
+--
+-- Name: index_comments_on_post_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_comments_on_post_id ON comments USING btree (post_id);
+
+
+--
+-- Name: index_likes_on_comment_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_likes_on_comment_id ON likes USING btree (comment_id);
+
+
+--
+-- Name: index_likes_on_post_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_likes_on_post_id ON likes USING btree (post_id);
+
+
+--
+-- Name: index_subscriptions_on_target_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_subscriptions_on_target_user_id ON subscriptions USING btree (target_user_id);
+
+
+--
+-- Name: index_uploads_on_uploadable_id_and_uploadable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_uploads_on_uploadable_id_and_uploadable_type ON uploads USING btree (uploadable_id, uploadable_type);
+
+
+--
 -- Name: index_users_on_api_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1865,4 +1908,12 @@ INSERT INTO schema_migrations (version) VALUES ('20160323074945');
 INSERT INTO schema_migrations (version) VALUES ('20160323075112');
 
 INSERT INTO schema_migrations (version) VALUES ('20160330131651');
+
+INSERT INTO schema_migrations (version) VALUES ('20160331042433');
+
+INSERT INTO schema_migrations (version) VALUES ('20160331042455');
+
+INSERT INTO schema_migrations (version) VALUES ('20160331050339');
+
+INSERT INTO schema_migrations (version) VALUES ('20160331053200');
 

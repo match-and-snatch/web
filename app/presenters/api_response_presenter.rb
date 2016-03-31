@@ -191,7 +191,7 @@ class ApiResponsePresenter
         liked: current_user.likes?(comment)
       }
     }.tap do |data|
-      if include_replies
+      if include_replies && comment.replies_count > 0
         data[:replies] = comment.replies.map do |reply|
           comment_data(reply, include_replies: false)
         end

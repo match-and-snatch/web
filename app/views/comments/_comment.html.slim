@@ -2,4 +2,5 @@
   = render 'comments/comment_row', comment: comment
 
   .replies data-identifier='replies-#{comment.id}'
-    = render partial: 'replies/reply', collection: comment.replies.order('id')
+    - if comment.replies_count > 0
+      = render partial: 'replies/reply', collection: comment.replies.order('id')
