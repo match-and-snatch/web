@@ -128,7 +128,8 @@ CREATE TABLE comments (
     parent_id integer,
     mentions text,
     hidden boolean DEFAULT false NOT NULL,
-    likes_count integer DEFAULT 0 NOT NULL
+    likes_count integer DEFAULT 0 NOT NULL,
+    replies_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1465,6 +1466,20 @@ CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at
 
 
 --
+-- Name: index_comments_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_comments_on_parent_id ON comments USING btree (parent_id);
+
+
+--
+-- Name: index_comments_on_post_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_comments_on_post_id ON comments USING btree (post_id);
+
+
+--
 -- Name: index_likes_on_comment_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1881,4 +1896,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160323075112');
 INSERT INTO schema_migrations (version) VALUES ('20160330131651');
 
 INSERT INTO schema_migrations (version) VALUES ('20160331042433');
+
+INSERT INTO schema_migrations (version) VALUES ('20160331042455');
 
