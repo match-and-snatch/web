@@ -41,6 +41,12 @@ describe Queries::Comments do
 
             it { expect(subject.results).to eq([comment, second_comment, third_comment, fifth_comment]) }
           end
+
+          context 'as comment author' do
+            subject { described_class.new(post: post, performer: forth_comment.user) }
+
+            it { expect(subject.results).to eq([comment, second_comment, third_comment, forth_comment, fifth_comment]) }
+          end
         end
       end
     end

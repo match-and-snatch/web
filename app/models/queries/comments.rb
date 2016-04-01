@@ -32,7 +32,9 @@ module Queries
     def basic_scope
       comments = @post.comments.order('id DESC').limit(@limit).includes(:user, likes: :user)
       comments = comments.where(parent_id: nil)
-      comments = comments.where(hidden: false) if @performer.id != @post.user_id
+      if @performer.id != @post.user_id
+        comments = comments.where('hidden = ? OR (hidden = ? AND user_id = ?)', false, true, @performer.id)
+      end
       comments = comments.where(['id < ?', @start_id]) if @start_id.present?
       comments
     end
