@@ -1,6 +1,6 @@
 .post.box data-identifier='post-#{post.id}' style='#{"opacity: 0.5" if post.hidden?}'
   - if can?(:delete, post)
-    i.fa.fa-gear.edit_post.pull-right.Toggler data-target='edit-post-#{post.id}'
+    i.fa.fa-gear.edit_post.pull-right.EditMenu data-target='edit-post-#{post.id}'
       .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
         ul
           a.AjaxLink.delete_btn href=edit_post_path(post.id)

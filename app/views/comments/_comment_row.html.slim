@@ -6,7 +6,7 @@
     // Display Delete & Edit Only if profile owner or if it the subscribers comment.
 
     - if can?(:delete, comment)
-      .delete.fa.fa-gear.Toggler data-target='edit-comment-#{comment.id}'
+      .delete.fa.fa-gear.EditMenu data-target='edit-comment-#{comment.id}'
       .edit_container data-identifier='edit-comment-#{comment.id}' style='display: none'
         ul
           a.Toggler data-target='edit-comment-#{comment.id}' href="#"
