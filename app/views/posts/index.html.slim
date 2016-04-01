@@ -13,9 +13,14 @@
   = render partial: 'post', collection: @posts
 - elsif params.first_page?
   - if params[:q].present?
-    |No posts for "
-    b= params[:q]
-    |"
+    .show_results.bg-warning
+      |No posts for "
+      b= params[:q]
+      |"
+      a.SearchCleaner.clear-search data-target='search-posts-autocomplete' href="#"
+        | Clear Search
+        .fa.fa-times
+      .clearfix
   - elsif params.first_page?
     |
     .no_post_yet
