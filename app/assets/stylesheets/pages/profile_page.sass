@@ -916,18 +916,16 @@
   // Recent Posts
   .recent_posts
     position: relative
-
-    span.loading
-      content: asset-url('preloader.gif')
-      display: none
-      margin: 0 auto 15px
-      height: 76px
-      width: 76px
-
     &.pending
       opacity: 1 !important
-      span.loading
-        display: block
+      &:after
+        background-image: asset-url('preloader.gif')
+        background-size: 76px 76px
+        content: ""
+        display: inline-block
+        margin: 0 0 15px 274px
+        height: 76px
+        width: 76px
 
     // Search Posts
     .show_results

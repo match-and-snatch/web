@@ -119,7 +119,6 @@
       /Recent Posts
       .pull-right.col-md-8.col-sm-12.col-xs-12
         .PostsContainer.recent_posts data-identifier='posts' data-ajaxify_links='false' data-url=user_posts_path(@profile.object)
-          span.loading
           = render 'vacation_sticker', profile: @profile if @profile.object.vacation_enabled?
 
 
