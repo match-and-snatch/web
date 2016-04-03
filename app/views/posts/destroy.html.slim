@@ -1,1 +1,4 @@
-.deleted The post has been deleted.
+- if current_user.posts.any?
+  .deleted The post has been deleted.
+- else
+  = render 'no_posts'
