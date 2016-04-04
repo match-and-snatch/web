@@ -61,17 +61,6 @@ describe CommentManager do
 
     it { expect { manager.hide_siblings }.to change { comment.reload.hidden? }.from(false).to(true) }
     it { expect { manager.hide_siblings }.to create_record(CommentIgnore).matching(user_id: user.id, commenter_id: commenter.id, enabled: true) }
-
-    context 'hide more than once' do
-      before do
-        manager.hide_siblings
-        manager.show_siblings
-      end
-
-      it { expect { manager.hide_siblings }.to change { comment.reload.hidden? }.from(false).to(true) }
-      it { expect { manager.hide_siblings }.not_to create_record(CommentIgnore) }
-      it { expect { manager.hide_siblings }.to change { user.comment_ignores.first.enabled? }.from(false).to(true) }
-    end
   end
 
   describe '#show_siblings' do
@@ -90,7 +79,6 @@ describe CommentManager do
       before { manager.hide_siblings }
 
       it { expect { manager.show_siblings }.to change { comment.reload.hidden? }.from(true).to(false) }
-      it { expect { manager.show_siblings }.to change { user.comment_ignores.first.enabled? }.from(true).to(false) }
     end
   end
 end

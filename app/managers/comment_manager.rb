@@ -26,7 +26,6 @@ class CommentManager < BaseManager
   # @return [Comment]
   def hide_siblings
     ignore = @user.comment_ignores.find_or_initialize_by(commenter_id: @comment.user.id)
-    ignore.enabled = true
     save_or_die! ignore
     @comment.user.comments.where(post_user_id: @user.id).update_all(hidden: true)
     @comment.reload
@@ -34,11 +33,7 @@ class CommentManager < BaseManager
 
   # @return [Comment]
   def show_siblings
-    ignore = @user.comment_ignores.where(commenter_id: @comment.user.id).first
-    if ignore
-      ignore.enabled = false
-      save_or_die! ignore
-    end
+    @user.comment_ignores.by_commenter(@comment.user).destroy_all
     @comment.user.comments.where(post_user_id: @user.id).update_all(hidden: false)
     @comment.reload
   end
@@ -54,7 +49,7 @@ class CommentManager < BaseManager
     end
 
     comment = Comment.new(post: @post, user: @user, post_user: @post.user, parent: @parent, message: strip_tags(message), mentions: mentions)
-    comment.hidden = @post.user.comment_ignores.by_commenter(@user).enabled.any?
+    comment.hidden = @post.user.comment_ignores.by_commenter(@user).any?
     save_or_die! comment
     EventsManager.comment_created(user: @user, comment: comment)
     NotificationManager.delay.notify_comment_created(comment)

@@ -119,7 +119,6 @@ ALTER SEQUENCE benefits_id_seq OWNED BY benefits.id;
 
 CREATE TABLE comment_ignores (
     id integer NOT NULL,
-    enabled boolean DEFAULT true NOT NULL,
     user_id integer,
     commenter_id integer,
     created_at timestamp without time zone NOT NULL,
