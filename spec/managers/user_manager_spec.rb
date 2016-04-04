@@ -195,6 +195,7 @@ describe UserManager do
     it { expect { manager.update_adult_subscriptions_limit(0) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:zero)) } }
     it { expect { manager.update_adult_subscriptions_limit('') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
     it { expect { manager.update_adult_subscriptions_limit(nil) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: t_error(:empty)) } }
+    it { expect { manager.update_adult_subscriptions_limit(6) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(adult_subscriptions_limit: /enter new value/) } }
 
     it { expect { manager.update_adult_subscriptions_limit(10) }.to create_event(:subscriptions_limit_changed).including_data(from: 6, to: 10) }
 
