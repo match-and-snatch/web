@@ -24,7 +24,7 @@ class CommentManager < BaseManager
   end
 
   # @return [Comment]
-  def hide_siblings
+  def hide_all_by_user
     ignore = @user.comment_ignores.find_or_initialize_by(commenter_id: @comment.user.id)
     save_or_die! ignore
     @comment.user.comments.where(post_user_id: @user.id).update_all(hidden: true)
@@ -32,7 +32,7 @@ class CommentManager < BaseManager
   end
 
   # @return [Comment]
-  def show_siblings
+  def show_all_by_user
     @user.comment_ignores.by_commenter(@comment.user).destroy_all
     @comment.user.comments.where(post_user_id: @user.id).update_all(hidden: false)
     @comment.reload

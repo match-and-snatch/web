@@ -221,8 +221,8 @@ describe Api::CommentsController, type: :controller do
     end
   end
 
-  describe 'PUT #show_siblings' do
-    subject { put 'show_siblings', id: comment.id, format: :json }
+  describe 'PUT #show_all_by_user' do
+    subject { put 'show_all_by_user', id: comment.id, format: :json }
 
     before { subscribe }
 
@@ -253,8 +253,8 @@ describe Api::CommentsController, type: :controller do
     end
   end
 
-  describe 'PUT #hide_siblings' do
-    subject { put 'hide_siblings', id: comment.id, format: :json }
+  describe 'PUT #hide_all_by_user' do
+    subject { put 'hide_all_by_user', id: comment.id, format: :json }
 
     before { subscribe }
 

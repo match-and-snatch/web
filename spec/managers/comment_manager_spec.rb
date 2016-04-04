@@ -51,7 +51,7 @@ describe CommentManager do
     end
   end
 
-  describe '#hide_siblings' do
+  describe '#hide_all_by_user' do
     subject(:manager) { described_class.new(user: user, comment: comment) }
 
     let(:commenter) { create(:user) }
@@ -59,11 +59,11 @@ describe CommentManager do
 
     before { SubscriptionManager.new(subscriber: commenter).subscribe_to(user) }
 
-    it { expect { manager.hide_siblings }.to change { comment.reload.hidden? }.from(false).to(true) }
-    it { expect { manager.hide_siblings }.to create_record(CommentIgnore).matching(user_id: user.id, commenter_id: commenter.id, enabled: true) }
+    it { expect { manager.hide_all_by_user }.to change { comment.reload.hidden? }.from(false).to(true) }
+    it { expect { manager.hide_all_by_user }.to create_record(CommentIgnore).matching(user_id: user.id, commenter_id: commenter.id) }
   end
 
-  describe '#show_siblings' do
+  describe '#show_all_by_user' do
     subject(:manager) { described_class.new(user: user, comment: comment) }
 
     let(:commenter) { create(:user) }
@@ -72,13 +72,13 @@ describe CommentManager do
     before { SubscriptionManager.new(subscriber: commenter).subscribe_to(user) }
 
     context 'without hidden comments' do
-      it { expect { manager.show_siblings }.not_to change { comment.reload.hidden? }.from(false) }
+      it { expect { manager.show_all_by_user }.not_to change { comment.reload.hidden? }.from(false) }
     end
 
     context 'with hidden comments' do
-      before { manager.hide_siblings }
+      before { manager.hide_all_by_user }
 
-      it { expect { manager.show_siblings }.to change { comment.reload.hidden? }.from(true).to(false) }
+      it { expect { manager.show_all_by_user }.to change { comment.reload.hidden? }.from(true).to(false) }
     end
   end
 end
