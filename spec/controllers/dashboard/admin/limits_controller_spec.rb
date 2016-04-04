@@ -60,4 +60,18 @@ describe Dashboard::Admin::LimitsController, type: :controller do
       it { is_expected.not_to be_success }
     end
   end
+
+  describe 'GET #events' do
+    subject { get 'events', id: user.id }
+
+    context 'as an admin' do
+      before { sign_in create(:user, :admin) }
+      it { is_expected.to be_success }
+    end
+
+    context 'as a non admin' do
+      before { sign_in create(:user) }
+      it { is_expected.not_to be_success }
+    end
+  end
 end

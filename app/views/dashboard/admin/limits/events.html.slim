@@ -1,0 +1,25 @@
+h2
+  strong Change adult subscriptions limit log
+
+.table-responsive
+  table.table.table-striped
+    tr
+      th
+        strong Date
+      th
+        strong From
+      th
+        strong To
+
+    - if @events.any?
+      - @events.each do |event|
+        tr
+          td
+            = event.created_at.to_s(:long)
+          td
+            = event.data[:from]
+          td
+            = event.data[:to]
+    - else
+      tr
+        td colspan=3 No data found

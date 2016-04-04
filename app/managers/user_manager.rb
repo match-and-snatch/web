@@ -89,11 +89,17 @@ class UserManager < BaseManager
   end
 
   def update_adult_subscriptions_limit(limit)
+    old_limit = @user.adult_subscriptions_limit
+
     fail_with! adult_subscriptions_limit: :empty if limit.blank?
     fail_with! adult_subscriptions_limit: :zero  if limit.to_i < 1
+    fail_with! adult_subscriptions_limit: 'Please, enter new value' if limit.to_i == old_limit
 
     @user.adult_subscriptions_limit = limit.to_i
+    @user.adult_subscriptions_limit_changed_at = Time.zone.now
     save_or_die! @user
+
+    EventsManager.subscriptions_limit_changed(user: @user, from: old_limit, to: limit.to_i)
   end
 
   def log_recent_subscriptions_count(recent_subscriptions_count)

@@ -443,6 +443,9 @@ BuddyPlatform::Application.routes.draw do
         collection do
           get :search
         end
+        member do
+          get :events
+        end
       end
       resources :staffs, only: :index do
         collection do

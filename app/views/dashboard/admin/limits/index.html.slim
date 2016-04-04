@@ -17,6 +17,10 @@ div data-identifier='limits'
     th
       strong Adult Subscriptions Limit
     th
+      strong Changed at
+    th
+      strong Lifetime Subscriptions
+    th
     th
 
     - @users.each do |user|
@@ -24,8 +28,16 @@ div data-identifier='limits'
         td= dashboard_link_to_user user, truncate: false
         td= user.email
         td= user.adult_subscriptions_limit
+        td= user.adult_subscriptions_limit_changed_at.try(:to_s, :long)
+        td= user.subscriptions_count
+        td
+          a.AjaxLink href=events_admin_limit_path(user.id) data-target="#{user.id}-events-table"
+            span.Toggler data-target="#{user.id}-events" Change history
         td
           button.AjaxLink.btn.pink.pull-right href=edit_admin_limit_path(user.id) Change limit
+      tr style='display: none' data-identifier="#{user.id}-events"
+        td colspan="7" data-identifier="#{user.id}-events-table"
+
   .TopJumper= paginate @users
 - else
   h3.pending No accounts with custom subscription limits exist.
