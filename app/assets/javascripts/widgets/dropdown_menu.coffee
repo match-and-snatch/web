@@ -1,7 +1,7 @@
 #= require ./toggler
 
-class bud.widgets.EditMenu extends bud.widgets.Toggler
-  @SELECTOR: '.EditMenu'
+class bud.widgets.DropdownMenu extends bud.widgets.Toggler
+  @SELECTOR: '.DropdownMenu'
 
   initialize: ->
     super
@@ -16,7 +16,7 @@ class bud.widgets.EditMenu extends bud.widgets.Toggler
     if @$target.is(':visible')
       bud.pub('menu.opened', [@$target])
 
-    return false if @$container.is('a')
+    return !@$container.is('a')
     return true
 
   close_menu: (e, menu) =>
