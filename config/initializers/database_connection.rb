@@ -23,7 +23,7 @@ Rails.application.config.after_initialize do
   BuddyPlatform::Database.disconnect
 
   ActiveSupport.on_load(:active_record) do
-    size = Puma.cli_config.options.fetch(:max_threads)
+    size = Puma.cli_config.options.fetch(:max_threads) unless Rails.env.test?
     BuddyPlatform::Database.reconnect(size)
   end
 end
