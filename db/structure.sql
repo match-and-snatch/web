@@ -1482,6 +1482,13 @@ CREATE INDEX index_comments_on_post_id ON comments USING btree (post_id);
 
 
 --
+-- Name: index_events_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_user_id ON events USING btree (user_id);
+
+
+--
 -- Name: index_likes_on_comment_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1940,4 +1947,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160331050339');
 INSERT INTO schema_migrations (version) VALUES ('20160331053200');
 
 INSERT INTO schema_migrations (version) VALUES ('20160405103729');
+
+INSERT INTO schema_migrations (version) VALUES ('20160405114000');
 
