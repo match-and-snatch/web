@@ -559,22 +559,27 @@ class UserProfileManager < BaseManager
   def update_general_information(full_name: nil, company_name: nil, email: nil)
     full_name = full_name.to_s.strip.squeeze(' ')
     company_name = company_name.to_s.strip.squeeze(' ')
+    old_email = user.email
 
     validate! do
       fail_with full_name: :empty unless full_name.present?
       if company_name
         fail_with company_name: :too_long if company_name.length > 200
       end
-      validate_email(email) if email != user.email
+      validate_email(email) if email != old_email
     end
 
     user.full_name    = full_name.try(:strip)
     user.company_name = company_name.try(:strip)
     user.email        = email
+    user.email_updated_at = Time.zone.now if email != old_email
 
     save_or_die! user
     reindex_user
-    EventsManager.account_information_changed(user: user, data: { full_name: full_name, company_name: company_name, email: email })
+    EventsManager.account_information_changed(user: user, data: { full_name: full_name,
+                                                                  company_name: company_name,
+                                                                  old_email: old_email,
+                                                                  email: email })
     user
   end
 
