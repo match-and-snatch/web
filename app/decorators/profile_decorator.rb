@@ -80,4 +80,8 @@ class ProfileDecorator < UserDecorator
   def payout_recently_updated?
     object.payout_updated_at && object.payout_updated_at > Time.zone.now.beginning_of_month
   end
+
+  def email_recently_updated?
+    object.email_updated_at && object.email_updated_at > Time.zone.now.beginning_of_month
+  end
 end
