@@ -27,6 +27,14 @@ class bud.widgets.Form extends bud.Widget
     @$container.submit()
 
   on_submit: =>
+    if @$container.data('confirmation')
+      bud.confirm 'Are you sure?', @perform_submit
+    else
+      @perform_submit()
+
+    return false
+
+  perform_submit: =>
     path = @$container.attr('action')
     params = @params()
     callbacks = {
@@ -43,8 +51,6 @@ class bud.widgets.Form extends bud.Widget
     @requesting = true
     request = new bud.Ajax(path, params, callbacks)
     request.perform_request(method)
-
-    return false
 
   on_success: =>
     _.each @$container.find('input[data-target]'), (field) ->
