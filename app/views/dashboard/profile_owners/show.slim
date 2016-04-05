@@ -99,7 +99,7 @@ hr
     hr
     h2
       strong Update Payout Info
-    form.form-inline.Form action=update_payout_information_admin_profile_owner_path(@user.id) method='post'
+    form.form-inline.Form action=update_payout_information_admin_profile_owner_path(@user.id) method='post' data-confirmation='true'
       div style='#{"display: none" if @user.prefers_paypal?}' data-identifier='wire-option'
         label style="width: 130px;" Pay to the order of
         input.form-control type='text' name='holder_name' placeholder='Full Name of Account Holder' value=@user.holder_name style="margin-bottom: 10px;"
@@ -124,7 +124,7 @@ hr
     hr
     h2
       strong Send Transfer
-    form.form-inline.Form data-target='payments' action=admin_profile_owner_transfers_path(@user.id) method='POST'
+    form.form-inline.Form data-target='payments' action=admin_profile_owner_transfers_path(@user.id) method='POST' data-confirmation='true'
       label style="width: 130px;" Transfer Amount:
       input.form-control type='text' name='amount' style="margin-bottom: 5px;"
       br
@@ -140,7 +140,7 @@ hr
     hr
     h2
       strong Profile Name
-    form.form-inline.Form action=change_profile_name_admin_profile_owner_path(@user.id) method='POST'
+    form.form-inline.Form action=change_profile_name_admin_profile_owner_path(@user.id) method='POST' data-confirmation='true'
       .form-group
         label style='margin-right: 5px' Profile Name
         input.form-control type='text' name='profile_name' style='margin-right: 15px; width: 100px' value=@user.profile_name
@@ -150,7 +150,7 @@ hr
     hr
     h2
       strong Profile Page URL
-    form.form-inline.Form action=change_slug_admin_profile_owner_path(@user.id) method='POST'
+    form.form-inline.Form action=change_slug_admin_profile_owner_path(@user.id) method='POST' data-confirmation='true'
       .form-group
         label style='margin-right: 5px' Profile URL
         input.form-control type='text' name='slug' style='margin-right: 15px; width: 100px' value=@user.slug
@@ -160,7 +160,7 @@ hr
     hr
     h2
       strong Fake Subscriptions
-    form.form-inline.Form action=change_fake_subscriptions_number_admin_profile_owner_path(@user.id) method='POST'
+    form.form-inline.Form action=change_fake_subscriptions_number_admin_profile_owner_path(@user.id) method='POST' data-confirmation='true'
       .form-group
         label style='margin-right: 5px' Subscriber Count
         input.form-control type='text' name='count' style='margin-right: 15px; width: 100px' value=@user.fake_subscriptions_count
@@ -225,7 +225,7 @@ hr
             td= subscription.removed_at.try(:to_date).try(:to_s, :long) || 'N/A'
 .AjaxContainer data-identifier='partners' data-url=admin_profile_owner_partner_path(@user.id)
 .row
-  form.Form action=admin_profile_owner_path(@user.id) method='POST'
+  form.Form action=admin_profile_owner_path(@user.id) method='POST' data-confirmation='true'
     input type='hidden' name='_method' value='PUT'
     .col-md-4
       hr
