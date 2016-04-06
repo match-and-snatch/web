@@ -1,0 +1,46 @@
+h2 Recently Changed Emails (#{@users.total_count} total)
+
+ul.cat_links
+  li class="#{params[:filter] != 'previous_month' ? 'pending' : ''}"
+    a href=admin_recently_changed_emails_path
+      span Show All
+  li class="#{params[:filter] == 'previous_month' ? 'pending' : ''}"
+    a href=admin_recently_changed_emails_path(filter: 'previous_month')
+      span Previous Month
+
+.clearfix
+hr
+.table-responsive
+  table.table.table-striped
+    th
+      strong #ID
+    th
+    th
+      strong
+        = sort_dashboard_link :recently_changed_emails, 'Profile Name', :profile_name
+    th
+      strong
+        = sort_dashboard_link :recently_changed_emails, 'Email', :email
+    th
+      strong
+        = sort_dashboard_link :recently_changed_emails, 'Old Email', :old_email
+    th
+      strong
+        = sort_dashboard_link :recently_changed_emails, 'Email Updated at', :email_updated_at
+
+    - @users.each do |user|
+      tr
+        td ##{user.id}
+        td width="50"
+          img src=user.small_profile_picture_url width=50 height=50
+        td
+          = dashboard_link_to_user user
+        td
+          = user.email
+        td
+          = user.old_email
+        td
+          = user.email_updated_at.to_s(:long)
+  .clearfix
+
+.TopJumper= paginate @users
