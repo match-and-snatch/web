@@ -2,13 +2,13 @@ class Dashboard::Admin::ContributionsController < Dashboard::Admin::BaseControll
   before_action :load_contribution!, only: [:confirm_destroy, :destroy]
 
   def index
-    @months = Contribution.group("date_trunc('month', created_at)").count.to_a.sort_by(&:first)
+    @months = Contribution.pluck("DISTINCT date_trunc('month', created_at)").sort
 
     @date = Chronic.parse(params[:month])
     @contributions = Contribution.all.includes(:user, :target_user).page(params[:page])
 
     if @date
-      @contributions = @contributions.where("contributions.created_at BETWEEN ? AND ? ", @date.beginning_of_month, @date.end_of_month).per(10000)
+      @contributions = @contributions.where(created_at: @date.beginning_of_month..@date.end_of_month).per(10000)
     else
       @contributions.per(100)
     end
