@@ -1281,9 +1281,16 @@ describe UserProfileManager do
       expect { manager.update_general_information(full_name: 'new', email: 'new_email@gmail.com') }.to change { user.reload.email_updated_at }.from(nil).to(Time.zone.now)
     end
 
+    specify do
+      expect { manager.update_general_information(full_name: 'new', email: 'new_email@gmail.com') }.to change { user.reload.old_email }.from(nil).to(user.email)
+    end
+
     context 'email not changed' do
       specify freeze: true do
         expect { manager.update_general_information(full_name: 'new', email: user.email) }.not_to change { user.reload.email_updated_at }.from(nil)
+      end
+      specify do
+        expect { manager.update_general_information(full_name: 'new', email: user.email) }.not_to change { user.reload.old_email }.from(nil)
       end
     end
 

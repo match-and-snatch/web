@@ -572,7 +572,11 @@ class UserProfileManager < BaseManager
     user.full_name    = full_name.try(:strip)
     user.company_name = company_name.try(:strip)
     user.email        = email
-    user.email_updated_at = Time.zone.now if email != old_email
+
+    if email != old_email
+      user.old_email = old_email
+      user.email_updated_at = Time.zone.now
+    end
 
     save_or_die! user
     reindex_user

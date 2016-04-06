@@ -1063,6 +1063,7 @@ CREATE TABLE users (
     payout_updated_at timestamp without time zone,
     subscriptions_count integer DEFAULT 0 NOT NULL,
     adult_subscriptions_limit_changed_at timestamp without time zone,
+    old_email character varying,
     email_updated_at timestamp without time zone
 );
 
