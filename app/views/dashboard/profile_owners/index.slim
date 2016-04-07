@@ -50,6 +50,8 @@ hr
         td
           = dashboard_link_to_user user
         td
+          - if user.email_recently_updated?
+            img src='//connectpal-assets.s3.amazonaws.com/images/alert-circle.png' style='padding-right: 5px;'
           div style="color: grey; font-size: 11px;"= user.email
         td
           - if user.payout_recently_updated?

@@ -428,6 +428,7 @@ BuddyPlatform::Application.routes.draw do
       resources :payments, only: :index
       resources :payout_details, only: :index
       resources :vacations, only: :index
+      resources :recently_changed_emails, only: :index
       resources :tos_acceptors, only: :index do
         member do
           get :confirm_toggle_tos_acceptance

@@ -1062,7 +1062,9 @@ CREATE TABLE users (
     tos_accepted boolean DEFAULT true NOT NULL,
     payout_updated_at timestamp without time zone,
     subscriptions_count integer DEFAULT 0 NOT NULL,
-    adult_subscriptions_limit_changed_at timestamp without time zone
+    adult_subscriptions_limit_changed_at timestamp without time zone,
+    old_email character varying,
+    email_updated_at timestamp without time zone
 );
 
 
@@ -1945,6 +1947,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160331042455');
 INSERT INTO schema_migrations (version) VALUES ('20160331050339');
 
 INSERT INTO schema_migrations (version) VALUES ('20160331053200');
+
+INSERT INTO schema_migrations (version) VALUES ('20160405054048');
+
+INSERT INTO schema_migrations (version) VALUES ('20160405054255');
 
 INSERT INTO schema_migrations (version) VALUES ('20160405103729');
 
