@@ -1,5 +1,3 @@
-.post.box data-identifier='vacation-message-sticker' style='border: 1px solid #f4cf3e; background: #faf258;'
-  .post_title style="color: #b29525;"
-    strong Away Message
-  /.date Posted #{time_ago_in_words(profile.object.updated_at)} ago
-  .message style="color: #b29525;"= super_highlight(format_post_message(profile.object.vacation_message))
+.post.box.away_notice data-identifier='vacation-message-sticker'
+  .away_title Away Message
+  .away_message= super_highlight(format_post_message(profile.vacation_message))
