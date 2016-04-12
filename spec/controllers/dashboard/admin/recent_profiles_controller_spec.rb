@@ -5,13 +5,18 @@ describe Dashboard::Admin::RecentProfilesController, type: :controller do
     subject { get 'index' }
 
     context 'as admin' do
-      before { sign_in create_admin(email: 'admin@gmail.com') }
-      it { should be_success }
+      before { sign_in create(:user, :admin) }
+      it { is_expected.to be_success }
+
+      context 'filtered' do
+        subject { get 'index', filter: 'with_posts' }
+        it { is_expected.to be_success }
+      end
     end
 
     context 'as a non admin' do
-      before { sign_in create_user }
-      it { should_not be_success }
+      before { sign_in create(:user) }
+      it { is_expected.not_to be_success }
     end
   end
 end

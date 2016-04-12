@@ -1,37 +1,63 @@
-h2 Recent profiles
+h2 Recent profiles (#{@users.total_count})
 
-.table-responsive
-  table.table.table-striped
-    tr
-      th
-        strong ID #
-      th
-        strong Profile Name
-      th
-        strong Email Address
-      th
-        strong Date/Time Created
-      - if current_user.admin?
-        th
-          strong Actions
-    - @users.each do |user|
+ul.cat_links
+  li class="#{'pending' unless params[:filter]}"
+    a href=admin_recent_profiles_path
+      span Show All
+  li class="#{params[:filter] == 'with_posts' ? 'pending' : ''}"
+    a href=admin_recent_profiles_path(filter: :with_posts)
+      span With posts
+  li class="#{params[:filter] == 'without_posts' ? 'pending' : ''}"
+    a href=admin_recent_profiles_path(filter: :without_posts)
+      span Without posts
+
+.clearfix
+
+hr
+
+form.Form action=admin_profiles_path method='get' data-target='users'
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search profiles by name"
+
+div data-identifier='users'
+
+- if @users.any?
+  .table-responsive
+    table.table.table-striped style='margin-top: 15px;'
       tr
-        td= user.id
-        td
-          = dashboard_link_to_user user
-        td
-          a href="mailto:#{user.email}"= user.email
-        td= user.created_at.try(:to_s, :long)
+        th
+          strong ID #
+        th
+          strong Profile Name
+        th
+          strong Email Address
+        th
+          strong Posts
+        th
+          strong Date/Time Created
         - if current_user.admin?
+          th
+            strong Actions
+      - @users.each do |user|
+        tr
+          td= user.id
           td
-            .pull-right
-              - if user.hidden?
-                button.AjaxFormLink.btn.pink data-identifier="toggle-user-#{user.id}" data-target="toggle-user-#{user.id}" data-_method="put" href=toggle_admin_user_path(user) Show
-              - else
-                button.AjaxFormLink.btn.blue data-identifier="toggle-user-#{user.id}" data-target="toggle-user-#{user.id}" data-_method="put" href=toggle_admin_user_path(user) Hide
-            .pull-right
-              - if user.has_mature_content?
-                button.AjaxFormLink.btn.pink data-identifier="toggle-mature-user-#{user.id}" data-target="toggle-mature-user-#{user.id}" data-_method="put" href=toggle_mature_content_admin_user_path(user) Remove 18+ label
-              - else
-                button.AjaxFormLink.btn.blue data-identifier="toggle-mature-user-#{user.id}" data-target="toggle-mature-user-#{user.id}" data-_method="put" href=toggle_mature_content_admin_user_path(user) Add 18+ label
-.TopJumper= paginate @users
+            = dashboard_link_to_user user
+          td
+            a href="mailto:#{user.email}"= user.email
+          td= user.posts_count
+          td= user.created_at.try(:to_s, :long)
+          - if current_user.admin?
+            td
+              .pull-right
+                - if user.hidden?
+                  button.AjaxFormLink.btn.pink data-identifier="toggle-user-#{user.id}" data-target="toggle-user-#{user.id}" data-_method="put" href=toggle_admin_user_path(user) Show
+                - else
+                  button.AjaxFormLink.btn.blue data-identifier="toggle-user-#{user.id}" data-target="toggle-user-#{user.id}" data-_method="put" href=toggle_admin_user_path(user) Hide
+              .pull-right
+                - if user.has_mature_content?
+                  button.AjaxFormLink.btn.pink data-identifier="toggle-mature-user-#{user.id}" data-target="toggle-mature-user-#{user.id}" data-_method="put" href=toggle_mature_content_admin_user_path(user) Remove 18+ label
+                - else
+                  button.AjaxFormLink.btn.blue data-identifier="toggle-mature-user-#{user.id}" data-target="toggle-mature-user-#{user.id}" data-_method="put" href=toggle_mature_content_admin_user_path(user) Add 18+ label
+  .TopJumper= paginate @users
+- else
+  h3.pending No profiles found

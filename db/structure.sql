@@ -1096,7 +1096,8 @@ CREATE TABLE users (
     subscriptions_count integer DEFAULT 0 NOT NULL,
     adult_subscriptions_limit_changed_at timestamp without time zone,
     old_email character varying,
-    email_updated_at timestamp without time zone
+    email_updated_at timestamp without time zone,
+    posts_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2004,4 +2005,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160405054255');
 INSERT INTO schema_migrations (version) VALUES ('20160405103729');
 
 INSERT INTO schema_migrations (version) VALUES ('20160405114000');
+
+INSERT INTO schema_migrations (version) VALUES ('20160408071021');
+
+INSERT INTO schema_migrations (version) VALUES ('20160408071053');
 

@@ -4,7 +4,7 @@ class Post < ActiveRecord::Base
 
   LIKABLE_TYPE = 'Post'.freeze
 
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   has_many :comments
   has_many :uploads, as: :uploadable
 
