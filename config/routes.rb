@@ -83,6 +83,8 @@ BuddyPlatform::Application.routes.draw do
       member do
         put :make_visible
         put :hide
+        put :show_all_by_user
+        put :hide_all_by_user
       end
       resources :replies, only: [:create, :update] do
         member do
@@ -210,13 +212,19 @@ BuddyPlatform::Application.routes.draw do
   resources :comments, only: [:show, :edit, :update, :destroy] do
     member do
       get :full_text
+      get :confirm_make_visible
       put :make_visible
+      get :confirm_hide
       put :hide
+      put :show_all_by_user
+      put :hide_all_by_user
       put :like
     end
     resources :replies, only: [:show, :create, :edit, :update] do
       member do
+        get :confirm_make_visible
         put :make_visible
+        get :confirm_hide
         put :hide
       end
     end

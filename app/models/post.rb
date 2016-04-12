@@ -28,8 +28,9 @@ class Post < ActiveRecord::Base
     LIKABLE_TYPE
   end
 
-  def comments_query
-    @comments_query ||= Queries::Comments.new(post: self, limit: 3)
+  # @param performer [User]
+  def comments_query(performer: user)
+    @comments_query ||= Queries::Comments.new(post: self, limit: 3, performer: performer)
   end
 
   def status?

@@ -3,13 +3,13 @@ class CommentsController < ApplicationController
 
   before_action :authenticate!, except: [:show, :create]
   before_action :load_post!, only: [:index, :create]
-  before_action :load_comment!, only: [:edit, :update, :destroy, :make_visible, :hide, :like, :show]
+  before_action :load_comment!, only: [:edit, :update, :destroy, :confirm_make_visible, :make_visible, :confirm_hide, :hide, :show_all_by_user, :hide_all_by_user, :like, :show]
 
   protect(:index, :create, :like, :show, :full_text) { can? :comment, post }
-  protect(:edit, :update, :make_visible, :hide, :destroy) { can? :manage, @comment }
+  protect(:edit, :update, :confirm_make_visible, :make_visible, :confirm_hide, :hide, :show_all_by_user, :hide_all_by_user, :destroy) { can? :manage, @comment }
 
   def index
-    @query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id])
+    @query = Queries::Comments.new(post: @post, performer: current_user, start_id: params[:last_comment_id])
     json_replace
   end
 
@@ -35,14 +35,32 @@ class CommentsController < ApplicationController
     json_replace
   end
 
+  def confirm_make_visible
+    json_popup
+  end
+
   def make_visible
     CommentManager.new(user: current_user.object, comment: @comment).show
     render_comment_row
   end
 
+  def confirm_hide
+    json_popup
+  end
+
   def hide
     CommentManager.new(user: current_user.object, comment: @comment).hide
     render_comment_row
+  end
+
+  def show_all_by_user
+    CommentManager.new(user: current_user.object, comment: @comment).show_all_by_user
+    json_success visible: true
+  end
+
+  def hide_all_by_user
+    CommentManager.new(user: current_user.object, comment: @comment).hide_all_by_user
+    json_success visible: false
   end
 
   def destroy

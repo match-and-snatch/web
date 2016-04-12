@@ -1,12 +1,12 @@
 class Api::CommentsController < Api::BaseController
   before_action :load_post!, only: [:index, :create]
-  before_action :load_comment!, only: [:show, :update, :destroy, :make_visible, :hide]
+  before_action :load_comment!, only: [:show, :update, :destroy, :make_visible, :hide, :show_all_by_user, :hide_all_by_user]
 
   protect(:index, :create, :show) { can? :comment, post }
-  protect(:update, :destroy, :make_visible, :hide) { can? :manage, @comment }
+  protect(:update, :destroy, :make_visible, :hide, :show_all_by_user, :hide_all_by_user) { can? :manage, @comment }
 
   def index
-    query = Queries::Comments.new(post: @post, start_id: params[:last_comment_id], limit: 10)
+    query = Queries::Comments.new(post: @post, performer: current_user, start_id: params[:last_comment_id], limit: 10)
     comments_data = query.results.map { |c| api_response.comment_data(c) }
     json_success comments: comments_data, has_more: query.has_more_comments?
   end
@@ -39,6 +39,16 @@ class Api::CommentsController < Api::BaseController
   def hide
     comment = CommentManager.new(user: current_user.object, comment: @comment).hide
     json_success api_response.comment_data(comment)
+  end
+
+  def show_all_by_user
+    CommentManager.new(user: current_user.object, comment: @comment).show_all_by_user
+    json_success api_response.comment_data(@comment)
+  end
+
+  def hide_all_by_user
+    CommentManager.new(user: current_user.object, comment: @comment).hide_all_by_user
+    json_success api_response.comment_data(@comment)
   end
 
   private

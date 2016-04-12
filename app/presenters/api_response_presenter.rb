@@ -165,6 +165,7 @@ class ApiResponsePresenter
       parent_id: comment.parent_id,
       post_id: comment.post_id,
       post_user_id: comment.post_user_id,
+      user_id: comment.user_id,
       post: {
         profile: basic_profile_data(comment.post.user)
       },

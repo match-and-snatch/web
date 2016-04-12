@@ -1,6 +1,6 @@
 - if (!reply.hidden? || current_user.id == reply.post_user_id) || current_user.id == reply.user_id
   .nested_row data-identifier='comment-#{reply.id}' style='#{"opacity: 0.5" if (reply.hidden? && reply.user_id != current_user.id) || (reply.hidden? && reply.post_user_id == current_user.id)}'
-    .nested_content
+    .nested_content.Comment data-comment_id=reply.id data-identifier='comment-user-#{reply.user_id}'
       .photo
         img src=reply.user_picture_url width=50 height=50
 
@@ -9,19 +9,18 @@
       - if can?(:delete, reply)
         .delete.fa.fa-gear.DropdownMenu data-target='edit-comment-#{reply.id}'
         .edit_container data-identifier='edit-comment-#{reply.id}' style='display: none'
-
           ul
             a.Toggler data-target='edit-comment-#{reply.id}' href="#"
               li.first
                 i.fa.fa-times
                   |&nbsp;Close
-            - if current_user.id == reply.post_user_id
+            - if current_user.id == reply.post_user_id && current_user.id != reply.user_id
               - if reply.hidden?
-                a.AjaxFormLink.delete_btn href=make_visible_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
-                  li Show
+                a.AjaxLink href=confirm_make_visible_comment_reply_path(reply.parent.id, reply.id)
+                  li data-identifier='comment-visibility-toggler-#{reply.id}' Show
               - else
-                a.AjaxFormLink.delete_btn href=hide_comment_reply_path(reply.parent.id, reply.id) data-_method='put' data-target='comment-#{reply.id}'
-                  li Hide
+                a.AjaxLink href=confirm_hide_comment_reply_path(reply.parent.id, reply.id)
+                  li data-identifier='comment-visibility-toggler-#{reply.id}' Hide
             a.AjaxLink.delete_btn href=edit_comment_reply_path(reply.parent.id, reply.id) data-target='comment-#{reply.id}'
               li Edit
             a.AjaxFormLink.delete_btn href=comment_path(reply.id) data-_method='delete' data-target='comment-#{reply.id}'

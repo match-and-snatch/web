@@ -3,10 +3,12 @@ module Queries
     PER_PAGE = 5
 
     # @param post [Post]
+    # @param performer [User]
     # @param start_id [Integer, nil]
     # @param limit [Integer, nil]
-    def initialize(post: nil, start_id: nil, limit: PER_PAGE)
+    def initialize(post: nil, performer: post.user, start_id: nil, limit: PER_PAGE)
       @post = post
+      @performer = performer
       @start_id = start_id
       @limit = limit
     end
@@ -30,6 +32,9 @@ module Queries
     def basic_scope
       comments = @post.comments.order('id DESC').limit(@limit).includes(:user, likes: :user)
       comments = comments.where(parent_id: nil)
+      if @performer.id != @post.user_id
+        comments = comments.where('hidden = ? OR (hidden = ? AND user_id = ?)', false, true, @performer.id)
+      end
       comments = comments.where(['id < ?', @start_id]) if @start_id.present?
       comments
     end
