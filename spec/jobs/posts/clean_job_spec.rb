@@ -18,7 +18,7 @@ describe Posts::CleanJob do
     context '2 months not passed after remove profile' do
       before { manager.delete_profile_page! }
 
-      it { expect { perform }.not_to delete_record(Post) }
+      it { expect { perform }.not_to delete_record(Post).matching(user_id: user.id) }
     end
 
     context '2 months passed since profile removed' do
@@ -29,7 +29,7 @@ describe Posts::CleanJob do
         end
       end
 
-      it { expect { perform rescue nil }.to delete_record(Post) }
+      it { expect { perform rescue nil }.to delete_record(Post).matching(user_id: user.id) }
     end
 
     context '2 months ago user removed and restored his profile and removed profile yesterday' do
@@ -44,12 +44,30 @@ describe Posts::CleanJob do
         end
       end
 
-      it { expect { perform }.not_to delete_record(Post) }
+      it { expect { perform }.not_to delete_record(Post).matching(user_id: user.id) }
       it do
         Timecop.freeze(2.month.from_now) do
-          expect { perform }.to delete_record(Post)
+          expect { perform }.to delete_record(Post).matching(user_id: user.id)
         end
       end
+    end
+
+    context 'ids provided' do
+      let(:another_user) { create(:user, :profile_owner) }
+
+      subject(:perform) { described_class.new(ids: [another_user.id]).perform }
+
+      before do
+        UploadManager.new(another_user).create_pending_photos(transloadit_photo_data_params)
+        PostManager.new(user: another_user).create_photo_post(title: 'test', message: 'test')
+        Timecop.freeze(2.month.ago) do
+          UserProfileManager.new(another_user).delete_profile_page!
+          Upload.delete_all
+        end
+      end
+
+      it { expect { perform rescue nil }.to delete_record(Post).matching(user_id: another_user.id) }
+      it { expect { perform rescue nil }.not_to delete_record(Post).matching(user_id: user.id) }
     end
   end
 end

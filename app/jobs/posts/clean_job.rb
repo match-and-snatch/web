@@ -4,6 +4,10 @@ module Posts
 
     PERIOD = 2.months
 
+    def initialize(ids: [])
+      @ids = ids
+    end
+
     def perform
       return unless APP_CONFIG['enable_post_clean_job']
 
@@ -47,14 +51,18 @@ module Posts
     private
 
     def processing_users
-      sql = <<-SQL.squish, false, 'profile_page_removed', PERIOD.ago, 0
-        (users.is_profile_owner = ?
-        AND events.action = ?
-        AND events.created_at <= ?
-        AND subscribers_count = ?)
-      SQL
+      if @ids.any?
+        scope = {id: @ids}
+      else
+        scope = <<-SQL.squish, false, 'profile_page_removed', PERIOD.ago, 0
+          (users.is_profile_owner = ?
+          AND events.action = ?
+          AND events.created_at <= ?
+          AND subscribers_count = ?)
+        SQL
+      end
 
-      User.joins(:posts, :events).where(sql).group('users.id')
+      User.joins(:posts, :events).where(scope).group('users.id')
     end
 
     def delete_s3_files(upload, report)

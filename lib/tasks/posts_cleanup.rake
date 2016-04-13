@@ -1,7 +1,7 @@
 namespace :posts do
   desc 'Remove posts from removed profiles 30 days left after profile removement'
-  task clean: :environment do
+  task clean: :environment do |t, args|
     puts 'Processing started'
-    Posts::CleanJob.new.perform
+    Posts::CleanJob.new(ids: args.extras).perform
   end
 end
