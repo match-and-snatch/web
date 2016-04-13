@@ -12,6 +12,14 @@ class Layout < Hash
     self[:title] || 'ConnectPal.com'
   end
 
+  def description=(val)
+    self[:description] = val
+  end
+
+  def description
+    self[:description] || I18n.t('seo.description')
+  end
+
   def hide_navigation
     self[:show_navigation] = false
   end

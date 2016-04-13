@@ -65,3 +65,7 @@ en:
     documents: Just posted some documents.
     photos: Just posted %{count} %{label} to their profile.
     contributions: Has made a %{type} contribution of $%{amount} towards your profile!
+  seo:
+    title: ConnectPal.com
+    description: "The World's #1 Most Popular Content Marketplace. Any person or group can create a subscription business in less than 60 seconds."
+    new_description: "ConnectPal is the World's #1 Most Popular Content Marketplace. Any person or group can create a subscription business in less than 60 seconds."
