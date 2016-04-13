@@ -11,7 +11,7 @@ module Posts
     def perform
       return unless APP_CONFIG['enable_post_clean_job']
 
-      report = new_report users_to_process: processing_users.count,
+      report = new_report users_to_process: processing_users.count.length,
                           skipped_users: 0,
                           processed_users: 0,
                           removed_posts: 0,
