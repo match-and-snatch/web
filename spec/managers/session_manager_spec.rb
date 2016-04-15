@@ -17,6 +17,15 @@ describe SessionManager, type: :request do
       specify do
         expect { manager.login(email, password) }.to change { cookies['auth_token'] }.from(nil).to(user.auth_token)
       end
+
+      context 'invalid byte sequence' do
+        let!(:user) { create_user(email: email, password: 'qwerty', password_confirmation: 'qwerty') }
+        let(:password) { "qwerty\255" }
+
+        specify do
+          expect { manager.login(email, password) }.not_to raise_error
+        end
+      end
     end
 
     context 'unauthorized user' do
