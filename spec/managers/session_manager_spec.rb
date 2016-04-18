@@ -26,6 +26,15 @@ describe SessionManager, type: :request do
           expect { manager.login(email, password) }.not_to raise_error
         end
       end
+
+      context 'password is nil' do
+        let!(:user) { create_user(email: email, password: 'qwerty', password_confirmation: 'qwerty') }
+        let(:password) { nil }
+
+        specify do
+          expect { manager.login(email, password) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(password: t_error(:empty)) }
+        end
+      end
     end
 
     context 'unauthorized user' do
