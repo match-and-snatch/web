@@ -694,6 +694,12 @@ textarea
     // Desktop
     @media screen and (min-width: 991px)
       width: 970px !important
+    a
+      color: $color_pink
+      &:hover
+        color: #b29525
+        text-decoration: underline
+
   .close
     position: absolute
     top: 15px
@@ -709,8 +715,8 @@ textarea
 .profile-type-input
   .search-type
     font-weight: 400
-    margin-bottom: 10px
-    width: 430px
+    margin-bottom: 15px
+    width: 567px
   .fa
     color: $color_text_light
     cursor: pointer
@@ -758,8 +764,13 @@ textarea
 .profile-type-list-show
   ul
     background: none !important
-    border: none
-    padding: 0
+    border: 1px solid $color_border
+    display: block
+    max-height: 129px
+    margin-bottom: 15px
+    overflow-y: scroll
+    overflow-x: hidden
+    padding: 10px 10px 0 10px
     li
       background-color: $color_green !important
       border-color: #87bf3b
@@ -769,10 +780,13 @@ textarea
         border-color: #277aa3
         color: #FFFFFF
 .profile-type-list-owner
-  ul
-    li
-      .fa-times
-        padding-top: 2px
+  .profile-type-list-owner-list
+    text-align: left
+    ul
+      margin-bottom: 15px
+      li
+        .fa-times
+          padding-top: 2px
 
 // ToS Footer
 .tos-footer
@@ -804,6 +818,8 @@ textarea
       right: 15px
       text-align: center
       padding: 5px 8px 1px
+      &.pending
+        opacity: 1 !important
       .fa-times
         font-size: 14px
         padding-left: 5px

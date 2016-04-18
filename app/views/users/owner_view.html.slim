@@ -187,15 +187,16 @@
         |function find more potential subscribers who might like your content.
     .modal-body
       .profile-type-input
-        input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='{"html":"profile-types","types_text":"types-text"}' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.' style='width: 567px'
+        input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='{"html":"profile-types","types_text":"types-text"}' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.'
         i.fa.fa-plus.pull-left data-identifier='types-submit' Add
         i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
         .clearfix
       .error data-field='profile_type'
       .profile-type-list.profile-type-list-show
-        ul style='overflow: scroll; max-height: 100px' data-identifier='types-dropdown'
-      .profile-type-list.profile-type-list-owner data-identifier='profile-types' style="padding-top: 10px"
+        ul data-identifier='types-dropdown'
+      .profile-type-list.profile-type-list-owner data-identifier='profile-types'
         = render 'profile_types/list_assigned', profile_types: current_user.profile_types
+      .clearfix
 
   /Profile Cost Popup
   .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 745px"
