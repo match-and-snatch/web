@@ -11,5 +11,4 @@ class bud.widgets.RemotePopup extends bud.widgets.Popup
     bud.unsub("remote_popup.show", @arise)
 
   arise: (e, html) =>
-    @show()
-    bud.replace_html(@$container, html)
+    bud.replace_html(@$container, html, => @show())

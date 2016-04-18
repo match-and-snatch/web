@@ -5,8 +5,6 @@ class bud.widgets.AjaxLink extends bud.Widget
   @SELECTOR: '.AjaxLink'
 
   initialize: ->
-    @href       = @$container.attr('href')
-    @hash       = @href #.replace(/^\//, '')
     @$target    = @get_target() || @$container
     @use_anchor = @data('use_anchor')
     @default    = @data('default')
@@ -20,30 +18,36 @@ class bud.widgets.AjaxLink extends bud.Widget
   destroy: ->
     bud.unsub('window.hashchange', @location_changed)
 
+  href: ->
+    @$container.attr('href')
+
+  hash: ->
+    @href()
+
   location_changed: =>
     if @use_anchor
-      if "##{@hash}" == window.location.hash
+      if "##{@hash()}" == window.location.hash
         if @clicked
           @clicked = false
         else
-          @render_path(@href)
+          @render_path(@href())
       else if _.isEmpty(window.location.hash) && @default
-        window.location.hash = @hash
+        window.location.hash = @hash()
       else
         @$container.removeClass('active pending')
 
   link_clicked: (e) =>
-    if "##{@hash}" != window.location.hash
+    if "##{@hash()}" != window.location.hash
       $(bud.widgets.AjaxLink.SELECTOR).removeClass('active pending')
 
     if @use_anchor
-      if "##{@hash}" != window.location.hash
+      if "##{@hash()}" != window.location.hash
         @clicked = true
-        window.location.hash = @hash
+        window.location.hash = @hash()
       else
-        @render_path(@href)
+        @render_path(@href())
     else
-      @render_path(@href)
+      @render_path(@href())
 
     return false if @$container.is('a')
     return true

@@ -10,13 +10,9 @@ class bud.widgets.Comment extends bud.Widget
   toggle: (visible) ->
     @$container.children('.edit_container:visible').toggle()
 
-    bud.Core.destroy_widgets(@$edit_menu)
-
     if visible
       @$comment_row.css('opacity',  1)
       @$toggler.text('Hide').parent('a').attr 'href', (i, href) -> href.replace /make_visible/, 'hide'
     else
       @$comment_row.css('opacity',  0.5)
       @$toggler.text('Show').parent('a').attr 'href', (i, href) -> href.replace /hide/, 'make_visible'
-
-    bud.Core.init_widgets(@$edit_menu)
