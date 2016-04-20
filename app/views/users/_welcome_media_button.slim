@@ -1,0 +1,7 @@
+div data-identifier='welcome-media-button'
+  - if profile.welcome_media
+    .add_welcome_video.btn.pink.PopupTrigger data-target='welcome-editor'
+      span.fa.fa-plus Change Welcome Video
+  - else
+    .add_welcome_video.btn.green.PopupTrigger data-target='welcome-editor'
+      span.fa.fa-plus Add Welcome Video

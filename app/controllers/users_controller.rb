@@ -123,7 +123,7 @@ class UsersController < ApplicationController
 
   def update_welcome_media
     UserProfileManager.new(current_user.object).update_welcome_media(params[:transloadit])
-    json_replace partial: 'welcome_media'
+    json_replace html: welcome_media_html, welcome_media_button: welcome_media_button_html
   end
 
   def update_contacts_info
@@ -139,12 +139,20 @@ class UsersController < ApplicationController
 
   def remove_welcome_media
     UserProfileManager.new(current_user.object).remove_welcome_media!
-    json_replace partial: 'welcome_media'
+    json_replace html: welcome_media_html, welcome_media_button: welcome_media_button_html
   end
 
   private
 
   def redirect_invalid_slug
     redirect_to profile_path(params[:id].downcase), status: 301 if /[A-Z]/.match(params[:id])
+  end
+
+  def welcome_media_html
+    render_to_string(partial: 'welcome_media')
+  end
+
+  def welcome_media_button_html
+    render_to_string(partial: 'welcome_media_button', locals: {profile: current_user})
   end
 end

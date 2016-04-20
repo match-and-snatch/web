@@ -46,12 +46,7 @@
           .fa.fa-gear.edit-gear.PopupTrigger data-target='cost-editor'
             .edit-text Edit
           .clearfix
-        - if @profile.welcome_media
-          .add_welcome_video.btn.pink.PopupTrigger data-target='welcome-editor'
-            span.fa.fa-plus Change Welcome Video
-        - else
-          .add_welcome_video.btn.green.PopupTrigger data-target='welcome-editor'
-            span.fa.fa-plus Add Welcome Video
+        = render partial: 'users/welcome_media_button', locals: {profile: @profile}
       .clearfix
 
       /Subscriber Benefits

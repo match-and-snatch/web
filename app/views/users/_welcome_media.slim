@@ -11,7 +11,7 @@
         = current_user.welcome_audio.filename
   - else
     .no-media
-  form.UploadForm action=update_welcome_media_user_path(current_user.object) method='post' data-target='welcome-media-container'
+  form.UploadForm action=update_welcome_media_user_path(current_user.object) method='post' data-target='{"html":"welcome-media-container","welcome_media_button":"welcome-media-button"}'
     input type='hidden' name='_method' value='put'
     = transloadit :welcome_media
     .select_file_container
@@ -24,7 +24,7 @@
       input.hide_btn type='file' name='welcome_media_file' accept=".mp4,.m4v,.f4v,.mov,.flv,.aac,.mp3"
       input type='hidden' name='slug' value=current_user.slug
     - if current_user.welcome_media.present?
-      .AjaxFormLink.btn.pink data-target='welcome-media-container' data-_method='delete' href=remove_welcome_media_user_path(current_user.object) style='margin-bottom: 15px; width: 100%;' Remove Welcome Video File
+      .AjaxFormLink.btn.pink data-target='{"html":"welcome-media-container","welcome_media_button":"welcome-media-button"}' data-_method='delete' href=remove_welcome_media_user_path(current_user.object) style='margin-bottom: 15px; width: 100%;' Remove Welcome Video File
     .row-fluid.file_status.Progress.hidden style='width: 585px; margin: 15px auto 0;'
       .col-md-2.col-sm-2.col-xs-2.file_name id='uploading-status' style='text-align: left;' Uploading...
       .col-md-8.col-sm-8.col-xs-8
