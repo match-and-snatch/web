@@ -39,6 +39,10 @@ class NotificationManager < BaseManager
 
     # @param profile_owner [User]
     def notify_vacation_enabled(profile_owner)
+      if profile_owner.subscribers_count >= 15
+        ReportsMailer.owner_went_on_vacation(profile_owner).deliver_now
+      end
+
       profile_owner.source_subscriptions.not_removed.joins(:user).find_each(batch_size: BATCH_SIZE) do |subscription|
         ProfilesMailer.vacation_enabled(subscription).deliver_now
       end
@@ -46,6 +50,11 @@ class NotificationManager < BaseManager
 
     # @param profile_owner [User]
     def notify_vacation_disabled(profile_owner)
+      event = profile_owner.events.where(action: 'vacation_mode_enabled').order(:created_at).last
+      if event && (event.data[:subscribers_count] || 0) >= 15
+        ReportsMailer.owner_returned_from_vacation(profile_owner, event).deliver_now
+      end
+
       profile_owner.source_subscriptions.not_removed.joins(:user).find_each(batch_size: BATCH_SIZE) do |subscription|
         ProfilesMailer.vacation_disabled(subscription).deliver_now
       end

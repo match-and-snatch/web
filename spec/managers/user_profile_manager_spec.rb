@@ -310,6 +310,22 @@ describe UserProfileManager do
         expect(ProfilesMailer).to receive(:vacation_enabled).with(subscription).and_return(double('mailer').as_null_object)
         enable_vacation_mode
       end
+
+      it { expect { enable_vacation_mode }.not_to deliver_email(to: APP_CONFIG['emails']['operations'], subject: /went on away mode/) }
+
+      context 'with 15 or more subscribers' do
+        let(:subscribers_count) { 15 }
+
+        before { user.update_attribute(:subscribers_count, subscribers_count) }
+
+        it { expect { enable_vacation_mode }.to deliver_email(to: APP_CONFIG['emails']['operations'], subject: /went on away mode/) }
+
+        context 'more than 15 subscribers' do
+          let(:subscribers_count) { 16 }
+
+          it { expect { enable_vacation_mode }.to deliver_email(to: APP_CONFIG['emails']['operations'], subject: /went on away mode/) }
+        end
+      end
     end
 
     context 'no reason specified' do
@@ -481,6 +497,26 @@ describe UserProfileManager do
         stub_const('ProfilesMailer', double('mailer', vacation_disabled: double('mail', deliver: true)).as_null_object)
         expect(ProfilesMailer).to receive(:vacation_disabled).with(subscription).and_return(double('mailer').as_null_object)
         disable_vacation_mode
+      end
+
+      it { expect { disable_vacation_mode }.not_to deliver_email(to: APP_CONFIG['emails']['operations']) }
+
+      context 'with 15 or more subscribers' do
+        let(:subscribers_count) { 15 }
+
+        before do
+          event = user.events.where(action: 'vacation_mode_enabled').last
+          event.data.merge!(subscribers_count: subscribers_count)
+          event.save
+        end
+
+        it { expect { disable_vacation_mode }.to deliver_email(to: APP_CONFIG['emails']['operations'], subject: /subscribers has returned from away mode/) }
+
+        context 'more than 15 subscribers' do
+          let(:subscribers_count) { 16 }
+
+          it { expect { disable_vacation_mode }.to deliver_email(to: APP_CONFIG['emails']['operations'], subject: /subscribers has returned from away mode/) }
+        end
       end
     end
 

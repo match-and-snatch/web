@@ -14,6 +14,8 @@ defaults: &defaults
   emails:
     debug: debug@connectpal.com
     reports: reports@connectpal.com
+    operations: operations@connectpal.com
+    business: business@connectpal.com
     deleted_posts:
       - will@connectpal.com
       - andy@connectpal.com

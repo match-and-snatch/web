@@ -1,0 +1,20 @@
+- content_for :custom_heading do
+  strong style='color: #464646; font-family: Helvetica,Arial,sans-serif; font-size: 32px; line-height: 100%;' Away mode Notice
+p
+  |The user (#{link_to_user(@user)}) returned from away mode.
+
+p
+  |ID: #{@user.id}
+  br
+  |Slug: #{@user.slug}
+  br
+  |Email: #{@user.email}
+  br
+  |Full name: #{@user.full_name}
+  br
+  |Profile name: #{@user.name}
+  br
+  |Subscribers at start: #{@event.data[:subscribers_count]}
+  br
+  |Subscribers at end: #{@user.subscribers_count}
+  br

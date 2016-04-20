@@ -14,13 +14,13 @@ class ProfilesMailer < ApplicationMailer
     @user = user
     @cost = cost
     @old_cost = old_cost
-    mail to: 'business@connectpal.com', subject: 'Notice - New Cost Change Request'
+    mail to: APP_CONFIG['emails']['operations'], subject: 'Notice - New Cost Change Request'
   end
 
   # @param user [User]
   def delete_profile_page_request(user)
     @user = user
-    mail to: 'business@connectpal.com', subject: 'Notice - New Delete Profile Page Request'
+    mail to: APP_CONFIG['emails']['operations'], subject: 'Notice - New Delete Profile Page Request'
   end
 
   # @param user [User]
