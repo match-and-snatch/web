@@ -18,7 +18,7 @@
             span.contribute_label
               | #{contribution_text(message.contribution)}
           .clearfix
-          .message.Emoji= message.message
+          .message.Emoji= format_message(message.message)
         .clearfix
   .clearfix
 

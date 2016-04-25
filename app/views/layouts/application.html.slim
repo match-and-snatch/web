@@ -51,14 +51,13 @@ html
         .notice_counter data-identifier='notice-counter'
         .fa.fa-times-circle.close.Toggler data-target='notification-bar'
       .RemotePopup.popup.modal-content data-identifier='remote-popup'
-      .ConfirmationPopup.popup.modal-content data-identifier='confirmation-popup'
+      .ConfirmationPopup.popup.modal-content.confirm data-identifier='confirmation-popup'
         .modal-header
           i.PopupTrigger.fa.fa-times-circle.close data-target="confirmation-popup"
           .modal-title.Question Are you sure?
-
-        .modal-body style="padding-bottom: 15px;"
-          .btn.blue.pull-right.PopupTrigger style="margin-left: 15px;" data-target="confirmation-popup" No
-          .btn.blue.pull-right.Ok Yes
+        .modal-body
+          .btn.pink.cancel.PopupTrigger data-target="confirmation-popup" Cancel
+          .btn.green.confirm.Ok Confirm
           .clearfix
 
       - if current_user.banned?
