@@ -108,6 +108,21 @@ describe ContributionManager do
             expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.lock_reason }.to('contribution_limit')
           end
         end
+
+        context 'unlocked after lock' do
+          before do
+            Timecop.travel(4.days.since) do
+              ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
+            end
+            UserManager.new(user).unlock
+          end
+
+          specify do
+            Timecop.travel(5.days.since) do
+              expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.not_to change { user.reload.locked? }.from(false)
+            end
+          end
+        end
       end
 
       context '$250 in 1 week if accepts large contributions' do

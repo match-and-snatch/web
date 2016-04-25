@@ -57,6 +57,7 @@ class UserManager < BaseManager
   end
 
   # @param type [String, Symbol] account, billing or tos
+  # @yield
   def lock(type: :account, reason: :manually_set)
     return if @user.is_admin?
 
@@ -65,6 +66,7 @@ class UserManager < BaseManager
 
     @user.lock!(type: type, reason: reason).tap do
       EventsManager.account_locked(user: @user, type: type.to_s, reason: reason.to_s)
+      yield @user if block_given?
     end
   end
 
