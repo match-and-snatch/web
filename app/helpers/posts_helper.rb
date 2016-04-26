@@ -5,7 +5,7 @@ module PostsHelper
   # @param message [String]
   def format_post_message(post, truncate_long: true)
     if truncate_long && post.message.length > TRUNCATED_POST_LENGTH
-      message = truncate(post.message, length: TRUNCATED_POST_LENGTH)
+      message = truncate(post.message, length: TRUNCATED_POST_LENGTH, escape: false)
       full_post = post
     else
       message = post.message
@@ -16,7 +16,7 @@ module PostsHelper
 
   def format_comment_message(comment, truncate_long: true)
     if truncate_long && comment.message.length > TRUNCATED_COMMENT_LENGTH
-      message = truncate(comment.message, length: TRUNCATED_COMMENT_LENGTH)
+      message = truncate(comment.message, length: TRUNCATED_COMMENT_LENGTH, escape: false)
       full_comment = comment
     else
       message = comment.message
