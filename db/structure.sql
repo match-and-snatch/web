@@ -1098,7 +1098,8 @@ CREATE TABLE users (
     old_email character varying,
     email_updated_at timestamp without time zone,
     posts_count integer DEFAULT 0 NOT NULL,
-    contribution_limit_reached_at timestamp without time zone
+    contribution_limit_reached_at timestamp without time zone,
+    total_subscribers_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2012,4 +2013,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160408071021');
 INSERT INTO schema_migrations (version) VALUES ('20160408071053');
 
 INSERT INTO schema_migrations (version) VALUES ('20160422102107');
+
+INSERT INTO schema_migrations (version) VALUES ('20160427035702');
+
+INSERT INTO schema_migrations (version) VALUES ('20160427040148');
 

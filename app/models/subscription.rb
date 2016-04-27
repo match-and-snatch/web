@@ -3,7 +3,7 @@ class Subscription < ActiveRecord::Base
 
   belongs_to :user, counter_cache: true
   belongs_to :target, polymorphic: true
-  belongs_to :target_user, class_name: 'User'
+  belongs_to :target_user, class_name: 'User', counter_cache: :total_subscribers_count
   has_many :payments, as: :target
   has_many :payment_failures, as: :target
 

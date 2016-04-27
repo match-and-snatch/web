@@ -33,6 +33,8 @@ div data-identifier='users'
         th
           strong Posts
         th
+          strong Subscribers/Active
+        th
           strong Date/Time Created
         - if current_user.admin?
           th
@@ -45,6 +47,7 @@ div data-identifier='users'
           td
             a href="mailto:#{user.email}"= user.email
           td= user.posts_count
+          td= "#{user.total_subscribers_count} / #{user.subscribers_count}"
           td= user.created_at.try(:to_s, :long)
           - if current_user.admin?
             td
