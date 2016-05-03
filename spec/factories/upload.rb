@@ -3,6 +3,7 @@ FactoryGirl.define do
     user { FactoryGirl.create :user, :profile_owner }
     uploadable nil
     removed false
+    filesize 100
   end
 
   factory :audio, parent: :upload, class: Audio do

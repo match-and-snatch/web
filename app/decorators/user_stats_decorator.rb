@@ -70,7 +70,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def uploaded_bytes
-    object.source_uploads.sum(:filesize)
+    object.source_uploads.not_removed.sum(:filesize)
   end
 
   def total_gross

@@ -8,7 +8,7 @@ class Dashboard::Admin::UploadsController < Dashboard::Admin::BaseController
       having('SUM(uploads.filesize) > 0').
       order('SUM(uploads.filesize) DESC').page(params[:page]).per(20)
 
-    @total_uploaded = Upload.sum(:filesize)
+    @total_uploaded = Upload.not_removed.sum(:filesize)
 
     json_render
   end

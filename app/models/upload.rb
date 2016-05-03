@@ -12,6 +12,7 @@ class Upload < ActiveRecord::Base
   scope :videos,    -> { where type: 'Video' }
   scope :documents, -> { where type: 'Document' }
   scope :ordered,   -> { order('ordering, id') }
+  scope :not_removed, -> { where(removed: false) }
 
   # @return [String]
   def file_type
