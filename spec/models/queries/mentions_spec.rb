@@ -12,8 +12,6 @@ describe Queries::Mentions do
 
   subject(:query) { described_class.new(query: q, current_user: current_user, profile_id: profile_owner.id)  }
 
-  before { update_index }
-
   describe '#by_name' do
     subject(:results) { query.by_name }
 
