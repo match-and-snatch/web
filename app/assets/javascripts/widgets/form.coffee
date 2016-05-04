@@ -3,11 +3,17 @@ class bud.widgets.Form extends bud.Widget
   @SELECTOR = '.Form'
 
   initialize: ->
-    @$submit_button = @$container.find('input[type=submit]')
-    @$submitter     = @$container.find('[data-submitter]')
-    @submitted_text = @$submit_button.data('submitted_text') || 'Submitted'
-    @wait_text      = @$submit_button.data('wait_text') || 'Wait...'
-    @submit_text    = @$submit_button.val()
+    @$submitter = @$container.find('[data-submitter]')
+
+    @submit_buttons = []
+    _.each @$container.find('input[type=submit]'), (button) =>
+      $btn = $(button)
+      $btn.click @on_click
+      @submit_buttons.push
+        button: $btn
+        submitted_text: $btn.data('submitted_text') || 'Submitted'
+        wait_text: $btn.data('wait_text') || 'Wait...'
+        submit_text: $btn.val()
 
     @requesting = false
 
@@ -18,6 +24,9 @@ class bud.widgets.Form extends bud.Widget
       @$target = bud.get(@$container.data('target'))
     else
       @$target = @$container
+
+  on_click: (e) =>
+    @commit_param = e.target.dataset.commit || e.target.value
 
   safe_submit: (after) ->
     @submit(after) unless @requesting
@@ -107,16 +116,20 @@ class bud.widgets.Form extends bud.Widget
 
   # Override this method for custom forms
   params: ->
-    result = {}
+    result =
+      commit: @commit_param
+
     _.each @$container.find('input, select, textarea'), (input) ->
       $input = $(input)
 
       if $input.attr('name')
         if $input.is('[type=checkbox]')
-          if $input.is(':checked')
-            result[$input.attr('name')] = '1'
+          field_name = $input.attr('name')
+          if /^.+\[\]$/.test(field_name)
+            result[field_name] = [] unless result[field_name]
+            result[field_name].push($input.val()) if $input.is(':checked')
           else
-            result[$input.attr('name')] = '0'
+            result[field_name] = if $input.is(':checked') then '1' else '0'
         else if $input.is('[type=radio]')
           if $input.is(':checked')
             result[$input.attr('name')] = $input.val() || '1'
@@ -126,14 +139,16 @@ class bud.widgets.Form extends bud.Widget
     result
 
   enable_pending_state: ->
-    @$submit_button.val(@wait_text)
-    @$submit_button.attr('disabled', 'disabled')
     @$container.addClass('pending')
+    _.each @submit_buttons, (params) =>
+      params.button.val(params.wait_text).attr('disabled', 'disabled')
+
 
   disable_pending_state: ->
-    @$submit_button.val(@submitted_text)
     @$container.removeClass('pending')
+    _.each @submit_buttons, (params) =>
+      params.button.val(params.submitted_text)
     setTimeout =>
-      @$submit_button.val(@submit_text)
-      @$submit_button.removeAttr('disabled')
+      _.each @submit_buttons, (params) =>
+        params.button.val(params.submit_text).removeAttr('disabled')
     , 1000

@@ -1,0 +1,2 @@
+class BulkEmptySetError < StandardError
+end

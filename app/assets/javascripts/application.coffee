@@ -13,7 +13,8 @@
 #= require jquery_extensions
 #= require core
 #= require helpers
-#= require_tree .
+#= require_tree ./application/.
+#= require_tree ./widgets/.
 
 $(document).ready ->
   unless window['bud']['layout']['locked']

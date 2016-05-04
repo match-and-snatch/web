@@ -8,27 +8,37 @@ ol.pull-left style='padding: 0 15px 15px 0'
 .clearfix
 
 - if @cost_change_requests.any?
-  table.table.table-striped
-    th Profile Page
-    th Email
-    th Old cost
-    th New cost
-    th Date
-    th Active Subscribers
-    th
-    th
-    - @cost_change_requests.each do |cost_change_request|
-      tr
-        td= link_to_user(cost_change_request.user)
-        td= cost_change_request.user.email
-        td= cents_to_dollars(cost_change_request.old_cost)
-        td= cents_to_dollars(cost_change_request.new_cost)
-        td= cost_change_request.created_at.to_s(:short)
-        td align='center'= cost_change_request.user.subscribers_count
-        td
-          .btn.green.pull-right.AjaxLink href=confirm_approve_admin_cost_change_request_path(cost_change_request) APPROVE
-        td
-          .btn.pink.pull-right.AjaxLink href=confirm_reject_admin_cost_change_request_path(cost_change_request) REJECT
+  form.Form action=bulk_process_admin_cost_change_requests_path method='post' data-confirmation='true'
+    input.btn.green.pull-left type='submit' value='Approve selected' data-commit='approve'
+    input.btn.pink.pull-left type='submit' value='Reject selected' data-commit='reject'
+    input type='checkbox' name='update_existing_subscriptions' checked='checked' value='1' id='cost_checkbox'
+    label for='cost_checkbox' &nbsp;Update existing subscribers
+
+    table.table.table-striped
+      th
+        input.BulkSelector type='checkbox' data-target='request-checkbox'
+      th Profile Page
+      th Email
+      th Old cost
+      th New cost
+      th Date
+      th Active Subscribers
+      th
+      th
+      - @cost_change_requests.each do |cost_change_request|
+        tr
+          td
+            input type='checkbox' name='ids[]' value=cost_change_request.id data-identifier='request-checkbox'
+          td= link_to_user(cost_change_request.user)
+          td= cost_change_request.user.email
+          td= cents_to_dollars(cost_change_request.old_cost)
+          td= cents_to_dollars(cost_change_request.new_cost)
+          td= cost_change_request.created_at.to_s(:short)
+          td align='center'= cost_change_request.user.subscribers_count
+          td
+            .btn.green.pull-right.AjaxLink href=confirm_approve_admin_cost_change_request_path(cost_change_request) APPROVE
+          td
+            .btn.pink.pull-right.AjaxLink href=confirm_reject_admin_cost_change_request_path(cost_change_request) REJECT
   .TopJumper= paginate @cost_change_requests
 - else
   strong No requests so far

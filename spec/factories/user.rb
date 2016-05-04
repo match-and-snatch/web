@@ -70,8 +70,8 @@ FactoryGirl.define do
       profile_name 'America Now'
       has_complete_profile true
 
-      cost 400
-      subscription_cost 499
+      cost 4_00
+      subscription_cost 4_99
       subscription_fees 99
 
       profile_picture_url Factories::Defaults::PROFILE_PICTURE_URL

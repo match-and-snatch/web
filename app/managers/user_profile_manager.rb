@@ -2,6 +2,7 @@ class UserProfileManager < BaseManager
   include Concerns::CreditCardValidator
   include Concerns::EmailValidator
   include Concerns::PasswordValidator
+  include Concerns::CostUpdatePerformer
 
   attr_reader :user, :performer
 
@@ -224,29 +225,6 @@ class UserProfileManager < BaseManager
 
     update_subscriptions_cost if update_existing_subscriptions
     EventsManager.subscription_cost_changed(user: user, from: previous_cost, to: cost)
-  end
-
-  # @param cost_change_request [CostChangeRequest]
-  # @param update_existing_subscriptions [Boolean]
-  def approve_and_change_cost!(cost_change_request, update_existing_subscriptions: false)
-    cost_change_request.approve!(update_existing_costs: update_existing_subscriptions)
-    if cost_change_request.initial? || user.source_subscriptions.active.empty?
-      change_cost!(cost: cost_change_request.new_cost, update_existing_subscriptions: cost_change_request.update_existing_subscriptions)
-      cost_change_request.perform!
-    end
-  end
-
-  # @param cost_change_request [CostChangeRequest]
-  # @param cost [Integer]
-  def rollback_cost!(cost_change_request, cost: )
-    if cost_change_request.initial? || cost
-      validate! { validate_cost cost }
-
-      user.cost = (cost.to_f * 100).to_i
-      save_or_die! user
-    end
-
-    cost_change_request.reject!
   end
 
   # @param contacts_info [Hash]
@@ -965,7 +943,7 @@ class UserProfileManager < BaseManager
     if user.cost_change_request
       fail_with! cost: :pending_request_present
     else
-      user.cost_change_requests.create!(old_cost: user.cost,
+      user.cost_change_requests.create!(old_cost: user.current_cost,
                                         new_cost: cost,
                                         update_existing_subscriptions: update_existing_subscriptions || false)
       ProfilesMailer.delay.cost_change_request(user, user.subscription_cost, user.pretend(cost: cost).subscription_cost)

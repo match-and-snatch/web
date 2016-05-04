@@ -90,7 +90,7 @@ class UsersController < ApplicationController
     manager = UserProfileManager.new(current_user.object)
     manager.update_cost(params[:cost], update_existing_subscriptions: params.bool(:update_existing))
 
-    if manager.cost_change_request_submitted?
+    if manager.cost_change_request_submitted? && current_user.cost_approved?
       notice(:cost_change_request_submitted)
     end
 

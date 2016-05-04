@@ -9,12 +9,12 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
 
     context 'as an admin' do
       before { sign_in create_admin }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
       before { sign_in create_user }
-      it { should_not be_success }
+      it { is_expected.not_to be_success }
     end
   end
 
@@ -23,12 +23,12 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
 
     context 'as an admin' do
       before { sign_in create_admin }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
       before { sign_in create_user }
-      it { should_not be_success }
+      it { is_expected.not_to be_success }
     end
   end
 
@@ -37,12 +37,12 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
 
     context 'as an admin' do
       before { sign_in create_admin }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
       before { sign_in create_user }
-      it { should_not be_success }
+      it { is_expected.not_to be_success }
     end
   end
 
@@ -51,12 +51,12 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
 
     context 'as an admin' do
       before { sign_in create_admin }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
       before { sign_in create_user }
-      it { should_not be_success }
+      it { is_expected.not_to be_success }
     end
   end
 
@@ -65,12 +65,36 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
 
     context 'as an admin' do
       before { sign_in create_admin }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
       before { sign_in create_user }
-      it { should_not be_success }
+      it { is_expected.not_to be_success }
+    end
+  end
+
+  describe 'POST #bulk_process' do
+    subject { post 'bulk_process', ids: [cost_change_request.id], commit: 'approve' }
+
+    context 'as an admin' do
+      before { sign_in create_admin }
+      it { is_expected.to be_success }
+
+      context 'without commit param' do
+        subject { post 'bulk_process', ids: [cost_change_request.id], format: :json }
+        its(:status) { is_expected.to eq(400) }
+      end
+
+      context 'with empty ids' do
+        subject { post 'bulk_process', ids: [], commit: 'approve' }
+        it { is_expected.to be_success }
+      end
+    end
+
+    context 'as a non admin' do
+      before { sign_in create_user }
+      it { is_expected.not_to be_success }
     end
   end
 end

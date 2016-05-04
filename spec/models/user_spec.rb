@@ -565,6 +565,49 @@ describe User do
     end
   end
 
+  describe '#cost_approved?' do
+    subject(:user) { create :user }
+
+    context 'user never had a request' do
+      its(:cost_approved?) { is_expected.to eq(true) }
+    end
+
+    context 'user requested a high price' do
+      subject(:user) { create :user, cost: 85_00 }
+      let!(:request) { create :cost_change_request, :pending, old_cost: nil, new_cost: 85_00, user: user }
+      its(:cost_approved?) { is_expected.to eq(false) }
+
+      context 'request approved' do
+        let!(:request) { create :cost_change_request, :approved, old_cost: nil, new_cost: 85_00, user: user, performed: true }
+        its(:cost_approved?) { is_expected.to eq(true) }
+
+        context 'one of the requests was rejected before' do
+          let!(:request) { create :cost_change_request, :rejected, old_cost: nil, new_cost: 85_00, user: user, performed: true }
+          let!(:request2) { create :cost_change_request, :approved, old_cost: nil, new_cost: 85_00, user: user, performed: true }
+
+          its(:cost_approved?) { is_expected.to eq(true) }
+        end
+      end
+
+      context 'request rejected' do
+        let!(:request) { create :cost_change_request, :rejected, old_cost: nil, new_cost: 85_00, user: user, performed: true }
+        its(:cost_approved?) { is_expected.to eq(false) }
+
+        context 'user decreased cost to reasonably low level' do
+          let(:user) { create :user, cost: 1_00 }
+          its(:cost_approved?) { is_expected.to eq(true) }
+        end
+
+        context 'one of the requests was approved before' do
+          let!(:request) { create :cost_change_request, :approved, old_cost: nil, new_cost: 81_00, user: user, performed: true }
+          let!(:request2) { create :cost_change_request, :rejected, old_cost: 81_00, new_cost: 85_00, user: user, performed: true }
+
+          its(:cost_approved?) { is_expected.to eq(true) }
+        end
+      end
+    end
+  end
+
   describe '#cost_change_requests' do
     subject(:user) { create :user }
 

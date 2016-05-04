@@ -510,6 +510,9 @@ BuddyPlatform::Application.routes.draw do
           get :confirm_approve
           post :approve
         end
+        collection do
+          post :bulk_process
+        end
       end
       resources :delete_profile_page_requests, only: :index do
         member do

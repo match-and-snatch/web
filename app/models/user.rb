@@ -42,6 +42,10 @@ class User < ActiveRecord::Base
     def current
       pending.order(created_at: :desc).first
     end
+
+    def recent
+      order(created_at: :desc).first
+    end
   end
   has_many :delete_profile_page_requests
   has_many :contribution_requests
@@ -175,8 +179,26 @@ class User < ActiveRecord::Base
     @cost_change_request ||= cost_change_requests.current
   end
 
+  # @return [CostChangeRequest]
+  def recent_cost_change_request
+    cost_change_requests.recent
+  end
+
   def cost_approved?
-    cost_change_requests.new_large_cost.pending.empty?
+    return true if cost && cost < CostChangeRequest::MAX_COST
+
+    recent_request = recent_cost_change_request
+
+    if recent_request.try(:initial?)
+      !(recent_request.rejected? || recent_request.pending?)
+    else
+      true
+    end
+  end
+
+  # @return [Integer, nil] Cents or nothing if cost is not approved
+  def current_cost
+    cost if cost_approved?
   end
 
   def comment_picture_url(profile_image: false)

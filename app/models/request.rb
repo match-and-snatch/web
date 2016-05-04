@@ -22,4 +22,8 @@ class Request < ActiveRecord::Base
     self.rejected_at = Time.zone.now
     self.save!
   end
+
+  def pending?
+    !performed?
+  end
 end

@@ -1035,74 +1035,76 @@ describe UserProfileManager do
   end
 
   describe '#update_cost' do
-    before do
-      manager.update_cost(1)
-    end
-
-    it 'raises an error if cost is 0 or less' do
-      expect { manager.update_cost(0) }.to raise_error(ManagerError)
-    end
-
-    it 'raises an error if cost is more than 9999' do
-      expect { manager.update_cost(10000) }.to raise_error(ManagerError)
-    end
-
-    it 'does not raise any errors if cost is equal to 9999' do
-      expect { manager.update_cost(9999) }.not_to raise_error
-    end
-
-    it 'raises an error if cost is not a number' do
-      expect { manager.update_cost('123a') }.to raise_error(ManagerError)
-    end
-
-    it 'returns user' do
-      expect(manager.update_cost(5)).to eq(user)
-    end
-
-    it 'raises an error if cost have invalid format' do
-      expect { manager.update_cost('5.03') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_whole_number)) }
-    end
-
-    it 'does not raise an error if cost format is valid' do
-      expect { manager.update_cost('5.00') }.not_to raise_error
-    end
-
-    specify do
-      expect { manager.update_cost(4) }.to change { user.reload.cost }.from(100).to(400)
-    end
-
-    context 'with source subscriptions' do
-      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
-      let!(:subscription) do
-        SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
+    context do
+      before do
+        manager.update_cost(1)
       end
 
-      it 'creates change cost request' do
-        expect { manager.update_cost(5) }.to change { user.cost_change_requests.count }.from(0).to(1)
+      it 'raises an error if cost is 0 or less' do
+        expect { manager.update_cost(0) }.to raise_error(ManagerError)
       end
 
-      it 'notify support if new change cost request was changed' do
-        expect(ProfilesMailer).to receive(:cost_change_request).with(user, 199, 699).and_return(double('mailer').as_null_object)
-        manager.update_cost(5)
+      it 'raises an error if cost is more than 9999' do
+        expect { manager.update_cost(10000) }.to raise_error(ManagerError)
       end
 
-      context 'with pending change cost requests' do
-        before { manager.update_cost(10) }
+      it 'does not raise any errors if cost is equal to 9999' do
+        expect { manager.update_cost(9999) }.not_to raise_error
+      end
 
-        it 'raises error' do
-          expect { manager.update_cost(7) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:pending_request_present)) }
+      it 'raises an error if cost is not a number' do
+        expect { manager.update_cost('123a') }.to raise_error(ManagerError)
+      end
+
+      it 'returns user' do
+        expect(manager.update_cost(5)).to eq(user)
+      end
+
+      it 'raises an error if cost have invalid format' do
+        expect { manager.update_cost('5.03') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_whole_number)) }
+      end
+
+      it 'does not raise an error if cost format is valid' do
+        expect { manager.update_cost('5.00') }.not_to raise_error
+      end
+
+      specify do
+        expect { manager.update_cost(4) }.to change { user.reload.cost }.from(100).to(400)
+      end
+
+      context 'with source subscriptions' do
+        let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+        let!(:subscription) do
+          SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
+        end
+
+        it 'creates change cost request' do
+          expect { manager.update_cost(5) }.to change { user.cost_change_requests.count }.from(0).to(1)
+        end
+
+        it 'notify support if new change cost request was changed' do
+          expect(ProfilesMailer).to receive(:cost_change_request).with(user, 199, 699).and_return(double('mailer').as_null_object)
+          manager.update_cost(5)
+        end
+
+        context 'with pending change cost requests' do
+          before { manager.update_cost(10) }
+
+          it 'raises error' do
+            expect { manager.update_cost(7) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:pending_request_present)) }
+          end
         end
       end
     end
 
     context 'cost more or equal $30' do
       it 'creates change cost request' do
-        expect { manager.update_cost(30) }.to create_record(CostChangeRequest)
+        expect { manager.update_cost(30) }.to create_record(CostChangeRequest).
+          matching(new_cost: 30_00)
       end
 
-      it 'notify support if new change cost request was changed' do
-        expect(ProfilesMailer).to receive(:cost_change_request).with(user, 199, 3450).and_return(double('mailer').as_null_object)
-        manager.update_cost(30)
+      it 'notifies support' do
+        expect { manager.update_cost(30) }.to deliver_email(to: APP_CONFIG['emails']['operations'], subject: 'Notice - New Cost Change Request')
       end
 
       context 'with pending change cost requests' do
@@ -1110,6 +1112,35 @@ describe UserProfileManager do
 
         it 'raises error' do
           expect { manager.update_cost(45) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:pending_request_present)) }
+        end
+      end
+
+      context 'with a previously rejected initial request' do
+        let(:user) { create(:user, cost: 85_00) }
+        let!(:request) { create :cost_change_request, :rejected, old_cost: nil, new_cost: 85_00, user: user, performed: true }
+
+        it 'creates initial request again with old_cost set to NULL' do
+          expect { manager.update_cost(30) }.to create_record(CostChangeRequest).
+            matching(old_cost: nil)
+        end
+      end
+
+      context 'with a previously rejected initial request' do
+        let!(:request) { create :cost_change_request, :rejected, old_cost: nil, new_cost: 85_00, user: user, performed: true }
+
+        it 'creates initial request again with old_cost set to NULL' do
+          expect { manager.update_cost(30) }.to create_record(CostChangeRequest).
+            matching(old_cost: nil)
+        end
+      end
+
+      context 'with a previously approved initial request' do
+        let(:user) { create(:user, cost: 85_00) }
+        let!(:request) { create :cost_change_request, :approved, old_cost: nil, new_cost: 85_00, user: user, performed: true }
+
+        it 'creates request with correct old_cost' do
+          expect { manager.update_cost(30) }.to create_record(CostChangeRequest).
+            matching(old_cost: 85_00, new_cost: 30_00)
         end
       end
     end
@@ -1430,12 +1461,9 @@ describe UserProfileManager do
         create :cost_change_request, :pending, user: user, old_cost: nil
       end
 
-      it { expect { manager.rollback_cost!(request, cost: nil) }.to raise_error(ManagerError, /cost/) }
-      it { expect { manager.rollback_cost!(request, cost: 20) }.to change { request.rejected? }.from(false).to(true) }
-
-      it 'sets specified new cost' do
-        expect { manager.rollback_cost!(request, cost: 20) }.to change { user.cost }.from(3500).to(2000)
-      end
+      it { expect { manager.rollback_cost!(request, cost: nil) }.not_to change { user.reload.cost } }
+      it { expect { manager.rollback_cost!(request, cost: nil) }.to change { request.reload.rejected? }.from(false).to(true) }
+      it { expect { manager.rollback_cost!(request, cost: 20) }.to raise_error(ArgumentError, /newcomer/) }
     end
 
     context 'existing user tries to change his cost' do

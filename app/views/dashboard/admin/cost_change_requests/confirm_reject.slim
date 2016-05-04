@@ -5,7 +5,7 @@
 
   .modal-body style="padding-bottom: 15px;"
     form.Form action=reject_admin_cost_change_request_path(@cost_change_request) method='post'
-      - unless @cost_change_request.old_cost
+      /- unless @cost_change_request.old_cost
         .form-group
           label style="padding-bottom: 5px;" Old cost
           input.form-control type='number' name='cost'
