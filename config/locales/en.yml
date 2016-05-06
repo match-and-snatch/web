@@ -56,7 +56,7 @@ en:
     updated_cc_data: Your billing info has been updated.
     removed_cc_data: Your billing info has been removed.
     cost_change_request_submitted: "Your price change request has been submitted.&nbsp;&nbsp;For security purposes, ConnectPal reviews all price change requests.<br/>If the price change is approved, a ConnectPal representative will contact you personally.&nbsp;&nbsp;Thanks."
-    delete_profile_page_request_submitted: "Your profile page removal request has been submitted.  For security purposes, a ConnectPal representative will contact you within 72 hours to confirm your request. Thanks."
+    delete_profile_page_request_submitted: "Your profile page removal request has been submitted.&nbsp;&nbsp;For security purposes, a ConnectPal representative will confirm this deletion.&nbsp;&nbsp;Thanks."
     profile_page_deleted: Your profile page has been deleted.
     subscription_limit_reached: "You have reached your maximum subscription limit.<br/>Please check back in the next 7-10 days to see if your limit has been increased.  Thank you."
   feed:
