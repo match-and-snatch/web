@@ -6,7 +6,8 @@ class Dashboard::Admin::VacationsController < Dashboard::Admin::BaseController
                .joins(:user).where('users.subscribers_count > 0')
                .preload(:user)
                .group_by(&:user)
-               .sort_by { |_, events| events.max_by(&:created_at) }
+               .sort_by { |_, events| events.select { |event| event.action == 'vacation_mode_enabled' }.max_by(&:created_at) }
+               .reverse
 
     @vacations = events.map do |user, events|
       VacationsPresenter.new(user: user, events: events.sort_by(&:created_at))
