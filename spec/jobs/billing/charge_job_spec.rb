@@ -17,15 +17,33 @@ describe Billing::ChargeJob do
 
     let(:user) { create_user }
     let(:target_user) { create_profile email: 'target@user.com' }
+    let(:failed_billing_subscriber) { create :user, :with_cc }
 
     before do
-      UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+      UserProfileManager.new(user).update_cc_data(
+        number: '4242424242424242',
+        cvc: '333',
+        expiry_month: '12',
+        expiry_year: 2018,
+        address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
       user.reload
     end
 
     context 'subscription on charge' do
-      let!(:unpaid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
-      let!(:paid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'another@one.com') }
+      let!(:unpaid_subscription) do
+        Timecop.travel(32.days.ago) do
+          SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user)
+        end
+      end
+
+      let!(:failed_billing_subscription) do
+        SubscriptionManager.new(subscriber: failed_billing_subscriber).subscribe_to(create :user, :profile_owner)
+      end
+
+      let!(:paid_subscription) do
+        SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create :user, :profile_owner)
+      end
+
       let!(:invalid_subscription) do
         profile = create_profile email: 'invalid@one.com'
 
@@ -35,19 +53,21 @@ describe Billing::ChargeJob do
       end
 
       it 'does not create new subscriptions' do
-        expect { perform }.not_to change { Subscription.count }
+        expect { perform }.not_to create_record(Subscription)
       end
 
-      it 'creates payment' do
-        expect { perform }.to change { Payment.count }.by(1)
-      end
-
-      it 'creates payment on unpaid subscription' do
-        expect { perform }.to change { unpaid_subscription.payments.count }.by(1)
-      end
-
-      it 'changes charge date' do
+      it 'changes the charge date' do
         expect { perform }.to change { unpaid_subscription.reload.charged_at }
+      end
+
+      it 'creates a payment' do
+        expect { perform }.to create_record(Payment).
+          matching(target_id: unpaid_subscription.id, target_type: 'Subscription')
+      end
+
+      it 'does not charge subscribers with initially failed billing' do
+        expect { perform }.not_to create_record(Payment).
+          matching(target_id: failed_billing_subscription.id, target_type: 'Subscription')
       end
 
       context 'profile owner on vacation' do

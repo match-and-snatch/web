@@ -322,8 +322,20 @@ describe PaymentManager do
     context 'subscription is not paid' do
       let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
-      it 'pays for subscriptions on charge' do
-        expect { subject.perform_test_payment }.to change { subscription.reload.charged_at }
+      context 'user never had billing active' do
+        it 'does not charge user' do
+          expect { subject.perform_test_payment }.not_to change { subscription.reload.charged_at }
+        end
+      end
+
+      context 'user had active billing' do
+        before do
+          create :payment, user: user
+        end
+
+        it 'pays for subscriptions on charge' do
+          expect { subject.perform_test_payment }.to change { subscription.reload.charged_at }
+        end
       end
     end
 

@@ -37,10 +37,11 @@ describe Subscription do
     let(:target_user) { create :user, :profile_owner }
     let(:subscription) { create :subscription, {user: user, target_user: target_user}.merge(attributes) }
     let(:attributes) { {} }
+    let!(:payment) { create :payment, user: user }
 
     context 'never paid' do
-      let(:attributes) { {charged_at: nil} }
-      it { expect(subject).to include(subscription) }
+      let!(:payment) {}
+      it { expect(subject).not_to include(subscription) }
     end
 
     context 'profile on vacation' do

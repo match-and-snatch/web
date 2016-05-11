@@ -64,10 +64,13 @@ describe OverviewPresenter do
 
     describe '#daily_recurring_subscriptions_revenue' do
       specify { expect(subject.daily_recurring_subscriptions_revenue).to eq(0) }
+      let(:user) { create :user, :with_cc }
 
       context 'recurring payment is performed' do
         def subscribe
-          SubscriptionManager.new(subscriber: user).subscribe_to(create(:user, :profile_owner, email: 'another_target@user.com'))
+          Timecop.travel(32.days.ago) do
+            SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create(:user, :profile_owner, email: 'another_target@user.com'))
+          end
         end
 
         specify do
