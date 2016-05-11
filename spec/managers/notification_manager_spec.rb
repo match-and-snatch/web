@@ -6,6 +6,40 @@ describe NotificationManager do
   let(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(profile_owner) }
   let(:status_post) { create(:status_post, message: 'some text', user: profile_owner) }
 
+  describe '.notify_recurring_payment_failed' do
+    subject(:notify) { described_class.notify_recurring_payment_failed(failure) }
+    let(:failure) { PaymentFailure.create(user: subscriber, target: subscription) }
+
+    before do
+      stub_const('PaymentsMailer', double('mailer', failed: double('mail', deliver_now: true)).as_null_object)
+    end
+
+    specify do
+      expect(PaymentsMailer).to receive(:failed).with(failure)
+      notify
+    end
+
+    context 'recently failed another payment' do
+      let(:another_subscription) { create :subscription, user: subscriber }
+      before { PaymentFailure.create(user: subscriber, target: another_subscription, created_at: 1.hour.ago) }
+
+      specify do
+        expect(PaymentsMailer).not_to receive(:failed)
+        notify
+      end
+    end
+
+    context 'failed long time ago' do
+      let(:another_subscription) { create :subscription, user: subscriber }
+      before { PaymentFailure.create(user: subscriber, target: another_subscription, created_at: 5.hours.ago) }
+
+      specify do
+        expect(PaymentsMailer).to receive(:failed).with(failure)
+        notify
+      end
+    end
+  end
+
   describe '.notify_post_created' do
     subject(:notify) { described_class.notify_post_created(status_post) }
 

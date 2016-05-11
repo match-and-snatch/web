@@ -78,7 +78,8 @@ class PaymentManager < BaseManager
       subscription_manager.unsubscribe if subscription.payment_attempts_expired?
     end
     UserManager.new(subscription.customer).mark_billing_failed
-    PaymentsMailer.delay.failed(failure) if subscription.notify_about_payment_failure?
+
+    NotificationManager.delay.notify_recurring_payment_failed(failure)
     UserStatsManager.new(subscription.target_user).log_subscriptions_count
     failure
   rescue Stripe::StripeError => e

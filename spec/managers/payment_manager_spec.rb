@@ -106,9 +106,11 @@ describe PaymentManager do
       end
 
       context 'payment fails' do
+        let(:pay_with_failed_card) { subject.pay_for(subscription) }
+
         before do
           StripeMock.prepare_card_error(:card_declined)
-          subject.pay_for(subscription)
+          pay_with_failed_card
           StripeMock.prepare_card_error(:card_declined)
         end
 
@@ -144,9 +146,35 @@ describe PaymentManager do
             expect { subject.pay_for(subscription) }.not_to change { user.reload.billing_failed? }
           end
 
-          it 'notifies user about payment failure' do
-            expect(PaymentsMailer).to receive(:failed).and_return(double('mailer').as_null_object)
-            subject.pay_for(subscription)
+          describe 'notifications' do
+            let(:pay_with_failed_card) {}
+
+            it 'notifies user about payment failure' do
+              expect(PaymentsMailer).to receive(:failed).once.and_return(double('mailer').as_null_object)
+              subject.pay_for(subscription)
+            end
+
+            context 'user billing recently failed' do
+              before do
+                PaymentFailure.create!(user: user, created_at: 1.hour.ago)
+              end
+
+              it 'does not produce duplicate notifications in a short period of time' do
+                expect(PaymentsMailer).not_to receive(:failed)
+                subject.pay_for(subscription)
+              end
+            end
+
+            context 'billing failed long time ago' do
+              before do
+                PaymentFailure.create!(user: user, created_at: 5.hours.ago)
+              end
+
+              it 'notifies user about payment failure' do
+                expect(PaymentsMailer).to receive(:failed).once.and_return(double('mailer').as_null_object)
+                subject.pay_for(subscription)
+              end
+            end
           end
 
           it 'does not unsubscribe user' do
