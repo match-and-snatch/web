@@ -30,7 +30,6 @@ h2 Payout Breakdown for #{Time.zone.now.strftime('%B')}
         td= "#{user.unsubscribers_count} / -#{cents_to_dollars user.unsubscribers_count * user.cost}"
         td= "#{user.payments_count} / #{cents_to_dollars user.payments_amount}"
         td= "#{cents_to_dollars (user.estimated_payout) - (user.unsubscribers_count * user.cost)} (#{cents_to_dollars user.cost}/month)"
-        td
-          a.HashLink href=admin_profile_owner_path(user.id) Payout
+        td= dashboard_link_to_user user, link_title: 'Payout', truncate: false
       tr style='display: none' data-identifier="#{user.slug}-details"
         td colspan="7" data-identifier="#{user.slug}-details-table"
