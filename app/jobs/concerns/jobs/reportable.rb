@@ -1,4 +1,10 @@
 module Concerns::Jobs::Reportable
+  extend ActiveSupport::Concern
+
+  included do
+    attr_accessor :report
+  end
+
   class Report < Hash
     attr_reader :name, :started_at, :forwarded_at, :errors
 

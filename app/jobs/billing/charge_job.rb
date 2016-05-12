@@ -3,10 +3,10 @@ module Billing
     include Concerns::Jobs::Reportable
 
     def perform
-      report = new_report subscriptions_to_charge: Subscription.to_charge.count,
-                          skipped_charges: 0,
-                          successful_charges: 0,
-                          failed_charges: 0
+      @report = new_report subscriptions_to_charge: Subscription.to_charge.count('DISTINCT(subscriptions.id)'),
+                           skipped_charges: 0,
+                           successful_charges: 0,
+                           failed_charges: 0
 
       unless Rails.env.test?
         puts '============================'
@@ -14,7 +14,7 @@ module Billing
         puts '============================'
       end
 
-      Subscription.to_charge.find_each do |subscription|
+      Subscription.to_charge.group('subscriptions.id').find_each do |subscription|
         subscription.reload
         p "Paying for subscription ##{subscription.id}" unless Rails.env.test?
 
@@ -37,7 +37,7 @@ module Billing
       end
 
       report.forward
-    rescue e
+    rescue => e
       report.log_failure(e.message)
       report.forward
       raise

@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Billing::ChargeJob do
   describe '.perform' do
-    subject(:perform) { described_class.new.perform }
+    subject(:job) { described_class.new }
+    subject(:perform) { job.perform }
 
     it { expect { perform }.to deliver_email(to: APP_CONFIG['emails']['reports'], subject: /Charge Job/) }
 
@@ -49,6 +50,17 @@ describe Billing::ChargeJob do
 
         SubscriptionManager.new(subscriber: user).subscribe_to(profile).tap do
           UserProfileManager.new(profile).delete_profile_page!
+        end
+      end
+
+      context 'multiple subscriptions and payments' do
+        before { perform }
+
+        specify do
+          expect(job.report[:subscriptions_to_charge]).to eq(1)
+          expect(job.report[:skipped_charges]).to eq(0)
+          expect(job.report[:successful_charges]).to eq(1)
+          expect(job.report[:failed_charges]).to eq(0)
         end
       end
 
