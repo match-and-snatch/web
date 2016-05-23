@@ -78,9 +78,9 @@ describe PostsController, type: :controller do
     end
   end
 
-  describe 'GET #full_text' do
+  describe 'GET #text' do
     let(:post) { create(:status_post, user: poster) }
-    subject { get 'full_text', id: post.id }
+    subject { get 'text', id: post.id }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }

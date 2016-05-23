@@ -1,11 +1,11 @@
 class PostsController < ApplicationController
   before_action :authenticate!, except: [:index, :show]
   before_action :load_user!, only: :index
-  before_action :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide, :destroy_upload, :full_text]
+  before_action :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide, :destroy_upload, :text]
   before_action :detect_device_format, only: [:create]
 
   protect(:index) { can? :see, @user }
-  protect(:show, :full_text) { can? :see, @post }
+  protect(:show, :text) { can? :see, @post }
   protect(:destroy) { can? :delete, @post }
   protect(:destroy_upload) { can? :manage, @post }
   protect(:edit, :update, :hide, :make_visible) { can? :manage, @post }
@@ -77,7 +77,8 @@ class PostsController < ApplicationController
     json_replace html: post_html
   end
 
-  def full_text
+  def text
+    @truncate = params.bool(:truncate)
     json_replace
   end
 

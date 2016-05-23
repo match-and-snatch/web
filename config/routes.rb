@@ -211,7 +211,7 @@ BuddyPlatform::Application.routes.draw do
 
   resources :comments, only: [:show, :edit, :update, :destroy] do
     member do
-      get :full_text
+      get :text
       get :confirm_make_visible
       put :make_visible
       get :confirm_hide
@@ -244,7 +244,7 @@ BuddyPlatform::Application.routes.draw do
       put :make_visible
       put :hide
       delete :destroy_upload
-      get :full_text
+      get :text
     end
     resources :comments, only: [:create, :index]
     resources :likes, only: [:index, :create], defaults: {type: 'post'}

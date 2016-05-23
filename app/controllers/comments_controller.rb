@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   before_action :load_post!, only: [:index, :create]
   before_action :load_comment!, only: [:edit, :update, :destroy, :confirm_make_visible, :make_visible, :confirm_hide, :hide, :show_all_by_user, :hide_all_by_user, :like, :show]
 
-  protect(:index, :create, :like, :show, :full_text) { can? :comment, post }
+  protect(:index, :create, :like, :show, :text) { can? :comment, post }
   protect(:edit, :update, :confirm_make_visible, :make_visible, :confirm_hide, :hide, :show_all_by_user, :hide_all_by_user, :destroy) { can? :manage, @comment }
 
   def index
@@ -31,7 +31,8 @@ class CommentsController < ApplicationController
     render_comment_row
   end
 
-  def full_text
+  def text
+    @truncate = params.bool(:truncate)
     json_replace
   end
 

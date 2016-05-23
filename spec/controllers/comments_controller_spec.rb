@@ -108,9 +108,9 @@ describe CommentsController, type: :controller do
     end
   end
 
-  describe 'GET #full_text' do
+  describe 'GET #text' do
     before { subscribe }
-    subject { get 'full_text', id: comment.id }
+    subject { get 'text', id: comment.id }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -364,4 +364,3 @@ describe CommentsController, type: :controller do
     end
   end
 end
-
