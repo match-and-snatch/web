@@ -218,16 +218,18 @@
       form.Form action=update_cost_user_path(@profile.object) method='post'
         .form-group.hidden
           input type='hidden' name='_method' value='put'
-        .cost_container style="width: 230px; margin: 0 auto"
-          .form-group.input-group.pull-left style="width: 113px; margin-bottom: 0;"
-            span.input-group-addon
-              i.fa.fa-usd.fa-fw
-            input.form-control type='text' name='cost' value=(@profile.cost / 100) data-target='subscription-cost' validate='subscription_cost'
-          .form-group.pull-right style="margin-bottom: 0;"
-            input.btn.pink type='submit' value='Update Price'
+        .cost_container
+          .input_container
+            .cost_input.form-group.input-group
+              span.input-group-addon
+                i.fa.fa-usd.fa-fw
+              input.form-control type='text' name='cost' value=(@profile.cost / 100) data-target='subscription-cost' validate='subscription_cost'
+            .cost_submit.form-group
+              input.btn.pink type='submit' value='Update Price'
+            .clearfix
+          .error data-field='cost'
           .clearfix
-        .error data-field='cost' style="text-align: center; padding-top: 5px"
-      hr
+      hr style='margin-top: 5px;'
       .pricing_table
         p The pricing table is below...
         table.table.table-striped.table-bordered
