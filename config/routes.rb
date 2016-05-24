@@ -346,13 +346,6 @@ BuddyPlatform::Application.routes.draw do
           end
         end
         resources :current_month_details, only: [:index]
-
-        resources :payments, only: [] do
-          collection do
-            get :pending
-          end
-        end
-
         resource :partner, only: [:show, :edit, :update, :destroy] do
           get :search
           get :confirm_destroy
@@ -401,7 +394,7 @@ BuddyPlatform::Application.routes.draw do
       concerns :profile_owners_dashboard
       concerns :profile_deserters_dashboard
 
-      resources :payment_sources, only: [:index]
+      resources :payment_sources, only: [:index, :show]
 
       resources :potential_violators, only: [:index]
       resources :potential_contribution_violators, only: [:index]
@@ -498,6 +491,12 @@ BuddyPlatform::Application.routes.draw do
           put :make_sales
           put :drop_sales
           post :login_as
+        end
+        resources :payments, only: [] do
+          collection do
+            get :addresses
+            get :pending
+          end
         end
       end
       resources :profile_types, only: [:index, :create, :destroy]

@@ -26,7 +26,8 @@ class CreditCard
 
   # @return [Hash]
   def to_stripe
-    {number: number,
+    {object: 'card',
+     number: number,
      cvc: cvc,
      exp_month: expiry_month,
      exp_year: expiry_year,

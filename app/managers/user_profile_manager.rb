@@ -278,12 +278,12 @@ class UserProfileManager < BaseManager
     fail_with!({stripe_token: :empty}, MissingCcTokenError) unless card.registered?
 
     metadata = {user_id: user.id, full_name: user.full_name}
-    customer_data = {metadata: metadata, email: user.email, card: stripe_token}
+    customer_data = {metadata: metadata, email: user.email, source: stripe_token}
 
     if user.stripe_user_id
       begin
         customer = Stripe::Customer.retrieve(user.stripe_user_id)
-        customer.card = stripe_token
+        customer.source = stripe_token
         customer.metadata = metadata
         customer.email = user.email
         customer = customer.save
@@ -294,7 +294,7 @@ class UserProfileManager < BaseManager
       customer = Stripe::Customer.create customer_data
     end
 
-    card_data = customer['cards']['data'][0]
+    card_data = customer['sources']['data'][0]
     cc_fingerprint = card_data['fingerprint']
 
     user.stripe_user_id = customer['id']
@@ -386,12 +386,12 @@ class UserProfileManager < BaseManager
                      full_name: user.full_name}
     customer_data = {metadata:  metadata,
                      email:     user.email,
-                     card:      card.to_stripe}
+                     source:    card.to_stripe}
 
     if user.stripe_user_id
       begin
         customer = Stripe::Customer.retrieve(user.stripe_user_id)
-        customer.card     = card.to_stripe
+        customer.source   = card.to_stripe
         customer.metadata = metadata
         customer.email    = user.email
         customer = customer.save
@@ -402,7 +402,7 @@ class UserProfileManager < BaseManager
       customer = Stripe::Customer.create customer_data
     end
 
-    card_data = customer['cards']['data'][0]
+    card_data = customer['sources']['data'][0]
     cc_fingerprint = card_data['fingerprint']
 
     user.stripe_user_id = customer['id']

@@ -21,4 +21,3 @@ class Dashboard::Admin::PaymentSourcesController < Dashboard::BaseController
     json_render
   end
 end
-

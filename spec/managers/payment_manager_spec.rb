@@ -29,7 +29,38 @@ describe PaymentManager do
     end
 
     it 'sets contry code' do
-      expect(subject.pay_for(subscription).payments.last.source_country).to eq('US')
+      expect { subject.pay_for(subscription) }.to create_record(Payment).once.matching(source_country: 'US')
+    end
+
+    it 'sets address data' do
+      expect { subject.pay_for(subscription) }.to create_record(Payment).once.matching(billing_address_city: nil,
+                                                                                       billing_address_country: nil,
+                                                                                       billing_address_line_1: nil,
+                                                                                       billing_address_line_2: nil,
+                                                                                       billing_address_state: nil,
+                                                                                       billing_address_zip: nil)
+    end
+
+    context 'address specified in card' do
+      let(:cc_token) do
+        StripeMock.generate_card_token(address_city: 'Krasnoyarsk',
+                                       address_country: 'Russia',
+                                       address_line1: 'Lenina 1',
+                                       address_line2: 'Mira 2',
+                                       address_state: 'Kras',
+                                       address_zip: '123456')
+      end
+      let(:customer) { Stripe::Customer.create(email: 'asd@asd.com', source: cc_token) }
+      let(:user) { create :user, :with_cc, stripe_user_id: customer.id }
+
+      it 'sets address data' do
+        expect { subject.pay_for(subscription) }.to create_record(Payment).once.matching(billing_address_city: 'Krasnoyarsk',
+                                                                                         billing_address_country: 'Russia',
+                                                                                         billing_address_line_1: 'Lenina 1',
+                                                                                         billing_address_line_2: 'Mira 2',
+                                                                                         billing_address_state: 'Kras',
+                                                                                         billing_address_zip: '123456')
+      end
     end
 
     context 'subscription is paid' do

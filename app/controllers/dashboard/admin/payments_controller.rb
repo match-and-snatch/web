@@ -1,5 +1,5 @@
 class Dashboard::Admin::PaymentsController < Dashboard::Admin::BaseController
-  before_action :load_user!, only: [:pending]
+  before_action :load_user!, only: [:pending, :addresses]
 
   def index
     @users = User.joins(:source_payments).
@@ -26,10 +26,15 @@ class Dashboard::Admin::PaymentsController < Dashboard::Admin::BaseController
     json_popup
   end
 
+  def addresses
+    @payments = @user.payments.select(:billing_address_city, :billing_address_state, :billing_address_country, :billing_address_zip, :billing_address_line_1, :billing_address_line_2).distinct
+    json_render
+  end
+
   private
 
   def load_user!
-    @user = User.where(id: params[:profile_owner_id]).first or error(404)
+    @user = User.where(id: params[:user_id]).first or error(404)
   end
 
   def month_range

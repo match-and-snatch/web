@@ -39,7 +39,7 @@ describe SubscriptionsController, type: :controller do
     before { StripeMock.start }
     after { StripeMock.stop }
 
-    let(:stripe_token) { '4242424242424242' }
+    let(:stripe_token) { StripeMock.generate_card_token(number: '4242424242424242') }
 
     subject { post 'via_register', user_id: owner.slug,
                                    email: 'subscriber@gmail.com',

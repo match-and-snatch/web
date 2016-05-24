@@ -1,0 +1,37 @@
+h2
+  strong Addresses log
+
+.table-responsive
+  table.table.table-striped
+    tr
+      th
+        strong City
+      th
+        strong Country
+      th
+        strong Address 1
+      th
+        strong Address 2
+      th
+        strong State
+      th
+        strong Zip
+
+    - if @payments.any?
+      - @payments.each do |payment|
+        tr
+          td
+            = payment.billing_address_city || '-'
+          td
+            = payment.billing_address_country || '-'
+          td
+            = payment.billing_address_line_1 || '-'
+          td
+            = payment.billing_address_line_2 || '-'
+          td
+            = payment.billing_address_state || '-'
+          td
+            = payment.billing_address_zip || '-'
+    - else
+      tr
+        td colspan=2 No data found

@@ -556,7 +556,13 @@ CREATE TABLE payments (
     cost integer,
     subscription_fees integer,
     subscription_cost integer,
-    source_country character varying
+    source_country character varying,
+    billing_address_city character varying,
+    billing_address_country character varying,
+    billing_address_line_1 character varying,
+    billing_address_line_2 character varying,
+    billing_address_state character varying,
+    billing_address_zip character varying
 );
 
 
@@ -2013,6 +2019,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160408071021');
 INSERT INTO schema_migrations (version) VALUES ('20160408071053');
 
 INSERT INTO schema_migrations (version) VALUES ('20160422102107');
+
+INSERT INTO schema_migrations (version) VALUES ('20160426104833');
+
+INSERT INTO schema_migrations (version) VALUES ('20160426104901');
 
 INSERT INTO schema_migrations (version) VALUES ('20160427035702');
 

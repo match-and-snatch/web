@@ -42,7 +42,7 @@ class PaymentManager < BaseManager
                                        target_type: subscription.class.name,
                                        user_id:     subscription.customer.id }
 
-    country_code = charge['source'].try(:[], 'country') || charge['card'].try(:[], 'country')
+    payment_source = charge['source'] || charge['card'] || {}
 
     payment = Payment.create! target:             subscription,
                               user:               subscription.customer,
@@ -53,7 +53,13 @@ class PaymentManager < BaseManager
                               cost:              subscription.cost,
                               subscription_fees: subscription.fees,
                               subscription_cost: subscription.total_cost,
-                              source_country:    country_code
+                              source_country:          payment_source['country'],
+                              billing_address_city:    payment_source['address_city'],
+                              billing_address_country: payment_source['address_country'],
+                              billing_address_line_1:  payment_source['address_line1'],
+                              billing_address_line_2:  payment_source['address_line2'],
+                              billing_address_state:   payment_source['address_state'],
+                              billing_address_zip:     payment_source['address_zip']
 
     subscription.charged_at = Time.zone.now
 

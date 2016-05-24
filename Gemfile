@@ -66,7 +66,7 @@ gem 'rollbar', '~> 2.5.0'
 gem 'chronic'
 
 # Credit cards, billing, charges, payments
-gem 'stripe', '1.16.0'
+gem 'stripe', '1.31.0'
 gem 'stripe-rails'
 
 # Amazon S3
@@ -93,7 +93,7 @@ group :test do
   gem 'guard-rspec', require: false
   gem 'guard-cucumber', require: false
   gem 'database_cleaner'
-  gem 'stripe-ruby-mock', '1.10.1.7'
+  gem 'stripe-ruby-mock', github: 'connectpal/stripe-ruby-mock', branch: 'fix/charge-source-from-customer'
   gem 'timecop'
   gem 'cucumber-rails', require: false
   gem 'capybara-webkit'

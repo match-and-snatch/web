@@ -19,7 +19,7 @@ h2
       tr class="#{'current-day' if day.current_day?}"
         td
           strong
-            a.AjaxLink href=pending_admin_profile_owner_payments_path(@current_month.user.id, date: day.date) = day.name
+            a.AjaxLink href=pending_admin_user_payments_path(@current_month.user.id, date: day.date) = day.name
         td
           = day.pending_payments_count
         td
