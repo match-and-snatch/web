@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe SubscriptionManager do
-  let(:subscriber)   { create_user(email: 'szinin@gmail.com') }
-  let(:another_user) { create_profile(email: 'another@user.com') }
+  let(:subscriber)   { create(:user, email: 'szinin@gmail.com', activated: false) }
+  let(:another_user) { create(:user, :profile_owner, email: 'another@user.com', cost: 5_00) }
 
   subject(:manager) { described_class.new(subscriber: subscriber) }
 
@@ -366,16 +366,14 @@ describe SubscriptionManager do
             described_class.new(subscriber: subscriber, subscription: subscription).reject
           end
 
-          it 'does not allow to subscribe twice' do
-            expect { manager.subscribe_to(another_user) }.to raise_error(ManagerError)
-          end
+          it { expect { manager.subscribe_to(another_user) }.not_to raise_error }
 
           it 'does not create duplicate subscription' do
-            expect { manager.subscribe_to(another_user) rescue nil }.not_to change { Subscription.count }
+            expect { manager.subscribe_to(another_user) }.not_to create_record(Subscription)
           end
 
           it 'does not create subscription_created event' do
-            expect { manager.subscribe_to(another_user) rescue nil }.not_to create_event(:subscription_created)
+            expect { manager.subscribe_to(another_user) }.not_to create_event(:subscription_created)
           end
         end
       end
@@ -500,6 +498,44 @@ describe SubscriptionManager do
     end
   end
 
+  describe '#subscribe_and_pay_for' do
+    context 'failed payment' do
+      let(:subscription) { manager.subscribe_to(another_user) }
+
+      before do
+        StripeMock.start
+        StripeMock.prepare_card_error(:card_declined)
+
+        described_class.new(subscription: subscription).pay rescue PaymentError
+
+        UserProfileManager.new(subscriber).update_cc_data(number: '4242_4242_4242_4242',
+                                                          cvc: '123',
+                                                          expiry_month: 12,
+                                                          expiry_year: 19,
+                                                          address_line_1: 'test',
+                                                          address_line_2: 'test',
+                                                          state: 'test',
+                                                          city: 'test',
+                                                          zip: '12345')
+      end
+      after { StripeMock.stop }
+
+      it { expect { manager.subscribe_and_pay_for(another_user) }.not_to raise_error }
+
+      it 'does not create duplicate subscription' do
+        expect { manager.subscribe_and_pay_for(another_user) }.not_to create_record(Subscription)
+      end
+
+      it 'creates subscription_created event' do
+        expect { manager.subscribe_and_pay_for(another_user) }.to create_event(:subscription_created)
+      end
+
+      it 'marks subscription as paid' do
+        expect { manager.subscribe_and_pay_for(another_user) }.to change { subscription.reload.paid? }.from(false).to(true)
+      end
+    end
+  end
+
   describe '#restore' do
     before { StripeMock.start }
     after { StripeMock.stop }
@@ -523,14 +559,14 @@ describe SubscriptionManager do
         end
 
         it 'updates cost to new value' do
-          expect { manager.restore }.to change { subscription.reload.cost }.from(500).to(300)
+          expect { manager.restore }.to change { subscription.reload.cost }.from(5_00).to(3_00)
         end
       end
     end
 
     context 'rejected subscription' do
       let(:subscriber) do
-        create_user(email: 'szinin@gmail.com').tap do |u|
+        create(:user, email: 'szinin@gmail.com').tap do |u|
           UserProfileManager.new(u).update_cc_data(number: '4242424242424242', cvc: '123', expiry_month: 12, expiry_year: 19,
             address_line_1: 'test', address_line_2: 'test', state: 'test', city: 'test', zip: '12345')
         end

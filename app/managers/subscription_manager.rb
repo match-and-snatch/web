@@ -292,7 +292,7 @@ class SubscriptionManager < BaseManager
       restore
     else
       unless fake
-        fail_with! 'Already subscribed' if @subscriber.subscriptions.by_target(target).not_removed.any?
+        fail_with! 'Already subscribed' if @subscriber.subscribed_to?(target)
         subscription = @subscriber.subscriptions.by_target(target).first
 
         recent_subscriptions_count = @subscriber.recently_subscribed? ? @subscriber.recent_subscriptions_count : 0
