@@ -10,7 +10,7 @@ class ApiResponsePresenter
   end
 
   # @param user [User]
-  def lock_info(user = current_user.object)
+  def basic_current_user_data(user = current_user.object)
     lock_type = case user.lock_type.try(:to_sym)
                   when :billing, :weekly_contribution_limit
                     :billing
@@ -22,7 +22,9 @@ class ApiResponsePresenter
       banned: user.locked? || user.cc_declined?,
       locked: user.locked?,
       lock_type: lock_type,
-      tos_accepted: user.tos_accepted?
+      tos_accepted: user.tos_accepted?,
+      total_subscriptions_count: user.subscriptions_count,
+      billing_failed: user.billing_failed?
     }
   end
 
@@ -76,7 +78,6 @@ class ApiResponsePresenter
       subscribers_count: user.subscribers_count,
       subscriptions_count: user.subscriptions.accessible.count,
       only_subscription_path: user.subscriptions.accessible.count == 1 ? user.subscriptions.accessible.first.target_user.slug : nil,
-      total_subscriptions_count: user.subscriptions_count,
       recurring_contributions_count: user.contributions.recurring.count,
       stripe_recipient_id: user.stripe_recipient_id,
       vacation_enabled: user.vacation_enabled,
@@ -90,7 +91,7 @@ class ApiResponsePresenter
       gross_threshold_reached: user.gross_threshold_reached?,
       cost_approved: user.cost_approved?,
       cc_declined: user.cc_declined?
-    }.merge(account_data(user)).merge(lock_info(user))
+    }.merge(account_data(user)).merge(basic_current_user_data(user))
   end
 
   # @param subscriptions [SubscriptionsPresenter]
