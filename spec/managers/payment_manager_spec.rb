@@ -355,7 +355,12 @@ describe PaymentManager do
 
       context 'user never had billing active' do
         it 'does not charge user' do
-          expect { subject.perform_test_payment }.not_to change { subscription.reload.charged_at }
+          expect { subject.perform_test_payment }.to change { subscription.reload.charged_at }
+        end
+
+        specify do
+          expect { subject.perform_test_payment }.to create_record(Payment).
+            matching(target_id: subscription.id, target_type: 'Subscription')
         end
       end
 
