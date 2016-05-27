@@ -48,6 +48,7 @@ class PaymentManager < BaseManager
                               user:               subscription.customer,
                               target_user:        subscription.recipient,
                               amount:             charge['amount'],
+                              stripe_charge_id:   charge['id'],
                               stripe_charge_data: charge.as_json,
                               description:        description,
                               cost:              subscription.cost,

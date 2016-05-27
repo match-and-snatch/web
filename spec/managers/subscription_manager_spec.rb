@@ -500,6 +500,7 @@ describe SubscriptionManager do
 
   describe '#subscribe_and_pay_for' do
     context 'failed payment' do
+      let(:subscriber)   { create(:user, :with_cc) }
       let(:subscription) { manager.subscribe_to(another_user) }
 
       before do
@@ -507,16 +508,6 @@ describe SubscriptionManager do
         StripeMock.prepare_card_error(:card_declined)
 
         described_class.new(subscription: subscription).pay rescue PaymentError
-
-        UserProfileManager.new(subscriber).update_cc_data(number: '4242_4242_4242_4242',
-                                                          cvc: '123',
-                                                          expiry_month: 12,
-                                                          expiry_year: 19,
-                                                          address_line_1: 'test',
-                                                          address_line_2: 'test',
-                                                          state: 'test',
-                                                          city: 'test',
-                                                          zip: '12345')
       end
       after { StripeMock.stop }
 

@@ -8,8 +8,8 @@ GIT
 
 GIT
   remote: git://github.com/connectpal/stripe-ruby-mock.git
-  revision: 2969b067a98a4d06bd4bdb806136c70d78d8aaac
-  branch: fix/charge-source-from-customer
+  revision: b489c5fc7f6d224b06f07e2ddab448ca4b85332a
+  ref: b489c5f
   specs:
     stripe-ruby-mock (2.2.2)
       dante (>= 0.2.0)

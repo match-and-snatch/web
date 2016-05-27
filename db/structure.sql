@@ -562,7 +562,8 @@ CREATE TABLE payments (
     billing_address_line_1 character varying,
     billing_address_line_2 character varying,
     billing_address_state character varying,
-    billing_address_zip character varying
+    billing_address_zip character varying,
+    stripe_charge_id character varying
 );
 
 
@@ -747,6 +748,50 @@ CREATE SEQUENCE profile_types_users_id_seq
 --
 
 ALTER SEQUENCE profile_types_users_id_seq OWNED BY profile_types_users.id;
+
+
+--
+-- Name: refunds; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE refunds (
+    id integer NOT NULL,
+    stripe_refund_id character varying NOT NULL,
+    amount integer DEFAULT 0 NOT NULL,
+    payment_amount integer,
+    balance_transaction character varying,
+    charge character varying NOT NULL,
+    currency character varying DEFAULT 'usd'::character varying NOT NULL,
+    metadata text,
+    reason character varying,
+    receipt_number character varying,
+    status character varying NOT NULL,
+    payment_date timestamp without time zone,
+    refunded_at timestamp without time zone NOT NULL,
+    payment_id integer,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: refunds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE refunds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: refunds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE refunds_id_seq OWNED BY refunds.id;
 
 
 --
@@ -1265,6 +1310,13 @@ ALTER TABLE ONLY profile_types_users ALTER COLUMN id SET DEFAULT nextval('profil
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY refunds ALTER COLUMN id SET DEFAULT nextval('refunds_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY requests ALTER COLUMN id SET DEFAULT nextval('requests_id_seq'::regclass);
 
 
@@ -1460,6 +1512,14 @@ ALTER TABLE ONLY profile_types
 
 ALTER TABLE ONLY profile_types_users
     ADD CONSTRAINT profile_types_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: refunds_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY refunds
+    ADD CONSTRAINT refunds_pkey PRIMARY KEY (id);
 
 
 --
@@ -2027,4 +2087,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160426104901');
 INSERT INTO schema_migrations (version) VALUES ('20160427035702');
 
 INSERT INTO schema_migrations (version) VALUES ('20160427040148');
+
+INSERT INTO schema_migrations (version) VALUES ('20160506033729');
+
+INSERT INTO schema_migrations (version) VALUES ('20160506064855');
+
+INSERT INTO schema_migrations (version) VALUES ('20160506065537');
 

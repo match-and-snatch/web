@@ -428,6 +428,7 @@ BuddyPlatform::Application.routes.draw do
       resources :duplicates, only: :index
       resources :payment_failures , only: :index
       resources :payments, only: :index
+      resources :refunds, only: :index
       resources :payout_details, only: :index
       resources :vacations, only: :index
       resources :recently_changed_emails, only: :index

@@ -93,7 +93,7 @@ group :test do
   gem 'guard-rspec', require: false
   gem 'guard-cucumber', require: false
   gem 'database_cleaner'
-  gem 'stripe-ruby-mock', github: 'connectpal/stripe-ruby-mock', branch: 'fix/charge-source-from-customer'
+  gem 'stripe-ruby-mock', github: 'connectpal/stripe-ruby-mock', ref: 'b489c5f'
   gem 'timecop'
   gem 'cucumber-rails', require: false
   gem 'capybara-webkit'

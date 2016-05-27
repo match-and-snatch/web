@@ -42,7 +42,7 @@ module Posts
       end
 
       report.forward
-    rescue e
+    rescue => e
       report.log_failure(e.message)
       report.forward
       raise

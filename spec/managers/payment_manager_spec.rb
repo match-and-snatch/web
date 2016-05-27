@@ -28,6 +28,10 @@ describe PaymentManager do
       expect { subject.pay_for(subscription) }.to change { target_user.gross_sales }.from(0).to(599)
     end
 
+    it 'sets stripe charge id' do
+      expect { subject.pay_for(subscription) }.to create_record(Payment).once.matching(stripe_charge_id: 'test_ch_1')
+    end
+
     it 'sets contry code' do
       expect { subject.pay_for(subscription) }.to create_record(Payment).once.matching(source_country: 'US')
     end

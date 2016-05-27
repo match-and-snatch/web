@@ -1,0 +1,50 @@
+h2 Refunds (#{@refunds.total_count})
+
+- @months.each_slice(3) do |group|
+  ol.pull-left style='padding: 0 15px 15px 0'
+    - group.each do |month, count|
+      li class="#{month.to_s(:db) == params[:month] ? 'pending' : ''}"
+        a href=admin_refunds_path(month: month.to_s(:db))
+          span= month.strftime('%B %Y')
+.clearfix
+
+h3 Filter by user name
+form action=admin_refunds_path method='get'
+  input.form-control type="text" name='profile' placeholder="Search by user name..." value=params[:profile]
+br
+
+.clearfix
+
+- if @date
+  h2= @date.strftime('%B %Y')
+
+.table-responsive
+  table.table.table-striped
+    tr
+      th
+        strong ID #
+      th
+        strong
+          = sort_dashboard_link :refunds, 'Transaction Date', :payment_date
+      th
+        strong
+          = sort_dashboard_link :refunds, 'Refunded Date', :refunded_at
+      th
+        strong Subscriber
+      th
+        strong
+          = sort_dashboard_link :refunds, 'Subscription Amount', :payment_amount
+      th
+        strong
+          = sort_dashboard_link :refunds, 'Refund Amount', :amount
+
+    - @refunds.each do |refund|
+      tr
+        td= refund.id
+        td= refund.payment_date.try(:to_s, :long)
+        td= refund.refunded_at.try(:to_s, :long)
+        td= dashboard_link_to_user(refund.user) if refund.user
+        td= cents_to_dollars(refund.payment_amount)
+        td= cents_to_dollars(refund.amount)
+
+.TopJumper= paginate @refunds

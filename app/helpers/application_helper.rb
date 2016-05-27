@@ -194,7 +194,7 @@ module ApplicationHelper
   end
 
   def sort_dashboard_link(resource, title, field)
-    dashboard_link_to title, [resource, sort_direction_params(field).merge(request.GET).except('authenticity_token')]
+    dashboard_link_to title, [resource, add_request_params(sort_direction_params(field))]
   end
 
   def add_request_params(hash)
