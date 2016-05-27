@@ -103,6 +103,8 @@ defaults: &defaults
     - wett
     - 3x
     - savage
+    - tranny
+    - clit
 
   forbidden_email_domains:
     - yopmail.com
