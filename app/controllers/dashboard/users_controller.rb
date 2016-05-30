@@ -11,7 +11,13 @@ class Dashboard::UsersController < Dashboard::BaseController
       notice :billing_failed
       json_redirect account_info_url(anchor: '/account_info/billing_information')
     else
-      json_redirect @user.has_profile_page? ? profile_path(@user) : account_info_path
+      path = if @user.has_profile_page?
+               profile_path(@user)
+             else
+               anchor = '/subscriptions' if @user.subscriptions.any?
+               account_info_path(anchor: anchor)
+             end
+      json_redirect path
     end
   end
 
