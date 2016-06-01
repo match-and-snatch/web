@@ -4,11 +4,57 @@ describe Contribution do
   describe '.to_charge' do
     subject { described_class.to_charge }
 
-    let(:contribution_to_user_with_profile_page) { create :contribution, recurring: true, target_user: create(:user, :profile_owner), updated_at: 100.years.ago }
-    let(:contribution_to_user_without_profile_page) { create :contribution, recurring: true, target_user: create(:user), updated_at: 100.years.ago }
+    let(:contributor) { create(:user) }
+    let(:user) { create(:user) }
+    let(:profile_owner) { create(:user, :profile_owner, subscribers_count: 5) }
+
+    let(:contribution_to_user_without_profile_page) { create :contribution, user: contributor, recurring: true, target_user: user, updated_at: 100.years.ago }
+    let(:contribution_to_user_with_profile_page) { create :contribution, user: contributor, recurring: true, target_user: profile_owner, updated_at: 100.years.ago }
 
     it { is_expected.to include(contribution_to_user_with_profile_page) }
     it { is_expected.not_to include(contribution_to_user_without_profile_page) }
+
+    context 'locked contributor' do
+      let(:contributor) { create(:user, locked: true) }
+
+      it { is_expected.not_to include(contribution_to_user_with_profile_page) }
+      it { is_expected.not_to include(contribution_to_user_without_profile_page) }
+    end
+
+    context 'profile owner has 4 or less subscribers' do
+      let(:profile_owner) { create(:user, :profile_owner, subscribers_count: 4) }
+      it { is_expected.not_to include(contribution_to_user_with_profile_page) }
+
+      context do
+        let(:profile_owner) { create(:user, :profile_owner, subscribers_count: 3) }
+        it { is_expected.not_to include(contribution_to_user_with_profile_page) }
+      end
+    end
+
+    context 'profile owner with disabled contributions' do
+      let(:profile_owner) { create(:user, :profile_owner, subscribers_count: 5, contributions_enabled: false) }
+      it { is_expected.not_to include(contribution_to_user_with_profile_page) }
+    end
+
+    context 'profile owner is locked' do
+      let(:profile_owner) { create(:user, :profile_owner, subscribers_count: 5, locked: true) }
+      it { is_expected.not_to include(contribution_to_user_with_profile_page) }
+
+      context 'by tos' do
+        let(:profile_owner) { create(:user, :profile_owner, subscribers_count: 5, locked: true, lock_type: 'tos') }
+        it { is_expected.not_to include(contribution_to_user_with_profile_page) }
+      end
+
+      context 'by account' do
+        let(:profile_owner) { create(:user, :profile_owner, subscribers_count: 5, locked: true, lock_type: 'account') }
+        it { is_expected.not_to include(contribution_to_user_with_profile_page) }
+      end
+
+      context 'by billing' do
+        let(:profile_owner) { create(:user, :profile_owner, subscribers_count: 5, locked: true, lock_type: 'billing') }
+        it { is_expected.to include(contribution_to_user_with_profile_page) }
+      end
+    end
   end
 
   describe '#recurring_performable?' do
