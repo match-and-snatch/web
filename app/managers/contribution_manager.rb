@@ -1,5 +1,7 @@
 class ContributionManager < BaseManager
-  VERIFIED_PROFILE_CONTRIBUTION_LIMIT = 1000_00
+  WEEKLY_CONTRIBUTION_LIMIT = 120_00
+  VERIFIED_PROFILE_CONTRIBUTION_LIMIT = 250_00
+  VERIFIED_PROFILE_WEEKLY_CONTRIBUTION_LIMIT = 500_00
   INTEGER_RANGE_LIMIT = 2147483647
 
   # @param user [User]
@@ -20,14 +22,19 @@ class ContributionManager < BaseManager
     fail_with! "You can't contribute to this profile" unless target_user.contributions_allowed?
 
     if limit_reached?(amount, target_user)
-      unless @user.contribution_requests.by_target_user(target_user).pending.any?
-        @user.contribution_requests.create!(target_user: target_user,
-                                            amount: amount,
-                                            recurring: recurring,
-                                            message: message)
-      end
+      submit_contribution_request(target_user: target_user, amount: amount, recurring: recurring, message: message)
       fail_with! amount: :contribution_limit_reached
     end
+
+    if weekly_limit_reached?(amount, target_user)
+      submit_contribution_request(target_user: target_user, amount: amount, recurring: recurring, message: message)
+      UserManager.new(@user).lock(type: :billing, reason: :contribution_limit) do |user|
+        user.contribution_limit_reached_at = Time.zone.now
+        save_or_die! user
+      end
+    end
+
+    fail_with! 'Account locked' if @user.locked?
 
     @contribution = create_contribution(target_user: target_user,
                                         amount: amount,
@@ -39,13 +46,6 @@ class ContributionManager < BaseManager
     MessagesManager.new(user: @user).create(target_user: target_user,
                                             message: message,
                                             contribution: @contribution)
-
-    if weekly_limit_reached?(target_user)
-      UserManager.new(@user).lock(type: :billing, reason: :contribution_limit) do |user|
-        user.contribution_limit_reached_at = Time.zone.now
-        save_or_die! user
-      end
-    end
 
     @contribution
   end
@@ -79,12 +79,13 @@ class ContributionManager < BaseManager
 
   private
 
-  def weekly_limit_reached?(target_user)
+  def weekly_limit_reached?(amount, target_user)
     recently_contributed = Contribution.where(user: @user)
                                .where('created_at > ? AND created_at > ?', 7.days.ago, (@user.contribution_limit_reached_at || 7.days.ago))
                                .sum(:amount)
 
-    recently_contributed >= (target_user.accepts_large_contributions? ? 250_00 : 120_00)
+    limit = target_user.accepts_large_contributions? ? VERIFIED_PROFILE_WEEKLY_CONTRIBUTION_LIMIT : WEEKLY_CONTRIBUTION_LIMIT
+    recently_contributed + amount >= limit
   end
 
   def limit_reached?(amount, target_user)
@@ -102,6 +103,15 @@ class ContributionManager < BaseManager
     end
 
     recently_contributed + amount > limit
+  end
+
+  def submit_contribution_request(target_user: , amount: , recurring: false, message: nil)
+    unless @user.contribution_requests.by_target_user(target_user).pending.any?
+      @user.contribution_requests.create!(target_user: target_user,
+                                          amount: amount,
+                                          recurring: recurring,
+                                          message: message)
+    end
   end
 
   def create_contribution(target_user: , amount: , recurring: , parent: nil)

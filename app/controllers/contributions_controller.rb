@@ -63,5 +63,3 @@ class ContributionsController < ApplicationController
     ContributionManager.new(user: current_user.object, contribution: @contribution)
   end
 end
-
-

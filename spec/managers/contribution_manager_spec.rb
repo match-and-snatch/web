@@ -49,10 +49,6 @@ describe ContributionManager do
       expect { manager.create(amount: 1, target_user: target_user) }.to change { target_user.gross_contributions }.from(0).to(1)
     end
 
-    it 'creates message' do
-      expect { manager.create(amount: 1, target_user: target_user, message: 'test') }.to change { Message.count }.by(1)
-    end
-
     context 'target user blocked with ToS type' do
       before { UserManager.new(target_user).lock(type: :tos) }
 
@@ -62,90 +58,59 @@ describe ContributionManager do
     end
 
     context 'zero amount' do
-      it do
-        expect { manager.create(amount: 0, target_user: target_user) }.to raise_error(ManagerError, /zero/)
-      end
-
-      it do
-        expect { manager.create(amount: nil, target_user: target_user) }.to raise_error(ManagerError, /zero/)
-      end
+      it { expect { manager.create(amount: 0, target_user: target_user) }.to raise_error(ManagerError, /zero/) }
+      it { expect { manager.create(amount: nil, target_user: target_user) }.to raise_error(ManagerError, /zero/) }
     end
 
     context 'multiple contributions to different profiles' do
       let(:target_user) { create(:user, :profile_owner, contributions_enabled: true, subscribers_count: 5) }
       let(:amount) { 24_00 }
 
-      before do
+      def contribute
         ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
-        Timecop.travel(1.day.since) do
-          ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
-        end
+      end
 
-        Timecop.travel(2.days.since) do
-          ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
-        end
-
-        Timecop.travel(3.days.since) do
-          ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
-        end
+      before do
+        contribute
+        Timecop.travel(1.day.since)  { contribute }
+        Timecop.travel(2.days.since) { contribute }
+        Timecop.travel(3.days.since) { contribute }
       end
 
       context '$120 in 1 week' do
-        specify do
-          Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.locked? }.to(true)
-          end
-        end
-
-        specify do
-          Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.lock_type }.to('billing')
-          end
-        end
-
-        specify do
-          Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.lock_reason }.to('contribution_limit')
-          end
-        end
+        it { Timecop.travel(4.days.since) { expect { contribute }.to raise_error(ManagerError, /Account locked/) } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.not_to create_record(Contribution) } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.to create_record(ContributionRequest).matching(amount: amount, target_user_id: target_user.id) } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.to change { user.reload.locked? }.to(true) } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.to change { user.reload.lock_type }.to('billing') } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.to change { user.reload.lock_reason }.to('contribution_limit') } }
 
         context 'unlocked after lock' do
           before do
             Timecop.travel(4.days.since) do
-              ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
+              contribute rescue nil
             end
             UserManager.new(user).unlock
           end
 
           specify do
             Timecop.travel(5.days.since) do
-              expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.not_to change { user.reload.locked? }.from(false)
+              expect { contribute }.not_to change { user.reload.locked? }.from(false)
             end
           end
         end
       end
 
-      context '$250 in 1 week if accepts large contributions' do
+      context '$500 in 1 week if accepts large contributions' do
         let(:target_user) { create(:user, :profile_owner, contributions_enabled: true, accepts_large_contributions: true, subscribers_count: 5) }
-        let(:amount) { 50_00 }
+        let(:amount) { 100_00 }
 
-        specify do
-          Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.locked? }.to(true)
-          end
-        end
-
-        specify do
-          Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.lock_type }.to('billing')
-          end
-        end
-
-        specify do
-          Timecop.travel(4.days.since) do
-            expect { ContributionManager.new(user: user).create(amount: amount, target_user: target_user) }.to change { user.reload.lock_reason }.to('contribution_limit')
-          end
-        end
+        it { Timecop.travel(4.days.since) { expect { contribute }.to raise_error(ManagerError, /Account locked/) } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.not_to create_record(Contribution) } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.to create_record(ContributionRequest).matching(amount: amount, target_user_id: target_user.id) } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.to change { user.reload.locked? }.to(true) } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.to change { user.reload.lock_type }.to('billing') } }
+        it { Timecop.travel(4.days.since) { expect { contribute rescue nil }.to change { user.reload.lock_reason }.to('contribution_limit') } }
       end
     end
 
@@ -169,35 +134,29 @@ describe ContributionManager do
       context 'verified profile owner' do
         before { UserProfileManager.new(target_user).toggle_accepting_large_contributions; target_user.reload }
 
-        it 'allows contributing up to 1000$' do
-          expect { manager.create(amount: 1000_00, target_user: target_user) }.to create_record(Contribution).matching(amount: 1000_00, user: user, target_user: target_user)
+        it 'allows contributing up to 250$' do
+          expect { manager.create(amount: 250_00, target_user: target_user) }.to create_record(Contribution).matching(amount: 250_00, user: user, target_user: target_user)
         end
 
-        it 'does not allow contributing more than 1000$' do
-          expect { manager.create(amount: 1000_01, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+        it 'does not allow contributing more than 250$' do
+          expect { manager.create(amount: 250_01, target_user: target_user) rescue nil }.not_to create_record(Contribution)
         end
 
         context 'multiple contributions' do
-          before do
-            manager.create(amount: 100_00, target_user: target_user)
+          before { manager.create(amount: 100_00, target_user: target_user) }
+
+          it 'allows contributing up to 250$' do
+            expect { manager.create(amount: 150_00, target_user: target_user) }.to create_record(Contribution).matching(amount: 150_00, user: user, target_user: target_user)
           end
 
-          it 'allows contributing up to 1000$' do
-            Timecop.freeze(8.days.from_now) do
-              expect { manager.create(amount: 900_00, target_user: target_user) }.to create_record(Contribution).matching(amount: 900_00, user: user, target_user: target_user)
-            end
-          end
-
-          it 'does not allow contributing more than 1000$' do
-            expect { manager.create(amount: 900_01, target_user: target_user) rescue nil }.not_to create_record(Contribution)
+          it 'does not allow contributing more than 250$' do
+            expect { manager.create(amount: 150_01, target_user: target_user) rescue nil }.not_to create_record(Contribution)
           end
         end
       end
 
       context 'multiple contributions' do
-        before do
-          manager.create(amount: 25_00, target_user: target_user)
-        end
+        before { manager.create(amount: 25_00, target_user: target_user) }
 
         it 'has $30 limit' do
           expect { manager.create(amount: 25_01, target_user: target_user) rescue nil }.not_to create_record(Contribution)
@@ -286,9 +245,7 @@ describe ContributionManager do
     end
 
     context 'charge fails' do
-      before do
-        StripeMock.prepare_card_error(:card_declined)
-      end
+      before { StripeMock.prepare_card_error(:card_declined) }
 
       it 'does not create event about new contribution' do
         expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to create_event(:contribution_created)
@@ -298,11 +255,11 @@ describe ContributionManager do
         expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to change { target_user.gross_contributions }.from(0)
       end
 
-      it do
+      it 'creates event about failed contribution' do
         expect { manager.create(amount: 1, target_user: target_user) rescue nil }.to create_event(:contribution_failed)
       end
 
-      it do
+      it 'does not create contribution' do
         expect { manager.create(amount: 1, target_user: target_user) rescue nil }.not_to create_record(Contribution)
       end
 
@@ -319,7 +276,7 @@ describe ContributionManager do
     end
   end
 
-  describe '#create' do
+  describe '#create_child' do
     let!(:contribution) { described_class.new(user: user).create(amount: 1, target_user: target_user, recurring: true) }
 
     it 'creates new contribution' do
@@ -351,9 +308,7 @@ describe ContributionManager do
     end
 
     context 'charge fails' do
-      before do
-        StripeMock.prepare_card_error(:card_declined)
-      end
+      before { StripeMock.prepare_card_error(:card_declined) }
 
       it 'does not create event about new contribution' do
         expect { manager.create_child rescue nil }.not_to create_event(:contribution_created)
@@ -363,21 +318,16 @@ describe ContributionManager do
         expect { manager.create_child }.not_to change { target_user.gross_contributions }.from(1)
       end
 
-      it do
+      it 'creates event abount failed contribution' do
         expect { manager.create_child rescue nil }.to create_event(:contribution_failed)
       end
 
-      it do
+      it 'does not create contribution' do
         expect { manager.create_child rescue nil }.not_to create_record(Contribution)
       end
 
-      it do
-        expect(manager.create_child).to be_a(Contribution)
-      end
-
-      it do
-        expect(manager.create_child.new_record?).to eq(true)
-      end
+      it { expect(manager.create_child).to be_a(Contribution) }
+      it { expect(manager.create_child.new_record?).to eq(true) }
     end
   end
 
