@@ -882,7 +882,7 @@ class UserProfileManager < BaseManager
   end
 
   def sync_stripe_recipient!
-    stripe_recipient = Stripe::Recipient.retrieve(recipient.stripe_id)
+    stripe_recipient = Stripe::Recipient.retrieve(@user.stripe_recipient_id)
     stripe_recipient.name = @user.holder_name
     stripe_recipient.type = 'individual'
     stripe_recipient.bank_account = @user.bank_account_data
