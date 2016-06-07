@@ -3,7 +3,7 @@ class Dashboard::Admin::RefundsController < Dashboard::Admin::BaseController
     @months = Refund.pluck("DISTINCT date_trunc('month', refunded_at)").sort
     @date = Chronic.parse(params[:month])
 
-    query = Refund.includes(:user)
+    query = Refund.includes(:user, payment: :target_user)
     query = query.joins(:user).where("users.full_name ILIKE '%#{params[:profile]}%'") if params[:profile].present?
     query = query.where(refunded_at: @date.beginning_of_month..@date.end_of_month) if @date
     query = if params[:sort_by]

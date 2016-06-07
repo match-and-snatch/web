@@ -32,6 +32,8 @@ br
       th
         strong Subscriber
       th
+        strong Profile owner
+      th
         strong
           = sort_dashboard_link :refunds, 'Subscription Amount', :payment_amount
       th
@@ -44,6 +46,7 @@ br
         td= refund.payment_date.try(:to_s, :long)
         td= refund.refunded_at.try(:to_s, :long)
         td= dashboard_link_to_user(refund.user) if refund.user
+        td= dashboard_link_to_user(refund.payment.target_user) if refund.payment.try(:target_user)
         td= cents_to_dollars(refund.payment_amount)
         td= cents_to_dollars(refund.amount)
 
