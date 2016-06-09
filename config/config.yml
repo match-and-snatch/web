@@ -44,6 +44,7 @@ defaults: &defaults
     - bunz
     - drugs
     - bootie
+    - boot
     - booty
     - freak
     - mowett
@@ -105,6 +106,8 @@ defaults: &defaults
     - savage
     - tranny
     - clit
+    - fat
+    - chunky
 
   forbidden_email_domains:
     - yopmail.com
