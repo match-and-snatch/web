@@ -25,8 +25,9 @@
         .profile_name
           h1= @profile.profile_name
         .clearfix
-        .profile_type
-          h3= @profile.types
+        - unless @profile.has_mature_content?
+          .profile_type
+            h3= @profile.types
 
       /Subscribe
       .profile_details_r
