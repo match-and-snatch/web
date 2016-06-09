@@ -1,19 +1,19 @@
 require 'spec_helper'
 
 describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
-  let(:user) { create_profile(email: 'profile@mail.com') }
+  let(:user) { create(:user, :profile_owner, email: 'profile@mail.com') }
   let(:cost_change_request) { CostChangeRequest.create!(user: user, old_cost: user.cost, new_cost: 800) }
 
   describe 'GET #index' do
     subject { get 'index' }
 
     context 'as an admin' do
-      before { sign_in create_admin }
+      before { sign_in create(:user, :admin) }
       it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
-      before { sign_in create_user }
+      before { sign_in create(:user) }
       it { is_expected.not_to be_success }
     end
   end
@@ -22,12 +22,12 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
     subject { get 'confirm_reject', id: cost_change_request.id }
 
     context 'as an admin' do
-      before { sign_in create_admin }
+      before { sign_in create(:user, :admin) }
       it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
-      before { sign_in create_user }
+      before { sign_in create(:user) }
       it { is_expected.not_to be_success }
     end
   end
@@ -36,12 +36,12 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
     subject { get 'confirm_approve', id: cost_change_request.id }
 
     context 'as an admin' do
-      before { sign_in create_admin }
+      before { sign_in create(:user, :admin) }
       it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
-      before { sign_in create_user }
+      before { sign_in create(:user) }
       it { is_expected.not_to be_success }
     end
   end
@@ -50,12 +50,12 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
     subject { post 'approve', id: cost_change_request.id }
 
     context 'as an admin' do
-      before { sign_in create_admin }
+      before { sign_in create(:user, :admin) }
       it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
-      before { sign_in create_user }
+      before { sign_in create(:user) }
       it { is_expected.not_to be_success }
     end
   end
@@ -64,12 +64,12 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
     subject { post 'reject', id: cost_change_request.id }
 
     context 'as an admin' do
-      before { sign_in create_admin }
+      before { sign_in create(:user, :admin) }
       it { is_expected.to be_success }
     end
 
     context 'as a non admin' do
-      before { sign_in create_user }
+      before { sign_in create(:user) }
       it { is_expected.not_to be_success }
     end
   end
@@ -78,7 +78,7 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
     subject { post 'bulk_process', ids: [cost_change_request.id], commit: 'approve' }
 
     context 'as an admin' do
-      before { sign_in create_admin }
+      before { sign_in create(:user, :admin) }
       it { is_expected.to be_success }
 
       context 'without commit param' do
@@ -93,7 +93,7 @@ describe Dashboard::Admin::CostChangeRequestsController, type: :controller do
     end
 
     context 'as a non admin' do
-      before { sign_in create_user }
+      before { sign_in create(:user) }
       it { is_expected.not_to be_success }
     end
   end

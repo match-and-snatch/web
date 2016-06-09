@@ -85,4 +85,3 @@ class BaseManager
     valid? or fail!
   end
 end
-

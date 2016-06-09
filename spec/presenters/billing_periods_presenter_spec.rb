@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe BillingPeriodsPresenter do
-  let(:user) { create_user }
-  let(:target_user) { create_profile(email: 'target@user.com') }
+  let(:user) { create(:user) }
+  let(:target_user) { create(:user, :profile_owner, email: 'target@user.com', cost: 5_00, subscription_cost: 6_99, subscription_fees: 1_99) }
   let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
 
   subject { described_class.new(user: target_user).collection.first }
@@ -17,13 +17,13 @@ describe BillingPeriodsPresenter do
 
   describe '#total_gross' do
     specify do
-      expect(subject.total_gross).to eq(699)
+      expect(subject.total_gross).to eq(6_99)
     end
   end
 
   describe '#connectpal_fee' do
     specify do
-      expect(subject.connectpal_fee).to eq(156.418)
+      expect(subject.connectpal_fee).to eq(1_56.418)
     end
   end
 
@@ -40,7 +40,7 @@ describe BillingPeriodsPresenter do
 
     describe '#tos_fee' do
       specify do
-        expect(subject.tos_fee).to eq(500)
+        expect(subject.tos_fee).to eq(5_00)
       end
     end
 

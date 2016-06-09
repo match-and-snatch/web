@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Api::PostsController, type: :controller do
-  let(:poster) { create_profile email: 'poster@gmail.com', api_token: 'test_token' }
-  let(:another_poster) { create_user email: 'anther@poster.ru' }
+  let(:poster) { create(:user, :profile_owner, email: 'poster@gmail.com') }
+  let(:another_poster) { create(:user, email: 'anther@poster.ru') }
   let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
 
   describe 'GET #index' do

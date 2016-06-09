@@ -5,7 +5,7 @@ describe Owner::FirstStepsController, type: :controller do
     subject(:perform_request) { get 'show' }
 
     context 'authorized' do
-      let(:user) { create_user }
+      let(:user) { create(:user) }
       before { sign_in user }
       it { should be_success }
 

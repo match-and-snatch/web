@@ -17,7 +17,7 @@ describe WelcomeController, type: :controller do
       end
 
       context 'when has no profile' do
-        let(:user) { create_user }
+        let(:user) { create(:user) }
 
         specify do
           expect(response).to redirect_to account_info_path

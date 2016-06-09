@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::PendingPostsController, type: :controller do
-  let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true, api_token: 'token' }
+  let(:owner) { create(:user, :profile_owner, email: 'owner@gmail.com') }
   before do
     request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(owner.api_token)
   end

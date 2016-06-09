@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ApiResponsePresenter do
-  let(:user) { create_profile }
+  let(:user) { create(:user, :profile_owner) }
 
   subject { described_class.new(CurrentUserDecorator.new(user)) }
 
@@ -17,7 +17,7 @@ describe ApiResponsePresenter do
   end
 
   describe '#subscription_data' do
-    let(:subscriber) { create_user email: 'subscriber@gmail.com' }
+    let(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
     let(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(user) }
 
     it { expect { subject.subscription_data(subscription) }.not_to raise_error }
@@ -41,7 +41,7 @@ describe ApiResponsePresenter do
   end
 
   context 'dialogues and messages' do
-    let(:target_user) { create_user email: 'another_user@mail.com' }
+    let(:target_user) { create(:user, email: 'another_user@mail.com') }
     let(:message) { MessagesManager.new(user: user).create(message: 'test', target_user: target_user) }
     let(:dialogue) { message.dialogue }
 

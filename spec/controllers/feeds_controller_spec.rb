@@ -5,8 +5,8 @@ describe FeedsController, type: :controller do
     subject(:request_perform) { get 'show' }
 
     context 'authorized access' do
-      let(:user) { create_user }
-      let(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let(:user) { create(:user) }
+      let(:subscriber) { create :user, email: 'subscriber@gmail.com' }
       let!(:_post) do
         SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
         PostManager.new(user: user).create_status_post(message: 'aloha')

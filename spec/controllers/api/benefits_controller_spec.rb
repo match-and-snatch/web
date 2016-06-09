@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Api::BenefitsController, type: :controller do
   describe 'POST #create' do
-    let(:user) { create_user api_token: 'test_token' }
+    let(:user) { create(:user) }
     let(:benefits_params) {  {"0"=>"benefit", "1"=>"other benefit", "2"=>""} }
 
     subject(:perform_request) { post 'create', user_id: user.id, benefits: benefits_params, format: :json }

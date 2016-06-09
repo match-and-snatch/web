@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe DocumentPostsController, type: :controller do
-  let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
+  let(:owner) { create :user, email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'GET #new' do
     subject { get :new, format: :json }

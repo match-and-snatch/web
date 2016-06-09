@@ -295,7 +295,7 @@ describe UserProfileManager do
     end
 
     context 'with subscribers' do
-      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let!(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
 
       let!(:subscription) do
         SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
@@ -415,7 +415,7 @@ describe UserProfileManager do
 
     context 'user has suspended billing' do
       context 'with subscribed users' do
-        let(:subscriber) { create_user email: 'subscriber@gmail.com' }
+        let(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
 
         context 'not charged subscription' do
           let!(:subscription) do
@@ -483,7 +483,7 @@ describe UserProfileManager do
     end
 
     context 'with subscribers' do
-      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let!(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
 
       let!(:subscription) do
         SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
@@ -572,7 +572,7 @@ describe UserProfileManager do
     end
 
     context 'with source subscriptions' do
-      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let!(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
       let!(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(user) }
 
       it 'creates delete profile page request' do
@@ -607,7 +607,7 @@ describe UserProfileManager do
     end
 
     context 'with source subscriptions' do
-      let(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
       let!(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(user) }
 
       it { expect { manager.delete_profile_page! }.to change { user.reload.subscribers_count }.by(-1) }
@@ -872,7 +872,7 @@ describe UserProfileManager do
 
       before do
         5.times do |i|
-          SubscriptionManager.new(subscriber: create_user(email: "subscriber_#{i}@test.com")).subscribe_to(target_user)
+          SubscriptionManager.new(subscriber: create(:user, email: "subscriber_#{i}@test.com")).subscribe_to(target_user)
         end
         ContributionManager.new(user: user).create(amount: 1, target_user: target_user, recurring: true)
       end
@@ -1073,7 +1073,7 @@ describe UserProfileManager do
       end
 
       context 'with source subscriptions' do
-        let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+        let!(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
         let!(:subscription) do
           SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
         end
@@ -1166,7 +1166,7 @@ describe UserProfileManager do
     end
 
     context 'with source subscriptions' do
-      let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+      let!(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
       let!(:subscription) do
         SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
       end
@@ -1338,7 +1338,7 @@ describe UserProfileManager do
   end
 
   describe '#update_general_information' do
-    let(:another_user) { create_user(email: 'another@gmail.com') }
+    let(:another_user) { create(:user, email: 'another@gmail.com', activated: false) }
 
     specify do
       expect { manager.update_general_information(full_name: 'new', email: 'new_email@gmail.com') }.to change { user.reload.email }.to('new_email@gmail.com')
@@ -1403,7 +1403,8 @@ describe UserProfileManager do
     let(:request) { user.cost_change_requests.last }
 
     context 'new user with large cost' do
-      let(:user) { create_profile cost: 35 }
+      let(:user) { create(:user, :profile_owner, cost: 35_00) }
+      let!(:request) { create(:cost_change_request, user: user, new_cost: 35_00) }
 
       specify do
         expect { manager.approve_and_change_cost!(request) }.to change { request.approved? }.from(false).to(true)
@@ -1417,7 +1418,7 @@ describe UserProfileManager do
     end
 
     context 'existing user tries to change his cost' do
-      let(:user) { create_profile cost: 5 }
+      let(:user) { create(:user, :profile_owner, cost: 5_00) }
       before { manager.update_cost(45) }
 
       specify do
@@ -1434,7 +1435,7 @@ describe UserProfileManager do
       end
 
       context 'with subscribers' do
-        let!(:subscriber) { create_user email: 'subscriber@gmail.com' }
+        let!(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
 
         before { SubscriptionManager.new(subscriber: subscriber).subscribe_to(user) }
 

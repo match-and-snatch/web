@@ -93,7 +93,7 @@ describe Api::UsersController, type: :controller do
   end
 
   describe 'GET #show' do
-    let!(:user) { create_profile email: 'owner@gmail.com', first_name: 'sergei', last_name: 'zinin' }
+    let!(:user) { create(:user, :profile_owner, email: 'owner@gmail.com', full_name: 'sergei zinin') }
 
     subject { get 'show', id: user.slug, format: :json }
 

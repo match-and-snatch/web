@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::PasswordsController, type: :controller do
-  let!(:user) { create_user email: 'test@email.com', api_token: 'token' }
+  let!(:user) { create(:user, email: 'test@email.com') }
   let(:token) { user.password_reset_token }
 
   describe 'PUT #update' do

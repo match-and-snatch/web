@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::VideoPostsController, type: :controller do
-  let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true, api_token: 'token' }
+  let(:owner) { create(:user, :profile_owner, email: 'owner@gmail.com') }
 
   describe 'DELETE #cancel' do
     let!(:pending_video) { create_video_upload  owner }

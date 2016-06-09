@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe VacationsPresenter do
-  let(:profile_owner) { create_profile(email: 'profile@owner.com') }
+  let(:profile_owner) { create(:user, :profile_owner, email: 'profile@owner.com') }
 
   subject(:presenter) { described_class.new(user: profile_owner) }
   subject { presenter.collection.first }

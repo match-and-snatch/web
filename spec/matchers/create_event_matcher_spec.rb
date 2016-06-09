@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'create_event matcher' do
-  let(:user) { create_user }
+  let(:user) { create :user }
 
   specify do
     expect { EventsManager.password_changed(user: user) }.to create_event(:password_changed)
@@ -16,7 +16,7 @@ describe 'create_event matcher' do
   end
 
   specify do
-    expect { EventsManager.password_changed(user: user) }.not_to create_event(:password_changed).with_user(create_user(email: 'another@user.ru'))
+    expect { EventsManager.password_changed(user: user) }.not_to create_event(:password_changed).with_user(create(:user, email: 'another@user.ru'))
   end
 
   specify do

@@ -6,8 +6,8 @@ describe ChartsPresenter do
   end
 
   describe '#chart_data' do
-    let(:event_date) { Event.where(action: 'registered').first.created_at.utc.beginning_of_day.to_i }
-    let!(:profile_owner) { create_profile email: 'profile_owner@mail.com', cost: 5 }
+    let!(:profile_owner) { create(:user, :profile_owner, email: 'profile_owner@mail.com', cost: 5_00, subscription_cost: 6_99, subscription_fees: 1_99) }
+    let!(:event_date) { EventsManager.user_registered(user: profile_owner).created_at.utc.beginning_of_day.to_i }
 
     specify do
       expect(described_class.new(graph_type: 'registered').chart_data).to eq([{ x: event_date, y: 1 }])
@@ -22,7 +22,7 @@ describe ChartsPresenter do
     end
 
     context 'gross sales graph with payments' do
-      let(:subscriber) { create_user email: 'subscriber@mail.com' }
+      let(:subscriber) { create(:user, email: 'subscriber@mail.com') }
       let(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(profile_owner) }
       let(:payment_date) { Payment.last.created_at.utc.beginning_of_month.to_i }
 

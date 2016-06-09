@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe UserStatsManager do
-  let(:user) { create_user }
-  let(:target_user) { create_profile email: 'target@gmail.com' }
+  let(:user) { create(:user) }
+  let(:target_user) { create(:user, :profile_owner, email: 'target@gmail.com') }
   let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
   subject { described_class.new(target_user) }

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Api::MessagesController, type: :controller do
-  let(:user) { create_user api_token: 'token' }
-  let(:target_user) { create_user email: 'target@gmail.com' }
+  let(:user) { create(:user) }
+  let(:target_user) { create(:user, email: 'target@gmail.com') }
 
   describe 'POST #create' do
     subject { post 'create', message: 'test', user_id: target_user.id, format: :json }

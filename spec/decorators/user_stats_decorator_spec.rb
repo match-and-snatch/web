@@ -8,8 +8,8 @@ describe UserStatsDecorator do
     before { StripeMock.start }
     after { StripeMock.stop }
 
-    let(:user) { create_profile }
-    let(:subscriber) { create_user(email: 'subscriber@user.com') }
+    let(:user) { create(:user, :profile_owner, cost: 5_00, subscription_cost: 6_99, subscription_fees: 1_99) }
+    let(:subscriber) { create(:user, email: 'subscriber@user.com') }
     let(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_and_pay_for(user) }
 
     before do

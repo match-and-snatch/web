@@ -132,7 +132,7 @@ describe OverviewPresenter do
     def subscribe
       StripeMock.prepare_card_error(:card_declined)
       UserProfileManager.new(user).update_cc_data(number: '4000_0000_0000_0341', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') rescue nil
-      SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile(email: 'another_target@user.com')) rescue nil
+      SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create(:user, :profile_owner, email: 'another_target@user.com')) rescue nil
     end
 
     describe '#current_failed_payments_count' do

@@ -11,9 +11,9 @@ describe Subscriptions::DuplicateRemovalJob do
       UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
     end
 
-    let(:user) { create_user }
-    let(:target_user) { create_profile email: 'target@user.com' }
-    let(:another_target_user) { create_profile email: 'another_target@user.com' }
+    let(:user) { create(:user) }
+    let(:target_user) { create(:user, :profile_owner, email: 'target@user.com') }
+    let(:another_target_user) { create(:user, :profile_owner, email: 'another_target@user.com') }
 
     let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
 

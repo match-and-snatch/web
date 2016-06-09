@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe NotificationManager do
-  let(:profile_owner) { create_profile email: 'profile_owner@gmail.com' }
-  let(:subscriber) { create_user email: 'subscriber@gmail.com' }
+  let(:profile_owner) { create(:user, :profile_owner, email: 'profile_owner@gmail.com') }
+  let(:subscriber) { create(:user, email: 'subscriber@gmail.com') }
   let(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(profile_owner) }
   let(:status_post) { create(:status_post, message: 'some text', user: profile_owner) }
 

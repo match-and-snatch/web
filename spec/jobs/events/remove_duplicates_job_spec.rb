@@ -4,11 +4,10 @@ describe Events::RemoveDuplicatesJob do
   describe '.perform' do
     subject(:perform) { described_class.perform }
 
-    let(:user) { create_user }
+    let(:user) { create(:user) }
+    let!(:event) { EventsManager.user_registered(user: user) }
 
-    specify do
-      expect { perform }.not_to raise_error
-    end
+    specify { expect { perform }.not_to raise_error }
 
     context 'No duplicates' do
       specify do

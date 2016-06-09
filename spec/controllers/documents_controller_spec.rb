@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe DocumentsController, type: :controller do
-  let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
+  let(:owner) { create :user, email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'POST #create' do
     subject { post 'create', transloadit: transloadit_document_data_params.to_json }

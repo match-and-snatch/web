@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PasswordsController, type: :controller do
   describe 'PUT #update' do
-    let!(:user) { create_user(email: 'test@email.com') }
+    let!(:user) { create(:user, email: 'test@email.com') }
 
     before do
       AuthenticationManager.new(email: 'test@email.com').restore_password

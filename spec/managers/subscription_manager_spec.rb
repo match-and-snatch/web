@@ -226,7 +226,7 @@ describe SubscriptionManager do
   describe '#unsubscribe_entirely' do
     before do
       manager.subscribe_to(another_user)
-      manager.subscribe_to(create_profile(email: 'second_another@user.com'))
+      manager.subscribe_to(create(:user, :profile_owner, email: 'second_another@user.com'))
     end
 
     it do
@@ -446,7 +446,7 @@ describe SubscriptionManager do
 
         context 'account was unlocked' do
           before do
-            manager.subscribe_to(create_profile(email: 'another_5@user.com'))
+            manager.subscribe_to(create(:user, :profile_owner, email: 'another_5@user.com'))
             UserManager.new(subscriber.reload).unlock
           end
 
@@ -457,7 +457,7 @@ describe SubscriptionManager do
 
         context 'more than 5 subscriptions in 48 hours' do
           before do
-            manager.subscribe_to(create_profile(email: 'another_5@user.com'))
+            manager.subscribe_to(create(:user, :profile_owner, email: 'another_5@user.com'))
           end
 
           it 'locks an account' do
@@ -480,7 +480,8 @@ describe SubscriptionManager do
     end
 
     context 'target with not approved cost' do
-      let(:another_user) { create_profile(email: 'another_one@user.com', cost: 35) }
+      let(:another_user) { create(:user, :profile_owner, email: 'another_one@user.com', cost: 35_00) }
+      let!(:request) { create(:cost_change_request, :pending, user: another_user, new_cost: 35_00) }
 
       it 'does not allow to subscribe' do
         expect { manager.subscribe_to(another_user) }.to raise_error(ManagerError, /Can't subscribe to user with not approved cost/)

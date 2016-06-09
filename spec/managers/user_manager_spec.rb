@@ -129,7 +129,7 @@ describe UserManager do
     end
 
     context 'sales' do
-      let(:user) { create_sales }
+      let(:user) { create(:user, :sales) }
 
       specify do
         expect { manager.make_sales }.to raise_error ManagerError
@@ -147,7 +147,7 @@ describe UserManager do
     end
 
     context 'sales' do
-      let(:user) { create_sales }
+      let(:user) { create(:user, :sales) }
 
       specify do
         expect { manager.drop_sales }.to change { user.is_sales }.from(true).to(false)

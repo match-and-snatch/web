@@ -4,8 +4,8 @@ describe Costs::ChangeCostJob do
   describe '.perform' do
     subject(:perform) { described_class.new.perform }
 
-    let(:profile_owner) { create_profile email: 'profile@user.com' }
-    let(:user) { create_user }
+    let(:profile_owner) { create(:user, :profile_owner, email: 'profile@user.com', cost: 5_00) }
+    let(:user) { create(:user) }
     let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(profile_owner) }
 
     it { expect { perform }.not_to raise_error }

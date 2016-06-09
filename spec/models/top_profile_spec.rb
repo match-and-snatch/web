@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe TopProfile do
   describe '.update_list' do
-    let(:user1) { create_user email: '1@1.ru' }
-    let(:user2) { create_user email: '2@2.ru' }
+    let(:user1) { create(:user, email: '1@1.ru') }
+    let(:user2) { create(:user, email: '2@2.ru') }
 
     before do
       user1.create_top_profile!

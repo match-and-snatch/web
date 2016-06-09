@@ -4,11 +4,11 @@ describe SessionManager, type: :request do
   subject(:manager) { described_class.new(cookies) }
 
   let(:email) { 'szinin@gmail.com' }
-  let(:password) { 'qwerty' }
+  let(:password) { 'password' }
 
   describe '#login' do
     context 'authorized user' do
-      let!(:user) { create_user(email: email, password: password, password_confirmation: password) }
+      let!(:user) { create(:user, email: email) }
 
       specify do
         expect(user.auth_token).not_to be_blank
@@ -19,8 +19,8 @@ describe SessionManager, type: :request do
       end
 
       context 'invalid byte sequence' do
-        let!(:user) { create_user(email: email, password: 'qwerty', password_confirmation: 'qwerty') }
-        let(:password) { "qwerty\255" }
+        let!(:user) { create(:user, email: email) }
+        let(:password) { "password\255" }
 
         specify do
           expect { manager.login(email, password) }.not_to raise_error
@@ -28,7 +28,7 @@ describe SessionManager, type: :request do
       end
 
       context 'password is nil' do
-        let!(:user) { create_user(email: email, password: 'qwerty', password_confirmation: 'qwerty') }
+        let!(:user) { create(:user, email: email) }
         let(:password) { nil }
 
         specify do
@@ -45,7 +45,7 @@ describe SessionManager, type: :request do
   end
 
   describe '#logout' do
-    let!(:user) { create_user(email: email, password: password, password_confirmation: password) }
+    let!(:user) { create(:user, email: email) }
 
     before do
       manager.login(email, password)
@@ -61,7 +61,7 @@ describe SessionManager, type: :request do
     its(:current_user) { should_not be_authorized }
 
     context 'authorized user' do
-      let!(:user) { create_user(email: email, password: password, password_confirmation: password) }
+      let!(:user) { create(:user, email: email) }
 
       before do
         manager.login(email, password)

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Owner::SecondStepsController, type: :controller do
-  let(:user) { create_user }
+  let(:user) { create(:user) }
 
   describe 'GET #show' do
     subject(:perform_request) { get 'show' }

@@ -4,7 +4,7 @@ describe Posts::CleanJob do
   describe '.perform' do
     subject(:perform) { described_class.new.perform }
 
-    let(:user) { create_profile }
+    let(:user) { create(:user, :profile_owner) }
     let(:manager) { UserProfileManager.new(user) }
 
     before do

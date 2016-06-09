@@ -13,9 +13,7 @@ describe SessionsController, type: :controller do
     its(:body) { should match_regex /failed/ }
 
     context 'registered user' do
-      before do
-        create_user(email: 'szinin@gmail.com', password: 'password')
-      end
+      before { create(:user, email: 'szinin@gmail.com') }
 
       it { should be_success }
       its(:body) { should match_regex /reload/ }

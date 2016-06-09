@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe MessagesManager do
-  let(:user) { create_user }
-  let(:target_user) { create_user email: 'another_user@mail.com' }
+  let(:user) { create(:user) }
+  let(:target_user) { create(:user, email: 'another_user@mail.com') }
   let(:message) { subject.create(message: 'test', target_user: target_user) }
   let(:dialogue) { message.dialogue }
 

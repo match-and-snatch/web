@@ -16,9 +16,9 @@ describe Subscription do
     end
 
     let!(:unpaid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
-    let!(:paid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'another@one.com') }
+    let!(:paid_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create(:user, :profile_owner, email: 'another@one.com')) }
     let!(:invalid_subscription) do
-      profile = create_profile email: 'invalid@one.com'
+      profile = create(:user, :profile_owner, email: 'invalid@one.com')
 
       SubscriptionManager.new(subscriber: user).subscribe_to(profile).tap do
         UserProfileManager.new(profile).delete_profile_page!

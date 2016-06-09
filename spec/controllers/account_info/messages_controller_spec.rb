@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe AccountInfo::MessagesController, type: :controller do
   describe 'POST #create' do
-    let(:user) { create_user }
-    let(:target_user) { create_user email: 'target@gmail.com' }
+    let(:user) { create(:user) }
+    let(:target_user) { create :user, email: 'target@gmail.com' }
 
     subject { post 'create', user_id: target_user.id, message: 'test' }
 

@@ -9,8 +9,8 @@ describe CurrentUserDecorator do
       let(:user) { User.new is_admin: true }
 
       describe 'dialogues' do
-        let(:user) { create_user }
-        let(:foreigner) { create_user email: 'foreigner@gmail.com' }
+        let(:user) { create(:user) }
+        let(:foreigner) { create(:user, email: 'foreigner@gmail.com') }
         let(:user_dialogue) { MessagesManager.new(user: user).create(target_user: user, message: 'test').dialogue }
         let(:foreign_dialogue) { MessagesManager.new(user: foreigner).create(target_user: foreigner, message: 'test').dialogue }
 
@@ -26,7 +26,7 @@ describe CurrentUserDecorator do
   end
 
   describe '#==' do
-    let(:user) { create_user }
+    let(:user) { create(:user) }
 
     specify do
       expect(subject).to eq(user)
@@ -88,7 +88,7 @@ describe CurrentUserDecorator do
   end
 
   describe '#latest_subscriptions' do
-    let(:user) { create_user }
+    let(:user) { create(:user) }
 
     context 'without subscriptions' do
       specify do
@@ -112,14 +112,14 @@ describe CurrentUserDecorator do
 
       let!(:old_subscription) do
         Timecop.freeze 32.days.ago do
-          SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'target2@user.com')
+          SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create :user, :profile_owner, email: 'target2@user.com')
         end
       end
 
       let!(:old_removed_subscription) do
         Timecop.freeze 32.days.ago do
           manager = SubscriptionManager.new(subscriber: user)
-          manager.subscribe_and_pay_for(create_profile email: 'target3@user.com').tap do
+          manager.subscribe_and_pay_for(create :user, :profile_owner, email: 'target3@user.com').tap do
             manager.unsubscribe
           end
         end
@@ -128,13 +128,13 @@ describe CurrentUserDecorator do
       let!(:recently_removed_subscription) do
         Timecop.freeze 26.days.ago do
           manager = SubscriptionManager.new(subscriber: user)
-          manager.subscribe_and_pay_for(create_profile email: 'target4@user.com').tap do
+          manager.subscribe_and_pay_for(create :user, :profile_owner, email: 'target4@user.com').tap do
             manager.unsubscribe
           end
         end
       end
 
-      let!(:recent_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'target@user.com') }
+      let!(:recent_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create :user, :profile_owner, email: 'target@user.com') }
 
       specify do
         expect(subject.latest_subscriptions.count).to eq(3)
@@ -149,7 +149,7 @@ describe CurrentUserDecorator do
   end
 
   describe '#recent_subscriptions' do
-    let(:user) { create_user }
+    let(:user) { create(:user) }
 
     context 'without subscriptions' do
       specify { expect(subject.recent_subscriptions).to eq([]) }
@@ -171,23 +171,23 @@ describe CurrentUserDecorator do
         user.reload
       end
 
-      let(:active_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create_profile email: 'target@user.com') }
+      let(:active_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(create :user, :profile_owner, email: 'target@user.com') }
       let(:rejected_subscription) do
         manager = SubscriptionManager.new(subscriber: user)
-        manager.subscribe_and_pay_for(create_profile email: 'target3@user.com').tap do
+        manager.subscribe_and_pay_for(create :user, :profile_owner, email: 'target3@user.com').tap do
           manager.reject
         end
       end
       let(:processing_subscription) do
         manager = SubscriptionManager.new(subscriber: user)
-        manager.subscribe_and_pay_for(create_profile email: 'target_processig@user.com').tap do
+        manager.subscribe_and_pay_for(create :user, :profile_owner, email: 'target_processig@user.com').tap do
           manager.mark_as_processing
         end
       end
       let(:old_removed_subscription) do
         Timecop.freeze 32.days.ago do
           manager = SubscriptionManager.new(subscriber: user)
-          manager.subscribe_and_pay_for(create_profile email: 'target3@user.com').tap do
+          manager.subscribe_and_pay_for(create :user, :profile_owner, email: 'target3@user.com').tap do
             manager.unsubscribe
           end
         end
@@ -195,7 +195,7 @@ describe CurrentUserDecorator do
       let(:recently_removed_subscription) do
         Timecop.freeze 26.days.ago do
           manager = SubscriptionManager.new(subscriber: user)
-          manager.subscribe_and_pay_for(create_profile email: 'target4@user.com').tap do
+          manager.subscribe_and_pay_for(create :user, :profile_owner, email: 'target4@user.com').tap do
             manager.unsubscribe
           end
         end

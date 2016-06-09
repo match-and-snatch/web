@@ -123,7 +123,7 @@ describe AuthenticationManager do
     end
 
     context 'valid token' do
-      let(:user) { create_user api_token: 'test' }
+      let(:user) { create(:user) }
       let(:api_token) { user.api_token }
 
       specify { expect(authenticate).to eq(user) }

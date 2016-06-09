@@ -16,8 +16,8 @@ describe Billing::ChargeJob do
     before { StripeMock.start }
     after { StripeMock.stop }
 
-    let(:user) { create_user }
-    let(:target_user) { create_profile email: 'target@user.com' }
+    let(:user) { create(:user) }
+    let(:target_user) { create(:user, :profile_owner, email: 'target@user.com') }
     let(:failed_billing_subscriber) { create :user, :with_cc }
 
     before do
@@ -46,7 +46,7 @@ describe Billing::ChargeJob do
       end
 
       let!(:invalid_subscription) do
-        profile = create_profile email: 'invalid@one.com'
+        profile = create(:user, :profile_owner, email: 'invalid@one.com')
 
         SubscriptionManager.new(subscriber: user).subscribe_to(profile).tap do
           UserProfileManager.new(profile).delete_profile_page!
@@ -104,7 +104,7 @@ describe Billing::ChargeJob do
 
       context 'having invalid subscription without user set' do
         before do
-          subscriber = create_user email: 'invalid@two.com'
+          subscriber = create(:user, email: 'invalid@two.com')
           subscription = SubscriptionManager.new(subscriber: subscriber).subscribe_to(target_user)
           subscription.update_attribute(:user_id, nil)
         end

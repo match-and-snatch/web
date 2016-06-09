@@ -6,11 +6,11 @@ describe EventsManager do
   before { StripeMock.start }
   after { StripeMock.stop }
 
-  let(:user) { create_profile }
+  let(:user) { create(:user, :profile_owner) }
   let!(:photo) { create_photo_upload(user).first  }
   let!(:_post) { PostManager.new(user: user).create_status_post(message: 'some post') }
 
-  let(:another_user) { create_profile email: 'another_user@mail.com' }
+  let(:another_user) { create(:user, :profile_owner, email: 'another_user@mail.com') }
 
   context 'sessions events' do
     describe '.user_logged_in' do
@@ -18,7 +18,7 @@ describe EventsManager do
     end
 
     describe '.user_registered' do
-      let!(:user) { create_profile }
+      let!(:user) { create(:user, :profile_owner) }
       it { expect { manager.user_registered(user: user.reload) }.to create_event(:registered) }
     end
 
@@ -30,7 +30,7 @@ describe EventsManager do
       it { expect { manager.password_restored(user: user) }.to create_event(:password_restored) }
     end
   end
-  
+
   describe '.account_photo_changed' do
     it { expect { manager.account_photo_changed(user: user, photo: photo) }.to create_event(:account_photo_changed) }
   end

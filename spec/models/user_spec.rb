@@ -54,25 +54,25 @@ describe User do
   describe '.create' do
     context 'profile owner' do
       it 'assigns slug' do
-        expect(create_user(first_name: 'slava', last_name: 'popov', is_profile_owner: true).slug).to eq('slavapopov')
+        expect(described_class.create(profile_name: 'slava popov', full_name: 'popov slava', email: 's@popov.com', is_profile_owner: true).slug).to eq('slavapopov')
       end
 
       it 'generates uniq slug' do
-        create_user(first_name: 'slava', last_name: 'popov', email: 'e@m.il', is_profile_owner: true)
-        expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e2@m.il', is_profile_owner: true).slug).to eq('slavapopov-1')
-        expect(create_user(first_name: 'slava', last_name: 'popov', email: 'e3@m.il', is_profile_owner: true).slug).to eq('slavapopov-2')
+        described_class.create(profile_name: 'slava popov', full_name: 'popov slava', email: 'e@m.il', is_profile_owner: true)
+        expect(described_class.create(profile_name: 'slava popov', full_name: 'popov slava', email: 'e2@m.il', is_profile_owner: true).slug).to eq('slavapopov-1')
+        expect(described_class.create(profile_name: 'slava popov', full_name: 'popov slava', email: 'e3@m.il', is_profile_owner: true).slug).to eq('slavapopov-2')
       end
     end
 
     context 'subscriber' do
       it 'does not assign slug' do
-        expect(create_user(first_name: 'slava', last_name: 'popov', is_profile_owner: false).slug).to eq(nil)
+        expect(described_class.create(profile_name: 'slava popov', is_profile_owner: false).slug).to eq(nil)
       end
     end
   end
 
   describe '#lock!', freeze: true do
-    let(:user) { create_user }
+    let(:user) { create(:user) }
 
     it { expect { user.lock! }.to change { user.reload.last_time_locked_at }.to(Time.zone.now) }
     it { expect { user.lock! }.to change { user.reload.locked? }.to(true) }
@@ -83,7 +83,7 @@ describe User do
   end
 
   describe '#unlock!', freeze: true do
-    let(:user) { create_user }
+    let(:user) { create(:user) }
 
     context 'locked' do
       before { user.lock! }
@@ -124,7 +124,7 @@ describe User do
   end
 
   describe '#denormalize_last_post_created_at!', freeze: true do
-    let!(:user) { create_user }
+    let!(:user) { create(:user) }
 
     context 'time provided' do
       let(:time) { 4.days.ago }
@@ -154,7 +154,7 @@ describe User do
   end
 
   describe '#generate_api_token!' do
-    subject(:user) { create_user }
+    subject(:user) { create(:user, api_token: nil) }
 
     it do
       expect { user.generate_api_token! }.to change { user.reload.api_token }.from(nil)
@@ -170,7 +170,7 @@ describe User do
   end
 
   describe '#regenerate_api_token!' do
-    subject(:user) { create_user }
+    subject(:user) { create(:user, api_token: nil) }
 
     it do
       expect { user.regenerate_api_token! }.to change { user.reload.api_token }.from(nil)
@@ -189,18 +189,18 @@ describe User do
     subject { described_class.top }
 
     let(:top_user) do
-      create_user(is_profile_owner: true).tap do |user|
+      create(:user, is_profile_owner: true).tap do |user|
         user.create_top_profile!
       end
     end
 
     let(:non_profile_owner) do
-      create_user(is_profile_owner: false).tap do |user|
+      create(:user, is_profile_owner: false).tap do |user|
         user.create_top_profile!
       end
     end
 
-    let(:non_top_user) { create_user is_profile_owner: true }
+    let(:non_top_user) { create(:user, :profile_owner) }
 
     it { is_expected.to include(top_user) }
     it { is_expected.not_to include(non_top_user) }
@@ -208,19 +208,19 @@ describe User do
 
     describe 'ordering' do
       let!(:middle_user) do
-        create_user(is_profile_owner: true, email: 'middle@middle.com').tap do |user|
+        create(:user, is_profile_owner: true, email: 'middle@middle.com').tap do |user|
           user.create_top_profile! position: 1
         end
       end
 
       let!(:top_user) do
-        create_user(is_profile_owner: true, email: 'top@top.com').tap do |user|
+        create(:user, is_profile_owner: true, email: 'top@top.com').tap do |user|
           user.create_top_profile! position: 0
         end
       end
 
       let!(:bottom_user) do
-        create_user(is_profile_owner: true, email: 'bottom@bottom.com').tap do |user|
+        create(:user, is_profile_owner: true, email: 'bottom@bottom.com').tap do |user|
           user.create_top_profile! position: 2
         end
       end
@@ -311,8 +311,8 @@ describe User do
   describe '#subscribed_to?' do
     subject { user.subscribed_to?(target_user) }
 
-    let(:user) { create_user }
-    let(:target_user) { create_profile email: 'target@user.com' }
+    let(:user) { create(:user) }
+    let(:target_user) { create(:user, :profile_owner, email: 'target@user.com') }
 
     context 'with' do
       let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
@@ -373,14 +373,14 @@ describe User do
   end
 
   describe '#recently_subscribed?' do
-    let(:user) { create_user }
+    let(:user) { create(:user) }
 
     context 'without subscriptions' do
       it { expect(user.recently_subscribed?).to eq(false) }
     end
 
     context 'with subscriptions' do
-      let(:target_user) { create_profile email: 'target@user.com' }
+      let(:target_user) { create(:user, :profile_owner, email: 'target@user.com') }
 
       before { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
@@ -405,7 +405,7 @@ describe User do
   end
 
   describe '#welcome_audio' do
-    subject(:user) { create_user }
+    subject(:user) { create(:user) }
 
     its(:welcome_audio) { should be_nil }
 
@@ -418,7 +418,7 @@ describe User do
   end
 
   describe '#welcome_video' do
-    subject(:user) { create_user }
+    subject(:user) { create(:user) }
 
     its(:welcome_video) { should be_nil }
 
@@ -431,8 +431,8 @@ describe User do
   end
 
   describe '#unread_messages_count' do
-    let(:user) { create_user }
-    let(:friend) { create_user email: 'sender@gmail.com' }
+    let(:user) { create(:user) }
+    let(:friend) { create(:user, email: 'sender@gmail.com') }
     let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
 
     before { dialogue }

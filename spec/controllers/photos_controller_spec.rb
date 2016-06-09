@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe PhotosController, type: :controller do
-  let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true }
+  let(:owner) { create :user, email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'GET #show' do
     let!(:photo) { UploadManager.new(owner).create_pending_photos(transloadit_photo_data_params).first }

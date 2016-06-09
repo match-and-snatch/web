@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::AudioPostsController, type: :controller do
-  let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true, api_token: 'token' }
+  let(:owner) { create(:user, :profile_owner, email: 'owner@gmail.com') }
 
   describe 'GET #new' do
     subject { get :new, format: :json }

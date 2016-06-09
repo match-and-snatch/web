@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::AccountInfosController, type: :controller do
-  let(:user) { create_user email: 'user@gmail.com', api_token: 'user_token' }
+  let(:user) { create(:user, email: 'user@gmail.com') }
 
   describe 'GET #settings' do
     subject { get 'settings', format: :json }

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe Api::RepliesController, type: :controller do
-  let(:poster) { create_user email: 'poster@gmail.com', api_token: 'poster_token' }
-  let(:commenter) { create_user email: 'commenter@gmail.com', api_token: 'commenter_token' }
+  let(:poster) { create(:user, email: 'poster@gmail.com') }
+  let(:commenter) { create(:user, email: 'commenter@gmail.com') }
   let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
   let(:comment) { CommentManager.new(user: commenter, post: _post).create(message: 'test') }
   let(:reply) { CommentManager.new(user: commenter, post: _post, parent: comment).create(message: 'reply') }
-  let(:anybody_else) { create_user email: 'anybody@gmail.com', api_token: 'anybody_token' }
+  let(:anybody_else) { create(:user, email: 'anybody@gmail.com') }
 
   before do
     SubscriptionManager.new(subscriber: commenter).subscribe_to(poster)

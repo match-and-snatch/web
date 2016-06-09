@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::ProfileInfosController, type: :controller do
-  let(:user) { create_user api_token: 'token' }
+  let(:user) { create(:user) }
 
   describe 'POST #create_profile' do
     subject(:perform_request) { post 'create_profile', cost: 10, profile_name: 'test', format: :json }

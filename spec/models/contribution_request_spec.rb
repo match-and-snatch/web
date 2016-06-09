@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe ContributionRequest do
-  let(:user) { create_profile(email: 'profile@lol.com') }
-  let(:target_user) { create_profile(email: 'target@lol.com') }
+  let(:user) { create(:user, :profile_owner, email: 'profile@lol.com') }
+  let(:target_user) { create(:user, :profile_owner, email: 'target@lol.com') }
 
   subject { described_class.create!(user: user, target_user: target_user, amount: 10001) }
 

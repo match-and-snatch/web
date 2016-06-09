@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Dialogue do
-  let(:user) { create_user }
-  let(:friend) { create_user email: 'sender@gmail.com' }
+  let(:user) { create(:user) }
+  let(:friend) { create(:user, email: 'sender@gmail.com') }
   let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }
 
   describe '.pick' do
@@ -12,7 +12,7 @@ describe Dialogue do
     end
 
     context 'dialogue does not exist' do
-      let(:another_user) { create_user(email: 'another@user.ru') }
+      let(:another_user) { create(:user, email: 'another@user.ru') }
       subject { described_class.pick(another_user, friend) }
 
       specify { expect(subject).not_to eq(dialogue) }

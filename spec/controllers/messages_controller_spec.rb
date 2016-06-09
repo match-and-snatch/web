@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe MessagesController, type: :controller do
-  let(:user) { create_user }
-  let(:target_user) { create_user email: 'target@gmail.com' }
+  let(:user) { create(:user) }
+  let(:target_user) { create :user, email: 'target@gmail.com' }
 
   describe 'GET #new' do
     subject { get 'new', user_id: target_user.id }

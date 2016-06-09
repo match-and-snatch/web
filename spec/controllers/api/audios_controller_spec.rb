@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::AudiosController, type: :controller do
-  let(:owner) { create_user email: 'owner@gmail.com', is_profile_owner: true, api_token: 'token' }
+  let(:owner) { create(:user, :profile_owner, email: 'owner@gmail.com') }
 
   describe 'POST #create' do
     subject { post 'create', transloadit: transloadit_audio_data_params.to_json, format: :json }

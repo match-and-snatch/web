@@ -72,7 +72,7 @@ describe PostsController, type: :controller do
     end
 
     context 'unauthorized access' do
-      let(:another_poster) { create_user email: 'anther@poster.ru' }
+      let(:another_poster) { create :user, email: 'anther@poster.ru' }
       let(:post) { create(:status_post, user: another_poster) }
       its(:status) { is_expected.to eq(401) }
     end

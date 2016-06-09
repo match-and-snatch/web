@@ -5,7 +5,7 @@ describe 'deliver_email' do
     AuthMailer.forgot_password(user).deliver_now
   end
 
-  let(:user) { create_user }
+  let(:user) { create :user }
 
   specify do
     expect { send_email }.to deliver_email(to: user)
