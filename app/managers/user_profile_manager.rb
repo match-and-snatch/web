@@ -422,7 +422,7 @@ class UserProfileManager < BaseManager
     EventsManager.credit_card_updated(user: user)
 
     card_already_used_by_another_account = User.where(stripe_card_fingerprint: cc_fingerprint).
-      where("users.id <> ?", user.id).
+      where("(users.id <> ?) AND NOT (users.locked = 't' AND users.lock_type = 'billing')", user.id).
       any?
 
     if card_already_used_by_another_account

@@ -742,14 +742,36 @@ describe UserProfileManager do
 
       before { update_cc } # generate fingerprint
 
-      let!(:another_user) { create :user, stripe_card_fingerprint: user.stripe_card_fingerprint }
+      context 'another user gets locked by entering the same card' do
+        let!(:another_user) { create :user }
 
-      it 'locks user account' do
-        expect { update_cc }.to change { user.reload.locked? }.to(true)
-      end
+        let :update_same_cc do
+          described_class.new(another_user).update_cc_data(
+            number: '4242424242424242',
+            cvc: '333',
+            expiry_month: '12',
+            expiry_year: 2018,
+            address_line_1: 'test',
+            zip: '12345',
+            city: 'LA',
+            state: 'CA')
+        end
 
-      it 'locks billing' do
-        expect { update_cc }.to change { user.reload.lock_type }.to('billing')
+        specify do
+          expect { update_same_cc }.to change { another_user.reload.locked }.to(true)
+        end
+
+        specify do
+          expect { update_same_cc }.to change { another_user.reload.lock_type }.to('billing')
+        end
+
+        context 'another user is locked' do
+          before { update_same_cc }
+
+          it 'does not lock original user account' do
+            expect { update_cc }.not_to change { user.reload.locked? }.from(false)
+          end
+        end
       end
 
       it { expect { update_cc }.not_to change { user.reload.billing_failed? } }
