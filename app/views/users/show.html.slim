@@ -48,18 +48,19 @@
       /Subscribe Button
       .profile_details_r
         .cost_container
-          - if current_user.subscribed_to?(@profile.object)
-            .subscribed Subscribed
-          - else
-            .amount
-              - if @profile.cost_approved?
-                span.cost
-                  = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-                span.month
-                  |/month
-              - else
-                span.pending_approval Pending Approval
-            .btn.pink.fa.fa-usd
+          .visitor
+            - if current_user.subscribed_to?(@profile.object)
+              .subscribed Subscribed
+            - else
+              .amount
+                - if @profile.cost_approved?
+                  span.cost
+                    = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
+                  span.month
+                    |/month
+                - else
+                  span.pending_approval Pending Approval
+              .red-icon.fa.fa-usd
       .clearfix
 
       /Subscriber Benefits
