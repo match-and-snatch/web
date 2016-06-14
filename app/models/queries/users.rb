@@ -1,6 +1,7 @@
 module Queries
   class Users < BaseQuery
     EMAIL_REGEX = /\A[^@\s]+@([^@\s\.]+\.)+[^@\s\.]+\z/i
+    INTEGER_RANGE_LIMIT = 2147483647
 
     # @param query [String]
     # @param user [User] current user performing the query
@@ -18,6 +19,7 @@ module Queries
       when /@/
         User.by_email(@query)
       when /^\d+$/
+        raise ArgumentError, 'id is too long' if @query.to_i > INTEGER_RANGE_LIMIT
         User.where(id: @query)
       else
         Queries::Elastic::Users.new.search(@query).records
