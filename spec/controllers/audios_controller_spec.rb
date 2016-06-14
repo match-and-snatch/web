@@ -17,7 +17,7 @@ describe AudiosController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:audio_upload) { create_audio_upload(owner, create_post: true).first }
+    let(:audio_upload) { create(:audio, user: owner) }
     subject { get 'show', id: audio_upload.id, format: :xml }
 
     context 'unauthorized access' do
@@ -34,7 +34,7 @@ describe AudiosController, type: :controller do
       end
 
       context 'post is not assigned' do
-        let(:audio_upload) { create_audio_upload(owner, create_post: false).first }
+        let(:audio_upload) { create(:audio, :pending, user: owner) }
         its(:status) { should == 404 }
       end
     end
@@ -59,7 +59,7 @@ describe AudiosController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:audio_upload) { create_audio_upload(owner).first }
+    let(:audio_upload) { create(:audio, user: owner) }
     subject { delete 'destroy', id: audio_upload.id }
 
     context 'unauthorized access' do
@@ -72,4 +72,3 @@ describe AudiosController, type: :controller do
     end
   end
 end
-

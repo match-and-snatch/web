@@ -17,7 +17,7 @@ describe DocumentsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:document_upload) { create_document_upload(owner).first  }
+    let(:document_upload) { create(:document, user: owner) }
     subject { delete 'destroy', id: document_upload.id }
 
     context 'unauthorized access' do

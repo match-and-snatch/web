@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Api::PostsController, type: :controller do
   let(:poster) { create(:user, :profile_owner, email: 'poster@gmail.com') }
   let(:another_poster) { create(:user, email: 'anther@poster.ru') }
-  let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
+  let(:_post) { create(:status_post, message: 'some post', user: poster) }
 
   describe 'GET #index' do
     subject { get 'index', user_id: poster.slug, format: :json }
@@ -60,39 +60,28 @@ describe Api::PostsController, type: :controller do
     it { should be_success }
 
     context 'media post' do
-      let(:_post) do
-        create_audio_upload poster
-        PostManager.new(user: poster).create_audio_post(message: 'test', title: 'test')
-      end
+      let(:_post) { create(:audio_post, user: poster, message: 'test', title: 'test', audios_count: 2) }
 
       it { should be_success }
-      specify do
-        expect { perform_request }.not_to change { _post.uploads.count }
-      end
+      it { expect { perform_request }.not_to change { _post.uploads.count } }
 
       context 'removes upload' do
         subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [_post.uploads.first.id], format: :json }
 
         it { should be_success }
-        specify do
-          expect { perform_request }.to change { _post.uploads.count }.by(-1)
-        end
+        it { expect { perform_request }.to change { _post.uploads.count }.by(-1) }
       end
 
       context 'removes all uploads' do
         subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [], format: :json }
 
         it { should be_success }
-        specify do
-          expect { perform_request }.to change { _post.uploads.count }.to(0)
-        end
+        it { expect { perform_request }.to change { _post.uploads.count }.to(0) }
 
         context 'with 0 as id' do
           subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: [0], format: :json }
 
-          specify do
-            expect { perform_request }.to change { _post.uploads.count }.to(0)
-          end
+          it { expect { perform_request }.to change { _post.uploads.count }.to(0) }
         end
       end
 
@@ -100,9 +89,7 @@ describe Api::PostsController, type: :controller do
         subject(:perform_request) { patch 'update', id: _post.id, title: 'new title', message: 'new message', uploads: _post.uploads.map(&:id), format: :json }
 
         it { should be_success }
-        specify do
-          expect { perform_request }.not_to change { _post.uploads.count }
-        end
+        it { expect { perform_request }.not_to change { _post.uploads.count } }
       end
     end
 

@@ -39,8 +39,10 @@ FactoryGirl.define do
   factory :video_post, parent: :post, class: VideoPost do
     type 'VideoPost'
 
+    transient { videos_count 1 }
+
     after(:create) do |post, evaluator|
-      create_list(:video, 1, uploadable: post)
+      create_list(:video, evaluator.videos_count, uploadable: post)
     end
   end
 

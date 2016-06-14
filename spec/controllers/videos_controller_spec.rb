@@ -17,7 +17,7 @@ describe VideosController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:video_upload) { create_video_upload  owner }
+    let(:video_upload) { create(:video, user: owner) }
     subject { delete 'destroy', id: video_upload.id }
 
     context 'unauthorized access' do

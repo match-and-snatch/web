@@ -37,7 +37,7 @@ describe Api::DocumentPostsController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      let!(:pending_document) { create_document_upload(owner).first }
+      let!(:pending_document) { create(:document, user: owner) }
 
       it { should be_success }
     end

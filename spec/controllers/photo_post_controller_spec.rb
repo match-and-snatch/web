@@ -35,7 +35,7 @@ describe PhotoPostsController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      let!(:pending_photo) { create_photo_upload(owner).first }
+      let!(:pending_photo) { create(:photo, :pending, user: owner) }
 
       it { should be_success }
       its(:body) { should match_regex /replace/ }

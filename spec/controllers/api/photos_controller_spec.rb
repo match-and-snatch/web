@@ -18,7 +18,7 @@ describe Api::PhotosController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:photo_upload) { create_photo_upload(owner).first }
+    let(:photo_upload) { create(:photo, user: owner) }
 
     subject { delete 'destroy', id: photo_upload.id, format: :json }
 

@@ -34,8 +34,10 @@ describe AudioPostsController, type: :controller do
     subject { post :create, title: 'audio', message: 'post', format: :json }
 
     context 'authorized access' do
-      before { sign_in owner }
-      let!(:pending_audio) { create_audio_upload(owner).first }
+      before do
+        sign_in owner
+        create(:audio, :pending, user: owner)
+      end
 
       it { should be_success }
       its(:body) { should match_regex /replace/ }
@@ -46,4 +48,3 @@ describe AudioPostsController, type: :controller do
     end
   end
 end
-

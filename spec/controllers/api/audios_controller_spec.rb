@@ -32,7 +32,7 @@ describe Api::AudiosController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:audio_upload) { create_audio_upload(owner).first }
+    let(:audio_upload) { create(:audio, user: owner) }
 
     subject { delete 'destroy', id: audio_upload.id, format: :json }
 

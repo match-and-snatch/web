@@ -7,7 +7,7 @@ describe EventsManager do
   after { StripeMock.stop }
 
   let(:user) { create(:user, :profile_owner) }
-  let!(:photo) { create_photo_upload(user).first  }
+  let!(:photo) { create(:photo, user: user) }
   let!(:_post) { PostManager.new(user: user).create_status_post(message: 'some post') }
 
   let(:another_user) { create(:user, :profile_owner, email: 'another_user@mail.com') }

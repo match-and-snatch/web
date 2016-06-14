@@ -37,7 +37,7 @@ describe Api::PhotoPostsController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      let!(:pending_photo) { create_photo_upload(owner).first }
+      let!(:pending_photo) { create(:photo, user: owner) }
 
       it { should be_success }
     end

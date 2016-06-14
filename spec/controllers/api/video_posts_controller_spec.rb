@@ -4,7 +4,7 @@ describe Api::VideoPostsController, type: :controller do
   let(:owner) { create(:user, :profile_owner, email: 'owner@gmail.com') }
 
   describe 'DELETE #cancel' do
-    let!(:pending_video) { create_video_upload  owner }
+    let!(:pending_video) { create(:video, user: owner) }
     subject { delete :cancel, format: :json }
 
     context 'unauthorized access' do
@@ -37,7 +37,7 @@ describe Api::VideoPostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    let!(:pending_video) { create_video_upload  owner }
+    let!(:pending_video) { create(:video, user: owner) }
     subject { post :create, title: 'aa', message: 'bb', format: :json }
 
     context 'authorized access' do

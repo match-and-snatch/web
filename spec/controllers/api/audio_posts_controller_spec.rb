@@ -37,7 +37,7 @@ describe Api::AudioPostsController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      let!(:pending_audio) { create_audio_upload(owner).first }
+      let!(:pending_audio) { create(:audio, user: owner) }
 
       it { should be_success }
     end
