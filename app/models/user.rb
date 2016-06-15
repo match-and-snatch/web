@@ -452,6 +452,11 @@ class User < ActiveRecord::Base
     Audio.users.where(uploadable_id: id).order('created_at DESC').first
   end
 
+  # @return [Boolean]
+  def welcome_media_visible?
+    !(has_mature_content? && welcome_media_hidden?)
+  end
+
   private
 
   def set_profile_completion_status

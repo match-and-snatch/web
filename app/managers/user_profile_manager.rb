@@ -3,6 +3,7 @@ class UserProfileManager < BaseManager
   include Concerns::EmailValidator
   include Concerns::PasswordValidator
   include Concerns::CostUpdatePerformer
+  include Concerns::WelcomeMediaHandler
 
   attr_reader :user, :performer
 
@@ -659,22 +660,6 @@ class UserProfileManager < BaseManager
     user
   end
 
-  # @param transloadit_data [Hash]
-  # @return [User]
-  def update_welcome_media(transloadit_data)
-    upload = UploadManager.new(user).create_welcome_media(transloadit_data)
-    clear_old_welcome_uploads!(current_upload: upload)
-    EventsManager.welcome_media_added(user: user, media: upload)
-    user
-  end
-
-  # @return [User]
-  def remove_welcome_media!
-    clear_old_welcome_uploads!(clear_all: true)
-    EventsManager.welcome_media_removed(user: user)
-    user
-  end
-
   # @param current_password [String]
   # @param new_password [String]
   # @param new_password_confirmation [String]
@@ -857,28 +842,6 @@ class UserProfileManager < BaseManager
   def reindex_user
     user.elastic_index_document
     user
-  end
-
-  # @param current_upload [Video, Audio]
-  # @param clear_all [Boolean]
-  def clear_old_welcome_uploads!(current_upload: nil, clear_all: false)
-    if current_upload.present?
-      Upload.users.where(uploadable_id: user.id, type: current_upload.class.name).where.not(id: current_upload.id).each do |upload|
-        upload.delete
-        EventsManager.upload_removed(user: user, upload: upload)
-      end
-    end
-    if clear_all || current_upload.is_a?(Video)
-      Audio.users.where(uploadable_id: user.id).each do |audio|
-        audio.delete
-        EventsManager.upload_removed(user: user, upload: audio)
-      end
-    end
-    if clear_all || current_upload.is_a?(Audio)
-      Video.users.where(uploadable_id: user.id).each do |video|
-        video.delete
-      end
-    end
   end
 
   def sync_stripe_recipient!

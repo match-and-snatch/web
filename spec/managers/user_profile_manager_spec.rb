@@ -1359,6 +1359,32 @@ describe UserProfileManager do
     end
   end
 
+  describe '#hide_welcome_media' do
+    it { expect(manager.hide_welcome_media).to eq(user) }
+    it { expect { manager.hide_welcome_media }.to change { user.reload.welcome_media_hidden? }.from(false).to(true) }
+
+    context 'welcome media is hidden' do
+      before { manager.hide_welcome_media }
+
+      it { expect { manager.hide_welcome_media }.to raise_error(ManagerError, /already hidden/) }
+      it { expect { manager.hide_welcome_media rescue nil }.not_to change { user.reload.welcome_media_hidden? }.from(true) }
+    end
+  end
+
+  describe '#show_welcome_media' do
+    let(:user) { create(:user, welcome_media_hidden: true) }
+
+    it { expect(manager.show_welcome_media).to eq(user) }
+    it { expect { manager.show_welcome_media }.to change { user.reload.welcome_media_hidden? }.from(true).to(false) }
+
+    context 'welcome media is visible' do
+      before { manager.show_welcome_media }
+
+      it { expect { manager.show_welcome_media }.to raise_error(ManagerError, /already visible/) }
+      it { expect { manager.show_welcome_media rescue nil }.not_to change { user.reload.welcome_media_hidden? }.from(false) }
+    end
+  end
+
   describe '#update_general_information' do
     let(:another_user) { create(:user, email: 'another@gmail.com', activated: false) }
 

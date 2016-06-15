@@ -55,7 +55,7 @@
           .benefits-list data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
 
   /Visitor View
-  - if @profile.welcome_video.present?
+  - if @profile.welcome_media_visible? && @profile.welcome_video.present?
 
     /With video player
     #visitor.with_video.row

@@ -259,6 +259,36 @@ class ApiResponsePresenter
     end
   end
 
+  def profile_data(user)
+    {
+      types: user.profile_types.order(:ordering).map(&:title),
+      benefits: user.benefits.order(:ordering).map(&:message),
+      subscription_cost: user.subscription_cost,
+      cost: user.cost,
+      profile_picture_url: user.profile_picture_url,
+      small_profile_picture_url: user.small_profile_picture_url,
+      cover_picture_url: user.cover_picture_url,
+      cover_picture_position: user.cover_picture_position,
+      cover_picture_position_perc: user.cover_picture_position_perc,
+      cover_picture_height: user.cover_picture_height,
+      rss_enabled: user.rss_enabled?,
+      vacation_enabled: user.vacation_enabled?,
+      vacation_message: user.vacation_message,
+      contributions_enabled: user.contributions_allowed?,
+      has_mature_content: user.has_mature_content?,
+      cost_approved: user.cost_approved?,
+      welcome_media: {
+        welcome_audio: welcome_media_data(user.welcome_audio, visible: user.welcome_media_visible?),
+        welcome_video: welcome_media_data(user.welcome_video, visible: user.welcome_media_visible?),
+        welcome_media_visible: user.welcome_media_visible?
+      },
+      custom_welcome_message: user.profile_page_data.welcome_box,
+      special_offer_message: user.profile_page_data.special_offer,
+      locked: user.locked?,
+      dialogue_id: user.dialogues.by_user(current_user.object).first.try(:id)
+    }.merge(basic_profile_data(user))
+  end
+
   def basic_profile_data(user)
     {
       access: {
@@ -397,7 +427,8 @@ class ApiResponsePresenter
     (audios.any? ? audios : current_user.pending_audios).map { |audio| audio_data(audio) }
   end
 
-  def welcome_media_data(upload)
+  def welcome_media_data(upload, visible: true)
+    return {} unless visible
     return {} unless upload
 
     common_data = {

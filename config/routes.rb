@@ -470,6 +470,17 @@ BuddyPlatform::Application.routes.draw do
         end
       end
       resources :uploads, only: :index
+      resources :mature_profiles, only: :index do
+        member do
+          get :confirm_hide_welcome_media
+          get :confirm_show_welcome_media
+          put :hide_welcome_media
+          put :show_welcome_media
+        end
+        collection do
+          post :bulk_toggle_welcome_media_visibility
+        end
+      end
       resources :recent_profiles, only: :index
       resources :profiles, only: [:index, :show] do
         collection do

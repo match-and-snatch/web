@@ -1150,7 +1150,8 @@ CREATE TABLE users (
     email_updated_at timestamp without time zone,
     posts_count integer DEFAULT 0 NOT NULL,
     contribution_limit_reached_at timestamp without time zone,
-    total_subscribers_count integer DEFAULT 0 NOT NULL
+    total_subscribers_count integer DEFAULT 0 NOT NULL,
+    welcome_media_hidden boolean DEFAULT false NOT NULL
 );
 
 
@@ -2093,4 +2094,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160506033729');
 INSERT INTO schema_migrations (version) VALUES ('20160506064855');
 
 INSERT INTO schema_migrations (version) VALUES ('20160506065537');
+
+INSERT INTO schema_migrations (version) VALUES ('20160608083454');
 

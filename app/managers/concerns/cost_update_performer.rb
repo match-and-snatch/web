@@ -38,7 +38,7 @@ module Concerns::CostUpdatePerformer
     end
   end
 
-# @param ids [Array]
+  # @param ids [Array]
   def self.reject_requests(ids = [])
     raise BulkEmptySetError, 'No requests selected' if ids.blank?
 

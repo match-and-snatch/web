@@ -430,6 +430,30 @@ describe User do
     end
   end
 
+  describe '#welcome_media_visible?' do
+    subject(:user) { create(:user, :profile_owner) }
+
+    it { expect(user.welcome_media_visible?).to eq(true) }
+
+    context 'welcome media is hidden' do
+      subject(:user) { create(:user, :profile_owner, welcome_media_hidden: true) }
+
+      it { expect(user.welcome_media_visible?).to eq(true) }
+    end
+
+    context '18+ profile' do
+      subject(:user) { create(:user, :profile_owner, has_mature_content: true) }
+
+      it { expect(user.welcome_media_visible?).to eq(true) }
+
+      context 'welcome media is hidden' do
+        subject(:user) { create(:user, :profile_owner, has_mature_content: true, welcome_media_hidden: true) }
+
+        it { expect(user.welcome_media_visible?).to eq(false) }
+      end
+    end
+  end
+
   describe '#unread_messages_count' do
     let(:user) { create(:user) }
     let(:friend) { create(:user, email: 'sender@gmail.com') }
