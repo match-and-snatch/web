@@ -130,6 +130,7 @@ jwplayer: &jwplayer
 
 development:
   <<: *defaults
+  enable_cc_locks: no
   http_access: false
   javascript:
     log_level: 3

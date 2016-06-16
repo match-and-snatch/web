@@ -32,20 +32,21 @@ class PaymentManager < BaseManager
 
     fail_with!('The subscription is not payable', PaymentError) unless subscription.payable?
 
-    @user ||= subscription.customer
+    customer = subscription.customer
+    @user ||= customer
 
     charge = create_charge amount: subscription.total_cost,
-                           customer:    subscription.customer.stripe_user_id,
+                           customer:    customer.stripe_user_id,
                            description: description,
                            statement_description: subscription.target_user.profile_name,
                            metadata: { target_id:   subscription.id,
                                        target_type: subscription.class.name,
-                                       user_id:     subscription.customer.id }
+                                       user_id:     customer.id }
 
     payment_source = charge['source'] || charge['card'] || {}
 
     payment = Payment.create! target:             subscription,
-                              user:               subscription.customer,
+                              user:               customer,
                               target_user:        subscription.recipient,
                               amount:             charge['amount'],
                               stripe_charge_id:   charge['id'],
@@ -55,23 +56,23 @@ class PaymentManager < BaseManager
                               subscription_fees: subscription.fees,
                               subscription_cost: subscription.total_cost,
                               source_country:          payment_source['country'],
-                              billing_address_city:    payment_source['address_city'],
-                              billing_address_country: payment_source['address_country'],
-                              billing_address_line_1:  payment_source['address_line1'],
-                              billing_address_line_2:  payment_source['address_line2'],
-                              billing_address_state:   payment_source['address_state'],
-                              billing_address_zip:     payment_source['address_zip']
+                              billing_address_city:    payment_source['address_city']    || customer.billing_address_city,
+                              billing_address_country: payment_source['address_country'] || customer.billing_address_country,
+                              billing_address_line_1:  payment_source['address_line1']   || customer.billing_address_line_1,
+                              billing_address_line_2:  payment_source['address_line2']   || customer.billing_address_line_2,
+                              billing_address_state:   payment_source['address_state']   || customer.billing_address_state,
+                              billing_address_zip:     payment_source['address_zip']     || customer.billing_address_zip
 
     subscription.charged_at = Time.zone.now
 
     save_or_die!(subscription).tap do
       subscription.restore!
-      SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).tap do |subscription_manager|
+      SubscriptionManager.new(subscriber: customer, subscription: subscription).tap do |subscription_manager|
         subscription_manager.accept
         subscription_manager.unmark_as_processing if subscription.processing_payment?
       end
       EventsManager.payment_created(user: user, payment: payment)
-      user_manager = UserManager.new(subscription.customer)
+      user_manager = UserManager.new(customer)
       user_manager.remove_mark_billing_failed
       user_stats_manager = UserStatsManager.new(subscription.target_user)
       user_stats_manager.log_subscriptions_count
@@ -80,17 +81,17 @@ class PaymentManager < BaseManager
     end
   rescue Stripe::CardError => e
     failure = create_failure(e: e, subscription: subscription, charge: charge, description: description)
-    SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).tap do |subscription_manager|
+    SubscriptionManager.new(subscriber: customer, subscription: subscription).tap do |subscription_manager|
       subscription_manager.reject
       subscription_manager.unsubscribe if subscription.payment_attempts_expired?
     end
-    UserManager.new(subscription.customer).mark_billing_failed
+    UserManager.new(customer).mark_billing_failed
 
     NotificationManager.delay.notify_recurring_payment_failed(failure)
     UserStatsManager.new(subscription.target_user).log_subscriptions_count
     failure
   rescue Stripe::StripeError => e
-    SubscriptionManager.new(subscriber: subscription.customer, subscription: subscription).mark_as_processing
+    SubscriptionManager.new(subscriber: customer, subscription: subscription).mark_as_processing
     create_failure(e: e, subscription: subscription, charge: charge, description: description)
   end
 

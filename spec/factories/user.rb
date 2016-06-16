@@ -38,6 +38,7 @@ FactoryGirl.define do
     trait :with_cc do
       billing_address_city 'Pasadena'
       billing_address_state 'California'
+      billing_address_country 'USA'
       billing_address_zip '91107'
       billing_address_line_1 '3690 New Haven Rd"'
       billing_address_line_2 ''

@@ -308,6 +308,7 @@ class UserProfileManager < BaseManager
     user.billing_address_line_2 = card_data['address_line2']
     user.billing_address_city = card_data['address_city']
     user.billing_address_state = card_data['address_state']
+    user.billing_address_country = card_data['address_country']
 
     save_or_die! user
 
@@ -416,6 +417,7 @@ class UserProfileManager < BaseManager
     user.billing_address_line_2 = card_data['address_line2']
     user.billing_address_city = card_data['address_city']
     user.billing_address_state = card_data['address_state']
+    user.billing_address_country = card_data['address_country']
 
     save_or_die! user
 
@@ -475,6 +477,7 @@ class UserProfileManager < BaseManager
       data[:billing_address_line_2] = user.billing_address_line_2
       data[:billing_address_city] = user.billing_address_city
       data[:billing_address_state] = user.billing_address_state
+      data[:billing_address_country] = user.billing_address_country
     end
 
     # user.stripe_user_id = nil
@@ -487,6 +490,7 @@ class UserProfileManager < BaseManager
     user.billing_address_line_2 = nil
     user.billing_address_city = nil
     user.billing_address_state = nil
+    user.billing_address_country = nil
 
     save_or_die! user
 

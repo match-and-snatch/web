@@ -37,12 +37,12 @@ describe PaymentManager do
     end
 
     it 'sets address data' do
-      expect { subject.pay_for(subscription) }.to create_record(Payment).once.matching(billing_address_city: nil,
-                                                                                       billing_address_country: nil,
-                                                                                       billing_address_line_1: nil,
-                                                                                       billing_address_line_2: nil,
-                                                                                       billing_address_state: nil,
-                                                                                       billing_address_zip: nil)
+      expect { subject.pay_for(subscription) }.to create_record(Payment).once.matching(billing_address_city: user.billing_address_city,
+                                                                                       billing_address_country: user.billing_address_country,
+                                                                                       billing_address_line_1: user.billing_address_line_1,
+                                                                                       billing_address_line_2: user.billing_address_line_2,
+                                                                                       billing_address_state: user.billing_address_state,
+                                                                                       billing_address_zip: user.billing_address_zip)
     end
 
     context 'address specified in card' do
