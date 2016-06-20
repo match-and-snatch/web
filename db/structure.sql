@@ -633,7 +633,8 @@ CREATE TABLE posts (
     type character varying,
     hidden boolean DEFAULT false NOT NULL,
     comments_count integer DEFAULT 0 NOT NULL,
-    likes_count integer DEFAULT 0 NOT NULL
+    likes_count integer DEFAULT 0 NOT NULL,
+    pinned boolean DEFAULT false NOT NULL
 );
 
 
@@ -1637,6 +1638,13 @@ CREATE INDEX index_payments_on_user_id ON payments USING btree (user_id);
 
 
 --
+-- Name: index_posts_on_pinned_and_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_posts_on_pinned_and_created_at ON posts USING btree (pinned, created_at);
+
+
+--
 -- Name: index_subscriptions_on_target_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2080,6 +2088,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160408071021');
 
 INSERT INTO schema_migrations (version) VALUES ('20160408071053');
 
+INSERT INTO schema_migrations (version) VALUES ('20160420103035');
+
 INSERT INTO schema_migrations (version) VALUES ('20160422102107');
 
 INSERT INTO schema_migrations (version) VALUES ('20160426104833');
@@ -2099,4 +2109,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160506065537');
 INSERT INTO schema_migrations (version) VALUES ('20160608083454');
 
 INSERT INTO schema_migrations (version) VALUES ('20160615102252');
+
+INSERT INTO schema_migrations (version) VALUES ('20160620075700');
 

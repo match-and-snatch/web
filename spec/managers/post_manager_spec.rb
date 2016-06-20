@@ -166,4 +166,20 @@ describe PostManager, freeze: true do
       end
     end
   end
+
+  describe '#pin' do
+    it { expect { manager.pin }.to change { post.reload.pinned? }.from(false).to(true) }
+
+    context 'another post' do
+      let(:another_post) { create(:status_post, user: user, message: 'test', pinned: true) }
+
+      it { expect { manager.pin }.to change { another_post.reload.pinned? }.from(true).to(false) }
+    end
+  end
+
+  describe '#unpin' do
+    let(:post) { create(:status_post, user: user, message: 'test', pinned: true) }
+
+    it { expect { manager.unpin }.to change { post.reload.pinned? }.from(true).to(false) }
+  end
 end

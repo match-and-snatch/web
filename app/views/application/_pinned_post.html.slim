@@ -1,0 +1,30 @@
+.pinned-label
+  i.fa.fa-bookmark
+  i.fa.fa-bookmark-o
+- if can?(:delete, post)
+  i.edit_post.pull-right.fa.fa-gear.DropdownMenu data-target='edit-post-#{post.id}'
+    .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
+
+      ul.control_menu
+        - if post.pinned?
+          li
+            a.Pinner href=unpin_post_path(post.id) data-target='post-#{post.id}'
+              i.control_unpin.fa.fa-thumb-tack Unpin from Top
+        - else
+          li
+            a.Pinner href=pin_post_path(post.id) data-target='post-#{post.id}'
+              i.control_pin.fa.fa-thumb-tack Pin to Top
+        li
+          a.AjaxLink href=edit_post_path(post.id)
+            i.control_edit.fa.fa-pencil Edit Post
+        li
+          a.Toggler data-target='edit-post-#{post.id}' href="#"
+            i.control_close.fa.fa-times Close
+
+  - if post.title
+    .post_title.Emoji= post.title
+.date Posted #{time_ago_in_words(post.created_at)} ago
+
+= render 'post_uploads', post: post
+
+.message.Emoji= super_highlight(format_post_message(post))

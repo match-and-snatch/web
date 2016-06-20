@@ -24,10 +24,9 @@ module Queries
           from: from,
           size: size,
           query: query,
-          sort: [{created_at: {order: 'desc'}}, '_score']
+          sort: [{pinned: {order: 'desc'}}, {created_at: {order: 'desc'}}, '_score']
         }
       end
     end
   end
 end
-

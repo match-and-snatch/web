@@ -4,6 +4,7 @@ FactoryGirl.define do
     sequence(:title) { |n| "title-#{n}" }
     sequence(:message) { |n| "message-#{n}" }
     hidden false
+    pinned false
   end
 
   factory :audio_post, parent: :post, class: AudioPost do

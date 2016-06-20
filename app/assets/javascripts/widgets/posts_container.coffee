@@ -13,10 +13,12 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
     @disabled = false
     bud.sub('search.changed', @on_search_changed)
     bud.sub('search.finished', @on_search_finished)
+    bud.sub('post.toggle.pinned', @reload)
 
   destroy: ->
     bud.unsub('search.changed', @on_search_changed)
     bud.unsub('search.finished', @on_search_finished)
+    bud.unsub('post.toggle.pinned', @reload)
 
   on_search_changed: (e, q) =>
     @$container.addClass('pending')
@@ -40,6 +42,13 @@ class bud.widgets.PostsContainer extends bud.widgets.AjaxContainer
     if docViewBottom >= elBottom
       @pending = true
       @render()
+
+  reload: =>
+    @$container.addClass('pending')
+    @pending = true
+    @current_page = 0
+    bud.clear_html(@$container)
+    @render()
 
   on_response_received: (response) =>
     super

@@ -1,40 +1,5 @@
 .post.box data-identifier='post-#{post.id}' style='#{"opacity: 0.5" if post.hidden?}'
-  - if can?(:delete, post)
-    i.fa.fa-gear.edit_post.pull-right.DropdownMenu data-target='edit-post-#{post.id}'
-      .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
-        ul
-          a.AjaxLink.delete_btn href=edit_post_path(post.id)
-            li Edit Post
-          a.AjaxFormLink.delete_btn href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}'
-            li Delete
-          a.Toggler data-target='edit-post-#{post.id}' href="#"
-            li.last
-              i.fa.fa-times
-                |&nbsp; Close
-
-  - if post.title
-    .post_title.Emoji= post.title
-  .date Posted #{time_ago_in_words(post.created_at)} ago
-
-  = render 'post_uploads', post: post
-
-  .message.Emoji= super_highlight(format_post_message(post))
-  .action_bar= render 'like', post: post
-
-  .comment_container
-    - if post.comments_query(performer: current_user).has_more_comments?
-      a.AjaxLink.load_more_comments.fa.fa-angle-double-up href=post_comments_path(post.id, last_comment_id: post.comments_query(performer: current_user).last_comment_id)  Load Older Comments
-
-    = render partial: 'comments/comment', collection: post.comments_query(performer: current_user).results
-    .new_comments data-identifier="comments_section-#{post.id}"
-
-    form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}" data-highlighter='post-comment-mentions-#{post.id}'
-      .photo.hidden-xs
-        img src=current_user.comment_picture_url(profile_image: current_user.id == post.user_id) width=50 height=50
-
-      .comment_section
-        .Highlighter data-profile_id=post.user_id data-identifier='post-comment-mentions-#{post.id}' data-target='post-comment-textarea-#{post.id}' data-target_list='post-comment-autocomplete-users-#{post.id}'
-        textarea.transparent.reply_input.pull-left data-identifier='post-comment-textarea-#{post.id}' name='message' placeholder="Write your comment..."
-      .clearfix
-      .mentioner data-identifier='post-comment-autocomplete-users-#{post.id}'
-      .clearfix
+  - if post.pinned?
+    = render partial: 'pinned_post', locals: {post: post}
+  - else
+    = render partial: 'regular_post', locals: {post: post}

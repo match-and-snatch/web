@@ -23,8 +23,8 @@ module Queries
                        end
                      else
                        recent_posts
-                     end
-                   end.to_a
+                     end.to_a
+                   end
     end
 
     # @return [Boolean]
@@ -65,11 +65,15 @@ module Queries
       unless include_hidden?
         posts = posts.where(hidden: false)
       end
-      posts.includes(likes: :user).includes(:uploads).order(created_at: :desc).page(@page).per(@limit)
+      posts.includes(likes: :user).includes(:uploads).order(pinned: :desc, created_at: :desc).page(@page).per(@limit)
     end
 
     def include_hidden?
       @user != @current_user
+    end
+
+    def pinned_post
+      @pinned_post ||= @user.posts.pinned.includes(:uploads).last
     end
   end
 end

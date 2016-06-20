@@ -1,0 +1,82 @@
+// Transition
+@function prefix($property, $prefixes: webkit moz o ms)
+  $vendor-prefixed-properties: transform background-clip background-size
+  $result: ()
+  @each $prefix in $prefixes
+    @if index($vendor-prefixed-properties, $property)
+      $property: -#{$prefix}-#{$property}
+    $result: append($result, $property)
+  @return $result
+
+@function trans-prefix($transition, $prefix: moz)
+  $prefixed: ()
+  @each $trans in $transition
+    $prop-name: nth($trans, 1)
+    $vendor-prop-name: prefix($prop-name, $prefix)
+    $prop-vals: nth($trans, 2)
+    $prefixed: append($prefixed, $vendor-prop-name $prop-vals, comma)
+  @return $prefixed
+
+=transition($values...)
+  $transitions: ()
+  @each $declaration in $values
+    $prop: nth($declaration, 1)
+    $prop-opts: ()
+    $length: length($declaration)
+    @for $i from 2 through $length
+      $prop-opts: append($prop-opts, nth($declaration, $i))
+    $trans: $prop, $prop-opts
+    $transitions: append($transitions, $trans, comma)
+  -webkit-transition: trans-prefix($transitions, webkit)
+  -moz-transition: trans-prefix($transitions, moz)
+  -o-transition: trans-prefix($transitions, o)
+  transition: $values
+
+// Transform
+@mixin transform($val)
+  -webkit-transform: $val
+  -moz-transform: $val
+  -ms-transform: $val
+  transform: $val
+
+// Rotate
+@mixin rotate($deg)
+  -webkit-transform: rotate(#{$deg}deg)
+  -moz-transform: rotate(#{$deg}deg)
+  -ms-transform: rotate(#{$deg}deg)
+  transform: rotate(#{$deg}deg)
+
+// Translate
+@mixin translate($posX,$posY)
+  -webkit-transform: translate($posX,$posY)
+  -moz-transform: translate($posX,$posY)
+  -ms-transform: translate($posX,$posY)
+  transform: translate($posX,$posY)
+
+// Scale
+@mixin scale($scale)
+  -webkit-transform: scale($scale)
+  -moz-transform: scale($scale)
+  -ms-transform: scale($scale)
+  transform: scale($scale)
+
+// Animation
+@mixin animation($str)
+  -webkit-animation: #{$str}
+  -moz-animation: #{$str}
+  -ms-animation: #{$str}
+  -o-animation: #{$str}
+  animation: #{$str}
+
+// Keyframes
+@mixin keyframes($animation-name)
+  @-webkit-keyframes #{$animation-name}
+    @content
+  @-moz-keyframes #{$animation-name}
+    @content
+  @-ms-keyframes #{$animation-name}
+    @content
+  @-o-keyframes #{$animation-name}
+    @content
+  @keyframes #{$animation-name}
+    @content

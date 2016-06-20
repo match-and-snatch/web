@@ -1,0 +1,47 @@
+- if can?(:delete, post)
+  i.edit_post.pull-right.fa.fa-gear.DropdownMenu data-target='edit-post-#{post.id}'
+    .edit_container data-identifier='edit-post-#{post.id}' style='display: none;'
+      ul.control_menu
+        li
+          - if post.pinned?
+              a.Pinner href=unpin_post_path(post.id) data-target='post-#{post.id}'
+                i.control_unpin.fa.fa-thumb-tack Unpin From Top
+          - else
+              a.Pinner href=pin_post_path(post.id) data-target='post-#{post.id}'
+                i.control_pin.fa.fa-thumb-tack Pin to Top
+        li
+          a.AjaxLink href=edit_post_path(post.id)
+            i.control_edit.fa.fa-pencil Edit Post
+        li
+          a.AjaxFormLink href=post_path(post.id) data-_method='delete' data-target='post-#{post.id}'
+            i.control_delete.fa.fa-trash Delete Post
+        li
+          a.Toggler data-target='edit-post-#{post.id}' href="#"
+            i.control_close.fa.fa-times Close
+
+- if post.title
+  .post_title.Emoji= post.title
+.date Posted #{time_ago_in_words(post.created_at)} ago
+
+= render 'post_uploads', post: post
+
+.message.Emoji= super_highlight(format_post_message(post))
+.action_bar= render 'like', post: post
+
+.comment_container
+  - if post.comments_query(performer: current_user).has_more_comments?
+    a.AjaxLink.load_more_comments.fa.fa-angle-double-up href=post_comments_path(post.id, last_comment_id: post.comments_query(performer: current_user).last_comment_id)  Load Older Comments
+
+  = render partial: 'comments/comment', collection: post.comments_query(performer: current_user).results
+  .new_comments data-identifier="comments_section-#{post.id}"
+
+  form.Commenter.reply_container action=post_comments_path(post) method='POST' data-target="comments_section-#{post.id}" data-highlighter='post-comment-mentions-#{post.id}'
+    .photo.hidden-xs
+      img src=current_user.comment_picture_url(profile_image: current_user.id == post.user_id) width=50 height=50
+
+    .comment_section
+      .Highlighter data-profile_id=post.user_id data-identifier='post-comment-mentions-#{post.id}' data-target='post-comment-textarea-#{post.id}' data-target_list='post-comment-autocomplete-users-#{post.id}'
+      textarea.transparent.reply_input.pull-left data-identifier='post-comment-textarea-#{post.id}' name='message' placeholder="Write your comment..."
+    .clearfix
+    .mentioner data-identifier='post-comment-autocomplete-users-#{post.id}'
+    .clearfix

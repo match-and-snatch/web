@@ -1,14 +1,14 @@
 class PostsController < ApplicationController
   before_action :authenticate!, except: [:index, :show]
   before_action :load_user!, only: :index
-  before_action :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide, :destroy_upload, :text]
+  before_action :load_post!, only: [:destroy, :show, :edit, :update, :make_visible, :hide, :destroy_upload, :text, :pin, :unpin]
   before_action :detect_device_format, only: [:create]
 
   protect(:index) { can? :see, @user }
   protect(:show, :text) { can? :see, @post }
   protect(:destroy) { can? :delete, @post }
   protect(:destroy_upload) { can? :manage, @post }
-  protect(:edit, :update, :hide, :make_visible) { can? :manage, @post }
+  protect(:edit, :update, :hide, :make_visible, :pin, :unpin) { can? :manage, @post }
 
   def index
     query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], page: params[:page])
@@ -40,17 +40,17 @@ class PostsController < ApplicationController
   end
 
   def update
-    PostManager.new(user: current_user.object, post: @post).update(params.slice(:title, :message).merge(upload_ids: params[:uploads].try(:values)))
+    manager.update(params.slice(:title, :message).merge(upload_ids: params[:uploads].try(:values)))
     json_replace html: post_html, notice: :post_updated
   end
 
   def make_visible
-    PostManager.new(user: current_user.object, post: @post).show
+    manager.show
     json_replace html: post_html, notice: :post_shown
   end
 
   def hide
-    PostManager.new(user: current_user.object, post: @post).hide
+    manager.hide
     json_replace html: post_html, notice: :post_hidden
   end
 
@@ -82,6 +82,16 @@ class PostsController < ApplicationController
     json_replace
   end
 
+  def pin
+    manager.pin
+    json_success
+  end
+
+  def unpin
+    manager.unpin
+    json_success
+  end
+
   private
 
   def load_post!
@@ -94,5 +104,9 @@ class PostsController < ApplicationController
 
   def post_html
     render_to_string(partial: 'post', locals: {post: @post})
+  end
+
+  def manager
+    PostManager.new(user: current_user.object, post: @post)
   end
 end

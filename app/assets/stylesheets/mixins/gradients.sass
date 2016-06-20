@@ -1,27 +1,68 @@
+// Gradient
+@mixin linear-gradient($fromColor, $toColor)
+  background-color: $toColor
+  background-image: -webkit-gradient(linear, left top, left bottom, from($fromColor), to($toColor))
+  background-image: -webkit-linear-gradient(to bottom, $fromColor, $toColor)
+  background-image:    -moz-linear-gradient(to bottom, $fromColor, $toColor)
+  background-image:     -ms-linear-gradient(to bottom, $fromColor, $toColor)
+  background-image:      -o-linear-gradient(to bottom, $fromColor, $toColor)
+  background-image:         linear-gradient(to bottom, $fromColor, $toColor)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$fromColor}', endColorstr='#{$toColor}')
+
+// Gradiet Color Presets
+$color_from_pink: #ea4e65
+$color_to_pink:   #ea2f49
+$border_pink:     #cd233b
+$box_shdw_pink:   #ef7b8c
+$txt_shdw_pink:   #c3384c
+
+$color_from_blue: #7dd3f3
+$color_to_blue:   #359acd
+$border_blue:     #277aa3
+$box_shdw_blue:   #c5ecff
+$txt_shdw_blue:   #53a1c8
+
+$color_from_green: #a4e052
+$color_to_green:   #8dc63f
+$border_green:     #87bf3b
+$box_shdw_green:   #e8f7d4
+$txt_shdw_green:   #8ec245
+
+$color_from_black: #3e3e3e
+$color_to_black:   #2d2d2d
+$border_black:     #464646
+$box_shdw_black:   #6f6f6f
+$txt_shdw_black:   #1c1c1c
+
+$color_from_white: #ffffff
+$color_to_white:   #f7f7f7
+$border_white:     #ffffff
+
+// Gradient Sets
 @mixin pink-area
-  @include linear-gradient(#ea4e65, #ea2f49)
-  @include box-shadow(inset 0 1px 0 0 #ef7b8c)
-  border: 1px solid #cd233b
-  text-shadow: -1px -1px 0 #c3384c
+  @include linear-gradient($color_from_pink, $color_to_pink)
+  @include box-shadow(inset 0 1px 0 0 $box_shdw_pink)
+  border: 1px solid $border_pink
+  text-shadow: -1px -1px 0 $txt_shdw_pink
 
 @mixin blue-area
-  @include linear-gradient(#7dd3f3, #359acd)
-  @include box-shadow(inset 0 1px 0 0 #c5ecff)
-  border: 1px solid #277aa3
-  text-shadow: -1px -1px 0 #53a1c8
-
-@mixin black-area
-  @include linear-gradient(#3e3e3e, #2d2d2d)
-  @include box-shadow(inset 0 1px 0 0 #6f6f6f)
-  border: 1px solid #464646
-  text-shadow: -1px -1px 0 #1c1c1c
+  @include linear-gradient($color_from_blue, $color_to_blue)
+  @include box-shadow(inset 0 1px 0 0 $box_shdw_blue)
+  border: 1px solid $border_blue
+  text-shadow: -1px -1px 0 $txt_shdw_blue
 
 @mixin green-area
-  @include linear-gradient(#a4e052, #8dc63f)
-  @include box-shadow(inset 0 1px 0 0 #e8f7d4)
-  border: 1px solid #87bf3b
-  text-shadow: -1px -1px 0 #8ec245
+  @include linear-gradient($color_from_green, $color_to_green)
+  @include box-shadow(inset 0 1px 0 0 $box_shdw_green)
+  border: 1px solid $border_green
+  text-shadow: -1px -1px 0 $txt_shdw_green
+
+@mixin black-area
+  @include linear-gradient($color_from_black, $color_to_black)
+  @include box-shadow(inset 0 1px 0 0 $box_shdw_black)
+  border: 1px solid $border_black
+  text-shadow: -1px -1px 0 $txt_shdw_black
 
 @mixin white-area
-  @include linear-gradient(#ffffff, #f7f7f7)
-  text-shadow: -1px -1px 0 #ffffff
+  @include linear-gradient($color_from_white, $color_to_white)
+  text-shadow: -1px -1px 0 $border_white

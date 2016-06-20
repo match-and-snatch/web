@@ -8,7 +8,6 @@
         | Clear Results
         .fa.fa-times
       .clearfix
-  /= render partial: 'video_post'
   = render partial: 'post', collection: @posts
 - elsif params.first_page?
   - if params[:q].present?

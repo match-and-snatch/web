@@ -91,4 +91,32 @@ describe PostsController, type: :controller do
       it { is_expected.to be_success }
     end
   end
+
+  describe 'POST #pin' do
+    let(:_post) { create(:status_post, user: poster) }
+    subject { post 'pin', id: _post.id }
+
+    context 'unauthorized access' do
+      its(:status) { is_expected.to eq(401) }
+    end
+
+    context 'authorized access' do
+      before { sign_in poster }
+      it { is_expected.to be_success }
+    end
+  end
+
+  describe 'POST #unpin' do
+    let(:_post) { create(:status_post, user: poster) }
+    subject { post 'unpin', id: _post.id }
+
+    context 'unauthorized access' do
+      its(:status) { is_expected.to eq(401) }
+    end
+
+    context 'authorized access' do
+      before { sign_in poster }
+      it { is_expected.to be_success }
+    end
+  end
 end

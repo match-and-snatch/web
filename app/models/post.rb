@@ -8,11 +8,14 @@ class Post < ActiveRecord::Base
   has_many :comments
   has_many :uploads, as: :uploadable
 
+  scope :pinned, -> { where(pinned: true) }
+
   elastic_index 'posts' do
     elastic_type do
       field :message, :title
       field :user_id
       field :hidden
+      field :pinned
       field :type
       field(:created_at) { created_at.to_i }
     end

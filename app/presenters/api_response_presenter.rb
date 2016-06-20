@@ -145,6 +145,7 @@ class ApiResponsePresenter
       timestamp: post.created_at.to_i,
       created_at: time_ago_in_words(post.created_at),
       comments_count: post.comments_count,
+      pinned: post.pinned?,
       uploads: post.uploads.map { |upload|
         upload_data(upload)
       },

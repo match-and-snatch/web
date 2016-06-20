@@ -1,11 +1,10 @@
 class Api::PostsController < Api::BaseController
   before_action :load_user!, only: :index
-  before_action :load_post!, only: [:show, :update, :destroy, :destroy_upload]
+  before_action :load_post!, only: [:show, :update, :destroy, :destroy_upload, :pin, :unpin]
 
   protect(:index) { can? :see, @user }
   protect(:show) { can? :see, @post }
-  protect(:update, :destroy) { can? :manage, @post }
-  protect(:destroy_upload) { can? :manage, @post }
+  protect(:update, :destroy, :destroy_upload, :pin, :unpin) { can? :manage, @post }
 
   def index
     query = Queries::Posts.new(user: @user, current_user: current_user.object, query: params[:q], page: params[:page], limit: params[:limit])
@@ -44,6 +43,16 @@ class Api::PostsController < Api::BaseController
     @upload = @post.uploads.find(params[:upload_id])
     post = upload_manager.remove_upload(upload: @upload)
     json_success api_response.post_data(post)
+  end
+
+  def pin
+    manager(post: @post).pin
+    json_success
+  end
+
+  def unpin
+    manager(post: @post).unpin
+    json_success
   end
 
   private

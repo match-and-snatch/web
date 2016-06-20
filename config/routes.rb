@@ -44,6 +44,8 @@ BuddyPlatform::Application.routes.draw do
     resources :posts, only: [:show, :update, :destroy] do
       member do
         delete :destroy_upload
+        post :pin
+        post :unpin
       end
       collection do
         get :feed
@@ -245,6 +247,8 @@ BuddyPlatform::Application.routes.draw do
       put :hide
       delete :destroy_upload
       get :text
+      post :pin
+      post :unpin
     end
     resources :comments, only: [:create, :index]
     resources :likes, only: [:index, :create], defaults: {type: 'post'}

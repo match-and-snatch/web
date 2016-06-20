@@ -200,6 +200,18 @@ class PostManager < BaseManager
     end
   end
 
+  def pin
+    @post.pinned = true
+    @post.save or fail_with! @post.errors
+
+    @user.posts.pinned.where.not(id: @post.id).update_all(pinned: false)
+  end
+
+  def unpin
+    @post.pinned = false
+    @post.save or fail_with! @post.errors
+  end
+
   private
 
   def make_pending_blank
