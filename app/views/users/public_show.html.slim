@@ -1,7 +1,6 @@
 - content_for :head do
   = render 'meta'
 
-/Header
 .container
   #header.box
     .photo_cover
@@ -11,25 +10,18 @@
     .photo_profile
       - if @profile.profile_picture_url.present?
         img src=@profile.profile_picture_url
-
-    /Admin Login
+    // Admin Login
     - if can? :login_as, @profile.object
       a.admin_login.AjaxFormLink href=login_as_user_path(@profile.object.id) data-_method='post' Login as this User
       .clearfix
-
-    /Details Container
     .details_container
-
-      /Profile Details
       .profile_details_l
         .profile_name
           h1= @profile.profile_name
         .clearfix
-        - unless @profile.has_mature_content?
-          .profile_type
-            h3= @profile.types
-
-      /Subscribe
+          - unless @profile.has_mature_content?
+            .profile_type
+              h3= @profile.types
       .profile_details_r
         .cost_container
           .visitor
@@ -47,96 +39,46 @@
             - else
               .pending_visitor.btn.PopupTrigger data-target='pending-cost-popup' Pending Approval
       .clearfix
-
-      /Subscriber Benefits
       - if @profile.benefits.any?
         .benefits_container
           .label.btn Subscriber Benefits
           .benefits-list data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits
 
-  /Visitor View
+  // Pitch with Media
   - if @profile.welcome_media_visible? && @profile.welcome_video.present?
-
-    /With video player
-    #visitor.with_video.row
-
-      .col-md-8.col-sm-8.col-xs-12.pull-right.no_pad
-        .box.no-radius
-          = video_player(@profile.welcome_video)
-
-      - if mobile_phone_device?
-        .col-xs-12.cost_visitor
-          span.btn.pink.fa.fa-usd.fa-2x
-          .amount
-            - if @profile.cost_approved?
-              span
-                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-              span.month
-                |/month
-            - else
-              span.pending Pending Approval
-          .clearfix
-
-      .hidden-md.hidden-sm.col-xs-12.pull-right.no_pad style='margin-top: 15px'
-        - if @profile.cost_approved?
-          a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
-        - else
-          a.btn.blue.subscribe.PopupTrigger data-target='pending-cost-popup' href='#' style='width: 100%;' Pending Approval
-        .clearfix
-
-        = render 'adult_content_warning' if @profile.has_mature_content?
-
-        p.already_user
-          - unless current_user.authorized?
-            | Already a member? &nbsp;
-            a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
-
-      .col-md-4.col-sm-4.col-xs-12.pull-left.no_pad
-        .box style='padding: 15px; min-height: 352px;'
+    #visitor.row.w_media
+      // Pitch
+      .col-md-4.col-sm-4
+        .box.pitch_side
           - if @profile.custom_welcome_message
             = @profile.custom_welcome_message
           - else
             .title Welcome to #{@profile.profile_name.possessive} profile page!
             = render 'welcome_benefits'
-
-      .col-md-8.col-sm-8.hidden-xs.pull-right.no_pad style='margin-top: 15px'
-        - if @profile.cost_approved?
-          a.btn.blue.subscribe.PopupTrigger data-target='subscription' href='#' style='width: 100%;' Subscribe Now
-        - else
-          a.btn.blue.subscribe.PopupTrigger data-target='pending-cost-popup' href='#' style='width: 100%;' Pending Approval
-        .clearfix
+      // Media
+      .col-md-8.col-sm-8
+        .box.pitch_media= video_player(@profile.welcome_video)
+        // Subscribe Action
+        .subscribe_contaniner
+          - if @profile.cost_approved?
+            a.subscribe.btn.blue.PopupTrigger data-target='subscription' href='#' Subscribe Now
+          - else
+            a.subscribe.btn.blue.PopupTrigger data-target='pending-cost-popup' href='#' Pending Approval
         p.already_user
           - unless current_user.authorized?
             | Already a member? &nbsp;
             a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
+        // Mature Content Label
         = render 'adult_content_warning' if @profile.has_mature_content?
       .clearfix
+    #visitor-footer.w_media
+      = render 'application/footer'
 
+  // Pitch without Media
   - else
-    - if mobile_phone_device?
-      #visitor.width_audio.row
-        .col-xs-12.cost_visitor
-          span.btn.pink.fa.fa-usd.fa-2x
-          .amount
-            - if @profile.cost_approved?
-              span
-                = cents_to_dollars(@profile.subscription_cost, format: '%n', use_ceil: true)
-              span.month
-                |/month
-            - else
-              span.pending Pending Approval
-          .clearfix
-
-    /Generic and Generic w/audio player
-    - if @profile.cost_approved?
-      a.btn.blue.subscribe.PopupTrigger.hidden-sm.hidden-md data-target='subscription' href='#' style='width: 100%; margin-top: 10px; font-size: 24px' Subscribe Now
-    - else
-      a.btn.blue.subscribe.PopupTrigger.hidden-sm.hidden-md data-target='pending-cost-popup' href='#' style='width: 100%; margin-top: 10px; font-size: 24px' Pending Approval
-
-    #visitor.box
-      .row
-        .col-md-12.col-sm-12.col-xs-12
-
+    #visitor.row.wo_media
+      .col-md-12.col-sm-12.col-xs-12
+        .box
           - if @profile.custom_welcome_message
             = @profile.custom_welcome_message
             .audio_container
@@ -145,27 +87,22 @@
             .title Welcome to #{@profile.profile_name.possessive} profile page!
             .audio_container
               = audio_player(@profile.welcome_audio)
-
             p.tagline In order to view this user’s content, you must first subscribe with ConnectPal.
-
             = render 'welcome_benefits'
-
           - if @profile.cost_approved?
             a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='subscription' href='#' Subscribe Now
           - else
             a.btn.blue.subscribe.PopupTrigger.hidden-xs data-target='pending-cost-popup' href='#' Pending Approval
           .clearfix
-
-          p.already_user.hidden-xs
+          p.already_user
             - unless current_user.authorized?
               | Already a member? &nbsp;
               a.login.PopupTrigger href='#' data-target='login' Click here to login & subscribe
-
           = render 'adult_content_warning' if @profile.has_mature_content?
+    #visitor-footer.wo_media
+      = render 'application/footer'
 
-  #visitor-footer
-    = render 'application/footer'
-
+  // Subscribe Popup
   .popup.subscribe_popup.AjaxPopup.modal-content data-url=new_user_subscription_path(@profile.object) data-identifier='subscription'
   - unless @profile.cost_approved?
     = render 'pending_cost_approval_popup'

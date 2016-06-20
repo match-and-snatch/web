@@ -1,45 +1,65 @@
+// Admin Login
+.admin_login
+  background: $color_green
+  border-bottom: 1px solid #87bf3b
+  color: #FFFFFF
+  display: block
+  margin: -15px 0 15px
+  padding: 10px 0
+  text-align: center
+  text-decoration: none
+  text-transform: uppercase
+  width: 100%
+  &:hover
+    background: $color_blue
+    border-color: #277aa3
+
+// RSS
+.rss
+  opacity: 0.7
+  color: $color_blue
+  font-size: 14px
+  text-decoration: none
+  z-index: 100
+  cursor: pointer
+  background: $color_background
+  position: absolute
+  right: -2px
+  top: -2px
+  padding: 5px 10px 5px 10px
+  border-radius: 0 10px 0 10px
+  border-bottom: 1px solid $color_border
+  border-left: 1px solid $color_border
+  &:hover
+    opacity: 1
+    color: $color_pink
+    text-decoration: none
+
+// Away Notice
+.away_notice
+  border: 1px solid #f4cf3e
+  background: #faf258
+  padding: 15px
+  margin-bottom: 30px
+  .away_title,
+  .away_message
+    word-wrap: break-word
+    white-space: pre-wrap
+  .away_title
+    color: #b29525
+    font-size: 14px
+    font-weight: bold
+    padding-bottom: 10px
+  .away_message
+    color: #b29525
+    font-size: 13px
+    line-height: 20px
+
 // Profile Header
 #header
   margin-top: 20px
   overflow: hidden
   position: relative
-
-  // Admin Login
-  .admin_login
-    background: $color_green
-    border-bottom: 1px solid #87bf3b
-    color: #FFFFFF
-    display: block
-    margin: -15px 0 15px
-    padding: 10px 0
-    text-align: center
-    text-decoration: none
-    text-transform: uppercase
-    width: 100%
-    &:hover
-      background: $color_blue
-      border-color: #277aa3
-
-  // RSS
-  .rss
-    opacity: 0.7
-    color: $color_blue
-    font-size: 14px
-    text-decoration: none
-    z-index: 100
-    cursor: pointer
-    background: $color_background
-    position: absolute
-    right: -2px
-    top: -2px
-    padding: 5px 10px 5px 10px
-    border-radius: 0 10px 0 10px
-    border-bottom: 1px solid $color_border
-    border-left: 1px solid $color_border
-    &:hover
-      opacity: 1
-      color: $color_pink
-      text-decoration: none
 
   // Photo Cover
   .photo_cover
@@ -48,6 +68,7 @@
     background-size: 100%
     border-bottom: 1px solid $color_border
     display: block
+    height: 208px
     overflow: hidden
     margin-bottom: 15px
     position: relative
@@ -69,7 +90,7 @@
     background-color: $color_background
     border: 1px solid $color_border
     position: absolute
-    top: 28px
+    top: 13px
     left: 15px
     height: 182px
     width: 182px
@@ -99,10 +120,6 @@
       .fa
         &:before
           padding-right: 5px
-      @media screen and (min-width: 991px)
-        display: none
-      @media only screen and (min-device-width : 768px) and (max-device-width : 1024px)
-        display: block
     &.blank, &:hover:not(.editing)
       .btn
         display: block
@@ -189,20 +206,6 @@
           &:hover
             .edit-gear
               color: $color_gear_hover
-
-      @media screen and (max-width: 990px)
-        width: 400px
-        .profile_name, .profile_type
-          &.own-role
-            h1, h3
-              width: 375px
-
-      @media screen and (min-width: 991px)
-        width: 600px
-        .profile_name, .profile_type
-          &.own-role
-            h1, h3
-              width: 575px
 
     // Profile Details Right - Cost & Welcome Video
     .profile_details_r
@@ -303,7 +306,7 @@
                 .edit-text
                   left: -40px
 
-      // Subscribed
+      // Subscribed Button
       .subscribed
         @include border-radius($border_radius)
         @include green-area
@@ -781,7 +784,6 @@
           font-size: 13px
           padding: 6px 0
 
-// Subscriber Display
 #subscriber_display
   margin-top: $box_margin
 
@@ -815,12 +817,14 @@
       span
         font-size: 13px
 
+    // Contact
     .contact_url
       .fa
         top: 12px
         &:before
           font-size: 48px
 
+    // Contribute
     .contribute_url
       .heading, span
         padding-left: 40px
@@ -828,7 +832,7 @@
         left: 15px
         top: 13px
 
-    // Search Profile Content
+    // Search Posts
     .search
       margin-bottom: $box_margin
       .input-group-addon
@@ -1306,14 +1310,17 @@
               //.delete
                 display: none
           .reply_container
+            font-weight: 300
             .comment_section
               float: none !important
               min-height: 52px
               width: 100%
             .Highlighter
               width: 100%
+              line-height: 1.4em
             .reply_input
               width: 100% !important
+              line-height: 1.4em
             .mentioner
               width: 100%
         .photo_view
@@ -1409,10 +1416,12 @@
           textarea
             border: 1px solid $color_border
             font-size: 13px
-            height: 70px
+            // height: 70px
+            min-height: 52px
             padding: 5px 10px
             position: relative
-            width: 100%
+            width: 100% !important
+            background: transparent
         .content, .nested_content
           font-size: 13px
           line-height: 20px
@@ -1543,12 +1552,18 @@
       // Reply Container
       .reply_container
         padding: 0 15px 15px 15px
+        font-weight: 300
+        line-height: 1.4em
         .reply_input
           border: 1px solid $color_border
           font-size: 13px
           min-height: 52px
           padding: 5px 10px
           position: relative
+        .comment_row.edit_comment_row
+          background: transparent
+          color: transparent
+          min-height: 52px
         .Highlighter
           background: transparent
           color: transparent
@@ -1558,12 +1573,14 @@
           font-size: 13px
           min-height: 52px
           padding: 5px 10px
+          line-height: 1.4em
           b
             box-shadow: 0 0 0 1px #a5c6ea inset
-            font-weight: normal
             color: transparent
             background: #d9eaff
             border-radius: 3px
+            line-height: 1.4em
+            font-weight: 300
         .comment_section
           float: right
           background: white
@@ -1594,6 +1611,34 @@
               .mention_name
                 font-size: 11px
                 margin: 7px 0 0 5px
+
+#subscriber_display
+  .edit_form
+    textarea
+      line-height: 1.4em
+      font-weight: 300
+    .Highlighter
+      background: transparent
+      color: transparent
+      position: absolute
+      font-size: 13px
+      min-height: 52px
+      padding: 5px 10px
+      border: 1px solid white
+      line-height: 1.4em
+      font-weight: 300
+      b
+        box-shadow: 0 0 0 1px #a5c6ea inset
+        color: transparent
+        background: #d9eaff
+        display: inline-block
+        border-radius: 3px
+        font-weight: 300
+    .comment_section
+      background: white
+      position: relative
+      line-height: 0
+
 
 // Visitor View
 #visitor
@@ -1846,6 +1891,8 @@
         .reply_container
           .comment_section, .Highlighter, .reply_input
             width: 626px !important
+            font-weight: 300
+            line-height: 1.4em
         .reply_post
           margin-top: 5px
   #visitor
@@ -1917,6 +1964,8 @@
             .comment_section, .Highlighter, .reply_input, .mentioner
               width: 522px !important
               overflow: hidden
+              font-weight: 300
+              line-height: 1.4em
           .reply_post
             margin-top: 5px
 

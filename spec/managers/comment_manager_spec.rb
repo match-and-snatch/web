@@ -48,6 +48,13 @@ describe CommentManager do
       let(:mentions) { { mentioned_user.id => mentioned_user.name } }
 
       it { expect { manager.update(message: 'edited', mentions: mentions) }.to change { comment.mentions }.from({}).to(mentions) }
+
+      context 'old mentions are present' do
+        let(:old_mentions) { {"123"=>"test mention"} }
+        let(:comment) { described_class.new(user: user, post: post).create(message: 'comment', mentions: old_mentions) }
+
+        it { expect { manager.update(message: 'edited', mentions: mentions) }.to change { comment.mentions }.from(old_mentions).to(mentions.merge(old_mentions)) }
+      end
     end
   end
 

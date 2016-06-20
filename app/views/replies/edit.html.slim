@@ -2,10 +2,13 @@
   .photo.pull-left
     img src=@reply.user_picture_url width=50 height=50
 
-  form.edit_form.pull-right.Commenter data-target='comment-#{@reply.id}' action=comment_reply_path(@comment.id, @reply.id) method='POST'
+  form.edit_form.pull-right.Commenter data-target='comment-#{@reply.id}' action=comment_reply_path(@comment.id, @reply.id) method='POST' data-highlighter='comment-mentions-#{@comment.id}'
     input type='hidden' name='_method' value='PUT'
-    textarea.Autofocus name='message' style='width: 100%'
-      = @reply.message
+    .comment_section
+      .Highlighter data-profile_id=@comment.post_user_id data-identifier='comment-mentions-#{@comment.id}' data-target='comment-textarea-#{@comment.id}' data-target_list='comment-autocomplete-users-#{@comment.id}'
+      textarea name='message' style='width: 100%' data-identifier='comment-textarea-#{@comment.id}'
+        = @reply.message
+    .mentioner data-identifier='comment-autocomplete-users-#{@comment.id}'
     a.AjaxLink href=comment_reply_path(@comment.id, @reply.id) data-target='comment-#{@reply.id}' Cancel Edit
   .clearfix
 .cleafix

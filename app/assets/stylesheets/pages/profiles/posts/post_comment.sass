@@ -1,0 +1,268 @@
+// Post Discussion
+.comment_container
+  background-color: $color_background
+  border-top: 1px solid $color_border
+  padding-top: 15px
+  position: relative
+  .load_more_comments
+    width: 100%
+    display: block
+    text-align: center
+    background: $color_gray_back
+    color: #428bca
+    margin-top: -15px
+    margin-bottom: 20px
+    border-bottom: 1px solid white
+    padding: 10px 0
+    font-size: 11px
+    &:hover
+      background: rgb(243, 243, 243)
+      color: #428bca
+      text-decoration: none
+  .photo
+    background: asset-url('profile_comment_default.png') no-repeat
+    background-size: 100%
+    background-color: #FFFFFF
+    border: 1px solid $color_border
+    height: 52px
+    width: 52px
+    margin: 0 auto
+    float: left
+    margin-right: 10px
+    img
+      border: none
+  .comment_row, .nested_row
+    padding: 0 15px 15px 15px
+    position: relative
+    &.edit_comment_row
+      .edit_form
+        width: 522px
+    &.edit_nested_row
+      .edit_form
+        width: 460px
+    &.edit_comment_row,
+    &.edit_nested_row
+      width: 100%
+      textarea
+        border: 1px solid $color_border
+        font-size: 13px
+        height: 70px
+        padding: 5px 10px
+        position: relative
+        width: 100%
+    .content, .nested_content
+      font-size: 13px
+      line-height: 20px
+      position: relative
+      width: 100%
+      .like_small
+        margin-left: 10px
+        position: relative
+        @media screen and (max-width: 767px)
+          margin: 5px 0 0 0
+          display: block
+          width: 100%
+        a.like
+          color: $color_text_light
+          text-decoration: none
+          position: relative
+          &.liked_post
+            color: $color_blue
+          &:hover
+            color: $color_blue
+            span
+              text-decoration: underline
+            .fa.fa-thumbs-up
+              text-decoration: none
+        .users_liked
+          //display: none
+          color: #898989
+          padding-left: 5px
+        .tmp
+          color: $color_blue
+          cursor: pointer
+          text-decoration: none
+        .more_liked_hover
+          @include border-radius(5px)
+          background: rgba(0, 0, 0, 0.9)
+          color: $color_background
+          display: none
+          padding: 5px 10px 7px 10px
+          position: absolute
+          text-shadow: none
+          font-size: 11px
+          bottom: 15px
+          left: 0
+          z-index: 9999
+          width: 300px
+          line-height: 15px
+      .comment_reply
+        border: 1px solid $color_border
+        font-size: 13px
+        min-height: 52px
+        margin-top: 5px
+        padding: 5px 10px
+        position: relative
+      .delete
+        cursor: pointer
+        position: absolute
+        top: 0
+        right: 0
+        z-index: 0
+        &.fa
+          &:before
+            color: $color_text_light
+          &:hover
+            &:before
+              color: $color_pink
+      .edit_container
+        @include border-radius(5px)
+        background-color: #FFFFFF
+        border: 1px solid $color_border
+        cursor: default !important
+        font-size: 11px !important
+        padding: 0
+        position: absolute
+        overflow: hidden
+        top: -5px
+        right: -5px
+        width: 62px
+        z-index: 1
+        ul
+          margin: 0
+          padding: 0
+          a
+            color: $color_text_light
+            text-decoration: none
+            &:hover
+              color: #FFFFFF
+            li
+              background-color: #FFFFFF
+              border: none
+              border-top: 1px solid $color_border
+              padding: 1px 10px
+              text-align: center
+              &.first
+                border: none
+                border-top: none
+                background-color: $color-border
+                &:hover
+                  background-color: $color_pink
+              &:hover
+                background-color: $color_blue
+      .profile_name
+        color: $color_blue
+        font-weight: 600
+        margin-top: -4px
+        a
+          text-decoration: none
+          &:hover
+            text-decoration: underline
+      .post_date
+        color: #CCCCCC
+        font-size: 11px
+        line-height: 100%
+        margin-top: 5px
+      .reply_comment
+        font-size: 11px
+        a
+          color: $color_text_light
+    &:hover
+      .delete
+        display: block
+
+  // Nested Comments
+  .nested_row
+    padding-left: 80px
+    .nested_content
+      width: 100%
+
+  // Reply Container
+  .reply_container
+    padding: 0 15px 15px 15px
+    .reply_input
+      border: 1px solid $color_border
+      font-size: 13px
+      min-height: 52px
+      padding: 5px 10px
+      position: relative
+    .Highlighter
+      background: transparent
+      color: transparent
+      right: 0
+      position: absolute
+      border: 1px solid #d7d7d7
+      font-size: 13px
+      min-height: 52px
+      padding: 5px 10px
+      b
+        box-shadow: 0 0 0 1px #a5c6ea inset
+        font-weight: normal
+        color: transparent
+        background: #d9eaff
+        border-radius: 3px
+    .comment_section
+      float: right
+      background: white
+      position: relative
+    .transparent
+      background: transparent
+    .mentioner
+      margin-top: 0
+      width: 520px
+      background: #f7f7f7
+      float: right
+      ul
+        margin: 0
+        li.list-group-item
+          @include border-radius (0)
+          background-color: $color_gray_back
+          border-top: 1px solid #FFFFFF
+          border-left: 1px solid $color_border
+          border-bottom: 1px solid $color_border
+          border-right: 1px solid $color_border
+          padding: 5px
+          &:last-child
+            border-radius: 0 0 5px 5px
+          &:first-child
+            border-top: none
+          img
+            background-color: #FFFFFF
+          .mention_name
+            font-size: 11px
+            margin: 7px 0 0 5px
+
+// Edit mentioner MZ
+#subscriber_display .recent_posts .post .comment_container .edit_form
+  .mentioner
+    margin-top: 0
+    width: 100%
+    background: #f7f7f7
+    float: right
+    ul
+      margin: 0
+      li.list-group-item
+        @include border-radius (0)
+        background-color: $color_gray_back
+        border-top: 1px solid #FFFFFF
+        border-left: 1px solid $color_border
+        border-bottom: 1px solid $color_border
+        border-right: 1px solid $color_border
+        padding: 5px
+        &:last-child
+          border-radius: 0 0 5px 5px
+        &:first-child
+          border-top: none
+        img
+          background-color: #FFFFFF
+        .mention_name
+          font-size: 11px
+          margin: 7px 0 0 5px
+
+.comment_text
+  word-break: break-word
+  b
+    border: 1px solid #a5c6ea
+    background: #d9eaff
+    border-radius: 3px
+    padding: 0 4px

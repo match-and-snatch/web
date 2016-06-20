@@ -1,0 +1,299 @@
+// Recent Posts
+.recent_posts
+  position: relative
+  &.pending
+    opacity: 1 !important
+    &:after
+      background-image: asset-url('preloader.gif')
+      background-size: 76px 76px
+      content: ""
+      display: inline-block
+      margin: 0 0 15px 274px
+      height: 76px
+      width: 76px
+
+  // Search Posts
+  .show_results
+    @include border-radius($border_radius)
+    border: 1px solid #e6d996
+    color: #b7a549
+    padding: 15px
+    .clear-search
+      font-size: 13px
+      float: right
+      .fa.fa-times
+        padding-left: 5px
+      &:hover
+        color: $color_pink
+
+  // No Posts
+  .no_post_yet
+    color: #e1e1e1
+    font-size: 24px
+    text-align: center
+    .fa-stack
+      margin: 0 auto
+      .fa-exclamation
+        &:before
+          color: $color_background
+    span
+      display: block
+      margin-top: 15px
+    // Mobile
+    @media screen and (max-width: 767px)
+      font-size: 14px
+      margin-bottom: 80px
+
+  // Single Post
+  .post
+    margin-bottom: $box_margin
+    padding-top: 15px
+    position: relative
+    z-index: 1
+    .edit_container
+      @include border-radius(5px)
+      background-color: #FFFFFF
+      border: 1px solid $color_border
+      cursor: default !important
+      font-size: 11px !important
+      padding: 0
+      position: absolute
+      overflow: hidden
+      top: -5px
+      right: -5px
+      width: 70px
+      z-index: 1
+      ul
+        margin: 0
+        padding: 0
+        a
+          color: $color_text_light
+          text-decoration: none
+          &:hover
+            color: #FFFFFF
+          li
+            background-color: #FFFFFF
+            border-bottom: 1px solid $color_border
+            padding: 5px 10px
+            text-align: left
+            &.last
+              border-bottom: none
+              background-color: $color-border
+              &:hover
+                background-color: $color_pink
+            &:hover
+              background-color: $color_blue
+    .edit_post
+      cursor: pointer
+      margin-right: 15px
+      position: relative
+      &.fa
+        &:before
+          color: $color_gear
+      &:hover
+        &.fa
+          &:before
+            color: $color_gear_hover
+    .post_title
+      color: $color_blue
+      font-size: 16px
+      padding: 0 15px 5px 15px
+      word-wrap: break-word
+      white-space: pre-wrap
+    .date
+      color: #c2c2c2
+      font-size: 12px
+      padding: 0 15px
+    span.file_name
+      float: none !important
+      display: block
+      font-size: 12px
+      font-weight: 600
+      padding: 0
+      margin: 10px 0
+      width: 100%
+    a.file_download
+      color: $color_blue
+      cursor: pointer
+      display: inline-block
+      font-size: 12px
+      margin: 10px 15px 0 0
+      text-decoration: none
+      &:hover
+        text-decoration: underline
+    .audio_player, .video_player, .photo_display, .doc_view
+      background-color: $color_background
+      border: 1px solid $color_border
+      display: block
+      margin: 15px 15px 0 15px
+    .audio_player
+      background-color: #FFFFFF
+      margin: 0 15px 0 15px
+      height: 30px
+      border: none
+      .jwplayer
+        width: 100% !important
+    .video_player
+      .jwplayer
+        display: block
+        width: 100% !important
+        margin: 0
+      img.poster
+        width: inherit
+    .photo_display
+      background-color: #FFFFFF
+      border: none
+      position: relative
+      overflow: hidden
+      a
+        border: 1px solid $color_border
+        display: block
+      img
+        background-color: $color_background
+        -webkit-transition: opacity 250ms ease
+        -moz-transition: opacity 250ms ease
+        -o-transition: opacity 250ms ease
+        transition: opacity 250ms ease
+        max-width: 583px
+        &:hover
+          -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"
+          filter: alpha(opacity=80)
+          -moz-opacity: 0.8
+          -khtml-opacity: 0.8
+          opacity: 0.8
+      &.one
+        max-height: 585px
+        width: 585px
+      &.two
+        a
+          float: left
+          width: 284px
+          height: 284px
+          overflow: hidden
+        img
+          min-height: 282px
+      &.three
+        .three_left, .three_stacked
+          a
+            float: left
+            height: 284px
+            width: 284px
+            overflow: hidden
+        .three_left
+          img
+            min-height: 282px
+        .three_stacked
+          a
+            height: 134px !important
+          img
+            max-width: 282px
+
+    // Doc View
+    .doc_list
+      li
+        .doc_view
+          @include border-radius ($border_radius)
+          color: $color_text_dark
+          overflow: hidden
+          .preview
+            background: #FFFFFF
+            border-right: 1px solid $color_border
+            height: 100px
+            overflow: hidden
+            position: relative
+            width: 200px
+            .fa-search
+              position: absolute
+              display: none
+              top: 25px
+              left: 75px
+              &:before
+                color: $color_text_dark
+                font-size: 50px
+          .doc_details
+            span
+              color: $color_blue
+              display: block
+              font-size: 20px
+              font-weight: 600
+              margin: 20px 0 5px 15px
+            .doc_title
+              font-size: 14px
+              margin-left: 15px
+              width: 350px
+              white-space: nowrap
+              overflow: hidden
+              text-overflow: ellipsis
+          &:hover
+            text-decoration: none
+            background: $color_blue
+            color: #FFFFFF
+            .preview
+              background: #FFFFFF
+              img
+                opacity: 0.5
+              .fa-search
+                display: block
+            .doc_details
+              span, .doc_title
+                color: #FFFFFF
+
+    // Message
+    .message
+      font-size: 13px
+      line-height: 20px
+      padding: 15px
+      word-wrap: break-word
+      white-space: pre-wrap
+      @media screen and (max-width: 767px)
+        font-size: 12px
+
+    // Action Bar
+    .action_bar
+      @include white-area
+      border-top: 1px solid $color_border
+      display: block
+      height: 38px
+      padding: 10px 15px
+      position: relative
+      .fa
+        text-decoration: none
+        &:before
+          color: $color_text_light
+          position: relative
+          top: 1px
+          text-decoration: none !important
+        &:hover
+          color: $color_text_dark
+          text-decoration: none
+          &.fa
+            &:before
+              color: $color_blue
+      .liked_post
+        &.fa
+          &:before
+            color: $color_blue
+      .users_liked
+        color: $color_text_light
+        font-size: 12px
+        padding-left: 5px
+        @media screen and (max-width: 767px)
+          font-size: 10px
+          padding-top: 2px
+        .tmp
+          color: $color_blue
+          cursor: pointer
+          text-decoration: none
+      .more_liked_hover
+        @include border-radius(5px)
+        background: rgba(0, 0, 0, 0.9)
+        color: $color_background
+        display: none
+        padding: 5px 10px 7px 10px
+        position: absolute
+        text-shadow: none
+        font-size: 11px
+        bottom: 30px
+        left: 110px
+        z-index: 9999
+        width: 350px

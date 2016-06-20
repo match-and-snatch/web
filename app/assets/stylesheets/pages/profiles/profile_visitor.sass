@@ -1,0 +1,121 @@
+// Visitor Pitch
+#visitor
+  color: $color_text_light
+  margin-top: $box_margin
+  padding: 15px
+  text-align: center
+  .audio_container
+    margin: 15px auto
+    width: 100%
+    .jwplayer
+      margin: 0 auto
+  .title
+    color: $color_pink
+    font-size: 24px
+    font-weight: 600
+    margin: 0
+  .tagline
+    display: block
+    font-size: 13px
+    margin-bottom: 15px
+  .sub_heading
+    color: $color_text_dark
+    display: block
+    font-size: 14px
+    font-weight: 600
+    margin-bottom: 5px
+  ul
+    margin: 15px 0
+    li
+      display: block
+      font-size: 12px
+      font-weight: 400
+      margin-top: 10px
+      &:first-child
+        margin-top: 0
+      &.fa
+        &:before
+          color: $color_green
+          padding-right: 5px
+  .subscribe
+    font-size: 40px
+    font-weight: 400
+    line-height: 100%
+    margin: 15px 0
+    padding: 15px 30px
+    text-decoration: none
+  .already_user
+    font-size: 12px
+    font-weight: 300
+    a
+      color: $color_text_light
+      &:hover
+        color: $color_text_dark
+  .adult_content
+    @include border_radius(10px)
+    font-size: 11px
+    margin: 15px 0 0
+    padding: 10px 40px
+    text-align: center
+
+  // Visitor Pitch without Media
+  &.wo_media
+    margin-bottom: 15px
+    padding: 0
+    overflow: hidden
+    .box
+      padding: 15px
+
+  // Visitor Pitch with Media
+  &.w_media
+    margin-bottom: 15px
+    padding: 0
+    overflow: hidden
+    .pitch_side
+      padding: 15px
+      .title
+        font-size: 22px
+        margin-bottom: 15px
+      .sub_heading
+        font-size: 14px
+        font-weight: normal
+      ul
+        li
+          font-size: 12px
+    .pitch_media
+      background: none
+      border: none
+      padding: 0
+      .jwplayer
+        margin: 0 auto
+        height: 330px !important
+        width: 615px !important
+    .subscribe_contaniner
+      margin: 30px 0 0
+      .subscribe
+        margin: 0
+        width: 100%
+    .already_user
+      margin: 15px 0 0
+      padding: 0
+
+// Visitor Footer
+#visitor-footer
+  &.w_media
+    border-top: 1px dashed #DDDDDD
+    padding-top: 15px
+  &.wo_media
+    padding-top: 15px
+  footer
+    background: none
+    border: none
+    color: $color_text_light
+    font-size: 12px
+    margin: 0 0 15px
+    padding: 0
+    .container
+      padding: 0 25px 0 0
+    a
+      color: $color_text_light
+      &:hover
+        color: $color_text_dark

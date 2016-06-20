@@ -62,7 +62,7 @@ class CommentManager < BaseManager
   # @return [Comment]
   def update(message: , mentions: nil)
     @comment.message = strip_tags(message)
-    @comment.mentions = mentions if mentions
+    @comment.mentions.merge!(mentions) if mentions
     save_or_die! @comment
 
     EventsManager.comment_updated(user: @user, comment: @comment)
