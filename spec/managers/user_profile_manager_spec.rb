@@ -660,6 +660,32 @@ describe UserProfileManager do
     end
   end
 
+  describe '#hide_benefits' do
+    it { expect(manager.hide_benefits).to eq(user) }
+    it { expect { manager.hide_benefits }.to change { user.reload.benefits_visible? }.from(true).to(false) }
+
+    context 'benefits are hidden' do
+      before { manager.hide_benefits }
+
+      it { expect { manager.hide_benefits }.to raise_error(ManagerError, /already hidden/) }
+      it { expect { manager.hide_benefits rescue nil }.not_to change { user.reload.benefits_visible? }.from(false) }
+    end
+  end
+
+  describe '#show_benefits' do
+    let(:user) { create(:user, benefits_visible: false) }
+
+    it { expect(manager.show_benefits).to eq(user) }
+    it { expect { manager.show_benefits }.to change { user.reload.benefits_visible? }.from(false).to(true) }
+
+    context 'benefits are visible' do
+      before { manager.show_benefits }
+
+      it { expect { manager.show_benefits }.to raise_error(ManagerError, /already visible/) }
+      it { expect { manager.show_benefits rescue nil }.not_to change { user.reload.benefits_visible? }.from(true) }
+    end
+  end
+
   describe '#pull_cc_data' do
     before { StripeMock.start }
     after { StripeMock.stop }

@@ -4,6 +4,7 @@ class UserProfileManager < BaseManager
   include Concerns::PasswordValidator
   include Concerns::CostUpdatePerformer
   include Concerns::WelcomeMediaHandler
+  include Concerns::SubscriberBenefitsHandler
 
   attr_reader :user, :performer
 
@@ -117,21 +118,6 @@ class UserProfileManager < BaseManager
   def finish_owner_registration(*args)
     never_passed_second_step = !user.passed_profile_steps?
     update(*args).tap { send_welcome_email if never_passed_second_step && !user.cost_change_request }
-  end
-
-  # @param benefits [Array<String>]
-  # @return [User]
-  def update_benefits(benefits)
-    fail_with! :benefits if benefits.nil?
-
-    user.benefits.clear
-
-    benefits.each do |ordering, message|
-      user.benefits.create!(message: message, ordering: ordering) if message.present?
-    end
-    EventsManager.benefits_list_updated(user: user, benefits: user.benefits.map(&:message))
-
-    user
   end
 
   # @return [User]

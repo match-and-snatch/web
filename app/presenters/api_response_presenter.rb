@@ -263,7 +263,8 @@ class ApiResponsePresenter
   def profile_data(user)
     {
       types: user.profile_types.order(:ordering).map(&:title),
-      benefits: user.benefits.order(:ordering).map(&:message),
+      benefits: user.benefits_visible? ? user.benefits.order(:ordering).map(&:message) : [],
+      benefits_visible: user.benefits_visible?,
       subscription_cost: user.subscription_cost,
       cost: user.cost,
       profile_picture_url: user.profile_picture_url,

@@ -3,21 +3,42 @@ h2 18+ Profiles
 ol.pull-left style='padding: 0 15px 15px 0'
   li
     a href=admin_mature_profiles_path class="#{'pending' unless params[:filter]}" All
+ol.pull-left style='padding: 0 15px 15px 0'
   li
     a href=admin_mature_profiles_path(filter: :welcome_media_visible) class="#{'pending' if params[:filter] == 'welcome_media_visible'}" With displayed welcome media
   li
     a href=admin_mature_profiles_path(filter: :welcome_media_hidden) class="#{'pending' if params[:filter] == 'welcome_media_hidden'}" With hidden welcome media
+ol.pull-left style='padding: 0 15px 15px 0'
+  li
+    a href=admin_mature_profiles_path(filter: :benefits_visible) class="#{'pending' if params[:filter] == 'benefits_visible'}" With displayed benefits
+  li
+    a href=admin_mature_profiles_path(filter: :benefits_hidden) class="#{'pending' if params[:filter] == 'benefits_hidden'}" With hidden benefits
 .clearfix
 
 - if @users.any?
-  form.Form action=bulk_toggle_welcome_media_visibility_admin_mature_profiles_path method='post' data-confirmation='true'
-    - if params[:filter] == 'welcome_media_visible'
-      input.btn.green.pull-left type='submit' value='Hide welcome media for selected' data-commit='hide'
-    - elsif params[:filter] == 'welcome_media_hidden'
-      input.btn.pink.pull-left type='submit' value='Show welcome media for selected' data-commit='show'
+  form.Form action=bulk_processing_admin_mature_profiles_path method='post' data-confirmation='true'
+    - case params[:filter]
+    - when 'welcome_media_visible'
+      input.btn.green.pull-left type='submit' value='Hide welcome media for selected' data-commit='hide_welcome_media'
+      input.btn.pink.pull-left type='submit' value='Show benefits for selected' data-commit='show_benefits'
+      input.btn.green.pull-left type='submit' value='Hide benefits for selected' data-commit='hide_benefits'
+    - when 'welcome_media_hidden'
+      input.btn.pink.pull-left type='submit' value='Show welcome media for selected' data-commit='show_welcome_media'
+      input.btn.pink.pull-left type='submit' value='Show benefits for selected' data-commit='show_benefits'
+      input.btn.green.pull-left type='submit' value='Hide benefits for selected' data-commit='hide_benefits'
+    - when 'benefits_visible'
+      input.btn.pink.pull-left type='submit' value='Show welcome media for selected' data-commit='show_welcome_media'
+      input.btn.green.pull-left type='submit' value='Hide welcome media for selected' data-commit='hide_welcome_media'
+      input.btn.green.pull-left type='submit' value='Hide benefits for selected' data-commit='hide_benefits'
+    - when 'benefits_hidden'
+      input.btn.pink.pull-left type='submit' value='Show welcome media for selected' data-commit='show_welcome_media'
+      input.btn.green.pull-left type='submit' value='Hide welcome media for selected' data-commit='hide_welcome_media'
+      input.btn.pink.pull-left type='submit' value='Show benefits for selected' data-commit='show_benefits'
     - else
-      input.btn.pink.pull-left type='submit' value='Show welcome media for selected' data-commit='show'
-      input.btn.green.pull-left type='submit' value='Hide welcome media for selected' data-commit='hide'
+      input.btn.pink.pull-left type='submit' value='Show welcome media for selected' data-commit='show_welcome_media'
+      input.btn.green.pull-left type='submit' value='Hide welcome media for selected' data-commit='hide_welcome_media'
+      input.btn.pink.pull-left type='submit' value='Show benefits for selected' data-commit='show_benefits'
+      input.btn.green.pull-left type='submit' value='Hide benefits for selected' data-commit='hide_benefits'
 
     table.table.table-striped
       th
@@ -38,6 +59,11 @@ ol.pull-left style='padding: 0 15px 15px 0'
               .btn.pink.pull-right.AjaxLink href=confirm_show_welcome_media_admin_mature_profile_path(user.id) Show welcome media
             - else
               .btn.green.pull-right.AjaxLink href=confirm_hide_welcome_media_admin_mature_profile_path(user.id) Hide welcome media
+
+            - if user.benefits_visible?
+              .btn.green.pull-right.AjaxLink href=confirm_hide_benefits_admin_mature_profile_path(user.id) Hide benefits
+            - else
+              .btn.pink.pull-right.AjaxLink href=confirm_show_benefits_admin_mature_profile_path(user.id) Show benefits
   .TopJumper= paginate @users
 - else
   strong No profiles so far

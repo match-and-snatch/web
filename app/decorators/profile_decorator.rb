@@ -1,7 +1,8 @@
 class ProfileDecorator < UserDecorator
   delegate :transfer, :profile_page_removed_at, :custom_profile_page_css, :payments_count, :cost_approved?,
            :last_post_created_at, :payments_amount, :unsubscribers_count, :has_mature_content?, :custom_head_js,
-           :contributions_allowed?, :gross_sales, :gross_contributions, :publicly_visible?, :welcome_media_visible?, to: :object
+           :contributions_allowed?, :gross_sales, :gross_contributions, :publicly_visible?, :welcome_media_visible?,
+           :benefits_visible?, to: :object
 
   # @param user [User]
   def initialize(user)

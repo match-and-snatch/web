@@ -39,7 +39,7 @@
             - else
               .pending_visitor.btn.PopupTrigger data-target='pending-cost-popup' Pending Approval
       .clearfix
-      - if @profile.benefits.any?
+      - if @profile.benefits_visible? && @profile.benefits.any?
         .benefits_container
           .label.btn Subscriber Benefits
           .benefits-list data-identifier='benefits'= render 'benefits/list', benefits: @profile.benefits

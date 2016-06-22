@@ -26,6 +26,7 @@ FactoryGirl.define do
     original_account_picture_url Factories::Defaults::ORIGINAL_ACCOUNT_PICTURE_URL
     accepts_large_contributions false
     welcome_media_hidden false
+    benefits_visible true
 
     trait :admin do
       is_admin true

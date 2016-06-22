@@ -480,9 +480,13 @@ BuddyPlatform::Application.routes.draw do
           get :confirm_show_welcome_media
           put :hide_welcome_media
           put :show_welcome_media
+          get :confirm_hide_benefits
+          get :confirm_show_benefits
+          put :hide_benefits
+          put :show_benefits
         end
         collection do
-          post :bulk_toggle_welcome_media_visibility
+          post :bulk_processing
         end
       end
       resources :recent_profiles, only: :index
