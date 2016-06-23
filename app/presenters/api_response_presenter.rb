@@ -435,6 +435,7 @@ class ApiResponsePresenter
 
     common_data = {
         id: upload.id,
+        filename: upload.filename,
         file_url: upload.rtmp_path,
         preview_url: upload.preview_url,
         original_url: upload.original_url
