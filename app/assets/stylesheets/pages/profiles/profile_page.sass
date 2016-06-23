@@ -116,13 +116,18 @@
   .photo_cover, .photo_profile
     .btn
       position: absolute
-      bottom: 15px
       .fa
         &:before
           padding-right: 5px
     &.blank, &:hover:not(.editing)
       .btn
         display: block
+  .photo_cover
+    .btn
+      bottom: 15px
+  .photo_profile
+    .btn
+      bottom: 5px
 
   // Details Container
   .details_container
@@ -164,7 +169,8 @@
       font-weight: 600
       font-size: 34px
       line-height: 120%
-      margin: 0 28px 0 0
+      margin: 0
+      width: 100%
 
       // Profile Name
       .profile_name
@@ -174,6 +180,7 @@
           font-weight: 600
           line-height: 110%
           margin: 0
+          max-width: 620px
           padding: 5px 0 20px
           text-decoration: none
           word-wrap: break-word
@@ -181,7 +188,7 @@
         // Owner Role
         &.own-role
           .edit-gear
-            top: 10px
+            top: 15px
           h1
             float: left
           &:hover
