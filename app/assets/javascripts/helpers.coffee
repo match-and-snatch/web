@@ -20,6 +20,11 @@ window.bud.replace_container = (container, replacement) ->
 
   _fill_container(replace_container, container, replacement)
 
+window.bud.delete_container = ($container) ->
+  bud.Widget.destroy($container)
+  bud.Core.destroy_widgets($container)
+  $container.remove()
+
 window.bud.replace_html = (container, replacement, callback) ->
   replace_html = (target, content) ->
     $container = $(target)
