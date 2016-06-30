@@ -1,6 +1,7 @@
 class AuthenticationManager < BaseManager
   include Concerns::EmailValidator
   include Concerns::PasswordValidator
+  include Concerns::NameValidator
 
   attr_reader :is_profile_owner, :email, :password, :password_confirmation, :first_name, :last_name, :full_name
 
@@ -124,8 +125,8 @@ class AuthenticationManager < BaseManager
       fail_with first_name: :empty
       fail_with last_name: :empty
     elsif first_name.present? || last_name.present?
-      fail_with first_name: :empty if first_name.blank?
-      fail_with last_name: :empty if last_name.blank?
+      validate_account_name(first_name, field_name: :first_name)
+      validate_account_name(last_name, field_name: :last_name)
     end
 
     validate_email(email)

@@ -6,15 +6,22 @@ describe SubscriptionManager do
 
   subject(:manager) { described_class.new(subscriber: subscriber) }
 
+  let(:full_name) { 'Tester Ivanovitch' }
+  let(:token) { 'set' }
+
   describe '#register_subscribe_and_pay_via_token' do
     before { StripeMock.start }
     after { StripeMock.stop }
+
+    subject(:subscribe) do
+      manager.register_subscribe_and_pay_via_token(register_data)
+    end
 
     let(:register_data) do
       {
           stripe_token: token,
           email: 'tester@tester.com',
-          full_name: 'Tester Ivanovitch',
+          full_name: full_name,
           password: 'gfhjkmqe',
           expiry_month: '05',
           expiry_year: '18',
@@ -27,12 +34,14 @@ describe SubscriptionManager do
       }
     end
 
+    context 'full name contains numbers' do
+      let(:full_name) { 'Tester1 Ivanovich' }
+      specify { expect { subscribe }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(full_name: t_error(:contains_numbers)) } }
+      specify { expect { subscribe rescue nil }.not_to create_event(:registered) }
+    end
+
     context 'stripe token is not set (eg failed validation on frontend)' do
       let(:token) { }
-
-      subject(:subscribe) do
-        manager.register_subscribe_and_pay_via_token(register_data)
-      end
 
       specify do
         expect { subscribe }.to raise_error(MissingCcTokenError)
@@ -49,10 +58,6 @@ describe SubscriptionManager do
 
     context 'stripe token is invalid' do
       let(:token) { 'invalid' }
-
-      subject(:subscribe) do
-        manager.register_subscribe_and_pay_via_token(register_data)
-      end
 
       xit do
         expect { subscribe }.to raise_error
@@ -81,10 +86,6 @@ describe SubscriptionManager do
       end
 
       let(:token) { StripeMock.generate_card_token(cc_data) }
-
-      subject(:subscribe) do
-        manager.register_subscribe_and_pay_via_token(register_data)
-      end
 
       specify do
         expect { subscribe rescue nil }.to change { Payment.count }

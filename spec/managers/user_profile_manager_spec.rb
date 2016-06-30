@@ -1426,6 +1426,16 @@ describe UserProfileManager do
       expect { manager.update_general_information(full_name: 'new', email: 'new_email@gmail.com') }.to change { user.reload.old_email }.from(nil).to(user.email)
     end
 
+    context 'full name contains numbers' do
+      specify do
+        expect { manager.update_general_information(full_name: 'new1', email: 'new_email@gmail.com') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(full_name: t_error(:contains_numbers)) }
+      end
+
+      specify do
+        expect { manager.update_general_information(full_name: 'new1', email: 'new_email@gmail.com') rescue nil }.not_to change { user.reload.full_name }
+      end
+    end
+
     context 'email not changed' do
       specify freeze: true do
         expect { manager.update_general_information(full_name: 'new', email: user.email) }.not_to change { user.reload.email_updated_at }.from(nil)

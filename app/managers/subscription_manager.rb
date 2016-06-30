@@ -2,6 +2,7 @@ class SubscriptionManager < BaseManager
   include Concerns::CreditCardValidator
   include Concerns::EmailValidator
   include Concerns::PasswordValidator
+  include Concerns::NameValidator
 
   attr_reader :subscriber, :subscription
 
@@ -63,7 +64,7 @@ class SubscriptionManager < BaseManager
                           address_line_2: address_line_2
 
     validate! do
-      fail_with full_name: :empty if full_name.blank?
+      validate_account_name(full_name)
       validate_email email
       validate_password password: password,
                         password_confirmation: password
@@ -137,7 +138,7 @@ class SubscriptionManager < BaseManager
                           address_line_1: address_line_1,
                           address_line_2: address_line_2
     validate! do
-      fail_with full_name: :empty if full_name.blank?
+      validate_account_name(full_name)
       validate_email email
       validate_password password: password,
                         password_confirmation: password

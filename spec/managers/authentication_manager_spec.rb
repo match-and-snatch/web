@@ -21,10 +21,10 @@ describe AuthenticationManager do
     it { should be_a User }
     it { should be_valid }
     it { should_not be_a_new_record }
-    its(:email) { should == email }
-    its(:password_hash) { should_not be_blank }
-    its(:full_name) { should == 'Sergei Zinin' }
-    its(:auth_token) { should_not be_blank }
+    its(:email) { is_expected.to eq(email) }
+    its(:password_hash) { is_expected.not_to be_blank }
+    its(:full_name) { is_expected.to eq('Sergei Zinin') }
+    its(:auth_token) { is_expected.not_to be_blank }
 
     specify { expect { register }.to change(User, :count).by(1) }
     specify { expect { register }.to create_event(:registered) }
@@ -33,6 +33,20 @@ describe AuthenticationManager do
       before { manager.register }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) } }
       specify { expect { register rescue nil }.not_to create_event(:registered) }
+    end
+
+    context 'name contains numbers' do
+      context 'first name' do
+        let(:first_name) { 'sergei1' }
+        specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:first_name) } }
+        specify { expect { register rescue nil }.not_to create_event(:registered) }
+      end
+
+      context 'last name' do
+        let(:last_name) { 'sergei1' }
+        specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:last_name) } }
+        specify { expect { register rescue nil }.not_to create_event(:registered) }
+      end
     end
 
     context 'invalid email' do

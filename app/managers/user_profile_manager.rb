@@ -5,6 +5,7 @@ class UserProfileManager < BaseManager
   include Concerns::CostUpdatePerformer
   include Concerns::WelcomeMediaHandler
   include Concerns::SubscriberBenefitsHandler
+  include Concerns::NameValidator
 
   attr_reader :user, :performer
 
@@ -531,10 +532,8 @@ class UserProfileManager < BaseManager
     old_email = user.email
 
     validate! do
-      fail_with full_name: :empty unless full_name.present?
-      if company_name
-        fail_with company_name: :too_long if company_name.length > 200
-      end
+      validate_account_name(full_name)
+      validate_name_length(company_name, field_name: :company_name)
       validate_email(email) if email != old_email
     end
 
