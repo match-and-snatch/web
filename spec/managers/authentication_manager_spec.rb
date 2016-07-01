@@ -33,6 +33,16 @@ describe AuthenticationManager do
       before { manager.register }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) } }
       specify { expect { register rescue nil }.not_to create_event(:registered) }
+
+      context 'in another session' do
+        let(:another_manager) { described_class.new(email: email,
+                                                password: password,
+                                                password_confirmation: password_confirmation,
+                                                first_name: first_name,
+                                                last_name: last_name,
+                                                api_token: api_token) }
+        specify { expect { another_manager.register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) } }
+      end
     end
 
     context 'name contains numbers' do

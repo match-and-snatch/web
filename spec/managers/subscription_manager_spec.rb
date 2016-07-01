@@ -159,6 +159,22 @@ describe SubscriptionManager do
       it { should be_valid }
       it { should_not be_new_record }
 
+      context 'user is already registered' do
+        before do
+          registrator = AuthenticationManager.new(email: register_data[:email],
+                                                  password: 'passwordset',
+                                                  password_confirmation: 'passwordset',
+                                                  first_name: 'Sergei',
+                                                  last_name: 'Zinin',
+                                                  api_token: 'apitokenset')
+          registrator.register
+        end
+
+        specify do
+          expect { subscribe }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) }
+        end
+      end
+
       it 'registers user' do
         expect { subscribe }.to create_record(User).once.matching(email: register_data[:email], last_four_cc_numbers: '4242')
       end
