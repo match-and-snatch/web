@@ -1,9 +1,9 @@
-.modal-header style='width: 400px;'
-  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
+.modal-header
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
   .modal-title Restore Subscription
   span Are you sure you want to restore your subscription to #{link_to_user @subscription.target_user}?
 
 .modal-body style="padding-bottom: 15px;"
   a.btn.pink.pull-left.AjaxFormLink style="margin-left: 35px; text-decoration: none;" data-_method='PUT' href=restore_subscription_path(@subscription.id) Yes, restore my subscription
-  a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
+  a.pull-left.PopupTrigger.nevermind data-target="remote-popup" Nevermind
   .clearfix

@@ -29,7 +29,10 @@ $nav_height: 45px
   background-size: 20px 20px !important
   vertical-align: text-bottom
 
-// General
+input[type="radio"], input[type="checkbox"]
+  vertical-align: middle
+  margin-top: -1px
+
 .unread-legend
   background-color: #fffbdd !important
   color: #7f7a56 !important
@@ -92,9 +95,6 @@ h4
 h5
   font-size: 0.75em
 
-input
-  font-size: 13px !important
-
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button
   -webkit-appearance: none
@@ -131,10 +131,9 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(141, 198, 63, 0.6) !important
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(141, 198, 63, 0.6) !important
 
-//select.has-error, select.has-valid
-  background: none
-
 .btn
+  font-size: 16px
+  font-weight: 600
   &:focus
     color: #FFFFFF
     outline: none
@@ -195,7 +194,6 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
         list-style-type: decimal
     p
       white-space: pre-wrap
-    // Search Directory
     .search_heading
       text-decoration: none
       font-weight: bold
@@ -217,15 +215,12 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
             color: $color_text_dark
             font-size: 12px
             text-decoration: none
-        // Mobile
         @media screen and (max-width: 767px)
           width: 100%
           font-size: 12px
-        // Tablet
         @media screen and (min-width: 768px)
           width: 344px
           font-size: 12px
-        // Desktop
         @media screen and (min-width: 991px)
           width: 444px
           font-size: 13px
@@ -268,8 +263,6 @@ textarea
   &:focus
     outline: none
 
-// Buttons
-
 .btn
   @include border-radius($border_radius)
   color: #FFFFFF
@@ -293,16 +286,12 @@ textarea
     &.green
       @include linear-gradient(#8dc63f, #a4e052)
 
-// Font Awesome Styles
-
 .fa
   font-family: 'Open Sans', Arial, sans-serif !important
   font-weight: 600
   &:before
     font-family: 'FontAwesome' !important
     font-weight: 400
-
-// Navigation
 
 .navbar-main
   @include blue-area
@@ -398,9 +387,6 @@ textarea
                   background-color: #FFFFFF !important
               img
                 display: none
-
-      // My Subscriptions CSS
-
       &.my_sub
         position: relative
         .my_sub_cont
@@ -489,9 +475,6 @@ textarea
               &:hover
                 background: $color_pink
                 color: #FFFFFF
-
-// Mobile
-
 @media screen and (max-width: 767px)
   .navbar-main
     .brand
@@ -503,7 +486,6 @@ textarea
       li
         font-size: 13px
 
-  // Mobile Nav
   .mobile_nav
     @include white-area
     border-top: 1px solid $color_border
@@ -666,7 +648,6 @@ textarea
           color: $color_text_dark
           text-shadow: none
 
-// Notifcation Bar
 .notification_bar
   background-color: #faf258
   border-bottom: 1px solid #f4cf3e
@@ -679,13 +660,10 @@ textarea
   .cont
     margin: 0 auto
     text-align: center
-    // Mobile
     @media screen and (max-width: 767px)
       width: auto
-    // Tablet
     @media screen and (min-width: 768px)
       width: auto
-    // Desktop
     @media screen and (min-width: 991px)
       width: 970px !important
     a
@@ -705,7 +683,6 @@ textarea
       &:before
         color: #b29525
 
-// Custom Profile Type
 .profile-type-input
   .search-type
     font-weight: 400
@@ -722,6 +699,7 @@ textarea
     &.fa-plus
       &:before
         color: $color_green
+
 .profile-type-list
   ul
     @include border-radius ($border_radius)
@@ -755,6 +733,7 @@ textarea
       &:hover
         background-color: $color_pink
         border: 1px solid #cd233b
+
 .profile-type-list-show
   ul
     background: none !important
@@ -773,6 +752,7 @@ textarea
         background-color: $color_blue !important
         border-color: #277aa3
         color: #FFFFFF
+
 .profile-type-list-owner
   .profile-type-list-owner-list
     text-align: left
@@ -782,7 +762,6 @@ textarea
         .fa-times
           padding-top: 2px
 
-// ToS Footer
 .tos-footer
   background-color: #faf258
   border-top: 1px solid #f4cf3e
@@ -818,7 +797,6 @@ textarea
         font-size: 14px
         padding-left: 5px
 
-// Footer
 footer
   background-color: $color_text_dark
   border-top: 1px solid $color_border
@@ -853,7 +831,6 @@ footer
       .copyright
         font-size: 10px
 
-// Popup Overlay
 #overlay
   z-index: $deepest_depth + 10000
   background: black
@@ -867,9 +844,8 @@ footer
   filter: alpha(opacity=50)
   -moz-opacity: 0.5
   -khtml-opacity: 0.5
-  opacity: 0.5
+  opacity: 0.7
 
-// Popup
 .popup
   @include border-radius($border_radius)
   border: 1px solid #464646
@@ -882,7 +858,6 @@ footer
   top: 50%
   z-index: $deepest_depth + 10001
 
-// Required by JS
 #ClickBlocker
   z-index: $deepest_depth + 10002
   top: 0
@@ -1001,7 +976,6 @@ input.file
   p
     font-size: 14px
 
-// Sample Profile Views Desktop
 @media screen and (min-width: 992px)
   .sample_profile
     &.step_one
@@ -1058,9 +1032,6 @@ input.file
             height: 73px
             width: 81px
             margin: 0
-
-    // Interactive Sample Profile Desktop
-
     &.interactive_profile
       position: relative
       .note
@@ -1148,10 +1119,7 @@ input.file
             width: 81px
             margin: 0
 
-// Sample Profile Views Tablet
-
 @media screen and (max-width: 991px)
-
   .sample_profile
     margin: 15px 0
     position: relative
@@ -1211,8 +1179,6 @@ input.file
             height: 73px
             width: 81px
             margin: 0
-
-    // Interactive Sample Profile Tablet
 
     &.interactive_profile
       margin: 0 auto

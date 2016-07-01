@@ -1,24 +1,17 @@
-// Popup Styles
 .popup
-
-  // Confirmation Popup
   &.confirm
     width: 460px
     .modal-header
-      padding-bottom: 0
       p
         line-height: 20px
     .modal-body
-      padding-bottom: 15px
       text-align: center
       .btn
         margin: 0 7px
         width: 150px
-
-
-  // Authentication Popup
+        font-weight: 600
   &.authentication_popup
-    width: 400px
+    width: 410px
     .modal-header
       .register_tagline
         color: #464646
@@ -30,6 +23,9 @@
           margin: 15px 0
           input[type='email']
             width: 260px
+        input
+          &.btn.blue
+            margin-left: 20px
       .login_btn, .register_btn
         float: right
       .register_btn
@@ -47,8 +43,6 @@
       .terms_text
         float: left
         width: 180px
-
-  // Search Profiles Popup
   &.search_popup
     width: 450px
     .modal-body
@@ -129,13 +123,12 @@
         padding: 10px
         text-align: center
         width: 250px
-
-  // Subscribe Popup
+        font-weight: 600
   &.subscribe_popup
     .modal-body
       .terms_text
         font-size: 12px
-        padding: 10px 0
+        padding: 0
       .subscribe_container
         color: $color_text_dark
         font-size: 16px
@@ -146,8 +139,10 @@
         padding: 15px
       .btn
         font-size: 16px !important
-        margin: 15px 0
-        padding: 7px
+        padding: 7px 20px
+        float: right !important
+        font-weight: 600
+        margin: 5px 0 10px
         width: 100%
       .terms_text
         margin: 0
@@ -259,7 +254,6 @@
         width: 400px
         .order_summary
           margin-right: 0
-      // Mobile
       @media screen and (max-width: 767px)
         .new_subscriber
           form
@@ -366,21 +360,19 @@
         .btn.blue
           font-size: 14px !important
           margin-top: 0 !important
-      // Tablet
       @media screen and (min-width: 768px)
         .account_payment
           background: $color_background !important
           padding: 15px
         .order_summary
           margin-right: 15px
-
-  // Profile Header Details Popup
   &.header_edit
+    padding-top: 0
     overflow: hidden
     .nav
       @include border_radius (10px 10px 0 0)
       background-color: $color_background
-      margin-top: -1px
+      margin: -1px -15px 0 -15px
       li
         margin-right: 5px
         &:first-child
@@ -398,7 +390,7 @@
             font-weight: 600
     .modal-header
       padding: 0
-      margin-top: 10px
+      margin: 10px 0
       .modal-title
         font-size: 24px
         padding-top: 5px
@@ -406,9 +398,9 @@
         color: $color_text_light
         display: block
         font-size: 13px
-        margin-top: 5px
+        margin: 15px 0
     .modal-body
-      padding-top: 15px
+      padding-top: 0
       .cost_container
         width: 100%
         .input_container
@@ -424,6 +416,8 @@
           width: 135px
         .btn.pink
           width: 100%
+          font-size: 16px
+          font-weight: 600
         .error
           margin: 10px 0 15px
           text-align: center
@@ -461,9 +455,7 @@
           .btn, .hide_btn
             position: absolute
             top: 0
-            left: 0
-            height: 34px
-            width: 585px
+            right: 0
           .hide_btn
             opacity: 0
             cursor: pointer
@@ -487,8 +479,6 @@
       .profile_address
         color: #cccccc
         font-size: 11px
-
-  // Photo Popup
   &.photo_popup
     max-height: 100% !important
     .modal-body
@@ -521,6 +511,7 @@
       img
         @include border_radius (0)
         max-height: 90vh
+        max-width: 90vw
         width: auto
       .photo_nav
         background-color: #252525
@@ -539,8 +530,6 @@
           &:hover
             background: $color_blue
             color: #FFFFFF
-
-  // Share Profile
   &.share-popup
     width: 350px
     .modal-body
@@ -563,8 +552,6 @@
       .fa-envelope-square
         &:hover
           color: $color_text_dark
-
-  // Contribution Popup
   .contribution
     .modal-body
       margin-bottom: 15px
@@ -618,8 +605,6 @@
         margin-top: 10px
         padding: 15px 70px
         text-align: center
-
-  // Edit Post Popup
   .edit_post_popup
     padding: 10px 15px 15px 15px
     width: 500px
@@ -640,7 +625,6 @@
       padding: 8px 0
     .update-post
       width: 100%
-    // Edit Shared CSS
     .edit_post_audio,
     .edit_post_doc,
     .edit_post_photo
@@ -649,7 +633,6 @@
       height: 150px
       margin: 15px 0
       overflow-y: scroll
-    // Edit Audio & Doc
     .edit_post_audio, .edit_post_doc
       li
         background-color: #FFFFFF
@@ -671,7 +654,6 @@
           position: absolute
           top: 10px
           right: 10px
-    // Edit Photo
     .edit_post_photo
       li
         @include border-radius(5px)
@@ -696,7 +678,6 @@
           position: absolute
           top: 0
           right: 0
-    // Edit Video
     .edit_post_video
       @include border-radius(5px)
       border: 1px solid $color_border
@@ -705,22 +686,15 @@
       li
         img
           width: 100%
-
-  // Compose New Message Popup
   .compose_message_popup
-    padding: 10px 15px
     width: 450px
     textarea
       font-size: 12px
       height: 100px
       margin: 0 0 15px
-    .error
-      text-align: center
     .btn.blue
-      width: 100%
+      width: auto
       margin-bottom: 5px
-
-  // Modal Header
   .modal-header
     border: none
     position: relative
@@ -746,12 +720,9 @@
       color: $color_text_light
       display: block
       font-size: 13px
-      margin-top: 5px
-
-  // Modal Body
+      margin: 15px 0
   .modal-body
     display: block
-    padding: 5px 20px 0
     .terms_text
       color: $color_text_light
       float: left
@@ -782,8 +753,6 @@
       display: inline-block
       img
         margin: -25px 0 0 3px
-
-  // Modal Footer
   .modal-footer
     font-size: 12px
     margin-top: 0
@@ -794,8 +763,6 @@
       color: $color_text_light
       &:hover
         color: $color_text_dark
-
-  // Hide Comment
   .hide-show
     margin-top: -15px
     padding: 15px 30px
@@ -804,8 +771,9 @@
       display: block
       font-size: 13px
       margin: 0 0 10px
-      padding: 10px 15px
       width: 100%
+      font-weight: 600
+      padding: 0
     p.or
       color: $color_text_dark
       font-weight: bold
@@ -817,3 +785,45 @@
       font-size: 12px
       margin-top: 10px
       text-align: center
+      padding: 0
+      i
+        display: block
+        padding: 10px 15px
+
+
+@media (min-width: 768px)
+.header_edit
+  &.modal-content
+    width: 745px
+
+.popup
+  padding: 15px
+  .modal-content
+    width: 700px
+    .modal-body
+      text-align: left
+      margin-bottom: 15px
+      .well.well-sm
+        label
+        &.radio-inline
+          font-size: 13px
+        &.radio-inline:last-child
+          font-size: 13px
+          margin-left: 15px
+    hr
+      margin-top: 5px
+  .modal-header
+    span
+      padding: 0 15px
+    .fa-times-circle.close
+      top: -5px
+  .modal-body, .modal-header
+    padding: 0 !important
+    i.close
+      right: -10px
+      top: -10px
+
+.nevermind
+  cursor: pointer
+  display: block
+  margin: 0 auto 0 42%

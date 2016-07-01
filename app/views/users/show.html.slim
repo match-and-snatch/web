@@ -119,7 +119,7 @@
       /Recent Posts
       .pull-right.col-md-8.col-sm-12.col-xs-12
         - if @profile.contributions_allowed?
-          a.btn.green.hidden-md.hidden-xs.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id) style='margin-bottom: 30px; width: 100%; font-size: 20px; padding: 10px;'
+          a.btn.green.hidden-md.hidden-xs.AjaxLink href=new_contribution_path(target_user_id: @profile.object.id)
             i.fa.fa-usd
             span style='margin-left: 10px;' Make a contribution, support this profile!
           .clearfix

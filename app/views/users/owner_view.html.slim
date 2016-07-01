@@ -129,11 +129,11 @@
   .AjaxPopup.popup.modal-content data-identifier='full-cover-photo' data-url=cover_picture_user_photos_path(current_user.object)
 
   // Welcome Media Popup
-  .AjaxPopup.popup.header_edit.modal-content data-identifier='welcome-editor' data-url=edit_welcome_media_user_path(current_user.object) style="width: 745px"
+  .AjaxPopup.popup.header_edit.modal-content data-identifier='welcome-editor' data-url=edit_welcome_media_user_path(current_user.object)
 
   /Profile Name Popup
   - unless @profile.gross_threshold_reached?
-    .Popup.popup.header_edit.modal-content data-identifier='name-editor' style="width: 745px"
+    .Popup.popup.header_edit.modal-content data-identifier='name-editor'
       ul.nav.nav-tabs
         li
           a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
@@ -160,7 +160,7 @@
             .clearfix
 
   /Profile Type Popup
-  .Popup.popup.header_edit.modal-content data-identifier='type-editor' style="width: 745px"
+  .Popup.popup.header_edit.modal-content data-identifier='type-editor'
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
@@ -194,7 +194,7 @@
       .clearfix
 
   /Profile Cost Popup
-  .Popup.popup.header_edit.modal-content data-identifier='cost-editor' style="width: 745px"
+  .Popup.popup.header_edit.modal-content data-identifier='cost-editor'
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
@@ -229,7 +229,7 @@
             .clearfix
           .error data-field='cost'
           .clearfix
-      hr style='margin-top: 5px;'
+      hr
       .pricing_table
         p The pricing table is below...
         table.table.table-striped.table-bordered
@@ -253,7 +253,7 @@
           '.
 
   /Profile Benefits Popup
-  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor' style="width: 745px"
+  .Popup.popup.header_edit.modal-content data-identifier='benefits-editor'
     ul.nav.nav-tabs
       li
         a.PopupTrigger data-target='welcome-editor' href='#' Welcome Video
@@ -269,7 +269,7 @@
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="benefits-editor" aria-hidden="true"
       .modal-title Edit Subscriber Benefits
-      span style="padding: 0 15px;"
+      span
         | Tell your subscribers what they are getting by subscribing to you.
         br
         | When marketing your profile to potential subscribers,
@@ -286,11 +286,11 @@
           .clearfix
 
   /Contribute popup
-  .Popup.popup.modal-content data-identifier='contribute' style="width: 700px"
+  .Popup.popup.header_edit.modal-content data-identifier='contribute'
     .modal-header
       i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="contribute" aria-hidden="true"
       .modal-title Subscriber Contributions
-    .modal-body style="text-align: left; margin-bottom: 15px"
+    .modal-body
       p This ‘Contribute’ button enables subscribers to contribute money directly to you.  Your subscribers can contribute as a one-time payment or as a monthly recurring payment.
 
       p If you are looking for contributions, please let your subscribers know about the Contribute button.
@@ -301,9 +301,9 @@
         '.
       .well.well-sm
         p You have the ability to hide the “Contribute" button if you do not want to accept contributions.  Do you want to show or hide the ‘Contribute' button?
-        label.radio-inline style='font-size: 13px;'
+        label.radio-inline
           input.Checker data-checked-url=enable_contributions_account_info_path name='contribution_rb' type='radio' value='Show' checked=@profile.contributions_enabled? Yes, please show &quot;Contribute&quot; button.
-        label.radio-inline style='font-size: 13px; margin-left: 15px;'
+        label.radio-inline
           input.Checker data-checked-url=disable_contributions_account_info_path name='contribution_rb' checked=!@profile.contributions_enabled? type='radio' value='Hide' No, please hide it.
         .clearfix
 

@@ -1,4 +1,3 @@
-// Admin Login
 .admin_login
   background: $color_green
   border-bottom: 1px solid #87bf3b
@@ -14,7 +13,6 @@
     background: $color_blue
     border-color: #277aa3
 
-// RSS
 .rss
   opacity: 0.7
   color: $color_blue
@@ -35,7 +33,6 @@
     color: $color_pink
     text-decoration: none
 
-// Away Notice
 .away_notice
   border: 1px solid #f4cf3e
   background: #faf258
@@ -55,17 +52,47 @@
     font-size: 13px
     line-height: 20px
 
-// Profile Header
 #header
   margin-top: 20px
   overflow: hidden
   position: relative
-
-  // Photo Cover
+  .admin_login
+    background: $color_green
+    border-bottom: 1px solid #87bf3b
+    color: #FFFFFF
+    display: block
+    margin: -15px 0 15px
+    padding: 10px 0
+    text-align: center
+    text-decoration: none
+    text-transform: uppercase
+    width: 100%
+    &:hover
+      background: $color_blue
+      border-color: #277aa3
+  .rss
+    opacity: 0.7
+    color: $color_blue
+    font-size: 14px
+    text-decoration: none
+    z-index: 100
+    cursor: pointer
+    background: $color_background
+    position: absolute
+    right: -2px
+    top: -2px
+    padding: 5px 10px 5px 10px
+    border-radius: 0 10px 0 10px
+    border-bottom: 1px solid $color_border
+    border-left: 1px solid $color_border
+    &:hover
+      opacity: 1
+      color: $color_pink
+      text-decoration: none
   .photo_cover
     background-color: $color_background
     background: asset-url('cover-default.png') no-repeat
-    background-size: 100%
+    background-size: cover
     border-bottom: 1px solid $color_border
     display: block
     height: 208px
@@ -77,13 +104,11 @@
       overflow: hidden
       height: inherit
     #change_position
-      right: 217px
+      right: 222px
     .replace_photo
       right: 110px
     .delete_photo, .add_photo
       right: 15px
-
-  // Photo Profile
   .photo_profile
     background: asset-url('default_profile_pic.png') no-repeat
     background-size: 100%
@@ -95,6 +120,9 @@
     height: 182px
     width: 182px
     z-index: 2
+    overflow: hidden
+    a
+      display: block
     img
       background-color: #FFFFFF
       height: 180px
@@ -108,34 +136,33 @@
       input.file
         height: 32px
     .profile_pic_add
-      left: 33px
+      left: 10%
+      right: 10%
+      bottom: 10px
       .file
         height: 32px !important
-
-  // Photo Profile & Cover Buttons
   .photo_cover, .photo_profile
     .btn
       position: absolute
       .fa
         &:before
           padding-right: 5px
+      @media screen and (min-width: 992px)
+        display: none
+      @media only screen and (min-device-width : 768px) and (max-device-width : 1024px)
+        display: block
     &.blank, &:hover:not(.editing)
       .btn
         display: block
-  .photo_cover
-    .btn
-      bottom: 15px
-  .photo_profile
-    .btn
-      bottom: 5px
-
-  // Details Container
+        bottom: 5%
+  @media screen and (max-width: 767px)
+    min-height: 205px
   .details_container
     min-height: 65px
     padding: 0 15px
     position: relative
-
-    // Edit Gear
+    .profile_details_r
+      top: 175px
     .edit-gear
       color: $color_gear
       cursor: pointer
@@ -161,18 +188,12 @@
       &:hover
         .edit-text
           display: block
-
-    // Profile Details Left - Name & Types
     .profile_details_l
       color: $color_text_dark
       display: inline-block
       font-weight: 600
       font-size: 34px
       line-height: 120%
-      margin: 0
-      width: 100%
-
-      // Profile Name
       .profile_name
         h1
           color: $color_text_dark
@@ -184,8 +205,6 @@
           padding: 5px 0 20px
           text-decoration: none
           word-wrap: break-word
-
-        // Owner Role
         &.own-role
           .edit-gear
             top: 15px
@@ -194,8 +213,6 @@
           &:hover
             .edit-gear
               color: $color_gear_hover
-
-      // Profile Type
       .profile_type
         h3
           color: #898989
@@ -205,24 +222,31 @@
           margin: 0
           padding-bottom: 15px
           text-decoration: none
-
-        // Owner Role
         &.own-role
           h3
             float: left
           &:hover
             .edit-gear
               color: $color_gear_hover
-
-    // Profile Details Right - Cost & Welcome Video
+      @media screen and (max-width: 990px)
+        width: 400px
+        .profile_name, .profile_type
+          &.own-role
+            h1, h3
+              width: 375px
+      @media screen and (min-width: 992px)
+        width: 600px
+        .profile_name, .profile_type
+          &.own-role
+            h1, h3
+              width: 575px
+    @media only screen and (min-device-width : 768px) and (max-device-width : 1024px)
     .profile_details_r
       display: inline-block
       position: absolute
       top: 0
       right: 15px
-      width: 290px
-
-      // Cost & Subscribe Container
+      width: auto
       .cost_container
         display: block
         width: 100%
@@ -262,8 +286,6 @@
             font-size: 20px
           .pending_approval
             font-size: 17px
-
-        // Visitor View
         .visitor
           .subscribe, .pending_visitor
             color: #FFFFFF
@@ -289,12 +311,8 @@
             padding-top: 7px
             text-shadow: -1px -1px 0 #c3384c
           &:hover
-            .amount, .red-icon
-              /* display: none */
             .subscribe
               display: block
-
-        // Failed View
         .failed_billing
           .amount
             font-size: 14px
@@ -303,8 +321,6 @@
               display: block
             .subscribe
               display: none
-
-        // Owner View
         &.own-role
           &:hover
             .edit-gear
@@ -312,8 +328,6 @@
               &:hover
                 .edit-text
                   left: -40px
-
-      // Subscribed Button
       .subscribed
         @include border-radius($border_radius)
         @include green-area
@@ -324,8 +338,6 @@
         font-size: 32px
         text-align: center
         width: 240px
-
-      // Add Welcome Video
       .add_welcome_video
         float: right
         font-size: 16px
@@ -335,8 +347,6 @@
         .fa-plus
           &:before
             margin-right: 5px
-
-  // Details Container
   .benefits_container
     margin: 0 0 0 -15px
     .edit-gear
@@ -374,8 +384,6 @@
           &:hover
             .edit-text
               left: 23px
-
-// Create Post (Owner View)
 #create_post_container
   position: relative
   #create_post_nav
@@ -417,13 +425,14 @@
           .fa
             &:before
               color: $color_blue
-
-  // Create Post
   #create_post
     @include border-radius(0 0 $border_radius $border_radius)
-    // Submitted Post
     .submit_cancel_container
       visibility: visible
+      .btn.blue
+        font-size: 16px !important
+        font-weight: 600
+        min-width: 160px
     .congrats_post
       @include transition(opacity 2s ease-out)
       display: none
@@ -439,8 +448,6 @@
       .congrats_post
         display: block
         opacity: 1
-
-    // Status Post Textarea
     #post
       padding: 15px
       position: relative
@@ -448,6 +455,10 @@
         display: block
         min-height: 60px
         width: 100%
+      .btn.blue
+        font-size: 16px !important
+        font-weight: 600
+        min-width: 100px
       .notify
         margin: 10px 0 0 0
         label
@@ -456,27 +467,22 @@
           font-weight: 400 !important
         .yes_width
           margin-left: 10px
-          width: 45px
+          width: inherit
         .no_width
-          width: 38px
+          width: inherit
+          margin-left: 10px
       input[type="submit"]
         &:focus
           color: #FFFFFF
           outline: none
-
-    // Uploading Container
     #uploading
       margin: 15px 0
       position: relative
-
-      // Progress Bar
       .progress_title
         color: $color_blue
         font-size: 16px
         font-weight: 600
         padding: 10px 15px 15px
-
-      // File Status
       .file_status
         border-bottom: 1px solid $color_border
         font-size: 13px
@@ -488,8 +494,6 @@
           color: $color_text_dark
         .percentage
           text-align: right
-
-      // Pending Files
       .pending_audio, .pending_video, .pending_photo, .pending_document
         overflow: hidden
         position: relative
@@ -498,10 +502,9 @@
           border: 1px solid $color_border
           height: 190px
           background: asset-url('create_post_video.png') no-repeat
+          background-position: 50%
           @media screen and (min-width: 768px) and (max-width: 991px)
             background-position-x: -60px
-
-        // Listed Files
         .added_audio, .added_video, .added_photo, .added_document
           overflow: hidden
           height: 270px
@@ -516,17 +519,16 @@
             overflow-y: scroll
             &.audio_bg
               background: asset-url('create_post_audio.png') no-repeat
-              // Tablet
+              background-position: 50%
               @media screen and (min-width: 768px) and (max-width: 991px)
                 background-position-x: -60px
             &.photo_bg
               background: asset-url('create_post_photo.png') no-repeat
-              // Tablet
+              background-position: 50%
               @media screen and (min-width: 768px) and (max-width: 991px)
                 background-position-x: -60px
             &.document_bg
               background: asset-url('create_post_document.png') no-repeat
-              // Tablet
               @media screen and (min-width: 768px) and (max-width: 991px)
                 background-position-x: -60px
             li
@@ -534,8 +536,6 @@
               border-bottom: 1px solid $color_border
               height: 30px
               padding: 0 10px
-
-              // Sort Related
               .dragger
                 cursor: move
                 margin: 8px 5px 0 0
@@ -544,8 +544,6 @@
                 border: 1px dashed $color_pink
                 height: 30px
                 width: 100%
-
-              // Details
               .file_name
                 font-size: 12px
                 margin-top: 6px
@@ -566,8 +564,6 @@
                   font-size: 15px
               &:first-child
                 padding-top: 0
-
-              // Delete X icon
               a.delete_button
                 float: right
                 margin: 8px 0 0 10px
@@ -582,8 +578,6 @@
             margin: 0
             padding: 20px 0 0
             text-align: center
-
-        // Supported File Type
         span.supported_files
           color: $color_text_light
           cursor: pointer
@@ -609,8 +603,6 @@
             text-decoration: none
             .file_types
               display: block
-
-        // Listed Video
         .added_video
           .heading
             color: $color_text_light
@@ -691,8 +683,6 @@
                     top: 0
                     left: 0
                     cursor: pointer
-
-        // Listed Photo
         .added_photo
           ul
             padding: 5px
@@ -723,8 +713,6 @@
                 text-decoration: none
                 &:hover
                   background-color: $color_blue
-
-        // Select Files Container
         .select_file_container
           .multi
             @include border-radius (5px)
@@ -743,8 +731,6 @@
             left: 0
             height: 34px
             width: 439px
-
-      // Upload Details
       .upload_details
         .form-control
           color: $color_text_dark !important
@@ -768,9 +754,9 @@
             font-weight: 400 !important
           .no_width
             margin-left: 10px
-            width: 38px
+            width: inherit
           .yes_width
-            width: 38px
+            width: inherit
         .btn.blue
           @include border-radius (5px)
           padding: 6px 10px
@@ -782,7 +768,6 @@
           margin-right: 15px
           &:hover
             text-decoration: underline
-
         .congrats_post
           background-color: #8dc63f
           border: 1px solid #87bf3b
@@ -793,21 +778,34 @@
 
 #subscriber_display
   margin-top: $box_margin
-
-  // Sidebar
+  .heading
+    font-size: 22px
+  .archive_cloud
+    margin-bottom: 30px
   .sidebar
-    @media screen and (min-width: 991px)
+    @media screen and (max-width: 991px)
+      width: 100%
+      .share_url, .contribute_url, .contact_url
+        width: auto
+        .heading
+          font-size: 17px
+      .share_url
+        margin: 0
+      .contribute_url
+        margin: 0 1.25% 0 0
+      .contact_url
+        margin: 0 1.25% 0 0
+      .archive_cloud
+        margin-bottom: 10px
+    @media screen and (min-width: 992px)
       display: block !important
-    @media screen and (max-width: 767px)
-      display: none
-
-    // Profile Action
+      .share_url, .contribute_url, .contact_url
+        width: 100%
     .share_url, .contribute_url, .contact_url
       margin-bottom: $box_margin
       padding: 15px
       text-align: left
       position: relative
-      width: 100%
       .fa
         position: absolute
         top: 15px
@@ -818,28 +816,21 @@
         line-height: 100%
         padding-left: 60px
       .heading
-        font-size: 22px
         font-weight: 600
         padding-top: 2px
       span
         font-size: 13px
-
-    // Contact
     .contact_url
       .fa
         top: 12px
         &:before
           font-size: 48px
-
-    // Contribute
     .contribute_url
       .heading, span
         padding-left: 40px
       .fa
         left: 15px
         top: 13px
-
-    // Search Posts
     .search
       margin-bottom: $box_margin
       .input-group-addon
@@ -851,10 +842,7 @@
       input
         @include border-radius(0 $border_radius $border_radius 0)
         height: 47px !important
-
-    // Archived Content
     .archive_cloud
-      margin-bottom: $box_margin
       padding: 15px
       position: relative
       span
@@ -872,8 +860,6 @@
           padding-right: 13px
           a
             color: $color_text_dark
-
-    // Contact Info
     .contact
       padding-bottom: 0
       margin-bottom: 30px
@@ -914,8 +900,8 @@
               &.fa
                 &:before
                   color: $color_blue
-
-  // Away Notice
+    @media screen and (max-width: 767px)
+      display: none
   .away_notice
     border: 1px solid #f4cf3e
     background: #faf258
@@ -934,8 +920,6 @@
       color: #b29525
       font-size: 13px
       line-height: 20px
-
-  // Recent Posts
   .recent_posts
     position: relative
     &.pending
@@ -948,8 +932,6 @@
         margin: 0 0 15px 274px
         height: 76px
         width: 76px
-
-    // Bookmark
     .pinned-label
       display: block
       font-size: 20px
@@ -967,8 +949,6 @@
         color: #7dd3f3
         top: -1px
         right: 0
-
-    // Search Posts
     .show_results
       @include border-radius($border_radius)
       border: 1px solid #e6d996
@@ -981,8 +961,6 @@
           padding-left: 5px
         &:hover
           color: $color_pink
-
-    // No Posts
     .no_post_yet
       color: #e1e1e1
       font-size: 24px
@@ -995,19 +973,14 @@
       span
         display: block
         margin-top: 15px
-      // Mobile
       @media screen and (max-width: 767px)
         font-size: 14px
         margin-bottom: 80px
-
-    // Single Post
     .post
       margin-bottom: $box_margin
       padding-top: 15px
       position: relative
       overflow: inherit
-
-      // Shared Control Menu
       .edit_container
         @include border-radius(4px)
         border: 1px solid $color_border
@@ -1035,7 +1008,7 @@
             a
               color: $color_text_light
               display: block
-              padding: 10px
+              padding: 10px 15px 10px 10px
               position: relative
               text-decoration: none
               i.fa
@@ -1170,8 +1143,6 @@
               height: 134px !important
             img
               max-width: 282px
-
-      // Doc View
       .doc_list
         li
           .doc_view
@@ -1220,8 +1191,6 @@
               .doc_details
                 span, .doc_title
                   color: #FFFFFF
-
-      // Message
       .message
         font-size: 13px
         line-height: 20px
@@ -1230,8 +1199,6 @@
         white-space: pre-wrap
         @media screen and (max-width: 767px)
           font-size: 12px
-
-      // Action Bar
       .action_bar
         @include white-area
         border-top: 1px solid $color_border
@@ -1280,8 +1247,6 @@
           left: 110px
           z-index: 9999
           width: 350px
-
-    // Mobile
     @media screen and (max-width: 767px)
       .post
         .post_title
@@ -1298,8 +1263,6 @@
               .comment_text
                 font-size: 12px
                 padding-bottom: 5px
-              //.delete
-                display: none
               .reply_comment
                 font-size: 11px
               .post_date
@@ -1314,8 +1277,6 @@
                 font-size: 12px
               .post_date
                 font-size: 10px
-              //.delete
-                display: none
           .reply_container
             font-weight: 300
             .comment_section
@@ -1366,15 +1327,12 @@
                   margin-bottom: 0
                   max-width: 100%
                   width: 100%
-
         .video_player
           margin-top: 10px
           min-height: 152px !important
           .jwplayer
             min-height: 150px !important
             height: auto !important
-
-    // Discussion Dropdown
     .comment_container
       @include border-radius(0 0 10px 10px)
       background-color: $color_background
@@ -1423,7 +1381,6 @@
           textarea
             border: 1px solid $color_border
             font-size: 13px
-            // height: 70px
             min-height: 52px
             padding: 5px 10px
             position: relative
@@ -1454,7 +1411,6 @@
                 .fa.fa-thumbs-up
                   text-decoration: none
             .users_liked
-              //display: none
               color: #898989
               padding-left: 5px
             .tmp
@@ -1505,7 +1461,7 @@
             overflow: hidden
             top: -5px
             right: -5px
-            width: 62px
+            width: auto
             z-index: 1
             ul
               margin: 0
@@ -1549,14 +1505,10 @@
         &:hover
           .delete
             display: block
-
-      // Nested Comments
       .nested_row
         padding-left: 80px
         .nested_content
           width: 100%
-
-      // Reply Container
       .reply_container
         padding: 0 15px 15px 15px
         font-weight: 300
@@ -1614,10 +1566,13 @@
               &:first-child
                 border-top: none
               img
-                background-color: #FFFFFF
+                background-color: transparent
               .mention_name
                 font-size: 11px
                 margin: 7px 0 0 5px
+              .pull-left.placeholder
+                background: url(/assets/profile_comment_default.png) no-repeat
+                background-size: 100%
 
 #subscriber_display
   .edit_form
@@ -1646,8 +1601,6 @@
       position: relative
       line-height: 0
 
-
-// Visitor View
 #visitor
   color: $color_text_light
   margin-top: $box_margin
@@ -1769,8 +1722,6 @@
       color: $color_text_light
       &:hover
         color: $color_text_dark
-
-// Mobile
 @media screen and (max-width: 767px)
   .container.mobile
     margin-bottom: 30px !important
@@ -1806,14 +1757,13 @@
     .jwplayer
       min-height: 192px !important
       height: auto !important
-
-// Tablet
 @media screen and (min-width: 768px)
   #header
     .photo_cover
       height: 208px
     .photo_profile
       top: 13px
+      overflow: hidden
     .benefits_container
       ul
         font-size: 13px
@@ -1824,7 +1774,7 @@
   #create_post_nav
     li
       font-size: 13px
-      padding: 15px 24px
+      padding: 15px 20px
   #create_post
     #post
       .error
@@ -1845,18 +1795,12 @@
           .yes_width
             margin-left: 10px
   #subscriber_display
-    .sidebar
-      display: none
-      .search
-        margin-bottom: 20px
     .recent_posts
       .show_results
         margin-bottom: 15px
       .post
         .video_player
           margin: 10px 15px 0 15px
-          // .jwplayer
-          //   min-height: 330px
         .photo_display
           &.one
             display: block
@@ -1896,7 +1840,7 @@
           .nested_content
             width: 100%
         .reply_container
-          .comment_section, .Highlighter, .reply_input
+          .comment_section, .Highlighter, .reply_input, .mentioner
             width: 626px !important
             font-weight: 300
             line-height: 1.4em
@@ -1927,9 +1871,12 @@
       display: block
       font-size: 12px
       margin: 0 0 10px
-
-// Desktop
-@media screen and (min-width: 991px)
+@media screen and (width: 991px)
+  #create_post_nav
+    li
+      font-size: 13px
+      padding: 15px 20px
+@media screen and (min-width: 992px)
   #create_post_nav
     li
       font-size: 16px
@@ -1975,7 +1922,6 @@
               line-height: 1.4em
           .reply_post
             margin-top: 5px
-
         .photo_display
           &.one
             display: block
@@ -2010,7 +1956,6 @@
     border-radius: 3px
     padding: 0 4px
 
-// Mobile for delete when ready
 .mobile_nav
   @media screen and (min-width: 768px)
     display: none
@@ -2113,7 +2058,7 @@
             margin-bottom: 15px
           .video_bg
             margin: 0 auto
-            width: 290px
+            width: 205px
             li
               @include border-radius(5px)
               border: 1px solid $color_border
@@ -2176,7 +2121,6 @@
                     position: absolute
                     cursor: pointer
                     opacity: 0
-
           .photo_bg
             padding: 5px
             white-space: nowrap
@@ -2241,3 +2185,8 @@
           margin-bottom: 10px
           font-size: 11px !important
           padding: 5px !important
+
+.mentioner
+  .pull-left.placeholder
+    background: url(/assets/profile_comment_default.png) no-repeat
+    background-size: 100%

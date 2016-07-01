@@ -1,7 +1,5 @@
 #create_post_container
   position: relative
-
-  // Create Post Navigation
   #create_post_nav
     @include linear-gradient(#FFFFFF, #F7F7F7)
     @include border-radius($border_radius $border_radius 0 0)
@@ -17,8 +15,6 @@
       border-right: 1px solid $color_border
       display: inline-block
       list-style-type: none
-      font-size: 16px
-      padding: 15px 34px
       &:last-child
         border-right: none
       &.active
@@ -43,12 +39,8 @@
           .fa
             &:before
               color: $color_blue
-
-  // Create Post
   #create_post
     @include border-radius(0 0 $border_radius $border_radius)
-
-    // Submitted Post
     .submit_cancel_container
       -webkit-transition: opacity 1s ease-in-out
       -moz-transition: opacity 1s ease-in-out
@@ -75,8 +67,6 @@
       .congrats_post
         display: block
         opacity: 1
-
-    // Status Post Textarea
     #post
       padding: 15px
       position: relative
@@ -99,20 +89,14 @@
         &:focus
           color: #FFFFFF
           outline: none
-
-    // Uploading Container
     #uploading
       margin: 15px 0
       position: relative
-
-      // Progress Bar
       .progress_title
         color: $color_blue
         font-size: 16px
         font-weight: 600
         padding: 10px 15px 15px
-
-      // File Status
       .file_status
         border-bottom: 1px solid $color_border
         font-size: 13px
@@ -124,8 +108,6 @@
           color: $color_text_dark
         .percentage
           text-align: right
-
-      // Pending Files
       .pending_audio, .pending_video, .pending_photo, .pending_document
         overflow: hidden
         position: relative
@@ -136,8 +118,6 @@
           background: asset-url('create_post_video.png') no-repeat
           @media screen and (min-width: 768px) and (max-width: 991px)
             background-position-x: -60px
-
-        // Listed Files
         .added_audio, .added_video, .added_photo, .added_document
           overflow: hidden
           height: 270px
@@ -152,17 +132,14 @@
             overflow-y: scroll
             &.audio_bg
               background: asset-url('create_post_audio.png') no-repeat
-              // Tablet
               @media screen and (min-width: 768px) and (max-width: 991px)
                 background-position-x: -60px
             &.photo_bg
               background: asset-url('create_post_photo.png') no-repeat
-              // Tablet
               @media screen and (min-width: 768px) and (max-width: 991px)
                 background-position-x: -60px
             &.document_bg
               background: asset-url('create_post_document.png') no-repeat
-              // Tablet
               @media screen and (min-width: 768px) and (max-width: 991px)
                 background-position-x: -60px
             li
@@ -170,8 +147,6 @@
               border-bottom: 1px solid $color_border
               height: 30px
               padding: 0 10px
-
-              // Sort Related
               .dragger
                 cursor: move
                 margin: 8px 5px 0 0
@@ -180,8 +155,6 @@
                 border: 1px dashed $color_pink
                 height: 30px
                 width: 100%
-
-              // Details
               .file_name
                 font-size: 12px
                 margin-top: 6px
@@ -202,8 +175,6 @@
                   font-size: 15px
               &:first-child
                 padding-top: 0
-
-              // Delete X icon
               a.delete_button
                 float: right
                 margin: 8px 0 0 10px
@@ -218,8 +189,6 @@
             margin: 0
             padding: 20px 0 0
             text-align: center
-
-        // Supported File Type
         span.supported_files
           color: $color_text_light
           cursor: pointer
@@ -245,8 +214,6 @@
             text-decoration: none
             .file_types
               display: block
-
-        // Listed Video
         .added_video
           .heading
             color: $color_text_light
@@ -327,8 +294,6 @@
                     top: 0
                     left: 0
                     cursor: pointer
-
-        // Listed Photo
         .added_photo
           ul
             padding: 5px
@@ -359,8 +324,6 @@
                 text-decoration: none
                 &:hover
                   background-color: $color_blue
-
-        // Select Files Container
         .select_file_container
           .multi
             @include border-radius (5px)
@@ -379,8 +342,6 @@
             left: 0
             height: 34px
             width: 439px
-
-      // Upload Details
       .upload_details
         .form-control
           color: $color_text_dark !important
