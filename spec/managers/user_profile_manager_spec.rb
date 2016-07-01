@@ -611,7 +611,7 @@ describe UserProfileManager do
       let!(:subscription) { SubscriptionManager.new(subscriber: subscriber).subscribe_to(user) }
 
       it { expect { manager.delete_profile_page! }.to change { user.reload.subscribers_count }.by(-1) }
-      it { expect { manager.delete_profile_page! }.to create_event(:subscription_canceled).with_subject(user) }
+      it { expect { manager.delete_profile_page! }.to create_event(:subscription_canceled).with_subject(subscription) }
 
       context 'with removed source subscriptions' do
         before { SubscriptionManager.new(subscription: subscription).unsubscribe }

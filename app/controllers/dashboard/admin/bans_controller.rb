@@ -62,7 +62,7 @@ class Dashboard::Admin::BansController < Dashboard::Admin::BaseController
 
   def users_query
     User.select("users.*, COUNT(subscriptions.id) as not_removed_subscriptions_count")
-      .joins("LEFT OUTER JOIN subscriptions ON users.id = subscriptions.user_id AND subscriptions.removed = 'f'")
+      .joins("LEFT OUTER JOIN subscriptions ON users.id = subscriptions.user_id AND subscriptions.removed = 'f' AND deleted_at IS NULL")
       .where(locked: true)
       .group('users.id')
       .order(last_time_locked_at: :desc)

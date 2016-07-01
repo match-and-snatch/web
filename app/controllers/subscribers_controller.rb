@@ -19,6 +19,6 @@ class SubscribersController < ApplicationController
   end
 
   def load_subscription!
-    @subscription = Subscription.where(target_user_id: current_user.id, user_id: @subscriber.id).first or error(404)
+    @subscription = Subscription.base_scope.where(target_user_id: current_user.id, user_id: @subscriber.id).first or error(404)
   end
 end

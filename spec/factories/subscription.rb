@@ -22,5 +22,9 @@ FactoryGirl.define do
         subscription.target = subscription.target_user
       end
     end
+
+    trait :deleted do
+      deleted_at { Time.zone.now }
+    end
   end
 end

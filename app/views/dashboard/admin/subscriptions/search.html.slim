@@ -1,0 +1,22 @@
+- if @users.any?
+  .list-group-item-heading
+    strong Matching Results
+  ul.list-group
+    - @users.each do |user|
+      li.list-group-item
+        .pull-left
+          span style='padding-top: 7px; display: inline-block;'= user.full_name
+          | &nbsp;
+          strong= user.email
+        .pull-right
+          = link_to 'Filter by subscriber', admin_subscriptions_path(filter: {user_id: user.id})
+          '
+          = link_to 'Filter by owner', admin_subscriptions_path(filter: {target_user_id: user.id})
+        .clearfix
+  .clearfix
+- else
+  - if params[:q].present?
+    p.bg-danger
+      |No results for "
+      strong= params[:q]
+      |"

@@ -21,7 +21,20 @@ module Concerns::Events::SubscriptionTracker
   def subscription_cancelled(user: , subscription: , &block)
     Event.create! user: user,
                   action: 'subscription_canceled',
-                  subject: subscription.target_user,
+                  subject: subscription,
+                  data: { subscription_id: subscription.id,
+                          target_user_id:  subscription.target_user_id },
+                  &block
+  end
+
+  # @param user [User]
+  # @param subscription [Subscription]
+  # @yield
+  # @return [Event]
+  def subscription_deleted(user: , subscription: , &block)
+    Event.create! user: user,
+                  action: 'subscription_deleted',
+                  subject: subscription,
                   data: { subscription_id: subscription.id,
                           target_user_id:  subscription.target_user_id },
                   &block
@@ -31,10 +44,7 @@ module Concerns::Events::SubscriptionTracker
   # @param subscription [Subscription]
   # @return [Integer]
   def subscription_notifications_enabled(user: , subscription: )
-    Event.where(user_id: user.id,
-                action: 'subscription_notifications_disabled')
-         .where(['events.data = ?', { subscription_id: subscription.id,
-                                      target_user_id:  subscription.target_user_id }.to_yaml]).daily.delete_all
+    subscription.events.where(user_id: user.id, action: 'subscription_notifications_disabled').daily.delete_all
   end
 
   # @param user [User]

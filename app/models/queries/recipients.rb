@@ -23,7 +23,7 @@ module Queries
     def recipients_ids
       {}.tap do |data|
         t = Subscription.arel_table
-        data[:id] ||= Subscription.where(t[:user_id].eq(@user.id).or(t[:target_user_id].eq(@user.id))).pluck(:user_id, :target_user_id).flatten.uniq - [@user.id]
+        data[:id] ||= Subscription.base_scope.where(t[:user_id].eq(@user.id).or(t[:target_user_id].eq(@user.id))).pluck(:user_id, :target_user_id).flatten.uniq - [@user.id]
       end
     end
   end

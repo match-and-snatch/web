@@ -83,7 +83,7 @@ class Api::SubscriptionsController < Api::BaseController
   private
 
   def load_subscription!
-    @subscription = Subscription.where(id: params[:id]).first or error(404)
+    @subscription = Subscription.base_scope.where(id: params[:id]).first or error(404)
   end
 
   def load_owner!

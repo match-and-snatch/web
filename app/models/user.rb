@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :comment_ignores
   has_many :credit_card_declines
-  has_many :subscriptions
-  has_many :source_subscriptions, class_name: 'Subscription', foreign_key: 'target_user_id'
+  has_many :subscriptions, -> { base_scope }
+  has_many :source_subscriptions, -> { base_scope }, class_name: 'Subscription', foreign_key: 'target_user_id'
   has_many :uploads, as: :uploadable
   has_many :source_uploads, class_name: 'Upload'
   has_many :likes

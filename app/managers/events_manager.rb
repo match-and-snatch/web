@@ -106,5 +106,10 @@ class EventsManager < BaseManager
                     data: { amount: transfer.amount },
                     &block
     end
+
+    # @param subject [ActiveRecord::Base]
+    def delete_events(subject: )
+      subject.events.update_all(subject_deleted: true)
+    end
   end
 end

@@ -33,8 +33,6 @@ describe Subscription do
   describe '.to_charge' do
     subject { described_class.to_charge }
 
-    let(:user) { create :user }
-    let(:target_user) { create :user, :profile_owner }
     let(:subscription) { create :subscription, {user: user, target_user: target_user}.merge(attributes) }
     let(:attributes) { {} }
     let!(:payment) { create :payment, user: user }
@@ -56,6 +54,11 @@ describe Subscription do
 
     context 'fake subscription' do
       let(:attributes) { {charged_at: nil, fake: true} }
+      it { expect(subject).not_to include(subscription) }
+    end
+
+    context 'deleted subscription' do
+      let(:subscription) { create :subscription, :deleted, {user: user, target_user: target_user}.merge(attributes) }
       it { expect(subject).not_to include(subscription) }
     end
 
@@ -95,6 +98,15 @@ describe Subscription do
         it { expect(subject).to include(subscription) }
       end
     end
+  end
+
+  describe '.base_scope' do
+    subject { described_class.base_scope }
+
+    let!(:subscription) { create :subscription, user: user, target_user: target_user }
+    let!(:deleted_subscription) { create :subscription, :deleted, user: user, target_user: target_user }
+
+    it { expect(subject).to eq([subscription]) }
   end
 
   describe '#notify_about_payment_failure?' do
@@ -364,6 +376,11 @@ describe Subscription do
         its(:paid?) { is_expected.to eq(false) }
       end
     end
+
+    context 'deleted' do
+      subject { create :subscription, :deleted }
+      its(:paid?) { is_expected.to eq(false) }
+    end
   end
 
   describe '#payable?' do
@@ -433,6 +450,11 @@ describe Subscription do
         let(:attributes) { {charged_at: Date.new(2016, 1, 28)} }
         its(:payable?) { is_expected.to eq(true) }
       end
+    end
+
+    context 'deleted' do
+      subject(:subscription) { create :subscription, :deleted, user: user, target_user: target_user }
+      its(:payable?) { is_expected.to eq(false) }
     end
   end
 end

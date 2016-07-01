@@ -429,6 +429,15 @@ BuddyPlatform::Application.routes.draw do
           get :confirm_destroy
         end
       end
+      resources :subscriptions, only: :index do
+        collection do
+          get :search
+        end
+        member do
+          get :confirm_deletion
+          put :delete
+        end
+      end
       resources :duplicates, only: :index
       resources :payment_failures , only: :index
       resources :payments, only: :index

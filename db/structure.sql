@@ -368,7 +368,8 @@ CREATE TABLE events (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     subject_id integer,
-    subject_type character varying
+    subject_type character varying,
+    subject_deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -941,7 +942,8 @@ CREATE TABLE subscriptions (
     total_cost integer,
     fake boolean DEFAULT false NOT NULL,
     processing_payment boolean DEFAULT false NOT NULL,
-    processing_started_at timestamp without time zone
+    processing_started_at timestamp without time zone,
+    deleted_at timestamp without time zone
 );
 
 
@@ -1604,6 +1606,13 @@ CREATE INDEX index_comments_on_post_id ON comments USING btree (post_id);
 
 
 --
+-- Name: index_events_on_subject_deleted; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_subject_deleted ON events USING btree (subject_deleted);
+
+
+--
 -- Name: index_events_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1643,6 +1652,13 @@ CREATE INDEX index_payments_on_user_id ON payments USING btree (user_id);
 --
 
 CREATE INDEX index_posts_on_pinned_and_created_at ON posts USING btree (pinned, created_at);
+
+
+--
+-- Name: index_subscriptions_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_subscriptions_on_deleted_at ON subscriptions USING btree (deleted_at);
 
 
 --
@@ -2113,5 +2129,11 @@ INSERT INTO schema_migrations (version) VALUES ('20160615102252');
 
 INSERT INTO schema_migrations (version) VALUES ('20160620075700');
 
+INSERT INTO schema_migrations (version) VALUES ('20160622052956');
+
 INSERT INTO schema_migrations (version) VALUES ('20160622093032');
+
+INSERT INTO schema_migrations (version) VALUES ('20160629053501');
+
+INSERT INTO schema_migrations (version) VALUES ('20160629065528');
 

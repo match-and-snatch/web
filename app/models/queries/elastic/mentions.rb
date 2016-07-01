@@ -4,7 +4,7 @@ module Queries
       type 'mentions'
 
       scope do
-        User.joins("LEFT OUTER JOIN subscriptions ON users.id = subscriptions.user_id AND subscriptions.rejected = 'f'")
+        User.joins("LEFT OUTER JOIN subscriptions ON users.id = subscriptions.user_id AND subscriptions.rejected = 'f' AND deleted_at IS NULL")
           .group('users.id')
           .having('(COUNT(subscriptions.id) > 0 OR users.subscribers_count > 0)')
       end

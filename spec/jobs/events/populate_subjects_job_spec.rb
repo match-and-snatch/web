@@ -16,7 +16,7 @@ describe Events::PopulateSubjectsJob do
 
     it { expect { perform }.not_to raise_error }
     it 'populates subject' do
-      expect { perform }.to change { event.reload.subject }.from(nil).to(another_user)
+      expect { perform }.to change { event.reload.subject }.from(nil).to(subscription)
     end
   end
 end

@@ -62,7 +62,7 @@ class UserStatsDecorator < UserDecorator
 
   # @return [Integer]
   def subscribed_ever_count
-    Subscription.where(target_user_id: object.id).count
+    Subscription.base_scope.where(target_user_id: object.id).count
   end
 
   def unsubscribed_ever_count
@@ -129,7 +129,7 @@ class UserStatsDecorator < UserDecorator
   end
 
   def removed_subscriptions
-    Subscription.where(target_user_id: object.id, removed: true)
+    Subscription.base_scope.where(target_user_id: object.id, removed: true)
   end
 
   def total_partner_fees

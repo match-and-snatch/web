@@ -299,11 +299,16 @@ class SubscriptionManager < BaseManager
         recent_subscriptions_count = @subscriber.recently_subscribed? ? @subscriber.recent_subscriptions_count : 0
       end
 
+      subscription ||= Subscription.deleted.by_target(target).where(user_id: @subscriber, fake: false).first
       subscription ||= Subscription.new
       subscription.user = @subscriber
       subscription.target = target
       subscription.target_user = target.subscription_source_user
       subscription.fake = fake
+      subscription.rejected = false
+      subscription.rejected_at = nil
+      subscription.charged_at  = nil
+      subscription.deleted_at  = nil
 
       save_or_die! subscription
 
@@ -415,6 +420,15 @@ class SubscriptionManager < BaseManager
     @subscription.processing_payment = false
     @subscription.processing_started_at = nil
     save_or_die! @subscription
+  end
+
+  def delete
+    reject
+    @subscription.deleted_at = Time.zone.now
+    save_or_die! @subscription
+    EventsManager.subscription_deleted(user: @subscriber, subscription: @subscription)
+    EventsManager.delete_events(subject: @subscription)
+    @subscription
   end
 
   private

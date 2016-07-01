@@ -235,4 +235,11 @@ describe EventsManager do
   describe '.transfer_sent' do
     it { expect { manager.transfer_sent(user: user, transfer: StripeTransfer.new) }.to create_event(:transfer_sent) }
   end
+
+  describe '.delete_events' do
+    let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(another_user) }
+    let(:event) { manager.subscription_created(user: user, subscription: subscription) }
+
+    it { expect { manager.delete_events(subject: subscription) }.to change { event.reload.subject_deleted }.from(false).to(true) }
+  end
 end

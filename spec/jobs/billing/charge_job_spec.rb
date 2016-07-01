@@ -53,6 +53,8 @@ describe Billing::ChargeJob do
         end
       end
 
+      let!(:deleted_subscription) { create(:subscription, :deleted, user: user, target_user: target_user) }
+
       context 'multiple subscriptions and payments' do
         before { perform }
 

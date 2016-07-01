@@ -112,7 +112,7 @@ class BillingPeriodsPresenter
     private
 
     def removed_subscriptions
-      Subscription.where(target_user_id: @user.id, removed_at: @period, removed: true)
+      Subscription.base_scope.where(target_user_id: @user.id, removed_at: @period, removed: true)
     end
 
     def transfers

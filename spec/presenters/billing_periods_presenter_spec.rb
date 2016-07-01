@@ -3,7 +3,9 @@ require 'spec_helper'
 describe BillingPeriodsPresenter do
   let(:user) { create(:user) }
   let(:target_user) { create(:user, :profile_owner, email: 'target@user.com', cost: 5_00, subscription_cost: 6_99, subscription_fees: 1_99) }
+  let(:another_target_user) { create(:user, :profile_owner, email: 'another_target@user.com', cost: 5_00, subscription_cost: 6_99, subscription_fees: 1_99) }
   let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
+  let(:another_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(another_target_user) }
 
   subject { described_class.new(user: target_user).collection.first }
 
@@ -13,6 +15,7 @@ describe BillingPeriodsPresenter do
   before do
     UserProfileManager.new(user).update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
     subscription
+    SubscriptionManager.new(subscription: another_subscription).delete
   end
 
   describe '#total_gross' do

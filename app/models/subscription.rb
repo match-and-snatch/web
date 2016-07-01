@@ -6,14 +6,20 @@ class Subscription < ActiveRecord::Base
   belongs_to :target_user, class_name: 'User', counter_cache: :total_subscribers_count
   has_many :payments, as: :target
   has_many :payment_failures, as: :target
+  has_many :events, as: :subject
 
   validates :user, :target, :target_user, presence: true
 
+  def self.base_scope
+    where(deleted_at: nil)
+  end
+
   scope :by_target,    -> (target) { where(target_type: target.class.name, target_id: target.id) }
+  scope :deleted,      -> { where.not(deleted_at: nil) }
   scope :not_removed,  -> { where(removed: false) }
   scope :not_rejected, -> { where(rejected: false) }
   scope :been_charged, -> { where.not(charged_at: nil) }
-  scope :to_charge,    -> { not_paid.joins(user: :payments) }
+  scope :to_charge,    -> { base_scope.not_paid.joins(user: :payments) }
   scope :not_paid,     -> { on_charge.not_removed.where(fake: false, users: { vacation_enabled: false }) }
   scope :active,       -> { not_removed.where("rejected_at is NULL OR rejected_at > ?", 1.month.ago) }
   scope :accessible,   -> { not_rejected.joins(:target_user)
@@ -53,6 +59,7 @@ class Subscription < ActiveRecord::Base
 
   # @return [Boolean]
   def payable?
+    return false if deleted?
     user && target_user && (!user.locked?) && target_user.profile_payable? && !paid?
   end
 
@@ -61,6 +68,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def paid?
+    return false if deleted?
     !!(charged_at && charged_at > billing_edge_date)
   end
 
@@ -97,6 +105,11 @@ class Subscription < ActiveRecord::Base
   # @return [DateTime]
   def canceled_at
     removed? ? removed_at : rejected_at
+  end
+
+  # @return [Boolean]
+  def deleted?
+    deleted_at.present?
   end
 
   private

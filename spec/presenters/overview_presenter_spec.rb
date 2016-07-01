@@ -3,7 +3,9 @@ require 'spec_helper'
 describe OverviewPresenter do
   let(:user) { create(:user) }
   let(:target_user) { create(:user, :profile_owner, email: 'target@user.com') }
+  let(:another_target_user) { create(:user, :profile_owner, email: 'another_target@user.com') }
   let(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(target_user) }
+  let(:another_subscription) { SubscriptionManager.new(subscriber: user).subscribe_and_pay_for(another_target_user) }
   let(:restore) { SubscriptionManager.new(subscription: subscription).restore }
   let(:unsubscribe) { SubscriptionManager.new(subscription: subscription).unsubscribe }
 
@@ -11,11 +13,14 @@ describe OverviewPresenter do
   after { StripeMock.stop }
 
   def subscribe
-    UserProfileManager.new(user).update_cc_data(number: '4242_4242_4242_4242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
     subscription
   end
 
-  before { subscribe }
+  before do
+    UserProfileManager.new(user).update_cc_data(number: '4242_4242_4242_4242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
+    SubscriptionManager.new(subscription: another_subscription).delete
+    subscribe
+  end
 
   context 'subscribers count and revenue' do
     describe '#current_subscribers_count' do
@@ -155,19 +160,19 @@ describe OverviewPresenter do
   end
 
   describe '#total_gross_sales' do
-    specify { expect(subject.total_gross_sales).to eq(499) }
+    specify { expect(subject.total_gross_sales).to eq(998) }
   end
 
   describe '#total_connectpal_fees' do
-    specify { expect(subject.total_connectpal_fees).to eq(60.018) }
+    specify { expect(subject.total_connectpal_fees).to eq(120.036) }
   end
 
   describe '#total_stripe_fees' do
-    specify { expect(subject.total_stripe_fees).to eq(38.982) }
+    specify { expect(subject.total_stripe_fees).to eq(77.964) }
   end
 
   describe '#daily_gross_sales' do
-    specify { expect(subject.daily_gross_sales).to eq(499) }
+    specify { expect(subject.daily_gross_sales).to eq(998) }
   end
 
   context 'tos fees' do
@@ -191,7 +196,7 @@ describe OverviewPresenter do
   end
 
   describe '#daily_stripe_fees' do
-    specify { expect(subject.daily_stripe_fees).to eq(38.982) }
+    specify { expect(subject.daily_stripe_fees).to eq(77.964) }
   end
 
   describe '#daily_contributions_revenue' do

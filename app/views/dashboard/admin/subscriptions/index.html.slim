@@ -1,0 +1,48 @@
+h2 Subscriptions (#{@subscriptions.total_count})
+
+h3 Filter by user
+form.Form action=search_admin_subscriptions_path(format: 'json') method='get' data-target='users'
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search by email, first name, or last name..." style='margin-bottom: 15px;'
+.search_users_results data-identifier='users'
+
+.clearfix
+
+.table-responsive
+  table.table.table-striped
+    tr
+      th
+        strong ID #
+      th
+        strong Subscriber
+      th
+        strong Profile owner
+      th
+        strong Total cost / Cost
+      th
+        strong Fees
+      th
+        strong Paid
+      th
+        strong Created
+      th
+
+    - @subscriptions.each do |subscription|
+      tr
+        td= subscription.id
+        td
+          - if user = subscription.user
+            = link_to user.name, admin_subscriptions_path(filter: {user_id: user.id}), class: 'truncate'
+        td
+          - if target_user = subscription.target_user
+            = link_to target_user.name, admin_subscriptions_path(filter: {target_user_id: target_user.id}), class: 'truncate'
+        td= "#{cents_to_dollars(subscription.total_cost)} / #{cents_to_dollars(subscription.cost)}"
+        td= cents_to_dollars(subscription.fees)
+        td= subscription.paid?
+        td= subscription.created_at.to_s(:long)
+        td
+          - if subscription.deleted?
+            DELETED
+          - else
+            .btn.pink.pull-right.AjaxLink href=confirm_deletion_admin_subscription_path(subscription.id) Delete
+
+.TopJumper= paginate(@subscriptions)

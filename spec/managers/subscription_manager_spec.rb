@@ -199,16 +199,16 @@ describe SubscriptionManager do
   end
 
   describe '#unsubscribe' do
-    before { manager.subscribe_to(another_user) }
+    let!(:subscription) { manager.subscribe_to(another_user) }
 
     it { expect { manager.unsubscribe }.to change { another_user.subscribers_count }.by(-1) }
 
     context 'fake' do
-      before { manager.subscribe_to(another_user, fake: true) }
+      let!(:subscription) { manager.subscribe_to(another_user, fake: true) }
 
       it { expect { manager.unsubscribe }.to change { another_user.subscribers_count }.by(-1) }
       it { expect { manager.unsubscribe }.not_to create_record(UnsubscribedFeedEvent) }
-      it { expect { manager.unsubscribe }.to create_event(:subscription_canceled).with_subject(another_user) }
+      it { expect { manager.unsubscribe }.to create_event(:subscription_canceled).with_subject(subscription) }
     end
 
     context 'unsubscribe one more time' do
@@ -216,7 +216,7 @@ describe SubscriptionManager do
 
       it { expect { manager.unsubscribe }.to raise_error(ManagerError,  /Already unsubscribed/) }
       it { expect { manager.unsubscribe rescue nil }.not_to create_record(UnsubscribedFeedEvent) }
-      it { expect { manager.unsubscribe rescue nil }.not_to create_event(:subscription_canceled).with_subject(another_user) }
+      it { expect { manager.unsubscribe rescue nil }.not_to create_event(:subscription_canceled).with_subject(subscription) }
     end
 
     context 'logger disabled' do
@@ -527,6 +527,32 @@ describe SubscriptionManager do
         expect { manager.subscribe_and_pay_for(another_user) }.to change { subscription.reload.paid? }.from(false).to(true)
       end
     end
+
+    context 'deleted subscription' do
+      let(:subscriber)   { create(:user, :with_cc) }
+      let(:subscription) { manager.subscribe_to(another_user) }
+
+      before do
+        StripeMock.start
+
+        described_class.new(subscription: subscription).delete
+      end
+      after { StripeMock.stop }
+
+      it { expect { manager.subscribe_and_pay_for(another_user) }.not_to raise_error }
+
+      it 'does not create duplicate subscription' do
+        expect { manager.subscribe_and_pay_for(another_user) }.not_to create_record(Subscription)
+      end
+
+      it 'creates subscription_created event' do
+        expect { manager.subscribe_and_pay_for(another_user) }.to create_event(:subscription_created)
+      end
+
+      it 'marks subscription as paid' do
+        expect { manager.subscribe_and_pay_for(another_user) }.to change { subscription.reload.paid? }.from(false).to(true)
+      end
+    end
   end
 
   describe '#restore' do
@@ -632,5 +658,16 @@ describe SubscriptionManager do
 
     it { expect { manager.unmark_as_processing }.to change { subscription.processing_payment }.from(true).to(false) }
     it { expect { manager.unmark_as_processing }.to change { subscription.processing_started_at }.to(nil) }
+  end
+
+  describe '#delete', freeze: true do
+    let!(:subscription) { manager.subscribe_to(another_user) }
+
+    it { expect { manager.delete }.to change { subscription.deleted? }.from(false).to(true) }
+    it { expect { manager.delete }.to change { subscription.deleted_at }.to(Time.zone.now) }
+    it { expect { manager.delete }.to create_event(:subscription_deleted) }
+
+    it { expect { manager.delete }.to change { subscription.rejected? }.from(false).to(true) }
+    it { expect { manager.delete }.to change { subscription.rejected_at }.to(Time.zone.now) }
   end
 end
