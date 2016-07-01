@@ -39,7 +39,7 @@ class AuthenticationManager < BaseManager
 
   # @return [User]
   def authenticate(generate_api_token: false)
-    user = User.by_email(email).first or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
+    user = User.by_email(email).try_activated_one or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
     BCrypt::Password.new(user.password_hash) == password or raise AuthenticationError.new(errors: {password: t(:invalid_password)})
 
     user.generate_api_token! if generate_api_token
@@ -72,7 +72,7 @@ class AuthenticationManager < BaseManager
   end
 
   def restore_password
-    user = User.by_email(email).first
+    user = User.by_email(email).try_activated_one
 
     validate! do
       fail_with email: :empty if email.blank?
@@ -87,7 +87,7 @@ class AuthenticationManager < BaseManager
 
   # @return [User]
   def change_password
-    user = User.by_email(email).first
+    user = User.by_email(email).try_activated_one
 
     fail_with! token: :empty if user.password_reset_token.blank?
 
@@ -115,8 +115,7 @@ class AuthenticationManager < BaseManager
   end
 
   def user
-    #@user ||= User.by_email(email).where(activated: true).first || User.new(email: email)
-    @user ||= User.by_email(email).first || User.new(email: email)
+    @user ||= User.by_email(email).try_activated_one || User.new(email: email)
   end
 
   def validate_input

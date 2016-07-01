@@ -88,6 +88,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Returns first active user in the scope
+  # If no active users, returns inactive
+  # @return [User, nil]
+  def self.try_activated_one
+    reorder('CASE WHEN activated THEN 0 ELSE 1 END').first
+  end
+
   def self.random_public_profile
     where(has_public_profile: true).order("random()").first
   end
