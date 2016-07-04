@@ -1,7 +1,7 @@
 table.table
   - duplicates.each do |duplicate_field, users|
     tr.danger
-      td colspan=7
+      td colspan=8
         b= duplicate_field
     tr
       th #ID
@@ -11,6 +11,7 @@ table.table
       th Subscribers count
       th Subscriptions count
       th Owner?
+      th
     - users.each do |user|
       tr
         td= user.id
@@ -20,3 +21,6 @@ table.table
         td= user.subscribers_count
         td= user.subscriptions.count
         td= user.is_profile_owner? ? 'Y' : ''
+        td
+          - unless params[:by_card]
+            .btn.pink.pull-right.AjaxLink href=confirm_mark_as_duplicate_admin_duplicate_path(user.id) Mark as duplicate

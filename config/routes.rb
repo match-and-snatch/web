@@ -438,7 +438,12 @@ BuddyPlatform::Application.routes.draw do
           put :delete
         end
       end
-      resources :duplicates, only: :index
+      resources :duplicates, only: :index do
+        member do
+          get :confirm_mark_as_duplicate
+          put :mark_as_duplicate
+        end
+      end
       resources :payment_failures , only: :index
       resources :payments, only: :index
       resources :refunds, only: :index

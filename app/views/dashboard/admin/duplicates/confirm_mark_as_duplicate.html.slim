@@ -1,0 +1,11 @@
+.modal-header style='width: 480px;'
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
+  .modal-title
+  p style="font-size: 13px; margin-top: 15px;" Are you sure you want to mark this user as duplicate?
+
+.modal-body style="padding-bottom: 15px;"
+  form.Form action=mark_as_duplicate_admin_duplicate_path(@user.id) method='put'
+    .form-group style="margin: 15px 0 0"
+      input.btn.pink.pull-left type='submit' value='Mark as duplicate'
+      a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
+      .clearfix
