@@ -12,23 +12,13 @@ class bud.widgets.Popup extends bud.Widget
 
     # Binds on refresh position
     bud.sub("popup.autoplace.#{@identifier}", @autoplace)
-
-    bud.sub("popup.init.#{@identifier}", @kill_duplicate)
-    bud.pub("popup.init.#{@identifier}", [@])
-
-    # Move into proper HTML position
-    @$container.appendTo($('body'))
     bud.Core.init_widgets(@$container)
 
   destroy: ->
     bud.unsub("popup.show", @autoclose)
     bud.unsub("popup.toggle.#{@identifier}", @toggle)
     bud.unsub("popup.autoplace.#{@identifier}", @autoplace)
-    bud.unsub("popup.init.#{@identifier}", @kill_duplicate)
     clearInterval(@autoplacer) if @autoplacer
-
-  kill_duplicate: (e, popup) =>
-    bud.delete_container(@$container) if popup != @
 
   # Closes when other popup gets opened
   autoclose: (e, widget) => @hide() if widget != @
