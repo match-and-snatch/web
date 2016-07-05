@@ -16,11 +16,7 @@ class FeedsController < ApplicationController
                             .includes(:subscription_target_user, :target_user)
                             .order(created_at: :desc)
 
-    if current_user.object.registration_token != "GkTB3tmMC3ivokQWMOXdng" # Wendy
-      @feed_events = @feed_events.where.not(type: 'UnsubscribedFeedEvent')
-    end
-
-    @feed_events = @feed_events.where.not(type: 'ContributionFeedEvent').order(created_at: :desc).limit(70).to_a
+    @feed_events = @feed_events.where.not(type: %w[ContributionFeedEvent UnsubscribedFeedEvent]).order(created_at: :desc).limit(70).to_a
 
     json_render
   end
