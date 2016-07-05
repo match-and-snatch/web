@@ -15,12 +15,11 @@
     .modal-header
       .register_tagline
         color: #464646
-        text-decoration: underline
     .modal-body
       .form-group
         margin-bottom: 5px
         &.submit_area
-          margin: 15px 0
+          margin: 10px 0
           input[type='email']
             width: 260px
         input
@@ -119,7 +118,7 @@
       .btn.pink
         display: block
         font-size: 12px
-        margin: 0 auto 15px
+        margin: 0 auto
         padding: 10px
         text-align: center
         width: 250px
@@ -374,12 +373,13 @@
       background-color: $color_background
       margin: -1px -15px 0 -15px
       li
-        margin-right: 5px
+        margin-right: 0
         &:first-child
           margin-left: 20px
         a
           color: $color_text_light
           text-decoration: none
+          padding: 10px 18px
           &:hover
             color: $color_text_dark
             background-color: #FFFFFF
@@ -398,7 +398,7 @@
         color: $color_text_light
         display: block
         font-size: 13px
-        margin: 15px 0
+        margin: 5px 0 15px
     .modal-body
       padding-top: 0
       .cost_container
@@ -416,21 +416,19 @@
           width: 135px
         .btn.pink
           width: 100%
-          font-size: 16px
+          font-size: 14px
           font-weight: 600
         .error
           margin: 10px 0 15px
           text-align: center
       .welcome_media_player
         margin: 0 auto
-        width: 585px
         .no-media
           @include border-radius(10px)
           background: asset-url('create_post_video.png') no-repeat
           background-position: 50% 50%
           border: 1px solid $color_border
           height: 332px
-          width: 587px
         .btn.blue,
         .btn.pink
           font-size: 13px
@@ -447,8 +445,7 @@
             margin: 0 auto
             min-height: 330px !important
         .select_file_container
-          height: 50px
-          width: 585px
+          height: 35px
           position: relative
           margin: 0 auto
           margin-top: 15px
@@ -456,6 +453,7 @@
             position: absolute
             top: 0
             right: 0
+            width: 100%
           .hide_btn
             opacity: 0
             cursor: pointer
@@ -701,8 +699,6 @@
     text-align: center
     .close
       position: absolute
-      top: 5px
-      right: 5px
       z-index: 2
     .modal-title
       color: $color_blue
@@ -720,7 +716,7 @@
       color: $color_text_light
       display: block
       font-size: 13px
-      margin: 15px 0
+      margin: 5px 0 15px
   .modal-body
     display: block
     .terms_text
@@ -756,6 +752,7 @@
   .modal-footer
     font-size: 12px
     margin-top: 0
+    padding-bottom: 0
     text-align: center
     span
       color: $color_text_light
@@ -815,15 +812,20 @@
   .modal-header
     span
       padding: 0 15px
-    .fa-times-circle.close
-      top: -5px
   .modal-body, .modal-header
     padding: 0 !important
     i.close
       right: -10px
       top: -10px
 
+.header_edit
+  i.close
+    top: -5px !important
+
 .nevermind
   cursor: pointer
   display: block
   margin: 0 auto 0 42%
+
+.form-group:last-of-type
+  margin-bottom: 0

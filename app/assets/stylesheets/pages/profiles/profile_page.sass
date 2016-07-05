@@ -106,7 +106,7 @@
     #change_position
       right: 222px
     .replace_photo
-      right: 110px
+      right: 111px
     .delete_photo, .add_photo
       right: 15px
   .photo_profile
@@ -302,6 +302,7 @@
             display: none
             font-size: 32px
             text-shadow: -1px -1px 0 #8ec245
+            width: 100%
           .pending_visitor
             @include linear-gradient(#ea4e65, #ea2f49)
             @include box-shadow(inset 0 1px 0 0 #ef7b8c)
@@ -1571,7 +1572,7 @@
                 font-size: 11px
                 margin: 7px 0 0 5px
               .pull-left.placeholder
-                background: url(/assets/profile_comment_default.png) no-repeat
+                background: asset-url('profile_comment_default.png') no-repeat
                 background-size: 100%
 
 #subscriber_display
@@ -2188,5 +2189,5 @@
 
 .mentioner
   .pull-left.placeholder
-    background: url(/assets/profile_comment_default.png) no-repeat
+    background: asset-url('profile_comment_default.png') no-repeat
     background-size: 100%
