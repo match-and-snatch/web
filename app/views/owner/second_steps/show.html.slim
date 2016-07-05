@@ -38,30 +38,25 @@
 
       // Profile Type/Category
       .col-md-6.col-sm-6.col-xs-6
-
         .row_label
           ' Profile Type
           '
           span style="display: inline-block; padding: 0; margin: 0; color: #464646; font-weight: bold" (optional)
           span Please classify your profile type(s). This info helps our search function find more potential subscribers who might like your content.
-
-          .profile-type-input
-            input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.'
-
-            i.fa.fa-plus.pull-left data-identifier='types-submit' Add
+        .profile-type
+          .profile-type-search
+            input.form-control.search.pull-left.StaticAutocomplete data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='profile-types' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.'
+            i.fa.fa-plus.pull-right data-identifier='types-submit' Add
             .ToggleListener data-target='types-dropdown'
-              i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
+              i.fa.fa-caret-square-o-down.pull-right.Toggler data-target='types-dropdown' Show List
             .ToggleListener data-target='types-dropdown' style='display: none'
-              i.fa.fa-caret-square-o-up.pull-left.Toggler data-target='types-dropdown' Hide List
+              i.fa.fa-caret-square-o-up.pull-right.Toggler data-target='types-dropdown' Hide List
             .clearfix
-
-          .error data-field='profile_type' style='padding: 0;'
-
-          .profile-type-list.profile-type-list-show
-            ul data-identifier='types-dropdown'
-
-          .profile-type-list data-identifier='profile-types'
+            .error data-field='profile_type'
+          ul.profile-type-preset data-identifier='types-dropdown'
+          .profile-type-added data-identifier='profile-types'
             = render 'profile_types/list_assigned', profile_types: current_user.profile_types
+          .clearfix
 
       // Subscription Cost
       .col-md-6.col-sm-6.col-xs-6

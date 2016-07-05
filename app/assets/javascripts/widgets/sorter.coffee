@@ -3,6 +3,10 @@ class bud.widgets.Sorter extends bud.Widget
 
   initialize: ->
     @url = @$container.data('url')
+    @horizontal = @$container.data('horizontal')
+    @$target = bud.get(@$container.data('target'))
+
+    return if @lis().length <= 1
 
     _.each @lis(), (li) =>
       li = $(li)
@@ -16,14 +20,16 @@ class bud.widgets.Sorter extends bud.Widget
     lis = @lis()
     _.each lis, (li) -> new_cell().insertAfter($(li))
     new_cell().prependTo(@$container)
-    @$target.next('.Cell').remove()
+    @$sortable_item.next('.Cell').remove()
 
     @cells().hide()
 
   start_drag: (e) =>
     unless @dragging
       unless $(e.target).is('a')
-        @$target = $(e.currentTarget)
+        @$sortable_item = $(e.currentTarget)
+        @indentTop = e.pageY - @$sortable_item.offset().top
+        @indentLeft = e.pageX - @$sortable_item.offset().left
         @draw_cells()
         @dragging = true
         $(document).mousemove @on_mouse_move
@@ -43,21 +49,31 @@ class bud.widgets.Sorter extends bud.Widget
 
   save_positions: ->
     @$container.addClass('pending')
-    bud.Ajax.post(@url, {ids: @ids()}, success: @on_success)
+    bud.Ajax.post(@url, {ids: @ids()}, success: @on_success, replace: @on_replace)
 
   on_success: =>
     @$container.removeClass('pending')
 
+  on_replace: (response) =>
+    @$container.removeClass('pending')
+    bud.replace_container(@$target, response)
+
   update_ordering: ->
-    lis = @lis().sort (a, b) ->
-      $(a).position().top - $(b).position().top
+    lis = @lis().sort (a, b) =>
+      if @horizontal
+        $(a).position().left - $(b).position().left
+      else
+        $(a).position().top - $(b).position().top
 
     @$container.append(lis.css('position', 'static'))
 
   on_mouse_move: (e) =>
     if @dragging
-      @$target.offset(top: e.pageY, left: e.pageX)
-      @highlight_nearest_cell(e.pageX, e.pageY + @$target.height())
+      @$sortable_item.offset(top: e.pageY- @indentTop, left: e.pageX - @indentLeft)
+      if @horizontal
+        @highlight_nearest_cell(e.pageX + @$sortable_item.width(), e.pageY)
+      else
+        @highlight_nearest_cell(e.pageX, e.pageY + @$sortable_item.height())
 
   cells: ->
     @$container.children('.Cell')
@@ -74,7 +90,10 @@ class bud.widgets.Sorter extends bud.Widget
 
     _.each cells, (cell) =>
       cell = $(cell)
-      distance = Math.abs(cell.offset().top - y)
+      distance = Math.abs if @horizontal
+        cell.offset().left - x
+      else
+        cell.offset().top - y
 
       if distance < nearest_distance
         nearest_distance = distance

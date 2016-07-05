@@ -1,9 +1,12 @@
-.profile-type-list-owner-list data-identifier='user-profile-types'
-  - if profile_types.any?
-    ul
-      span.assigned Added Type(s):
+- if profile_types.any?
+  div data-identifier='user-profile-types'
+    ul.sort-horz.Sorter data-url=reorder_profile_types_path data-horizontal='true' data-target='{"html":"user-profile-types","types_text":"user-types-text"}'
       - profile_types.each do |profile_type|
-        li
-          i.fa.fa-times.pull-left.AjaxFormLink data-_method='DELETE' data-target='{"html":"user-profile-types","types_text":"user-types-text"}' href=profile_type_path(profile_type.id)
-          .title= profile_type.title
-          .clearfix
+        li data-oid=profile_type.id
+          .title
+            = profile_type.title
+            a.fa.fa-times.AjaxFormLink data-_method='DELETE' data-target='{"html":"user-profile-types","types_text":"user-types-text"}' href=profile_type_path(profile_type.id)
+
+    - if profile_types.many?
+      .profile-type-info.alert.alert-info
+        i.fa.fa-info-circle Drag and drop added profiles types for your desired display order.

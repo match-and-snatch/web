@@ -42,6 +42,22 @@ class UserProfileManager < BaseManager
     profile_type
   end
 
+  # @param profile_type [ProfileType]
+  def remove_profile_type(profile_type)
+    raise ArgumentError unless profile_type.is_a?(ProfileType)
+    fail_with! profile_type: :not_set unless @user.profile_types.where(id: profile_type.id).any?
+    @user.profile_types.delete(profile_type)
+    reindex_profile
+    EventsManager.profile_type_removed(user: @user, profile_type: profile_type)
+  end
+
+  # @param ids [Array]
+  def reorder_profile_types(ids)
+    ids.each_with_index do |id, index|
+      @user.profile_types_users.where(profile_type_id: id).update_all(ordering: index)
+    end
+  end
+
   # Hides/shows users in search results
   def toggle
     @user.hidden = !@user.hidden
@@ -54,15 +70,6 @@ class UserProfileManager < BaseManager
     @user.has_mature_content = !@user.has_mature_content
     @user.save!
     reindex_profile
-  end
-
-  # @param profile_type [ProfileType]
-  def remove_profile_type(profile_type)
-    raise ArgumentError unless profile_type.is_a?(ProfileType)
-    fail_with! profile_type: :not_set unless @user.profile_types.where(id: profile_type.id).any?
-    @user.profile_types.delete(profile_type)
-    reindex_profile
-    EventsManager.profile_type_removed(user: @user, profile_type: profile_type)
   end
 
   # @return [User]

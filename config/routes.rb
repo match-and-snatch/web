@@ -336,7 +336,11 @@ BuddyPlatform::Application.routes.draw do
     resource :rss_feed, only: :show, defaults: {format: :atom}
   end
 
-  resources :profile_types, only: [:index, :create, :destroy]
+  resources :profile_types, only: [:index, :create, :destroy] do
+    collection do
+      post :reorder
+    end
+  end
 
   scope module: :dashboard do
     resource :dashboard, only: [:show]

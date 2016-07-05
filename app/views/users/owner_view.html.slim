@@ -180,16 +180,17 @@
         |Please classify your profile type or types. This info helps our search
         br
         |function find more potential subscribers who might like your content.
-    .modal-body
-      .profile-type-input
-        input.StaticAutocomplete.form-control.search-type.pull-left data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='{"html":"profile-types","types_text":"types-text"}' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.'
-        i.fa.fa-plus.pull-left data-identifier='types-submit' Add
-        i.fa.fa-caret-square-o-down.pull-left.Toggler data-target='types-dropdown' Show List
+
+    .modal-body.profile-type
+      .profile-type-search
+        input.form-control.search.pull-left.StaticAutocomplete data-url=profile_types_path data-submit_button='types-submit' data-options=@profile_types data-target='{"html":"profile-types","types_text":"types-text"}' data-dropdown='types-dropdown' type='text' placeholder='Band, Photographer, Organization, etc.'
+        i.fa.fa-caret-square-o-down.pull-right.Toggler data-target='["types-dropdown","show-link","hide-link"]' data-identifier='show-link' Show List
+        i.fa.fa-caret-square-o-up.pull-right.Toggler data-target='["types-dropdown","show-link","hide-link"]' data-identifier='hide-link' style='display: none' Hide List
+        i.fa.fa-plus.pull-right data-identifier='types-submit' Add
         .clearfix
-      .error data-field='profile_type'
-      .profile-type-list.profile-type-list-show
-        ul data-identifier='types-dropdown'
-      .profile-type-list.profile-type-list-owner data-identifier='profile-types'
+        .error data-field='profile_type'
+      ul.profile-type-preset data-identifier='types-dropdown'
+      .profile-type-added data-identifier='profile-types'
         = render 'profile_types/list_assigned', profile_types: current_user.profile_types
       .clearfix
 

@@ -548,6 +548,29 @@ describe UserProfileManager do
     end
   end
 
+  describe '#reorder_profile_types' do
+    let(:first_type) { ProfileTypeManager.new.create(title: 'first') }
+    let(:second_type) { ProfileTypeManager.new.create(title: 'second') }
+
+    before do
+      manager.add_profile_type(first_type.title)
+      manager.add_profile_type(second_type.title)
+    end
+
+    it do
+      manager.reorder_profile_types([second_type.id, first_type.id])
+      expect(user.profile_types.order('profile_types_users.ordering')).to eq([second_type, first_type])
+    end
+
+    context 'ordered' do
+      before { manager.reorder_profile_types([second_type.id, first_type.id]) }
+
+      it do
+        expect { manager.reorder_profile_types([first_type.id, second_type.id]) }.to change { user.profile_types.order('profile_types_users.ordering').reload }.from([second_type, first_type]).to([first_type, second_type])
+      end
+    end
+  end
+
   describe '#create_profile_page' do
     let(:user) { create(:user, :profile_owner) }
 
