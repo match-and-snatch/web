@@ -124,4 +124,12 @@ class UserManager < BaseManager
   def self.reset_tos_acceptance
     User.where(tos_accepted: true).update_all(tos_accepted: false)
   end
+
+  # @return [User]
+  def set_invalid_email
+    user.email = "#{user.email}___xxx"
+    save_or_die! user
+    user.elastic_index_document
+    user
+  end
 end

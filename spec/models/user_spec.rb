@@ -51,6 +51,24 @@ describe User do
     end
   end
 
+  describe '.try_activated_one' do
+    let!(:users) do
+      create :user, activated: false
+      create :user, activated: true
+      create :user, activated: false
+    end
+
+    it { expect(described_class.try_activated_one).to be_activated }
+
+    context 'no activated users' do
+      let!(:users) do
+        create :user, activated: false
+      end
+
+      it { expect(described_class.try_activated_one).to be_a(User) }
+    end
+  end
+
   describe '.create' do
     context 'profile owner' do
       it 'assigns slug' do

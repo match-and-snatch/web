@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe AuthenticationManager do
-  let(:email) { 'szinin@gmail.com' }
+  let(:email) { 'szinin-non-admin@gmail.com' }
   let(:password) { 'qwerty' }
   let(:password_confirmation) { 'qwerty' }
   let(:first_name) { 'sergei' }
@@ -106,9 +106,9 @@ describe AuthenticationManager do
     context 'registered user' do
       before { manager.register }
 
-      it { should be_a User }
-      it { should_not be_new_record }
-      its(:email) { should == email }
+      it { is_expected.to be_a User }
+      it { is_expected.not_to be_new_record }
+      its(:email) { is_expected.to eq email }
 
       specify { expect { authenticate }.to create_event(:logged_in) }
     end
@@ -129,6 +129,53 @@ describe AuthenticationManager do
 
       specify do
         expect { described_class.new(email: email, password: 'wrong_password').authenticate rescue nil }.not_to create_event(:logged_in)
+      end
+    end
+
+    context 'duplicate email' do
+      context 'duplicate is active' do
+        let!(:user) { manager.register }
+        let!(:activated_duplicate) do
+          expect(user).not_to be_activated
+          create(:user, email: 'just@any.ru', activated: false, password_hash: user.password_hash).tap do |duplicate|
+            UserProfileManager.new(duplicate).update_general_information(full_name: 'test', company_name: nil, email: user.email)
+            UserManager.new(duplicate).activate
+          end
+        end
+
+        specify do
+          expect(user).not_to be_activated
+          expect(activated_duplicate).to be_activated
+        end
+
+        specify do
+          expect { authenticate }.to create_event(:logged_in)
+        end
+
+        specify do
+          expect { authenticate }.to create_event(:logged_in).with_user(activated_duplicate)
+        end
+      end
+
+      context 'original user is active' do
+        let!(:active_user) do
+          manager.register.tap do |user|
+            UserManager.new(user).activate
+          end
+        end
+
+        let(:duplicate) do
+          create(:user, email: 'just@any.ru', activated: false)
+        end
+
+        def change_email
+          UserProfileManager.new(duplicate).update_general_information(full_name: 'test', company_name: nil, email: active_user.email)
+        end
+
+        specify do
+          expect(active_user).to be_activated
+          expect { change_email rescue nil }.not_to change { duplicate.reload.email }
+        end
       end
     end
   end

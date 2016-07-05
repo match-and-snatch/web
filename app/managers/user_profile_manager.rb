@@ -826,6 +826,11 @@ class UserProfileManager < BaseManager
 
   private
 
+  # @overload
+  def email_taken?(email = nil)
+    User.by_email(email).where('(users.id <> ?) AND (activated = ? OR is_admin = ?)', user.id, true, true).any? || APP_CONFIG['admins'].include?(email.try(:downcase))
+  end
+
   def reindex_profile
     if user.publicly_visible?
       user.elastic_index_document(type: 'profiles')

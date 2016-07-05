@@ -230,4 +230,12 @@ describe UserManager do
 
     it { expect { described_class.reset_tos_acceptance }.to change { user.reload.tos_accepted? }.from(true).to(false) }
   end
+
+  describe '#set_invalid_email' do
+    let(:email) { 'test@email.com' }
+    let(:user) { create(:user, email: email) }
+
+    it { expect { manager.set_invalid_email }.to change { user.reload.email }.from(email).to("#{email}___xxx") }
+    it { expect { manager.set_invalid_email }.to index_record(user) }
+  end
 end
