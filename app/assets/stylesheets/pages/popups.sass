@@ -21,10 +21,12 @@
         &.submit_area
           margin: 10px 0
           input[type='email']
-            width: 260px
+            width: 270px
         input
           &.btn.blue
-            margin-left: 20px
+            margin-left: 10px
+            height: 34px
+            padding: 3px 25px
       .login_btn, .register_btn
         float: right
       .register_btn
@@ -34,11 +36,18 @@
         float: left
         margin: 7px 0 0 0
         width: 150px
+        input[type="checkbox"]
+          margin-left: -25px
+        label
+          padding-left: 25px
         .remember_me
           color: $color_text_light
           font-size: 12px
           input
-            margin-top: 3px
+            margin-top: 0
+            vertical-align: middle
+            height: 20px
+            width: 15px
       .terms_text
         float: left
         width: 180px
@@ -829,3 +838,15 @@
 
 .form-group:last-of-type
   margin-bottom: 0
+
+input[type="text"]::-webkit-input-placeholder, input[type="email"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder
+  font-size: 12px
+
+input[type="text"]:-moz-placeholder, input[type="email"]:-moz-placeholder, input[type="password"]:-moz-placeholder
+  font-size: 12px
+
+input[type="text"]::-moz-placeholder, input[type="email"]::-moz-placeholder, input[type="password"]::-moz-placeholder
+  font-size: 12px
+
+input[type="text"]:-ms-input-placeholder, input[type="email"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder
+  font-size: 12px

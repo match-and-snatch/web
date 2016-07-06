@@ -79,14 +79,25 @@
         width: 120px
         overflow: hidden
         background-size: cover
+        margin-bottom: 10px
         img
           outline: none
+          max-width: 120px
       .change_button
-        float: right
-        padding: 0
+        display: inline-block
+        vertical-align: top
+        margin-left: 15px
         .btn
-          padding: 10px 30px
+          padding: 6px 25px
           font-weight: 600
+          height: 34px
+          font-size: 14px
+          cursor: pointer
+          input[type="file"]
+            height: 34px
+            width: 100%
+            cursor: pointer
+            font-size: 0
     label
       color: #898989
     .form-control
@@ -109,8 +120,9 @@
     // Button
     .btn
       font-weight: 600
-      padding: 10px 30px
-      font-size: 16px
+      padding: 6px 25px
+      font-size: 14px
+      margin-top: 5px
 
     // Item Blocks
     .item_block, .item_sub, .item_feed
@@ -130,6 +142,7 @@
           left: 25px
           top: 1px
           text-align: left
+          width: auto !important
         .form-control
           box-shadow: none
           border: none !important
@@ -535,6 +548,9 @@
     .paypal-payout
       font-weight: normal
       margin-top: 10px
+      font-size: 13px
+      input[type="radio"]
+        margin-top: 4px
 @media screen and (min-width: 992px)
   .my_account
     .sidebar

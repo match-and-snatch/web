@@ -29,9 +29,13 @@ $nav_height: 45px
   background-size: 20px 20px !important
   vertical-align: text-bottom
 
-input[type="radio"], input[type="checkbox"]
+input[type="radio"]
   vertical-align: middle
-  margin-top: -1px
+  margin-top: 0
+
+input[type="checkbox"]
+  vertical-align: middle
+  margin-top: 0
 
 .unread-legend
   background-color: #fffbdd !important
@@ -798,7 +802,7 @@ textarea
     color: #FFFFFF
     font-size: 12px
     margin: 0
-    padding: 10px
+    padding: 5px 10px 10px 10px
     overflow: hidden
     li
       @include border-radius (4px)
@@ -808,18 +812,20 @@ textarea
       cursor: move
       display: inline-block
       line-height: 100%
-      margin-right: 10px
+      margin: 5px 10px 5px 0
       &:hover
         background-color: $color_pink
         border-color: #cd233b
         text-shadow: -1px -1px 0 #c3384c
+        color: #fff !important
       &:last-child
         margin: 0
       .title
         padding: 7px 7px 7px 14px
         a
-          &:hover
-            color: #fff
+          color: #fff !important
+        &:hover
+          color: #fff !important
         span.fa.fa-times
           cursor: pointer
           margin-left: 5px
@@ -909,6 +915,7 @@ footer
         font-size: 10px
 
 #overlay
+  z-index: $deepest_depth + 10000
   background: black
   display: none
   position: fixed
@@ -921,7 +928,6 @@ footer
   -moz-opacity: 0.5
   -khtml-opacity: 0.5
   opacity: 0.7
-  z-index: 2000
 
 .popup
   @include border-radius($border_radius)
