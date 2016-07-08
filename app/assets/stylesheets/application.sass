@@ -29,13 +29,21 @@ $nav_height: 45px
   background-size: 20px 20px !important
   vertical-align: text-bottom
 
-input[type="radio"]
+input[type="radio"], input[type="checkbox"]
   vertical-align: middle
-  margin-top: 0
+  margin: 0
+  padding: 0
+  width: 13px
+  height: 18px
+  font-size: 12px
+  line-height: 12px
+  &:active, &:focus, a:focus
+    outline: 0
+    outline-style: none
+    outline-width: 0
 
-input[type="checkbox"]
-  vertical-align: middle
-  margin-top: 0
+label
+  line-height: 18px
 
 .unread-legend
   background-color: #fffbdd !important
