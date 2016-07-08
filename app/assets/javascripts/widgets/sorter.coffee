@@ -3,7 +3,6 @@ class bud.widgets.Sorter extends bud.Widget
 
   initialize: ->
     @url = @$container.data('url')
-    @horizontal = @$container.data('horizontal')
     @$target = bud.get(@$container.data('target'))
 
     return if @lis().length <= 1
@@ -13,16 +12,15 @@ class bud.widgets.Sorter extends bud.Widget
       li.mousedown @start_drag
       li.mouseup @stop_drag
 
+    @draw_cells()
+
   draw_cells: ->
     @cells().remove()
-
-    new_cell = -> $('<li class="Cell"></li>')
-    lis = @lis()
-    _.each lis, (li) -> new_cell().insertAfter($(li))
-    new_cell().prependTo(@$container)
-    @$sortable_item.next('.Cell').remove()
-
+    @new_cell('latest_cell').appendTo(@$container)
     @cells().hide()
+
+  new_cell: (id) ->
+    $('<li class="Cell"></li>').attr("id", id)
 
   start_drag: (e) =>
     unless @dragging
@@ -30,7 +28,7 @@ class bud.widgets.Sorter extends bud.Widget
         @$sortable_item = $(e.currentTarget)
         @indentTop = e.pageY - @$sortable_item.offset().top
         @indentLeft = e.pageX - @$sortable_item.offset().left
-        @draw_cells()
+        @$sortable_item.css('position', 'absolute')
         @dragging = true
         $(document).mousemove @on_mouse_move
         return false
@@ -39,6 +37,7 @@ class bud.widgets.Sorter extends bud.Widget
   stop_drag: =>
     if @dragging
       @dragging = false
+      @$sortable_item.css('position', 'static')
       $(document).unbind 'mousemove', @on_mouse_move
       @update_ordering()
       @draw_cells()
@@ -59,21 +58,14 @@ class bud.widgets.Sorter extends bud.Widget
     bud.replace_container(@$target, response)
 
   update_ordering: ->
-    lis = @lis().sort (a, b) =>
-      if @horizontal
-        $(a).position().left - $(b).position().left
-      else
-        $(a).position().top - $(b).position().top
-
-    @$container.append(lis.css('position', 'static'))
+    @$nearest_cell.replaceWith(@$sortable_item)
 
   on_mouse_move: (e) =>
     if @dragging
-      @$sortable_item.offset(top: e.pageY- @indentTop, left: e.pageX - @indentLeft)
-      if @horizontal
-        @highlight_nearest_cell(e.pageX + @$sortable_item.width(), e.pageY)
-      else
-        @highlight_nearest_cell(e.pageX, e.pageY + @$sortable_item.height())
+      y = e.pageY - @indentTop
+      x = e.pageX - @indentLeft
+      @$sortable_item.offset(top: y, left: x)
+      @highlight_nearest_cell(x, y)
 
   cells: ->
     @$container.children('.Cell')
@@ -82,23 +74,30 @@ class bud.widgets.Sorter extends bud.Widget
     @$container.children('li').not('.Cell')
 
   highlight_nearest_cell: (x, y) ->
-    cells = @cells()
-    cells.show()
+    @cells().show()
 
-    nearest_cell = null
+    $nearest_li = null
+    @$nearest_cell = null
     nearest_distance = 9999
 
-    _.each cells, (cell) =>
-      cell = $(cell)
-      distance = Math.abs if @horizontal
-        cell.offset().left - x
-      else
-        cell.offset().top - y
+    _.each @$container.children('li').not(@$sortable_item), (li) =>
+      $cell = $(li)
 
+      x1 = $cell.offset().left
+      y1 = $cell.offset().top
+
+      distance = Math.sqrt(Math.pow(x1 - x, 2) + Math.pow(y1 - y, 2))
       if distance < nearest_distance
         nearest_distance = distance
-        nearest_cell = cell
+        $nearest_li = $cell
 
-    cells.hide()
-    nearest_cell.show() if nearest_cell
-    return nearest_cell
+    @$nearest_cell = if $nearest_li.hasClass('Cell')
+      $nearest_li
+    else
+      @new_cell().insertBefore($nearest_li)
+
+    @$container.children('.Cell').not('#latest_cell').not(@$nearest_cell).remove()
+    @cells().hide()
+    @$nearest_cell.show().css('width', @$sortable_item.width()) if @$nearest_cell
+
+    return @$nearest_cell

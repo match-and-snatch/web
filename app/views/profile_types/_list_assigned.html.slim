@@ -1,6 +1,6 @@
 - if profile_types.any?
   div data-identifier='user-profile-types'
-    ul.sort-horz.Sorter data-url=reorder_profile_types_path data-horizontal='true' data-target='{"html":"user-profile-types","types_text":"user-types-text"}'
+    ul.sort-horz.Sorter data-url=reorder_profile_types_path data-target='{"html":"user-profile-types","types_text":"user-types-text"}'
       - profile_types.each do |profile_type|
         li data-oid=profile_type.id
           .title
