@@ -22,7 +22,7 @@
                 li data-identifier='comment-visibility-toggler-#{comment.id}' Hide
           a.AjaxLink.delete_btn href=edit_comment_path(comment.id) data-target='comment-#{comment.id}'
             li Edit
-          a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}'
+          a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-row-#{comment.id}'
             li Delete
 
     .profile_name data-identifier='profile-name'
