@@ -8,7 +8,7 @@
 
     .form-group
       label.pull-left Account Full Name
-      input.form-control.pull-right type='text' name='full_name' value=@user.full_name validate='require'
+      input.form-control.pull-right type='text' name='full_name' value=@user.full_name validate='require,user_name'
       .clearfix
       .error data-field='full_name'
 

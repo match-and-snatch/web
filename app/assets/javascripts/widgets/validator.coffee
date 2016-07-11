@@ -44,12 +44,18 @@ class bud.widgets.Validator extends bud.Widget
           when 'routing_number'    then @validate_routing_number()
           when 'account_number'    then @validate_account_number()
           when 'subscription_cost' then @validate_subscription_cost()
+          when 'user_name' then @validate_user_name()
           when 'nothing' then true
           else bud.Logger.error('No validator')
     , 10)
 
     e.stopPropagation()
     return true
+
+  validate_user_name: ->
+    regex = /\d/
+    if regex.test(@$container.val())
+      @mark_as_invalid @t('contains_numbers')
 
   validate_require: ->
     if _.isEmpty @$container.val().trim()
