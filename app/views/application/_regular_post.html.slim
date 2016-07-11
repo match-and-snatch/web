@@ -4,11 +4,11 @@
       ul.control_menu
         li
           - if post.pinned?
-              a.Pinner href=unpin_post_path(post.id) data-target='post-#{post.id}'
-                i.control_unpin.fa.fa-thumb-tack Unpin From Top
+            a.Pinner href=unpin_post_path(post.id) data-target='post-#{post.id}'
+              i.control_unpin.fa.fa-thumb-tack Unpin From Top
           - else
-              a.Pinner href=pin_post_path(post.id) data-target='post-#{post.id}'
-                i.control_pin.fa.fa-thumb-tack Pin to Top
+            a.Pinner href=pin_post_path(post.id) data-target='post-#{post.id}'
+              i.control_pin.fa.fa-thumb-tack Pin to Top
         li
           a.AjaxLink href=edit_post_path(post.id)
             i.control_edit.fa.fa-pencil Edit Post

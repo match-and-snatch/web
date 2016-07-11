@@ -1,37 +1,40 @@
-.comment_row data-identifier='comment-#{comment.id}' style='#{"opacity: 0.5" if (comment.hidden? && comment.user_id != current_user.id) || (comment.hidden? && comment.post_user_id == current_user.id)}'
+- hidden = (comment.hidden? && comment.user_id != current_user.id) || (comment.hidden? && comment.post_user_id == current_user.id)
+.comment_row data-identifier='comment-#{comment.id}'
   .content.Comment data-comment_id=comment.id data-identifier='comment-user-#{comment.user_id}'
-    .photo
-      img src=comment.user_picture_url width=50 height=50 border=0
-
-    // Display Delete & Edit Only if profile owner or if it the subscribers comment.
-
     - if can?(:delete, comment)
       .delete.fa.fa-gear.DropdownMenu data-target='edit-comment-#{comment.id}'
       .edit_container data-identifier='edit-comment-#{comment.id}' style='display: none'
-        ul
-          a.Toggler data-target='edit-comment-#{comment.id}' href="#"
-            li.first
-              i.fa.fa-times
-                |&nbsp;Close
-          - if current_user.id == comment.post_user_id && current_user.id != comment.user_id
-            - if comment.hidden?
-              a.AjaxLink href=confirm_make_visible_comment_path(comment.id)
-                li data-identifier='comment-visibility-toggler-#{comment.id}' Show
-            - else
-              a.AjaxLink href=confirm_hide_comment_path(comment.id)
-                li data-identifier='comment-visibility-toggler-#{comment.id}' Hide
-          a.AjaxLink.delete_btn href=edit_comment_path(comment.id) data-target='comment-#{comment.id}'
-            li Edit
-          a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-row-#{comment.id}'
-            li Delete
+        ul.control_menu
+          li
+            a.AjaxLink.delete_btn href=edit_comment_path(comment.id) data-target='comment-#{comment.id}'
+              i.control_edit.fa.fa-pencil Edit
+            - if current_user.id == comment.post_user_id && current_user.id != comment.user_id
+              - if comment.hidden?
+                li
+                  a.AjaxLink href=confirm_make_visible_comment_path(comment.id)
+                    i.control_edit.fa.fa-eye data-identifier='comment-visibility-toggler-#{comment.id}' Show
+              - else
+                li
+                  a.AjaxLink href=confirm_hide_comment_path(comment.id)
+                    i.control_edit.fa.fa-eye-slash data-identifier='comment-visibility-toggler-#{comment.id}' Hide
+          li
+            a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}'
+              i.control_delete.fa.fa-trash Delete
+          li
+            a.Toggler data-target='edit-comment-#{comment.id}' href="#"
+              i.control_close.fa.fa-times Close
 
-    .profile_name data-identifier='profile-name'
-      = link_to_user comment.user
-    .comment_text.Emoji= format_comment_message(comment)
-    .clearfix
-    .post_date
-      span.pull-left Posted #{time_ago_in_words comment.created_at} ago
-      = render 'comments/like_small', comment: comment
+    .comment_body data-identifier='comment-body-#{comment.id}' class='#{"hidden_content" if hidden}'
+      .photo
+        img src=comment.user_picture_url width=50 height=50 border=0
+      .profile_name data-identifier='profile-name'
+        = link_to_user comment.user
+      .comment_text.Emoji
+        = format_comment_message(comment)
+      .clearfix
+      .post_date
+        span.pull-left Posted #{time_ago_in_words comment.created_at} ago
+        = render 'comments/like_small', comment: comment
 
     // Change text Add Reply to Cancel Reply when user clicks on this link and reply container appears.
 

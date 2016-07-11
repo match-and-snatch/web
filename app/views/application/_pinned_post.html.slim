@@ -4,14 +4,12 @@
 - if can?(:delete, post)
   i.edit_post.pull-right.fa.fa-gear.DropdownMenu data-target='edit-post-#{post.id}'
     .edit_container data-identifier='edit-post-#{post.id}' style='display: none'
-
       ul.control_menu
-        - if post.pinned?
-          li
+        li
+          - if post.pinned?
             a.Pinner href=unpin_post_path(post.id) data-target='post-#{post.id}'
               i.control_unpin.fa.fa-thumb-tack Unpin from Top
-        - else
-          li
+          - else
             a.Pinner href=pin_post_path(post.id) data-target='post-#{post.id}'
               i.control_pin.fa.fa-thumb-tack Pin to Top
         li

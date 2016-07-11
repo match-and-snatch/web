@@ -993,7 +993,7 @@
         overflow: hidden
         top: 0
         right: 0
-        z-index: 1
+        z-index: 2
         .control_menu
           list-style-type: none
           margin: 0
@@ -1013,11 +1013,12 @@
               padding: 10px 15px 10px 10px
               position: relative
               text-decoration: none
+              line-height: 10px
               i.fa
                 &:before
                   @include transition(transform 0.2s)
                   display: inline-block
-                  width: 15px
+                  width: 21px
               &.pending
                 content: "\f110"
                 font-family: FontAwesome
@@ -1027,16 +1028,18 @@
             &:hover
               background-color: $color_background
               .control_pin,
-              .control_unpin,
-              .control_delete
+              .control_unpin
                 &:before
                   @include transform(scale(1.4) translate(1px,0))
+              .control_delete
+                &:before
+                  @include transform(scale(1.4) translate(3px,-1px))
               .control_pin
                 &:before
                   color: $color_blue
               .control_edit
                 &:before
-                  @include transform(scale(1.4) translate(0,0))
+                  @include transform(scale(1.4) translate(2px,0))
                   color: $color_green
               .control_unpin,
               .control_delete,
@@ -1045,7 +1048,9 @@
                   color: $color_pink
               .control_close
                 &:before
-                  @include transform(rotate(90deg) scale(1.4) translate(3px,2px))
+                  @include transform(rotate(90deg) scale(1.4) translate(6px,4px))
+                  transform-origin: 11px 6px
+
       .edit_post
         cursor: pointer
         margin-right: 15px
@@ -1445,34 +1450,31 @@
             position: absolute
             top: 0
             right: 0
-            z-index: 0
+            z-index: 1
             &.fa
               &:before
-                color: $color_text_light
+                color: $color_gear
               &:hover
                 &:before
-                  color: $color_pink
+                  color: $color_gear_hover
           .edit_container
             @include border-radius(5px)
             background-color: #FFFFFF
             border: 1px solid $color_border
             cursor: default !important
-            font-size: 11px !important
             padding: 0
             position: absolute
             overflow: hidden
             top: -5px
             right: -5px
             width: auto
-            z-index: 1
+            z-index: 2
             ul
               margin: 0
               padding: 0
               a
                 color: $color_text_light
                 text-decoration: none
-                &:hover
-                  color: #FFFFFF
                 li
                   background-color: #FFFFFF
                   border: none
@@ -2194,3 +2196,16 @@
   .pull-left.placeholder
     background: asset-url('profile_comment_default.png') no-repeat
     background-size: 100%
+
+.profile_name
+  display: inline
+
+.hidden_content
+  opacity: 0.5
+
+.details_container
+  .fa-gear:before, .fa-cog:before
+    font-size: 20px
+
+.fa-gear:before, .fa-cog:before
+  font-size: 14px
