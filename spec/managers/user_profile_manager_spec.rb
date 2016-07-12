@@ -45,9 +45,10 @@ describe UserProfileManager do
   end
 
   describe '#finish_owner_registration' do
-    let!(:user) { create :user, full_name: 'Barak Obama' }
+    let!(:user) { create(:user, full_name: 'Barak Obama') }
+    let(:params) { {profile_name: 'The President', cost: 9} }
 
-    subject(:finish) { manager.finish_owner_registration(profile_name: 'The President', cost: 9) }
+    subject(:finish) { manager.finish_owner_registration(params) }
 
     it { expect { finish }.to change { user.reload.slug }.to('thepresident') }
 
@@ -59,145 +60,143 @@ describe UserProfileManager do
     end
 
     context 'sets large cost' do
-      it { expect { manager.finish_owner_registration(profile_name: 'The President', cost: 25) }.not_to deliver_email(to: user.email) }
+      let(:params) { {profile_name: 'The President', cost: 25} }
+
+      it { expect { finish }.not_to deliver_email(to: user.email) }
     end
 
     describe '#update' do
-      specify do
-        expect { manager.finish_owner_registration(cost: 1, profile_name: 'some-random-name', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-      end
+      let(:params) { {cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789'} }
+
+      it { expect { manager.finish_owner_registration(params.merge(profile_name: 'some-random-name')) }.not_to raise_error }
 
       it 'updates slug' do
-        expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :slug).to('obama')
+        expect { finish }.to change(user, :slug).to('obama')
       end
 
       it 'creates profile_created event' do
-        expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to create_event(:profile_created)
+        expect { finish }.to create_event(:profile_created)
       end
 
       it 'updates cost' do
-        expect { manager.finish_owner_registration(cost: 5, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(500)
-        expect { manager.finish_owner_registration(cost:' 6', profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.to change(user, :cost).to(600)
+        expect { manager.finish_owner_registration(params.merge(cost: 5)) }.to change(user, :cost).to(500)
+      end
+
+      it do
+        expect { manager.finish_owner_registration(params.merge(cost:' 6')) }.to change(user, :cost).to(600)
+      end
+
+      context 'registration already finished' do
+        before { manager.finish_owner_registration(params) }
+
+        it 'does not create profile_created event again' do
+          expect { finish }.not_to create_event(:profile_created)
+        end
+
+        context 'passed huge cost' do
+          it 'creates change cost request' do
+            expect { manager.finish_owner_registration(params.merge(cost: 55)) }.to change { user.cost_change_requests.count }.from(0).to(1)
+          end
+          it { expect { manager.finish_owner_registration(params.merge(cost: 55)) }.to change { user.reload.cost_approved? }.from(true).to(false) }
+        end
+
+        context 'passed low cost after huge' do
+          let(:params) { {cost: 55, profile_name: 'obama', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789'} }
+
+          it 'rejects change cost request' do
+            expect { manager.finish_owner_registration(params.merge(cost: 5)) }.to change { user.cost_change_requests.first.reload.rejected? }.from(false).to(true)
+          end
+          it { expect { manager.finish_owner_registration(params.merge(cost: 5)) }.to change { user.reload.cost_approved? }.from(false).to(true) }
+        end
       end
 
       context 'empty cost' do
-        specify do
-          expect { manager.finish_owner_registration(cost: '', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:empty)) }
-        end
+        let(:params) { {cost: '', profile_name: ''} }
 
-        specify do
-          expect { manager.finish_owner_registration(cost: '', profile_name: '') rescue nil }.not_to create_event(:profile_created)
-        end
+        it { expect { finish }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:empty)) } }
+        it { expect { finish rescue nil }.not_to create_event(:profile_created) }
 
-        specify do
-          expect { manager.finish_owner_registration(cost: 0, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) }
-          # expect { manager.finish_owner_registration(cost: 0, profile_name: '')}.not_to create_event(:profile_created)
-        end
-
-        specify do
-          expect { manager.finish_owner_registration(cost: '-100', profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) }
-          # expect { manager.finish_owner_registration(cost: '-100', profile_name: '') }.not_to create_event(:profile_created)
-        end
-
-        specify do
-          expect { manager.finish_owner_registration(cost: -200, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) }
-          # expect { manager.finish_owner_registration(cost: -200, profile_name: '') }.not_to create_event(:profile_created)
-        end
-
-        specify do
-          expect { manager.finish_owner_registration(cost: 20.00, profile_name: 'putin') }.not_to raise_error
-        end
-
-        specify do
-          expect { manager.finish_owner_registration(cost: 20.01, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_whole_number)) }
-        end
+        it { expect { manager.finish_owner_registration(params.merge(cost: 0)) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:zero)) } }
+        it { expect { manager.finish_owner_registration(params.merge(cost: '-100')) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) } }
+        it { expect { manager.finish_owner_registration(params.merge(cost: -200)) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_cost)) } }
+        it { expect { manager.finish_owner_registration(cost: 20.00, profile_name: 'putin') }.not_to raise_error }
+        it { expect { manager.finish_owner_registration(params.merge(cost: 20.01)) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(cost: t_error(:not_a_whole_number)) } }
       end
 
       context 'cost more or equal $30' do
-        specify { expect { manager.finish_owner_registration(cost: 45, profile_name: 'merkel') }.not_to raise_error }
+        let(:params) { {cost: 45, profile_name: 'merkel'} }
+
+        it { expect { finish }.not_to raise_error }
 
         it 'creates cost change request' do
-          expect { manager.finish_owner_registration(cost: 30, profile_name: 'merkel', holder_name: 'merkel', routing_number: '123456789', account_number: '000123456789') }.to create_record(CostChangeRequest)
+          expect { manager.finish_owner_registration(params.merge(cost: 30, holder_name: 'merkel', routing_number: '123456789', account_number: '000123456789')) }.to create_record(CostChangeRequest)
         end
 
         it 'notify support if new change cost request was created' do
-          expect(ProfilesMailer).to receive(:cost_change_request).with(user, nil, 3450).and_return(double('mailer').as_null_object)
-          manager.finish_owner_registration(cost: 30, profile_name: 'merkel')
+          expect(ProfilesMailer).to receive(:cost_change_request).with(user, nil, 34_50).and_return(double('mailer').as_null_object)
+          manager.finish_owner_registration(params.merge(cost: 30))
         end
       end
 
       context 'empty slug' do
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: '') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) }
-        end
+        let(:params) { {cost: 1, profile_name: ''} }
 
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: '') rescue nil }.not_to create_event(:profile_created)
-        end
+        it { expect { finish }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(profile_name: t_error(:empty)) } }
+        it { expect { finish rescue nil }.not_to create_event(:profile_created) }
       end
 
       context 'trailing spaces in slug' do
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: ' obama ', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-        end
+        let(:params) { {cost: 1, profile_name: ' obama ', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789'} }
+
+        it { expect { finish }.not_to raise_error }
       end
 
       context 'upcase in slug' do
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: 'FUck', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-        end
+        let(:params) { {cost: 1, profile_name: 'FUck', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789'} }
+
+        it { expect { finish }.not_to raise_error }
       end
 
       context 'underscore in slug' do
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama_the_president', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-        end
+        let(:params) { {cost: 1, profile_name: 'obama_the_president', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789'} }
+
+        it { expect { finish }.not_to raise_error }
       end
 
       context 'numbers in slug' do
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: 'agent-007', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-        end
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: '007-agent', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-        end
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: 'a-007-gent', holder_name: 'obama', routing_number: '123456789', account_number: '000123456789') }.not_to raise_error
-        end
+        let(:params) { {cost: 1, holder_name: 'obama', routing_number: '123456789', account_number: '000123456789'} }
+
+        it { expect { manager.finish_owner_registration(params.merge(profile_name: 'agent-007')) }.not_to raise_error }
+        it { expect { manager.finish_owner_registration(params.merge(profile_name: '007-agent')) }.not_to raise_error }
+        it { expect { manager.finish_owner_registration(params.merge(profile_name: 'a-007-gent')) }.not_to raise_error }
       end
 
       describe 'payment information' do
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :holder_name).to('holder')
-        end
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :routing_number).to('123456789')
-        end
-        specify do
-          expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789') }.to change(user, :account_number).to('000123456789')
-        end
+        let(:params) { {cost: 1, profile_name: 'obama', holder_name: 'holder', routing_number: '123456789', account_number: '000123456789'} }
+
+        it { expect { finish }.to change(user, :holder_name).to('holder') }
+        it { expect { finish }.to change(user, :routing_number).to('123456789') }
+        it { expect { finish }.to change(user, :account_number).to('000123456789') }
 
         context 'empty holder name' do
-          specify do
-            expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: '', routing_number: '123456789', account_number: '000123456789') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:holder_name) }
-          end
+          let(:params) { {cost: 1, profile_name: 'obama', holder_name: '', routing_number: '123456789', account_number: '000123456789'} }
+
+          it { expect { finish }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:holder_name) } }
         end
 
         context 'entire empty payment information' do
-          specify do
-            expect { manager.finish_owner_registration(cost: 1, profile_name: 'obama', holder_name: '', routing_number: '', account_number: '') }.not_to raise_error
-          end
+          let(:params) { {cost: 1, profile_name: 'obama', holder_name: '', routing_number: '', account_number: ''} }
+
+          it { expect { finish }.not_to raise_error }
         end
 
         context 'invalid routing number' do
           specify do
             expect { manager.finish_owner_registration(routing_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_an_integer)) }
           end
-
           specify do
             expect { manager.finish_owner_registration(routing_number: '12345678') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(routing_number: t_error(:not_a_routing_number)) }
           end
-
           specify do
             expect { manager.finish_owner_registration(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
           end
@@ -207,11 +206,9 @@ describe UserProfileManager do
           specify do
             expect { manager.finish_owner_registration(account_number: 'whatever') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_integer)) }
           end
-
           specify do
             expect { manager.finish_owner_registration(account_number: '12') }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(account_number: t_error(:not_an_account_number)) }
           end
-
           specify do
             expect { manager.finish_owner_registration(routing_number: 'wutever') rescue nil }.not_to create_event(:profile_created)
           end

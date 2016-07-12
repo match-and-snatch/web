@@ -932,6 +932,8 @@ class UserProfileManager < BaseManager
     routing_number = routing_number.to_s.strip
     account_number = account_number.to_s.strip
 
+    never_passed_second_step = !user.passed_profile_steps?
+
     validate! do
       if profile_name.blank?
         fail_with profile_name: :empty
@@ -962,7 +964,12 @@ class UserProfileManager < BaseManager
 
     new_cost = (cost.to_f * 100).to_i
     if new_cost >= CostChangeRequest::MAX_COST
+      user.cost = nil
+      user.subscription_fees = nil
+      user.subscription_cost = nil
       create_cost_change_request(cost: new_cost, update_existing_subscriptions: false)
+    else
+      user.cost_change_request.try(:reject!)
     end
     user.cost           = new_cost
     user.profile_name   = profile_name.try(:strip)
@@ -974,7 +981,7 @@ class UserProfileManager < BaseManager
     save_or_die! user
 
     reindex_user
-    EventsManager.profile_created(user: user, data: { cost: cost, profile_name: profile_name })
+    EventsManager.profile_created(user: user, data: { cost: cost, profile_name: profile_name }) if never_passed_second_step
 
     sync_stripe_recipient! if user.stripe_recipient_id
     user
