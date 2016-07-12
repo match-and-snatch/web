@@ -24,6 +24,20 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- Name: citext; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS citext WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION citext; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION citext IS 'data type for case-insensitive character strings';
+
+
+--
 -- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -363,13 +377,14 @@ CREATE TABLE events (
     id integer NOT NULL,
     action character varying,
     message character varying,
-    data text,
+    old_data text,
     user_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     subject_id integer,
     subject_type character varying,
-    subject_deleted boolean DEFAULT false NOT NULL
+    subject_deleted boolean DEFAULT false NOT NULL,
+    data jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -2136,4 +2151,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160622093032');
 INSERT INTO schema_migrations (version) VALUES ('20160629053501');
 
 INSERT INTO schema_migrations (version) VALUES ('20160629065528');
+
+INSERT INTO schema_migrations (version) VALUES ('20160705045530');
 

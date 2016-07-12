@@ -8,4 +8,9 @@ namespace :events do
   task clear: :environment do
     Events::ClearJob.perform
   end
+
+  desc 'Populate data and store it as jsonb'
+  task populate_data: :environment do
+    Events::PopulateDataJob.perform
+  end
 end
