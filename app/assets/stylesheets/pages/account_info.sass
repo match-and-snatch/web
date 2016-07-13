@@ -340,14 +340,8 @@
         &:first-child
           padding-top: 0
           border-top: none
-      .photo
-        margin-right: 10px
-        width: 50px
-        img
-          border: 1px solid $color_border
-          display: block
       .message_container
-        width: 423px
+        width: 565px
         span
           display: block
         .name
@@ -406,14 +400,16 @@
         padding: 10px
         .photo
           margin-right: 10px
+          background: asset-url('default_profile_pic.png') no-repeat
+          background-size: 97%
+          height: 50px
           width: 50px
+          background-position: 45% 45%
           img
-            border: 1px solid $color_border
             display: block
         .details
-          position: absolute
-          right: 15px
-          left: 70px
+          position: relative
+          width: 520px
           span
             display: block
           .name
