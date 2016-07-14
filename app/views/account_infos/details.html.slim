@@ -22,7 +22,8 @@
   a< href=terms_of_service_path Terms of Service
   |.  To update your Payout Information, please click
   a< href="account#/account_info/edit_payment_information" here
-  |.  Please note, a profile owner must earn $200 or more in a calendar month to receive a Payout.
+  '.  Please note, a profile owner must earn $200 or more in a calendar month to receive a Payout.
+  a.Toggler href='#' data-target='profile-details-notice' Show less
 .col-md-12
   - if @user.subscriptions_chart_visible?
     h2 Subscriber Monthly Growth
