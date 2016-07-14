@@ -927,6 +927,8 @@ class UserProfileManager < BaseManager
   # @param account_number [String]
   # @return [User]
   def update(cost: nil, profile_name: nil, holder_name: nil, routing_number: nil, account_number: nil)
+    fail_with! 'You have active subscribers' if user.subscribers_count > 0
+
     profile_name   = profile_name.to_s.strip.squeeze(' ')
     holder_name    = holder_name.to_s.strip
     routing_number = routing_number.to_s.strip

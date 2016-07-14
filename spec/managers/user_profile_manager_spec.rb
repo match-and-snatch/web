@@ -108,6 +108,14 @@ describe UserProfileManager do
           end
           it { expect { manager.finish_owner_registration(params.merge(cost: 5)) }.to change { user.reload.cost_approved? }.from(false).to(true) }
         end
+
+        context 'subscription is present' do
+          let!(:subscriber) { create(:user) }
+
+          before { SubscriptionManager.new(subscriber: subscriber).subscribe_to(user) }
+
+          it { expect { finish }.to raise_error(ManagerError, /You have active subscribers/) }
+        end
       end
 
       context 'empty cost' do
