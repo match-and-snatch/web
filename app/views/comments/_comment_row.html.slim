@@ -18,7 +18,7 @@
                   a.AjaxLink href=confirm_hide_comment_path(comment.id)
                     i.control_edit.fa.fa-eye-slash data-identifier='comment-visibility-toggler-#{comment.id}' Hide
           li
-            a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-#{comment.id}'
+            a.AjaxFormLink.delete_btn href=comment_path(comment.id) data-_method='delete' data-target='comment-row-#{comment.id}'
               i.control_delete.fa.fa-trash Delete
           li
             a.Toggler data-target='edit-comment-#{comment.id}' href="#"
