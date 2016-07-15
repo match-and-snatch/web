@@ -555,7 +555,6 @@
           color: $color_text_dark
   .contribution
     .modal-body
-      margin-bottom: 15px
       max-width: 500px
       text-align: center
       .contribute-value
@@ -577,6 +576,7 @@
             top: 12px
           input[type='text']
             width: 140px
+            margin-top: 2px
       .custom-message
         margin: 0
         textarea
@@ -593,10 +593,15 @@
           &#recurring_cont_0
             margin-right: 15px
       input.btn.blue
-        width: 300px
+        width: 210px
+        margin-top: 20px
       p.small
         font-size: 12px
-        margin-top: 10px
+        display: inline-block
+        width: 250px
+        margin: 20px 20px 0 10px
+        text-align: left
+        text-indent: -10px
       .error.limit
         @include border-radius(5px)
         background-color: #faf258
