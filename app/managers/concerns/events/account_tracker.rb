@@ -5,7 +5,7 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def account_locked(user: , type: , reason: , &block)
-    Event.create! user: user,
+    create_event user: user,
                   subject: user,
                   action: 'account_locked',
                   data: { type: type, reason: reason },
@@ -16,7 +16,7 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def account_unlocked(user: ,&block)
-    Event.create! user: user,
+    create_event user: user,
                   subject: user,
                   action: 'account_unlocked',
                   data: {},
@@ -28,7 +28,7 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def account_photo_changed(user: , photo: , &block)
-    Event.create! user: user,
+    create_event user: user,
                   subject: user,
                   action: 'account_photo_changed',
                   data: { photo_id:    photo.id,
@@ -43,21 +43,21 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def account_information_changed(user: , data: {}, &block)
-    Event.create! user: user, subject: user, action: 'account_information_changed', data: data, &block
+    create_event user: user, subject: user, action: 'account_information_changed', data: data, &block
   end
 
   # @param user [User]
   # @yield
   # @return [Event]
   def password_changed(user: , &block)
-    Event.create! user: user, subject: user, action: 'password_changed', &block
+    create_event user: user, subject: user, action: 'password_changed', &block
   end
 
   # @param user [User]
   # @yield
   # @return [Event]
   def payout_information_changed(user: , &block)
-    Event.create! user: user, subject: user, action: 'payout_information_changed', &block
+    create_event user: user, subject: user, action: 'payout_information_changed', &block
   end
 
   # @param user [User]
@@ -65,35 +65,35 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def slug_changed(user: , slug: nil, &block)
-    Event.create! user: user, subject: user, action: 'slug_changed', data: { slug: slug }, &block
+    create_event user: user, subject: user, action: 'slug_changed', data: { slug: slug }, &block
   end
 
   # @param user [User]
   # @yield
   # @return [Event]
   def credit_card_updated(user: , &block)
-    Event.create! user: user, subject: user, action: 'credit_card_updated', &block
+    create_event user: user, subject: user, action: 'credit_card_updated', &block
   end
 
   # @param user [User]
   # @yield
   # @return [Event]
   def credit_card_declined(user: , data: , &block)
-    Event.create! user: user, subject: user, action: 'credit_card_declined', data: data, &block
+    create_event user: user, subject: user, action: 'credit_card_declined', data: data, &block
   end
 
   # @param user [User]
   # @yield
   # @return [Event]
   def credit_card_restored(user: , data: , &block)
-    Event.create! user: user, subject: user, action: 'credit_card_restored', data: data, &block
+    create_event user: user, subject: user, action: 'credit_card_restored', data: data, &block
   end
 
   # @param user [User]
   # @yield
   # @return [Event]
   def credit_card_removed(user: , data: , &block)
-    Event.create! user: user, subject: user, action: 'credit_card_removed', data: data, &block
+    create_event user: user, subject: user, action: 'credit_card_removed', data: data, &block
   end
 
   # @param user [User]
@@ -101,7 +101,7 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def vacation_mode_enabled(user: , reason: nil, &block)
-    Event.create! user: user,
+    create_event user: user,
                   subject: user,
                   action: 'vacation_mode_enabled', data: { reason: reason,
                                                            subscribers_count: user.subscribers_count }, &block
@@ -111,7 +111,7 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def vacation_mode_disabled(user: , affected_users_count: 0, &block)
-    Event.create! user: user,
+    create_event user: user,
                   subject: user,
                   action: 'vacation_mode_disabled', data: { affected_users_count: affected_users_count,
                                                             subscribers_count: user.subscribers_count }, &block
@@ -120,7 +120,7 @@ module Concerns::Events::AccountTracker
   # @param user [User]
   # @return [Event]
   def tos_accepted(user: , &block)
-    Event.create! user: user, subject: user, action: 'tos_accepted', &block
+    create_event user: user, subject: user, action: 'tos_accepted', &block
   end
 
   # @param user [User]
@@ -129,6 +129,6 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def subscriptions_limit_changed(user: , from: , to: , &block)
-    Event.create! user: user, subject: user, action: 'subscriptions_limit_changed', data: { from: from, to: to }, &block
+    create_event user: user, subject: user, action: 'subscriptions_limit_changed', data: { from: from, to: to }, &block
   end
 end

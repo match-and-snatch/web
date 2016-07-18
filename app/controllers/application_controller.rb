@@ -10,9 +10,14 @@ class ApplicationController < ActionController::Base
     http_basic_authenticate_with ___access_config.symbolize_keys
   end
 
+  before_action :store_session
   before_action :redirect_to_mobile!, if: -> { mobile_device? && !account_page? && !request.xhr? }
 
   protected
+
+  def store_session
+    Thread.current[:session_id] = session[:session_id]
+  end
 
   def redirect_to_mobile!
     mobile_host = Rails.env.development? ? "#{request.scheme}://#{request.host}:8080" : APP_CONFIG['mobile_site_url']

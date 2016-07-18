@@ -369,7 +369,8 @@ CREATE TABLE events (
     updated_at timestamp without time zone,
     subject_id integer,
     subject_type character varying,
-    subject_deleted boolean DEFAULT false NOT NULL
+    subject_deleted boolean DEFAULT false NOT NULL,
+    session_id character varying
 );
 
 
@@ -2136,4 +2137,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160622093032');
 INSERT INTO schema_migrations (version) VALUES ('20160629053501');
 
 INSERT INTO schema_migrations (version) VALUES ('20160629065528');
+
+INSERT INTO schema_migrations (version) VALUES ('20160713072935');
 

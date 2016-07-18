@@ -4,7 +4,7 @@ module Concerns::Events::CommentTracker
   # @yield
   # @return [Event]
   def comment_created(user: , comment: , &block)
-    Event.create! user: user,
+    create_event user: user,
                   subject: comment,
                   action: 'comment_created',
                   data: data_hash(comment),
@@ -16,7 +16,7 @@ module Concerns::Events::CommentTracker
   # @yield
   # @return [Event]
   def comment_updated(user: , comment: , &block)
-    Event.create! user: user,
+    create_event user: user,
                   subject: comment,
                   action: 'comment_updated',
                   data: data_hash(comment),
@@ -35,7 +35,7 @@ module Concerns::Events::CommentTracker
   # @yield
   # @return [Event]
   def comment_hidden(user: , comment: , &block)
-    Event.create! user: user, subject: comment, action: 'comment_hidden', data: data_hash(comment), &block
+    create_event user: user, subject: comment, action: 'comment_hidden', data: data_hash(comment), &block
   end
 
   # @param user [User]
@@ -43,7 +43,7 @@ module Concerns::Events::CommentTracker
   # @yield
   # @return [Event]
   def comment_removed(user: , comment: , &block)
-    Event.create! user: user,
+    create_event user: user,
                   action: 'comment_removed',
                   data: data_hash(comment),
                   &block
