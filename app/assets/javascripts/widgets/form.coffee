@@ -86,7 +86,7 @@ class bud.widgets.Form extends bud.Widget
       @$container.find("[data-field]").html('').hide()
       @$container.find("[name='#{field}'], [data-error_field='#{field}']").filter('.has-error').addClass('has-valid').removeClass('has-error')
 
-  on_after: =>
+  on_after: (response) =>
     @requesting = false
     @disable_pending_state()
     @after_callback?()

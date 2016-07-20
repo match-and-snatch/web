@@ -20,7 +20,7 @@ class bud.widgets.Commenter extends bud.widgets.Form
     return false if _.isEmpty(@$textarea.val())
     super()
 
-  on_after: =>
+  on_after: (response) =>
     super
     if @highlighter()
       @highlighter().cleanup()

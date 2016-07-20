@@ -37,7 +37,7 @@ class bud.widgets.StripeForm extends bud.widgets.Form
         @after_callback = @request_token
         @disable_pending_state()
 
-  on_after: =>
+  on_after: (response) =>
     @$stripe_token_field.val('')
     super
 

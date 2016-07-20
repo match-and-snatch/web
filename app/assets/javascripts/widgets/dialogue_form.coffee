@@ -13,8 +13,8 @@ class bud.widgets.DialogueForm extends bud.widgets.Form
   scroll_to_bottom: ->
     @$target.scrollTop(@$target.prop("scrollHeight"))
 
-  on_after: =>
+  on_after: (response) =>
     super
-    @$container[0].reset()
+    @$container[0].reset() if response.status != 'failed'
     @scroll_to_bottom()
 
