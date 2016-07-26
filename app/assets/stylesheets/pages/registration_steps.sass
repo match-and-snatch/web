@@ -37,7 +37,6 @@
           left: 9px
     .number_title
       padding-top: 3px
-    // Done
     .done
       color: $color_green
       .bar
@@ -51,7 +50,7 @@
         background-color: $color_pink
       .number
         background-color: $color_pink
-// Steps Container
+
 .steps_container
   font-size: 13px
   line-height: 20px
@@ -68,17 +67,14 @@
     i.fa.fa-caret-square-o-up
       &:before
         color: $color_pink
-  // Step 1
   .step_one
     overflow: visible
-    @media screen and (min-width: 992px)
-      .note
+    .note
+      &.n4
+        top: -65px !important
+      .arrow
         &.n4
-          top: -65px !important
-        .arrow
-          &.n4
-            top: 290px !important
-  // Step 2
+          top: 290px !important
   &.step_two
     h1
       color: $color_text_dark
@@ -88,6 +84,7 @@
       color: $color_blue
       font-size: 18px
       font-weight: 600
+      margin-top: 10px
       span
         color: $color_text_dark
         display: block
@@ -107,7 +104,6 @@
       .profile-type-added
         .profile-type-info
           margin: 15px 0 0
-
     .box
       padding: 0
       text-align: left
@@ -120,10 +116,8 @@
     .bg-warning
       padding: 5px
       margin-top: 5px
-    // Profile Name
     .profile_name
       margin: 15px 0
-    // USD
     @media screen and (min-width: 992px)
       .usd
         text-align: right
@@ -137,7 +131,6 @@
         font-size: 11px
         text-align: right
         margin-right: 0
-    // Check Design
     .check
       @include blue-area
       margin: 15px 0
