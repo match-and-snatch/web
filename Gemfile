@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
-ruby '2.2.3'
+ruby '2.3.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5.2'
+gem 'rails', '4.2.7'
 gem 'responders', '~> 2.1'
 
 # Caching
@@ -54,13 +54,13 @@ gem 'puma'
 # Application Specific
 gem 'slim', github: 'einzige/slim'
 gem 'slim-rails'
-gem 'bcrypt-ruby', require: 'bcrypt'
+gem 'bcrypt', require: 'bcrypt'
 gem 'rails_autolink'
 gem 'daemons'
 gem 'delayed_job_active_record'
 
 # Exception handling
-gem 'rollbar', '~> 2.5.0'
+gem 'rollbar', '~> 2.8.3'
 
 # Play with time
 gem 'chronic'
