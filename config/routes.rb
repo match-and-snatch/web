@@ -607,5 +607,6 @@ BuddyPlatform::Application.routes.draw do
   end
 
   get '/tanyabarbielieder', to: redirect('/tbl')
+  get '/brittanya187.brittanya', to: redirect('/brittanya187')
   get '/:id' => 'users#show', as: :profile
 end
