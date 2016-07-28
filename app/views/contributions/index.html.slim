@@ -1,7 +1,7 @@
 - if @contributions.any?
   .contributions-stats
     h2.pull-left
-      'Contributions
+      '* Contributions
       span style='color: #555555;'(#{cents_to_dollars @contributions.total_amount})
     - if @contributions.contribution_years.many?
       form.year-picker.pull-right.Form action=contributions_path data-target="contributions-list"
@@ -32,4 +32,11 @@
         'You have no contributions for this current year.
         br
         'To view contributions from previous years, please use the dropdown menu.
+
+  .profile_stats_note data-identifier='contributions-notice' style='margin: 0;'
+    a.read_more.Toggler href='#' data-target='contributions-notice' ...read more
+    '* Please note, the contribution dollar amounts displayed above do not include potential deductions
+  .profile_stats_note style="display:none; margin: 0;" data-identifier='contributions-notice'
+    '* Please note, the contribution dollar amounts displayed above do not include potential deductions for credit card disputes and/or credit card expenses.  Valid contributions will be subject to a credit card processing fee of 2.9% + 30 cents per transaction.  ConnectPal also charges a 5% Service Fee for all successfully completed Contributions
+    a.Toggler href='#' data-target='contributions-notice' Show less
   .clearfix
