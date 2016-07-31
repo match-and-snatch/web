@@ -1,4 +1,4 @@
-class Request < ActiveRecord::Base
+class Request < ApplicationRecord
   belongs_to :user
 
   scope :pending,   -> { where(approved: false, rejected: false, performed: false) }

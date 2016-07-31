@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   FAKE_TOKEN = 'fake'.freeze
   ROLE_FIELDS = {is_admin: 'admin', is_sales: 'sales'}.freeze
 

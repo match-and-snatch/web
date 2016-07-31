@@ -1,4 +1,4 @@
-class ProfilePage < ActiveRecord::Base
+class ProfilePage < ApplicationRecord
   belongs_to :user
   validates :user_id, presence: true
 end

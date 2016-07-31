@@ -1,4 +1,4 @@
-class Upload < ActiveRecord::Base
+class Upload < ApplicationRecord
   serialize :transloadit_data, Hash
   serialize :s3_paths, Hash
   belongs_to :uploadable, polymorphic: true

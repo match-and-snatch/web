@@ -1,3 +1,3 @@
-class PendingPost < ActiveRecord::Base
+class PendingPost < ApplicationRecord
   belongs_to :user
 end

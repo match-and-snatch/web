@@ -1,4 +1,4 @@
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   serialize :data, HashSerializer
 
   belongs_to :user, autosave: false

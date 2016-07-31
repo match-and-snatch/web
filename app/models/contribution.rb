@@ -1,4 +1,4 @@
-class Contribution < ActiveRecord::Base
+class Contribution < ApplicationRecord
   belongs_to :user
   belongs_to :target_user, class_name: 'User'
   belongs_to :parent, class_name: 'Contribution'

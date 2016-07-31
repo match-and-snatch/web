@@ -1,4 +1,4 @@
-class CommentIgnore < ActiveRecord::Base
+class CommentIgnore < ApplicationRecord
   belongs_to :user
   belongs_to :commenter, class_name: 'User'
 
