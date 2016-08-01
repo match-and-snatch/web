@@ -1,5 +1,5 @@
 class SitemapsController < ApplicationController
-  caches_action :index, expires_in: 1.hour
+  #caches_action :index, expires_in: 1.hour
   before_action :load_public_profiles!
 
   def show
