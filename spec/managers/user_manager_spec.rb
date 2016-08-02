@@ -206,29 +206,30 @@ describe UserManager do
 
   describe '#mark_tos_accepted' do
     let(:user) { create(:user, tos_accepted: false) }
+    let!(:tos_version) { create(:tos_version, :published) }
 
     it { expect { manager.mark_tos_accepted }.to change { user.reload.tos_accepted? }.from(false).to(true) }
     it { expect { manager.mark_tos_accepted }.to create_event(:tos_accepted) }
+    it { expect { manager.mark_tos_accepted }.to create_record(TosAcceptance).matching(user: user, tos_version: tos_version) }
   end
 
   describe '#toggle_tos_acceptance' do
+    let(:user) { create(:user) }
+    let!(:tos_version) { create(:tos_version, :published) }
+
     context 'tos accepted' do
-      let(:user) { create(:user, tos_accepted: true) }
+      before { UserManager.new(user).mark_tos_accepted }
 
       it { expect { manager.toggle_tos_acceptance }.to change { user.reload.tos_accepted? }.from(true).to(false) }
+      it { expect { manager.toggle_tos_acceptance }.to delete_record(TosAcceptance).matching(user: user, tos_version: tos_version, user_email: user.email, user_full_name: user.full_name) }
     end
 
     context 'tos not accepted' do
       let(:user) { create(:user, tos_accepted: false) }
 
       it { expect { manager.toggle_tos_acceptance }.to change { user.reload.tos_accepted? }.from(false).to(true) }
+      it { expect { manager.toggle_tos_acceptance }.to create_record(TosAcceptance).matching(user: user, tos_version: tos_version, user_email: user.email, user_full_name: user.full_name) }
     end
-  end
-
-  describe '.reset_tos_acceptance' do
-    let(:user) { create(:user, tos_accepted: true) }
-
-    it { expect { described_class.reset_tos_acceptance }.to change { user.reload.tos_accepted? }.from(true).to(false) }
   end
 
   describe '#set_invalid_email' do

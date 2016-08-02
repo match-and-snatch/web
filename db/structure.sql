@@ -1017,6 +1017,72 @@ ALTER SEQUENCE top_profiles_id_seq OWNED BY top_profiles.id;
 
 
 --
+-- Name: tos_acceptances; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tos_acceptances (
+    id integer NOT NULL,
+    user_email character varying,
+    user_full_name character varying,
+    user_id integer,
+    tos_version_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: tos_acceptances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tos_acceptances_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tos_acceptances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tos_acceptances_id_seq OWNED BY tos_acceptances.id;
+
+
+--
+-- Name: tos_versions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tos_versions (
+    id integer NOT NULL,
+    tos text NOT NULL,
+    published_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: tos_versions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tos_versions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tos_versions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tos_versions_id_seq OWNED BY tos_versions.id;
+
+
+--
 -- Name: uploads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1374,6 +1440,20 @@ ALTER TABLE ONLY top_profiles ALTER COLUMN id SET DEFAULT nextval('top_profiles_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY tos_acceptances ALTER COLUMN id SET DEFAULT nextval('tos_acceptances_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY tos_versions ALTER COLUMN id SET DEFAULT nextval('tos_versions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY uploads ALTER COLUMN id SET DEFAULT nextval('uploads_id_seq'::regclass);
 
 
@@ -1582,6 +1662,22 @@ ALTER TABLE ONLY subscriptions
 
 ALTER TABLE ONLY top_profiles
     ADD CONSTRAINT top_profiles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tos_acceptances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY tos_acceptances
+    ADD CONSTRAINT tos_acceptances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tos_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY tos_versions
+    ADD CONSTRAINT tos_versions_pkey PRIMARY KEY (id);
 
 
 --
@@ -2156,4 +2252,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160629065528');
 INSERT INTO schema_migrations (version) VALUES ('20160705045530');
 
 INSERT INTO schema_migrations (version) VALUES ('20160713072935');
+
+INSERT INTO schema_migrations (version) VALUES ('20160727034406');
+
+INSERT INTO schema_migrations (version) VALUES ('20160727034542');
+
+INSERT INTO schema_migrations (version) VALUES ('20160727050324');
 

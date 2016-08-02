@@ -1,18 +1,49 @@
 - if @users.any?
+  br
   .list-group-item-heading
     strong Matching Results
   ul.list-group
     - @users.each do |user|
       li.list-group-item
         .pull-left
-          span style='padding-top: 7px; display: inline-block;'= user.full_name
-          | &nbsp;
+          = user.id
+          '
+          span style='padding-top: 7px; display: inline-block;'
+            = user.full_name
+          '
           strong= user.email
         - if user.tos_accepted?
           .btn.pink.pull-right.AjaxLink href=confirm_toggle_tos_acceptance_admin_tos_acceptor_path(user.id) Reset ToS
         - else
           .btn.green.pull-right.AjaxLink href=confirm_toggle_tos_acceptance_admin_tos_acceptor_path(user.id) Accept ToS
         .clearfix
+        hr
+        .table-responsive
+          table.table.table-striped
+            tr
+              th
+                strong #
+              th
+                strong Email
+              th
+                strong Full name
+              th
+                strong Enabled Date
+              th
+                strong Accepted Date
+
+            - if acceptances = acceptances_for(user)
+              - acceptances.each_with_index do |acceptance, index|
+                tr
+                  td= index + 1
+                  td= acceptance.user_email
+                  td= acceptance.user_full_name
+                  td= acceptance.enabled_at.to_s(:short)
+                  td= acceptance.accepted_at.try(:to_s, :short) || 'Not accepted'
+            - else
+              tr
+                td colspan=3 No data found
+
   .clearfix
 - else
   - if params[:q].present?

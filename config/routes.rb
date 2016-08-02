@@ -157,6 +157,7 @@ BuddyPlatform::Application.routes.draw do
     end
 
     get '/mentions' => 'users#mentions', as: :mentions
+    get '/terms_of_service' => 'pages#terms_of_service', as: :terms_of_service
 
     match '*path' => 'cors#preflight', via: :options
   end
@@ -454,8 +455,15 @@ BuddyPlatform::Application.routes.draw do
       resources :payout_details, only: :index
       resources :vacations, only: :index
       resources :recently_changed_emails, only: :index
+      resources :tos_versions, only: [:index, :new, :create] do
+        member do
+          get :text
+          put :publish
+        end
+      end
       resources :tos_acceptors, only: :index do
         member do
+          get :history
           get :confirm_toggle_tos_acceptance
           put :toggle_tos_acceptance
         end

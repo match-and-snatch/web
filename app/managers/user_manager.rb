@@ -113,16 +113,20 @@ class UserManager < BaseManager
   def mark_tos_accepted
     @user.tos_accepted = true
     save_or_die! @user
+    @user.tos_acceptances.create(tos_version: TosVersion.active, user_email: @user.email, user_full_name: @user.full_name)
     EventsManager.tos_accepted(user: @user)
   end
 
   def toggle_tos_acceptance
     @user.tos_accepted = !@user.tos_accepted?
     save_or_die! @user
-  end
-
-  def self.reset_tos_acceptance
-    User.where(tos_accepted: true).update_all(tos_accepted: false)
+    if @user.tos_accepted?
+      ActiveRecord::Base.transaction do
+        @user.tos_acceptances.create!(tos_version: TosVersion.active, user_email: @user.email, user_full_name: @user.full_name)
+      end
+    else
+      @user.tos_acceptances.active.destroy_all
+    end
   end
 
   # @return [User]

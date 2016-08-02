@@ -15,27 +15,37 @@ ul.cat_links
 hr
 
 form.Form action=search_admin_tos_acceptors_path method='get' data-target='acceptors'
-  input.Autocomplete.form-control type="text" name='q' placeholder="Search users by email"
+  input.Autocomplete.form-control type="text" name='q' placeholder="Search users by ID, Email, Stripe ID or Name"
 
 div data-identifier='acceptors'
 
 - if @users.any?
   table.table.table-striped style='margin-top: 15px;'
     th
+      strong ID
+    th
       strong Name
     th
       strong Email
     th
+    th
 
     - @users.each do |user|
       tr
+        td= user.id
         td= dashboard_link_to_user user, truncate: false
         td= user.email
+        td
+          a.AjaxLink href=history_admin_tos_acceptor_path(user.id) data-target="#{user.id}-acceptances-table"
+            span.Toggler data-target="#{user.id}-acceptances" History
         td
           - if user.tos_accepted?
             .btn.pink.pull-right.AjaxLink href=confirm_toggle_tos_acceptance_admin_tos_acceptor_path(user.id) Reset ToS
           - else
             .btn.green.pull-right.AjaxLink href=confirm_toggle_tos_acceptance_admin_tos_acceptor_path(user.id) Accept ToS
+      tr style='display: none' data-identifier="#{user.id}-acceptances"
+        td colspan="5" data-identifier="#{user.id}-acceptances-table"
+
   .TopJumper= paginate @users
 - else
   h3.pending No users found

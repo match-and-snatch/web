@@ -1,0 +1,28 @@
+h2
+  strong ToS Acceptances history
+
+.table-responsive
+  table.table.table-striped
+    tr
+      th
+        strong #
+      th
+        strong Email
+      th
+        strong Full name
+      th
+        strong Enabled Date
+      th
+        strong Accepted Date
+
+    - if @acceptances.any?
+      - @acceptances.each_with_index do |acceptance, index|
+        tr
+          td= index + 1
+          td= acceptance.user_email
+          td= acceptance.user_full_name
+          td= acceptance.enabled_at.to_s(:short)
+          td= acceptance.accepted_at.try(:to_s, :short) || 'Not accepted'
+    - else
+      tr
+        td colspan=3 No data found

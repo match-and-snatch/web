@@ -1,0 +1,14 @@
+.modal-header style='width: 480px;'
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
+  .modal-title Add new Tos
+  p style="font-size: 13px; margin-top: 15px;" Please enter new ToS text
+
+  .modal-body style="padding-bottom: 15px;"
+    form.Form action=admin_tos_versions_path method='post'
+      .form-group
+        textarea.form-control style='overflow-y: scroll; height: 300px' name='tos' rows='15' validate='require'
+        p.text-danger data-field='tos'
+      .form-group style="margin: 15px 0 0"
+        input.btn.pink.pull-left type='submit' value='Add' style="margin-left: 85px; text-decoration: none;"
+        a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
+        .clearfix

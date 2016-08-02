@@ -53,6 +53,8 @@ class User < ActiveRecord::Base
   has_many :credit_card_update_requests
   has_many :subscription_daily_count_change_events
   has_many :subordinates, class_name: 'User', foreign_key: 'partner_id'
+  has_many :tos_acceptances
+  has_many :tos_versions, through: :tos_acceptances
 
   has_one :top_profile
   has_one :pending_post

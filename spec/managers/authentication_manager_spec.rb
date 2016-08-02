@@ -29,6 +29,13 @@ describe AuthenticationManager do
     specify { expect { register }.to change(User, :count).by(1) }
     specify { expect { register }.to create_event(:registered) }
 
+    context do
+      let!(:tos_version) { create(:tos_version, :published) }
+
+      it { expect { register }.to create_record(TosAcceptance).matching(tos_version: tos_version) }
+      it { expect { register }.to create_record(User).matching(tos_accepted: true) }
+    end
+
     context 'already registered user' do
       before { manager.register }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) } }

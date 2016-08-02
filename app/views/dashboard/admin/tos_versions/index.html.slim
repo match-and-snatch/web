@@ -1,0 +1,37 @@
+h2 ToS Versions (#{@tos_versions.total_count})
+
+ul.cat_links
+  li
+    .btn.pink.AjaxLink href=new_admin_tos_version_path Add new ToS
+.clearfix
+
+- if @tos_versions.any?
+  table.table.table-striped style='margin-top: 15px;'
+    th
+      strong ID
+    th
+      strong Text
+    th
+      strong Created at
+    th
+      strong Published at
+    th
+
+    - @tos_versions.each do |tos_version|
+      tr
+        td= tos_version.id
+        td
+          a.AjaxLink href=text_admin_tos_version_path(tos_version.id) Show
+        td= tos_version.created_at.to_s(:short)
+        td= tos_version.published_at.try(:to_s, :short) || '&mdash;'.html_safe
+        td
+          - if tos_version.active?
+            strong style='color: #8dc63f' ACTIVE
+          - elsif !tos_version.published?
+            .btn.green.pull-left.AjaxFormLink href=publish_admin_tos_version_path(tos_version.id) data-_method='put' Publish
+          - else
+            |Published
+
+  .TopJumper= paginate @tos_versions
+- else
+  h3.pending No versions found

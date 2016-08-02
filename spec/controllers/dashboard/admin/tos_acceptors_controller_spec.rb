@@ -39,4 +39,9 @@ describe Dashboard::Admin::TosAcceptorsController, type: :controller do
     subject { post 'reset_tos_acceptance' }
     it { is_expected.to be_success }
   end
+
+  describe 'GET #history' do
+    subject { get 'history', id: user.id }
+    it { is_expected.to be_success }
+  end
 end

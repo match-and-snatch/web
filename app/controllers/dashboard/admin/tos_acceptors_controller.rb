@@ -1,5 +1,5 @@
 class Dashboard::Admin::TosAcceptorsController < Dashboard::Admin::BaseController
-  before_action :load_user!, only: [:confirm_toggle_tos_acceptance, :toggle_tos_acceptance]
+  before_action :load_user!, only: [:confirm_toggle_tos_acceptance, :toggle_tos_acceptance, :history]
 
   def search
     @users = Queries::Users.new(user: current_user.object, query: params[:q]).by_admin_fields
@@ -25,8 +25,13 @@ class Dashboard::Admin::TosAcceptorsController < Dashboard::Admin::BaseControlle
   end
 
   def reset_tos_acceptance
-    UserManager.reset_tos_acceptance
+    TosManager.new.reset_tos_acceptance(tos: params[:tos])
     json_reload
+  end
+
+  def history
+    @acceptances = acceptances_for(@user)
+    json_render
   end
 
   private
@@ -34,4 +39,10 @@ class Dashboard::Admin::TosAcceptorsController < Dashboard::Admin::BaseControlle
   def load_user!
     @user = User.find(params[:id])
   end
+
+  def acceptances_for(user)
+    TosVersion.published.joins("LEFT OUTER JOIN tos_acceptances ON tos_versions.id = tos_acceptances.tos_version_id AND tos_acceptances.user_id = #{user.id}")
+        .select("tos_versions.published_at AS enabled_at, tos_acceptances.created_at AS accepted_at, tos_acceptances.user_email AS user_email, tos_acceptances.user_full_name AS user_full_name")
+  end
+  helper_method :acceptances_for
 end

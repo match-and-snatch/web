@@ -58,6 +58,7 @@ gem 'bcrypt', require: 'bcrypt'
 gem 'rails_autolink'
 gem 'daemons'
 gem 'delayed_job_active_record'
+gem 'redcarpet'
 
 # Exception handling
 gem 'rollbar', '~> 2.8.3'

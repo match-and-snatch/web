@@ -1,0 +1,5 @@
+.modal-header style='width: 480px;'
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
+  .modal-title ToS
+  .modal-body style="padding-bottom: 15px;overflow-y:scroll;max-height:500px;"
+    = @tos_version.tos.html_safe
