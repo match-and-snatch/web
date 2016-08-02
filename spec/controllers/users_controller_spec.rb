@@ -30,7 +30,8 @@ describe ::UsersController, type: :controller do
                                first_name: 'sergei',
                                last_name: 'zinin',
                                password: 'qwerty',
-                               password_confirmation: 'qwerty', format: :json }
+                               password_confirmation: 'qwerty',
+                               tos_accepted: '1', format: :json }
 
       it { should be_success }
       its(:body) { should match_regex /redirect/ }

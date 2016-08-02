@@ -20,6 +20,7 @@
     span.hidden-xs Checkout will create an account for you to login and view your subscriptions
   .modal-body.subscribe_container.new_subscriber
     form.pull-left.StripeForm action=via_register_user_subscriptions_path(@target_user) method='POST'
+      input type='hidden' name='tos_accepted' value='true'
       .account_payment.pull-left style='padding: 10px 15px 15px 15px; min-height: 200px;'
         label style='font-size: 13px; margin-bottom: 10px;' Account Information
         .clearfix

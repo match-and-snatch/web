@@ -52,6 +52,7 @@ describe SubscriptionsController, type: :controller do
                                    address_line_2: '',
                                    city: 'LA',
                                    state: 'CA',
+                                   tos_accepted: 'true',
                                    zip: '123456' }
 
     it { should be_success }

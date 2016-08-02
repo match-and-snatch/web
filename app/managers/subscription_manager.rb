@@ -35,6 +35,7 @@ class SubscriptionManager < BaseManager
   # @param full_name [String]
   # @param password [String]
   # @param target [Concerns::Subscribable]
+  # @param tos_accepted [Boolean]
   # @return [Subscription]
   def register_subscribe_and_pay_via_token(email: nil,
                                            full_name: nil,
@@ -47,7 +48,8 @@ class SubscriptionManager < BaseManager
                                            state: nil,
                                            address_line_1: nil,
                                            address_line_2: nil,
-                                           target: )
+                                           target: ,
+                                           tos_accepted: false)
 
     unless target.is_a?(Concerns::Subscribable)
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"
@@ -69,6 +71,8 @@ class SubscriptionManager < BaseManager
       validate_password password: password,
                         password_confirmation: password
       validate_cc(card, sensitive: false)
+
+      fail_with tos_accepted: :not_accepted unless tos_accepted
     end
 
     fail_with!({stripe_token: :empty}, MissingCcTokenError) unless card.registered?
@@ -76,7 +80,8 @@ class SubscriptionManager < BaseManager
     auth = AuthenticationManager.new email: email,
                                      full_name: full_name,
                                      password: password,
-                                     password_confirmation: password
+                                     password_confirmation: password,
+                                     tos_accepted: tos_accepted
     if auth.valid_input?
       ActiveRecord::Base.transaction do
         @subscriber = auth.register
@@ -109,6 +114,7 @@ class SubscriptionManager < BaseManager
   # @param city [String]
   # @param zip [String]
   # @param target [Concerns::Subscribable]
+  # @param tos_accepted [Boolean]
   # @return [Subscription]
   def register_subscribe_and_pay(email: nil,
                                  full_name: nil,
@@ -122,7 +128,8 @@ class SubscriptionManager < BaseManager
                                  state: nil,
                                  address_line_1: nil,
                                  address_line_2: nil,
-                                 target: )
+                                 target: ,
+                                 tos_accepted: false)
     unless target.is_a?(Concerns::Subscribable)
       raise ArgumentError, "Cannot subscribe to #{target.class.name}"
     end
@@ -143,12 +150,15 @@ class SubscriptionManager < BaseManager
       validate_password password: password,
                         password_confirmation: password
       validate_cc card
+
+      fail_with tos_accepted: :not_accepted unless tos_accepted
     end
 
     auth = AuthenticationManager.new email: email,
                                      full_name: full_name,
                                      password: password,
-                                     password_confirmation: password
+                                     password_confirmation: password,
+                                     tos_accepted: tos_accepted
     if auth.valid_input?
       ActiveRecord::Base.transaction do
         @subscriber = auth.register

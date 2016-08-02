@@ -6,6 +6,7 @@
     span.register_tagline You're only 55 seconds away from your profile!
   .modal-body
     form.Form action=users_path method='post'
+      input type='hidden' name='tos_accepted' value='true'
       .form-group
         .pull-left
           label First Name

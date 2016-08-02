@@ -7,12 +7,14 @@ describe AuthenticationManager do
   let(:first_name) { 'sergei' }
   let(:last_name) { 'zinin' }
   let(:api_token) { 'invalid' }
+  let(:tos_accepted) { true }
 
   subject(:manager) { described_class.new(email: email,
                                           password: password,
                                           password_confirmation: password_confirmation,
                                           first_name: first_name,
                                           last_name: last_name,
+                                          tos_accepted: tos_accepted,
                                           api_token: api_token) }
 
   describe '#register' do
@@ -103,6 +105,12 @@ describe AuthenticationManager do
       let(:password_confirmation) { 'qwer' }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:password) } }
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).not_to have_key(:password_confirmation) } }
+      specify { expect { register rescue nil }.not_to create_event(:registered) }
+    end
+
+    context 'tos not accepted' do
+      let(:tos_accepted) { false }
+      specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to have_key(:tos_accepted) } }
       specify { expect { register rescue nil }.not_to create_event(:registered) }
     end
   end

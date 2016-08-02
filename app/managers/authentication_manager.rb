@@ -3,7 +3,7 @@ class AuthenticationManager < BaseManager
   include Concerns::PasswordValidator
   include Concerns::NameValidator
 
-  attr_reader :is_profile_owner, :email, :password, :password_confirmation, :first_name, :last_name, :full_name
+  attr_reader :is_profile_owner, :email, :password, :password_confirmation, :first_name, :last_name, :full_name, :tos_accepted
 
   # @param email [String]
   # @param password [String]
@@ -17,7 +17,8 @@ class AuthenticationManager < BaseManager
                  full_name: nil,
                  first_name: nil,
                  last_name: nil,
-                 api_token: nil)
+                 api_token: nil,
+                 tos_accepted: false)
     @is_profile_owner      = is_profile_owner
     @email                 = email.to_s
     @password              = password
@@ -26,6 +27,7 @@ class AuthenticationManager < BaseManager
     @last_name             = last_name.strip.humanize if last_name
     @full_name             = full_name || "#@first_name #@last_name"
     @api_token             = api_token
+    @tos_accepted          = tos_accepted
   end
 
   # @param token [String]
@@ -131,5 +133,7 @@ class AuthenticationManager < BaseManager
 
     validate_email(email)
     validate_password(password: password, password_confirmation: password_confirmation)
+
+    fail_with tos_accepted: :not_accepted unless tos_accepted
   end
 end

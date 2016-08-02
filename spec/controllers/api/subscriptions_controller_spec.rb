@@ -39,6 +39,7 @@ describe Api::SubscriptionsController, type: :controller do
                    city: 'LA',
                    state: 'CA',
                    zip: '123456',
+                   tos_accepted: 'true',
                    format: :json }
 
     it { should be_success }

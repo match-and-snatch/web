@@ -28,6 +28,7 @@ en:
     contribution_limit_reached: We're sorry, your contribution amount has exceeded the total daily limit allowed.
     invalid_zip: Incorrect Postal Code
     contains_numbers: Numbers are not allowed
+    not_accepted: To proceed, please indicate that you agree to ConnectPal's <a href='/terms_of_service' target='_blank'>Terms of Service</a> and <a href='privacy_policy' target='_blank'>Privacy Policy</a> by checking this box.
   messages:
     activated: Congratulations, your account has been activated. You are now ready to use our service.
     congrats: "Congratulations, your profile is now ready to update! Once you're happy with how it looks, start sharing your profile with your followers!"

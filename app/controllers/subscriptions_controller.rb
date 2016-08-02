@@ -42,7 +42,8 @@ class SubscriptionsController < ApplicationController
                                                      city:         params[:city],
                                                      address_line_1: params[:address_line_1],
                                                      address_line_2: params[:address_line_2],
-                                                     state:          params[:state]
+                                                     state:          params[:state],
+                                                     tos_accepted:   params.bool(:tos_accepted)
       rescue PaymentError
       end
       session_manager.login(params[:email], params[:password])

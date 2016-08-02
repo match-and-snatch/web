@@ -30,7 +30,8 @@ describe SubscriptionManager do
           state: 'CA',
           address_line_1: 'Test',
           address_line_2: nil,
-          target: another_user
+          target: another_user,
+          tos_accepted: true
       }
     end
 
@@ -113,7 +114,8 @@ describe SubscriptionManager do
           city: 'LA',
           state: 'CA',
           address_line_1: 'Test',
-          address_line_2: nil
+          address_line_2: nil,
+          tos_accepted: true
       }
     end
 
@@ -166,6 +168,7 @@ describe SubscriptionManager do
                                                   password_confirmation: 'passwordset',
                                                   first_name: 'Sergei',
                                                   last_name: 'Zinin',
+                                                  tos_accepted: true,
                                                   api_token: 'apitokenset')
           registrator.register
         end
