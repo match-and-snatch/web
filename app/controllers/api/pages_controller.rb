@@ -1,5 +1,5 @@
 class Api::PagesController < Api::BaseController
   def terms_of_service
-    json_success terms_of_service: TosVersion.active.tos
+    json_success api_response.tos_data
   end
 end
