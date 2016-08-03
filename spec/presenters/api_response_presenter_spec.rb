@@ -117,7 +117,7 @@ describe ApiResponsePresenter do
   end
 
   describe '#tos_data' do
-    its(:tos_data) { is_expected.to eq(terms_of_service: '') }
+    its(:tos_data) { is_expected.to eq(terms_of_service: "\n") }
 
     context 'with active tos' do
       before do
@@ -125,7 +125,7 @@ describe ApiResponsePresenter do
         create :tos_version, :published, tos: '# Published ToS'
       end
 
-      its(:tos_data) { is_expected.to eq(terms_of_service: "<h1>Published ToS</h1>\n") }
+      its(:tos_data) { is_expected.to eq(terms_of_service: "<h1 id=\"published-tos\">Published ToS</h1>\n") }
     end
   end
 end
