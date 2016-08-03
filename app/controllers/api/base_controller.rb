@@ -3,7 +3,8 @@ class Api::BaseController < ActionController::Base
 
   rescue_from(AuthenticationError) { |e| json_response 'failed', e.messages }
 
-  skip_before_action :verify_authenticity_token, :redirect_to_mobile!
+  #skip_before_action :verify_authenticity_token, :redirect_to_mobile!
+  #skip_before_action :redirect_to_mobile!
   before_action :allow_cors, :authenticate_by_api_token
 
   protected
