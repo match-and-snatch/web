@@ -377,7 +377,6 @@ CREATE TABLE events (
     id integer NOT NULL,
     action character varying,
     message character varying,
-    old_data text,
     user_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -2250,6 +2249,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160629053501');
 INSERT INTO schema_migrations (version) VALUES ('20160629065528');
 
 INSERT INTO schema_migrations (version) VALUES ('20160705045530');
+
+INSERT INTO schema_migrations (version) VALUES ('20160706031025');
 
 INSERT INTO schema_migrations (version) VALUES ('20160713072935');
 
