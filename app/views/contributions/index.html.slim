@@ -1,8 +1,6 @@
 - if @contributions.any?
   .contributions-stats
-    h2.pull-left
-      '* Contributions
-      span style='color: #555555;'(#{cents_to_dollars @contributions.total_amount})
+    h2.pull-left * Contributions
     - if @contributions.contribution_years.many?
       form.year-picker.pull-right.Form action=contributions_path data-target="contributions-list"
         select.year-select.form-control.pull-right data-submitter=true name='year'
@@ -18,7 +16,7 @@
               b Contribution Count
             th width='160px' style='text-align: center;'
               b Total Value
-            th width=''
+            th
         tbody
           - @contributions.each_year_month do |year_month, contributions|
             tr
