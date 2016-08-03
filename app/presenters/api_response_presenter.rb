@@ -1,5 +1,5 @@
 class ApiResponsePresenter
-  include ApplicationHelper
+  include MarkdownHelper
   include ActionView::Helpers::DateHelper
   include Rails.application.routes.url_helpers
 
@@ -456,7 +456,7 @@ class ApiResponsePresenter
   end
 
   def tos_data
-    {terms_of_service: markdown_to_html(TosVersion.active.tos)}
+    {terms_of_service: markdown_to_html(TosVersion.active.try(:tos) || '')}
   end
 
   private

@@ -115,4 +115,17 @@ describe ApiResponsePresenter do
 
     it { expect { subject.welcome_media_data(video) }.not_to raise_error }
   end
+
+  describe '#tos_data' do
+    its(:tos_data) { is_expected.to eq(terms_of_service: '') }
+
+    context 'with active tos' do
+      before do
+        create :tos_version, tos: 'not published tos'
+        create :tos_version, :published, tos: '# Published ToS'
+      end
+
+      its(:tos_data) { is_expected.to eq(terms_of_service: "<h1>Published ToS</h1>\n") }
+    end
+  end
 end
