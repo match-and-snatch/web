@@ -97,6 +97,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'rspec-its'
   gem 'guard-rspec', require: false
