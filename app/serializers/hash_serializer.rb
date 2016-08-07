@@ -4,6 +4,7 @@ class HashSerializer
   end
 
   def self.load(hash)
-    (hash || {}).with_indifferent_access
+    return {}.with_indifferent_access unless hash
+    (JSON.parse(hash) || {}).with_indifferent_access
   end
 end
