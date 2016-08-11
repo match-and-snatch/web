@@ -73,20 +73,27 @@ describe Api::UsersController, type: :controller do
 
   describe 'POST #update_cost' do
     let(:user) { create :user, :profile_owner, api_token: 'set' }
+    let(:cost) { 5 }
+
+    subject { post 'update_cost', id: user.slug, cost: cost, format: :json }
 
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      subject { post 'update_cost', id: user.slug, cost: 10, format: :json }
-
       its(:status) { is_expected.to eq(200) }
-      it { expect { subject }.to change { user.reload.cost }.to(10_00) }
+      it { expect { subject }.to change { user.reload.cost }.to(5_00) }
       it { expect(subject.body).to include("data") }
+
+      context 'large cost' do
+        let(:cost) { 6 }
+
+        its(:status) { is_expected.to eq(200) }
+        it { expect { subject }.not_to change { user.reload.cost } }
+        it { expect(JSON.parse(subject.body)).to include({"notice"=>/Your price change request has been submitted/}) }
+      end
     end
 
     context 'non authorized' do
-      subject { post 'update_cost', id: user.slug, cost: 10, format: :json }
-
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       it { expect { subject }.not_to change { user.reload.cost } }
     end

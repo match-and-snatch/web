@@ -46,7 +46,7 @@ describe UserProfileManager do
 
   describe '#finish_owner_registration' do
     let!(:user) { create(:user, full_name: 'Barak Obama') }
-    let(:params) { {profile_name: 'The President', cost: 9} }
+    let(:params) { {profile_name: 'The President', cost: 5} }
 
     subject(:finish) { manager.finish_owner_registration(params) }
 
@@ -1227,11 +1227,11 @@ describe UserProfileManager do
       before { manager.finish_owner_registration(profile_name: 'The President', cost: 25) }
 
       it 'does not send welcome email if cost too high' do
-        expect { manager.update_cost(16) rescue nil }.not_to deliver_email(to: user.email)
+        expect { manager.update_cost(6) rescue nil }.not_to deliver_email(to: user.email)
       end
 
       it 'sends welcome email if cost less than limit' do
-        expect { manager.update_cost(6) }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/)
+        expect { manager.update_cost(5) }.to deliver_email(to: user.email, subject: /Welcome to ConnectPal!/)
       end
     end
   end

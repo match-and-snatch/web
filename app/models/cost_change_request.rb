@@ -1,5 +1,5 @@
 class CostChangeRequest < Request
-  MAX_COST = 11_00
+  MAX_COST = 6_00
 
   scope :new_large_cost, -> { where("old_cost IS NULL AND new_cost >= ?", MAX_COST) }
 
