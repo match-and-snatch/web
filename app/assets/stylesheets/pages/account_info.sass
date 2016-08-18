@@ -161,6 +161,8 @@
         color: $color_text_light
         font-size: 12px
       .profile_picture
+        background: asset-url('default_profile_pic.png') no-repeat
+        background-size: 50px
         img
           border: 1px solid $color_border
           height: 50px
@@ -593,27 +595,3 @@
         .form-control
           font-size: 12px
           width: 335px
-
-@media screen and (max-width: 767px)
-  .content
-    width: 100% !important
-    margin-bottom: 0 !important
-    .item_feed
-      .name
-        display: block
-        width: 100%
-        padding-bottom: 0 !important
-      .date
-        padding: 10px 0
-        text-align: left
-        float: none !important
-        font-size: 10px !important
-      .profile_picture
-        display: none
-      .latest_post
-        width: 100% !important
-      .box
-        font-size: 12px
-@media screen and (max-width: 768px)
-  .content
-    width: 660px
