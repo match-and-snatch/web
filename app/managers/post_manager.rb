@@ -135,7 +135,7 @@ class PostManager < BaseManager
       PendingPost.create!(attributes.merge(user: user))
     end
 
-    user.pending_post(true)
+    user.pending_post.reload
   end
 
   def cancel_pending_audios

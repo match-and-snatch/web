@@ -18,7 +18,7 @@ describe BenefitsController, type: :controller do
       it { should be_success }
 
       specify do
-        expect(assigns(:benefits)).to match_array(user.benefits(true))
+        expect(assigns(:benefits)).to match_array(user.benefits.reload)
       end
 
       specify do
