@@ -7,6 +7,16 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
+  remote: git://github.com/connectpal/rails-sdk.git
+  revision: b48ef1bc65b00227783f74723491a5842bfa493d
+  branch: rails-5-gemfile
+  specs:
+    transloadit-rails (1.2.0)
+      mime-types (~> 2.99)
+      railties (>= 3)
+      transloadit (>= 1.1.1)
+
+GIT
   remote: git://github.com/connectpal/stripe-ruby-mock.git
   revision: b489c5fc7f6d224b06f07e2ddab448ca4b85332a
   ref: b489c5f
@@ -367,10 +377,6 @@ GEM
       mime-types (~> 2.99)
       multi_json
       rest-client
-    transloadit-rails (1.2.0)
-      mime-types (~> 2.99)
-      railties (>= 3)
-      transloadit (>= 1.1.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.2)
@@ -441,7 +447,7 @@ DEPENDENCIES
   stripe-rails
   stripe-ruby-mock!
   timecop
-  transloadit-rails
+  transloadit-rails!
   uglifier
 
 RUBY VERSION

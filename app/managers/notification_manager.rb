@@ -8,10 +8,9 @@ class NotificationManager < BaseManager
 
     # @param failure [PaymentFailure]
     def notify_recurring_payment_failed(failure)
-      if failure.user.payment_failures(true).
-          where("payment_failures.id <> ? AND payment_failures.created_at > ?", failure.id, 3.hours.ago).
-          empty?
-
+      if failure.user.payment_failures.reload
+           .where("payment_failures.id <> ? AND payment_failures.created_at > ?", failure.id, 3.hours.ago)
+           .empty?
         subscription = failure.target
         PaymentsMailer.failed(failure).deliver_now if subscription.notify_about_payment_failure?
       end

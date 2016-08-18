@@ -74,7 +74,7 @@ gem 'stripe-rails'
 gem 'aws-sdk', '~> 2.0.48'
 
 # Uploads, assets
-gem 'transloadit-rails'
+gem 'transloadit-rails', github: 'connectpal/rails-sdk', branch: 'rails-5-gemfile'
 
 # Pagination
 gem 'kaminari', github: 'amatsuda/kaminari'
