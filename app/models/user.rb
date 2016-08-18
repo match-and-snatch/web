@@ -123,7 +123,7 @@ class User < ApplicationRecord
   end
 
   ROLE_FIELDS.each do |field, val|
-    name = "#{val.parameterize('_')}?"
+    name = "#{val.parameterize(separator: '_')}?"
 
     define_method name do
       public_send(field) || admin?
@@ -137,7 +137,7 @@ class User < ApplicationRecord
   def roles
     [].tap do |result|
       ROLE_FIELDS.values.each do |role|
-        result << role if public_send("#{role.parameterize('_')}?")
+        result << role if public_send("#{role.parameterize(separator: '_')}?")
       end
     end
   end

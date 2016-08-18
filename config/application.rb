@@ -28,7 +28,7 @@ module BuddyPlatform
     I18n.enforce_available_locales = true
 
     config.autoload_paths += %W(#{config.root}/lib)
-    config.middleware.delete 'ActiveRecord::QueryCache'
+    config.middleware.delete ActiveRecord::QueryCache
 
     config.generators do |g|
       g.factory_girl dir: 'spec/factories'
