@@ -5,9 +5,9 @@
     - @users.each do |user|
       li.list-group-item
         .pull-left
+          strong=> user.id
           span style='padding-top: 7px; display: inline-block;'= user.full_name
-          | &nbsp;
-          strong= user.email
+          strong=< user.email
         - if user.admin?
           button.AjaxFormLink.btn.btn-warning.pull-right data-_method='put' href=drop_admin_admin_user_path(user.id) Drop Admin
         - else
