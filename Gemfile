@@ -91,6 +91,7 @@ group :development, :test do
   gem 'jazz_fingers'
   gem 'pry-rails'
   gem 'factory_girl_rails'
+  gem 'rubocop', require: false
 end
 
 group :test do
