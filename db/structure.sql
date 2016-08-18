@@ -1058,7 +1058,8 @@ CREATE TABLE tos_versions (
     tos text NOT NULL,
     published_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    privacy_policy text
 );
 
 
@@ -2259,4 +2260,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160727034406');
 INSERT INTO schema_migrations (version) VALUES ('20160727034542');
 
 INSERT INTO schema_migrations (version) VALUES ('20160727050324');
+
+INSERT INTO schema_migrations (version) VALUES ('20160808031548');
 

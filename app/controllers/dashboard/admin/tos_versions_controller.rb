@@ -1,5 +1,5 @@
 class Dashboard::Admin::TosVersionsController < Dashboard::Admin::BaseController
-  before_action :load_tos_version!, only: [:text, :publish]
+  before_action :load_tos_version!, only: [:edit, :update, :show, :publish]
 
   def index
     @tos_versions = TosVersion
@@ -13,11 +13,25 @@ class Dashboard::Admin::TosVersionsController < Dashboard::Admin::BaseController
   end
 
   def create
-    TosManager.new.create(tos: params[:tos])
+    TosManager.new.create(params.slice(:tos, :privacy_policy))
     json_reload
   end
 
-  def text
+  def edit
+    json_popup
+  end
+
+  def update
+    if params[:commit] == 'Preview'
+      @tos_version.attributes = params.slice(:tos, :privacy_policy)
+      json_replace partial: 'preview'
+    else
+      TosManager.new(@tos_version).update(params.slice(:tos, :privacy_policy))
+      json_reload
+    end
+  end
+
+  def show
     json_popup
   end
 

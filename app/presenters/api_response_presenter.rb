@@ -459,6 +459,10 @@ class ApiResponsePresenter
     {terms_of_service: markdown_to_html(TosVersion.active.try(:tos) || '')}
   end
 
+  def privacy_policy_data
+    {privacy_policy: markdown_to_html(TosVersion.active.try(:privacy_policy) || '')}
+  end
+
   private
 
   def contributions_data

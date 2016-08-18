@@ -17,7 +17,17 @@ describe Dashboard::Admin::TosVersionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', tos: 'ToS' }
+    subject { post 'create', tos: 'ToS', privacy_policy: 'PP' }
+    it { is_expected.to be_success }
+  end
+
+  describe 'GET #edit' do
+    subject { get 'edit', id: tos_version.id }
+    it { is_expected.to be_success }
+  end
+
+  describe 'PATCH #update' do
+    subject { patch 'update', id: tos_version.id, tos: 'ToS edited', privacy_policy: 'PP edited' }
     it { is_expected.to be_success }
   end
 
@@ -26,8 +36,8 @@ describe Dashboard::Admin::TosVersionsController, type: :controller do
     it { is_expected.to be_success }
   end
 
-  describe 'GET #text' do
-    subject { get 'text', id: tos_version.id }
+  describe 'GET #show' do
+    subject { get 'show', id: tos_version.id }
     it { is_expected.to be_success }
   end
 end

@@ -176,7 +176,7 @@ class AccountInfosController < ApplicationController
   end
 
   def accept_tos
-    UserManager.new(@user).mark_tos_accepted
+    UserManager.new(@user).mark_tos_accepted(accepted: params.bool(:tos_accepted))
     json_replace html: ''
   end
 

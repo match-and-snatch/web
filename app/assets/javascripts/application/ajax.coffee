@@ -54,6 +54,9 @@ class bud.Ajax
     if response['popup']
       bud.pub('remote_popup.show', [response['popup']])
 
+    if response['response_content']
+      bud.pub('response_content.show', [response['response_content']])
+
     if callback = @callbacks[response['status']]
       callback(response)
     else

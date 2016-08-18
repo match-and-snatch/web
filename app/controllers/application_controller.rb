@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     http_basic_authenticate_with ___access_config.symbolize_keys
   end
 
-  before_action :store_session
+  before_action :store_session, :check_if_tos_accepted
   before_action :redirect_to_mobile!, if: -> { mobile_device? && !account_page? && !request.xhr? }
 
   protected
@@ -164,4 +164,13 @@ class ApplicationController < ActionController::Base
   def request_variant
     @request_variant ||= request.variant || detect_device_format
   end
+
+  def check_if_tos_accepted
+    @show_tos_popup = !current_user.tos_accepted?
+  end
+
+  def show_tos_popup?
+    @show_tos_popup
+  end
+  helper_method :show_tos_popup?
 end

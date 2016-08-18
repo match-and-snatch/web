@@ -158,6 +158,7 @@ BuddyPlatform::Application.routes.draw do
 
     get '/mentions' => 'users#mentions', as: :mentions
     get '/terms_of_service' => 'pages#terms_of_service', as: :terms_of_service
+    get '/privacy_policy' => 'pages#privacy_policy', as: :privacy_policy
 
     match '*path' => 'cors#preflight', via: :options
   end
@@ -455,9 +456,8 @@ BuddyPlatform::Application.routes.draw do
       resources :payout_details, only: :index
       resources :vacations, only: :index
       resources :recently_changed_emails, only: :index
-      resources :tos_versions, only: [:index, :new, :create] do
+      resources :tos_versions, except: :destroy do
         member do
-          get :text
           put :publish
         end
       end

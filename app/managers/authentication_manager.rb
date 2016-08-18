@@ -70,7 +70,7 @@ class AuthenticationManager < BaseManager
     user.save or fail_with! user.errors
     user.elastic_index_document
     EventsManager.user_registered(user: user)
-    UserManager.new(user).mark_tos_accepted
+    UserManager.new(user).mark_tos_accepted(accepted: true)
     user
   end
 

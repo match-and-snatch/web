@@ -208,9 +208,14 @@ describe UserManager do
     let(:user) { create(:user, tos_accepted: false) }
     let!(:tos_version) { create(:tos_version, :published) }
 
-    it { expect { manager.mark_tos_accepted }.to change { user.reload.tos_accepted? }.from(false).to(true) }
-    it { expect { manager.mark_tos_accepted }.to create_event(:tos_accepted) }
-    it { expect { manager.mark_tos_accepted }.to create_record(TosAcceptance).matching(user: user, tos_version: tos_version) }
+    it { expect { manager.mark_tos_accepted(accepted: true) }.to change { user.reload.tos_accepted? }.from(false).to(true) }
+    it { expect { manager.mark_tos_accepted(accepted: true) }.to create_event(:tos_accepted) }
+    it { expect { manager.mark_tos_accepted(accepted: true) }.to create_record(TosAcceptance).matching(user: user, tos_version: tos_version) }
+
+    context 'not accepted' do
+      it { expect { manager.mark_tos_accepted(accepted: false) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(tos_accepted: t_error(:not_accepted)) } }
+      it { expect { manager.mark_tos_accepted(accepted: false) rescue nil }.not_to change { user.reload.tos_accepted? }.from(false) }
+    end
   end
 
   describe '#toggle_tos_acceptance' do
@@ -218,7 +223,7 @@ describe UserManager do
     let!(:tos_version) { create(:tos_version, :published) }
 
     context 'tos accepted' do
-      before { UserManager.new(user).mark_tos_accepted }
+      before { UserManager.new(user).mark_tos_accepted(accepted: true) }
 
       it { expect { manager.toggle_tos_acceptance }.to change { user.reload.tos_accepted? }.from(true).to(false) }
       it { expect { manager.toggle_tos_acceptance }.to delete_record(TosAcceptance).matching(user: user, tos_version: tos_version, user_email: user.email, user_full_name: user.full_name) }

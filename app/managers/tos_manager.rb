@@ -8,11 +8,23 @@ class TosManager < BaseManager
 
   # @param tos [String]
   # @return [TosVersion]
-  def create(tos: )
+  def create(tos: , privacy_policy: )
     fail_with! tos: :empty if tos.blank?
+    fail_with! privacy_policy: :empty if privacy_policy.blank?
 
-    @version = TosVersion.new(tos: tos)
+    @version = TosVersion.new(tos: tos, privacy_policy: privacy_policy)
     save_or_die! @version
+  end
+
+  # @param tos [String]
+  # @return [TosVersion]
+  def update(tos: , privacy_policy: )
+    fail_with! tos: :empty if tos.blank?
+    fail_with! privacy_policy: :empty if privacy_policy.blank?
+
+    version.tos = tos
+    version.privacy_policy = privacy_policy
+    save_or_die! version
   end
 
   # To activate version you need to publish it
@@ -23,12 +35,14 @@ class TosManager < BaseManager
 
     version.published_at = Time.zone.now
     save_or_die! version
+
+    reset_tos_acceptance
   end
 
-  # @param tos [String]
-  def reset_tos_acceptance(tos: )
-    create(tos: tos)
-    publish
-    User.update_all(tos_accepted: false)
+  def reset_tos_acceptance
+    ActiveRecord::Base.transaction do
+      TosAcceptance.active.delete_all
+      User.update_all(tos_accepted: false)
+    end
   end
 end

@@ -110,10 +110,13 @@ class UserManager < BaseManager
     save_or_die! @user
   end
 
-  def mark_tos_accepted
-    @user.tos_accepted = true
+  # @param accepted [Boolean]
+  def mark_tos_accepted(accepted: false)
+    fail_with! tos_accepted: :not_accepted unless accepted
+
+    @user.tos_accepted = accepted
     save_or_die! @user
-    @user.tos_acceptances.create(tos_version: TosVersion.active, user_email: @user.email, user_full_name: @user.full_name)
+    @user.tos_acceptances.create!(tos_version: TosVersion.active, user_email: @user.email, user_full_name: @user.full_name)
     EventsManager.tos_accepted(user: @user)
   end
 

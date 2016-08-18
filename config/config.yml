@@ -11,6 +11,7 @@ defaults: &defaults
   admins:
     - szinin@gmail.com
     - s.popov.design@gmail.com
+    - redworker@gmail.com
   emails:
     debug: debug@connectpal.com
     reports: reports@connectpal.com

@@ -9,14 +9,17 @@ class bud.widgets.Validator extends bud.Widget
 
     @$container.on 'blur', @validate
     @$container.on 'keyup', @greenify_on_validated
+    if @$container.is('[type=checkbox]')
+      @$container.on 'change', @validate
 
   greenify_on_validated: (e) =>
     if @$container.hasClass('has-error') || @$container.hasClass('has-valid')
       @validate(e)
 
   validate: (e) =>
-    return false unless e.relatedTarget
-    return false if $(e.relatedTarget).is('a')
+    unless @$container.is('[type=checkbox]')
+      return false unless e.relatedTarget
+      return false if $(e.relatedTarget).is('a')
 
     setTimeout( =>
       key_code = e.keyCode || e.which
@@ -45,6 +48,7 @@ class bud.widgets.Validator extends bud.Widget
           when 'account_number'    then @validate_account_number()
           when 'subscription_cost' then @validate_subscription_cost()
           when 'user_name' then @validate_user_name()
+          when 'acceptance' then @validate_acceptance()
           when 'nothing' then true
           else bud.Logger.error('No validator')
     , 10)
@@ -151,6 +155,10 @@ class bud.widgets.Validator extends bud.Widget
 
     return if @validate_zero()
     return if @validate_maximum(999999)
+
+  validate_acceptance: ->
+    unless @$container.is(':checked')
+      @mark_as_invalid @t('not_accepted')
 
   get_validators: ->
     result = []

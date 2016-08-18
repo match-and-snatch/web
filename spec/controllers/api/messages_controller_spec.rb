@@ -11,11 +11,13 @@ describe Api::MessagesController, type: :controller do
       before { sign_in_with_token user.api_token }
 
       its(:status) { should eq(200) }
+      it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
 
       context 'user is subscribed to target user' do
         before { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
         its(:status) { should eq(200) }
+        it { expect(JSON.parse(subject.body)).to include({'status'=>'success'}) }
       end
     end
   end

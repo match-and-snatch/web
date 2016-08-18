@@ -51,4 +51,8 @@ class Api::BaseController < ActionController::Base
   def api_response
     @api_response ||= ApiResponsePresenter.new(current_user)
   end
+
+  def show_tos_popup?
+    false
+  end
 end

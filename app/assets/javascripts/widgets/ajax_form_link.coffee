@@ -15,6 +15,14 @@ class bud.widgets.AjaxFormLink extends bud.Widget
   link_clicked: =>
     return false if @$container.hasClass('pending')
 
+    if @$container.data('confirmation')
+      bud.confirm 'Are you sure?', @perform_submit
+    else
+      @perform_submit()
+
+    return false
+
+  perform_submit: =>
     @data['jsWidget'] = undefined
     @data['js-widget'] = undefined
 
@@ -23,7 +31,6 @@ class bud.widgets.AjaxFormLink extends bud.Widget
 
     bud.pub(@event, [@]) if @event
     bud.Ajax.post(@url, @data, {success: @render_link, replace: @on_replace})
-    return false
 
   render_link: (response) =>
     @$container.removeClass('pending')

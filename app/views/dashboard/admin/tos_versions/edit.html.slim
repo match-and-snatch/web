@@ -1,0 +1,22 @@
+.modal-header style='width: 1024px;'
+  i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
+  .modal-title Edit Tos and Privacy Policy
+  .modal-body style="margin: 15px 0; overflow-y: scroll; max-height: 600px;"
+    form.Form action=admin_tos_version_path(@tos_version.id) method='patch' data-target='preview'
+      .form-group
+        label Terms of Service
+        textarea.form-control style='overflow-y: scroll' name='tos' rows='10' validate='require'
+          = @tos_version.tos
+        p.text-danger data-field='tos'
+      .form-group
+        label Privacy Policy
+        textarea.form-control style='overflow-y: scroll' name='privacy_policy' rows='10' validate='require'
+          = @tos_version.privacy_policy
+        p.text-danger data-field='privacy_policy'
+      .form-group style="margin: 15px 0 0"
+        input.btn.pink.pull-left type='submit' value='Update'
+        input.btn.pink.pull-left.fa.fa-arrow-down type='submit' value='Preview' style="margin-left: 10px;"
+        a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
+        .clearfix
+    div data-identifier='preview' style="margin-top: 10px; padding: 5px; border: 1px solid gray;"
+      h3 Preview Area

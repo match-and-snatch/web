@@ -3,7 +3,7 @@ class Api::AccountInfosController < Api::BaseController
 
   before_action :load_user!
 
-  protect(:settings, :billing_information, :update_account_picture, :change_password,
+  protect(:settings, :billing_information, :update_account_picture, :delete_account_picture, :change_password,
           :update_general_information, :update_cc_data, :delete_cc_data, :accept_tos) { current_user.authorized? }
 
   def settings
@@ -49,7 +49,7 @@ class Api::AccountInfosController < Api::BaseController
   end
 
   def accept_tos
-    UserManager.new(@user).mark_tos_accepted
+    UserManager.new(@user).mark_tos_accepted(accepted: params.bool(:tos_accepted))
     respond_with_account_data
   end
 

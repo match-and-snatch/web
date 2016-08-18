@@ -83,6 +83,7 @@ module Concerns::ControllerFramework
       resp[:notice] = translate_message(resp[:notice])
     end
     resp[:notice] ||= @notice if @notice
+    resp[:response_content] = render_to_string(partial: 'tos_popup') if show_tos_popup?
 
     render json: resp, status: response_status
   end

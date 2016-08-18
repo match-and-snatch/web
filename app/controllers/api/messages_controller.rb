@@ -4,6 +4,7 @@ class Api::MessagesController < Api::BaseController
   before_action :load_target_user!, only: [:create]
 
   protect(:search_recipients) { current_user.authorized? }
+  protect(:create) { can? :send_message_to, @target_user }
 
   def search_recipients
     users = Queries::Recipients.new(user: current_user.object, query: params[:q]).by_name

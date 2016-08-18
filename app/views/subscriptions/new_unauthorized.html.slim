@@ -20,7 +20,6 @@
     span.hidden-xs Checkout will create an account for you to login and view your subscriptions
   .modal-body.subscribe_container.new_subscriber
     form.pull-left.StripeForm action=via_register_user_subscriptions_path(@target_user) method='POST'
-      input type='hidden' name='tos_accepted' value='true'
       .account_payment.pull-left style='padding: 10px 15px 15px 15px; min-height: 200px;'
         label style='font-size: 13px; margin-bottom: 10px;' Account Information
         .clearfix
@@ -103,13 +102,9 @@
       input.btn.blue type='submit' value='Pay & Subscribe'
       .clearfix
       .terms_text
-        |By proceeding, you agree to our&nbsp;
-        a href=terms_of_service_path target='_blank' Terms of Service
-        |&nbsp;and&nbsp;
-        a href=privacy_policy_path target='_blank' Privacy Policy
-        |.
+        | By proceeding, you agree to ConnectPal's <a href='/terms_of_service' target='_blank'>Terms of Service</a> and <a href='privacy_policy' target='_blank'>Privacy Policy</a>.
     .clearfix
 
-  .modal-footer.hidden-xs
+  .modal-footer
     span Already have an account?&nbsp;
     a.PopupTrigger href='#' data-target='login' Login

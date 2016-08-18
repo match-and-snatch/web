@@ -6,7 +6,6 @@
     span.register_tagline You're only 55 seconds away from your profile!
   .modal-body
     form.Form action=users_path method='post'
-      input type='hidden' name='tos_accepted' value='true'
       .form-group
         .pull-left
           label First Name
@@ -25,18 +24,23 @@
         label Create Password
         input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off' validate='require,min_length:5'
         p.text-danger data-field='password'
-      .form-group style="margin: 15px 0"
-        .terms_text.pull-left
-          | By proceeding, you agree to our
-          br
-          a> href=terms_of_service_path target='_blank' Terms of Service
-          | and
-          a< href=privacy_policy_path target='_blank' Privacy Policy
-        input.btn.blue.pull-right type='submit' value='Continue to Profile'
+      .form-group.tos_form
+        .text-danger data-field='tos_accepted'
+        .Checkbox.tos_checkbox data-target='tos-checkbox'
+        input id="tos_accepted" name="tos_accepted" type="checkbox" data-identifier='tos-checkbox' value="true" validate="acceptance" style="display: none;"
+        label for="tos_accepted"
+          .terms_text
+            ' I agree to ConnectPal's
+            a> href=terms_of_service_path target='_blank' Terms of Service
+            ' and
+            a href=privacy_policy_path target='_blank' Privacy Policy
+            |.
+        .tos_submit
+          input.btn.blue type='submit' value='Continue to Profile'
         .clearfix
   .modal-footer
     span Already have an account? &nbsp;
-    a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
+    a.PopupTrigger href='#' data-target='login' Click here to login.
 
 /Authentication Popup - Login
 .Popup.popup.authentication_popup.modal-content data-identifier='login'

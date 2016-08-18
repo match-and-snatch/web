@@ -128,4 +128,17 @@ describe ApiResponsePresenter do
       its(:tos_data) { is_expected.to eq(terms_of_service: "<h1 id=\"published-tos\">Published ToS</h1>\n") }
     end
   end
+
+  describe '#privacy_policy_data' do
+    its(:privacy_policy_data) { is_expected.to eq(privacy_policy: "\n") }
+
+    context 'with active tos' do
+      before do
+        create :tos_version, privacy_policy: 'not published PP'
+        create :tos_version, :published, privacy_policy: '# Published PP'
+      end
+
+      its(:privacy_policy_data) { is_expected.to eq(privacy_policy: "<h1 id=\"published-pp\">Published PP</h1>\n") }
+    end
+  end
 end

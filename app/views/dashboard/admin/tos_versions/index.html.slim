@@ -16,19 +16,22 @@ ul.cat_links
     th
       strong Published at
     th
+    th
 
     - @tos_versions.each do |tos_version|
       tr
         td= tos_version.id
         td
-          a.AjaxLink href=text_admin_tos_version_path(tos_version.id) Show
+          a.AjaxLink href=admin_tos_version_path(tos_version.id) Preview
         td= tos_version.created_at.to_s(:short)
         td= tos_version.published_at.try(:to_s, :short) || '&mdash;'.html_safe
+        td
+          a.AjaxLink href=edit_admin_tos_version_path(tos_version.id) Edit
         td
           - if tos_version.active?
             strong style='color: #8dc63f' ACTIVE
           - elsif !tos_version.published?
-            .btn.green.pull-left.AjaxFormLink href=publish_admin_tos_version_path(tos_version.id) data-_method='put' Publish
+            .btn.green.pull-left.AjaxFormLink href=publish_admin_tos_version_path(tos_version.id) data-_method='put' data-confirmation='true' Publish and Reset ToS
           - else
             |Published
 

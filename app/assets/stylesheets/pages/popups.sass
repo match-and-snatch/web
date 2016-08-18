@@ -11,16 +11,85 @@
         width: 150px
         font-weight: 600
   &.authentication_popup
-    width: 440px
+    width: 410px
     .modal-header
       .register_tagline
         color: #464646
     .modal-body
       .form-group
         margin-bottom: 5px
+        &.tos_form
+          position: relative
+          text-align: center
+          .tos_checkbox
+            cursor: pointer
+            color: #3b9fd1 !important
+            font-weight: 600
+            display: inline-block
+            vertical-align: middle
+            height: 28px
+            &:before
+              color: #3b9fd1
+              content: "\f096"
+              letter-spacing: 10px
+              font: 400 35px/3.8rem FontAwesome
+              cursor: pointer
+            &.checked
+              color: #8dc63f !important
+              &:before
+                color: #8dc63f
+                content: "\f14a"
+                letter-spacing: 10px
+                font: 100 32px/3.7rem FontAwesome
+                cursor: pointer
+          .text-danger
+            display: none
+            position: absolute
+            left: 75px
+            top: -4px
+            color: #000
+            background: #FFA38A
+            padding: 5px 15px 5px 10px
+            border-radius: 5px
+            font: 400 12px/1.5rem Helvetica, Arial, sans-serif
+            text-align: left
+            a
+              color: #000
+              white-space: nowrap
+            &:before
+              content: " "
+              width: 0
+              height: 0
+              border-top: 10px solid transparent
+              border-bottom: 10px solid transparent
+              border-right: 10px solid #FFA38A
+              position: absolute
+              left: -6px
+              top: 16px
+          label
+            margin-bottom: 0
+            display: inline-block
+            vertical-align: middle
+            .terms_text
+              font-size: 14px
+              font-weight: 300
+              width: 250px
+              text-align: left
+              a
+                white-space: nowrap
+                &:hover
+                  color: #464646
+          .tos_submit
+            text-align: center
+            input[type="submit"]
+              &.btn.blue
+                margin: 15px 0 10px
+                width: 100%
+                height: 44px
+                font-size: 20px
         .pull-left, .pull-right
           input[type='text']
-            width: 190px !important
+            width: 180px !important
         &.submit_area
           margin: 10px 0
           input[type='email']
@@ -43,6 +112,8 @@
         .remember_me
           color: $color_text_light
           font-size: 12px
+          input[type="checkbox"]
+            margin-top: 2px
       .terms_text
         float: left
   &.search_popup
@@ -128,14 +199,91 @@
         font-weight: 600
   &.subscribe_popup
     .modal-body
-      .terms_text
-        font-size: 12px
-        padding: 0
-      .subscribe_container
-        color: $color_text_dark
-        font-size: 16px
-        padding: 0 15px 15px
-        max-width: 680px
+      .btn
+        font-size: 16px !important
+        padding: 7px 20px
+        float: right !important
+        font-weight: 600
+        margin: 5px 0 0
+        width: 100%
+    .subscribe_container
+      color: $color_text_dark
+      font-size: 16px
+      padding: 0 15px 15px
+      max-width: 680px
+      &.new_subscriber
+        .tos_checkbox
+          position: relative
+          margin: 10px 0 5px
+          padding: 0 30px 0 155px
+          .text-danger
+            display: none
+            color: #000
+            font-size: 12px
+            position: absolute
+            background: #FFA38A
+            padding: 7px 18px
+            border-radius: 5px
+            left: 150px
+            top: -2px
+            line-height: 1.5rem
+            font-family: Helvetica, Arial, sans-serif
+            width: 380px
+            a
+              color: #000
+              white-space: nowrap
+            &:before
+              content: " "
+              width: 0
+              height: 0
+              border-top: 10px solid transparent
+              border-bottom: 10px solid transparent
+              border-right: 10px solid #FFA38A
+              position: absolute
+              left: -6px
+              top: 11px
+          input[type="checkbox"]
+            vertical-align: top
+            margin: 12px 25px 0 -32px
+            position: absolute
+            &:before
+              top: -7px
+              left: -7px
+              background-color: white
+              color: #898989
+              content: "\f096"
+              display: inline-block
+              letter-spacing: 10px
+              position: absolute
+              height: 26px
+              width: 26px
+              border-radius: 8px
+              font: 400 35px/3.2rem FontAwesome
+            &:checked
+              &:before
+                top: -8px
+                background-color: white
+                content: "\f14a"
+                color: #8dc63f
+                display: inline-block
+                font-size: 32px
+          .terms_text
+            font-size: 14px
+            font-weight: 300
+            padding: 10px 0 7px
+            a
+              white-space: nowrap
+              &:hover
+                color: #464646
+        .tos_submit
+          text-align: center
+          input[type="submit"]
+            &.btn.blue
+              margin: 0 auto 10px
+              width: 415px
+              height: 44px
+              font-size: 20px
+              float: none !important
       .order_summary, .account_payment
         background: none
         padding: 15px
@@ -151,6 +299,7 @@
         padding: 10px 0
         text-align: center
         width: 100%
+        font-size: 12px
       .order_summary
         background-color: none
         padding: 0
@@ -734,6 +883,7 @@
       margin-top: 5px
       a
         color: $color_text_light
+        white-space: nowrap
         &:hover
           color: $color_text_light
     .form-group
@@ -878,3 +1028,132 @@ input[type="text"]:-ms-input-placeholder, input[type="email"]:-ms-input-placehol
 .modal-header
   .close
     margin-top: 0 !important
+
+// TOS STANDALONE POPUP
+.tos_popup_modal
+  z-index: 11002 !important
+  display: block !important
+  margin-top: 15px !important
+  margin-left: -270px
+  margin-right: -270px
+  width: 540px
+  top: 0 !important
+  position: relative
+  padding: 85px 15px 0 15px
+  .tos_navbar
+    position: absolute
+    left: 0
+    top: 0
+    right: 0
+    height: 70px
+    text-align: center
+    background-color: #5B9ED5
+    .brand
+      padding: 11px 0 0
+      img
+        height: 48px
+        width: auto
+        margin: 0
+  .modal-header
+    .modal-title
+      h2
+        font-size: 20px
+        font-weight: 400
+        line-height: 135%
+        margin: 0 0 10px
+        a
+          color: #3b9fd1
+          font-weight: bold
+          white-space: nowrap
+  .form-group
+    position: relative
+    background: #f7f7f7
+    border: 1px solid #D7D7D7
+    text-align: center
+    padding: 15px 10px
+    margin: 15px 0
+    font-size: 12px
+    line-height: 135%
+    font-weight: 300
+    .tos_text
+      margin: 0 0 10px
+      font-family: Helvetica, Arial, sans-serif
+      font-weight: 300
+    &.tos_scroll
+      padding: 0 15px
+      height: 220px
+      overflow-y: scroll
+      color: #636363
+      &.tos_text
+        font-family: Helvetica, Arial, sans-serif
+        text-align: left
+        h1
+          font-size: 1.6em
+          text-align: center
+        h2
+          font-size: 1.1em
+          font-weight: 600
+    &.tos_submit
+      background: none
+      padding: 0
+      margin: 0
+      border: none
+      input[type="submit"]
+        width: 100%
+        font-size: 24px
+        padding: 14px
+        opacity: 1
+        margin-bottom: 15px
+  .tos_checkbox
+    cursor: pointer
+    font-size: 30px !important
+    color: #3b9fd1 !important
+    font-weight: 600
+    margin: 15px 0 0
+    &:before
+      background-color: #f7f7f7
+      color: #3b9fd1
+      content: "\f096"
+      letter-spacing: 10px
+      height: 38px
+      width: 38px
+      border-radius: 8px
+      font: 100 49px/4.4rem FontAwesome
+      cursor: pointer
+      display: inline-block
+      margin-right: 10px
+      vertical-align: middle
+      margin-top: -4px
+    &.checked
+      color: #8dc63f !important
+      &:before
+        background-color: #fff
+        color: #8dc63f
+        content: "\f14a"
+        letter-spacing: 10px
+        height: 38px
+        width: 38px
+        border-radius: 8px
+        font: 100 44px/4rem FontAwesome
+        cursor: pointer
+        display: inline-block
+        margin-right: 10px
+        vertical-align: middle
+        margin-top: -4px
+
+.tos_wrapper
+  z-index: 11001 !important
+
+#tos_overlay
+  z-index: 11001
+  background: black
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  top: 0
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"
+  filter: alpha(opacity=50)
+  -moz-opacity: 0.5
+  -khtml-opacity: 0.5
+  opacity: 0.7

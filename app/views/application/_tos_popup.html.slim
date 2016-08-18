@@ -1,0 +1,30 @@
+.tos_wrapper
+  .popup.tos_popup_modal.modal-content
+    .tos_navbar
+      .brand
+        img src="//connectpal-assets.s3.amazonaws.com/images/logo.png"
+    .modal-header
+      .modal-title
+        h2
+          ' Our
+          a> href=privacy_policy_path target='_blank' Privacy Policy
+          ' and
+          br
+          a> href=terms_of_service_path target='_blank' Terms of Service
+          | have been updated
+    .modal-body
+      .form-group.tos_scroll.tos_text
+        = markdown_to_html TosVersion.active.tos
+        = markdown_to_html TosVersion.active.privacy_policy
+      form.Form action=accept_tos_account_info_path method='post' data-target='tos-popup'
+        .form-group
+          .tos_text
+            | By clicking the "Yes, I agree" box, you are
+              indicating your acceptance of these Terms.
+          .Toggler data-target='tos-submit-button'
+            .Checkbox.tos_checkbox data-target='tos-checkbox' Yes, I agree
+            input type='checkbox' name="tos_accepted" value="true" data-identifier='tos-checkbox' style='display: none;'
+        .form-group.tos_submit data-identifier='tos-submit-button' style='display:none;'
+          input.btn.blue type='submit' value='Continue to profile now!'
+        .clearfix
+  #tos_overlay

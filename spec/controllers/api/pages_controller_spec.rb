@@ -9,4 +9,13 @@ describe Api::PagesController, type: :controller do
     its(:status) { is_expected.to eq(200) }
     its(:body) { is_expected.to include 'success' }
   end
+
+  describe 'GET#privacy_policy' do
+    subject { get 'privacy_policy', format: :json }
+
+    let!(:tos) { create(:tos_version, :published) }
+
+    its(:status) { is_expected.to eq(200) }
+    its(:body) { is_expected.to include 'success' }
+  end
 end

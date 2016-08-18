@@ -7,7 +7,7 @@ class Dashboard::Admin::TosAcceptorsController < Dashboard::Admin::BaseControlle
   end
 
   def index
-    @users = User.where(tos_accepted: params[:accepted] || true).page(params[:page]).per(100)
+    @users = User.where(tos_accepted: params[:accepted] || true).order(created_at: :desc).page(params[:page]).per(100)
     json_render
   end
 
@@ -25,7 +25,7 @@ class Dashboard::Admin::TosAcceptorsController < Dashboard::Admin::BaseControlle
   end
 
   def reset_tos_acceptance
-    TosManager.new.reset_tos_acceptance(tos: params[:tos])
+    TosManager.new.reset_tos_acceptance
     json_reload
   end
 
@@ -42,7 +42,8 @@ class Dashboard::Admin::TosAcceptorsController < Dashboard::Admin::BaseControlle
 
   def acceptances_for(user)
     TosVersion.published.joins("LEFT OUTER JOIN tos_acceptances ON tos_versions.id = tos_acceptances.tos_version_id AND tos_acceptances.user_id = #{user.id}")
-        .select("tos_versions.published_at AS enabled_at, tos_acceptances.created_at AS accepted_at, tos_acceptances.user_email AS user_email, tos_acceptances.user_full_name AS user_full_name")
+        .order('tos_acceptances.created_at DESC NULLS LAST, tos_versions.published_at DESC')
+        .select('tos_versions.published_at AS enabled_at, tos_acceptances.created_at AS accepted_at, tos_acceptances.user_email AS user_email, tos_acceptances.user_full_name AS user_full_name')
   end
   helper_method :acceptances_for
 end
