@@ -30,7 +30,7 @@ class Api::PostsController < Api::BaseController
   end
 
   def update
-    post = manager(post: @post).update(params.slice(:title, :message).merge(upload_ids: (params[:uploads] || [])))
+    post = manager(post: @post).update(params.slice(:title, :message).merge(upload_ids: params[:uploads]))
     json_success api_response.post_data(post)
   end
 

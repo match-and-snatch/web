@@ -25,6 +25,8 @@ module BuddyPlatform
 
     config.action_mailer.default_url_options = { host: 'www.connectpal.com', protocol: :https }
 
+    config.action_dispatch.perform_deep_munge = false
+
     I18n.enforce_available_locales = true
 
     config.autoload_paths += %W(#{config.root}/lib)

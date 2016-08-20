@@ -73,7 +73,7 @@ describe Api::PostsController, type: :controller do
       end
 
       context 'removes all uploads' do
-        subject(:perform_request) { patch :update, params: {id: _post.id, title: 'new title', message: 'new message', uploads: []}, format: :json }
+        subject(:perform_request) { patch :update, params: {id: _post.id, title: 'new title', message: 'new message', uploads: ["null"]}, format: :json }
 
         it { is_expected.to be_success }
         it { expect { perform_request }.to change { _post.uploads.reload.count }.to(0) }
