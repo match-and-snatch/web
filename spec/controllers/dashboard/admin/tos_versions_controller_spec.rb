@@ -22,7 +22,7 @@ describe Dashboard::Admin::TosVersionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    subject { get 'edit', id: tos_version.id }
+    subject { get 'edit', params: {id: tos_version.id} }
     it { is_expected.to be_success }
   end
 
@@ -40,18 +40,13 @@ describe Dashboard::Admin::TosVersionsController, type: :controller do
     subject { get :show, params: {id: tos_version.id} }
   end
 
-  describe 'GET #text' do
-    subject { get :text, params: {id: tos_version.id} }
-    it { is_expected.to be_success }
-  end
-
   describe 'GET #confirm_toggle_acceptance_requirement' do
-    subject { get 'confirm_toggle_acceptance_requirement', id: tos_version.id }
+    subject { get 'confirm_toggle_acceptance_requirement', params: {id: tos_version.id} }
     it { is_expected.to be_success }
   end
 
   describe 'PUT #toggle_acceptance_requirement' do
-    subject { put 'toggle_acceptance_requirement', id: tos_version.id }
+    subject { put 'toggle_acceptance_requirement', params: {id: tos_version.id} }
     it { is_expected.to be_success }
   end
 end

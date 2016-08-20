@@ -9,11 +9,11 @@ describe PendingPostsController, type: :controller do
     it { should be_success }
 
     specify do
-      expect { perform_request }.to change { owner.pending_post.reload.try(:message) rescue nil }.from(nil).to('new message')
+      expect { perform_request }.to change { owner.reload.pending_post.try(:message) rescue nil }.from(nil).to('new message')
     end
 
     specify do
-      expect { perform_request }.to change { owner.pending_post.reload.try(:title) rescue nil }.from(nil).to('new title')
+      expect { perform_request }.to change { owner.reload.pending_post.try(:title) rescue nil }.from(nil).to('new title')
     end
 
     context 'already has pending post created' do
