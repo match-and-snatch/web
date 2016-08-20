@@ -1,6 +1,4 @@
 class Event < ApplicationRecord
-  serialize :data, HashSerializer
-
   belongs_to :user, autosave: false
   belongs_to :subject, polymorphic: true, autosave: false
 

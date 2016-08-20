@@ -16,7 +16,7 @@ RSpec::Matchers.define :create_event do |action|
         event = Event.find_by_id(diff_ids.first)
 
         @data.each do |key, value|
-          if event.data[key] != value
+          if event.data[key.to_s] != value
             failures << "Missing data :#{key} => #{value} (actual data value is /#{event.data[key]}/)"
             result = false
           end
