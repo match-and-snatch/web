@@ -8,9 +8,9 @@ class NotificationManager < BaseManager
 
     # @param failure [PaymentFailure]
     def notify_recurring_payment_failed(failure)
-      if failure.user.payment_failures.reload
-           .where("payment_failures.id <> ? AND payment_failures.created_at > ?", failure.id, 3.hours.ago)
-           .empty?
+      if failure.user.payment_failures.reload.
+          where("payment_failures.id <> ? AND payment_failures.created_at > ?", failure.id, 3.hours.ago).
+          empty?
         subscription = failure.target
         PaymentsMailer.failed(failure).deliver_now if subscription.notify_about_payment_failure?
       end
@@ -61,7 +61,8 @@ class NotificationManager < BaseManager
     # @param profile_owner [User]
     def notify_vacation_disabled(profile_owner)
       event = profile_owner.events.where(action: 'vacation_mode_enabled').order(:created_at).last
-      if event && (event.data[:subscribers_count] || 0) >= 15
+
+      if profile_owner.subscribers_count >= 15
         ReportsMailer.owner_returned_from_vacation(profile_owner, event).deliver_now
       end
 

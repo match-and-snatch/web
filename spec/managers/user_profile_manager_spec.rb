@@ -494,6 +494,8 @@ describe UserProfileManager do
         SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
       end
 
+      it { expect { disable_vacation_mode }.to deliver_email(to: subscriber.email, subject: /has returned from away mode/) }
+
       it 'sends notifications' do
         expect { disable_vacation_mode }.not_to raise_error
       end
@@ -510,9 +512,10 @@ describe UserProfileManager do
         let(:subscribers_count) { 15 }
 
         before do
-          event = user.events.where(action: 'vacation_mode_enabled').last
-          event.data.merge!(subscribers_count: subscribers_count)
-          event.save
+          subscribers_count.times do
+            subscriber = create(:user)
+            SubscriptionManager.new(subscriber: subscriber).subscribe_to(user)
+          end
         end
 
         it { expect { disable_vacation_mode }.to deliver_email(to: APP_CONFIG['emails']['operations'], subject: /subscribers has returned from away mode/) }
@@ -571,7 +574,9 @@ describe UserProfileManager do
       before { manager.reorder_profile_types([second_type.id, first_type.id]) }
 
       it do
-        expect { manager.reorder_profile_types([first_type.id, second_type.id]) }.to change { user.profile_types.order('profile_types_users.ordering').reload }.from([second_type, first_type]).to([first_type, second_type])
+        expect {
+          manager.reorder_profile_types([first_type.id, second_type.id])
+        }.to change { user.profile_types.reorder('profile_types_users.ordering').reload.to_a }.from([second_type, first_type]).to([first_type, second_type])
       end
     end
   end
