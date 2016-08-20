@@ -20,7 +20,7 @@ describe Api::StatusPostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', message: 'Reply', format: :json }
+    subject { post :create, params: {message: 'Reply'}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }

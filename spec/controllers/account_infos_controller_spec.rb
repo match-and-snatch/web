@@ -52,7 +52,7 @@ describe AccountInfosController, type: :controller do
   end
 
   describe 'PUT #update_account_picture' do
-    subject { put 'update_account_picture', transloadit: profile_picture_data_params.to_json }
+    subject { put :update_account_picture, params: {transloadit: profile_picture_data_params.to_json} }
 
     context 'not authorized' do
       its(:status) { should == 401 }
@@ -79,7 +79,7 @@ describe AccountInfosController, type: :controller do
   end
 
   describe 'PUT #update_slug' do
-    subject { put 'update_slug', slug: 'anotherSlug' }
+    subject { put :update_slug, params: {slug: 'anotherSlug'} }
 
     context 'not authorized' do
       its(:status) { should == 401 }
@@ -237,7 +237,7 @@ describe AccountInfosController, type: :controller do
   end
 
   describe 'PUT #enable_vacation_mode' do
-    subject { put 'enable_vacation_mode', vacation_message: 'test' }
+    subject { put :enable_vacation_mode, params: {vacation_message: 'test'} }
 
     context 'not authorized' do
       its(:status) { should == 401 }

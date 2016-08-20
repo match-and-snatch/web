@@ -7,7 +7,7 @@ describe Api::PendingPostsController, type: :controller do
   end
 
   describe 'PUT #update' do
-    subject(:perform_request) { put :update, message: 'new message', title: 'new title', format: :json }
+    subject(:perform_request) { put :update, params: {message: 'new message', title: 'new title'}, format: :json }
     it { should be_success }
 
     specify do

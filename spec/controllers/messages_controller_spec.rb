@@ -5,7 +5,7 @@ describe MessagesController, type: :controller do
   let(:target_user) { create :user, email: 'target@gmail.com' }
 
   describe 'GET #new' do
-    subject { get 'new', user_id: target_user.id }
+    subject { get :new, params: {user_id: target_user.id} }
 
     context 'authorized' do
       before { sign_in user }
@@ -23,7 +23,7 @@ describe MessagesController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', message: 'test', user_id: target_user.id }
+    subject { post :create, params: {message: 'test', user_id: target_user.id} }
 
     context 'authorized' do
       before { sign_in user }
@@ -40,4 +40,3 @@ describe MessagesController, type: :controller do
     end
   end
 end
-

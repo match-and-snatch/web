@@ -31,7 +31,7 @@ describe PhotoPostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, title: 'aa', message: 'bb', format: :json }
+    subject { post :create, params: {title: 'aa', message: 'bb'}, format: :json }
 
     context 'authorized access' do
       before { sign_in owner }

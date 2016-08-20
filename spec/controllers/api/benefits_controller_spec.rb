@@ -5,7 +5,7 @@ describe Api::BenefitsController, type: :controller do
     let(:user) { create(:user) }
     let(:benefits_params) {  {"0"=>"benefit", "1"=>"other benefit", "2"=>""} }
 
-    subject(:perform_request) { post 'create', user_id: user.id, benefits: benefits_params, format: :json }
+    subject(:perform_request) { post :create, params: {user_id: user.id, benefits: benefits_params}, format: :json }
 
     context 'not authorized' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }

@@ -32,7 +32,7 @@ describe Api::AudioPostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, title: 'audio', message: 'post', format: :json }
+    subject { post :create, params: {title: 'audio', message: 'post'}, format: :json }
 
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }

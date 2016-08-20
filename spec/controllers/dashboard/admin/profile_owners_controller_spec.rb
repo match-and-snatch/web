@@ -19,7 +19,7 @@ describe Dashboard::Admin::ProfileOwnersController, type: :controller do
     context 'filter applied' do
       before { sign_in admin }
 
-      subject { get 'index', filter: 'payout_updated' }
+      subject { get :index, params: {filter: 'payout_updated'} }
 
       it { should be_success }
     end

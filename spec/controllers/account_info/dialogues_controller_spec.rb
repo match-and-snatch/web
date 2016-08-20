@@ -36,7 +36,7 @@ describe AccountInfo::DialoguesController, type: :controller do
   end
 
   describe 'GET #show' do
-    subject(:perform_request) { get 'show', id: dialogue.id }
+    subject(:perform_request) { get :show, params: {id: dialogue.id} }
 
     context 'authorized' do
       before { sign_in user }
@@ -73,7 +73,7 @@ describe AccountInfo::DialoguesController, type: :controller do
   end
 
   describe 'GET #confirm_removal' do
-    subject { get 'confirm_removal', id: dialogue.id }
+    subject { get :confirm_removal, params: {id: dialogue.id} }
 
     context 'not authorized' do
       its(:status) { should == 401 }
@@ -86,7 +86,7 @@ describe AccountInfo::DialoguesController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    subject { delete 'destroy', id: dialogue.id }
+    subject { delete :destroy, params: {id: dialogue.id} }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }

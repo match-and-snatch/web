@@ -19,7 +19,7 @@ describe ContributionsController, type: :controller do
     end
 
     context 'request with year' do
-      subject { get 'index', year: 2015 }
+      subject { get :index, params: {year: 2015} }
 
       before { sign_in target_user }
 
@@ -28,7 +28,7 @@ describe ContributionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    subject { get 'new', target_user_id: target_user.id }
+    subject { get :new, params: {target_user_id: target_user.id} }
 
     context 'authorized' do
       before { sign_in user }

@@ -32,7 +32,7 @@ describe VideoPostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, title: 'aa', message: 'bb', format: :json }
+    subject { post :create, params: {title: 'aa', message: 'bb'}, format: :json }
 
     before { create(:video, :pending, user: owner) }
 

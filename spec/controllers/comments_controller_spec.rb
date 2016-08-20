@@ -11,7 +11,7 @@ describe CommentsController, type: :controller do
   end
 
   describe 'GET #index' do
-    subject { get 'index', post_id: _post.id }
+    subject { get :index, params: {post_id: _post.id} }
 
     context 'unauthorized access' do
       before { sign_in commenter }
@@ -33,7 +33,7 @@ describe CommentsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', post_id: _post.id, message: 'Reply' }
+    subject { post :create, params: {post_id: _post.id, message: 'Reply'} }
 
     context 'unauthorized access' do
       before { sign_in commenter }
@@ -58,7 +58,7 @@ describe CommentsController, type: :controller do
 
   describe 'GET #edit' do
     before { subscribe }
-    subject { get 'edit', post_id: _post.id, id: comment.id }
+    subject { get :edit, params: {post_id: _post.id, id: comment.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -84,7 +84,7 @@ describe CommentsController, type: :controller do
 
   describe 'GET #show' do
     before { subscribe }
-    subject { get 'show', id: comment.id }
+    subject { get :show, params: {id: comment.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -110,7 +110,7 @@ describe CommentsController, type: :controller do
 
   describe 'GET #text' do
     before { subscribe }
-    subject { get 'text', id: comment.id }
+    subject { get :text, params: {id: comment.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -136,7 +136,7 @@ describe CommentsController, type: :controller do
 
   describe 'PUT #update' do
     before { subscribe }
-    subject(:perform_request) { put 'update', post_id: _post.id, id: comment.id, message: 'updated' }
+    subject(:perform_request) { put :update, params: {post_id: _post.id, id: comment.id, message: 'updated'} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -167,7 +167,7 @@ describe CommentsController, type: :controller do
   describe 'GET #confirm_make_visible' do
     before { subscribe }
 
-    subject(:perform_request) { get 'confirm_make_visible', id: comment.id }
+    subject(:perform_request) { get :confirm_make_visible, params: {id: comment.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -197,7 +197,7 @@ describe CommentsController, type: :controller do
       CommentManager.new(user: poster, comment: comment).hide
     end
 
-    subject(:perform_request) { put 'make_visible', post_id: _post.id, id: comment.id }
+    subject(:perform_request) { put :make_visible, params: {post_id: _post.id, id: comment.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -228,7 +228,7 @@ describe CommentsController, type: :controller do
   describe 'GET #confirm_hide' do
     before { subscribe }
 
-    subject(:perform_request) { get 'confirm_hide', id: comment.id }
+    subject(:perform_request) { get :confirm_hide, params: {id: comment.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -255,7 +255,7 @@ describe CommentsController, type: :controller do
   describe 'PUT #hide' do
     before { subscribe }
 
-    subject(:perform_request) { put 'hide', post_id: _post.id, id: comment.id }
+    subject(:perform_request) { put :hide, params: {post_id: _post.id, id: comment.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -284,7 +284,7 @@ describe CommentsController, type: :controller do
   end
 
   describe 'PUT #show_all_by_user' do
-    subject { put 'show_all_by_user', id: comment.id }
+    subject { put :show_all_by_user, params: {id: comment.id} }
 
     before { subscribe }
 
@@ -311,7 +311,7 @@ describe CommentsController, type: :controller do
   end
 
   describe 'PUT #hide_all_by_user' do
-    subject { put 'hide_all_by_user', id: comment.id }
+    subject { put :hide_all_by_user, params: {id: comment.id} }
 
     before { subscribe }
 
@@ -340,7 +340,7 @@ describe CommentsController, type: :controller do
   describe 'DELETE #destroy' do
     before { subscribe }
     let(:comment) { CommentManager.new(user: commenter, post: _post).create(message: 'test') }
-    subject { delete 'destroy', post_id: _post.id, id: comment.id }
+    subject { delete :destroy, params: {post_id: _post.id, id: comment.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }

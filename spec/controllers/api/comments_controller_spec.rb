@@ -12,7 +12,7 @@ describe Api::CommentsController, type: :controller do
   end
 
   describe 'GET #show' do
-    subject { get 'show', id: comment.id, format: :json }
+    subject { get :show, params: {id: comment.id}, format: :json }
 
     before { subscribe }
 
@@ -39,7 +39,7 @@ describe Api::CommentsController, type: :controller do
   end
 
   describe 'GET #index' do
-    subject { get 'index', post_id: _post.id, format: :json }
+    subject { get :index, params: {post_id: _post.id}, format: :json }
 
     before { sign_in_with_token(token) }
 
@@ -63,7 +63,7 @@ describe Api::CommentsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', post_id: _post.id, message: 'Comment', format: :json }
+    subject { post :create, params: {post_id: _post.id, message: 'Comment'}, format: :json }
 
     before { sign_in_with_token(token) }
 
@@ -88,7 +88,7 @@ describe Api::CommentsController, type: :controller do
 
   describe 'PUT #update' do
     before { subscribe }
-    subject(:perform_request) { put 'update', post_id: _post.id, id: comment.id, message: 'updated', format: :json }
+    subject(:perform_request) { put :update, params: {post_id: _post.id, id: comment.id, message: 'updated'}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -125,7 +125,7 @@ describe Api::CommentsController, type: :controller do
     before { subscribe }
     let(:comment) { CommentManager.new(user: commenter, post: _post).create(message: 'test') }
 
-    subject { delete 'destroy', post_id: _post.id, id: comment.id, format: :json }
+    subject { delete :destroy, params: {post_id: _post.id, id: comment.id}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -152,7 +152,7 @@ describe Api::CommentsController, type: :controller do
       CommentManager.new(user: poster, comment: comment).hide
     end
 
-    subject(:perform_request) { put 'make_visible', post_id: _post.id, id: comment.id, format: :json }
+    subject(:perform_request) { put :make_visible, params: {post_id: _post.id, id: comment.id}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -188,7 +188,7 @@ describe Api::CommentsController, type: :controller do
   describe 'PUT #hide' do
     before { subscribe }
 
-    subject(:perform_request) { put 'hide', post_id: _post.id, id: comment.id, format: :json }
+    subject(:perform_request) { put :hide, params: {post_id: _post.id, id: comment.id}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -222,7 +222,7 @@ describe Api::CommentsController, type: :controller do
   end
 
   describe 'PUT #show_all_by_user' do
-    subject { put 'show_all_by_user', id: comment.id, format: :json }
+    subject { put :show_all_by_user, params: {id: comment.id}, format: :json }
 
     before { subscribe }
 
@@ -254,7 +254,7 @@ describe Api::CommentsController, type: :controller do
   end
 
   describe 'PUT #hide_all_by_user' do
-    subject { put 'hide_all_by_user', id: comment.id, format: :json }
+    subject { put :hide_all_by_user, params: {id: comment.id}, format: :json }
 
     before { subscribe }
 

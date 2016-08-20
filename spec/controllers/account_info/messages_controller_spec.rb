@@ -5,7 +5,7 @@ describe AccountInfo::MessagesController, type: :controller do
     let(:user) { create(:user) }
     let(:target_user) { create :user, email: 'target@gmail.com' }
 
-    subject { post 'create', user_id: target_user.id, message: 'test' }
+    subject { post :create, params: {user_id: target_user.id, message: 'test'} }
 
     context 'authorized' do
       before { sign_in user }

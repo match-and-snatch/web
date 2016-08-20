@@ -4,7 +4,7 @@ describe Api::DocumentsController, type: :controller do
   let(:owner) { create(:user, :profile_owner, email: 'owner@gmail.com') }
 
   describe 'POST #create' do
-    subject { post 'create', transloadit: transloadit_document_data_params.to_json, format: :json }
+    subject { post :create, params: {transloadit: transloadit_document_data_params.to_json}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -20,7 +20,7 @@ describe Api::DocumentsController, type: :controller do
   describe 'DELETE #destroy' do
     let(:document_upload) { create(:document, user: owner) }
 
-    subject { delete 'destroy', id: document_upload.id, format: :json }
+    subject { delete :destroy, params: {id: document_upload.id}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }

@@ -4,7 +4,7 @@ describe AudiosController, type: :controller do
   let(:owner) { create :user, email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'POST #create' do
-    subject { post 'create', transloadit: transloadit_audio_data_params.to_json }
+    subject { post :create, params: {transloadit: transloadit_audio_data_params.to_json} }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }
@@ -18,7 +18,7 @@ describe AudiosController, type: :controller do
 
   describe 'GET #show' do
     let(:audio_upload) { create(:audio, user: owner) }
-    subject { get 'show', id: audio_upload.id, format: :xml }
+    subject { get :show, params: {id: audio_upload.id, format: :xml} }
 
     context 'unauthorized access' do
       its(:status) { should == 200 }
@@ -46,7 +46,7 @@ describe AudiosController, type: :controller do
   end
 
   describe 'POST #reorder' do
-    subject { get 'reorder', ids: [1,2,3] }
+    subject { get :reorder, params: {ids: [1,2,3]} }
 
     context 'authorized access' do
       before { sign_in owner }
@@ -60,7 +60,7 @@ describe AudiosController, type: :controller do
 
   describe 'DELETE #destroy' do
     let(:audio_upload) { create(:audio, user: owner) }
-    subject { delete 'destroy', id: audio_upload.id }
+    subject { delete :destroy, params: {id: audio_upload.id} }
 
     context 'unauthorized access' do
       its(:status) { should == 401 }

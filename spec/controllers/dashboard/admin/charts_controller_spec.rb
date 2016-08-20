@@ -16,7 +16,7 @@ describe Dashboard::Admin::ChartsController, type: :controller do
   end
 
   describe 'GET #show' do
-    subject { get 'show', id: 'some_id' }
+    subject { get :show, params: {id: 'some_id'} }
 
     context 'as an admin' do
       before { sign_in create(:user, :admin) }

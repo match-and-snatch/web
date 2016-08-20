@@ -14,7 +14,7 @@ describe SubscriptionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    subject { get 'new', user_id: owner.slug }
+    subject { get :new, params: {user_id: owner.slug} }
     it { should be_success }
   end
 
@@ -23,7 +23,7 @@ describe SubscriptionsController, type: :controller do
       stub_const('Stripe::Customer', double('customer').as_null_object)
     end
 
-    subject { post 'create', user_id: owner.slug }
+    subject { post :create, params: {user_id: owner.slug} }
 
     its(:status) { should eq(401) }
 
@@ -41,19 +41,19 @@ describe SubscriptionsController, type: :controller do
 
     let(:stripe_token) { StripeMock.generate_card_token(number: '4242424242424242') }
 
-    subject { post 'via_register', user_id: owner.slug,
-                                   email: 'subscriber@gmail.com',
-                                   password: 'gfhjkmqe',
-                                   full_name: 'tester tester',
-                                   stripe_token: stripe_token,
-                                   expiry_month: '12',
-                                   expiry_year: '17',
-                                   address_line_1: 'Test',
-                                   address_line_2: '',
-                                   city: 'LA',
-                                   state: 'CA',
-                                   tos_accepted: 'true',
-                                   zip: '123456' }
+    subject { post 'via_register', params: {user_id: owner.slug,
+                                            email: 'subscriber@gmail.com',
+                                            password: 'gfhjkmqe',
+                                            full_name: 'tester tester',
+                                            stripe_token: stripe_token,
+                                            expiry_month: '12',
+                                            expiry_year: '17',
+                                            address_line_1: 'Test',
+                                            address_line_2: '',
+                                            city: 'LA',
+                                            state: 'CA',
+                                            tos_accepted: 'true',
+                                            zip: '123456'} }
 
     it { should be_success }
     its(:body) { should match_regex /reload/ }
@@ -80,7 +80,7 @@ describe SubscriptionsController, type: :controller do
     let(:user) { create(:user) }
     let(:subscription) { create(:subscription, user: user, target_user: owner) }
 
-    subject { get 'confirm_restore', id: subscription.id }
+    subject { get :confirm_restore, params: {id: subscription.id} }
 
     context 'not authorized' do
       its(:status) { should eq(401) }
@@ -96,7 +96,7 @@ describe SubscriptionsController, type: :controller do
     let(:user) { create(:user) }
     let(:subscription) { create(:subscription, user: user, target_user: owner) }
 
-    subject { put 'restore', id: subscription.id }
+    subject { put :restore, params: {id: subscription.id} }
 
     context 'not authorized' do
       its(:status) { should eq(401) }

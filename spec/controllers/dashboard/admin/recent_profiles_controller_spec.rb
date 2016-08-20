@@ -9,7 +9,7 @@ describe Dashboard::Admin::RecentProfilesController, type: :controller do
       it { is_expected.to be_success }
 
       context 'filtered' do
-        subject { get 'index', filter: 'with_posts' }
+        subject { get :index, params: {filter: 'with_posts'} }
         it { is_expected.to be_success }
       end
     end

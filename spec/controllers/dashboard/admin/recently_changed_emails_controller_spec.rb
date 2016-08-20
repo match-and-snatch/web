@@ -17,7 +17,7 @@ describe Dashboard::Admin::RecentlyChangedEmailsController, type: :controller do
     end
 
     context 'filtered' do
-      subject { get 'index', filter: 'previous_month' }
+      subject { get :index, params: {filter: 'previous_month'} }
       before { sign_in create(:user, :admin) }
       it { is_expected.to be_success }
     end

@@ -10,7 +10,7 @@ describe RepliesController, type: :controller do
   before { SubscriptionManager.new(subscriber: commenter).subscribe_to(poster) }
 
   describe 'GET #show' do
-    subject { get 'show', comment_id: comment.id, id: reply.id }
+    subject { get :show, params: {comment_id: comment.id, id: reply.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -35,7 +35,7 @@ describe RepliesController, type: :controller do
   end
 
   describe 'GET #confirm_make_visible' do
-    subject { get 'confirm_make_visible', comment_id: comment.id, id: reply.id }
+    subject { get :confirm_make_visible, params: {comment_id: comment.id, id: reply.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -60,7 +60,7 @@ describe RepliesController, type: :controller do
   end
 
   describe 'GET #confirm_hide' do
-    subject { get 'confirm_hide', comment_id: comment.id, id: reply.id }
+    subject { get :confirm_hide, params: {comment_id: comment.id, id: reply.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }

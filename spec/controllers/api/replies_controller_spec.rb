@@ -13,7 +13,7 @@ describe Api::RepliesController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', comment_id: comment.id, message: 'Reply', format: :json }
+    subject { post :create, params: {comment_id: comment.id, message: 'Reply'}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -35,7 +35,7 @@ describe Api::RepliesController, type: :controller do
   end
 
   describe 'PUT #update' do
-    subject(:perform_request) { put 'update', comment_id: comment.id, id: reply.id, message: 'updated', format: :json }
+    subject(:perform_request) { put :update, params: {comment_id: comment.id, id: reply.id, message: 'updated'}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -73,7 +73,7 @@ describe Api::RepliesController, type: :controller do
       CommentManager.new(user: poster, comment: reply).hide
     end
 
-    subject(:perform_request) { put 'make_visible', comment_id: comment.id, id: reply.id, format: :json }
+    subject(:perform_request) { put :make_visible, params: {comment_id: comment.id, id: reply.id}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -107,7 +107,7 @@ describe Api::RepliesController, type: :controller do
   end
 
   describe 'PUT #hide' do
-    subject(:perform_request) { put 'hide', comment_id: comment.id, id: reply.id, format: :json }
+    subject(:perform_request) { put :hide, params: {comment_id: comment.id, id: reply.id}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }

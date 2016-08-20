@@ -7,7 +7,7 @@ describe Api::DialoguesController, type: :controller do
   let!(:subscription) { create :subscription, user: user, target_user: friend }
 
   describe 'GET #index' do
-    subject(:perform_request) { get 'index', format: :json }
+    subject(:perform_request) { get :index, format: :json }
 
     context 'authorized' do
       before { sign_in_with_token user.api_token }
@@ -77,7 +77,7 @@ describe Api::DialoguesController, type: :controller do
   end
 
   describe 'GET #show' do
-    subject(:perform_request) { get 'show', id: dialogue.id, format: :json }
+    subject(:perform_request) { get :show, params: {id: dialogue.id}, format: :json }
 
     context 'authorized' do
       before { sign_in_with_token user.api_token }
@@ -114,7 +114,7 @@ describe Api::DialoguesController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    subject { delete 'destroy', id: dialogue.id, format: :json }
+    subject { delete :destroy, params: {id: dialogue.id}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }

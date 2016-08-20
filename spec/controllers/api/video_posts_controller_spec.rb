@@ -38,7 +38,7 @@ describe Api::VideoPostsController, type: :controller do
 
   describe 'POST #create' do
     let!(:pending_video) { create(:video, user: owner) }
-    subject { post :create, title: 'aa', message: 'bb', format: :json }
+    subject { post :create, params: {title: 'aa', message: 'bb'}, format: :json }
 
     context 'authorized access' do
       before do

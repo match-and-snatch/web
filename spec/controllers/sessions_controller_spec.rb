@@ -7,7 +7,7 @@ describe SessionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', email: 'szinin@gmail.com', password: 'password' }
+    subject { post :create, params: {email: 'szinin@gmail.com', password: 'password'} }
 
     it { should be_success }
     its(:body) { should match_regex /failed/ }

@@ -21,11 +21,11 @@ describe Owner::SecondStepsController, type: :controller do
   end
 
   describe 'PUT #update' do
-    subject(:perform_request) { put 'update', cost: 10,
-                                              profile_name: 'test',
-                                              holder_name: 'test',
-                                              routing_number: '111111111',
-                                              account_number: '123456' }
+    subject(:perform_request) { put :update, params: {cost: 10,
+                                                      profile_name: 'test',
+                                                      holder_name: 'test',
+                                                      routing_number: '111111111',
+                                                      account_number: '123456'} }
     context 'authorized' do
       before { sign_in user }
       it { should be_success }

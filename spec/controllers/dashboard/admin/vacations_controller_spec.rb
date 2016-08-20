@@ -18,7 +18,7 @@ describe Dashboard::Admin::VacationsController, type: :controller do
   end
 
   describe 'GET #history' do
-    subject { get 'history', profile_owner_id: owner.id }
+    subject { get :history, params: {profile_owner_id: owner.id} }
 
     context 'as an admin' do
       before { sign_in create(:user, :admin) }

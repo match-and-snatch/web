@@ -6,7 +6,7 @@ describe Api::LikesController, type: :controller do
   let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
 
   describe 'POST #create' do
-    subject { post 'create', post_id: _post.id, type: 'post', format: :json }
+    subject { post :create, params: {post_id: _post.id, type: 'post'}, format: :json }
 
     context 'authorized access' do
       before do
@@ -20,7 +20,7 @@ describe Api::LikesController, type: :controller do
       end
 
       context 'not subscribed' do
-        it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
+        it { expect(JSON.parse(subject.body)).to include({'status' => 401}) }
       end
     end
   end

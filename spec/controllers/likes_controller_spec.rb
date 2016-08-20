@@ -6,7 +6,7 @@ describe LikesController, type: :controller do
   let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
 
   describe 'POST #create' do
-    subject { post 'create', post_id: _post.id, type: 'post' }
+    subject { post :create, params: {post_id: _post.id, type: 'post'} }
 
     context 'authorized access' do
       before { sign_in visitor }
