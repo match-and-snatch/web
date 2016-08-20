@@ -52,7 +52,7 @@ class UploadManager < BaseManager
       if original
         s3_paths = { bucket => [original['ssl_url']].map { |e| { key: get_file_path(e) } } }
 
-        upload = PendingVideoPreviewPhoto.new transloadit_data: transloadit_data.to_hash,
+        upload = PendingVideoPreviewPhoto.new transloadit_data: transloadit_data.to_unsafe_hash.to_hash,
                                               s3_paths:         s3_paths,
                                               uploadable_type: 'Video',
                                               user_id:          user.id,
@@ -94,7 +94,7 @@ class UploadManager < BaseManager
 
         s3_paths = { bucket => [original['ssl_url'], preview['ssl_url'], retina_preview['ssl_url'], source_file['ssl_url']].map { |e| { key: get_file_path(e) } } }
 
-        upload = Photo.new transloadit_data: transloadit_data.to_hash,
+        upload = Photo.new transloadit_data: transloadit_data.to_unsafe_hash.to_hash,
                            s3_paths:         s3_paths,
                            user_id:          user.id,
                            type:             'Photo',
@@ -138,7 +138,7 @@ class UploadManager < BaseManager
           s3_paths[bucket] << { key: get_file_path(preview['ssl_url']) }
         end
 
-        upload = Document.new transloadit_data: transloadit_data.to_hash,
+        upload = Document.new transloadit_data: transloadit_data.to_unsafe_hash.to_hash,
                               s3_paths:         s3_paths,
                               user_id:          user.id,
                               type:             'Document',
@@ -189,7 +189,7 @@ class UploadManager < BaseManager
       s3_paths[bucket] << { key: get_file_path(transloadit_data['results'][key][0]['ssl_url']) }
     end
 
-    upload = Photo.new transloadit_data: transloadit_data.to_hash,
+    upload = Photo.new transloadit_data: transloadit_data.to_unsafe_hash.to_hash,
                        s3_paths:         s3_paths,
                        uploadable:       uploadable,
                        user_id:          user.id,
@@ -235,7 +235,7 @@ class UploadManager < BaseManager
 
     s3_paths = { videos_bucket  => [encode['ssl_url'], original['ssl_url']].compact.map { |e| { key: get_file_path(e) } } }
 
-    upload = Video.new transloadit_data: transloadit_data.to_hash,
+    upload = Video.new transloadit_data: transloadit_data.to_unsafe_hash.to_hash,
                        s3_paths:         s3_paths,
                        uploadable:       uploadable,
                        user_id:          user.id,
@@ -258,7 +258,7 @@ class UploadManager < BaseManager
 
     user.pending_video_preview_photos.each(&:destroy)
     thumbs.each do |thumb|
-      preview = PendingVideoPreviewPhoto.new transloadit_data: thumb.to_hash,
+      preview = PendingVideoPreviewPhoto.new transloadit_data: thumb.to_unsafe_hash.to_hash,
                                              s3_paths:   {preview_bucket => [{key: get_file_path(thumb['ssl_url'])}]},
                                              uploadable_type: 'Video',
                                              user_id:    user.id,
@@ -292,7 +292,7 @@ class UploadManager < BaseManager
       original = search_related_result(transloadit_data['results'][':original'], original_id)
 
       s3_paths = { bucket => [{ key: get_file_path(original['ssl_url']) }] }
-      upload = Audio.new transloadit_data: transloadit_data.to_hash,
+      upload = Audio.new transloadit_data: transloadit_data.to_unsafe_hash.to_hash,
                          s3_paths:         s3_paths,
                          uploadable:       uploadable,
                          user_id:          user.id,

@@ -37,11 +37,11 @@ describe UploadManager do
 
   describe '#create_welcome_media' do
     context 'passes video file' do
-      it { expect(subject.create_welcome_media(transloadit_video_data_params)).to be_a(Video) }
+      it { expect(subject.create_welcome_media(ActionController::ManagebleParameters.new(transloadit_video_data_params))).to be_a(Video) }
     end
 
     context 'passes audio file' do
-      it { expect(subject.create_welcome_media(transloadit_audio_data_params)).to be_a(Audio) }
+      it { expect(subject.create_welcome_media(ActionController::ManagebleParameters.new(transloadit_audio_data_params))).to be_a(Audio) }
     end
   end
 
