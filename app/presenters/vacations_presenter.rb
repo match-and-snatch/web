@@ -46,7 +46,7 @@ class VacationsPresenter
     end
 
     def affected_users_count
-      @finish_vacation.data[:affected_users_count] if @finish_vacation
+      @finish_vacation.data['affected_users_count'] if @finish_vacation
     end
 
     private
