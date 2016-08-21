@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ::UsersController, type: :controller do
+RSpec.describe ::UsersController, type: :controller do
   let(:profile) { create :user, :profile_owner }
 
   describe 'GET index' do

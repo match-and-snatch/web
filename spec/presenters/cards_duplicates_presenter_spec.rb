@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CardsDuplicatesPresenter do
+RSpec.describe CardsDuplicatesPresenter do
   context 'empty set' do
     its(:collection) { is_expected.to be_a Hash }
   end

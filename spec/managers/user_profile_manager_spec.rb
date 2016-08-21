@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UserProfileManager do
+RSpec.describe UserProfileManager do
   let(:user) { create(:user) }
   subject(:manager) { described_class.new(user) }
 

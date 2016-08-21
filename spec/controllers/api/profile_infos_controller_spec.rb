@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Api::ProfileInfosController, type: :controller do
+RSpec.describe Api::ProfileInfosController, type: :controller do
   let(:user) { create(:user) }
 
   describe 'POST #create_profile' do

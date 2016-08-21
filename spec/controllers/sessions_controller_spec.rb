@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SessionsController, type: :controller do
+RSpec.describe SessionsController, type: :controller do
   describe 'GET #logout' do
     subject { get 'logout' }
     it { is_expected.to be_redirect }

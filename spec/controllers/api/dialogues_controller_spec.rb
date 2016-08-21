@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Api::DialoguesController, type: :controller do
+RSpec.describe Api::DialoguesController, type: :controller do
   let(:user) { create(:user, api_token: 'token') }
   let(:friend) { create(:user, email: 'sender@gmail.com', api_token: 'friend_token') }
   let(:dialogue) { MessagesManager.new(user: user).create(target_user: friend, message: 'test').dialogue }

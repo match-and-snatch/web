@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Dashboard::Admin::SubscriptionsController, type: :controller do
+RSpec.describe Dashboard::Admin::SubscriptionsController, type: :controller do
   let(:user) { create(:user) }
   let(:admin) { create(:user, :admin) }
   let(:owner) { create(:user, :profile_owner) }

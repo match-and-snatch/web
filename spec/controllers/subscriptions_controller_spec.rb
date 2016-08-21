@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SubscriptionsController, type: :controller do
+RSpec.describe SubscriptionsController, type: :controller do
   let(:owner) { create :user, :profile_owner }
 
   describe 'GET #index' do

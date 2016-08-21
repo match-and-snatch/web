@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Dashboard::Admin::TosAcceptorsController, type: :controller do
+RSpec.describe Dashboard::Admin::TosAcceptorsController, type: :controller do
   let(:user) { create(:user) }
 
   before { sign_in create(:user, :admin) }

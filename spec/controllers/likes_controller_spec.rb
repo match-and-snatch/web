@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LikesController, type: :controller do
+RSpec.describe LikesController, type: :controller do
   let(:poster) { create :user, email: 'poster@gmail.com' }
   let(:visitor) { create :user, email: 'commenter@gmail.com' }
   let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }

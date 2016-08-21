@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PostsController, type: :controller do
+RSpec.describe PostsController, type: :controller do
   let(:poster) { create(:user, :profile_owner) }
 
   describe 'GET #index' do

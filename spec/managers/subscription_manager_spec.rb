@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SubscriptionManager do
+RSpec.describe SubscriptionManager do
   let(:subscriber)   { create(:user, email: 'szinin@gmail.com', activated: false) }
   let(:another_user) { create(:user, :profile_owner, email: 'another@user.com', cost: 5_00) }
 

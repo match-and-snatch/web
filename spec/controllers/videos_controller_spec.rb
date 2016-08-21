@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe VideosController, type: :controller do
+RSpec.describe VideosController, type: :controller do
   let(:owner) { create :user, email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'POST #create' do

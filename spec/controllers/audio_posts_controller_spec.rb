@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AudioPostsController, type: :controller do
+RSpec.describe AudioPostsController, type: :controller do
   let(:owner) { create :user, email: 'owner@gmail.com', is_profile_owner: true }
 
   describe 'GET #new' do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Api::ProfileTypesController, type: :controller do
+RSpec.describe Api::ProfileTypesController, type: :controller do
   let(:user) { create(:user) }
 
   before { sign_in_with_token(user.api_token) }

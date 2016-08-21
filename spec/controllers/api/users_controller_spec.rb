@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Api::UsersController, type: :controller do
+RSpec.describe Api::UsersController, type: :controller do
   describe 'GET #search' do
     let!(:match_1) { create :user, :profile_owner, full_name: 'serge zinin', profile_name: 'serge zinin', subscribers_count: 100 }
     let!(:match_2) { create :user, :profile_owner, full_name: 'serge zinin', profile_name: 'sergei zinin', subscribers_count: 5 }

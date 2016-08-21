@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ManagerError do
+RSpec.describe ManagerError do
   subject { described_class.new({email: 'is invalid', password: 'is not set'}) }
 
   its(:messages) { is_expected.to eq({email: 'is invalid', password: 'is not set'}) }

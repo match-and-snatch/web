@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UploadManager do
+RSpec.describe UploadManager do
   let(:user) { create(:user, :profile_owner) }
 
   subject { described_class.new(user) }

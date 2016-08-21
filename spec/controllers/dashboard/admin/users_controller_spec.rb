@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Dashboard::Admin::UsersController, type: :controller do
+RSpec.describe Dashboard::Admin::UsersController, type: :controller do
   before { sign_in create(:user, :admin) }
 
   describe 'PUT #make_admin' do

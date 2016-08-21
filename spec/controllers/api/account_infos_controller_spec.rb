@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Api::AccountInfosController, type: :controller do
+RSpec.describe Api::AccountInfosController, type: :controller do
   let(:user) { create(:user, email: 'user@gmail.com') }
 
   describe 'GET #settings' do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Api::PendingPostsController, type: :controller do
+RSpec.describe Api::PendingPostsController, type: :controller do
   let(:owner) { create(:user, :profile_owner, email: 'owner@gmail.com') }
 
   before do

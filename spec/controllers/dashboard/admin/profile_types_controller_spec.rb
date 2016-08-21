@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Dashboard::Admin::ProfileTypesController, type: :controller do
+RSpec.describe Dashboard::Admin::ProfileTypesController, type: :controller do
   before { sign_in create(:user, :admin) }
 
   describe 'GET #index' do

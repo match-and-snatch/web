@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PendingPostsController, type: :controller do
+RSpec.describe PendingPostsController, type: :controller do
   let(:owner) { create :user, email: 'owner@gmail.com', is_profile_owner: true }
   before { sign_in owner }
 

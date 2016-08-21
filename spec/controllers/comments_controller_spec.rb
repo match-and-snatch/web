@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CommentsController, type: :controller do
+RSpec.describe CommentsController, type: :controller do
   let(:poster) { create(:user) }
   let(:commenter) { create(:user) }
   let(:_post) { create(:status_post, user: poster) }

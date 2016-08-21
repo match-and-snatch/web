@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Dashboard::Admin::TosVersionsController, type: :controller do
+RSpec.describe Dashboard::Admin::TosVersionsController, type: :controller do
   let(:user) { create(:user) }
   let(:tos_version) { create(:tos_version) }
 
