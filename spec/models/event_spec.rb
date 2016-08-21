@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Event do
   subject { described_class.create!(action: 'test', data: {a: 1}).reload }
 

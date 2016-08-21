@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/connectpal/rails-sdk.git
-  revision: b48ef1bc65b00227783f74723491a5842bfa493d
+  revision: 45a0136ba9eef6563c0f6a92666dbe93339ef6ac
   branch: rails-5-gemfile
   specs:
     transloadit-rails (1.2.0)
@@ -169,6 +169,9 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.9.14)
     formatador (0.2.5)
+    fuubar (2.2.0)
+      rspec-core (~> 3.0)
+      ruby-progressbar (~> 1.4)
     geokit (1.10.0)
     gherkin (4.0.0)
     globalid (0.3.7)
@@ -335,6 +338,7 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    ruby-progressbar (1.8.1)
     ruby_dep (1.4.0)
     ruby_http_client (3.0.0)
     sass (3.4.22)
@@ -413,6 +417,7 @@ DEPENDENCIES
   elasticsearch!
   execjs
   factory_girl_rails
+  fuubar
   geokit
   guard-cucumber
   guard-rspec

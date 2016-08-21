@@ -105,4 +105,5 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'capybara-webkit'
   gem 'pry'
+  gem 'fuubar'
 end
