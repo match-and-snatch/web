@@ -9,7 +9,7 @@ describe Api::ProfileTypesController, type: :controller do
     context 'profile type does not exist' do
       subject { post :create, params: {type: 'test'}, format: :json }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'profile type does exist' do
@@ -17,7 +17,7 @@ describe Api::ProfileTypesController, type: :controller do
 
       before { ProfileTypeManager.new.create(title: 'test') }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -33,7 +33,7 @@ describe Api::ProfileTypesController, type: :controller do
 
       let(:profile_type) { ProfileTypeManager.new.create(title: 'test') }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

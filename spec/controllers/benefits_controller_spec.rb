@@ -8,14 +8,14 @@ describe BenefitsController, type: :controller do
     subject(:perform_request) { post :create, params: {user_id: user.id, benefits: benefits_params} }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in user }
       before { perform_request }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
       specify do
         expect(assigns(:benefits)).to match_array(user.benefits.reload)

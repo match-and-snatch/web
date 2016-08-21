@@ -9,16 +9,16 @@ describe AccountInfo::MessagesController, type: :controller do
 
     context 'authorized' do
       before { sign_in user }
-      it { should be_success }
+      it { is_expected.to be_success }
 
       context 'target user is invalid' do
         let(:target_user) { double('target_user', id: 5) }
-        its(:status) { should == 404 }
+        its(:status) { is_expected.to eq(404) }
       end
     end
 
     context 'unauthorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 end

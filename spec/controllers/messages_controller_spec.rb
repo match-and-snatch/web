@@ -9,16 +9,16 @@ describe MessagesController, type: :controller do
 
     context 'authorized' do
       before { sign_in user }
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
 
       context 'user is subscribed to target user' do
         before { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
-        its(:status) { should == 200 }
+        its(:status) { is_expected.to eq(200) }
       end
     end
 
     context 'non authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -27,16 +27,16 @@ describe MessagesController, type: :controller do
 
     context 'authorized' do
       before { sign_in user }
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
 
       context 'user is subscribed to target user' do
         before { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
-        its(:status) { should == 200 }
+        its(:status) { is_expected.to eq(200) }
       end
     end
 
     context 'non authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 end

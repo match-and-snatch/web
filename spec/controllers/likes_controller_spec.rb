@@ -14,14 +14,13 @@ describe LikesController, type: :controller do
       context 'subscribed' do
         before { SubscriptionManager.new(subscriber: visitor).subscribe_to(poster) }
 
-        its(:status) { should eq(200) }
-        its(:body) { should match_regex /replace/ }
+        its(:status) { is_expected.to eq(200) }
+        its(:body) { is_expected.to match_regex /replace/ }
       end
 
       context 'not subscribed' do
-        its(:status) { should eq(401) }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
 end
-

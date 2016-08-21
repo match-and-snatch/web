@@ -16,7 +16,7 @@ describe Api::VideoPostsController, type: :controller do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(owner.api_token)
       end
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -32,7 +32,7 @@ describe Api::VideoPostsController, type: :controller do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(owner.api_token)
       end
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -45,7 +45,7 @@ describe Api::VideoPostsController, type: :controller do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(owner.api_token)
       end
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'unauthorized access' do

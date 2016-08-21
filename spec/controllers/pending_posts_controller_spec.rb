@@ -6,7 +6,7 @@ describe PendingPostsController, type: :controller do
 
   describe 'PUT #update' do
     subject(:perform_request) { put :update, params: {message: 'new message', title: 'new title'} }
-    it { should be_success }
+    it { is_expected.to be_success }
 
     specify do
       expect { perform_request }.to change { owner.reload.pending_post.try(:message) rescue nil }.from(nil).to('new message')

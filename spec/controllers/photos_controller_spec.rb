@@ -12,14 +12,14 @@ describe PhotosController, type: :controller do
     context 'authorized access' do
       before { sign_in owner }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
       context 'removed post' do
         before do
           PostManager.new(user: owner).delete(_post)
         end
 
-        it { should be_success }
+        it { is_expected.to be_success }
       end
     end
   end
@@ -28,12 +28,12 @@ describe PhotosController, type: :controller do
     subject { get :profile_picture, params: {user_id: owner.slug} }
 
     context 'unauthorized access' do
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -41,12 +41,12 @@ describe PhotosController, type: :controller do
     subject { get :cover_picture, params: {user_id: owner.slug} }
 
     context 'unauthorized access' do
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -54,13 +54,13 @@ describe PhotosController, type: :controller do
     subject { post :create, params: {transloadit: transloadit_photo_data_params.to_json} }
 
     context 'unauthorized access' do
-      its(:status) { should eq(401) }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:body) { should match_regex /replace/ }
-      it { should be_success }
+      its(:body) { is_expected.to match_regex /replace/ }
+      it { is_expected.to be_success }
     end
   end
 
@@ -69,12 +69,12 @@ describe PhotosController, type: :controller do
     subject { delete :destroy, params: {id: photo_upload.id} }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

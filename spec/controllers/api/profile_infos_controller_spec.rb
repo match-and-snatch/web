@@ -9,7 +9,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
       context 'already have profile created' do
         pending 'shows error'
@@ -31,7 +31,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -45,7 +45,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -59,7 +59,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -73,7 +73,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -87,7 +87,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -101,7 +101,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -115,7 +115,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -129,7 +129,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -143,7 +143,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -157,7 +157,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -168,7 +168,7 @@ describe Api::ProfileInfosController, type: :controller do
       context 'authorized access' do
         before { sign_in_with_token(user.api_token) }
 
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'unauthorized access' do
@@ -182,7 +182,7 @@ describe Api::ProfileInfosController, type: :controller do
       context 'authorized access' do
         before { sign_in_with_token(user.api_token) }
 
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'unauthorized access' do
@@ -201,7 +201,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -215,7 +215,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -229,7 +229,7 @@ describe Api::ProfileInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

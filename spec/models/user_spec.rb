@@ -270,72 +270,72 @@ describe User do
     let(:routing_number) { '123' }
     let(:account_number) { '12345' }
 
-    it { should eq(true) }
+    it { is_expected.to eq(true) }
 
     context 'empty profile name' do
       let(:profile_name) { ' ' }
-      it { should eq(false) }
+      it { is_expected.to eq(false) }
     end
 
     context 'empty slug' do
       let(:slug) {}
-      it { should eq(false) }
+      it { is_expected.to eq(false) }
     end
 
     context 'empty cost' do
       let(:cost) {}
-      it { should eq(false) }
+      it { is_expected.to eq(false) }
     end
 
     context 'empty holder_name' do
       let(:holder_name) {}
-      it { should eq(true) }
+      it { is_expected.to eq(true) }
     end
 
     context 'empty routing_number' do
       let(:routing_number) {}
-      it { should eq(true) }
+      it { is_expected.to eq(true) }
     end
 
     context 'empty account_number' do
       let(:account_number) {}
-      it { should eq(true) }
+      it { is_expected.to eq(true) }
     end
   end
 
   describe '#admin?' do
     context 'admins' do
       subject { User.new is_admin: true }
-      its(:admin?) { should eq(true) }
+      its(:admin?) { is_expected.to eq(true) }
 
       context 'from config' do
         subject { User.new email: 'szinin@gmail.com' }
-        its(:admin?) { should eq(true) }
+        its(:admin?) { is_expected.to eq(true) }
 
         context 'with uppercase letters' do
           subject { User.new email: 'Szinin@gmail.com' }
-          its(:admin?) { should eq(true) }
+          its(:admin?) { is_expected.to eq(true) }
         end
       end
     end
 
     context 'non admins' do
-      its(:is_admin?) { should eq(false) }
-      its(:admin?) { should eq(false) }
+      its(:is_admin?) { is_expected.to eq(false) }
+      its(:admin?) { is_expected.to eq(false) }
     end
   end
 
   describe '#staff?' do
-    its(:staff?) { should eq(false) }
+    its(:staff?) { is_expected.to eq(false) }
 
     context 'admin' do
       subject { User.new is_admin: true }
-      its(:staff?) { should eq(true) }
+      its(:staff?) { is_expected.to eq(true) }
     end
 
     context 'sales' do
       subject { User.new is_sales: true }
-      its(:staff?) { should eq(true) }
+      its(:staff?) { is_expected.to eq(true) }
     end
   end
 
@@ -349,7 +349,7 @@ describe User do
       let!(:subscription) { SubscriptionManager.new(subscriber: user).subscribe_to(target_user) }
 
       context 'active subscription' do
-        it { should eq(true) }
+        it { is_expected.to eq(true) }
       end
 
       context 'rejected subscription' do
@@ -362,7 +362,7 @@ describe User do
             PaymentManager.new(user: user).pay_for(subscription)
           end
 
-          it { should eq(false) }
+          it { is_expected.to eq(false) }
         end
 
         context "rejected by Stripe's fault" do
@@ -371,7 +371,7 @@ describe User do
             PaymentManager.new(user: user).pay_for(subscription)
           end
 
-          it { should eq(true) }
+          it { is_expected.to eq(true) }
         end
       end
 
@@ -380,7 +380,7 @@ describe User do
           SubscriptionManager.new(subscriber: user, subscription: subscription).unsubscribe
         end
 
-        it { should eq(true) }
+        it { is_expected.to eq(true) }
       end
 
       context 'expired subscription' do
@@ -394,12 +394,12 @@ describe User do
           SubscriptionManager.new(subscriber: user, subscription: subscription).unsubscribe
         end
 
-        it { should eq(false) }
+        it { is_expected.to eq(false) }
       end
     end
 
     context 'without subscription' do
-      it { should eq(false) }
+      it { is_expected.to eq(false) }
     end
   end
 
@@ -438,26 +438,30 @@ describe User do
   describe '#welcome_audio' do
     subject(:user) { create(:user) }
 
-    its(:welcome_audio) { should be_nil }
+    its(:welcome_audio) { is_expected.to be_nil }
 
     context 'with welcome audio' do
       let(:welcome_audio_data) { welcome_audio_data_params }
-      let(:welcome_audio) { UploadManager.new(user).create_audio(welcome_audio_data).first }
+      let!(:welcome_audio) { UploadManager.new(user).create_audio(welcome_audio_data).first }
 
-      its(:welcome_audio) { should eq(welcome_audio) }
+      specify do
+        expect(user.reload.welcome_audio.reload).to eq(welcome_audio)
+      end
     end
   end
 
   describe '#welcome_video' do
     subject(:user) { create(:user) }
 
-    its(:welcome_video) { should be_nil }
+    its(:welcome_video) { is_expected.to be_nil }
 
     context 'with welcome video' do
       let(:welcome_video_data) { welcome_video_data_params }
-      let(:welcome_video) { UploadManager.new(user).create_video(welcome_video_data) }
+      let!(:welcome_video) { UploadManager.new(user).create_video(welcome_video_data) }
 
-      its(:welcome_video) { should eq(welcome_video) }
+      specify do
+        expect(user.reload.welcome_video.reload).to eq(welcome_video)
+      end
     end
   end
 

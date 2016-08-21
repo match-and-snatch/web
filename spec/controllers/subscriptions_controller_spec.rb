@@ -5,17 +5,17 @@ describe SubscriptionsController, type: :controller do
 
   describe 'GET #index' do
     subject { get 'index' }
-    its(:status) { should eq(401) }
+    its(:status) { is_expected.to eq(401) }
 
     context 'authorized access' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
   describe 'GET #new' do
     subject { get :new, params: {user_id: owner.slug} }
-    it { should be_success }
+    it { is_expected.to be_success }
   end
 
   describe 'POST #create' do
@@ -25,13 +25,13 @@ describe SubscriptionsController, type: :controller do
 
     subject { post :create, params: {user_id: owner.slug} }
 
-    its(:status) { should eq(401) }
+    its(:status) { is_expected.to eq(401) }
 
     context 'authorized access' do
       let(:subscriber) { create :subscriber, :with_cc }
       before { sign_in subscriber }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -55,14 +55,14 @@ describe SubscriptionsController, type: :controller do
                                             tos_accepted: 'true',
                                             zip: '123456'} }
 
-    it { should be_success }
-    its(:body) { should match_regex /reload/ }
+    it { is_expected.to be_success }
+    its(:body) { is_expected.to match_regex /reload/ }
 
     context 'with empty stripe token' do
       let(:stripe_token) { }
 
-      it { should be_success }
-      its(:body) { should match_regex /failed/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /failed/ }
     end
 
     # TODO : WHY IT DOESN'T WORK?
@@ -71,8 +71,8 @@ describe SubscriptionsController, type: :controller do
     #
     #   let(:card_number) { '4000000000000002' }
     #
-    #   it { should be_success }
-    #   its(:body) { should match_regex /failed/ }
+    #   it { is_expected.to be_success }
+    #   its(:body) { is_expected.to match_regex /failed/ }
     # end
   end
 
@@ -83,12 +83,12 @@ describe SubscriptionsController, type: :controller do
     subject { get :confirm_restore, params: {id: subscription.id} }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -99,12 +99,12 @@ describe SubscriptionsController, type: :controller do
     subject { put :restore, params: {id: subscription.id} }
 
     context 'not authorized' do
-      its(:status) { should eq(401) }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

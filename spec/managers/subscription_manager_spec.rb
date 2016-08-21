@@ -179,9 +179,9 @@ describe SubscriptionManager do
     context 'payment success' do
       subject(:subscribe) { manager.register_subscribe_and_pay(register_data.merge(number: '4242424242424242', target: another_user)) }
 
-      it { should be_a Subscription }
-      it { should be_valid }
-      it { should_not be_new_record }
+      it { is_expected.to be_a Subscription }
+      it { is_expected.to be_valid }
+      it { is_expected.not_to be_new_record }
 
       context 'user is already registered' do
         before do
@@ -296,9 +296,9 @@ describe SubscriptionManager do
     context 'another user' do
       subject { manager.subscribe_to(another_user) }
 
-      it { should be_a Subscription }
-      it { should be_valid }
-      it { should_not be_new_record }
+      it { is_expected.to be_a Subscription }
+      it { is_expected.to be_valid }
+      it { is_expected.not_to be_new_record }
 
       specify do
         expect { manager.subscribe_to(another_user) }.to create_record(Subscription)
@@ -320,10 +320,10 @@ describe SubscriptionManager do
       context 'fake' do
         subject(:subscribe) { manager.subscribe_to(another_user, fake: true) }
 
-        it { should be_a Subscription }
-        it { should be_valid }
-        it { should_not be_new_record }
-        it { should be_fake }
+        it { is_expected.to be_a Subscription }
+        it { is_expected.to be_valid }
+        it { is_expected.not_to be_new_record }
+        it { is_expected.to be_fake }
 
         specify do
           expect { subscribe }.to create_record(Subscription)
@@ -340,11 +340,11 @@ describe SubscriptionManager do
         context 'with fake user' do
           let(:subscriber) { User.fake }
 
-          it { should be_a Subscription }
-          it { should be_valid }
-          it { should_not be_new_record }
-          it { should be_fake }
-          its(:user) { should eq(subscriber) }
+          it { is_expected.to be_a Subscription }
+          it { is_expected.to be_valid }
+          it { is_expected.not_to be_new_record }
+          it { is_expected.to be_fake }
+          its(:user) { is_expected.to eq(subscriber) }
           it { expect { subscribe }.to create_record(Subscription).matching(target_user: another_user, user: subscriber) }
         end
 

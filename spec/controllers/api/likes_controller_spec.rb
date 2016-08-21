@@ -16,7 +16,7 @@ describe Api::LikesController, type: :controller do
       context 'subscribed' do
         before { SubscriptionManager.new(subscriber: visitor).subscribe_to(poster) }
 
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'not subscribed' do

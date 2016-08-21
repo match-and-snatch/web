@@ -13,7 +13,7 @@ describe Api::AudiosController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -23,7 +23,7 @@ describe Api::AudiosController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      its(:status) { should eq(200) }
+      its(:status) { is_expected.to eq(200) }
     end
 
     context 'unauthorized access' do
@@ -43,7 +43,7 @@ describe Api::AudiosController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

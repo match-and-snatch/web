@@ -3,8 +3,6 @@ class Api::MessagesController < Api::BaseController
 
   before_action :load_target_user!, only: [:create]
 
-  protect(:search_recipients) { current_user.authorized? }
-
   def search_recipients
     users = Queries::Recipients.new(user: current_user.object, query: params[:q]).by_name
     json_success results: users.map {|user| api_response.user_data(user)}

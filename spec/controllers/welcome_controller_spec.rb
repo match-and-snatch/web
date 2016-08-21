@@ -26,7 +26,7 @@ describe WelcomeController, type: :controller do
     end
 
     context 'when not authorized' do
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

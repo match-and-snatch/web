@@ -8,13 +8,13 @@ describe VideoPostsController, type: :controller do
     subject { delete :cancel }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
-      its(:body) { should match_regex /success/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /success/ }
     end
   end
 
@@ -22,12 +22,12 @@ describe VideoPostsController, type: :controller do
     subject { get :new, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -38,12 +38,12 @@ describe VideoPostsController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
-      its(:body) { should match_regex /replace/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /replace/ }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 end

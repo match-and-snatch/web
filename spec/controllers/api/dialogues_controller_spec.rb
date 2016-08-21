@@ -12,7 +12,7 @@ describe Api::DialoguesController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token user.api_token }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
       specify do
         perform_request
@@ -83,8 +83,8 @@ describe Api::DialoguesController, type: :controller do
       before { sign_in_with_token user.api_token }
 
       context 'dialogue exists' do
-        its(:status) { should eq(200) }
-        it { should be_success }
+        its(:status) { is_expected.to eq(200) }
+        it { is_expected.to be_success }
 
         context 'sender reads recently sent message' do
           it 'marks dialogue as read' do
@@ -124,13 +124,13 @@ describe Api::DialoguesController, type: :controller do
       context 'as dialogue creator' do
         before { sign_in_with_token user.api_token }
 
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as a dialogue target' do
         before { sign_in_with_token friend.api_token }
 
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do

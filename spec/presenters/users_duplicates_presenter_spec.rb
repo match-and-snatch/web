@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe UsersDuplicatesPresenter do
   context 'empty set' do
-    its(:collection) { should be_a Hash }
+    its(:collection) { is_expected.to be_a Hash }
   end
 
   context 'no duplicates' do
     before { create(:user, email: 'no@duplicates.com') }
 
-    its(:collection) { should be_empty }
+    its(:collection) { is_expected.to be_empty }
   end
 
   context 'with duplicates' do
@@ -22,6 +22,6 @@ describe UsersDuplicatesPresenter do
       second_duplicate.reload
     end
 
-    its(:collection) { should == {'duplicate@gmail.com' => [second_duplicate, first_duplicate]} }
+    its(:collection) { is_expected.to eq({'duplicate@gmail.com' => [second_duplicate, first_duplicate]}) }
   end
 end

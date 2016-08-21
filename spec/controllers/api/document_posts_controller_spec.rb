@@ -13,7 +13,7 @@ describe Api::DocumentPostsController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -27,7 +27,7 @@ describe Api::DocumentPostsController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -39,7 +39,7 @@ describe Api::DocumentPostsController, type: :controller do
 
       let!(:pending_document) { create(:document, user: owner) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'unauthorized access' do

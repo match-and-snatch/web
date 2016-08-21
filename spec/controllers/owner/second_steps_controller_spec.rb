@@ -8,7 +8,7 @@ describe Owner::SecondStepsController, type: :controller do
 
     context 'authorized' do
       before { sign_in user }
-      it { should be_success }
+      it { is_expected.to be_success }
 
       context 'already have profile created' do
         pending 'redirects me to my profile page'
@@ -16,7 +16,7 @@ describe Owner::SecondStepsController, type: :controller do
     end
 
     context 'unauthorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -28,7 +28,7 @@ describe Owner::SecondStepsController, type: :controller do
                                                       account_number: '123456'} }
     context 'authorized' do
       before { sign_in user }
-      it { should be_success }
+      it { is_expected.to be_success }
 
       context 'already have profile created' do
         pending 'shows error'
@@ -36,7 +36,7 @@ describe Owner::SecondStepsController, type: :controller do
     end
 
     context 'unauthorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 end

@@ -17,7 +17,7 @@ describe Api::BenefitsController, type: :controller do
         perform_request
       end
 
-      it { should be_success }
+      it { is_expected.to be_success }
       it { expect(JSON.parse(subject.body)).to include({'data' => {'benefits' => ['benefit', 'other benefit']}}) }
     end
   end

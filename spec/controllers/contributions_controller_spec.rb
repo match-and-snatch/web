@@ -11,11 +11,11 @@ describe ContributionsController, type: :controller do
 
     context 'authorized' do
       before { sign_in target_user }
-      its(:status) { should eq(200) }
+      its(:status) { is_expected.to eq(200) }
     end
 
     context 'non authorized' do
-      its(:status) { should eq(401) }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'request with year' do
@@ -23,7 +23,7 @@ describe ContributionsController, type: :controller do
 
       before { sign_in target_user }
 
-      its(:status) { should eq(200) }
+      its(:status) { is_expected.to eq(200) }
     end
   end
 
@@ -32,16 +32,16 @@ describe ContributionsController, type: :controller do
 
     context 'authorized' do
       before { sign_in user }
-      its(:status) { should eq(200) }
+      its(:status) { is_expected.to eq(200) }
     end
 
     context 'non authorized' do
-      its(:status) { should eq(200) }
+      its(:status) { is_expected.to eq(200) }
     end
 
     context 'request without target_user_id' do
       subject { get 'new' }
-      its(:status) { should eq(200) }
+      its(:status) { is_expected.to eq(200) }
     end
   end
 end

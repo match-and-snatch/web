@@ -13,7 +13,7 @@ describe Api::PasswordsController, type: :controller do
 
     subject { put :update, params: {password: 'new_one', password_confirmation: 'new_one', token: token}, format: :json }
 
-    it { should be_success }
+    it { is_expected.to be_success }
     it { expect { subject }.to change { user.reload.password_hash } }
     it { expect { subject }.to change { assigns('notice') } }
 
@@ -34,13 +34,13 @@ describe Api::PasswordsController, type: :controller do
   describe 'POST #restore' do
     subject { post :restore, params: {email: 'test@email.com'}, format: :json }
 
-    it { should be_success }
+    it { is_expected.to be_success }
     it { expect { subject }.to change { assigns('notice') } }
 
     context 'wrong email' do
       subject { post :restore, params: {email: 'wrong@email.com'}, format: :json }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -52,7 +52,7 @@ describe Api::PasswordsController, type: :controller do
 
     subject { get :edit, params: {token: token}, format: :json }
 
-    it { should be_success }
+    it { is_expected.to be_success }
 
     context 'invalid token' do
       let(:token) { 'invalid' }

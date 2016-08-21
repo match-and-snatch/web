@@ -12,5 +12,5 @@ describe Queries::ProfileTypes do
     end
   end
 
-  its(:results) { should == [matching_profile_type] }
+  its(:results) { is_expected.to eq([matching_profile_type]) }
 end

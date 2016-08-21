@@ -64,8 +64,8 @@ describe SessionManager, type: :request do
   end
 
   describe '#current_user' do
-    its(:current_user) { should be_a CurrentUserDecorator }
-    its(:current_user) { should_not be_authorized }
+    its(:current_user) { is_expected.to be_a CurrentUserDecorator }
+    its(:current_user) { is_expected.not_to be_authorized }
 
     context 'authorized user' do
       let!(:user) { create(:user, email: email) }
@@ -74,7 +74,7 @@ describe SessionManager, type: :request do
         manager.login(email, password)
       end
 
-      its(:current_user) { should be_authorized }
+      its(:current_user) { is_expected.to be_authorized }
     end
   end
 end

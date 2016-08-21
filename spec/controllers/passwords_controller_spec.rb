@@ -11,17 +11,17 @@ describe PasswordsController, type: :controller do
 
     subject { put :update, params: {password: 'new_one', password_confirmation: 'new_one', token: user.password_reset_token} }
 
-    it { should be_success }
+    it { is_expected.to be_success }
     it { expect { subject }.to change { user.reload.password_hash } }
     it { expect { subject }.to change { assigns('notice') } }
 
     context 'invalid token' do
       subject { put :update, params: {password: 'new_one', password_confirmation: 'new_one', token: 'invalid'} }
-      its(:status) { should == 302 }
+      its(:status) { is_expected.to eq(302) }
 
       context 'empty token' do
         subject { put :update, params: {password: 'new_one', password_confirmation: 'new_one'} }
-        its(:status) { should == 302 }
+        its(:status) { is_expected.to eq(302) }
       end
     end
   end

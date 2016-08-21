@@ -7,12 +7,12 @@ describe DocumentsController, type: :controller do
     subject { post :create, params: {transloadit: transloadit_document_data_params.to_json} }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -21,12 +21,12 @@ describe DocumentsController, type: :controller do
     subject { delete :destroy, params: {id: document_upload.id} }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

@@ -7,12 +7,12 @@ describe AudiosController, type: :controller do
     subject { post :create, params: {transloadit: transloadit_audio_data_params.to_json} }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -21,27 +21,27 @@ describe AudiosController, type: :controller do
     subject { get :show, params: {id: audio_upload.id, format: :xml} }
 
     context 'unauthorized access' do
-      its(:status) { should == 200 }
+      its(:status) { is_expected.to eq(200) }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      its(:status) { is_expected.to eq(200) }
 
       context 'itunes is not enabled' do
         before { UserProfileManager.new(owner).disable_itunes }
-        its(:status) { should == 404 }
+        its(:status) { is_expected.to eq(404) }
       end
 
       context 'post is not assigned' do
         let(:audio_upload) { create(:audio, :pending, user: owner) }
-        its(:status) { should == 404 }
+        its(:status) { is_expected.to eq(404) }
       end
     end
 
     context 'no such upload' do
       let(:audio_upload) { double('upload', id: 5) }
-      its(:status) { should == 404 }
+      its(:status) { is_expected.to eq(404) }
     end
   end
 
@@ -50,11 +50,11 @@ describe AudiosController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      its(:status) { should == 200 }
+      its(:status) { is_expected.to eq(200) }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -63,12 +63,12 @@ describe AudiosController, type: :controller do
     subject { delete :destroy, params: {id: audio_upload.id} }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

@@ -6,14 +6,14 @@ describe Api::SessionsController, type: :controller do
 
     let(:user) { create(:user, email: 'szinin@gmail.com') }
 
-    it { should be_success }
-    its(:body) { should match_regex /"api_token":"#{user.api_token}"/ }
+    it { is_expected.to be_success }
+    its(:body) { is_expected.to match_regex /"api_token":"#{user.api_token}"/ }
 
     context 'token set' do
       let!(:user) { create(:user, email: 'szinin@gmail.com', api_token: 'tokenset') }
 
-      it { should be_success }
-      its(:body) { should match_regex /"api_token":"tokenset"/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /"api_token":"tokenset"/ }
     end
   end
 end

@@ -4,8 +4,8 @@ describe ProfileTypeManager do
   describe '#create' do
     context 'title given' do
       subject { described_class.new.create(title: 'some title') }
-      it { should be_a ProfileType }
-      it { should be_persisted }
+      it { is_expected.to be_a ProfileType }
+      it { is_expected.to be_persisted }
     end
 
     context 'no title given' do

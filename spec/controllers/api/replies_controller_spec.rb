@@ -24,12 +24,12 @@ describe Api::RepliesController, type: :controller do
 
       context 'as poster' do
         let(:token) { poster.api_token }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'as subscriber' do
         let(:token) { commenter.api_token }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
     end
   end
@@ -47,7 +47,7 @@ describe Api::RepliesController, type: :controller do
       context 'as comment owner' do
         let(:token) { commenter.api_token }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
         specify do
           expect { perform_request }.to change { reply.reload.message }.to('updated')
@@ -57,7 +57,7 @@ describe Api::RepliesController, type: :controller do
       context 'as a post owner' do
         let(:token) { commenter.api_token }
 
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
@@ -85,7 +85,7 @@ describe Api::RepliesController, type: :controller do
       context 'as comment owner' do
         let(:token) { commenter.api_token }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
         specify do
           expect { perform_request }.to change { reply.reload.hidden? }.to(false)
@@ -95,7 +95,7 @@ describe Api::RepliesController, type: :controller do
       context 'as a post owner' do
         let(:token) { poster.api_token }
 
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
@@ -119,7 +119,7 @@ describe Api::RepliesController, type: :controller do
       context 'as comment owner' do
         let(:token) { commenter.api_token }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
         specify do
           expect { perform_request }.to change { reply.reload.hidden? }.to(true)
@@ -129,7 +129,7 @@ describe Api::RepliesController, type: :controller do
       context 'as a post owner' do
         let(:token) { poster.api_token }
 
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do

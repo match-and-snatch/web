@@ -17,7 +17,7 @@ describe Api::SubscriptionsController, type: :controller do
 
       before { sign_in_with_token subscriber.api_token }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -44,14 +44,14 @@ describe Api::SubscriptionsController, type: :controller do
                                             zip: '123456',
                                             tos_accepted: 'true'}, format: :json }
 
-    it { should be_success }
-    its(:body) { should match_regex /success/ }
+    it { is_expected.to be_success }
+    its(:body) { is_expected.to match_regex /success/ }
 
     context 'with failed payment' do
       let(:card_number) { '4000000000000341' }
 
-      it { should be_success }
-      its(:body) { should match_regex /success/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /success/ }
     end
 
     context 'with wrong confirmation email' do
@@ -67,8 +67,8 @@ describe Api::SubscriptionsController, type: :controller do
     #
     #   let(:card_number) { '4000000000000002' }
     #
-    #   it { should be_success }
-    #   its(:body) { should match_regex /failed/ }
+    #   it { is_expected.to be_success }
+    #   its(:body) { is_expected.to match_regex /failed/ }
     # end
   end
 

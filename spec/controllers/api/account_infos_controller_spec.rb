@@ -13,7 +13,7 @@ describe Api::AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -27,7 +27,7 @@ describe Api::AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -41,7 +41,7 @@ describe Api::AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -55,7 +55,7 @@ describe Api::AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -69,7 +69,7 @@ describe Api::AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -83,7 +83,7 @@ describe Api::AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -97,7 +97,7 @@ describe Api::AccountInfosController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

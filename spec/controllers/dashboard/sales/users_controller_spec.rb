@@ -8,7 +8,7 @@ describe Dashboard::Sales::UsersController, type: :controller do
 
     subject { post :login_as, params: {id: user.id} }
 
-    its(:body) { should match_regex 'redirect'}
-    its(:status) { should eq(200) }
+    its(:body) { is_expected.to match_regex 'redirect'}
+    its(:status) { is_expected.to eq(200) }
   end
 end

@@ -7,13 +7,13 @@ describe ::UsersController, type: :controller do
     context 'as HTML' do
       subject { get 'index' }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'as JSON' do
       subject { get 'index' }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -21,8 +21,8 @@ describe ::UsersController, type: :controller do
     context 'nothing passed' do
       subject { post :create, format: :json }
 
-      it { should be_success }
-      its(:body) { should match_regex /failed/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /failed/ }
     end
 
     context 'proper params' do
@@ -33,8 +33,8 @@ describe ::UsersController, type: :controller do
                                        password_confirmation: 'qwerty',
                                        tos_accepted: '1'}, format: :json }
 
-      it { should be_success }
-      its(:body) { should match_regex /redirect/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /redirect/ }
     end
   end
 
@@ -46,19 +46,19 @@ describe ::UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
-      it{ should render_template('owner_view') }
+      it { is_expected.to be_success }
+      it{ is_expected.to render_template('owner_view') }
     end
 
     context 'unauthorized access' do
-      it { should be_success }
-      it{ should render_template('public_show') }
+      it { is_expected.to be_success }
+      it{ is_expected.to render_template('public_show') }
     end
 
     context 'when profile public' do
       let!(:owner) { create :user, :public_profile }
-      it { should be_success }
-      it{ should render_template('show') }
+      it { is_expected.to be_success }
+      it{ is_expected.to render_template('show') }
     end
   end
 
@@ -67,12 +67,12 @@ describe ::UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status) { should == 200 }
-      its(:body) { should match_regex /success/ }
+      its(:status) { is_expected.to eq(200) }
+      its(:body) { is_expected.to match_regex /success/ }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -81,12 +81,12 @@ describe ::UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status) { should == 200 }
-      its(:body) { should match_regex /reload/ }
+      its(:status) { is_expected.to eq(200) }
+      its(:body) { is_expected.to match_regex /reload/ }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -95,12 +95,12 @@ describe ::UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status) { should == 200 }
-      its(:body) { should match_regex /replace/ }
+      its(:status) { is_expected.to eq(200) }
+      its(:body) { is_expected.to match_regex /replace/ }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -109,12 +109,12 @@ describe ::UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status) { should == 200 }
-      its(:body) { should match_regex /success/ }
+      its(:status) { is_expected.to eq(200) }
+      its(:body) { is_expected.to match_regex /success/ }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -123,12 +123,12 @@ describe ::UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status) { should == 200 }
-      its(:body) { should match_regex /replace/ }
+      its(:status) { is_expected.to eq(200) }
+      its(:body) { is_expected.to match_regex /replace/ }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -138,12 +138,12 @@ describe ::UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in owner }
-      it { should be_success }
-      its(:body) { should match_regex /success/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /success/ }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -153,12 +153,12 @@ describe ::UsersController, type: :controller do
 
       context 'authorized access' do
         before { sign_in profile }
-        its(:status) { should == 200 }
-        its(:body) { should match_regex /replace/ }
+        its(:status) { is_expected.to eq(200) }
+        its(:body) { is_expected.to match_regex /replace/ }
       end
 
       context 'unauthorized access' do
-        its(:status) { should == 401 }
+        its(:status) { is_expected.to eq(401) }
       end
     end
 
@@ -167,12 +167,12 @@ describe ::UsersController, type: :controller do
 
       context 'authorized access' do
         before { sign_in profile }
-        its(:status) { should == 200 }
-        its(:body) { should match_regex /replace/ }
+        its(:status) { is_expected.to eq(200) }
+        its(:body) { is_expected.to match_regex /replace/ }
       end
 
       context 'unauthorized access' do
-        its(:status) { should == 401 }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
@@ -181,13 +181,13 @@ describe ::UsersController, type: :controller do
     subject { delete :remove_welcome_media, params: {id: profile.id}, format: :json }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       before { sign_in profile }
-      it { should be_success }
-      its(:body) { should match_regex /replace/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /replace/ }
     end
   end
 
@@ -196,12 +196,12 @@ describe ::UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status) { should == 200 }
-      its(:body) { should match_regex /replace/ }
+      its(:status) { is_expected.to eq(200) }
+      its(:body) { is_expected.to match_regex /replace/ }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -210,12 +210,12 @@ describe ::UsersController, type: :controller do
 
     context 'authorized access' do
       before { sign_in profile }
-      its(:status) { should == 200 }
-      its(:body) { should match_regex /replace/ }
+      its(:status) { is_expected.to eq(200) }
+      its(:body) { is_expected.to match_regex /replace/ }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
@@ -241,7 +241,7 @@ describe ::UsersController, type: :controller do
       specify { expect(assigns('users')).to eq [user] }
     end
 
-    its(:status) { should == 200 }
-    its(:body) { should match_regex /replace/ }
+    its(:status) { is_expected.to eq(200) }
+    its(:body) { is_expected.to match_regex /replace/ }
   end
 end
