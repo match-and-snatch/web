@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe MessagesManager do
   let(:user) { create(:user) }
   let(:target_user) { create(:user, email: 'another_user@mail.com') }

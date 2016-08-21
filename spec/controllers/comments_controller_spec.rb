@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe CommentsController, type: :controller do
   let(:poster) { create(:user) }
   let(:commenter) { create(:user) }

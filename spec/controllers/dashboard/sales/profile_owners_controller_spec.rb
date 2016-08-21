@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Sales::ProfileOwnersController, type: :controller do
   describe 'GET #index' do
     subject { get 'index' }

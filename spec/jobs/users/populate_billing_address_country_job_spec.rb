@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Users::PopulateBillingAddressCountryJob do
   describe '#perform' do
     subject(:perform) { described_class.new.perform }

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Queries::Comments do
   let(:post) { create(:status_post) }
 

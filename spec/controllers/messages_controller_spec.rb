@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe MessagesController, type: :controller do
   let(:user) { create(:user) }
   let(:target_user) { create :user, email: 'target@gmail.com' }

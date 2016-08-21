@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Api::AudiosController, type: :controller do
   let(:owner) { create(:user, :profile_owner, email: 'owner@gmail.com') }
 

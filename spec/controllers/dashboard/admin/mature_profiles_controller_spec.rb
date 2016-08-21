@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Dashboard::Admin::MatureProfilesController, type: :controller do
   let(:user) { create(:user) }
   let(:admin) { create(:user, :admin) }

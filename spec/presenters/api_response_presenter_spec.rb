@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ApiResponsePresenter do
   let(:user) { create(:user, :profile_owner) }
 

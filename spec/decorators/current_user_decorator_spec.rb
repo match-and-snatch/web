@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe CurrentUserDecorator do
   let(:user) { User.new }
   subject(:decorator) { described_class.new(user) }

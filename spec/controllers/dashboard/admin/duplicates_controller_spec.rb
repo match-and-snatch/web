@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Dashboard::Admin::DuplicatesController, type: :controller do
   let(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }

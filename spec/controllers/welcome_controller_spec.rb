@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe WelcomeController, type: :controller do
   describe 'GET #show' do
     subject(:perform_request) { get 'show' }

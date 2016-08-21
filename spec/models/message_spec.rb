@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Message do
   let(:user) { create(:user) }
   let(:target_user) { create(:user) }

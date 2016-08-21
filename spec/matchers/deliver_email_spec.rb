@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'deliver_email' do
   def send_email
     AuthMailer.forgot_password(user).deliver_now

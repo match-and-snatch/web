@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe AuthenticationManager do
   let(:email) { 'szinin-non-admin@gmail.com' }
   let(:password) { 'qwerty' }

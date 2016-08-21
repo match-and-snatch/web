@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Api::ProfileTypesController, type: :controller do
   let(:user) { create(:user) }
 

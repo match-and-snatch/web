@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'delete_record' do
   context 'record created' do
     let!(:user) { create :user }

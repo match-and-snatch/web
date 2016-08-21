@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Dashboard::Admin::ProfilesController, type: :controller do
   before { sign_in create(:user, :admin) }
 

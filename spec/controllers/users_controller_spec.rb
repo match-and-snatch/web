@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe ::UsersController, type: :controller do
   let(:profile) { create :user, :profile_owner }
 

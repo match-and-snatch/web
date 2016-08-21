@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Queries::ProfileTypes do
   subject { described_class.new user: user, query: 'match' }
 

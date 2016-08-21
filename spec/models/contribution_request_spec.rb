@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ContributionRequest do
   let(:user) { create(:user, :profile_owner, email: 'profile@lol.com') }
   let(:target_user) { create(:user, :profile_owner, email: 'target@lol.com') }

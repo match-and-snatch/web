@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Concerns::CostUpdatePerformer do
   let(:ids) { [] }
   let(:user1) { create(:user, :profile_owner) }

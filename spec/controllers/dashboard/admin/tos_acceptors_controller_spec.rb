@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Dashboard::Admin::TosAcceptorsController, type: :controller do
   let(:user) { create(:user) }
 

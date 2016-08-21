@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Queries::Elastic::Profiles do
   subject(:query) { described_class.new }
 

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::PaymentsController, type: :controller do
   describe 'GET #index' do
     subject { get 'index' }

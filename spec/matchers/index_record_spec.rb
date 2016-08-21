@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe '#index_record' do
   let!(:user) { create :user }
   let!(:another_record) { create :user }

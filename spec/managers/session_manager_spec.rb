@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe SessionManager, type: :request do
   subject(:manager) { described_class.new(cookies) }
 

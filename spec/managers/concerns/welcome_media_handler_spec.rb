@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Concerns::WelcomeMediaHandler do
   let(:ids) { [] }
   let(:user1) { create(:user) }

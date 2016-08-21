@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Api::PagesController, type: :controller do
   describe 'GET#terms_of_service' do
     subject { get :terms_of_service, format: :json }

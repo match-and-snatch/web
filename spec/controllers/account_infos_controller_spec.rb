@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe AccountInfosController, type: :controller do
   describe 'GET #show' do
     let(:user) { create(:user) }

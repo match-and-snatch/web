@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Stats::UpdateGrossSalesStatsJob do
   subject(:perform) { described_class.perform }
 

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe PostsController, type: :controller do
   let(:poster) { create(:user, :profile_owner) }
 

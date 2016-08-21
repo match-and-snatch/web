@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Api::DialoguesController, type: :controller do
   let(:user) { create(:user, api_token: 'token') }
   let(:friend) { create(:user, email: 'sender@gmail.com', api_token: 'friend_token') }

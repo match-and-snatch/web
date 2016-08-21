@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe CardsDuplicatesPresenter do
   context 'empty set' do
     its(:collection) { is_expected.to be_a Hash }

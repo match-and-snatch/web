@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe UserManager do
   subject(:manager) { described_class.new(user) }
 

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe EventsManager do
   subject(:manager) { described_class }
 

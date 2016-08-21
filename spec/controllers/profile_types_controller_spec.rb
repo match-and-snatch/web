@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ProfileTypesController, type: :controller do
   before { sign_in }
 

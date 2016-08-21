@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PaymentManager do
   subject { PaymentManager.new(user: user) }
 

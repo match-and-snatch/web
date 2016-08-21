@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe SessionsController, type: :controller do
   describe 'GET #logout' do
     subject { get 'logout' }

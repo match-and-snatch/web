@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::StaffsController, type: :controller do
   before { sign_in create(:user, :admin) }
 

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe ManagerError do
   subject { described_class.new({email: 'is invalid', password: 'is not set'}) }
 

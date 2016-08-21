@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'create_event matcher' do
   let(:user) { create :user }
 

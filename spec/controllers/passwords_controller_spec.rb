@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe PasswordsController, type: :controller do
   describe 'PUT #update' do
     let!(:user) { create(:user, email: 'test@email.com') }

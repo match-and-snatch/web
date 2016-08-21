@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Api::SessionsController, type: :controller do
   describe 'POST #create' do
     subject { post :create, params: {email: user.email, password: 'password'}, format: :json }

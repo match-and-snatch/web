@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ProfileTypeManager do
   describe '#create' do
     context 'title given' do

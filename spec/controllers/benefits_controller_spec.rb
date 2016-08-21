@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe BenefitsController, type: :controller do
   describe 'POST #create' do
     let(:user) { create(:user) }

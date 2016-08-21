@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Queries::Posts do
   let(:user) { create(:user, :profile_owner) }
   let(:query) { 'test' }

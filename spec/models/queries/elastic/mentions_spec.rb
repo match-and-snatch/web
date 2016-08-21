@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Queries::Elastic::Mentions do
   let(:profile_owner) { create :user, :profile_owner, profile_name: 'Andy Dean' }
   let(:subscriber) { create :user, :with_cc, full_name: 'Dmitry' }

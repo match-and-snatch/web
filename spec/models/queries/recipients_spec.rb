@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Queries::Recipients do
   let(:owner) { create(:user, :profile_owner, profile_name: 'Owner') }
   let(:performer) { create(:user, email: 'performer@gmail.com') }

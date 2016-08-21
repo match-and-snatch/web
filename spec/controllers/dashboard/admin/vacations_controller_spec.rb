@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::VacationsController, type: :controller do
   let(:owner) { create(:user, :profile_owner, email: 'profile@gmail.com') }
 

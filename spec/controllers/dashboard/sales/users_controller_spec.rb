@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Sales::UsersController, type: :controller do
   before { sign_in create(:user, :sales) }
 

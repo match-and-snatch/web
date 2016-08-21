@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Api::LikesController, type: :controller do
   let(:poster) { create(:user, email: 'poster@gmail.com') }
   let(:visitor) { create(:user, email: 'commenter@gmail.com') }

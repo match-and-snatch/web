@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Api::PostsController, type: :controller do
   let(:poster) { create(:user, :profile_owner, email: 'poster@gmail.com') }
   let(:another_poster) { create(:user, email: 'anther@poster.ru') }

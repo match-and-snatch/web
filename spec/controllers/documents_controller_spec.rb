@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe DocumentsController, type: :controller do
   let(:owner) { create :user, email: 'owner@gmail.com', is_profile_owner: true }
 

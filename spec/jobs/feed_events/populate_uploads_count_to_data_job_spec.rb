@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FeedEvents::PopulateUploadsCountToDataJob do
   describe '.perform' do
     subject(:perform) { described_class.perform }

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PostManager, freeze: true do
   let(:user) { create(:user, :profile_owner) }
   let(:post) { create(:status_post, user: user, message: 'test') }

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe MessagesMailer do
   describe '#new_nessage' do
     let(:user) { create(:user) }

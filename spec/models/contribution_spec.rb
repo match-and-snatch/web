@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Contribution do
   describe '.to_charge' do
     subject { described_class.to_charge }

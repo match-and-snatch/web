@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ContributionsPresenter do
   let(:target_user) { create(:user, :profile_owner) }
   let(:user) { create(:user) }

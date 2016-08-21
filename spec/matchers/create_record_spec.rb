@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'create_record' do
   it { expect { create :user }.to create_record(User) }
   it { expect { create :user }.to create_record(User).once }

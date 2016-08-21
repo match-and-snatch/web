@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe SitemapsController, type: :controller do
   describe 'GET #show' do
     subject { get :show, params: {format: :xml} }

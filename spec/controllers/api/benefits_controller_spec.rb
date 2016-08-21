@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Api::BenefitsController, type: :controller do
   describe 'POST #create' do
     let(:user) { create(:user) }

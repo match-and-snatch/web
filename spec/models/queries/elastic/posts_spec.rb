@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Queries::Elastic::Posts do
   subject { described_class.new }
 

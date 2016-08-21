@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::PotentialContributionViolatorsController, type: :controller do
   describe 'GET #index' do
     subject { get 'index' }

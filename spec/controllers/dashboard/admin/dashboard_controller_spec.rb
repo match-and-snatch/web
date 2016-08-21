@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::DashboardsController, type: :controller do
   describe 'GET #show' do
     subject { get 'show' }

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Api::AccountInfosController, type: :controller do
   let(:user) { create(:user, email: 'user@gmail.com') }
 

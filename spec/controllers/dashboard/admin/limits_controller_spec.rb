@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::LimitsController, type: :controller do
   let(:user) { create(:user) }
 

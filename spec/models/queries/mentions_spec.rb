@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Queries::Mentions do
   let(:current_user) { create :user, :with_cc, full_name: 'Dmitry' }
   let(:profile_owner) { create :user, :profile_owner, profile_name: 'Andy' }

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Api::PasswordsController, type: :controller do
   let!(:user) { create(:user, email: 'test@email.com') }
   let(:token) { user.password_reset_token }

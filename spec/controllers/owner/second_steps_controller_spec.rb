@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Owner::SecondStepsController, type: :controller do
   let(:user) { create(:user) }
 

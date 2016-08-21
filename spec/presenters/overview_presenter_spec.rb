@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe OverviewPresenter do
   let(:user) { create(:user) }
   let(:target_user) { create(:user, :profile_owner, email: 'target@user.com') }

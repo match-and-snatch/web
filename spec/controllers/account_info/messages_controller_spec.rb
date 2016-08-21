@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe AccountInfo::MessagesController, type: :controller do
   describe 'POST #create' do
     let(:user) { create(:user) }

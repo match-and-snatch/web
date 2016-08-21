@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe TosVersion do
   let!(:tos_version) { create(:tos_version) }
 

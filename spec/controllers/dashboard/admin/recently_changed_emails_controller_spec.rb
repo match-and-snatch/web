@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::RecentlyChangedEmailsController, type: :controller do
   let(:user) { create(:user, old_email: 'old_email@mail.com', email_updated_at: Time.zone.now) }
 

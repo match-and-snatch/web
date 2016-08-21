@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe NotificationManager do
   let(:profile_owner) { create(:user, :profile_owner, email: 'profile_owner@gmail.com') }
   let(:subscriber) { create(:user, email: 'subscriber@gmail.com') }

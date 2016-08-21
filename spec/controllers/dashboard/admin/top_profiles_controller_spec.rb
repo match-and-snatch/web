@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Dashboard::Admin::TopProfilesController, type: :controller do
   let(:profile) { create :user, :profile_owner }
   let(:top_profile) { profile.create_top_profile }

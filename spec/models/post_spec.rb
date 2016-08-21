@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Post do
   describe 'Elasticpal::Indexable' do
     subject { Elasticpal::Query.new(model: Post).search(match: {message: 'Test'}) }

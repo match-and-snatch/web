@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe User do
   describe 'Elasticpal::Indexable' do
     subject { Elasticpal::Query.new(model: User).search(match: {profile_name: 'Test'}) }
