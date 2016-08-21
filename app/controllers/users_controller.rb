@@ -1,21 +1,11 @@
 class UsersController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-=begin
-  caches_action :index, layout: false, expires_in: 1.hour, cache_path: (proc do
-    {logged_in: current_user.authorized?,
-     cc_declined: current_user.cc_declined?,
-     billing_failed: current_user.billing_failed?}
-  end)
-=end
-
   before_action :authenticate!, except: %i(index search mentions create show activate sample)
   before_action :redirect_invalid_slug, only: :show
 
   def index
     layout.title = 'ConnectPal.com - Profile Directory'
-    @top_users = User.top
-    @users = Queries::Users.new(user: current_user).grouped_by_first_letter
   end
 
   def search
@@ -145,6 +135,20 @@ class UsersController < ApplicationController
   end
 
   private
+
+  helper_method def directory_users
+    @users ||= Queries::Users.new(user: current_user).grouped_by_first_letter
+  end
+
+  helper_method def directory_top_users
+    @top_users ||= User.top
+  end
+
+  helper_method def directory_cache_key
+    {logged_in: current_user.authorized?,
+     cc_declined: current_user.cc_declined?,
+     billing_failed: current_user.billing_failed?}
+  end
 
   def redirect_invalid_slug
     redirect_to profile_path(params[:id].downcase), status: 301 if /[A-Z]/.match(params[:id])

@@ -7,7 +7,7 @@ gem 'responders'
 
 # Caching
 gem 'dalli'
-###gem 'actionpack-action_caching'
+# gem 'actionpack-action_caching'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -32,9 +32,6 @@ gem 'uglifier'
 gem 'coffee-rails'
 gem 'coffee-script'
 gem 'coffee-script-source'
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -109,9 +106,3 @@ group :test do
   gem 'capybara-webkit'
   gem 'pry'
 end
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
-
-# Use unicorn as the app server
-# gem 'unicorn'
