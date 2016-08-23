@@ -22,6 +22,7 @@
 ---
 
 Pivotal [NNNNNNNNN](https://www.pivotaltracker.com/story/show/NNNNNNNNN)
+[Mobile version](https://github.com/connectpal/mobile/pull/NNN)
 
 ### Description
 
