@@ -73,12 +73,11 @@
     span If you already have an account, please enter email.
   .modal-body
     form.Form action=restore_password_path method='post'
+      .form-group
+        input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' placeholder='Email Address' validate='require,email'
+        p.text-danger data-field='email'
       .form-group.submit_area
-        .pull-left
-          input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' placeholder='Email Address' validate='require,email'
-          p.text-danger data-field='email'
-        input.pull-right.btn.blue type='submit' value='Send'
-        .clearfix
+        input.btn.blue.send type='submit' value='Send Email'
   .modal-footer
     span Already have an account? &nbsp;
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
