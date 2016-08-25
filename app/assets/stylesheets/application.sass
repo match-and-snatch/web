@@ -1076,6 +1076,41 @@ input.file
   p
     font-size: 14px
 
+.pricing-tip
+  position: relative
+  display: inline
+  text-decoration: none
+  span
+    position: absolute
+    width: 608px
+    color: #FFFFFF
+    background: #000000
+    line-height: 16px
+    text-align: left
+    visibility: hidden
+    border-radius: 0 0 5px 5px
+    padding: 15px
+    &:before
+      content: ''
+      position: absolute
+      bottom: 100%
+      left: 50%
+      margin-left: -100px
+      height: 0
+      width: 0
+      border-bottom: 8px solid #000000
+      border-right: 8px solid transparent
+      border-left: 8px solid transparent
+  &:hover
+    color: $color_pink
+    span
+      visibility: visible
+      opacity: 0.9
+      top: 24px
+      left: 0
+      margin-left: -173px
+      z-index: 999
+
 @media screen and (min-width: 992px)
   .sample_profile
     &.step_one
