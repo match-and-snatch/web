@@ -18,16 +18,13 @@ h2
     p
       'Total Active Subscribers
       strong= @overview.current_subscribers_count
-      = @overview.total_subscribers_count
   .col-md-3.dashboard-overview
     img.img-responsive width=100 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-unsubscribers.png')
     p
       'Total Unsubscribers
       strong= @overview.current_unsubscribers_count
-      = @overview.total_unsubscribers_count
   .col-md-3.dashboard-overview
     img.img-responsive width=100 src=image_path('//connectpal-assets.s3.amazonaws.com/images/dashboard-failed.png')
     p
       'Total Failed Payments
       strong= @overview.current_failed_payments_count
-      = @overview.total_failed_payments_count

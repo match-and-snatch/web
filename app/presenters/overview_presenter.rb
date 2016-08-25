@@ -1,11 +1,10 @@
 class OverviewPresenter
 
   def current_subscribers_count
-    subscriptions.where(removed: false, rejected: false).count
+    subscriptions.not_removed.not_rejected.count
   end
 
   def total_subscribers_count
-    #events.where(action: 'subscription_created').count
     subscriptions.count
   end
 
@@ -13,16 +12,8 @@ class OverviewPresenter
     subscriptions.where(['removed = ? OR rejected = ?', true, true]).count
   end
 
-  def total_unsubscribers_count
-    events.where(action: 'subscription_canceled').count
-  end
-
   def current_failed_payments_count
     User.where(billing_failed: true).count
-  end
-
-  def total_failed_payments_count
-    events.where(action: 'payment_failed').count
   end
 
   def total_gross_sales
@@ -58,7 +49,7 @@ class OverviewPresenter
   end
 
   def daily_subscribers_count
-    subscriptions.where(removed: false, created_at: current_day).count
+    subscriptions.not_removed.where(created_at: current_day).count
   end
 
   def daily_total_subscribers_count

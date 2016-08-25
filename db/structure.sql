@@ -1718,6 +1718,20 @@ CREATE INDEX index_comments_on_post_id ON comments USING btree (post_id);
 
 
 --
+-- Name: index_events_on_action; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_action ON events USING btree (action);
+
+
+--
+-- Name: index_events_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_created_at ON events USING btree (created_at);
+
+
+--
 -- Name: index_events_on_subject_deleted; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1746,6 +1760,13 @@ CREATE INDEX index_likes_on_post_id ON likes USING btree (post_id);
 
 
 --
+-- Name: index_payments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payments_on_created_at ON payments USING btree (created_at);
+
+
+--
 -- Name: index_payments_on_target_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1767,10 +1788,38 @@ CREATE INDEX index_posts_on_pinned_and_created_at ON posts USING btree (pinned, 
 
 
 --
+-- Name: index_subscriptions_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_subscriptions_on_created_at ON subscriptions USING btree (created_at);
+
+
+--
 -- Name: index_subscriptions_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_subscriptions_on_deleted_at ON subscriptions USING btree (deleted_at);
+
+
+--
+-- Name: index_subscriptions_on_rejected; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_subscriptions_on_rejected ON subscriptions USING btree (rejected);
+
+
+--
+-- Name: index_subscriptions_on_removed; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_subscriptions_on_removed ON subscriptions USING btree (removed);
+
+
+--
+-- Name: index_subscriptions_on_removed_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_subscriptions_on_removed_at ON subscriptions USING btree (removed_at);
 
 
 --
@@ -1799,6 +1848,13 @@ CREATE INDEX index_users_on_api_token ON users USING btree (api_token);
 --
 
 CREATE INDEX index_users_on_auth_token ON users USING btree (auth_token);
+
+
+--
+-- Name: index_users_on_billing_failed; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_billing_failed ON users USING btree (billing_failed);
 
 
 --
@@ -2262,4 +2318,12 @@ INSERT INTO schema_migrations (version) VALUES ('20160727034542');
 INSERT INTO schema_migrations (version) VALUES ('20160727050324');
 
 INSERT INTO schema_migrations (version) VALUES ('20160808031548');
+
+INSERT INTO schema_migrations (version) VALUES ('20160824120529');
+
+INSERT INTO schema_migrations (version) VALUES ('20160824121644');
+
+INSERT INTO schema_migrations (version) VALUES ('20160824125840');
+
+INSERT INTO schema_migrations (version) VALUES ('20160824130402');
 

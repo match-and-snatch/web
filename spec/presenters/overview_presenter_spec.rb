@@ -108,14 +108,6 @@ describe OverviewPresenter do
       end
     end
 
-    describe '#total_unsubscribers_count' do
-      specify { expect(subject.total_unsubscribers_count).to eq(1) }
-
-      context 'restored subscription' do
-        specify { expect{ restore }.not_to change { subject.total_unsubscribers_count } }
-      end
-    end
-
     describe '#daily_unsubscribers_count' do
       specify { expect(subject.daily_unsubscribers_count).to eq(1) }
 
@@ -148,10 +140,6 @@ describe OverviewPresenter do
 
         specify { expect { restore }.to change { subject.current_failed_payments_count }.from(1).to(0) }
       end
-    end
-
-    describe '#total_failed_payments_count' do
-      specify { expect(subject.total_failed_payments_count).to eq(1) }
     end
 
     describe '#daily_failed_payments_count' do
