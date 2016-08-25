@@ -1862,6 +1862,13 @@ CREATE INDEX index_users_on_billing_failed ON users USING btree (billing_failed)
 
 
 --
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
 -- Name: index_users_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2332,6 +2339,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160824125840');
 INSERT INTO schema_migrations (version) VALUES ('20160824130402');
 
 INSERT INTO schema_migrations (version) VALUES ('20160825072116');
+
+INSERT INTO schema_migrations (version) VALUES ('20160825075009');
 
 INSERT INTO schema_migrations (version) VALUES ('20160829115500');
 
