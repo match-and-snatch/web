@@ -375,6 +375,13 @@ class User < ActiveRecord::Base
     self.save!
   end
 
+  # Sets downcased email
+  # @param val [String]
+  # @return [String]
+  def email=(val)
+    super val.try(:downcase)
+  end
+
   # Sets costs and fees
   # Logic:
   # $4 or less = $0.99

@@ -40,6 +40,7 @@ describe AuthenticationManager do
 
     context 'already registered user' do
       before { manager.register }
+
       specify { expect { register }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) } }
       specify { expect { register rescue nil }.not_to create_event(:registered) }
 

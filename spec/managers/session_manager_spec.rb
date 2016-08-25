@@ -7,6 +7,8 @@ describe SessionManager, type: :request do
   let(:password) { 'password' }
 
   describe '#login' do
+    subject(:login) { manager.login(email, password) }
+
     context 'authorized user' do
       let!(:user) { create(:user, email: email) }
 
@@ -15,31 +17,36 @@ describe SessionManager, type: :request do
       end
 
       specify do
-        expect { manager.login(email, password) }.to change { cookies['auth_token'] }.from(nil).to(user.auth_token)
+        expect { login }.to change { cookies['auth_token'] }.from(nil).to(user.auth_token)
+      end
+
+      context 'login with uppercased email' do
+        subject(:login) { manager.login(email.upcase, password) }
+
+        it { expect { login }.not_to raise_error }
+        it { expect { login }.to change { cookies['auth_token'] }.from(nil).to(user.auth_token) }
       end
 
       context 'invalid byte sequence' do
-        let!(:user) { create(:user, email: email) }
         let(:password) { "password\255" }
 
         specify do
-          expect { manager.login(email, password) }.not_to raise_error
+          expect { login }.not_to raise_error
         end
       end
 
       context 'password is nil' do
-        let!(:user) { create(:user, email: email) }
         let(:password) { nil }
 
         specify do
-          expect { manager.login(email, password) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(password: t_error(:empty)) }
+          expect { login }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(password: t_error(:empty)) }
         end
       end
     end
 
     context 'unauthorized user' do
       specify do
-        expect { manager.login(email, password) }.to raise_error(ManagerError)
+        expect { login }.to raise_error(ManagerError)
       end
     end
   end

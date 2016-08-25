@@ -3,7 +3,8 @@ class AuthenticationManager < BaseManager
   include Concerns::PasswordValidator
   include Concerns::NameValidator
 
-  attr_reader :is_profile_owner, :email, :password, :password_confirmation, :first_name, :last_name, :full_name, :tos_accepted
+  attr_reader :is_profile_owner, :email, :password, :password_confirmation,
+              :first_name, :last_name, :full_name, :tos_accepted
 
   # @param email [String]
   # @param password [String]
@@ -20,7 +21,7 @@ class AuthenticationManager < BaseManager
                  api_token: nil,
                  tos_accepted: false)
     @is_profile_owner      = is_profile_owner
-    @email                 = email.to_s
+    @email                 = email.to_s.downcase
     @password              = password
     @password_confirmation = password_confirmation
     @first_name            = first_name.strip.humanize if first_name
@@ -41,7 +42,7 @@ class AuthenticationManager < BaseManager
 
   # @return [User]
   def authenticate(generate_api_token: false)
-    user = User.by_email(email).try_activated_one or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
+    user = user_by_email or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
     BCrypt::Password.new(user.password_hash) == password or raise AuthenticationError.new(errors: {password: t(:invalid_password)})
 
     user.generate_api_token! if generate_api_token
@@ -75,7 +76,7 @@ class AuthenticationManager < BaseManager
   end
 
   def restore_password
-    user = User.by_email(email).try_activated_one
+    user = user_by_email
 
     validate! do
       fail_with email: :empty if email.blank?
@@ -90,7 +91,7 @@ class AuthenticationManager < BaseManager
 
   # @return [User]
   def change_password
-    user = User.by_email(email).try_activated_one
+    user = user_by_email
 
     fail_with! token: :empty if user.password_reset_token.blank?
 
@@ -118,7 +119,11 @@ class AuthenticationManager < BaseManager
   end
 
   def user
-    @user ||= User.by_email(email).try_activated_one || User.new(email: email)
+    @user ||= user_by_email || User.new(email: email)
+  end
+
+  def user_by_email
+    User.where(email: email).try_activated_one
   end
 
   def validate_input

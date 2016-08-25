@@ -536,6 +536,7 @@ class UserProfileManager < BaseManager
   def update_general_information(full_name: nil, company_name: nil, email: nil)
     full_name = full_name.to_s.strip.squeeze(' ')
     company_name = company_name.to_s.strip.squeeze(' ')
+    email = email.try(:downcase)
     old_email = user.email
 
     validate! do

@@ -71,14 +71,27 @@ describe User do
 
   describe '.create' do
     context 'profile owner' do
+      let(:params) do
+        {
+          profile_name: 'slava popov',
+          full_name: 'popov slava',
+          email: 's@popov.com',
+          is_profile_owner: true
+        }
+      end
+
       it 'assigns slug' do
-        expect(described_class.create(profile_name: 'slava popov', full_name: 'popov slava', email: 's@popov.com', is_profile_owner: true).slug).to eq('slavapopov')
+        expect(described_class.create(params).slug).to eq('slavapopov')
+      end
+
+      it 'assigns downcased email' do
+        expect(described_class.create(params.merge(email: 'S@POPOV.com')).email).to eq('s@popov.com')
       end
 
       it 'generates uniq slug' do
-        described_class.create(profile_name: 'slava popov', full_name: 'popov slava', email: 'e@m.il', is_profile_owner: true)
-        expect(described_class.create(profile_name: 'slava popov', full_name: 'popov slava', email: 'e2@m.il', is_profile_owner: true).slug).to eq('slavapopov-1')
-        expect(described_class.create(profile_name: 'slava popov', full_name: 'popov slava', email: 'e3@m.il', is_profile_owner: true).slug).to eq('slavapopov-2')
+        described_class.create(params.merge(email: 'e@m.il'))
+        expect(described_class.create(params.merge(email: 'e2@m.il')).slug).to eq('slavapopov-1')
+        expect(described_class.create(params.merge(email: 'e3@m.il')).slug).to eq('slavapopov-2')
       end
     end
 
