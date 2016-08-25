@@ -26,15 +26,12 @@
     form.Form action=second_step_path method='post' data-target='steps-container'
       input type='hidden' name='_method' value='put'
       // Profile Page Name
-      .profile_name
-        .col-md-12.col-sm-12.col-xs-12
-          .row_label
-            | Profile Name
-            span Your profile name will be displayed at the top of your profile. You can edit this at anytime.
-        .col-md-12.col-sm-12.col-xs-12  style="margin-bottom: 15px;"
-          input.form-control type='text' name='profile_name' placeholder='Enter your profile name here.' validate='require'
-          .error data-field='profile_name'
-        .clearfix
+      .col-md-12.col-sm-12.col-xs-12
+        .row_label
+          | Profile Name
+          span Your profile name will be displayed at the top of your profile. You can edit this at anytime.
+        input.form-control type='text' name='profile_name' placeholder='Enter your profile name here.' validate='require'
+        .error data-field='profile_name'
 
       // Profile Type/Category
       .col-md-6.col-sm-6.col-xs-6
