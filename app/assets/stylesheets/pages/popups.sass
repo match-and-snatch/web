@@ -11,45 +11,65 @@
         width: 150px
         font-weight: 600
   &.authentication_popup
-    width: 410px
+    width: 420px
     .modal-header
+      .modal-title
+        padding: 0
       .register_tagline
         color: #464646
     .modal-body
       .form-group
         margin-bottom: 5px
+        .pull-left, .pull-right
+          input[type='text']
+            width: 180px
         &.tos_form
+          margin: 0
+          padding: 2px 0 15px
           position: relative
-          text-align: center
           .tos_checkbox
             cursor: pointer
             color: #3b9fd1 !important
-            font-weight: 600
             display: inline-block
-            vertical-align: middle
-            height: 28px
+            height: 31px
+            width: 28px
+            vertical-align: top
             &:before
               color: #3b9fd1
               content: "\f096"
-              letter-spacing: 10px
               font: 400 35px/3.8rem FontAwesome
               cursor: pointer
+              display: block
+              height: 31px
             &.checked
               color: #8dc63f !important
               &:before
                 color: #8dc63f
                 content: "\f14a"
-                letter-spacing: 10px
                 font: 100 32px/3.7rem FontAwesome
                 cursor: pointer
+          label
+            display: inline-block
+            margin: 0
+            padding: 8px 0 0 10px
+            vertical-align: top
+            .terms_text
+              font-size: 12px
+              font-weight: 400
+              margin: 0
+              text-align: left
+              a
+                white-space: nowrap
+                &:hover
+                  color: #464646
           .text-danger
             display: none
             position: absolute
-            left: 75px
-            top: -4px
+            left: 37px
+            top: -2px
             color: #000
             background: #FFA38A
-            padding: 5px 15px 5px 10px
+            padding: 7px 10px
             border-radius: 5px
             font: 400 12px/1.5rem Helvetica, Arial, sans-serif
             text-align: left
@@ -64,58 +84,26 @@
               border-bottom: 10px solid transparent
               border-right: 10px solid #FFA38A
               position: absolute
-              left: -6px
-              top: 16px
-          label
-            margin-bottom: 0
-            display: inline-block
-            vertical-align: middle
-            .terms_text
-              font-size: 14px
-              font-weight: 300
-              width: 250px
-              text-align: left
-              a
-                white-space: nowrap
-                &:hover
-                  color: #464646
-          .tos_submit
-            text-align: center
-            input[type="submit"]
-              &.btn.blue
-                margin: 15px 0 10px
-                width: 100%
-                height: 44px
-                font-size: 20px
-        .pull-left, .pull-right
-          input[type='text']
-            width: 180px !important
+              left: -8px
+              top: 11px
+        &.tos_submit
+          margin: 0 0 15px
+          input[type='submit']
+            font-size: 20px
+            width: 100%
         &.submit_area
-          margin: 10px 0
-          input[type='email']
-            width: 270px
-        input
-          &.btn.blue
-            margin-left: 10px
-            margin-top: 5px
-            height: 34px
-            padding: 3px 20px
-      .login_btn, .register_btn
-        float: right
-      .register_btn
-        padding: 10px 0
-        width: 170px
-      .checkbox
-        float: left
-        margin: 7px 0 0 0
-        width: 150px
-        .remember_me
-          color: $color_text_light
-          font-size: 12px
-          input[type="checkbox"]
-            margin-top: 2px
-      .terms_text
-        float: left
+          margin: 12px 0 15px
+          .remember_me
+            color: $color_text_light
+            font-size: 12px
+            font-weight: 400
+            padding: 10px 10px 0 0
+            input[type="checkbox"]
+              margin: -1px 5px 0 0
+              width: 12px
+              height: 12px
+          .send
+            width: 100%
   &.search_popup
     width: 450px
     .modal-body

@@ -25,7 +25,6 @@
         input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off' validate='require,min_length:5'
         p.text-danger data-field='password'
       .form-group.tos_form
-        .text-danger data-field='tos_accepted'
         .Checkbox.tos_checkbox data-target='tos-checkbox'
         input id="tos_accepted" name="tos_accepted" type="checkbox" data-identifier='tos-checkbox' value="true" validate="acceptance" style="display: none;"
         label for="tos_accepted"
@@ -35,9 +34,9 @@
             ' and
             a href=privacy_policy_path target='_blank' Privacy Policy
             |.
-        .tos_submit
-          input.btn.blue type='submit' value='Continue to Profile'
-        .clearfix
+        .text-danger data-field='tos_accepted'
+      .form-group.tos_submit
+        input.btn.blue type='submit' value='Continue to Profile'
   .modal-footer
     span Already have an account? &nbsp;
     a.PopupTrigger href='#' data-target='login' Click here to login.
@@ -59,12 +58,10 @@
         input.form-control.password type='password' name='password' autocorrect='off' autocapitalize='off' validate='require'
         p.text-danger data-field='password'
       .form-group.submit_area
-        input.btn.blue.login_btn type='submit' value='Login'
-        .checkbox
-          label.remember_me
-            input name='remember_me' type="checkbox" Remember Me
+        input.btn.blue.pull-right type='submit' value='Login'
+        label.remember_me.pull-right
+          input name='remember_me' type="checkbox" Remember Me
         .clearfix
-      .text-danger.Error
   .modal-footer
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='forgot-password' Forgot Password
 
@@ -76,12 +73,11 @@
     span If you already have an account, please enter email.
   .modal-body
     form.Form action=restore_password_path method='post'
+      .form-group
+        input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' placeholder='Email Address' validate='require,email'
+        p.text-danger data-field='email'
       .form-group.submit_area
-        .pull-left
-          input.form-control type='email' name='email' autocorrect='off' autocapitalize='off' placeholder='Email Address' validate='require,email'
-          p.text-danger data-field='email'
-        input.pull-right.btn.blue type='submit' value='Send'
-        .clearfix
+        input.btn.blue.send type='submit' value='Send Email'
   .modal-footer
     span Already have an account? &nbsp;
     a.PopupTrigger style='text-decoration: underline' href='#' data-target='login' Click here to login.
