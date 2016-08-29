@@ -61,9 +61,21 @@ class ContributionManager < BaseManager
     end
   end
 
-  def delete
-    EventsManager.contribution_cancelled(user: @user, contribution: @contribution)
-    @contribution.destroy
+  # Stops recurring contribution
+  # @return [Contribution]
+  def cancel
+    recurring_contribution = @contribution.parent || @contribution
+
+    fail_with! 'Already cancelled' if recurring_contribution.cancelled?
+    fail_with! 'Can\'t cancel not recurring contribution' unless recurring_contribution.recurring?
+
+    recurring_contribution.cancelled = true
+    recurring_contribution.cancelled_at = Time.zone.now
+    save_or_die! recurring_contribution do
+      EventsManager.contribution_cancelled(user: @user, contribution: recurring_contribution)
+    end
+
+    @contribution
   end
 
   def approve!(contribution_request)

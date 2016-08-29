@@ -1,5 +1,5 @@
 describe ContributionManager do
-  subject(:manager) { ContributionManager.new(user: user, contribution: contribution) }
+  subject(:manager) { described_class.new(user: user, contribution: contribution) }
   let(:contribution) { nil }
 
   let(:user) { create :user }
@@ -65,7 +65,7 @@ describe ContributionManager do
       let(:amount) { 24_00 }
 
       def contribute
-        ContributionManager.new(user: user).create(amount: amount, target_user: target_user)
+        described_class.new(user: user).create(amount: amount, target_user: target_user)
       end
 
       before do
@@ -226,7 +226,7 @@ describe ContributionManager do
       context 'with approved contribution request' do
         let(:request) { user.contribution_requests.create!(target_user: target_user, amount: 50_01) }
 
-        before { ContributionManager.new(user: user).approve!(request) }
+        before { described_class.new(user: user).approve!(request) }
 
         it do
           expect { manager.create(amount: 50_01, target_user: target_user) rescue nil }.to create_record(Contribution)
@@ -342,6 +342,42 @@ describe ContributionManager do
 
     it 'performs request' do
       expect { manager.approve!(request) }.to change { request.performed? }.from(false).to(true)
+    end
+  end
+
+  describe '#cancel' do
+    let(:contribution) { create(:contribution, user: user, target_user: target_user, recurring: true) }
+
+    it { expect { manager.cancel }.to change { contribution.reload.cancelled }.from(false).to(true) }
+    it { expect { manager.cancel }.to change { contribution.reload.will_repeat? }.from(true).to(false) }
+    it 'stores cancelled date', freeze: true do
+      expect { manager.cancel }.to change { contribution.reload.cancelled_at }.from(nil).to(Time.zone.now)
+    end
+
+    context 'already cancelled' do
+      before { manager.cancel }
+
+      it { expect { manager.cancel }.to raise_error(ManagerError, /Already cancelled/) }
+    end
+
+    context 'not recurring' do
+      let(:contribution) { create(:contribution, user: user, target_user: target_user) }
+
+      it { expect { manager.cancel }.to raise_error(ManagerError, /Can't cancel not recurring contribution/) }
+    end
+
+    context 'child contribution' do
+      let(:parent) { create(:contribution, user: user, target_user: target_user, recurring: true) }
+      let(:contribution) { create(:contribution, user: user, target_user: target_user, parent: parent) }
+
+      it { expect { manager.cancel }.not_to change { contribution.reload.cancelled }.from(false) }
+      it 'cancels parent contribution' do
+        expect { manager.cancel }.to change { contribution.parent.reload.cancelled }.from(false).to(true)
+      end
+      it 'stores cancelled date', freeze: true do
+        expect { manager.cancel }.to change { contribution.parent.reload.cancelled_at }.from(nil).to(Time.zone.now)
+      end
+      it { expect { manager.cancel }.to change { contribution.reload.will_repeat? }.from(true).to(false) }
     end
   end
 end

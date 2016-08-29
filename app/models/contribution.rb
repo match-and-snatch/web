@@ -9,6 +9,7 @@ class Contribution < ApplicationRecord
   validates :amount, presence: true
 
   scope :recurring, -> { where(recurring: true) }
+  scope :active,    -> { recurring.where(cancelled: false) }
   scope :to_charge, -> do
     sql = <<-SQL.squish
       INNER JOIN users
@@ -18,7 +19,7 @@ class Contribution < ApplicationRecord
         AND target_users.is_profile_owner = 't' AND target_users.contributions_enabled = 't'
         AND target_users.subscribers_count > 4 AND NOT (target_users.locked = 't' AND target_users.lock_type IN ('tos', 'account'))
     SQL
-    recurring.joins(sql).where('contributions.updated_at <= ?', 1.month.ago)
+    active.joins(sql).where('contributions.updated_at <= ?', 1.month.ago)
   end
   scope :for_year, -> (year = Time.zone.now.year) { where(created_at: Time.new(year).beginning_of_year..Time.new(year).end_of_year) }
 
@@ -30,22 +31,29 @@ class Contribution < ApplicationRecord
     sum(:amount)
   end
 
+  # @return [Boolean]
+  def active?
+    recurring? && !cancelled?
+  end
+
   # @return [Date]
   def next_billing_date
-    raise ArgumentError unless recurring?
+    raise ArgumentError unless active?
     (children.maximum(:created_at) || created_at).next_month.to_date
   end
 
+  # @return [Boolean]
   def will_repeat?
-    !!(recurring? || parent_id)
+    !!(active? || parent.try(:active?))
   end
 
   def year_month
     @year_month ||= YearMonth.new(created_at.year, created_at.month)
   end
 
+  # @return [Boolean]
   def recurring_performable?
-    recurring? &&
+    active? &&
       (next_billing_date <= Time.zone.now.to_date) &&
         user && target_user &&
           (!user.locked?) &&

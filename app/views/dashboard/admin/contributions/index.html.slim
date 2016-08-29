@@ -14,6 +14,8 @@ h2 Contributions (#{@contributions.total_count} / #{cents_to_dollars @contributi
 .table-responsive
   table.table.table-striped
     th
+      strong ID
+    th
       strong Profile Name
     th
       strong Subscriber Name
@@ -27,19 +29,21 @@ h2 Contributions (#{@contributions.total_count} / #{cents_to_dollars @contributi
 
     - @contributions.each_year_month do |year_month, contributions|
       tr.info
-        td colspan=3
+        td colspan=4
           strong= year_month
         td colspan=3
           strong= cents_to_dollars contributions.sum(&:amount)
       - contributions.each do |contribution|
         tr
+          td= contribution.id
           td= link_to_user contribution.target_user
           td= link_to_user contribution.user
           td= contribution.created_at.to_s(:short)
           td= cents_to_dollars contribution.amount
           td= contribution.will_repeat? ? 'yes' : 'no'
           td
-            button.AjaxLink.btn.pink.pull-right href=confirm_destroy_admin_contribution_path(contribution) Delete
+            - if contribution.will_repeat?
+              button.AjaxLink.btn.btn-info.pull-right href=confirm_cancel_admin_contribution_path(contribution) Cancel
 
 .TopJumper= paginate @contributions, params_on_first_page: true
 

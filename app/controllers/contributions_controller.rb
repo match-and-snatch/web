@@ -36,7 +36,7 @@ class ContributionsController < ApplicationController
   end
 
   def destroy
-    manager.delete
+    manager.cancel
     notice(:contribution_cancelled, profile_name: @contribution.target_user.profile_name)
     json_reload
   end

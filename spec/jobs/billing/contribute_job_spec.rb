@@ -3,6 +3,7 @@ describe Billing::ContributeJob do
 
   let(:user) { create :user }
   let(:target_user) { create :user, :profile_owner }
+  let(:contribution) { ContributionManager.new(user: user).create(amount: 10, target_user: target_user, recurring: true) }
 
   before { StripeMock.start }
   after { StripeMock.stop }
@@ -14,7 +15,7 @@ describe Billing::ContributeJob do
       end
 
       SubscriptionManager.new(subscriber: user).subscribe_to(target_user)
-      ContributionManager.new(user: user).create(amount: 10, target_user: target_user, recurring: true)
+      contribution
     end
   end
 
@@ -43,5 +44,11 @@ describe Billing::ContributeJob do
 
       it { expect { perform }.not_to create_record(Contribution) }
     end
+  end
+
+  context 'cancelled contribution' do
+    before { ContributionManager.new(user: user, contribution: contribution).cancel }
+
+    it { expect { perform }.not_to create_record(Contribution) }
   end
 end

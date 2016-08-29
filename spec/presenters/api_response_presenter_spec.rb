@@ -9,7 +9,7 @@ describe ApiResponsePresenter do
 
   describe '#billing_information_data' do
     let(:subscriptions) { SubscriptionsPresenter.new(user: user) }
-    let(:contributions) { user.contributions.recurring.limit(200) }
+    let(:contributions) { user.contributions.active.limit(200) }
 
     it { expect { subject.billing_information_data(subscriptions: subscriptions, contributions: contributions) }.not_to raise_error }
   end

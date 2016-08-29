@@ -971,7 +971,7 @@ RSpec.describe UserProfileManager do
       end
     end
 
-    context 'user has recurring contributions' do
+    context 'user has active contributions' do
       let(:target_user) { create :user, :profile_owner }
 
       before do
@@ -982,7 +982,7 @@ RSpec.describe UserProfileManager do
       end
 
       it 'cancel all contributions' do
-        expect { manager.delete_cc_data! }.to change { user.contributions.recurring.count }.from(1).to(0)
+        expect { manager.delete_cc_data! }.to change { user.contributions.active.count }.from(1).to(0)
       end
     end
 
