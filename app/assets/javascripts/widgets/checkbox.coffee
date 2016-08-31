@@ -4,9 +4,10 @@ class bud.widgets.Checkbox extends bud.Widget
   initialize: ->
     @$container.on('click', @clicked)
     @$target = @get_target()
+    @$target.on 'change', @redraw
     @redraw()
 
-  redraw: ->
+  redraw: =>
     @$container.toggleClass('checked', @input_checked())
 
   clicked: =>
