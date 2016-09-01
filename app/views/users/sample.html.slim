@@ -17,8 +17,8 @@
   <div class="note share_note">
     <div class="arrow share_note"></div>Share your ConnectPal profile with all of your friends and followers.  Your followers can click on a simple link, and they can subscribe to you in less than 20 seconds.
   </div>
-  <div class="note price_note"> Set your monthly price for people to access your profile. You keep <b>100% </b>of the price you set. At ConnectPal, there are no startup or hosting fees, and you can cancel anytime. ConnectPal adds a service fee on top of your subscription price to keep our platform running.&nbsp;
-    <a class="PopupTrigger" data-target="pricing-breakdown" href="#">Check out the fee breakdown here.</a>
+  <div class="note price_note">
+    <a class="PopupTrigger" data-target="pricing-breakdown" href="#">View our pricing breakdown.</a>
     <div class="arrow price_note"></div>
   </div>
   <div class="note welcome_note">
@@ -441,37 +441,12 @@
   </div>
 </div>
 
-<div class="Popup popup modal-content" data-identifier="pricing-breakdown" style="width: 600px;">
+<div class="Popup popup modal-content pricing-breakdown" data-identifier="pricing-breakdown">
   <div class="modal-header">
     <i class="PopupTrigger fa fa-times-circle close" type="button" data-target="pricing-breakdown" aria-hidden="true"/></i>
-    <div class="modal-title" style="margin-bottom: 15px;">Pricing Breakdown</div>
+    <div class="modal-title">Pricing Breakdown</div>
   </div>
   <div class="modal-body">
-    <table class="table table-striped table-bordered">
-      <tbody>
-        <tr>
-          <td>
-            <b>Subscription Price</b>
-          </td>
-          <td>
-            <b>ConnectPal Service Fee</b>
-          </td>
-        </tr>
-        <tr>
-          <td>$4 or less</td>
-          <td>$0.99</td>
-        </tr>
-        <tr>
-          <td>$5 - $15</td>
-          <td>$1.99</td>
-        </tr>
-        <tr>
-          <td>$16 &amp; above</td>
-          <td>15% of subscription price</td>
-        </tr>
-      </tbody>
-    </table>
-    <p>For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout, subscribers will pay $4.99 per month – which includes our 99 cent service fee.  The profile owner will receive $4 per active subscriber per month.  And ConnectPal will receive 99 cents per subscriber per month.</p>
-    <p>For important information about procedures, taxes, credit card disputes, payout qualifications and timing, domestic/international payout procedures, active subscriber counts, refund processes, and more, please visit our  <a href='/terms_of_service' title="Terms of Service" />Terms of Service</a>.</p>
+    = render 'pricing_breakdown'
   </div>
 </div>

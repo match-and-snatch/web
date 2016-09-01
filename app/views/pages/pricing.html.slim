@@ -5,29 +5,6 @@
   .row.box.general_page
     .col-md-12
       h1 Pricing Breakdown
-      p At ConnectPal, any person or group can setup a profile for free.
-      p And you can cancel anytime.
-      p Profile owners set their monthly subscription price for subscribers to view their profile content.  Profile owners keep 100% of the price they set.  Then, ConnectPal adds a service fee on top of the subscription price to pay for credit card processing and to keep our platform running at its best.
-      p The pricing table is below.
-      table.table.table-striped.table-bordered style='width: 380px;'
-        tr
-          td style='width: 170px;'
-            b Subscription Price
-          td
-            b ConnectPal Service Fee
-        tr
-          td $4 or less
-          td $0.99
-        tr
-          td $5 - $15
-          td $1.99
-        tr
-          td $16 & above
-          td 15% of subscription price
-      p For example, if a profile owner sets a monthly fee of $4 for subscribers, then at checkout, subscribers will pay $4.99 per month – which includes our 99 cent service fee.  The profile owner will receive $4 per active subscriber per month.  And ConnectPal will receive 99 cents per subscriber per month.
-      p
-        ' For important information about procedures, taxes, credit card disputes, payout qualifications and timing, domestic/international payout procedures, active subscriber counts, refund processes, and more, please visit our
-        a href=terms_of_service_path Terms of Service
-        '.
+      = render 'pricing_breakdown'
 div.hidden-xs style='position: absolute; bottom: 0; width: 100%'
   = render 'footer'

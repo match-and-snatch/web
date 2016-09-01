@@ -192,6 +192,9 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="password
     margin-top: 15px
     @media screen and (max-width: 767px)
       margin-bottom: 100px
+    .pricing_table
+      font-size: 13px !important
+      width: 578px !important
     h1
       margin-top: 15px
     h2
@@ -1076,40 +1079,61 @@ input.file
   p
     font-size: 14px
 
-.pricing-tip
-  position: relative
-  display: inline
-  text-decoration: none
-  span
-    position: absolute
-    width: 608px
-    color: #FFFFFF
-    background: #000000
-    line-height: 16px
-    text-align: left
-    visibility: hidden
-    border-radius: 0 0 5px 5px
-    padding: 15px
-    &:before
-      content: ''
-      position: absolute
-      bottom: 100%
-      left: 50%
-      margin-left: -100px
-      height: 0
-      width: 0
-      border-bottom: 8px solid #000000
-      border-right: 8px solid transparent
-      border-left: 8px solid transparent
-  &:hover
-    color: $color_pink
+.pricing_breakdown
+  font-size: 13px
+  .pricing_disclaimer
+    font-size: 11px
+  .pricing-tip
+    display: inline
+    position: relative
     span
-      visibility: visible
-      opacity: 0.9
-      top: 24px
-      left: 0
-      margin-left: -173px
-      z-index: 999
+      @include border-radius(5px)
+      background: rgba(0,0,0,0)
+      color: rgba(0,0,0,0)
+      font-size: 11px
+      line-height: 16px
+      text-align: left
+      padding: 15px
+      position: absolute
+      top: 40px
+      left: -164px
+      visibility: hidden
+      width: 578px
+      transition: all 0.3s ease-in-out
+      &:before
+        content: ''
+        position: absolute
+        bottom: 100%
+        left: 50%
+        margin-left: -94px
+        height: 0
+        width: 0
+        border-bottom: 6px solid rgba(0,0,0,0)
+        border-right: 8px solid transparent
+        border-left: 8px solid transparent
+        transition: all 0.3s ease-in-out
+    &:hover
+      color: $color_pink
+      span
+        color: rgba(255,255,255,1)
+        background: rgba(0,0,0,1)
+        visibility: visible
+        top: 22px
+        opacity: 0.9
+        z-index: 999
+        &:before
+          border-bottom-color: rgba(0,0,0,1)
+
+.edit_sub_cost
+  .pricing-tip
+    span
+      left: -163px
+      width: 703px
+      &:before
+        margin-left: -157px
+    &:hover
+      span
+        width: 703px
 
 @media screen and (min-width: 992px)
   .sample_profile
@@ -1126,9 +1150,9 @@ input.file
         &.benefits_note
           margin-top: 140px
         &.notify_note
-          margin-top: 55px
+          margin-top: 125px
         &.price_note
-          margin-top: -28px
+          margin-top: 150px
           a
             color: $color_pink
         &.post_note
@@ -1188,13 +1212,13 @@ input.file
           margin-top: 546px
           left: -135px
         &.contribute_note
-          margin-top: 760px
+          margin-top: 770px
           left: -135px
         &.share_note
           margin-top: 936px
           left: -135px
         &.price_note
-          margin-top: 40px
+          margin-top: 210px
           right: -135px
           a
             color: $color_pink
@@ -1237,7 +1261,7 @@ input.file
             background-position: 105px -61px
             height: 64px
             width: 99px
-            margin: 0
+            margin: 5px 0 0
           &.welcome_note
             background-position: -79px -65px
             height: 37px
@@ -1275,7 +1299,7 @@ input.file
         &.notify_note
           margin-top: 20px
         &.price_note
-          margin-top: -60px
+          margin-top: 110px
           a
             color: $color_pink
         &.post_note

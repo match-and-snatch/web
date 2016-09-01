@@ -1,4 +1,11 @@
 .popup
+  &.pricing-breakdown
+    width: 620px
+    .modal-header
+      margin: 0 0 15px
+    .modal-body
+      table
+        margin-bottom: 15px
   &.confirm
     width: 460px
     .modal-header
@@ -542,6 +549,7 @@
     .modal-body
       padding-top: 0
       .cost_container
+        margin-top: 20px
         width: 100%
         .input_container
           margin: 0 auto 15px
@@ -559,8 +567,10 @@
           font-size: 14px
           font-weight: 600
         .error
-          margin: 10px 0 15px
+          margin: 10px 0 0
           text-align: center
+        hr
+          margin-top: 10px
       .welcome_media_player
         margin: 0 auto
         .no-media
@@ -601,15 +611,6 @@
             bottom: 0
             left: 0
             font-size: 0
-      .pricing_table
-        color: $color_text_light
-        table
-          color: $color_text_dark
-          font-size: 13px
-          span
-            display: block
-        p
-          text-align: center
       .input-group-addon
         @include black-area
         @include border-radius($border_radius 0 0 $border_radius)
