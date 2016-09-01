@@ -7,3 +7,5 @@ dependencies:
 test:
   override:
     - bundle install && bundle exec rspec spec
+  post:
+    - bundle exec rubocop
