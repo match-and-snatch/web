@@ -131,7 +131,7 @@ class AuthenticationManager < BaseManager
       validate_account_name(last_name, field_name: :last_name)
     end
 
-    validate_email(email)
+    validate_email(email, email_confirmation: email)
     validate_password(password: password, password_confirmation: password_confirmation)
 
     fail_with tos_accepted: :not_accepted unless tos_accepted

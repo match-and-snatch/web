@@ -32,12 +32,22 @@ class SubscriptionManager < BaseManager
   end
 
   # @param email [String]
+  # @param email_confirmation [String]
   # @param full_name [String]
   # @param password [String]
+  # @param stripe_token [String]
+  # @param expiry_month [String]
+  # @param expiry_year [String]
+  # @param zip [String]
+  # @param city [String]
+  # @param state [String]
+  # @param address_line_1 [String]
+  # @param address_line_2 [String]
   # @param target [Concerns::Subscribable]
   # @param tos_accepted [Boolean]
   # @return [Subscription]
   def register_subscribe_and_pay_via_token(email: nil,
+                                           email_confirmation: nil,
                                            full_name: nil,
                                            password: nil,
                                            stripe_token: nil,
@@ -67,7 +77,7 @@ class SubscriptionManager < BaseManager
 
     validate! do
       validate_account_name(full_name)
-      validate_email email
+      validate_email email, email_confirmation: email_confirmation
       validate_password password: password,
                         password_confirmation: password
       validate_cc(card, sensitive: false)
@@ -102,21 +112,23 @@ class SubscriptionManager < BaseManager
 
 
   # @param email [String]
+  # @param email_confirmation [String]
   # @param full_name [String]
   # @param password [String]
   # @param number [String]
   # @param cvc [String]
-  # @param expiry_year [String]
   # @param expiry_month [String]
+  # @param expiry_year [String]
+  # @param zip [String]
+  # @param city [String]
+  # @param state [String]
   # @param address_line_1 [String]
   # @param address_line_2 [String]
-  # @param state [String]
-  # @param city [String]
-  # @param zip [String]
   # @param target [Concerns::Subscribable]
   # @param tos_accepted [Boolean]
   # @return [Subscription]
   def register_subscribe_and_pay(email: nil,
+                                 email_confirmation: nil,
                                  full_name: nil,
                                  password: nil,
                                  number: nil,
@@ -146,7 +158,7 @@ class SubscriptionManager < BaseManager
                           address_line_2: address_line_2
     validate! do
       validate_account_name(full_name)
-      validate_email email
+      validate_email email, email_confirmation: email_confirmation
       validate_password password: password,
                         password_confirmation: password
       validate_cc card

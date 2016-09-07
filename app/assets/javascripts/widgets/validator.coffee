@@ -94,7 +94,7 @@ class bud.widgets.Validator extends bud.Widget
 
   validate_match_password: (target_name) ->
     if @$container.val() != @$form.find("input[name='#{target_name}']").val()
-      @mark_as_invalid @t('does_not_match_password')
+      @mark_as_invalid @t('does_not_match', field: 'password')
 
   validate_routing_number: ->
     return if @validate_require()

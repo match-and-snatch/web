@@ -137,7 +137,7 @@ class UserProfileManager < BaseManager
 
     validate! do
       if prefer_paypal
-        validate_email(paypal_email, check_if_taken: false, field_name: :paypal_email)
+        validate_email(paypal_email, email_confirmation: paypal_email, check_if_taken: false, field_name: :paypal_email)
       else
         fail_with holder_name: :empty if holder_name.blank?
 
@@ -541,7 +541,7 @@ class UserProfileManager < BaseManager
     validate! do
       validate_account_name(full_name)
       validate_name_length(company_name, field_name: :company_name)
-      validate_email(email) if email != old_email
+      validate_email(email, email_confirmation: email) if email != old_email
     end
 
     user.full_name    = full_name.try(:strip)

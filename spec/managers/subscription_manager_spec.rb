@@ -17,10 +17,13 @@ describe SubscriptionManager do
       manager.register_subscribe_and_pay_via_token(register_data)
     end
 
+    let(:email) { 'tester@tester.com' }
+    let(:email_confirmation) { nil }
     let(:register_data) do
       {
           stripe_token: token,
-          email: 'tester@tester.com',
+          email: email,
+          email_confirmation: email_confirmation,
           full_name: full_name,
           password: 'gfhjkmqe',
           expiry_month: '05',
@@ -33,6 +36,17 @@ describe SubscriptionManager do
           target: another_user,
           tos_accepted: true
       }
+    end
+    let(:cc_data) do
+      { number: '4242424242424242',
+        cvc: '000',
+        expiry_month: '05',
+        expiry_year: '18',
+        zip: '123456',
+        city: 'LA',
+        state: 'CA',
+        address_line_1: 'Test',
+        address_line_2: nil }
     end
 
     context 'full name contains numbers' do
@@ -74,18 +88,6 @@ describe SubscriptionManager do
     end
 
     context 'stripe token is set (received one from Stripe via stripe.js)' do
-      let(:cc_data) do
-        { number: '4242424242424242',
-          cvc: '000',
-          expiry_month: '05',
-          expiry_year: '18',
-          zip: '123456',
-          city: 'LA',
-          state: 'CA',
-          address_line_1: 'Test',
-          address_line_2: nil }
-      end
-
       let(:token) { StripeMock.generate_card_token(cc_data) }
 
       specify do
@@ -96,15 +98,35 @@ describe SubscriptionManager do
         expect { subscribe rescue nil }.to change { Subscription.count }
       end
     end
+
+    context 'confirmation email is present' do
+      let(:email_confirmation) { 'invalid@email.com' }
+
+      it { expect { subscribe }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email_confirmation: t_error(:does_not_match, field: :email)) } }
+      it { expect { subscribe rescue nil }.not_to create_record(Payment) }
+      it { expect { subscribe rescue nil }.not_to create_record(Subscription) }
+
+      context 'confirmation email is valid' do
+        let(:email_confirmation) { 'tester@tester.com' }
+        let(:token) { StripeMock.generate_card_token(cc_data) }
+
+        it { expect { subscribe }.not_to raise_error(ManagerError) }
+        it { expect { subscribe }.to create_record(Payment) }
+        it { expect { subscribe }.to create_record(Subscription) }
+      end
+    end
   end
 
   describe '#register_subscribe_and_pay' do
     before { StripeMock.start }
     after { StripeMock.stop }
 
+    let(:email) { 'tester@tester.com' }
+    let(:email_confirmation) { nil }
     let(:register_data) do
       {
-          email: 'tester@tester.com',
+          email: email,
+          email_confirmation: email_confirmation,
           full_name: 'Tester Ivanovitch',
           password: 'gfhjkmqe',
           cvc: '000',
@@ -212,6 +234,22 @@ describe SubscriptionManager do
 
         it 'does not register user' do
           expect { subscribe rescue nil }.to create_record(User)
+        end
+      end
+
+      context 'confirmation email is present' do
+        let(:email_confirmation) { 'invalid@email.com' }
+
+        it { expect { subscribe }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email_confirmation: t_error(:does_not_match, field: :email)) } }
+        it { expect { subscribe rescue nil }.not_to create_record(Payment) }
+        it { expect { subscribe rescue nil }.not_to create_record(Subscription) }
+
+        context 'confirmation email is valid' do
+          let(:email_confirmation) { 'tester@tester.com' }
+
+          it { expect { subscribe }.not_to raise_error(ManagerError) }
+          it { expect { subscribe }.to create_record(Payment) }
+          it { expect { subscribe }.to create_record(Subscription) }
         end
       end
     end

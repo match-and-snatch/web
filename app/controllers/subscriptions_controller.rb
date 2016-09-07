@@ -33,6 +33,7 @@ class SubscriptionsController < ApplicationController
       begin
         manager.register_subscribe_and_pay_via_token target:       @target_user,
                                                      email:        params[:email],
+                                                     email_confirmation: params[:email],
                                                      password:     params[:password],
                                                      full_name:    params[:full_name],
                                                      stripe_token: params[:stripe_token],

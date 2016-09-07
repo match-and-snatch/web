@@ -26,9 +26,12 @@ describe Api::SubscriptionsController, type: :controller do
     after { StripeMock.stop }
 
     let(:stripe_token) { StripeMock.generate_card_token(number: '4242424242424242') }
+    let(:email) { 'subscriber@gmail.com' }
+    let(:email_confirmation) { 'subscriber@gmail.com' }
 
     subject { post 'via_register', user_id: owner.slug,
-                   email: 'subscriber@gmail.com',
+                   email: email,
+                   email_confirmation: email_confirmation,
                    password: 'gfhjkmqe',
                    full_name: 'tester tester',
                    stripe_token: stripe_token,
@@ -50,6 +53,13 @@ describe Api::SubscriptionsController, type: :controller do
 
       it { should be_success }
       its(:body) { should match_regex /success/ }
+    end
+
+    context 'with wrong confirmation email' do
+      let(:email_confirmation) { 'wrong@gmail.com' }
+
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex(/failed/) }
     end
 
     # TODO : WHY IT DOESN'T WORK?

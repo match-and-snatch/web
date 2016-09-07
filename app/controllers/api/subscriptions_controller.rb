@@ -40,6 +40,7 @@ class Api::SubscriptionsController < Api::BaseController
       begin
         manager.register_subscribe_and_pay_via_token target:       @target_user,
                                                      email:        params[:email],
+                                                     email_confirmation: params[:email_confirmation],
                                                      password:     params[:password],
                                                      full_name:    params[:full_name],
                                                      stripe_token: params[:stripe_token],
