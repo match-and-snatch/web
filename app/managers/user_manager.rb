@@ -1,13 +1,15 @@
 class UserManager < BaseManager
-  attr_reader :user
+  attr_reader :user, :performer
 
   LOCK_TYPES = %w(account billing tos).freeze
   LOCK_REASONS = %w(manually_set fraudulent contribution_limit subscription_limit cc_update_limit cc_used_by_another_account).freeze
 
   # @param user [User]
-  def initialize(user)
+  def initialize(user, performer = user)
     raise ArgumentError unless user.is_a?(User)
+    raise ArgumentError unless performer.is_a?(User)
     @user = user
+    @performer = performer
   end
 
   # Activates user if needed
@@ -116,7 +118,11 @@ class UserManager < BaseManager
 
     @user.tos_accepted = accepted
     save_or_die! @user
-    @user.tos_acceptances.create!(tos_version: TosVersion.active, user_email: @user.email, user_full_name: @user.full_name)
+    @user.tos_acceptances.create!(tos_version: TosVersion.active,
+                                  user_email: @user.email,
+                                  user_full_name: @user.full_name,
+                                  performer_id: performer.id,
+                                  performed_by_admin: performer.admin?)
     EventsManager.tos_accepted(user: @user)
   end
 
@@ -125,7 +131,11 @@ class UserManager < BaseManager
     save_or_die! @user
     if @user.tos_accepted?
       ActiveRecord::Base.transaction do
-        @user.tos_acceptances.create!(tos_version: TosVersion.active, user_email: @user.email, user_full_name: @user.full_name)
+        @user.tos_acceptances.create!(tos_version: TosVersion.active,
+                                      user_email: @user.email,
+                                      user_full_name: @user.full_name,
+                                      performer_id: performer.id,
+                                      performed_by_admin: performer.admin?)
       end
     else
       @user.tos_acceptances.active.destroy_all

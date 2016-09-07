@@ -459,6 +459,8 @@ BuddyPlatform::Application.routes.draw do
       resources :tos_versions, except: :destroy do
         member do
           put :publish
+          get :confirm_toggle_acceptance_requirement
+          put :toggle_acceptance_requirement
         end
       end
       resources :tos_acceptors, only: :index do

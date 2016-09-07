@@ -1,7 +1,7 @@
 .modal-header style='width: 480px;'
   i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true"
-  .modal-title Toggle ToS acceptance
-  p style="font-size: 13px; margin-top: 15px;" Are you sure you want to #{@user.tos_accepted? ? 'Reset' : 'Accept'} ToS for #{@user.full_name}?
+  .modal-title Toggle ToS Popup visibility
+  p style="font-size: 13px; margin-top: 15px;" Are you sure you want to #{@user.tos_accepted? ? 'Show' : 'Hide'} ToS Popup for #{@user.full_name}?
 
   .modal-body style="padding-bottom: 15px;"
     form.Form action=toggle_tos_acceptance_admin_tos_acceptor_path(@user.id) method='put'

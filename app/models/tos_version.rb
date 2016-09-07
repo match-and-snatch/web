@@ -6,12 +6,7 @@ class TosVersion < ActiveRecord::Base
 
   # @return [TosVersion, nil]
   def self.active
-    published.order(published_at: :desc).first
-  end
-
-  # @return [Boolean]
-  def active?
-    self == self.class.active
+    published.where(active: true).first
   end
 
   # @return [Boolean]

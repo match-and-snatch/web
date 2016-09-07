@@ -5,10 +5,12 @@ module Queries
 
     # @param query [String]
     # @param user [User] current user performing the query
-    def initialize(query: '', user: nil, include_hidden: false)
+    # @param page [String, Integer, nil]
+    def initialize(query: '', user: nil, include_hidden: false, page: nil)
       @query = query.to_s.strip[0..40]
       @include_hidden = include_hidden
       @user = user or raise ArgumentError, 'User is not set'
+      @page = page
     end
 
     # @return [Array<ActiveRecord::Base>]
@@ -96,6 +98,21 @@ module Queries
       else
         limit(Queries::Elastic::Profiles.new.search(@query, include_hidden: @include_hidden).records, 5)
       end
+    end
+
+    def by_tos_acceptance
+      case @query
+      when 'by_admin'
+        User.joins(tos_acceptances: :tos_version)
+            .where(tos_acceptances: {performed_by_admin: true}, tos_versions: {active: true})
+            .select('DISTINCT(users.id), users.*')
+      when 'not_accepted'
+        User.where(tos_accepted: false)
+      when 'accepted', ''
+        User.where(tos_accepted: true)
+      else
+        raise ArgumentError
+      end.order(created_at: :desc).page(@page).per(100)
     end
 
     private

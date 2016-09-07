@@ -5,6 +5,7 @@ FactoryGirl.define do
 
     trait :published do
       published_at Time.zone.now
+      active true
     end
   end
 end

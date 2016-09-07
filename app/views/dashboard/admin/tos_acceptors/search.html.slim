@@ -40,7 +40,12 @@
                     td= acceptance.user_email
                     td= acceptance.user_full_name
                     td= acceptance.enabled_at.in_time_zone.to_s(:short)
-                    td= acceptance.accepted_at.try(:in_time_zone).try(:to_s, :short) || 'Not accepted'
+                    td
+                      - accepted_at = acceptance.accepted_at.try(:in_time_zone).try(:to_s, :short)
+                      - if acceptance.performed_by_admin
+                        = "Hidden by Admin #{accepted_at}"
+                      - else
+                        = accepted_at || 'Not accepted'
               - else
                 tr
                   td colspan=3 No data found

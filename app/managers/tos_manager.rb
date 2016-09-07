@@ -34,7 +34,12 @@ class TosManager < BaseManager
     fail_with! 'Already published' if version.published?
 
     version.published_at = Time.zone.now
-    save_or_die! version
+    version.active = true
+
+    ActiveRecord::Base.transaction do
+      save_or_die! version
+      TosVersion.where.not(id: version.id).update_all(active: false)
+    end
 
     reset_tos_acceptance
   end
@@ -42,7 +47,12 @@ class TosManager < BaseManager
   def reset_tos_acceptance
     ActiveRecord::Base.transaction do
       TosAcceptance.active.delete_all
-      User.update_all(tos_accepted: false)
+      User.where(tos_accepted: true).update_all(tos_accepted: false)
     end
+  end
+
+  def toggle_acceptance_requirement
+    version.requires_acceptance = !version.requires_acceptance
+    save_or_die! version
   end
 end

@@ -39,6 +39,7 @@ describe TosManager do
     let(:tos_version) { create(:tos_version) }
 
     it { expect { manager.publish }.to change { tos_version.published? }.from(false).to(true) }
+    it { expect { manager.publish }.to change { tos_version.active? }.from(false).to(true) }
 
     context 'published version' do
       let(:tos_version) { create(:tos_version, :published) }
@@ -54,6 +55,7 @@ describe TosManager do
 
       it { expect { manager.publish }.to change { user.reload.tos_accepted? }.from(true).to(false) }
       it { expect { manager.publish }.not_to delete_record(TosAcceptance).matching(id: acceptance.id) }
+      it { expect { manager.publish }.to change { old_tos_version.reload.active? }.from(true).to(false) }
     end
   end
 
@@ -64,5 +66,17 @@ describe TosManager do
 
     it { expect { manager.reset_tos_acceptance }.to change { user.reload.tos_accepted? }.from(true).to(false) }
     it { expect { manager.reset_tos_acceptance }.to delete_record(TosAcceptance).matching(id: acceptance.id) }
+  end
+
+  describe '#toggle_acceptance_requirement' do
+    let(:tos_version) { create(:tos_version) }
+
+    it { expect { manager.toggle_acceptance_requirement }.to change { tos_version.reload.requires_acceptance? }.from(true).to(false) }
+
+    context 'does not require acceptance' do
+      let(:tos_version) { create(:tos_version, requires_acceptance: false) }
+
+      it { expect { manager.toggle_acceptance_requirement }.to change { tos_version.reload.requires_acceptance? }.from(false).to(true) }
+    end
   end
 end

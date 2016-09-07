@@ -1,12 +1,16 @@
 h2 ToS Acceptors (#{@users.total_count})
 
 ul.cat_links
-  li class="#{params[:accepted] != 'f' ? 'pending' : ''}"
-    a href=admin_tos_acceptors_path(accepted: 't')
+  li class="#{params[:q] == 'accepted' ? 'pending' : ''}"
+    a href=admin_tos_acceptors_path(q: 'accepted')
       span Accepted
 
-  li class="#{params[:accepted] == 'f' ? 'pending' : ''}"
-    a href=admin_tos_acceptors_path(accepted: 'f')
+  li class="#{params[:q] == 'by_admin' ? 'pending' : ''}"
+    a href=admin_tos_acceptors_path(q: 'by_admin')
+      span Accepted by Admin
+      
+  li class="#{params[:q] == 'not_accepted' ? 'pending' : ''}"
+    a href=admin_tos_acceptors_path(q: 'not_accepted')
       span Not accepted
   li
     .btn.pink.AjaxLink href=confirm_reset_tos_acceptance_admin_tos_acceptors_path Reset ToS Acceptance For All Users

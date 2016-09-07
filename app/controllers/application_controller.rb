@@ -166,7 +166,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_if_tos_accepted
-    @show_tos_popup = !current_user.tos_accepted?
+    @show_tos_popup = !(current_user.tos_accepted? || !TosVersion.active.try(:requires_acceptance?))
   end
 
   def show_tos_popup?

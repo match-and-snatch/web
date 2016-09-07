@@ -1026,7 +1026,9 @@ CREATE TABLE tos_acceptances (
     user_id integer,
     tos_version_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    performer_id integer,
+    performed_by_admin boolean DEFAULT false NOT NULL
 );
 
 
@@ -1059,7 +1061,9 @@ CREATE TABLE tos_versions (
     published_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    privacy_policy text
+    privacy_policy text,
+    requires_acceptance boolean DEFAULT true NOT NULL,
+    active boolean DEFAULT false NOT NULL
 );
 
 
@@ -2326,4 +2330,12 @@ INSERT INTO schema_migrations (version) VALUES ('20160824121644');
 INSERT INTO schema_migrations (version) VALUES ('20160824125840');
 
 INSERT INTO schema_migrations (version) VALUES ('20160824130402');
+
+INSERT INTO schema_migrations (version) VALUES ('20160829115500');
+
+INSERT INTO schema_migrations (version) VALUES ('20160907073041');
+
+INSERT INTO schema_migrations (version) VALUES ('20160907090811');
+
+INSERT INTO schema_migrations (version) VALUES ('20160907122954');
 

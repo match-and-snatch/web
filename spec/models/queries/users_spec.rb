@@ -75,4 +75,39 @@ describe Queries::Users do
   describe '#by_email' do
     it { expect(subject.by_email).to eql([first_user]) }
   end
+
+  describe '#by_tos_acceptance' do
+    let!(:accepted_tos_user) { create(:user, tos_accepted: true) }
+    let!(:not_accepted_tos_user) { create(:user, tos_accepted: false) }
+
+    let(:query) { nil }
+    it { expect(subject.by_tos_acceptance).to match_array([accepted_tos_user, performer, first_user, second_user]) }
+
+    context 'invalid query' do
+      let(:query) { 'ivalid' }
+      it { expect { subject.by_tos_acceptance }.to raise_error(ArgumentError) }
+    end
+
+    context 'query is "accepted"' do
+      let(:query) { 'accepted' }
+      it { expect(subject.by_tos_acceptance).to match_array([accepted_tos_user, performer, first_user, second_user]) }
+    end
+
+    context 'query is "not_accepted"' do
+      let(:query) { 'not_accepted' }
+      it { expect(subject.by_tos_acceptance).to eq([not_accepted_tos_user]) }
+    end
+
+    context 'query is "by_admin"' do
+      let(:query) { 'by_admin' }
+      let(:user) { create(:user, tos_accepted: true) }
+
+      before do
+        create(:tos_version, :published)
+        UserManager.new(user, create(:user, :admin)).mark_tos_accepted(accepted: true)
+      end
+
+      it { expect(subject.by_tos_acceptance).to eq([user]) }
+    end
+  end
 end

@@ -17,6 +17,7 @@ ul.cat_links
       strong Published at
     th
     th
+    th
 
     - @tos_versions.each do |tos_version|
       tr
@@ -33,7 +34,12 @@ ul.cat_links
           - elsif !tos_version.published?
             .btn.green.pull-left.AjaxFormLink href=publish_admin_tos_version_path(tos_version.id) data-_method='put' data-confirmation='true' Publish and Reset ToS
           - else
-            |Published
+            |published
+        td 
+          - if tos_version.requires_acceptance?
+            .btn.btn-warning.pull-right.AjaxLink href=confirm_toggle_acceptance_requirement_admin_tos_version_path(tos_version.id) Hide ToS Popup
+          - else
+            .btn.btn-info.pull-right.AjaxLink href=confirm_toggle_acceptance_requirement_admin_tos_version_path(tos_version.id) Show ToS Popup
 
   .TopJumper= paginate @tos_versions
 - else

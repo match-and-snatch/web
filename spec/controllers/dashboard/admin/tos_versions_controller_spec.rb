@@ -40,4 +40,14 @@ describe Dashboard::Admin::TosVersionsController, type: :controller do
     subject { get 'show', id: tos_version.id }
     it { is_expected.to be_success }
   end
+
+  describe 'GET #confirm_toggle_acceptance_requirement' do
+    subject { get 'confirm_toggle_acceptance_requirement', id: tos_version.id }
+    it { is_expected.to be_success }
+  end
+
+  describe 'PUT #toggle_acceptance_requirement' do
+    subject { put 'toggle_acceptance_requirement', id: tos_version.id }
+    it { is_expected.to be_success }
+  end
 end

@@ -24,15 +24,6 @@ describe TosVersion do
       let!(:published_tos_version) { create(:tos_version, :published) }
 
       it { expect(subject.active).to eq(published_tos_version) }
-
-      context 'multiple published versions are present', freeze: 1.minute.from_now do
-        let!(:old_tos_version) { create(:tos_version, :published, published_at: 5.minutes.ago) }
-        let!(:latest_tos_version) { create(:tos_version, :published, published_at: Time.zone.now) }
-
-        it 'returns latest version' do
-          expect(subject.active).to eq(latest_tos_version)
-        end
-      end
     end
   end
 

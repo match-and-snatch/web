@@ -210,7 +210,14 @@ describe UserManager do
 
     it { expect { manager.mark_tos_accepted(accepted: true) }.to change { user.reload.tos_accepted? }.from(false).to(true) }
     it { expect { manager.mark_tos_accepted(accepted: true) }.to create_event(:tos_accepted) }
-    it { expect { manager.mark_tos_accepted(accepted: true) }.to create_record(TosAcceptance).matching(user: user, tos_version: tos_version) }
+    it { expect { manager.mark_tos_accepted(accepted: true) }.to create_record(TosAcceptance).matching(user: user, tos_version: tos_version, user_email: user.email, user_full_name: user.full_name, performer: user, performed_by_admin: false) }
+
+    context 'performed by admin' do
+      let(:admin) { create(:user, :admin) }
+      subject(:manager) { described_class.new(user, admin) }
+
+      it { expect { manager.mark_tos_accepted(accepted: true) }.to create_record(TosAcceptance).matching(user: user, tos_version: tos_version, user_email: user.email, user_full_name: user.full_name, performer: admin, performed_by_admin: true) }
+    end
 
     context 'not accepted' do
       it { expect { manager.mark_tos_accepted(accepted: false) }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(tos_accepted: t_error(:not_accepted)) } }
@@ -226,7 +233,7 @@ describe UserManager do
       before { UserManager.new(user).mark_tos_accepted(accepted: true) }
 
       it { expect { manager.toggle_tos_acceptance }.to change { user.reload.tos_accepted? }.from(true).to(false) }
-      it { expect { manager.toggle_tos_acceptance }.to delete_record(TosAcceptance).matching(user: user, tos_version: tos_version, user_email: user.email, user_full_name: user.full_name) }
+      it { expect { manager.toggle_tos_acceptance }.to delete_record(TosAcceptance).matching(user: user, tos_version: tos_version, user_email: user.email, user_full_name: user.full_name, performer: user, performed_by_admin: false) }
     end
 
     context 'tos not accepted' do
@@ -234,6 +241,13 @@ describe UserManager do
 
       it { expect { manager.toggle_tos_acceptance }.to change { user.reload.tos_accepted? }.from(false).to(true) }
       it { expect { manager.toggle_tos_acceptance }.to create_record(TosAcceptance).matching(user: user, tos_version: tos_version, user_email: user.email, user_full_name: user.full_name) }
+
+      context 'performed by admin' do
+        let(:admin) { create(:user, :admin) }
+        subject(:manager) { described_class.new(user, admin) }
+
+        it { expect { manager.toggle_tos_acceptance }.to create_record(TosAcceptance).matching(user: user, tos_version: tos_version, user_email: user.email, user_full_name: user.full_name, performer: admin, performed_by_admin: true) }
+      end
     end
   end
 

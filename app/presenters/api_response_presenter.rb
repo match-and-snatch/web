@@ -24,6 +24,7 @@ class ApiResponsePresenter
       locked: user.locked?,
       lock_type: lock_type,
       tos_accepted: user.tos_accepted?,
+      show_tos_popup: !(user.tos_accepted? || !TosVersion.active.try(:requires_acceptance?)),
       total_subscriptions_count: user.subscriptions_count,
       billing_failed: user.billing_failed?
     }
