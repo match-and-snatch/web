@@ -36,24 +36,28 @@ br
         strong Amount
       th
         strong Subscription Date
+      th
+        strong ZIP check
 
     - @payments.each do |payment|
+      - user = payment.user
       tr
         td= payment.id
         td= payment.created_at.try(:to_s, :long)
         td= payment.source_country
         td
-          = dashboard_link_to_user payment.user
+          = dashboard_link_to_user user
         td
-          a.AjaxLink href=addresses_admin_user_payments_path(payment.user.id) data-target="#{payment.id}-address-table"
+          a.AjaxLink href=addresses_admin_user_payments_path(user.id) data-target="#{payment.id}-address-table"
             span.Toggler data-target="#{payment.id}-address" Addresses
         td
-          a href="mailto:#{payment.user.email}"= payment.user.email
+          a href="mailto:#{user.email}"= user.email
         td
           = dashboard_link_to_user payment.target_user
         td= cents_to_dollars payment.amount
 
         td= payment.subscription.created_at.try(:to_s, :long)
+        td= user.billing_zip_check_failed.nil? ? 'pending' : (user.billing_zip_check_failed? ? 'FAILED' : 'passed')
       tr style='display: none' data-identifier="#{payment.id}-address"
         td colspan="9" data-identifier="#{payment.id}-address-table"
 
