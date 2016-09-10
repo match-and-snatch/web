@@ -1,6 +1,5 @@
 - set_layout(:title, 'ConnectPal.com - Home')
 
-// Homepage Featured Slider
 - if @show_promo_block
   .featured_profile.slidedown data-identifier='boortz-promo-block' data-storage_key='boortz_promo_block'
     .container
@@ -9,64 +8,50 @@
           ul.homepage_slider.Slider data-interval=6500
             i.fa.fa-times.hide_featured.hidden-xs.MemoToggler data-target='boortz-promo-block'
               '&nbsp;Hide
-
             li data-identifier='first-slide'
               a.fa.fa-chevron-left.previous.Toggler href='#' data-target=%w(fourth-slide first-slide)
               a.fa.fa-chevron-right.next.Toggler href='#' data-target=%w(second-slide first-slide)
-
               a.btn.black href='/tomgreen'
                 img.feat_pic src=image_path('//connectpal-assets.s3.amazonaws.com/images/tom-green.png')
                 span.tagline.slide_three Looking for Tom Green? Click here!
-
               ul.step_circles
                 li.active
                 li
                 li
                 li
-
             li data-identifier='second-slide' style='display: none'
               a.fa.fa-chevron-left.previous.Toggler href='#' data-target=%w(first-slide second-slide)
               a.fa.fa-chevron-right.next.Toggler href='#' data-target=%w(third-slide second-slide)
-
               a.btn.black href='/nick'
                 img.feat_pic src=image_path('//connectpal-assets.s3.amazonaws.com/images/nick-di-paolo.png')
                 span.tagline.slide_one Looking for Nick Di Paolo? Click here!
-
               ul.step_circles
                 li
                 li.active
                 li
                 li
-
             li data-identifier='third-slide' style='display: none'
               a.fa.fa-chevron-left.previous.Toggler href='#' data-target=%w(second-slide third-slide)
               a.fa.fa-chevron-right.next.Toggler href='#' data-target=%w(fourth-slide third-slide)
-
               a.btn.black href='/jane'
                 img.feat_pic src=image_path('//connectpal-assets.s3.amazonaws.com/images/jane-velez.png')
                 span.tagline.slide_three Looking for Jane Velez-Mitchell? Click here!
-
               ul.step_circles
                 li
                 li
                 li.active
                 li
-
             li data-identifier='fourth-slide' style='display: none'
               a.fa.fa-chevron-left.previous.Toggler href='#' data-target=%w(third-slide fourth-slide)
               a.fa.fa-chevron-right.next.Toggler href='#' data-target=%w(first-slide fourth-slide)
-
               a.btn.black href=users_path
                 img.profile_directory src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-slide-3.png')
                 span.tagline.slide_four To View our Profile Directory - Click here!
-
               ul.step_circles
                 li
                 li
                 li
                 li.active
-
-// Homepage 3 Step Pitch
 
 .home_pitch
   .container
@@ -102,9 +87,7 @@
           .cleafix
           a.btn.pink href="sample" target='_blank' style="font-size: 15px; color: #FFFFFF; width: 180px; display: inline-block; margin-top: 10px;" View Sample Profile
       .clearfix
-
-// Blue Row & Action Buttons
-
+      
 .button_actions
   .container
     .row
@@ -126,23 +109,6 @@
           span  style="display: block;" I want to search other profiles
           span and subscribe to someone else.
 
-// Row 1
-
-.homepage_profile
-  .container
-    .row
-      .col-md-6.col-sm-6.col-xs-12
-        img.img-responsive.hidden-md.hidden-sm src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-sample-profile-xs.png')
-        a href="sample" target='_blank'
-          img.img-responsive.hidden-xs src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-sample-profile.png')
-
-      .col-md-6.col-sm-6.col-xs-12.description.dosis
-        ul
-          li Our platform allows content creators to control and monetize their own content.
-          li ConnectPal handles all of the boring business stuff for our users, including credit card processing and content hosting.
-
-// Row 2
-
 .homepage_our_users.dosis
   .container
     .row
@@ -152,19 +118,7 @@
           'Our users include YouTube Creators, Fitness Experts, Radio Hosts, Music Bands, Charities, Business Consultants, Religious Groups, Political Groups, Athletes, Teachers,
           span style="font-style: italic;" and more...
           a.btn.pink href=users_path View Profile Directory
-
       .col-md-6.col-sm-6.col-xs-12
         img.img-responsive src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-our-users.png')
-
-// Row 3
-
-  .container
-    .row
-      .col-md-6.col-sm-6.col-xs-12
-        img.img-circle src=image_path('//connectpal-assets.s3.amazonaws.com/images/homepage-analytics.png')
-
-      .col-md-6.col-sm-6.col-xs-12.description
-        .title Account Analytics
-        span ConnectPal provides in-depth analytics so you can grow your audience.
 
 = render 'footer'
