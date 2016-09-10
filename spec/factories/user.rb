@@ -27,6 +27,7 @@ FactoryGirl.define do
     accepts_large_contributions false
     welcome_media_hidden false
     benefits_visible true
+    billing_zip_check_failed false
 
     trait :admin do
       is_admin true

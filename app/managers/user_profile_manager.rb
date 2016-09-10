@@ -303,6 +303,7 @@ class UserProfileManager < BaseManager
     user.billing_address_city = card_data['address_city']
     user.billing_address_state = card_data['address_state']
     user.billing_address_country = card_data['address_country']
+    user.billing_zip_check_failed = nil
 
     save_or_die! user
 
@@ -412,6 +413,7 @@ class UserProfileManager < BaseManager
     user.billing_address_city = card_data['address_city']
     user.billing_address_state = card_data['address_state']
     user.billing_address_country = card_data['address_country']
+    user.billing_zip_check_failed = nil
 
     save_or_die! user
 
@@ -485,6 +487,7 @@ class UserProfileManager < BaseManager
     user.billing_address_city = nil
     user.billing_address_state = nil
     user.billing_address_country = nil
+    user.billing_zip_check_failed = false
 
     save_or_die! user
 
