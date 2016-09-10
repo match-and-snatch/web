@@ -78,12 +78,8 @@
   #subscriber_display
     .row
       .sidebar.col-md-4.pull-left
-
-        // Contribute
-        a.contribute_url.btn.green.PopupTrigger data-target='contribute' class=('pending' unless @profile.contributions_enabled?)
-          i.fa.fa-usd
-          .heading Make a Contribution
-          span Support this profile!
+        div data-identifier='contribute-button'
+          = render partial: 'contribute_button', locals: {profile: @profile}
 
         .share_url.btn.pink.PopupTrigger data-target='share'
           i.fa.fa-share-square-o
@@ -279,11 +275,12 @@
         '.
       .well.well-sm
         p You have the ability to hide the “Contribute" button if you do not want to accept contributions.  Do you want to show or hide the ‘Contribute' button?
-        label.radio-inline
-          input.Checker data-checked-url=enable_contributions_account_info_path name='contribution_rb' type='radio' value='Show' checked=@profile.contributions_enabled? Yes, please show &quot;Contribute&quot; button.
-        label.radio-inline
-          input.Checker data-checked-url=disable_contributions_account_info_path name='contribution_rb' checked=!@profile.contributions_enabled? type='radio' value='Hide' No, please hide it.
-        .clearfix
+        form.Form action=toggle_contributions_account_info_path method='put' data-target='contribute-button'
+          .form-group
+            label.radio-inline
+              input name='contributions_enabled' type='radio' value='true' checked=@profile.contributions_enabled? data-submitter=true Yes, please show &quot;Contribute&quot; button.
+            label.radio-inline
+              input name='contributions_enabled' type='radio' value='false' checked=!@profile.contributions_enabled? data-submitter=true No, please hide it.
 
   /Share popup
   .Popup.popup.share-popup.modal-content data-identifier='share'

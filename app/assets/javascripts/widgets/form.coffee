@@ -4,6 +4,7 @@ class bud.widgets.Form extends bud.Widget
 
   initialize: ->
     @$submitter = @$container.find('[data-submitter]')
+    @event = @$container.data('event')
 
     @submit_buttons = []
     _.each @$container.find('input[type=submit]'), (button) =>
@@ -90,6 +91,7 @@ class bud.widgets.Form extends bud.Widget
     @requesting = false
     @disable_pending_state()
     @after_callback?()
+    bud.pub(@event, [@]) if @event
 
   on_fail: (response) =>
     if message = response['message']

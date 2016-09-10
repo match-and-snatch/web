@@ -117,14 +117,15 @@ class AccountInfosController < ApplicationController
     json_success
   end
 
-  def enable_contributions
-    manager.enable_contributions
-    json_success
-  end
-
-  def disable_contributions
-    manager.disable_contributions
-    json_success
+  def toggle_contributions
+    if params.bool(:contributions_enabled)
+      @user = manager.enable_contributions
+      notice = 'Contributions successfully enabled.'
+    else
+      @user = manager.disable_contributions
+      notice = 'Contributions successfully disabled.'
+    end
+    json_replace html: render_to_string(partial: 'contribute_button', locals: {profile: @user}), notice: notice
   end
 
   def enable_downloads

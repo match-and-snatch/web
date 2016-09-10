@@ -378,4 +378,17 @@ describe AccountInfosController, type: :controller do
       it { should be_success }
     end
   end
+
+  describe 'PUT #toggle_contributions' do
+    subject { put 'toggle_contributions', contributions_enabled: true }
+
+    context 'not authorized' do
+      its(:status) { is_expected.to eq(401) }
+    end
+
+    context 'authorized' do
+      before { sign_in }
+      it { is_expected.to be_success }
+    end
+  end
 end

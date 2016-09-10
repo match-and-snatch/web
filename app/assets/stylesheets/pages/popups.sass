@@ -515,6 +515,8 @@
   &.header_edit
     padding-top: 0
     overflow: hidden
+    &.modal-content
+      width: 745px
     .nav
       @include border_radius (10px 10px 0 0)
       background-color: $color_background
@@ -955,12 +957,6 @@
       i
         display: block
         padding: 10px 15px
-
-
-@media (min-width: 768px)
-.header_edit
-  &.modal-content
-    width: 745px
 
 .popup
   padding: 15px 20px
