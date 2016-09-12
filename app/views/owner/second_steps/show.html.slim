@@ -60,19 +60,15 @@
         .row_label
           | Subscription Cost
           span
-            ' Set your monthly price for people to access your profile. You keep
-            b 100%
-            '
-            ' of the price you set. ConnectPal adds a service fee on top of your subscription price.
+            ' Set your monthly price for people to access your profile. ConnectPal adds a service fee on top of your subscription price.
         div
           .input-group
             span.input-group-addon
               i.fa.fa-usd.fa-fw.fa-lg
             input.form-control.usd type='text' name='cost' value=((@user.cost || 500) / 100) validate='subscription_cost'
-            a.pull-right.breakdown.PopupTrigger style='color: #8dc63f; text-decoration: underline' data-target='pricing-popup' href="#" Check out our pricing breakdown here
+            a.pull-right.breakdown.PopupTrigger style='color: #8dc63f; text-decoration: underline' data-target='pricing-popup' href="#" View our Pricing Breakdown
             .clearfix
           .error data-field='cost'
-          p.bg-warning * Please note, to keep subscribers happy and billing cycles consistent, you can only change your subscription cost once every 30 days.
       .clearfix
       hr
       .finish_registration
