@@ -1242,7 +1242,8 @@ CREATE TABLE users (
     total_subscribers_count integer DEFAULT 0 NOT NULL,
     welcome_media_hidden boolean DEFAULT false NOT NULL,
     billing_address_country character varying,
-    benefits_visible boolean DEFAULT true NOT NULL
+    benefits_visible boolean DEFAULT true NOT NULL,
+    billing_zip_check_failed boolean
 );
 
 
@@ -2350,3 +2351,4 @@ INSERT INTO schema_migrations (version) VALUES ('20160907090811');
 
 INSERT INTO schema_migrations (version) VALUES ('20160907122954');
 
+INSERT INTO schema_migrations (version) VALUES ('20160910100542');

@@ -766,6 +766,10 @@ describe UserProfileManager do
       specify do
         expect { pull_cc_data }.not_to raise_error
       end
+
+      specify do
+        expect { pull_cc_data }.to change { user.reload.billing_zip_check_failed }.to(nil)
+      end
     end
   end
 
@@ -777,23 +781,36 @@ describe UserProfileManager do
       UserManager.new(user).mark_billing_failed
     end
 
+    def update_cc
+      manager.update_cc_data(
+        number: '4242424242424242',
+        cvc: '333',
+        expiry_month: '12',
+        expiry_year: 2018,
+        address_line_1: 'test',
+        zip: '12345',
+        city: 'LA',
+        state: 'CA'
+      )
+    end
+
     specify do
-      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.to change { user.reload.billing_failed? }.to(false)
+      expect { update_cc }.to change { user.reload.billing_failed? }.to(false)
+    end
+
+    specify do
+      expect { update_cc }.to change { user.reload.billing_zip_check_failed }.to(nil)
     end
 
     it 'creates credit_card_updated event' do
-      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.to create_event(:credit_card_updated)
+      expect { update_cc }.to create_event(:credit_card_updated)
     end
 
     it 'creates credit_card_update_request' do
-      expect { manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA') }.to create_record(CreditCardUpdateRequest)
+      expect { update_cc }.to create_record(CreditCardUpdateRequest)
     end
 
     context 'the card is already in the system' do
-      def update_cc
-        manager.update_cc_data(number: '4242424242424242', cvc: '333', expiry_month: '12', expiry_year: 2018, address_line_1: 'test', zip: '12345', city: 'LA', state: 'CA')
-      end
-
       before { update_cc } # generate fingerprint
 
       context 'another user gets locked by entering the same card' do
@@ -813,6 +830,10 @@ describe UserProfileManager do
 
         specify do
           expect { update_same_cc }.to change { another_user.reload.locked }.to(true)
+        end
+
+        specify do
+          expect { update_same_cc }.not_to change { user.reload.billing_zip_check_failed }.from(nil)
         end
 
         specify do
@@ -933,6 +954,10 @@ describe UserProfileManager do
 
     it 'removes billing failed flag' do
       expect { manager.delete_cc_data! }.not_to change { user.billing_failed? }.from(false)
+    end
+
+    specify do
+      expect { manager.delete_cc_data! }.to change { user.reload.billing_zip_check_failed }.to(false)
     end
 
     context 'user has failed billing' do

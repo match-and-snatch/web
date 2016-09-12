@@ -81,6 +81,9 @@ gem 'kaminari', github: 'amatsuda/kaminari'
 
 gem 'mailcatcher', group: :development
 
+# Zip code validations
+gem 'geokit'
+
 group :development, :test do
   gem 'jazz_fingers'
   gem 'pry-rails'
