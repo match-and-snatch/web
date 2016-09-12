@@ -1,0 +1,40 @@
+h1 Email Bounces
+
+- if @users.any?
+  .table-responsive
+    table.table.table-striped
+      th
+        strong #ID
+      th
+        strong Bounced
+      th
+        strong Registered
+      th
+        strong Name
+      th
+        strong Email
+      th
+        strong Billing Status
+      th
+        strong Lock
+
+      - @users.each do |user|
+        tr
+          td ##{user.id}
+          td style='min-width: 100px'= user.email_bounced_at.try(:to_s, :rfc822)
+          td style='min-width: 100px'= user.created_at.try(:to_date).try(:to_s, :rfc822)
+          td= dashboard_link_to_user user
+          td= user.email
+          td
+            - if user.billing_failed?
+              strong style='color: red; font-size: 14px' Failed
+              = " (#{user.billing_failed_at.try(:to_date).try(:to_s, :rfc822)}) "
+            - else
+              small style='color: gray' Active
+          td
+            = user.locked? ? user.lock_type.humanize : '&mdash;'.html_safe
+    .clearfix
+
+  .TopJumper= paginate @users
+- else
+  b There are no bounces, please wait for the daily job

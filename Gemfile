@@ -84,6 +84,9 @@ gem 'mailcatcher', group: :development
 # Zip code validations
 gem 'geokit'
 
+# API to fetch bounce list
+gem 'sendgrid-ruby'
+
 group :development, :test do
   gem 'jazz_fingers'
   gem 'pry-rails'

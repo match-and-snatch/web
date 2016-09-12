@@ -405,6 +405,7 @@ BuddyPlatform::Application.routes.draw do
 
       resources :payment_sources, only: [:index, :show]
 
+      resources :email_bounces, only: [:index]
       resources :potential_violators, only: [:index]
       resources :potential_contribution_violators, only: [:index]
 

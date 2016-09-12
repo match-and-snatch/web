@@ -6,6 +6,7 @@ defaults: &defaults
   enable_post_clean_job: no
   media_host: buddy-video-assets.s3.amazonaws.com
   http_access: false
+  sendgrid_api_key: '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'
   javascript:
     log_level: 0
   admins:

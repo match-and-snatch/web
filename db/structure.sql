@@ -1243,7 +1243,8 @@ CREATE TABLE users (
     welcome_media_hidden boolean DEFAULT false NOT NULL,
     billing_address_country character varying,
     benefits_visible boolean DEFAULT true NOT NULL,
-    billing_zip_check_failed boolean
+    billing_zip_check_failed boolean,
+    email_bounced_at timestamp without time zone
 );
 
 
@@ -2352,3 +2353,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160907090811');
 INSERT INTO schema_migrations (version) VALUES ('20160907122954');
 
 INSERT INTO schema_migrations (version) VALUES ('20160910100542');
+
+INSERT INTO schema_migrations (version) VALUES ('20160912035357');
+
