@@ -36,6 +36,8 @@ class OverviewPresenter
     @total_stripe_fees ||= Payment.count * 30 + self.total_gross_sales * stripe_percent
   end
 
+  # Daily stats section is deprecated. Used only for console access.
+
   def daily_gross_sales
     @daily_gross_sales ||= daily_payments.sum(:amount)
   end
