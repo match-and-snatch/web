@@ -378,7 +378,7 @@ RSpec.describe AccountInfosController, type: :controller do
   end
 
   describe 'PUT #toggle_contributions' do
-    subject { put 'toggle_contributions', contributions_enabled: true }
+    subject { put 'toggle_contributions', params: {contributions_enabled: true} }
 
     context 'not authorized' do
       its(:status) { is_expected.to eq(401) }
