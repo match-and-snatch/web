@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe AccountInfo::DialoguesController, type: :controller do
   let(:user) { create(:user) }
   let(:friend) { create :user, email: 'sender@gmail.com' }
@@ -11,7 +9,7 @@ describe AccountInfo::DialoguesController, type: :controller do
 
     context 'authorized' do
       before { sign_in user }
-      it { should be_success }
+      it { is_expected.to be_success }
 
       specify do
         perform_request
@@ -31,19 +29,19 @@ describe AccountInfo::DialoguesController, type: :controller do
     end
 
     context 'unauthorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 
   describe 'GET #show' do
-    subject(:perform_request) { get 'show', id: dialogue.id }
+    subject(:perform_request) { get :show, params: {id: dialogue.id} }
 
     context 'authorized' do
       before { sign_in user }
 
       context 'dialogue exists' do
-        its(:status) { should eq(200) }
-        it { should be_success }
+        its(:status) { is_expected.to eq(200) }
+        it { is_expected.to be_success }
 
         context 'sender reads recently sent message' do
           it 'marks dialogue as read' do
@@ -62,50 +60,50 @@ describe AccountInfo::DialoguesController, type: :controller do
 
       context 'dialogue does not exist' do
         let(:dialogue) { double('dialogue', id: 5) }
-        its(:status) { should == 404 }
+        its(:status) { is_expected.to eq(404) }
       end
 
       context 'foreign dialogue' do
         let(:dialogue) { MessagesManager.new(user: friend).create(target_user: friend, message: 'test').dialogue }
-        its(:status) { should == 401 }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end
 
   describe 'GET #confirm_removal' do
-    subject { get 'confirm_removal', id: dialogue.id }
+    subject { get :confirm_removal, params: {id: dialogue.id} }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
   describe 'DELETE #destroy' do
-    subject { delete 'destroy', id: dialogue.id }
+    subject { delete :destroy, params: {id: dialogue.id} }
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized access' do
       context 'as dialogue creator' do
         before { sign_in user }
-        its(:status) { should == 200 }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as a dialogue target' do
         before { sign_in friend }
-        its(:status) { should == 200 }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
         before { sign_in }
-        its(:status) { should == 401 }
+        its(:status) { is_expected.to eq(401) }
       end
     end
   end

@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe Api::AudioPostsController, type: :controller do
+RSpec.describe Api::AudioPostsController, type: :controller do
   let(:owner) { create(:user, :profile_owner, email: 'owner@gmail.com') }
 
   describe 'GET #new' do
@@ -13,7 +11,7 @@ describe Api::AudioPostsController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -27,19 +25,19 @@ describe Api::AudioPostsController, type: :controller do
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
   describe 'POST #create' do
-    subject { post :create, title: 'audio', message: 'post', format: :json }
+    subject { post :create, params: {title: 'audio', message: 'post'}, format: :json }
 
     context 'authorized access' do
       before { sign_in_with_token owner.api_token }
 
       let!(:pending_audio) { create(:audio, user: owner) }
 
-      it { should be_success }
+      it { is_expected.to be_success }
     end
 
     context 'unauthorized access' do

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Comment do
   describe '#user_picture_url' do
     let(:poster) { create(:user, :profile_owner, email: 'poster@gmail.com') }

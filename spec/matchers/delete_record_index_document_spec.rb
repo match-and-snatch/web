@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe '#delete_record_index_document' do
   let(:user) { create :user }
 

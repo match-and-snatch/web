@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dialogue do
   let(:user) { create(:user) }
   let(:friend) { create(:user, email: 'sender@gmail.com') }

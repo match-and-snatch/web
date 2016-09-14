@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe Queries::ProfileTypes do
+RSpec.describe Queries::ProfileTypes do
   subject { described_class.new user: user, query: 'match' }
 
   let(:user) { create(:user) }
@@ -12,5 +10,5 @@ describe Queries::ProfileTypes do
     end
   end
 
-  its(:results) { should == [matching_profile_type] }
+  its(:results) { is_expected.to eq([matching_profile_type]) }
 end

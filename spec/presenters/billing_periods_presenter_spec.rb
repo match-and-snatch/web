@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe BillingPeriodsPresenter do
   let(:user) { create(:user) }
   let(:target_user) { create(:user, :profile_owner, email: 'target@user.com', cost: 5_00, subscription_cost: 6_99, subscription_fees: 1_99) }

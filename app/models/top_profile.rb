@@ -1,4 +1,4 @@
-class TopProfile < ActiveRecord::Base
+class TopProfile < ApplicationRecord
   belongs_to :user
   scope :ordered, -> { order(:position, :created_at) }
 

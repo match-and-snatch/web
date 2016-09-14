@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe AuthenticationManager do
   let(:email) { 'szinin-non-admin@gmail.com' }
   let(:password) { 'qwerty' }
@@ -20,9 +18,9 @@ describe AuthenticationManager do
   describe '#register' do
     subject(:register) { manager.register }
 
-    it { should be_a User }
-    it { should be_valid }
-    it { should_not be_a_new_record }
+    it { is_expected.to be_a User }
+    it { is_expected.to be_valid }
+    it { is_expected.not_to be_a_new_record }
     its(:email) { is_expected.to eq(email) }
     its(:password_hash) { is_expected.not_to be_blank }
     its(:full_name) { is_expected.to eq('Sergei Zinin') }

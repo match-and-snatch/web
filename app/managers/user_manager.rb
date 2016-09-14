@@ -21,7 +21,7 @@ class UserManager < BaseManager
   end
 
   User::ROLE_FIELDS.each do |field, role|
-    role_name = role.parameterize('_')
+    role_name = role.parameterize(separator: '_')
 
     define_method "make_#{role_name}" do
       fail_with! "User is already #{role.humanize}" if @user.public_send("#{role_name}?")
@@ -32,7 +32,7 @@ class UserManager < BaseManager
   end
 
   User::ROLE_FIELDS.each do |field, role|
-    role_name = role.parameterize('_')
+    role_name = role.parameterize(separator: '_')
 
     define_method "drop_#{role_name}" do
       fail_with! "User is not #{role.humanize}" unless @user.public_send("#{role_name}?")

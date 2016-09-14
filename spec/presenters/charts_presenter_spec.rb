@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ChartsPresenter do
   describe '#filter_hash' do
     specify { expect(subject.filter_hash).to eq described_class::FILTER_HASH }

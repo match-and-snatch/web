@@ -1,4 +1,4 @@
-class ProfileType < ActiveRecord::Base
+class ProfileType < ApplicationRecord
   include PgSearch
 
   has_many :profile_types_users, dependent: :delete_all

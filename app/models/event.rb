@@ -1,6 +1,4 @@
-class Event < ActiveRecord::Base
-  serialize :data, HashSerializer
-
+class Event < ApplicationRecord
   belongs_to :user, autosave: false
   belongs_to :subject, polymorphic: true, autosave: false
 

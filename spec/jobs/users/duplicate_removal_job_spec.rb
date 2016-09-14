@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Users::DuplicateRemovalJob do
   describe '#perform' do
     let!(:user) { create(:user, email: 'szinin@gmail.com') }

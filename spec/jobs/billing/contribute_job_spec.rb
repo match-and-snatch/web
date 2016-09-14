@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Billing::ContributeJob do
   subject(:perform) { described_class.new.perform }
 

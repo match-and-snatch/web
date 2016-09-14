@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe WelcomeController, type: :controller do
   describe 'GET #show' do
     subject(:perform_request) { get 'show' }
@@ -26,7 +24,7 @@ describe WelcomeController, type: :controller do
     end
 
     context 'when not authorized' do
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 end

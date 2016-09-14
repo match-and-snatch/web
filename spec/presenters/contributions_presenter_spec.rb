@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ContributionsPresenter do
   let(:target_user) { create(:user, :profile_owner) }
   let(:user) { create(:user) }
@@ -50,7 +48,11 @@ describe ContributionsPresenter do
     context 'with previous year contributions' do
       let(:year) { 2007 }
 
-      before { Timecop.freeze(Time.new(year)) { contribute } }
+      before  do
+        Timecop.freeze(Time.new(year) + 2.days) do # + 2 days because running in KRAT it is 31 Dec for PST
+          contribute
+        end
+      end
 
       it { expect(subject.contribution_years).to eq([year, current_year]) }
     end

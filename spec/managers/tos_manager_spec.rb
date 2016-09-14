@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe TosManager do
   subject(:manager) { described_class.new(tos_version) }
   let(:tos_version) { nil }

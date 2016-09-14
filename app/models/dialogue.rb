@@ -1,4 +1,4 @@
-class Dialogue < ActiveRecord::Base
+class Dialogue < ApplicationRecord
   has_many :dialogues_users
   has_many :users, through: :dialogues_users
   has_many :messages

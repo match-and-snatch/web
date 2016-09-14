@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Subscription do
   let(:user) { create :user, :with_cc }
   let(:target_user) { create :user, :profile_owner }

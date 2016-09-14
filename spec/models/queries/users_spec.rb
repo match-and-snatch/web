@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Queries::Users do
   let(:performer) { create(:user, email: 'performer@gmail.com') }
   let!(:first_user) { create(:user, :profile_owner, email: 'szinin@gmail.com', full_name: 'Sergei', profile_name: 'Sergei Zinin') }

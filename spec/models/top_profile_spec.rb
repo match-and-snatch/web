@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe TopProfile do
   describe '.update_list' do
     let(:user1) { create(:user, email: '1@1.ru') }

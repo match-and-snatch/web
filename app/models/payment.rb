@@ -1,4 +1,4 @@
-class Payment < ActiveRecord::Base
+class Payment < ApplicationRecord
   serialize :stripe_charge_data, Hash
 
   belongs_to :target, polymorphic: true

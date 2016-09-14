@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::PaymentsController, type: :controller do
   describe 'GET #index' do
     subject { get 'index' }
@@ -16,14 +14,14 @@ describe Dashboard::Admin::PaymentsController, type: :controller do
   end
 
   describe 'GET #pending' do
-    subject { get 'pending', user_id: create(:user).id }
+    subject { get :pending, params: {user_id: create(:user).id} }
 
     context 'as an admin' do
       before { sign_in create(:user, :admin) }
       it { is_expected.to be_success }
 
       context 'with date' do
-        subject { get 'pending', user_id: create(:user).id, date: Time.zone.now.to_i }
+        subject { get :pending, params: {user_id: create(:user).id, date: Time.zone.now.to_i} }
         it { is_expected.to be_success }
       end
     end
@@ -35,7 +33,7 @@ describe Dashboard::Admin::PaymentsController, type: :controller do
   end
 
   describe 'GET #addresses' do
-    subject { get 'addresses', user_id: create(:user).id }
+    subject { get :addresses, params: {user_id: create(:user).id} }
 
     context 'as an admin' do
       before { sign_in create(:user, :admin) }

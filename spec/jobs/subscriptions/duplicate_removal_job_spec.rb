@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Subscriptions::DuplicateRemovalJob do
   describe '#perform' do
     subject(:perform) { described_class.perform }

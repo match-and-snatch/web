@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe Api::UsersController, type: :controller do
+RSpec.describe Api::UsersController, type: :controller do
   describe 'GET #search' do
     let!(:match_1) { create :user, :profile_owner, full_name: 'serge zinin', profile_name: 'serge zinin', subscribers_count: 100 }
     let!(:match_2) { create :user, :profile_owner, full_name: 'serge zinin', profile_name: 'sergei zinin', subscribers_count: 5 }
@@ -8,7 +6,7 @@ describe Api::UsersController, type: :controller do
 
     before { update_index }
 
-    subject { get 'search', q: 'serge', format: :json }
+    subject { get :search, params: {q: 'serge'}, format: :json }
     let(:results) { JSON.parse(subject.body)['data']['results'] }
 
     specify do
@@ -24,7 +22,7 @@ describe Api::UsersController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      subject { post 'update_profile_name', id: user.slug, name: 'serezha', format: :json }
+      subject { post :update_profile_name, params: {id: user.slug, name: 'serezha'}, format: :json }
 
       its(:status) { is_expected.to eq(200) }
       it { expect { subject }.to change { user.reload.name }.to 'serezha' }
@@ -43,7 +41,7 @@ describe Api::UsersController, type: :controller do
     end
 
     context 'non authorized' do
-      subject { post 'update_profile_name', id: user.slug, name: 'serezha', format: :json }
+      subject { post :update_profile_name, params: {id: user.slug, name: 'serezha'}, format: :json }
 
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       it { expect { subject }.not_to change { user.reload.name } }
@@ -56,7 +54,7 @@ describe Api::UsersController, type: :controller do
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
 
-      subject { post 'update_profile_picture', id: user.slug, transloadit: profile_picture_data_params.to_json, format: :json }
+      subject { post :update_profile_picture, params: {id: user.slug, transloadit: profile_picture_data_params.to_json}, format: :json }
 
       its(:status) { is_expected.to eq(200) }
       it { expect { subject }.to change { user.reload.profile_picture_url } }
@@ -64,7 +62,7 @@ describe Api::UsersController, type: :controller do
     end
 
     context 'non authorized' do
-      subject { post 'update_profile_picture', id: user.slug, format: :json }
+      subject { post :update_profile_picture, params: {id: user.slug}, format: :json }
 
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
       it { expect { subject }.not_to change { user.reload.profile_picture_url } }
@@ -75,7 +73,7 @@ describe Api::UsersController, type: :controller do
     let(:user) { create :user, :profile_owner, api_token: 'set' }
     let(:cost) { 5 }
 
-    subject { post 'update_cost', id: user.slug, cost: cost, format: :json }
+    subject { post :update_cost, params: {id: user.slug, cost: cost}, format: :json }
 
     context 'authorized' do
       before { sign_in_with_token(user.api_token) }
@@ -102,7 +100,7 @@ describe Api::UsersController, type: :controller do
   describe 'GET #show' do
     let!(:user) { create(:user, :profile_owner, email: 'owner@gmail.com', full_name: 'sergei zinin') }
 
-    subject { get 'show', id: user.slug, format: :json }
+    subject { get :show, params: {id: user.slug}, format: :json }
 
     context 'token is not provided' do
       its(:status) { is_expected.to eq(200) }
@@ -131,7 +129,7 @@ describe Api::UsersController, type: :controller do
   end
 
   describe 'GET #fetch_current_user' do
-    subject { get 'fetch_current_user', format: :json }
+    subject { get :fetch_current_user, format: :json }
 
     its(:status) { is_expected.to eq(200) }
     its(:body) { is_expected.to include 'success' }
@@ -142,7 +140,7 @@ describe Api::UsersController, type: :controller do
     let(:another_user) { create(:user, :profile_owner) }
     let(:user) { create(:user) }
 
-    subject { post 'login_as', id: another_user.slug, format: :json }
+    subject { post :login_as, params: {id: another_user.slug}, format: :json }
 
     before { sign_in_with_token(user.api_token) }
 

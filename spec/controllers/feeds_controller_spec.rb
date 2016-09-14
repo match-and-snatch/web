@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FeedsController, type: :controller do
   describe 'GET #show' do
     subject(:request_perform) { get 'show' }
@@ -16,12 +14,12 @@ describe FeedsController, type: :controller do
       before { request_perform }
 
       it{ expect(assigns(:feed_events).count).to eq(1) }
-      its(:body) { should match_regex /success/ }
-      it { should be_success }
+      its(:body) { is_expected.to match_regex /success/ }
+      it { is_expected.to be_success }
     end
 
     context 'unauthorized access' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 end

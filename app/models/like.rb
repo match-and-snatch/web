@@ -1,4 +1,4 @@
-class Like < ActiveRecord::Base
+class Like < ApplicationRecord
   belongs_to :user
   belongs_to :target_user, class_name: 'User'
   belongs_to :likable, polymorphic: true

@@ -1,4 +1,4 @@
-class DialoguesUser < ActiveRecord::Base
+class DialoguesUser < ApplicationRecord
   belongs_to :dialogue
   belongs_to :user
 end

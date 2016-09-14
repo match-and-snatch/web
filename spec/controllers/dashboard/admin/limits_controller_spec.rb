@@ -1,10 +1,8 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::LimitsController, type: :controller do
   let(:user) { create(:user) }
 
   describe 'GET #search' do
-    subject { get 'search', q: 'query' }
+    subject { get :search, params: {q: 'query'} }
 
     before { update_index }
 
@@ -34,7 +32,7 @@ describe Dashboard::Admin::LimitsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    subject { get 'edit', id: user.id }
+    subject { get :edit, params: {id: user.id} }
 
     context 'as an admin' do
       before { sign_in create(:user, :admin) }
@@ -48,7 +46,7 @@ describe Dashboard::Admin::LimitsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    subject { patch 'update', id: user.id, limit: 10 }
+    subject { patch :update, params: {id: user.id, limit: 10} }
 
     context 'as an admin' do
       before { sign_in create(:user, :admin) }
@@ -62,7 +60,7 @@ describe Dashboard::Admin::LimitsController, type: :controller do
   end
 
   describe 'GET #events' do
-    subject { get 'events', id: user.id }
+    subject { get :events, params: {id: user.id} }
 
     context 'as an admin' do
       before { sign_in create(:user, :admin) }

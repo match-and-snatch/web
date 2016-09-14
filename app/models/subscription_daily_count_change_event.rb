@@ -1,3 +1,3 @@
-class SubscriptionDailyCountChangeEvent < ActiveRecord::Base
+class SubscriptionDailyCountChangeEvent < ApplicationRecord
   belongs_to :user
 end

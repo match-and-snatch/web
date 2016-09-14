@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FeedEventsManager do
   let(:user) { create(:user) }
 

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Owner::FirstStepsController, type: :controller do
   describe 'GET #show' do
     subject(:perform_request) { get 'show' }
@@ -7,7 +5,7 @@ describe Owner::FirstStepsController, type: :controller do
     context 'authorized' do
       let(:user) { create(:user) }
       before { sign_in user }
-      it { should be_success }
+      it { is_expected.to be_success }
 
       context 'already have profile created' do
         pending 'redirects me to my profile page'
@@ -15,7 +13,7 @@ describe Owner::FirstStepsController, type: :controller do
     end
 
     context 'unauthorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
   end
 end

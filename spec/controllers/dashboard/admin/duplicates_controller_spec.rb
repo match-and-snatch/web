@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe Dashboard::Admin::DuplicatesController, type: :controller do
+RSpec.describe Dashboard::Admin::DuplicatesController, type: :controller do
   let(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
 
@@ -19,7 +17,7 @@ describe Dashboard::Admin::DuplicatesController, type: :controller do
   end
 
   describe 'GET #confirm_mark_as_duplicate' do
-    subject { get 'confirm_mark_as_duplicate', id: user.id }
+    subject { get :confirm_mark_as_duplicate, params: {id: user.id} }
 
     context 'as an admin' do
       before { sign_in admin }
@@ -33,7 +31,7 @@ describe Dashboard::Admin::DuplicatesController, type: :controller do
   end
 
   describe 'PUT #mark_as_duplicate' do
-    subject { put 'mark_as_duplicate', id: user.id }
+    subject { put :mark_as_duplicate, params: {id: user.id} }
 
     context 'as an admin' do
       before { sign_in admin }

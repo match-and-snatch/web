@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe CommentManager do
   subject(:manager) { described_class.new(user: user, post: post) }
 

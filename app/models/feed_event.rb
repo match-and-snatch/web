@@ -1,4 +1,4 @@
-class FeedEvent < ActiveRecord::Base
+class FeedEvent < ApplicationRecord
   serialize :data, Hash
 
   belongs_to :target, polymorphic: true # post

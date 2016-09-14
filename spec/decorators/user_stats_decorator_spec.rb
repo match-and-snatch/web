@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe UserStatsDecorator do
   let(:user) { User.new }
   subject { described_class.new(user) }

@@ -1,12 +1,10 @@
-require 'spec_helper'
-
-describe AccountInfosController, type: :controller do
+RSpec.describe AccountInfosController, type: :controller do
   describe 'GET #show' do
     let(:user) { create(:user) }
     subject(:perform_request) { get 'show' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
@@ -16,7 +14,7 @@ describe AccountInfosController, type: :controller do
       end
 
       it { expect(assigns('user')).to eq user }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -24,7 +22,7 @@ describe AccountInfosController, type: :controller do
     subject(:perform_request) { get 'details' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
@@ -34,7 +32,7 @@ describe AccountInfosController, type: :controller do
       end
 
       it { expect(assigns(:user)).to be_a_kind_of(UserStatsDecorator) }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -42,26 +40,26 @@ describe AccountInfosController, type: :controller do
     subject { get 'settings' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
   describe 'PUT #update_account_picture' do
-    subject { put 'update_account_picture', transloadit: profile_picture_data_params.to_json }
+    subject { put :update_account_picture, params: {transloadit: profile_picture_data_params.to_json} }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
-      its(:body) { should match_regex /replace/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /replace/ }
     end
   end
 
@@ -69,27 +67,27 @@ describe AccountInfosController, type: :controller do
     subject { put 'update_general_information' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
   describe 'PUT #update_slug' do
-    subject { put 'update_slug', slug: 'anotherSlug' }
+    subject { put :update_slug, params: {slug: 'anotherSlug'} }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
-      its(:body) { should match_regex /notice/ }
-      its(:body) { should match_regex /reload/ }
+      it { is_expected.to be_success }
+      its(:body) { is_expected.to match_regex /notice/ }
+      its(:body) { is_expected.to match_regex /reload/ }
     end
   end
 
@@ -97,12 +95,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'change_password' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -110,12 +108,12 @@ describe AccountInfosController, type: :controller do
     subject { get 'billing_information' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -123,12 +121,12 @@ describe AccountInfosController, type: :controller do
     subject { get 'edit_payment_information' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -136,12 +134,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'update_bank_account_data' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -149,12 +147,12 @@ describe AccountInfosController, type: :controller do
     subject { get 'edit_cc_data' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -162,12 +160,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'update_cc_data' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -175,12 +173,12 @@ describe AccountInfosController, type: :controller do
     subject { get 'confirm_cc_data_removal' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -188,12 +186,12 @@ describe AccountInfosController, type: :controller do
     subject { delete 'delete_cc_data' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -201,12 +199,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'create_profile_page' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -214,12 +212,12 @@ describe AccountInfosController, type: :controller do
     subject { get 'confirm_profile_page_removal' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -227,25 +225,25 @@ describe AccountInfosController, type: :controller do
     subject { put 'delete_profile_page' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
   describe 'PUT #enable_vacation_mode' do
-    subject { put 'enable_vacation_mode', vacation_message: 'test' }
+    subject { put :enable_vacation_mode, params: {vacation_message: 'test'} }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -253,12 +251,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'disable_vacation_mode' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -266,12 +264,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'enable_rss' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -279,12 +277,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'disable_rss' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -292,12 +290,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'enable_message_notifications' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -305,12 +303,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'disable_message_notifications' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -318,12 +316,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'enable_downloads' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -331,12 +329,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'disable_downloads' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -344,12 +342,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'enable_itunes' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -357,12 +355,12 @@ describe AccountInfosController, type: :controller do
     subject { put 'disable_itunes' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
@@ -370,17 +368,17 @@ describe AccountInfosController, type: :controller do
     subject { post 'accept_tos' }
 
     context 'not authorized' do
-      its(:status) { should == 401 }
+      its(:status) { is_expected.to eq(401) }
     end
 
     context 'authorized' do
       before { sign_in }
-      it { should be_success }
+      it { is_expected.to be_success }
     end
   end
 
   describe 'PUT #toggle_contributions' do
-    subject { put 'toggle_contributions', contributions_enabled: true }
+    subject { put 'toggle_contributions', params: {contributions_enabled: true} }
 
     context 'not authorized' do
       its(:status) { is_expected.to eq(401) }

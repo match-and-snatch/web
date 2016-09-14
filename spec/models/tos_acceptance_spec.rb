@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe TosAcceptance do
   describe '.active' do
     let(:user) { create(:user) }

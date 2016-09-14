@@ -1,4 +1,4 @@
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   include Elasticpal::Indexable
   include Concerns::Likable
 

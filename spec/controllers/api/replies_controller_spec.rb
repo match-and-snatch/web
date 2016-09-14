@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe Api::RepliesController, type: :controller do
+RSpec.describe Api::RepliesController, type: :controller do
   let(:poster) { create(:user, email: 'poster@gmail.com') }
   let(:commenter) { create(:user, email: 'commenter@gmail.com') }
   let(:_post) { PostManager.new(user: poster).create_status_post(message: 'some post') }
@@ -13,7 +11,7 @@ describe Api::RepliesController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', comment_id: comment.id, message: 'Reply', format: :json }
+    subject { post :create, params: {comment_id: comment.id, message: 'Reply'}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -24,18 +22,18 @@ describe Api::RepliesController, type: :controller do
 
       context 'as poster' do
         let(:token) { poster.api_token }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
 
       context 'as subscriber' do
         let(:token) { commenter.api_token }
-        it { should be_success }
+        it { is_expected.to be_success }
       end
     end
   end
 
   describe 'PUT #update' do
-    subject(:perform_request) { put 'update', comment_id: comment.id, id: reply.id, message: 'updated', format: :json }
+    subject(:perform_request) { put :update, params: {comment_id: comment.id, id: reply.id, message: 'updated'}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -47,7 +45,7 @@ describe Api::RepliesController, type: :controller do
       context 'as comment owner' do
         let(:token) { commenter.api_token }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
         specify do
           expect { perform_request }.to change { reply.reload.message }.to('updated')
@@ -57,7 +55,7 @@ describe Api::RepliesController, type: :controller do
       context 'as a post owner' do
         let(:token) { commenter.api_token }
 
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
@@ -73,7 +71,7 @@ describe Api::RepliesController, type: :controller do
       CommentManager.new(user: poster, comment: reply).hide
     end
 
-    subject(:perform_request) { put 'make_visible', comment_id: comment.id, id: reply.id, format: :json }
+    subject(:perform_request) { put :make_visible, params: {comment_id: comment.id, id: reply.id}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -85,7 +83,7 @@ describe Api::RepliesController, type: :controller do
       context 'as comment owner' do
         let(:token) { commenter.api_token }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
         specify do
           expect { perform_request }.to change { reply.reload.hidden? }.to(false)
@@ -95,7 +93,7 @@ describe Api::RepliesController, type: :controller do
       context 'as a post owner' do
         let(:token) { poster.api_token }
 
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do
@@ -107,7 +105,7 @@ describe Api::RepliesController, type: :controller do
   end
 
   describe 'PUT #hide' do
-    subject(:perform_request) { put 'hide', comment_id: comment.id, id: reply.id, format: :json }
+    subject(:perform_request) { put :hide, params: {comment_id: comment.id, id: reply.id}, format: :json }
 
     context 'unauthorized access' do
       it { expect(JSON.parse(subject.body)).to include({'status'=>401}) }
@@ -119,7 +117,7 @@ describe Api::RepliesController, type: :controller do
       context 'as comment owner' do
         let(:token) { commenter.api_token }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
         specify do
           expect { perform_request }.to change { reply.reload.hidden? }.to(true)
@@ -129,7 +127,7 @@ describe Api::RepliesController, type: :controller do
       context 'as a post owner' do
         let(:token) { poster.api_token }
 
-        its(:status) { should eq(200) }
+        its(:status) { is_expected.to eq(200) }
       end
 
       context 'as anybody else' do

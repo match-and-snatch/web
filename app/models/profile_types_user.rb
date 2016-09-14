@@ -1,4 +1,4 @@
-class ProfileTypesUser < ActiveRecord::Base
+class ProfileTypesUser < ApplicationRecord
   belongs_to :profile_type
   belongs_to :user
 

@@ -6,12 +6,12 @@ module ActionController
     #   Manager.new.perform_action(params.slice(:name, :title, :group))
     # @return [Hash]
     def slice(*keys)
-      super(*(keys.flatten)).symbolize_keys
+      permit(keys.flatten).to_h.symbolize_keys
     end
 
     # @return [String]
     def to_yaml
-      to_hash.to_yaml
+      to_h.to_yaml
     end
 
     # @param key [Symbol, String]

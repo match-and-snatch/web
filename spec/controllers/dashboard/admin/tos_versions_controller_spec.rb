@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe Dashboard::Admin::TosVersionsController, type: :controller do
+RSpec.describe Dashboard::Admin::TosVersionsController, type: :controller do
   let(:user) { create(:user) }
   let(:tos_version) { create(:tos_version) }
 
@@ -17,37 +15,36 @@ describe Dashboard::Admin::TosVersionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', tos: 'ToS', privacy_policy: 'PP' }
+    subject { post :create, params: {tos: 'ToS', privacy_policy: 'PP'} }
     it { is_expected.to be_success }
   end
 
   describe 'GET #edit' do
-    subject { get 'edit', id: tos_version.id }
+    subject { get 'edit', params: {id: tos_version.id} }
     it { is_expected.to be_success }
   end
 
   describe 'PATCH #update' do
-    subject { patch 'update', id: tos_version.id, tos: 'ToS edited', privacy_policy: 'PP edited' }
+    subject { patch :update, params: {id: tos_version.id, tos: 'ToS edited', privacy_policy: 'PP edited'} }
     it { is_expected.to be_success }
   end
 
   describe 'PUT #publish' do
-    subject { put 'publish', id: tos_version.id }
+    subject { put :publish, params: {id: tos_version.id} }
     it { is_expected.to be_success }
   end
 
   describe 'GET #show' do
-    subject { get 'show', id: tos_version.id }
-    it { is_expected.to be_success }
+    subject { get :show, params: {id: tos_version.id} }
   end
 
   describe 'GET #confirm_toggle_acceptance_requirement' do
-    subject { get 'confirm_toggle_acceptance_requirement', id: tos_version.id }
+    subject { get 'confirm_toggle_acceptance_requirement', params: {id: tos_version.id} }
     it { is_expected.to be_success }
   end
 
   describe 'PUT #toggle_acceptance_requirement' do
-    subject { put 'toggle_acceptance_requirement', id: tos_version.id }
+    subject { put 'toggle_acceptance_requirement', params: {id: tos_version.id} }
     it { is_expected.to be_success }
   end
 end

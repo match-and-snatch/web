@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ContributionManager do
   subject(:manager) { ContributionManager.new(user: user, contribution: contribution) }
   let(:contribution) { nil }

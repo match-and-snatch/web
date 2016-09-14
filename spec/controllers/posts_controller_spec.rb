@@ -1,10 +1,8 @@
-require 'spec_helper'
-
-describe PostsController, type: :controller do
+RSpec.describe PostsController, type: :controller do
   let(:poster) { create(:user, :profile_owner) }
 
   describe 'GET #index' do
-    subject { get 'index', user_id: poster.slug }
+    subject { get :index, params: {user_id: poster.slug} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -17,7 +15,7 @@ describe PostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post 'create', user_id: poster.slug, message: 'Reply', format: :json }
+    subject { post :create, params: {user_id: poster.slug, message: 'Reply'}, format: :json }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -33,7 +31,7 @@ describe PostsController, type: :controller do
     let(:post) { create(:status_post, user: poster) }
 
     context 'unauthorized access' do
-      subject { get 'show', id: post.id }
+      subject { get :show, params: {id: post.id} }
       its(:status) { is_expected.to eq(401) }
     end
 
@@ -41,19 +39,19 @@ describe PostsController, type: :controller do
       before { sign_in poster }
 
       context 'when not audio post' do
-        subject { get 'show', id: post.id }
+        subject { get :show, params: {id: post.id} }
         its(:status) { is_expected.to eq(404) }
       end
 
       let(:audio_post) { create(:audio_post, user: poster) }
 
       context 'when requests html' do
-        subject { get 'show', id: audio_post.id }
+        subject { get :show, params: {id: audio_post.id} }
         its(:status) { is_expected.to eq(404) }
       end
 
       context 'when requests xml' do
-        subject { get 'show',  id: audio_post.id , format: 'xml' }
+        subject { get :show, params: { id: audio_post.id , format: 'xml'} }
         it { is_expected.to be_success }
       end
     end
@@ -63,11 +61,11 @@ describe PostsController, type: :controller do
     before { sign_in poster }
     let(:post) { create(:status_post, user: poster) }
 
-    subject { delete 'destroy', id: post.id }
+    subject { delete :destroy, params: {id: post.id} }
     it { is_expected.to be_success }
 
     context 'no post present' do
-      subject { delete 'destroy', id: 0 }
+      subject { delete :destroy, params: {id: 0} }
       its(:status) { is_expected.to eq(404) }
     end
 
@@ -80,7 +78,7 @@ describe PostsController, type: :controller do
 
   describe 'GET #text' do
     let(:post) { create(:status_post, user: poster) }
-    subject { get 'text', id: post.id }
+    subject { get :text, params: {id: post.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -94,7 +92,7 @@ describe PostsController, type: :controller do
 
   describe 'POST #pin' do
     let(:_post) { create(:status_post, user: poster) }
-    subject { post 'pin', id: _post.id }
+    subject { post :pin, params: {id: _post.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }
@@ -108,7 +106,7 @@ describe PostsController, type: :controller do
 
   describe 'POST #unpin' do
     let(:_post) { create(:status_post, user: poster) }
-    subject { post 'unpin', id: _post.id }
+    subject { post :unpin, params: {id: _post.id} }
 
     context 'unauthorized access' do
       its(:status) { is_expected.to eq(401) }

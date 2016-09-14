@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Dashboard::Admin::PaymentSourcesController, type: :controller do
   describe 'GET #index' do
     subject { get 'index' }
@@ -9,22 +7,22 @@ describe Dashboard::Admin::PaymentSourcesController, type: :controller do
       it { is_expected.to be_success }
 
       context 'with country code' do
-        subject { get 'index', source_country: 'US' }
+        subject { get :index, params: {source_country: 'US'} }
         it { is_expected.to be_success }
 
         context 'empty country code' do
-          subject { get 'index', source_country: 'empty' }
+          subject { get :index, params: {source_country: 'empty'} }
           it { is_expected.to be_success }
         end
       end
 
       context 'with profile' do
-        subject { get 'index', profile: 'test' }
+        subject { get :index, params: {profile: 'test'} }
         it { is_expected.to be_success }
       end
 
       context 'with profile and country code' do
-        subject { get 'index', profile: 'test', source_country: 'US' }
+        subject { get :index, params: {profile: 'test', source_country: 'US'} }
         it { is_expected.to be_success }
       end
     end

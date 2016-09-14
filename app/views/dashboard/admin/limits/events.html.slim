@@ -17,9 +17,9 @@ h2
           td
             = event.created_at.to_s(:long)
           td
-            = event.data[:from]
+            = event.data['from']
           td
-            = event.data[:to]
+            = event.data['to']
     - else
       tr
         td colspan=3 No data found

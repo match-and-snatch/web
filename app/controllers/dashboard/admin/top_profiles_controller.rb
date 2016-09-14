@@ -1,7 +1,7 @@
 class Dashboard::Admin::TopProfilesController < Dashboard::Admin::BaseController
-  before_filter :load_users, except: :search
-  before_filter :load_user, only: [:create]
-  before_filter :load_top_profile, only: [:edit, :update, :destroy]
+  before_action :load_users, except: :search
+  before_action :load_user, only: [:create]
+  before_action :load_top_profile, only: [:edit, :update, :destroy]
 
   def index
     json_render

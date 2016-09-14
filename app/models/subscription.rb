@@ -1,4 +1,4 @@
-class Subscription < ActiveRecord::Base
+class Subscription < ApplicationRecord
   include Concerns::Payable
 
   belongs_to :user, counter_cache: true

@@ -418,7 +418,7 @@ class ApiResponsePresenter
   def pending_video_data(video)
     {
       id: video.try(:id),
-      previews: current_user.object.pending_video_preview_photos(true).first(2).map do |preview|
+      previews: current_user.object.pending_video_preview_photos.reload.first(2).map do |preview|
         {
           id: preview.id,
           url: preview.url

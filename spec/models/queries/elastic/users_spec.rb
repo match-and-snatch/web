@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Queries::Elastic::Users do
   subject { described_class.new }
 
