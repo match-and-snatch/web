@@ -1015,7 +1015,7 @@ input[type="text"]:-ms-input-placeholder, input[type="email"]:-ms-input-placehol
   .close
     margin-top: 0 !important
 
-// TOS STANDALONE POPUP
+// TOS standalone popup
 .tos_popup_modal
   z-index: 11002 !important
   display: block !important
@@ -1023,34 +1023,42 @@ input[type="text"]:-ms-input-placeholder, input[type="email"]:-ms-input-placehol
   margin-left: -270px
   margin-right: -270px
   width: 540px
+  height: 450px
   top: 0 !important
   position: relative
-  padding: 85px 15px 0 15px
+  padding: 65px 15px 0 15px
   .tos_navbar
     position: absolute
     left: 0
     top: 0
     right: 0
-    height: 70px
+    height: 55px
     text-align: center
     background-color: #5B9ED5
     .brand
-      padding: 11px 0 0
+      padding: 9px 0 0
       img
-        height: 48px
+        height: 38px
         width: auto
         margin: 0
   .modal-header
     .modal-title
+      padding: 0
       h2
-        font-size: 20px
-        font-weight: 400
+        font-size: 16px
+        font-weight: 600
         line-height: 135%
         margin: 0 0 10px
         a
           color: #3b9fd1
           font-weight: bold
           white-space: nowrap
+  .form_submit
+    position: absolute
+    width: 100%
+    bottom: -130px
+    border-top: 1px solid #d7d7d7
+    background: #fff
   .form-group
     position: relative
     background: #f7f7f7
@@ -1067,6 +1075,7 @@ input[type="text"]:-ms-input-placeholder, input[type="email"]:-ms-input-placehol
       font-weight: 300
     &.tos_scroll
       padding: 0 15px
+      margin-top: 0
       height: 220px
       overflow-y: scroll
       color: #636363
