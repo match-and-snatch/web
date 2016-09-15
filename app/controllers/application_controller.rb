@@ -162,7 +162,7 @@ class ApplicationController < ActionController::Base
   end
 
   def request_variant
-    @request_variant ||= request.variant || detect_device_format
+    @request_variant ||= request.variant.presence || detect_device_format
   end
 
   def check_if_tos_accepted
