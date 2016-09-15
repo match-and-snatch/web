@@ -2,16 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.1
--- Dumped by pg_dump version 9.5.1
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -53,20 +49,6 @@ CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
 --
 
 COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
-
-
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
 
 
 --
@@ -115,7 +97,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ar_internal_metadata (
@@ -127,7 +109,7 @@ CREATE TABLE ar_internal_metadata (
 
 
 --
--- Name: benefits; Type: TABLE; Schema: public; Owner: -
+-- Name: benefits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE benefits (
@@ -158,7 +140,7 @@ ALTER SEQUENCE benefits_id_seq OWNED BY benefits.id;
 
 
 --
--- Name: comment_ignores; Type: TABLE; Schema: public; Owner: -
+-- Name: comment_ignores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE comment_ignores (
@@ -190,7 +172,7 @@ ALTER SEQUENCE comment_ignores_id_seq OWNED BY comment_ignores.id;
 
 
 --
--- Name: comments; Type: TABLE; Schema: public; Owner: -
+-- Name: comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE comments (
@@ -229,7 +211,7 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
--- Name: contributions; Type: TABLE; Schema: public; Owner: -
+-- Name: contributions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE contributions (
@@ -266,13 +248,13 @@ ALTER SEQUENCE contributions_id_seq OWNED BY contributions.id;
 
 
 --
--- Name: credit_card_declines; Type: TABLE; Schema: public; Owner: -
+-- Name: credit_card_declines; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE credit_card_declines (
     id integer NOT NULL,
     user_id integer,
-    stripe_fingerprint character varying(255),
+    stripe_fingerprint character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -298,7 +280,7 @@ ALTER SEQUENCE credit_card_declines_id_seq OWNED BY credit_card_declines.id;
 
 
 --
--- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -
+-- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE delayed_jobs (
@@ -310,8 +292,8 @@ CREATE TABLE delayed_jobs (
     run_at timestamp without time zone,
     locked_at timestamp without time zone,
     failed_at timestamp without time zone,
-    locked_by character varying(255),
-    queue character varying(255),
+    locked_by character varying,
+    queue character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -337,7 +319,7 @@ ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
 
 
 --
--- Name: dialogues; Type: TABLE; Schema: public; Owner: -
+-- Name: dialogues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE dialogues (
@@ -371,7 +353,7 @@ ALTER SEQUENCE dialogues_id_seq OWNED BY dialogues.id;
 
 
 --
--- Name: dialogues_users; Type: TABLE; Schema: public; Owner: -
+-- Name: dialogues_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE dialogues_users (
@@ -402,20 +384,20 @@ ALTER SEQUENCE dialogues_users_id_seq OWNED BY dialogues_users.id;
 
 
 --
--- Name: events; Type: TABLE; Schema: public; Owner: -
+-- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE events (
     id integer NOT NULL,
-    action character varying(255),
-    message character varying(255),
+    action character varying,
+    message character varying,
     user_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    subject_id integer,
     subject_type character varying,
+    subject_id integer,
     subject_deleted boolean DEFAULT false NOT NULL,
-    data jsonb DEFAULT '{}'::jsonb NOT NULL,
+    data jsonb DEFAULT '"{}"'::jsonb NOT NULL,
     session_id character varying
 );
 
@@ -440,14 +422,14 @@ ALTER SEQUENCE events_id_seq OWNED BY events.id;
 
 
 --
--- Name: feed_events; Type: TABLE; Schema: public; Owner: -
+-- Name: feed_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE feed_events (
     id integer NOT NULL,
-    type character varying(255),
+    type character varying,
+    target_type character varying,
     target_id integer,
-    target_type character varying(255),
     target_user_id integer,
     subscription_target_user_id integer,
     data text,
@@ -477,14 +459,14 @@ ALTER SEQUENCE feed_events_id_seq OWNED BY feed_events.id;
 
 
 --
--- Name: likes; Type: TABLE; Schema: public; Owner: -
+-- Name: likes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE likes (
     id integer NOT NULL,
     user_id integer,
+    likable_type character varying,
     likable_id integer,
-    likable_type character varying(255),
     post_id integer,
     target_user_id integer,
     created_at timestamp without time zone,
@@ -513,7 +495,7 @@ ALTER SEQUENCE likes_id_seq OWNED BY likes.id;
 
 
 --
--- Name: messages; Type: TABLE; Schema: public; Owner: -
+-- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE messages (
@@ -550,14 +532,14 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 
 
 --
--- Name: payment_failures; Type: TABLE; Schema: public; Owner: -
+-- Name: payment_failures; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE payment_failures (
     id integer NOT NULL,
     user_id integer,
+    target_type character varying,
     target_id integer,
-    target_type character varying(255),
     exception_data text,
     stripe_charge_data text,
     description text,
@@ -587,13 +569,13 @@ ALTER SEQUENCE payment_failures_id_seq OWNED BY payment_failures.id;
 
 
 --
--- Name: payments; Type: TABLE; Schema: public; Owner: -
+-- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE payments (
     id integer NOT NULL,
+    target_type character varying,
     target_id integer,
-    target_type character varying(255),
     user_id integer,
     amount integer,
     stripe_charge_data text,
@@ -635,7 +617,7 @@ ALTER SEQUENCE payments_id_seq OWNED BY payments.id;
 
 
 --
--- Name: pending_posts; Type: TABLE; Schema: public; Owner: -
+-- Name: pending_posts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE pending_posts (
@@ -667,7 +649,7 @@ ALTER SEQUENCE pending_posts_id_seq OWNED BY pending_posts.id;
 
 
 --
--- Name: posts; Type: TABLE; Schema: public; Owner: -
+-- Name: posts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE posts (
@@ -678,7 +660,7 @@ CREATE TABLE posts (
     updated_at timestamp without time zone,
     title character varying(512),
     keywords_text character varying(512),
-    type character varying(255),
+    type character varying,
     hidden boolean DEFAULT false NOT NULL,
     comments_count integer DEFAULT 0 NOT NULL,
     likes_count integer DEFAULT 0 NOT NULL,
@@ -706,7 +688,7 @@ ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
 
 
 --
--- Name: profile_pages; Type: TABLE; Schema: public; Owner: -
+-- Name: profile_pages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile_pages (
@@ -738,12 +720,12 @@ ALTER SEQUENCE profile_pages_id_seq OWNED BY profile_pages.id;
 
 
 --
--- Name: profile_types; Type: TABLE; Schema: public; Owner: -
+-- Name: profile_types; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile_types (
     id integer NOT NULL,
-    title character varying(255),
+    title character varying,
     ordering integer DEFAULT 0 NOT NULL,
     user_id integer
 );
@@ -769,7 +751,7 @@ ALTER SEQUENCE profile_types_id_seq OWNED BY profile_types.id;
 
 
 --
--- Name: profile_types_users; Type: TABLE; Schema: public; Owner: -
+-- Name: profile_types_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile_types_users (
@@ -800,7 +782,7 @@ ALTER SEQUENCE profile_types_users_id_seq OWNED BY profile_types_users.id;
 
 
 --
--- Name: refunds; Type: TABLE; Schema: public; Owner: -
+-- Name: refunds; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE refunds (
@@ -844,7 +826,7 @@ ALTER SEQUENCE refunds_id_seq OWNED BY refunds.id;
 
 
 --
--- Name: requests; Type: TABLE; Schema: public; Owner: -
+-- Name: requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE requests (
@@ -889,16 +871,16 @@ ALTER SEQUENCE requests_id_seq OWNED BY requests.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
 --
--- Name: stripe_transfers; Type: TABLE; Schema: public; Owner: -
+-- Name: stripe_transfers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE stripe_transfers (
@@ -906,7 +888,7 @@ CREATE TABLE stripe_transfers (
     user_id integer,
     stripe_response text,
     amount integer,
-    description character varying(255),
+    description character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -932,7 +914,7 @@ ALTER SEQUENCE stripe_transfers_id_seq OWNED BY stripe_transfers.id;
 
 
 --
--- Name: subscription_daily_count_change_events; Type: TABLE; Schema: public; Owner: -
+-- Name: subscription_daily_count_change_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE subscription_daily_count_change_events (
@@ -967,14 +949,14 @@ ALTER SEQUENCE subscription_daily_count_change_events_id_seq OWNED BY subscripti
 
 
 --
--- Name: subscriptions; Type: TABLE; Schema: public; Owner: -
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE subscriptions (
     id integer NOT NULL,
     user_id integer,
+    target_type character varying,
     target_id integer,
-    target_type character varying(255),
     target_user_id integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -1014,7 +996,7 @@ ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
 
 
 --
--- Name: top_profiles; Type: TABLE; Schema: public; Owner: -
+-- Name: top_profiles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE top_profiles (
@@ -1023,7 +1005,7 @@ CREATE TABLE top_profiles (
     "position" integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    profile_name character varying(255),
+    profile_name character varying,
     profile_types_text text
 );
 
@@ -1048,7 +1030,7 @@ ALTER SEQUENCE top_profiles_id_seq OWNED BY top_profiles.id;
 
 
 --
--- Name: tos_acceptances; Type: TABLE; Schema: public; Owner: -
+-- Name: tos_acceptances; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE tos_acceptances (
@@ -1084,7 +1066,7 @@ ALTER SEQUENCE tos_acceptances_id_seq OWNED BY tos_acceptances.id;
 
 
 --
--- Name: tos_versions; Type: TABLE; Schema: public; Owner: -
+-- Name: tos_versions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE tos_versions (
@@ -1119,18 +1101,18 @@ ALTER SEQUENCE tos_versions_id_seq OWNED BY tos_versions.id;
 
 
 --
--- Name: uploads; Type: TABLE; Schema: public; Owner: -
+-- Name: uploads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE uploads (
     id integer NOT NULL,
+    uploadable_type character varying,
     uploadable_id integer,
-    uploadable_type character varying(255),
     transloadit_data text,
     user_id integer,
     duration double precision,
-    type character varying(255),
-    mime_type character varying(255),
+    type character varying,
+    mime_type character varying,
     width integer,
     height integer,
     preview_url text,
@@ -1172,25 +1154,25 @@ ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
     id integer NOT NULL,
-    slug character varying(255),
-    email character varying(255),
-    password_hash character varying(255),
+    slug character varying,
+    email character varying,
+    password_hash character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     full_name character varying(512),
     subscription_cost integer,
-    holder_name character varying(255),
-    routing_number character varying(255),
-    account_number character varying(255),
-    stripe_user_id character varying(255),
-    stripe_card_id character varying(255),
-    last_four_cc_numbers character varying(255),
-    card_type character varying(255),
+    holder_name character varying,
+    routing_number character varying,
+    account_number character varying,
+    stripe_user_id character varying,
+    stripe_card_id character varying,
+    last_four_cc_numbers character varying,
+    card_type character varying,
     profile_picture_url text,
     original_profile_picture_url text,
     cover_picture_url text,
@@ -1200,44 +1182,44 @@ CREATE TABLE users (
     profile_name character varying(512),
     is_admin boolean DEFAULT false NOT NULL,
     contacts_info text,
-    auth_token character varying(255),
+    auth_token character varying,
     cover_picture_position integer DEFAULT 0 NOT NULL,
     subscription_fees integer,
     cost integer,
-    password_reset_token character varying(255),
     has_public_profile boolean DEFAULT false,
-    company_name character varying(255),
+    password_reset_token character varying,
+    company_name character varying,
     small_profile_picture_url text,
     account_picture_url text,
     small_account_picture_url text,
     original_account_picture_url text,
     cost_changed_at timestamp without time zone,
     activated boolean DEFAULT false NOT NULL,
-    registration_token character varying(255),
+    registration_token character varying,
     rss_enabled boolean DEFAULT true NOT NULL,
     downloads_enabled boolean DEFAULT true NOT NULL,
     itunes_enabled boolean DEFAULT true NOT NULL,
     subscribers_count integer DEFAULT 0 NOT NULL,
     billing_failed boolean DEFAULT false NOT NULL,
-    stripe_recipient_id character varying(255),
+    stripe_recipient_id character varying,
     billing_failed_at timestamp without time zone,
     vacation_enabled boolean DEFAULT false NOT NULL,
     vacation_message text,
     last_visited_profile_id integer,
     vacation_enabled_at timestamp without time zone,
-    billing_address_city character varying(255),
-    billing_address_state character varying(255),
-    billing_address_zip character varying(255),
+    billing_address_city character varying,
+    billing_address_state character varying,
+    billing_address_zip character varying,
     billing_address_line_1 text,
     billing_address_line_2 text,
     contributions_enabled boolean DEFAULT true NOT NULL,
     notifications_debug_enabled boolean DEFAULT true,
+    api_token character varying,
     custom_profile_page_css text,
-    api_token character varying(255),
     hidden boolean DEFAULT true NOT NULL,
     prefers_paypal boolean DEFAULT false NOT NULL,
-    paypal_email character varying(255),
-    stripe_card_fingerprint character varying(255),
+    paypal_email character varying,
+    stripe_card_fingerprint character varying,
     has_mature_content boolean DEFAULT false NOT NULL,
     custom_head_js text,
     cover_picture_width integer,
@@ -1259,12 +1241,12 @@ CREATE TABLE users (
     recent_subscription_at timestamp without time zone,
     is_sales boolean DEFAULT false NOT NULL,
     lock_type character varying,
-    adult_subscriptions_limit integer DEFAULT 6 NOT NULL,
     lock_reason character varying,
     gross_sales integer DEFAULT 0 NOT NULL,
     gross_contributions integer DEFAULT 0 NOT NULL,
-    payout_updated_at timestamp without time zone,
+    adult_subscriptions_limit integer DEFAULT 6 NOT NULL,
     tos_accepted boolean DEFAULT true NOT NULL,
+    payout_updated_at timestamp without time zone,
     subscriptions_count integer DEFAULT 0 NOT NULL,
     adult_subscriptions_limit_changed_at timestamp without time zone,
     old_email character varying,
@@ -1503,7 +1485,7 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ar_internal_metadata
@@ -1511,7 +1493,7 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
--- Name: benefits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: benefits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY benefits
@@ -1519,7 +1501,7 @@ ALTER TABLE ONLY benefits
 
 
 --
--- Name: comment_ignores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: comment_ignores_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY comment_ignores
@@ -1527,7 +1509,7 @@ ALTER TABLE ONLY comment_ignores
 
 
 --
--- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY comments
@@ -1535,7 +1517,7 @@ ALTER TABLE ONLY comments
 
 
 --
--- Name: contributions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: contributions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY contributions
@@ -1543,7 +1525,7 @@ ALTER TABLE ONLY contributions
 
 
 --
--- Name: credit_card_declines_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: credit_card_declines_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY credit_card_declines
@@ -1551,7 +1533,7 @@ ALTER TABLE ONLY credit_card_declines
 
 
 --
--- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY delayed_jobs
@@ -1559,7 +1541,7 @@ ALTER TABLE ONLY delayed_jobs
 
 
 --
--- Name: dialogues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: dialogues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY dialogues
@@ -1567,7 +1549,7 @@ ALTER TABLE ONLY dialogues
 
 
 --
--- Name: dialogues_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: dialogues_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY dialogues_users
@@ -1575,7 +1557,7 @@ ALTER TABLE ONLY dialogues_users
 
 
 --
--- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY events
@@ -1583,7 +1565,7 @@ ALTER TABLE ONLY events
 
 
 --
--- Name: feed_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: feed_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY feed_events
@@ -1591,7 +1573,7 @@ ALTER TABLE ONLY feed_events
 
 
 --
--- Name: likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY likes
@@ -1599,7 +1581,7 @@ ALTER TABLE ONLY likes
 
 
 --
--- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY messages
@@ -1607,7 +1589,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: payment_failures_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: payment_failures_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY payment_failures
@@ -1615,7 +1597,7 @@ ALTER TABLE ONLY payment_failures
 
 
 --
--- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY payments
@@ -1623,7 +1605,7 @@ ALTER TABLE ONLY payments
 
 
 --
--- Name: pending_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: pending_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY pending_posts
@@ -1631,7 +1613,7 @@ ALTER TABLE ONLY pending_posts
 
 
 --
--- Name: posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY posts
@@ -1639,7 +1621,7 @@ ALTER TABLE ONLY posts
 
 
 --
--- Name: profile_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: profile_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_pages
@@ -1647,7 +1629,7 @@ ALTER TABLE ONLY profile_pages
 
 
 --
--- Name: profile_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: profile_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_types
@@ -1655,7 +1637,7 @@ ALTER TABLE ONLY profile_types
 
 
 --
--- Name: profile_types_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: profile_types_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_types_users
@@ -1663,7 +1645,7 @@ ALTER TABLE ONLY profile_types_users
 
 
 --
--- Name: refunds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: refunds_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY refunds
@@ -1671,7 +1653,7 @@ ALTER TABLE ONLY refunds
 
 
 --
--- Name: requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY requests
@@ -1679,7 +1661,15 @@ ALTER TABLE ONLY requests
 
 
 --
--- Name: stripe_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: stripe_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY stripe_transfers
@@ -1687,7 +1677,7 @@ ALTER TABLE ONLY stripe_transfers
 
 
 --
--- Name: subscription_daily_count_change_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: subscription_daily_count_change_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY subscription_daily_count_change_events
@@ -1695,7 +1685,7 @@ ALTER TABLE ONLY subscription_daily_count_change_events
 
 
 --
--- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY subscriptions
@@ -1703,7 +1693,7 @@ ALTER TABLE ONLY subscriptions
 
 
 --
--- Name: top_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: top_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY top_profiles
@@ -1711,7 +1701,7 @@ ALTER TABLE ONLY top_profiles
 
 
 --
--- Name: tos_acceptances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: tos_acceptances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY tos_acceptances
@@ -1719,7 +1709,7 @@ ALTER TABLE ONLY tos_acceptances
 
 
 --
--- Name: tos_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: tos_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY tos_versions
@@ -1727,7 +1717,7 @@ ALTER TABLE ONLY tos_versions
 
 
 --
--- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY uploads
@@ -1735,7 +1725,7 @@ ALTER TABLE ONLY uploads
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -1743,186 +1733,186 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -
+-- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at);
 
 
 --
--- Name: index_comments_on_parent_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_comments_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_comments_on_parent_id ON comments USING btree (parent_id);
 
 
 --
--- Name: index_comments_on_post_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_comments_on_post_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_comments_on_post_id ON comments USING btree (post_id);
 
 
 --
--- Name: index_events_on_action; Type: INDEX; Schema: public; Owner: -
+-- Name: index_events_on_action; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_events_on_action ON events USING btree (action);
 
 
 --
--- Name: index_events_on_created_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_events_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_events_on_created_at ON events USING btree (created_at);
 
 
 --
--- Name: index_events_on_subject_deleted; Type: INDEX; Schema: public; Owner: -
+-- Name: index_events_on_subject_deleted; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_events_on_subject_deleted ON events USING btree (subject_deleted);
 
 
 --
--- Name: index_events_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_events_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_events_on_user_id ON events USING btree (user_id);
 
 
 --
--- Name: index_likes_on_post_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_likes_on_comment_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_likes_on_comment_id ON likes USING btree (comment_id);
+
+
+--
+-- Name: index_likes_on_post_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_likes_on_post_id ON likes USING btree (post_id);
 
 
 --
--- Name: index_payments_on_created_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_payments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_payments_on_created_at ON payments USING btree (created_at);
 
 
 --
--- Name: index_payments_on_target_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_payments_on_target_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_payments_on_target_user_id ON payments USING btree (target_user_id);
 
 
 --
--- Name: index_payments_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_payments_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_payments_on_user_id ON payments USING btree (user_id);
 
 
 --
--- Name: index_posts_on_pinned_and_created_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_posts_on_pinned_and_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_posts_on_pinned_and_created_at ON posts USING btree (pinned, created_at);
 
 
 --
--- Name: index_subscriptions_on_created_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_subscriptions_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_subscriptions_on_created_at ON subscriptions USING btree (created_at);
 
 
 --
--- Name: index_subscriptions_on_deleted_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_subscriptions_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_subscriptions_on_deleted_at ON subscriptions USING btree (deleted_at);
 
 
 --
--- Name: index_subscriptions_on_rejected; Type: INDEX; Schema: public; Owner: -
+-- Name: index_subscriptions_on_rejected; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_subscriptions_on_rejected ON subscriptions USING btree (rejected);
 
 
 --
--- Name: index_subscriptions_on_removed; Type: INDEX; Schema: public; Owner: -
+-- Name: index_subscriptions_on_removed; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_subscriptions_on_removed ON subscriptions USING btree (removed);
 
 
 --
--- Name: index_subscriptions_on_removed_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_subscriptions_on_removed_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_subscriptions_on_removed_at ON subscriptions USING btree (removed_at);
 
 
 --
--- Name: index_subscriptions_on_target_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_subscriptions_on_target_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_subscriptions_on_target_user_id ON subscriptions USING btree (target_user_id);
 
 
 --
--- Name: index_uploads_on_uploadable_id_and_uploadable_type; Type: INDEX; Schema: public; Owner: -
+-- Name: index_uploads_on_uploadable_id_and_uploadable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_uploads_on_uploadable_id_and_uploadable_type ON uploads USING btree (uploadable_id, uploadable_type);
 
 
 --
--- Name: index_users_on_api_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_api_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_api_token ON users USING btree (api_token);
 
 
 --
--- Name: index_users_on_auth_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_auth_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_auth_token ON users USING btree (auth_token);
 
 
 --
--- Name: index_users_on_billing_failed; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_billing_failed; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_billing_failed ON users USING btree (billing_failed);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
--- Name: index_users_on_slug; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_slug ON users USING btree (slug);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
-
-
---
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20140202103843'), ('20140202153903'), ('20140228110435'), ('20140228182743'), ('20140301073218'), ('20140302143540'), ('20140303133258'), ('20140303135718'), ('20140304115014'), ('20140306143300'), ('20140306143557'), ('20140308203447'), ('20140309101758'), ('20140309102803'), ('20140312080511'), ('20140312082212'), ('20140312113727'), ('20140312135728'), ('20140321091326'), ('20140321111847'), ('20140326104922'), ('20140403112436'), ('20140403141129'), ('20140404115255'), ('20140404115337'), ('20140407054251'), ('20140408072458'), ('20140408163449'), ('20140408163607'), ('20140410071915'), ('20140412094101'), ('20140413122522'), ('20140415050828'), ('20140415061847'), ('20140415125049'), ('20140417115754'), ('20140417184746'), ('20140417193428'), ('20140418112251'), ('20140418134507'), ('20140419085232'), ('20140420102145'), ('20140421093001'), ('20140421152627'), ('20140421153513'), ('20140423124726'), ('20140423174402'), ('20140425163510'), ('20140429091410'), ('20140430181853'), ('20140501143033'), ('20140503111532'), ('20140503111650'), ('20140503111909'), ('20140503161433'), ('20140503161952'), ('20140504180126'), ('20140505163806'), ('20140508084847'), ('20140508115848'), ('20140508115947'), ('20140509182958'), ('20140511101640'), ('20140511120444'), ('20140511121316'), ('20140513204040'), ('20140513212757'), ('20140516193258'), ('20140526173934'), ('20140526202726'), ('20140527070103'), ('20140528162312'), ('20140530170944'), ('20140604041646'), ('20140604125434'), ('20140623040355'), ('20140623041205'), ('20140624125826'), ('20140624130009'), ('20140624130659'), ('20140724070838'), ('20140725163435'), ('20140801083349'), ('20140806113538'), ('20140806234854'), ('20140818144156'), ('20140818144636'), ('20140903094406'), ('20140904174036'), ('20140904174216'), ('20140908174517'), ('20140925094412'), ('20141007164537'), ('20141007164627'), ('20141007164832'), ('20141009063051'), ('20141021155421'), ('20141029032547'), ('20141031093054'), ('20141120115958'), ('20141128040705'), ('20141128075349'), ('20141211175513'), ('20141218170138'), ('20141219110607'), ('20141219110658'), ('20141219160721'), ('20141224143422'), ('20150108153710'), ('20150108160914'), ('20150114171839'), ('20150201145937'), ('20150216164150'), ('20150216190226'), ('20150217120737'), ('20150228065448'), ('20150228082413'), ('20150301060034'), ('20150305053822'), ('20150306183346'), ('20150308055851'), ('20150313072158'), ('20150406094929'), ('20150409102628'), ('20150412040011'), ('20150421092204'), ('20150427135922'), ('20150427143207'), ('20150612142345'), ('20150624082959'), ('20150715154323'), ('20150722090032'), ('20150723081420'), ('20150728052541'), ('20150728052954'), ('20150728053441'), ('20150808171641'), ('20150821051110'), ('20150821051358'), ('20150826065253'), ('20150831165850'), ('20150901083301'), ('20150907084252'), ('20150909104949'), ('20150914102909'), ('20150914103009'), ('20150914103109'), ('20150915085427'), ('20150915095324'), ('20150921091114'), ('20150921091404'), ('20150923161105'), ('20150928154431'), ('20150930095546'), ('20151002060324'), ('20151009100851'), ('20151013084651'), ('20151016085049'), ('20151021161724'), ('20151021161818'), ('20151021163506'), ('20151023111243'), ('20151023111720'), ('20151023111938'), ('20151030103407'), ('20151101223552'), ('20151102154643'), ('20151112105603'), ('20151209101344'), ('20160107065147'), ('20160107093009'), ('20160111104245'), ('20160111105423'), ('20160112081924'), ('20160112083017'), ('20160127072439'), ('20160222074243'), ('20160222074636'), ('20160308064956'), ('20160309105538'), ('20160322123833'), ('20160323064600'), ('20160323074945'), ('20160323075112'), ('20160330033850'), ('20160330034103'), ('20160330042049'), ('20160330111726'), ('20160330131651'), ('20160331042433'), ('20160331042455'), ('20160331050339'), ('20160331053200'), ('20160405054048'), ('20160405054255'), ('20160405103729'), ('20160405114000'), ('20160408071021'), ('20160408071053'), ('20160420103035'), ('20160422102107'), ('20160426104833'), ('20160426104901'), ('20160427035702'), ('20160427040148'), ('20160506033729'), ('20160506064855'), ('20160506065537'), ('20160608083454'), ('20160615102252'), ('20160620075700'), ('20160622052956'), ('20160622093032'), ('20160629053501'), ('20160629065528'), ('20160705045530'), ('20160706031025'), ('20160713072935'), ('20160727034406'), ('20160727034542'), ('20160727050324'), ('20160808031548'), ('20160824120529'), ('20160824121644'), ('20160824125840'), ('20160824130402'), ('20160825072116'), ('20160825075009'), ('20160829065024'), ('20160829115500'), ('20160907073041'), ('20160907090811'), ('20160907122954'), ('20160910100542'), ('20160912035357');
+INSERT INTO schema_migrations (version) VALUES ('20140202103843'), ('20140202153903'), ('20140228110435'), ('20140228182743'), ('20140301073218'), ('20140302143540'), ('20140303133258'), ('20140303135718'), ('20140304115014'), ('20140306143300'), ('20140306143557'), ('20140308203447'), ('20140309101758'), ('20140309102803'), ('20140312080511'), ('20140312082212'), ('20140312113727'), ('20140312135728'), ('20140321091326'), ('20140321111847'), ('20140326104922'), ('20140403112436'), ('20140403141129'), ('20140404115255'), ('20140404115337'), ('20140407054251'), ('20140408072458'), ('20140408163449'), ('20140408163607'), ('20140410071915'), ('20140412094101'), ('20140413122522'), ('20140415050828'), ('20140415061847'), ('20140415125049'), ('20140417115754'), ('20140417184746'), ('20140417193428'), ('20140418112251'), ('20140418134507'), ('20140419085232'), ('20140420102145'), ('20140421093001'), ('20140421152627'), ('20140421153513'), ('20140423124726'), ('20140423174402'), ('20140425163510'), ('20140429091410'), ('20140430181853'), ('20140501143033'), ('20140503111532'), ('20140503111650'), ('20140503111909'), ('20140503161433'), ('20140503161952'), ('20140504180126'), ('20140505163806'), ('20140508084847'), ('20140508115848'), ('20140508115947'), ('20140509182958'), ('20140511101640'), ('20140511120444'), ('20140511121316'), ('20140513204040'), ('20140513212757'), ('20140516193258'), ('20140526173934'), ('20140526202726'), ('20140527070103'), ('20140528162312'), ('20140530170944'), ('20140604041646'), ('20140604125434'), ('20140623040355'), ('20140623041205'), ('20140624125826'), ('20140624130009'), ('20140624130659'), ('20140724070838'), ('20140725163435'), ('20140801083349'), ('20140806113538'), ('20140806234854'), ('20140818144156'), ('20140818144636'), ('20140903094406'), ('20140904174036'), ('20140904174216'), ('20140908174517'), ('20140925094412'), ('20141007164537'), ('20141007164627'), ('20141007164832'), ('20141009063051'), ('20141021155421'), ('20141029032547'), ('20141031093054'), ('20141120115958'), ('20141128040705'), ('20141128075349'), ('20141211175513'), ('20141218170138'), ('20141219110607'), ('20141219110658'), ('20141219160721'), ('20141224143422'), ('20150108153710'), ('20150108160914'), ('20150114171839'), ('20150201145937'), ('20150216164150'), ('20150216190226'), ('20150217120737'), ('20150228065448'), ('20150228082413'), ('20150301060034'), ('20150305053822'), ('20150306183346'), ('20150308055851'), ('20150313072158'), ('20150406094929'), ('20150409102628'), ('20150412040011'), ('20150421092204'), ('20150427135922'), ('20150427143207'), ('20150612142345'), ('20150624082959'), ('20150715154323'), ('20150722090032'), ('20150723081420'), ('20150728052541'), ('20150728052954'), ('20150728053441'), ('20150808171641'), ('20150821051110'), ('20150821051358'), ('20150826065253'), ('20150831165850'), ('20150901083301'), ('20150907084252'), ('20150909104949'), ('20150914102909'), ('20150914103009'), ('20150914103109'), ('20150915085427'), ('20150915095324'), ('20150921091114'), ('20150921091404'), ('20150923161105'), ('20150928154431'), ('20150930095546'), ('20151002060324'), ('20151009100851'), ('20151013084651'), ('20151016085049'), ('20151021161724'), ('20151021161818'), ('20151021163506'), ('20151023111243'), ('20151023111720'), ('20151023111938'), ('20151030103407'), ('20151101223552'), ('20151102154643'), ('20151112105603'), ('20151209101344'), ('20160107065147'), ('20160107093009'), ('20160111104245'), ('20160111105423'), ('20160112081924'), ('20160112083017'), ('20160127072439'), ('20160222074243'), ('20160222074636'), ('20160308064956'), ('20160309105538'), ('20160322123833'), ('20160323064600'), ('20160323074945'), ('20160323075112'), ('20160330033850'), ('20160330034103'), ('20160330042049'), ('20160330131651'), ('20160331042433'), ('20160331042455'), ('20160331050339'), ('20160331053200'), ('20160405054048'), ('20160405054255'), ('20160405103729'), ('20160405114000'), ('20160408071021'), ('20160408071053'), ('20160420103035'), ('20160422102107'), ('20160426104833'), ('20160426104901'), ('20160427035702'), ('20160427040148'), ('20160506033729'), ('20160506064855'), ('20160506065537'), ('20160608083454'), ('20160615102252'), ('20160620075700'), ('20160622052956'), ('20160622093032'), ('20160629053501'), ('20160629065528'), ('20160705045530'), ('20160706031025'), ('20160713072935'), ('20160727034406'), ('20160727034542'), ('20160727050324'), ('20160808031548'), ('20160824120529'), ('20160824121644'), ('20160824125840'), ('20160824130402'), ('20160825072116'), ('20160825075009'), ('20160829065024'), ('20160829115500'), ('20160907073041'), ('20160907090811'), ('20160907122954'), ('20160910100542'), ('20160912035357');
 
 
