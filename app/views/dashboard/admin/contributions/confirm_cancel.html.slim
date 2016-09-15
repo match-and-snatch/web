@@ -1,9 +1,9 @@
 .modal-header style='width: 480px;'
   i.PopupTrigger.fa.fa-times-circle.close type="button" data-target="remote-popup" aria-hidden="true" style="top: 5px"
-  .modal-title Remove contribution
-  p style="font-size: 13px; margin-top: 15px;" Are you sure you want to remove this contribution?
+  .modal-title Cancel contribution
+  p style="font-size: 13px; margin-top: 15px;" Are you sure you want to cancel this recurring contribution?
 
   .modal-body style="padding-bottom: 15px;"
-    a.btn.pink.pull-left.AjaxFormLink style="margin-left: 115px; text-decoration: none;" data-_method='delete' href=admin_contribution_path(@contribution) Remove
+    a.btn.pink.pull-left.AjaxFormLink style="margin-left: 115px; text-decoration: none;" data-_method='PUT' href=cancel_admin_contribution_path(@contribution) Cancel
     a.pull-left.PopupTrigger style="cursor: pointer; display: inline-block; margin-top: 7px; margin-left: 15px;" data-target="remote-popup" Nevermind
     .clearfix

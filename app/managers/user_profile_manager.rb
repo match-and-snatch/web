@@ -494,8 +494,8 @@ class UserProfileManager < BaseManager
       customer.sources.retrieve(cc_data[:stripe_card_id]).delete rescue nil
     end
 
-    user.contributions.recurring.each do |contribution|
-      ContributionManager.new(user: user, contribution: contribution).delete
+    user.contributions.active.each do |contribution|
+      ContributionManager.new(user: user, contribution: contribution).cancel
     end
 
     EventsManager.credit_card_removed(user: user, data: cc_data)

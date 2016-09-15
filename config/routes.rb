@@ -430,9 +430,10 @@ BuddyPlatform::Application.routes.draw do
           get :search
         end
       end
-      resources :contributions, only: [:index, :destroy] do
+      resources :contributions, only: [:index] do
         member do
-          get :confirm_destroy
+          get :confirm_cancel
+          put :cancel
         end
       end
       resources :subscriptions, only: :index do

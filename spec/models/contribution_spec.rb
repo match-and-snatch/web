@@ -53,6 +53,27 @@ describe Contribution do
         it { is_expected.to include(contribution_to_user_with_profile_page) }
       end
     end
+
+    context 'cancelled contribution' do
+      let(:cancelled_contribution) { create(:contribution, :cancelled, recurring: true, updated_at: 100.years.ago) }
+      it { is_expected.not_to include(cancelled_contribution) }
+    end
+  end
+
+  describe '.active' do
+    subject { described_class.active }
+    let(:contribution) { create(:contribution) }
+    it { is_expected.not_to include(contribution) }
+
+    context 'recurring contribution present' do
+      let(:contribution) { create(:contribution, recurring: true) }
+      it { is_expected.to include(contribution) }
+
+      context 'cancelled contribution present' do
+        let(:contribution) { create(:contribution, :cancelled, recurring: true) }
+        it { is_expected.not_to include(contribution) }
+      end
+    end
   end
 
   describe '#recurring_performable?' do
@@ -112,6 +133,69 @@ describe Contribution do
             its(:recurring_performable?) { is_expected.to eq(false) }
           end
         end
+
+        context 'cancelled contribution' do
+          let(:attributes) { {recurring: true, cancelled: true} }
+          its(:recurring_performable?) { is_expected.to eq(false) }
+        end
+      end
+    end
+  end
+
+  describe '#active?' do
+    subject(:contribution) { create(:contribution) }
+    its(:active?) { is_expected.to be_falsey }
+
+    context 'recurring contribution' do
+      subject(:contribution) { create(:contribution, recurring: true) }
+      its(:active?) { is_expected.to be_truthy }
+
+      context 'cancelled contribution' do
+        subject(:contribution) { create(:contribution, :cancelled, recurring: true) }
+        its(:active?) { is_expected.to be_falsey }
+      end
+    end
+  end
+
+  describe '#next_billing_date' do
+    subject(:contribution) { create(:contribution, recurring: true) }
+    its(:next_billing_date) { is_expected.to eq(contribution.created_at.next_month.to_date) }
+
+    context 'has children' do
+      subject(:contribution) { create(:contribution, recurring: true) }
+
+      let(:child) { create(:contribution, parent: contribution) }
+      its(:next_billing_date) { is_expected.to eq(child.created_at.next_month.to_date) }
+    end
+
+    context 'cancelled contribution' do
+      subject(:contribution) { create(:contribution, :cancelled, recurring: true) }
+      it { expect { contribution.next_billing_date }.to raise_error(ArgumentError) }
+    end
+  end
+
+  describe '#will_repeat?' do
+    let(:parent) { nil }
+    subject(:contribution) { create(:contribution, parent: parent) }
+    its(:will_repeat?) { is_expected.to be_falsey }
+
+    context 'recurring contribution' do
+      subject(:contribution) { create(:contribution, recurring: true) }
+      its(:will_repeat?) { is_expected.to be_truthy }
+
+      context 'cancelled contribution' do
+        subject(:contribution) { create(:contribution, :cancelled, recurring: true) }
+        its(:will_repeat?) { is_expected.to be_falsey }
+      end
+    end
+
+    context 'has parent contribution' do
+      let(:parent) { create(:contribution, recurring: true) }
+      its(:will_repeat?) { is_expected.to be_truthy }
+
+      context 'cancelled parent' do
+        let(:parent) { create(:contribution, :cancelled, recurring: true) }
+        its(:will_repeat?) { is_expected.to be_falsey }
       end
     end
   end

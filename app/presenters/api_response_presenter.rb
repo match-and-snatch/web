@@ -80,7 +80,7 @@ class ApiResponsePresenter
       subscribers_count: user.subscribers_count,
       subscriptions_count: user.subscriptions.accessible.count,
       only_subscription_path: user.subscriptions.accessible.count == 1 ? user.subscriptions.accessible.first.target_user.slug : nil,
-      recurring_contributions_count: user.contributions.recurring.count,
+      recurring_contributions_count: user.contributions.active.count,
       stripe_recipient_id: user.stripe_recipient_id,
       vacation_enabled: user.vacation_enabled,
       vacation_message: user.vacation_message,
