@@ -9,14 +9,13 @@
           ' Our
           a> href=privacy_policy_path target='_blank' Privacy Policy
           ' and
-          br
           a> href=terms_of_service_path target='_blank' Terms of Service
           | have been updated
     .modal-body
       .form-group.tos_scroll.tos_text
         = markdown_to_html TosVersion.active.tos
         = markdown_to_html TosVersion.active.privacy_policy
-      form.Form action=accept_tos_account_info_path method='post' data-target='tos-popup'
+      form.Form.form_submit action=accept_tos_account_info_path method='post' data-target='tos-popup'
         .form-group
           .tos_text
             | By clicking the "Yes, I agree" box, you are
