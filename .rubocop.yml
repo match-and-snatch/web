@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
   Include:
     - '**/Gemfile'
@@ -15,7 +17,7 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
   DisplayCopNames: true
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
 
 ClassAndModuleChildren:
   Enabled: false
@@ -24,12 +26,6 @@ ClassLength:
   Enabled: false
 
 Documentation:
-  Enabled: false
-
-EmptyLinesAroundClassBody:
-  Enabled: false
-
-EmptyLinesAroundModuleBody:
   Enabled: false
 
 PredicateName:
@@ -44,12 +40,6 @@ MethodLength:
 SpaceBeforeFirstArg:
   Enabled: false
 
-TrailingCommaInArguments:
-  EnforcedStyleForMultiline: no_comma
-
-TrailingCommaInLiteral:
-  EnforcedStyleForMultiline: no_comma
-
 SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
@@ -57,10 +47,10 @@ MultilineOperationIndentation:
   EnforcedStyle: indented
 
 MultilineMethodCallIndentation:
-  EnforcedStyle: indented
+  EnforcedStyle: indented_relative_to_receiver
 
 SignalException:
-  EnforcedStyle: semantic
+  Enabled: false
 
 PercentLiteralDelimiters:
   PreferredDelimiters:
