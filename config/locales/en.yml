@@ -1,7 +1,7 @@
 en:
   errors:
     default: This is not valid.
-    empty: This cannot be empty.
+    empty: Cannot be empty.
     taken: This is already taken by someone else.
     too_short: Please enter at least %{minimum} characters.
     too_long: Seems to be too long.
