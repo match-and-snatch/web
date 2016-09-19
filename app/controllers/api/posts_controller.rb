@@ -18,13 +18,13 @@ class Api::PostsController < Api::BaseController
 
   def feed
     @posts = Post.select('posts.*, COUNT(likes.id) as likes_count')
-                 .joins(user: :source_subscriptions)
-                 .joins(:likes)
-                 .where(subscriptions: {user_id: current_user.id})
-                 .group('posts.id')
-                 .order('posts.created_at DESC')
-                 .includes(:uploads)
-                 .limit(100)
+               .joins(user: :source_subscriptions)
+               .joins(:likes)
+               .where(subscriptions: {user_id: current_user.id})
+               .group('posts.id')
+               .order('posts.created_at DESC')
+               .includes(:uploads)
+               .limit(100)
     @posts = @posts.map { |p| api_response.post_data(p).merge(likes_count: p.likes_count) }
     json_success posts: @posts
   end

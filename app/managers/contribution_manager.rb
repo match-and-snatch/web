@@ -2,7 +2,7 @@ class ContributionManager < BaseManager
   WEEKLY_CONTRIBUTION_LIMIT = 120_00
   VERIFIED_PROFILE_CONTRIBUTION_LIMIT = 250_00
   VERIFIED_PROFILE_WEEKLY_CONTRIBUTION_LIMIT = 500_00
-  INTEGER_RANGE_LIMIT = 2147483647
+  INTEGER_RANGE_LIMIT = 2_147_483_647
 
   # @param user [User]
   # @param target_user [User]
@@ -93,8 +93,8 @@ class ContributionManager < BaseManager
 
   def weekly_limit_reached?(amount, target_user)
     recently_contributed = Contribution.where(user: @user)
-                               .where('created_at > ? AND created_at > ?', 7.days.ago, (@user.contribution_limit_reached_at || 7.days.ago))
-                               .sum(:amount)
+                             .where('created_at > ? AND created_at > ?', 7.days.ago, (@user.contribution_limit_reached_at || 7.days.ago))
+                             .sum(:amount)
 
     limit = target_user.accepts_large_contributions? ? VERIFIED_PROFILE_WEEKLY_CONTRIBUTION_LIMIT : WEEKLY_CONTRIBUTION_LIMIT
     recently_contributed + amount >= limit

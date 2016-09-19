@@ -75,7 +75,7 @@ class Upload < ApplicationRecord
   def delete_s3_files!
     errors = []
     s3_paths.each do |bucket, paths|
-      errors << s3_client.delete_objects(bucket: bucket, delete: { objects: paths, quiet: false })['errors']
+      errors << s3_client.delete_objects(bucket: bucket, delete: {objects: paths, quiet: false})['errors']
     end
     if errors.flatten.blank?
       self.removed = true

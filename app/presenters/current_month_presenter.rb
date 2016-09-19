@@ -48,17 +48,17 @@ class CurrentMonthPresenter
     finish = month.end_of_month
 
     @out_of_period_pending_count ||= user.source_subscriptions.
-        not_removed.
-        not_rejected.
-        where(['charged_at < ?', start]).count
+                                       not_removed.
+                                       not_rejected.
+                                       where(['charged_at < ?', start]).count
 
     @pending_payments ||= {}.tap do |pending_payments|
       user.source_subscriptions.
-          not_removed.
-          not_rejected.
-          where(charged_at: start..finish).
-          group_by { |s| s.billing_date }.each do |date, subscriptions|
-        pending_payments[date] = subscriptions.count + @out_of_period_pending_count
+        not_removed.
+        not_rejected.
+        where(charged_at: start..finish).
+        group_by { |s| s.billing_date }.each do |date, subscriptions|
+          pending_payments[date] = subscriptions.count + @out_of_period_pending_count
       end
     end
   end
@@ -66,8 +66,8 @@ class CurrentMonthPresenter
   def success_payments
     @success_payments ||= {}.tap do |success_payments|
       user.source_payments.
-          where(created_at: period).
-          group_by { |p| p.created_at.to_date }.each do |date, payments|
+        where(created_at: period).
+        group_by { |p| p.created_at.to_date }.each do |date, payments|
         success_payments[date] = payments.count
       end
     end
@@ -76,18 +76,18 @@ class CurrentMonthPresenter
   def failed_payments
     @failed_payments ||= {}.tap do |failed_payments|
       user.source_subscriptions.
-          not_removed.
-          where(rejected: true).
-          where(rejected_at: period).
-          group_by { |p| p.rejected_at.try(:to_date) }.each do |date, payments|
+        not_removed.
+        where(rejected: true).
+        where(rejected_at: period).
+        group_by { |p| p.rejected_at.try(:to_date) }.each do |date, payments|
         failed_payments[date] = payments.count
       end
     end
 
     @failed_payments[:out_of_period_failed_count] ||= user.source_subscriptions.
-        not_removed.
-        where(rejected: true).
-        where(['rejected_at < ?', period.begin]).count
+                                                        not_removed.
+                                                        where(rejected: true).
+                                                        where(['rejected_at < ?', period.begin]).count
 
     @failed_payments
   end

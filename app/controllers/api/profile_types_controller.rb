@@ -16,7 +16,7 @@ class Api::ProfileTypesController < Api::BaseController
   private
 
   def profile_types_data
-    { profile_types: current_user.object.profile_types.map { |profile_type| api_response.profile_type_data(profile_type) } }
+    {profile_types: current_user.object.profile_types.map { |profile_type| api_response.profile_type_data(profile_type) }}
   end
 
   def manager

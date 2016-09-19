@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
   end
 
   def show
-    json_replace partial: 'comment_row', locals: { comment: @comment }
+    json_replace partial: 'comment_row', locals: {comment: @comment}
   end
 
   def create

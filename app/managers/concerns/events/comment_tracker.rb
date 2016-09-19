@@ -54,8 +54,8 @@ module Concerns::Events::CommentTracker
   # @param comment [Comment]
   # @return [Hash]
   def data_hash(comment)
-    { message:      comment.message,
-      post_id:      comment.post_id,
-      post_user_id: comment.post_user_id }
+    {message:      comment.message,
+     post_id:      comment.post_id,
+     post_user_id: comment.post_user_id}
   end
 end

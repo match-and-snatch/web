@@ -7,7 +7,7 @@ class Api::DocumentsController < Api::UploadsController
   private
 
   def documents_data(documents)
-    { documents: documents.map { |document| document_data(document) } }
+    {documents: documents.map { |document| document_data(document) }}
   end
 
   def document_data(document)

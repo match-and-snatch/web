@@ -7,11 +7,11 @@ module Concerns::Events::PaymentTracker
     create_event user: user,
                   subject: contribution,
                   action: 'contribution_created',
-                  data: { amount: contribution.amount,
-                          user_id: contribution.user_id,
-                          target_user_id: contribution.target_user_id,
-                          parent_id: contribution.try(:parent_id),
-                          contribution_id: contribution.id },
+                  data: {amount: contribution.amount,
+                         user_id: contribution.user_id,
+                         target_user_id: contribution.target_user_id,
+                         parent_id: contribution.try(:parent_id),
+                         contribution_id: contribution.id},
                   &block
   end
 
@@ -23,11 +23,11 @@ module Concerns::Events::PaymentTracker
     create_event user: user,
                   subject: contribution,
                   action: 'contribution_failed',
-                  data: { amount: contribution.amount,
-                          user_id: contribution.user_id,
-                          target_user_id: contribution.target_user_id,
-                          parent_id: contribution.try(:parent_id),
-                          contribution_id: contribution.id },
+                  data: {amount: contribution.amount,
+                         user_id: contribution.user_id,
+                         target_user_id: contribution.target_user_id,
+                         parent_id: contribution.try(:parent_id),
+                         contribution_id: contribution.id},
                   &block
   end
 
@@ -39,11 +39,11 @@ module Concerns::Events::PaymentTracker
     create_event user: user,
                   subject: contribution,
                   action: 'contribution_cancelled',
-                  data: { amount: contribution.amount,
-                          user_id: contribution.user_id,
-                          target_user_id: contribution.target_user_id,
-                          parent_id: contribution.try(:parent_id),
-                          contribution_id: contribution.id },
+                  data: {amount: contribution.amount,
+                         user_id: contribution.user_id,
+                         target_user_id: contribution.target_user_id,
+                         parent_id: contribution.try(:parent_id),
+                         contribution_id: contribution.id},
                   &block
   end
 
@@ -55,14 +55,14 @@ module Concerns::Events::PaymentTracker
     create_event user: user,
                   subject: payment,
                   action: 'payment_created',
-                  data: { amount: payment.amount,
-                          cost: payment.cost,
-                          subscription_cost: payment.subscription_cost,
-                          subscription_fees: payment.subscription_fees,
-                          target_user_id: payment.target_user_id,
-                          target_id: payment.target_id,
-                          target_type: payment.target_type,
-                          payment_id: payment.id },
+                  data: {amount: payment.amount,
+                         cost: payment.cost,
+                         subscription_cost: payment.subscription_cost,
+                         subscription_fees: payment.subscription_fees,
+                         target_user_id: payment.target_user_id,
+                         target_id: payment.target_id,
+                         target_type: payment.target_type,
+                         payment_id: payment.id},
                   &block
   end
 
@@ -74,10 +74,10 @@ module Concerns::Events::PaymentTracker
     create_event user: user,
                   subject: payment_failure,
                   action: 'payment_failed',
-                  data: { failure_id: payment_failure.id,
-                          target_user_id: payment_failure.target_user_id,
-                          target_id: payment_failure.target_id,
-                          target_type: payment_failure.target_type },
+                  data: {failure_id: payment_failure.id,
+                         target_user_id: payment_failure.target_user_id,
+                         target_id: payment_failure.target_id,
+                         target_type: payment_failure.target_type},
                   &block
   end
 end

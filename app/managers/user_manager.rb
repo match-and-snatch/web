@@ -1,8 +1,8 @@
 class UserManager < BaseManager
   attr_reader :user, :performer
 
-  LOCK_TYPES = %w(account billing tos).freeze
-  LOCK_REASONS = %w(manually_set fraudulent contribution_limit subscription_limit cc_update_limit cc_used_by_another_account).freeze
+  LOCK_TYPES = %w[account billing tos].freeze
+  LOCK_REASONS = %w[manually_set fraudulent contribution_limit subscription_limit cc_update_limit cc_used_by_another_account].freeze
 
   # @param user [User]
   def initialize(user, performer = user)

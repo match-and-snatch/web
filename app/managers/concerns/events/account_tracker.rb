@@ -8,7 +8,7 @@ module Concerns::Events::AccountTracker
     create_event user: user,
                   subject: user,
                   action: 'account_locked',
-                  data: { type: type, reason: reason },
+                  data: {type: type, reason: reason},
                   &block
   end
 
@@ -31,10 +31,10 @@ module Concerns::Events::AccountTracker
     create_event user: user,
                   subject: user,
                   action: 'account_photo_changed',
-                  data: { photo_id:    photo.id,
-                          target_id:   photo.uploadable_id,
-                          target_type: photo.uploadable_type,
-                          url:         photo.url },
+                  data: {photo_id:    photo.id,
+                         target_id:   photo.uploadable_id,
+                         target_type: photo.uploadable_type,
+                         url:         photo.url},
                   &block
   end
 
@@ -65,7 +65,7 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def slug_changed(user: , slug: nil, &block)
-    create_event user: user, subject: user, action: 'slug_changed', data: { slug: slug }, &block
+    create_event user: user, subject: user, action: 'slug_changed', data: {slug: slug}, &block
   end
 
   # @param user [User]
@@ -103,8 +103,8 @@ module Concerns::Events::AccountTracker
   def vacation_mode_enabled(user: , reason: nil, &block)
     create_event user: user,
                   subject: user,
-                  action: 'vacation_mode_enabled', data: { reason: reason,
-                                                           subscribers_count: user.subscribers_count }, &block
+                  action: 'vacation_mode_enabled', data: {reason: reason,
+                                                          subscribers_count: user.subscribers_count}, &block
   end
 
   # @param user [User]
@@ -113,8 +113,8 @@ module Concerns::Events::AccountTracker
   def vacation_mode_disabled(user: , affected_users_count: 0, &block)
     create_event user: user,
                   subject: user,
-                  action: 'vacation_mode_disabled', data: { affected_users_count: affected_users_count,
-                                                            subscribers_count: user.subscribers_count }, &block
+                  action: 'vacation_mode_disabled', data: {affected_users_count: affected_users_count,
+                                                           subscribers_count: user.subscribers_count}, &block
   end
 
   # @param user [User]
@@ -129,6 +129,6 @@ module Concerns::Events::AccountTracker
   # @yield
   # @return [Event]
   def subscriptions_limit_changed(user: , from: , to: , &block)
-    create_event user: user, subject: user, action: 'subscriptions_limit_changed', data: { from: from, to: to }, &block
+    create_event user: user, subject: user, action: 'subscriptions_limit_changed', data: {from: from, to: to}, &block
   end
 end

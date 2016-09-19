@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include Transloadit::Rails::ParamsDecoder
 
-  before_action :authenticate!, except: %i(index search mentions create show activate sample)
+  before_action :authenticate!, except: %i[index search mentions create show activate sample]
   before_action :redirect_invalid_slug, only: :show
 
   def index
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   # Registers new profile __owner__ (not just subscriber)
   def create
     user = AuthenticationManager.new(
-      params.slice(%i(email first_name last_name password)).merge(is_profile_owner: true, password_confirmation: params[:password], tos_accepted: params.bool(:tos_accepted))
+      params.slice(%i[email first_name last_name password]).merge(is_profile_owner: true, password_confirmation: params[:password], tos_accepted: params.bool(:tos_accepted))
     ).register
 
     session_manager.login(user.email, params[:password])

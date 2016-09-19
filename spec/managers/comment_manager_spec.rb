@@ -18,7 +18,7 @@ describe CommentManager do
 
     context 'with mentions' do
       let(:mentioned_user) { create(:user) }
-      let(:mentions) { { mentioned_user.id => mentioned_user.name } }
+      let(:mentions) { {mentioned_user.id => mentioned_user.name} }
 
       it { expect(manager.create(message: 'comment', mentions: mentions).mentions).to eq(mentions) }
       it { expect { manager.create(message: 'comment', mentions: mentions) }.to deliver_email(to: mentioned_user.email, subject: /You were mentioned/) }
@@ -43,7 +43,7 @@ describe CommentManager do
 
     context 'with mentions' do
       let(:mentioned_user) { create(:user) }
-      let(:mentions) { { mentioned_user.id => mentioned_user.name } }
+      let(:mentions) { {mentioned_user.id => mentioned_user.name} }
 
       it { expect { manager.update(message: 'edited', mentions: mentions) }.to change { comment.mentions }.from({}).to(mentions) }
 

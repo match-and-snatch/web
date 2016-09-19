@@ -44,8 +44,8 @@ module Queries
 
     def types
       @query
-          .split(/\W+/)
-          .map { |x| x.singularize.camelize << 'Post' } & %w(AudioPost VideoPost PhotoPost DocumentPost StatusPost)
+        .split(/\W+/)
+        .map { |x| x.singularize.camelize << 'Post' } & %w[AudioPost VideoPost PhotoPost DocumentPost StatusPost]
     end
 
     def matching_posts

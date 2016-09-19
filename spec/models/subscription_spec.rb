@@ -62,7 +62,7 @@ describe Subscription do
 
     context 'paid' do
       context 'recently' do
-        let(:attributes) { {charged_at: 2.days.ago } }
+        let(:attributes) { {charged_at: 2.days.ago} }
         it { expect(subject).not_to include(subscription) }
       end
 

@@ -39,9 +39,9 @@ class PaymentManager < BaseManager
                            customer:    customer.stripe_user_id,
                            description: description,
                            statement_description: subscription.target_user.profile_name,
-                           metadata: { target_id:   subscription.id,
-                                       target_type: subscription.class.name,
-                                       user_id:     customer.id }
+                           metadata: {target_id:   subscription.id,
+                                      target_type: subscription.class.name,
+                                      user_id:     customer.id}
 
     payment_source = charge['source'] || charge['card'] || {}
 

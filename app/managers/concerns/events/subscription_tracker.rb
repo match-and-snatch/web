@@ -8,9 +8,9 @@ module Concerns::Events::SubscriptionTracker
     create_event user: user,
                   subject: subscription,
                   action: 'subscription_created',
-                  data: { subscription_id: subscription.id,
-                          target_user_id:  subscription.target_user_id,
-                          restored:        restored },
+                  data: {subscription_id: subscription.id,
+                         target_user_id:  subscription.target_user_id,
+                         restored:        restored},
                   &block
   end
 
@@ -22,8 +22,8 @@ module Concerns::Events::SubscriptionTracker
     create_event user: user,
                   action: 'subscription_canceled',
                   subject: subscription,
-                  data: { subscription_id: subscription.id,
-                          target_user_id:  subscription.target_user_id },
+                  data: {subscription_id: subscription.id,
+                         target_user_id:  subscription.target_user_id},
                   &block
   end
 
@@ -35,8 +35,8 @@ module Concerns::Events::SubscriptionTracker
     create_event user: user,
                   action: 'subscription_deleted',
                   subject: subscription,
-                  data: { subscription_id: subscription.id,
-                          target_user_id:  subscription.target_user_id },
+                  data: {subscription_id: subscription.id,
+                         target_user_id:  subscription.target_user_id},
                   &block
   end
 
@@ -55,8 +55,8 @@ module Concerns::Events::SubscriptionTracker
     create_event user: user,
                   subject: subscription,
                   action: 'subscription_notifications_disabled',
-                  data: { subscription_id: subscription.id,
-                          target_user_id:  subscription.target_user_id },
+                  data: {subscription_id: subscription.id,
+                         target_user_id:  subscription.target_user_id},
                   &block
   end
 end

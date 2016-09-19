@@ -9,7 +9,7 @@ describe Queries::Users do
   before { update_index }
 
   describe '#grouped_by_first_letter' do
-    it { expect(subject.grouped_by_first_letter).to include({ 'S' => [first_user] }) }
+    it { expect(subject.grouped_by_first_letter).to include({'S' => [first_user]}) }
   end
 
   describe '#by_first_letter' do

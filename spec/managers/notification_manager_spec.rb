@@ -79,7 +79,7 @@ describe NotificationManager do
   end
 
   describe '.notify_comment_created' do
-    let(:comment) { CommentManager.new(user: subscriber, post: status_post).create(message: 'test', mentions: { profile_owner.id.to_s => profile_owner.full_name }) }
+    let(:comment) { CommentManager.new(user: subscriber, post: status_post).create(message: 'test', mentions: {profile_owner.id.to_s => profile_owner.full_name}) }
 
     subject(:notify) { described_class.notify_comment_created(comment) }
 

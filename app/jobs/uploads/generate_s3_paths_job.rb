@@ -9,10 +9,10 @@ module Uploads
         next if index.blank?
 
         original = document.transloadit_data['results'][':original'][index]
-        s3_paths = { bucket => [{ key: get_file_path(original['ssl_url']) }]}
+        s3_paths = {bucket => [{key: get_file_path(original['ssl_url'])}]}
         if document.transloadit_data['results']['preview']
           preview  = document.transloadit_data['results']['preview'][index]
-          s3_paths[bucket] << { key: get_file_path(preview['ssl_url']) }
+          s3_paths[bucket] << {key: get_file_path(preview['ssl_url'])}
         end
 
         document.s3_paths = s3_paths
@@ -28,7 +28,7 @@ module Uploads
         next if index.blank?
 
         original = audio.transloadit_data['results'][':original'][index]
-        s3_paths = { bucket => [{ key: get_file_path(original['ssl_url']) }] }
+        s3_paths = {bucket => [{key: get_file_path(original['ssl_url'])}]}
 
         audio.s3_paths = s3_paths
         audio.save!
@@ -44,8 +44,8 @@ module Uploads
         encode   = video.transloadit_data['results']['encode'][0]
         original = video.transloadit_data['results'][':original'][0]
 
-        s3_paths = { preview_bucket => [{ key: get_file_path(thumb['ssl_url']) }],
-                     videos_bucket  => [encode.try(:[], 'ssl_url'), original.try(:[], 'ssl_url')].compact.map { |e| { key: get_file_path(e) } } }
+        s3_paths = {preview_bucket => [{key: get_file_path(thumb['ssl_url'])}],
+                    videos_bucket  => [encode.try(:[], 'ssl_url'), original.try(:[], 'ssl_url')].compact.map { |e| {key: get_file_path(e)} }}
 
         video.s3_paths = s3_paths
         video.save!
@@ -62,14 +62,14 @@ module Uploads
             photo.transloadit_data['results'].each do |step, files|
               bucket = URI(files[0]['ssl_url']).host.split('.').first
               s3_paths[bucket] ||= []
-              s3_paths[bucket] << { key: get_file_path(files[0]['ssl_url']) }
+              s3_paths[bucket] << {key: get_file_path(files[0]['ssl_url'])}
             end
           else
             bucket = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['bucket']
 
-            s3_paths = { bucket => [] }
+            s3_paths = {bucket => []}
             Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['use'].each do |key|
-              s3_paths[bucket] << { key: get_file_path(photo.transloadit_data['results'][key][0]['ssl_url']) }
+              s3_paths[bucket] << {key: get_file_path(photo.transloadit_data['results'][key][0]['ssl_url'])}
             end
           end
 
@@ -84,7 +84,7 @@ module Uploads
 
           original = photo.transloadit_data['results'][':original'][index]
           preview  = photo.transloadit_data['results']['preview'][index]
-          s3_paths = { bucket => [original['ssl_url'], preview['ssl_url']].map { |e| { key: get_file_path(e) } } }
+          s3_paths = {bucket => [original['ssl_url'], preview['ssl_url']].map { |e| {key: get_file_path(e)} }}
 
           photo.s3_paths = s3_paths
           photo.save!

@@ -20,15 +20,16 @@ RSpec.describe Users::PullEmailBouncesJob do
     end
 
     context 'bounces matched' do
-      let(:bounces) { [{'email' => 'NOT@matched.com', 'created' => 1473640127}] }
-      it { expect { perform }.to change { user.reload.email_bounced_at }.to(Time.zone.at(1473640127)) }
+      let(:time) { 1_473_640_127 }
+      let(:bounces) { [{'email' => 'NOT@matched.com', 'created' => time}] }
+      it { expect { perform }.to change { user.reload.email_bounced_at }.to(Time.zone.at(time)) }
       it { expect { perform }.to change { user.reload.updated_at } }
 
       context 'duplicate user' do
         let!(:another_user) { create :user, email: 'not@matched.com' }
 
-        it { expect { perform }.to change { user.reload.email_bounced_at }.to(Time.zone.at(1473640127)) }
-        it { expect { perform }.to change { another_user.reload.email_bounced_at }.to(Time.zone.at(1473640127)) }
+        it { expect { perform }.to change { user.reload.email_bounced_at }.to(Time.zone.at(time)) }
+        it { expect { perform }.to change { another_user.reload.email_bounced_at }.to(Time.zone.at(time)) }
       end
 
       context 'same job already performed' do

@@ -655,7 +655,7 @@ RSpec.describe UserProfileManager do
   end
 
   describe '#update_benefits' do
-    let(:benefits_params) { { "0"=>"benefit", "1"=>"other benefit", "2"=>"", "3"=>"", "4"=>"", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>"" } }
+    let(:benefits_params) { {"0"=>"benefit", "1"=>"other benefit", "2"=>"", "3"=>"", "4"=>"", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>""} }
 
     specify do
       expect { manager.update_benefits(nil) }.to raise_error(ManagerError)
@@ -678,7 +678,7 @@ RSpec.describe UserProfileManager do
     end
 
     context 'with benefits' do
-      let(:new_benefits_params) { { "1"=>"other new benefit" } }
+      let(:new_benefits_params) { {"1"=>"other new benefit"} }
 
       before do
         manager.update_benefits(new_benefits_params)
@@ -753,15 +753,15 @@ RSpec.describe UserProfileManager do
 
     context 'valid stripe token' do
       let(:token_cc_data) do
-        { number: '4242424242424242',
-          cvc: '000',
-          expiry_month: '05',
-          expiry_year: '18',
-          zip: '123456',
-          city: 'LA',
-          state: 'CA',
-          address_line_1: 'Test',
-          address_line_2: nil }
+        {number: '4242424242424242',
+         cvc: '000',
+         expiry_month: '05',
+         expiry_year: '18',
+         zip: '123456',
+         city: 'LA',
+         state: 'CA',
+         address_line_1: 'Test',
+         address_line_2: nil}
       end
 
       let(:token) { StripeMock.generate_card_token(token_cc_data) }
@@ -1124,7 +1124,7 @@ RSpec.describe UserProfileManager do
     end
 
     context 'gross sales threshold reached' do
-      before { user.update_attributes(gross_sales: 1000_00) }
+      before { user.update_attributes(gross_sales: 1_000_00) }
 
       it { expect { manager.update_profile_name('Slava') }.to raise_error(ManagerError, /can't change profile name/) }
 
@@ -1468,7 +1468,7 @@ RSpec.describe UserProfileManager do
   end
 
   describe '#update_general_information' do
-    let(:params) { { full_name: 'new', email: 'new_email@gmail.com' } }
+    let(:params) { {full_name: 'new', email: 'new_email@gmail.com'} }
     let(:another_user) { create(:user, email: 'another@gmail.com', activated: false) }
 
     subject(:update) { manager.update_general_information(params) }
@@ -1490,7 +1490,7 @@ RSpec.describe UserProfileManager do
     end
 
     context do
-      let(:params) { { full_name: 'new', email: another_user.email } }
+      let(:params) { {full_name: 'new', email: another_user.email} }
 
       it 'does not raise error if email is taken' do
         expect { update }.not_to raise_error
@@ -1498,7 +1498,7 @@ RSpec.describe UserProfileManager do
     end
 
     context 'email contains uppercase letters' do
-      let(:params) { { full_name: 'new', email: 'NEW_EMail@gMAIL.cOm' } }
+      let(:params) { {full_name: 'new', email: 'NEW_EMail@gMAIL.cOm'} }
 
       it 'stores downcased email' do
         expect { update }.to change { user.reload.email }.to('new_email@gmail.com')
@@ -1506,7 +1506,7 @@ RSpec.describe UserProfileManager do
     end
 
     context 'full name contains numbers' do
-      let(:params) { { full_name: 'new1', email: 'new_email@gmail.com' } }
+      let(:params) { {full_name: 'new1', email: 'new_email@gmail.com'} }
 
       specify do
         expect { update }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(full_name: t_error(:contains_numbers)) }
@@ -1518,7 +1518,7 @@ RSpec.describe UserProfileManager do
     end
 
     context 'email not changed' do
-      let(:params) { { full_name: 'new', email: user.email } }
+      let(:params) { {full_name: 'new', email: user.email} }
 
       specify freeze: true do
         expect { update }.not_to change { user.reload.email_updated_at }.from(nil)
@@ -1529,7 +1529,7 @@ RSpec.describe UserProfileManager do
     end
 
     context 'if another user is activated' do
-      let(:params) { { full_name: 'new', email: another_user.email } }
+      let(:params) { {full_name: 'new', email: another_user.email} }
 
       before { AuthenticationManager.new.activate(another_user.registration_token) }
 
@@ -1539,7 +1539,7 @@ RSpec.describe UserProfileManager do
     end
 
     context 'another user is admin' do
-      let(:params) { { full_name: 'new', email: another_user.email } }
+      let(:params) { {full_name: 'new', email: another_user.email} }
 
       before { UserManager.new(another_user).make_admin }
 
@@ -1548,7 +1548,7 @@ RSpec.describe UserProfileManager do
       end
 
       context 'admin from config' do
-        let(:params) { { full_name: 'new', email: 'szinin@gmail.com' } }
+        let(:params) { {full_name: 'new', email: 'szinin@gmail.com'} }
 
         it 'raises an error' do
           expect { update }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:taken)) }
@@ -1558,7 +1558,7 @@ RSpec.describe UserProfileManager do
     end
 
     context 'forbidden email' do
-      let(:params) { { full_name: 'new', email: "tester@#{APP_CONFIG['forbidden_email_domains'].sample}" } }
+      let(:params) { {full_name: 'new', email: "tester@#{APP_CONFIG['forbidden_email_domains'].sample}"} }
 
       it 'raises an error' do
         expect { update }.to raise_error(ManagerError) { |e| expect(e.messages[:errors]).to include(email: t_error(:invalid)) }
@@ -1678,7 +1678,7 @@ RSpec.describe UserProfileManager do
     end
 
     context 'gross sales threshold reached' do
-      before { user.update_attributes(gross_sales: 1000_00) }
+      before { user.update_attributes(gross_sales: 1_000_00) }
 
       it { expect { manager.update_slug('slava') }.to raise_error(ManagerError, /can't update your profile page url/) }
 

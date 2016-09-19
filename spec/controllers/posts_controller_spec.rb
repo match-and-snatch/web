@@ -51,7 +51,7 @@ RSpec.describe PostsController, type: :controller do
       end
 
       context 'when requests xml' do
-        subject { get :show, params: { id: audio_post.id , format: 'xml'} }
+        subject { get :show, params: {id: audio_post.id , format: 'xml'} }
         it { is_expected.to be_success }
       end
     end

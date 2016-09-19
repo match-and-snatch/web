@@ -23,13 +23,13 @@ module BuddyPlatform
     # config.i18n.default_locale = :de
     config.active_record.schema_format = :sql
 
-    config.action_mailer.default_url_options = { host: 'www.connectpal.com', protocol: :https }
+    config.action_mailer.default_url_options = {host: 'www.connectpal.com', protocol: :https}
 
     config.action_dispatch.perform_deep_munge = false
 
     I18n.enforce_available_locales = true
 
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W[#{config.root}/lib]
     config.middleware.delete ActiveRecord::QueryCache
 
     config.generators do |g|

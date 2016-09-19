@@ -9,7 +9,7 @@ class Redirector
     if request.host.starts_with?('www.')
       @app.call env
     else
-      [301, { 'Location' => request.url.sub('//', '//www.') }, self]
+      [301, {'Location' => request.url.sub('//', '//www.')}, self]
     end
   end
 

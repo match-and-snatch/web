@@ -9,7 +9,7 @@ class Api::PendingPostsController < Api::BaseController
   end
 
   def update
-    PostManager.new(user: current_user.object).update_pending(params.slice(%i(message title keywords)))
+    PostManager.new(user: current_user.object).update_pending(params.slice(%i[message title keywords]))
     json_success
   end
 

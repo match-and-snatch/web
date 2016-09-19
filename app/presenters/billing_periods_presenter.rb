@@ -104,9 +104,9 @@ class BillingPeriodsPresenter
 
     def pending_payments_count
       @user.source_subscriptions.
-          not_removed.
-          not_rejected.
-          where(["(charged_at + INTERVAL '1 month') BETWEEN ? AND ?", @period.begin, @period.end]).count
+        not_removed.
+        not_rejected.
+        where(["(charged_at + INTERVAL '1 month') BETWEEN ? AND ?", @period.begin, @period.end]).count
     end
 
     private

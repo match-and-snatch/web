@@ -48,7 +48,7 @@ describe PostManager, freeze: true do
     context 'photo post' do
       let!(:photo) { UploadManager.new(user).create_pending_photos(transloadit_photo_data_params).first }
       let!(:post) { manager.create_photo_post(title: 'test', message: 'test') }
-      let(:update_params) { { title: 'updated', message: 'updated' } }
+      let(:update_params) { {title: 'updated', message: 'updated'} }
 
       subject(:manager) { described_class.new(user: user) }
 
@@ -73,7 +73,7 @@ describe PostManager, freeze: true do
   end
 
   describe '#update_pending' do
-    let(:update_params) { { message: 'message', keywords: 'keyword' } }
+    let(:update_params) { {message: 'message', keywords: 'keyword'} }
 
     subject(:manager) { described_class.new(user: user) }
 

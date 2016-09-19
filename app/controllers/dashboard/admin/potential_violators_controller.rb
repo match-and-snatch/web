@@ -2,8 +2,8 @@ class Dashboard::Admin::PotentialViolatorsController < Dashboard::Admin::BaseCon
 
   def index
     query = User.select("users.*, COUNT(subscriptions.id) as subscriptions_count").joins(:subscriptions)
-      .includes(subscriptions: :target_user)
-      .group('users.id').having('COUNT(subscriptions.id) >= 8')
+              .includes(subscriptions: :target_user)
+              .group('users.id').having('COUNT(subscriptions.id) >= 8')
 
     if params[:sort_by]
       query = query.order("#{params[:sort_by]} #{params[:sort_direction]}")

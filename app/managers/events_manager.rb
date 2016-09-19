@@ -13,7 +13,7 @@ class EventsManager < BaseManager
     # @yield
     # @return [Event]
     def profile_type_added(user: , profile_type: , &block)
-      create_event user: user, action: 'profile_type_added', data: { title: profile_type.title }, &block
+      create_event user: user, action: 'profile_type_added', data: {title: profile_type.title}, &block
     end
 
     # @param user [User]
@@ -21,7 +21,7 @@ class EventsManager < BaseManager
     # @yield
     # @return [Event]
     def profile_type_removed(user: , profile_type: , &block)
-      create_event user: user, action: 'profile_type_removed', data: { title: profile_type.title }, &block
+      create_event user: user, action: 'profile_type_removed', data: {title: profile_type.title}, &block
     end
 
     # @param user [User]
@@ -31,10 +31,10 @@ class EventsManager < BaseManager
     def file_uploaded(user: , file: , &block)
       create_event user: user,
                     action: "#{file.type.tableize.singularize}_uploaded",
-                    data: { photo_id:    file.id,
-                            target_id:   file.uploadable_id,
-                            target_type: file.uploadable_type,
-                            url:         file.url },
+                    data: {photo_id:    file.id,
+                           target_id:   file.uploadable_id,
+                           target_type: file.uploadable_type,
+                           url:         file.url},
                     &block
     end
 
@@ -45,9 +45,9 @@ class EventsManager < BaseManager
     def upload_removed(user: , upload: , &block)
       create_event user: user,
                     action: "#{upload.type.tableize.singularize}_removed",
-                    data: { target_id:   upload.uploadable_id,
-                            target_type: upload.uploadable_type,
-                            url:         upload.url },
+                    data: {target_id:   upload.uploadable_id,
+                           target_type: upload.uploadable_type,
+                           url:         upload.url},
                     &block
     end
 
@@ -58,9 +58,9 @@ class EventsManager < BaseManager
     def like_created(user: , like: , &block)
       create_event user: user,
                     action: 'like_created',
-                    data: { likable_id: like.likable_id,
-                            target_user_id: like.target_user_id,
-                            likable_type: like.likable_type },
+                    data: {likable_id: like.likable_id,
+                           target_user_id: like.target_user_id,
+                           likable_type: like.likable_type},
                     &block
     end
 
@@ -68,11 +68,10 @@ class EventsManager < BaseManager
     # @param like [Like]
     # @return [Integer]
     def like_removed(user: , like: )
-      Event.where(user_id: user.id,
-                  action: 'like_created')
-           .where(['events.data @> ?', { likable_id: like.likable_id,
-                                        target_user_id: like.target_user_id,
-                                        likable_type: like.likable_type }.to_json]).daily.delete_all
+      Event.where(user_id: user.id, action: 'like_created')
+        .where(['events.data @> ?', {likable_id: like.likable_id,
+                                     target_user_id: like.target_user_id,
+                                     likable_type: like.likable_type}.to_json]).daily.delete_all
     end
 
     # @param user [User]
@@ -82,9 +81,9 @@ class EventsManager < BaseManager
     def message_created(user: , message: , &block)
       create_event user: user,
                     action: 'message_created',
-                    data: { id: message.id,
-                            target_user_id: message.target_user_id,
-                            dialogue_id: message.dialogue_id },
+                    data: {id: message.id,
+                           target_user_id: message.target_user_id,
+                           dialogue_id: message.dialogue_id},
                     &block
     end
 
@@ -93,7 +92,7 @@ class EventsManager < BaseManager
     # @yield
     # @return [Event]
     def dialogue_marked_as_read(user: , dialogue: , &block)
-      create_event user: user, action: 'dialogue_marked_as_read', data: { dialogue_id: dialogue.id }, &block
+      create_event user: user, action: 'dialogue_marked_as_read', data: {dialogue_id: dialogue.id}, &block
     end
 
     # @param user [User]
@@ -102,9 +101,9 @@ class EventsManager < BaseManager
     # @return [Event]
     def transfer_sent(user: , transfer: , &block)
       create_event user: user,
-                    action: 'transfer_sent',
-                    data: { amount: transfer.amount },
-                    &block
+                   action: 'transfer_sent',
+                   data: {amount: transfer.amount},
+                   &block
     end
 
     # @param subject [ActiveRecord::Base]

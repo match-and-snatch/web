@@ -11,8 +11,8 @@ module Subscriptions
       Subscription.where([sql]).group_by {|subscription| subscription.user }.each do |user, sbscrptns|
         sbscrptns.group_by { |subscription| subscription.target_user_id }.each do |target_user_id, subscriptions|
           master_subscription = user.subscriptions.where(target_user_id: target_user_id, removed: false, rejected: false).first ||
-              user.subscriptions.where(target_user_id: target_user_id, removed: false, rejected: true).first ||
-              user.subscriptions.where(target_user_id: target_user_id).first
+            user.subscriptions.where(target_user_id: target_user_id, removed: false, rejected: true).first ||
+            user.subscriptions.where(target_user_id: target_user_id).first
 
           ids = subscriptions.map(&:id) - [master_subscription.id]
           Payment.where(target_type: 'Subscription', target_id: ids).update_all(target_id: master_subscription.id)

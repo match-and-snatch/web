@@ -40,7 +40,7 @@ RSpec.describe ::UsersController, type: :controller do
     let!(:owner)  { create :user, :profile_owner }
     let(:visitor) { create :user }
 
-    subject { get :show, params: {id: owner.slug } }
+    subject { get :show, params: {id: owner.slug} }
 
     context 'authorized access' do
       before { sign_in owner }

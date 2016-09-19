@@ -10,7 +10,7 @@ module Queries
 
         query = {multi_match: {
             query: fulltext_query,
-            fields: %w(title^3 message)
+            fields: %w[title^3 message]
         }}
 
         unless filters.empty?

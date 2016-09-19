@@ -4,8 +4,8 @@ class Dashboard::Admin::TosVersionsController < Dashboard::Admin::BaseController
 
   def index
     @tos_versions = TosVersion
-      .order(published_at: :desc, created_at: :desc)
-      .page(params[:page]).per(100)
+                      .order(published_at: :desc, created_at: :desc)
+                      .page(params[:page]).per(100)
     json_render
   end
 

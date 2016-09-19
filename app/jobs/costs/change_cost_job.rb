@@ -8,7 +8,7 @@ module Costs
       requests.find_each do |cost_change_request|
         begin
           UserProfileManager.new(cost_change_request.user)
-              .change_cost!(cost: cost_change_request.new_cost, update_existing_subscriptions: cost_change_request.update_existing_subscriptions)
+            .change_cost!(cost: cost_change_request.new_cost, update_existing_subscriptions: cost_change_request.update_existing_subscriptions)
           cost_change_request.perform!
           report[:performed_requests] += 1
         rescue ManagerError => e
