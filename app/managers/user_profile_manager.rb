@@ -325,10 +325,18 @@ class UserProfileManager < BaseManager
     err = e.json_body[:error]
 
     case err[:code]
-    when 'incorrect_number', 'invalid_number', 'card_declined', 'missing', 'processing_error'
+    when 'incorrect_number', 'invalid_number', 'card_declined', 'missing', 'processing_error', 'expired_card'
       fail_with! number: err[:message]
-    when 'invalid_expiry_month', 'invalid_expiry_year', 'expired_card'
-      fail_with! expiry_date: err[:message]
+    when 'invalid_expiry_month'
+      validate! do
+        fail_with! expiry_month: err[:message]
+        fail_with! expiry_date: err[:message]
+      end
+    when 'invalid_expiry_year'
+      validate! do
+        fail_with! expiry_year: err[:message]
+        fail_with! expiry_date: err[:message]
+      end
     when 'invalid_cvc', 'incorrect_cvc'
       fail_with! cvc: err[:message]
     when 'incorrect_zip'
@@ -432,10 +440,18 @@ class UserProfileManager < BaseManager
     err = e.json_body[:error]
 
     case err[:code]
-    when 'incorrect_number', 'invalid_number', 'card_declined', 'missing', 'processing_error'
+    when 'incorrect_number', 'invalid_number', 'card_declined', 'missing', 'processing_error', 'expired_card'
       fail_with! number: err[:message]
-    when 'invalid_expiry_month', 'invalid_expiry_year', 'expired_card'
-      fail_with! expiry_date: err[:message]
+    when 'invalid_expiry_month'
+      validate! do
+        fail_with! expiry_month: err[:message]
+        fail_with! expiry_date: err[:message]
+      end
+    when 'invalid_expiry_year'
+      validate! do
+        fail_with! expiry_year: err[:message]
+        fail_with! expiry_date: err[:message]
+      end
     when 'invalid_cvc', 'incorrect_cvc'
       fail_with! cvc: err[:message]
     when 'incorrect_zip'
