@@ -28,10 +28,10 @@ class CurrentUserDecorator < UserDecorator
   # @return [ActiveRecord::Relation]
   def dialogues(page: 1, per_page: 15)
     @dialogues ||= object.dialogues
-      .not_removed
-      .includes(recent_message: [:user, :target_user])
-      .order(recent_message_at: :desc)
-      .page(page).per(per_page)
+                     .not_removed
+                     .includes(recent_message: [:user, :target_user])
+                     .order(recent_message_at: :desc)
+                     .page(page).per(per_page)
   end
 
   # @return [Symbol]

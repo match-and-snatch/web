@@ -168,7 +168,7 @@ class PostManager < BaseManager
 
     now = Time.zone.now
     events = user.events.daily.where('action LIKE ?', '%_post_removed')
-                              .where(created_at: now.beginning_of_day..now.end_of_day)
+               .where(created_at: now.beginning_of_day..now.end_of_day)
 
     if events.count == 5
       ReportsMailer.delay.deleted_posts_too_often(user)

@@ -12,9 +12,9 @@ class Dialogue < ApplicationRecord
   # @param target_user [User]
   # @return [Dialogue]
   def self.pick(user, target_user)
-    dialogue = joins(:users).
-      where(users: {id: [user.id, target_user.id]}).
-      group('dialogues.id').having('COUNT(users.id) = 2').first
+    dialogue = joins(:users).where(users: {id: [user.id, target_user.id]})
+                 .group('dialogues.id')
+                 .having('COUNT(users.id) = 2').first
 
     if dialogue
       dialogue.dialogues_users.update_all(removed: false)
@@ -36,4 +36,3 @@ class Dialogue < ApplicationRecord
     users.where(['users.id <> ?', user.id]).first
   end
 end
-

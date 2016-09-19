@@ -1,0 +1,77 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Include:
+    - '**/Gemfile'
+    - '**/Guardfile'
+    - '**/Rakefile'
+    - '**/config.ru'
+    - '**/Vagrantfile'
+  Exclude:
+    - 'bundle/**/*'
+    - 'db/**/*'
+    - 'log/**/*'
+    - 'deploy/**/*'
+    - 'public/**/*'
+    - 'script/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+  DisplayCopNames: true
+  TargetRubyVersion: 2.3
+
+ClassAndModuleChildren:
+  Enabled: false
+
+ClassLength:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+PredicateName:
+  Enabled: false
+
+LineLength:
+  Enabled: false
+
+MethodLength:
+  Enabled: false
+
+SpaceBeforeFirstArg:
+  Enabled: false
+
+SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
+SignalException:
+  Enabled: false
+
+PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%r': '{}'
+    '%i': '[]'
+    '%w': '[]'
+    '%W': '[]'
+    '%Q': '{}'
+
+Rails:
+  Enabled: true
+
+Style/Send:
+  Enabled: true
+
+Style/UnneededPercentQ:
+  Enabled: true
+
+Style/Lambda:
+  Enabled: false
+
+Lint/UselessAccessModifier:
+  ContextCreatingMethods:
+    - projector

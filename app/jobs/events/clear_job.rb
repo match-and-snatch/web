@@ -8,8 +8,8 @@ module Events
 
     def self.perform
       count = Event.where(action: ACTIONS)
-                   .where('created_at <= ?', 2.months.ago)
-                   .delete_all
+                .where('created_at <= ?', 2.months.ago)
+                .delete_all
 
       puts "Deleted #{count} events" unless Rails.env.test?
     end

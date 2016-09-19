@@ -7,7 +7,7 @@ cache 'sitemap', expires_in: 1.hour do
       xml.priority 1.0
     end
 
-    %w(about pricing contact_us terms_of_service privacy_policy faq users).each do |page|
+    %w[about pricing contact_us terms_of_service privacy_policy faq users].each do |page|
       xml.url do
         xml.loc "#{root_url}#{page}"
         xml.xhtml :link, rel: "alternate", media: "only screen and (max-width: 768px)", href: mobile_url(page)

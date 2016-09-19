@@ -78,7 +78,7 @@ class User < ApplicationRecord
   end
 
   elastic_type 'profiles' do
-    field :full_name, :profile_name, :profile_types_text, partial: { min_gram: 2, max_gram: 10 }
+    field :full_name, :profile_name, :profile_types_text, partial: {min_gram: 2, max_gram: 10}
     field :subscribers_count # used for boosting results
     field :publicly_visible?
   end
@@ -148,8 +148,7 @@ class User < ApplicationRecord
 
   def publicly_visible?
     is_profile_owner? && has_complete_profile? &&
-      (subscribers_count > 0 || profile_picture_url.present?) &&
-        !(hidden? || has_mature_content?)
+      (subscribers_count > 0 || profile_picture_url.present?) && !(hidden? || has_mature_content?)
   end
 
   def cc_decline

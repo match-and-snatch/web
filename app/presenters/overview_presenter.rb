@@ -72,15 +72,15 @@ class OverviewPresenter
 
   def daily_new_subscriptions_revenue
     subscriptions.joins(:payments)
-        .where(subscriptions: {created_at: current_day})
-        .sum('payments.amount')
+      .where(subscriptions: {created_at: current_day})
+      .sum('payments.amount')
   end
 
   def daily_recurring_subscriptions_revenue
     subscriptions.joins(:payments)
-        .where(payments: {created_at: current_day})
-        .where('subscriptions.created_at < ?', current_day.first)
-        .sum('payments.amount')
+      .where(payments: {created_at: current_day})
+      .where('subscriptions.created_at < ?', current_day.first)
+      .sum('payments.amount')
   end
 
   def daily_contributions_revenue

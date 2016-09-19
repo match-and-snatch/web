@@ -51,7 +51,7 @@ BuddyPlatform::Application.routes.draw do
         get :feed
       end
       resources :comments, only: [:create, :index]
-      resources :likes, only: [:index, :create], defaults: { type: 'post' }
+      resources :likes, only: [:index, :create], defaults: {type: 'post'}
     end
 
     resource :pending_post, only: [:update]
@@ -94,7 +94,7 @@ BuddyPlatform::Application.routes.draw do
           put :hide
         end
       end
-      resources :likes, only: [:index, :create], defaults: { type: 'comment' }
+      resources :likes, only: [:index, :create], defaults: {type: 'comment'}
     end
 
     resources :messages, only: [:create] do
@@ -598,7 +598,7 @@ BuddyPlatform::Application.routes.draw do
 
   scope module: :owner do
     resource :first_step, only: :show
-    resource :second_step, only: %i(show update)
+    resource :second_step, only: %i[show update]
   end
 
   get '/about' => 'pages#about', as: :about

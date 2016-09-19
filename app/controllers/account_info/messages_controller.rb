@@ -3,7 +3,7 @@ class AccountInfo::MessagesController < AccountInfo::BaseController
 
   def create
     @message = MessagesManager.new(user: current_user.object).
-      create(target_user: @target_user, message: params[:message])
+                 create(target_user: @target_user, message: params[:message])
     json_append
   end
 

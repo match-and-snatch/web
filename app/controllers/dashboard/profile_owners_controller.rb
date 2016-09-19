@@ -6,8 +6,8 @@ class Dashboard::ProfileOwnersController < Dashboard::BaseController
 
   def index
     query = User.profile_owners
-                .where.not(users: {subscription_cost: nil})
-                .where('gross_sales > ?', 9900)
+              .where.not(users: {subscription_cost: nil})
+              .where('gross_sales > ?', 9900)
 
     if params[:filter] == 'payout_updated'
       query = query.where('users.payout_updated_at > ?', Time.zone.now.beginning_of_month)
@@ -56,60 +56,60 @@ class Dashboard::ProfileOwnersController < Dashboard::BaseController
 
   def total_subscribed
     @subscriptions = @user.
-      source_subscriptions.
-      includes(:user).
-      where(users: { billing_failed: false }).
-      where(["removed_at > ? OR removed = 'f'", period.end]).
-      where(['subscriptions.created_at <= ?', period.end]).
-      order(:charged_at).map { |s| SubscriptionDecorator.new(s, date) }
+                       source_subscriptions.
+                       includes(:user).
+                       where(users: {billing_failed: false}).
+                       where(["removed_at > ? OR removed = 'f'", period.end]).
+                       where(['subscriptions.created_at <= ?', period.end]).
+                       order(:charged_at).map { |s| SubscriptionDecorator.new(s, date) }
     json_popup
   end
 
   def total_new_subscribed
     @subscriptions = @user.
-      source_subscriptions.
-      includes(:user).
-      where(created_at: period).
-      where.not(user_id: nil).
-      order(:charged_at)
+                       source_subscriptions.
+                       includes(:user).
+                       where(created_at: period).
+                       where.not(user_id: nil).
+                       order(:charged_at)
     json_popup
   end
 
   def total_unsubscribed
     @subscriptions = @user.
-      source_subscriptions.
-      includes(:user).
-      where(removed_at: period, removed: true).
-      where.not(user_id: nil).
-      order(:removed_at)
+                       source_subscriptions.
+                       includes(:user).
+                       where(removed_at: period, removed: true).
+                       where.not(user_id: nil).
+                       order(:removed_at)
     json_popup
   end
 
   def this_month_subscribers_unsubscribers
     @subscriptions = @user.
-      source_subscriptions.
-      includes(:user).
-      where(removed_at: period, removed: true, created_at: period).
-      where.not(user_id: nil).
-      order(:removed_at)
+                       source_subscriptions.
+                       includes(:user).
+                       where(removed_at: period, removed: true, created_at: period).
+                       where.not(user_id: nil).
+                       order(:removed_at)
     json_popup
   end
 
   def failed_billing_subscriptions
     @users = User.
-      joins(:subscriptions).
-      where(subscriptions: {target_user_id: @user.id}, billing_failed_at: period)
+               joins(:subscriptions).
+               where(subscriptions: {target_user_id: @user.id}, billing_failed_at: period)
     json_popup
   end
 
   def pending_payments
     @subscriptions = @user.
-      source_subscriptions.
-      includes(:user).
-      not_removed.
-      not_rejected.
-      where(["(charged_at + INTERVAL '1 month') BETWEEN ? AND ?", period.begin, period.end]).
-      order(:charged_at)
+                       source_subscriptions.
+                       includes(:user).
+                       not_removed.
+                       not_rejected.
+                       where(["(charged_at + INTERVAL '1 month') BETWEEN ? AND ?", period.begin, period.end]).
+                       order(:charged_at)
     json_popup
   end
 

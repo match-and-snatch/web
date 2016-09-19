@@ -23,8 +23,8 @@ class UploadManager < BaseManager
       fail_with! "You can't upload more than 15 tracks."
     end
 
-    create_audio(transloadit_data, template: 'post_audio', attributes: { uploadable_type: 'Post',
-                                                                         uploadable_id: nil })
+    create_audio(transloadit_data, template: 'post_audio', attributes: {uploadable_type: 'Post',
+                                                                        uploadable_id: nil})
   end
 
   # @param transloadit_data [Hash]
@@ -38,8 +38,8 @@ class UploadManager < BaseManager
       fail_with! "You can't upload more than one video."
     end
 
-    create_video(transloadit_data, template: 'post_video', attributes: { uploadable_type: 'Post',
-                                                                         uploadable_id: nil })
+    create_video(transloadit_data, template: 'post_video', attributes: {uploadable_type: 'Post',
+                                                                        uploadable_id: nil})
   end
 
   def create_pending_video_previews(transloadit_data)
@@ -50,7 +50,7 @@ class UploadManager < BaseManager
       original = search_related_result(transloadit_data['results']['full_size'], original_id)
 
       if original
-        s3_paths = { bucket => [original['ssl_url']].map { |e| { key: get_file_path(e) } } }
+        s3_paths = {bucket => [original['ssl_url']].map { |e| {key: get_file_path(e)} }}
 
         upload = PendingVideoPreviewPhoto.new transloadit_data: pack_transloadit_data(transloadit_data),
                                               s3_paths:         s3_paths,
@@ -80,7 +80,7 @@ class UploadManager < BaseManager
       fail_with! "You can't upload more than 10 photos."
     end
 
-    attributes = { uploadable_type: 'Post', uploadable_id: nil }
+    attributes = {uploadable_type: 'Post', uploadable_id: nil}
     bucket = Transloadit::Rails::Engine.configuration['_templates']['post_photo']['steps']['store']['bucket']
 
     transloadit_data['uploads'].each.map do |upload_data|
@@ -92,7 +92,7 @@ class UploadManager < BaseManager
         retina_preview = search_related_result(transloadit_data['results']['retina_preview'], original_id)
         source_file = search_related_result(transloadit_data['results'][':original'], original_id)
 
-        s3_paths = { bucket => [original['ssl_url'], preview['ssl_url'], retina_preview['ssl_url'], source_file['ssl_url']].map { |e| { key: get_file_path(e) } } }
+        s3_paths = {bucket => [original['ssl_url'], preview['ssl_url'], retina_preview['ssl_url'], source_file['ssl_url']].map { |e| {key: get_file_path(e)} }}
 
         upload = Photo.new transloadit_data: pack_transloadit_data(transloadit_data),
                            s3_paths:         s3_paths,
@@ -123,7 +123,7 @@ class UploadManager < BaseManager
       fail_with! "You can't upload more than 5 documents."
     end
 
-    attributes = { uploadable_type: 'Post', uploadable_id: nil }
+    attributes = {uploadable_type: 'Post', uploadable_id: nil}
     bucket = Transloadit::Rails::Engine.configuration['_templates']['post_document']['steps']['store']['bucket']
 
     transloadit_data['uploads'].each.map do |upload_data|
@@ -131,11 +131,11 @@ class UploadManager < BaseManager
       original = search_related_result(transloadit_data['results'][':original'], original_id)
 
       if original
-        s3_paths = { bucket => [{ key: get_file_path(original['ssl_url']) }]}
+        s3_paths = {bucket => [{key: get_file_path(original['ssl_url'])}]}
 
         if transloadit_data['results']['preview']
           preview = search_related_result(transloadit_data['results']['preview'], original_id)
-          s3_paths[bucket] << { key: get_file_path(preview['ssl_url']) }
+          s3_paths[bucket] << {key: get_file_path(preview['ssl_url'])}
         end
 
         upload = Document.new transloadit_data: pack_transloadit_data(transloadit_data),
@@ -184,9 +184,9 @@ class UploadManager < BaseManager
   def create_photo(transloadit_data, uploadable: user, template: 'post_photo', attributes: {})
     bucket = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['bucket']
 
-    s3_paths = { bucket => [] }
+    s3_paths = {bucket => []}
     Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store']['use'].each do |key|
-      s3_paths[bucket] << { key: get_file_path(transloadit_data['results'][key][0]['ssl_url']) }
+      s3_paths[bucket] << {key: get_file_path(transloadit_data['results'][key][0]['ssl_url'])}
     end
 
     upload = Photo.new transloadit_data: pack_transloadit_data(transloadit_data),
@@ -233,7 +233,7 @@ class UploadManager < BaseManager
     preview_bucket = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['s3_thumb']['bucket']
     videos_bucket  = Transloadit::Rails::Engine.configuration['_templates'][template]['steps']['store_low']['bucket']
 
-    s3_paths = { videos_bucket  => [encode['ssl_url'], original['ssl_url']].compact.map { |e| { key: get_file_path(e) } } }
+    s3_paths = {videos_bucket  => [encode['ssl_url'], original['ssl_url']].compact.map { |e| {key: get_file_path(e)} }}
 
     upload = Video.new transloadit_data: pack_transloadit_data(transloadit_data),
                        s3_paths:         s3_paths,
@@ -291,7 +291,7 @@ class UploadManager < BaseManager
       original_id = upload_data['original_id']
       original = search_related_result(transloadit_data['results'][':original'], original_id)
 
-      s3_paths = { bucket => [{ key: get_file_path(original['ssl_url']) }] }
+      s3_paths = {bucket => [{key: get_file_path(original['ssl_url'])}]}
       upload = Audio.new transloadit_data: pack_transloadit_data(transloadit_data),
                          s3_paths:         s3_paths,
                          uploadable:       uploadable,

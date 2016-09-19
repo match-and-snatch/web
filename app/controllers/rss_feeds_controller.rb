@@ -25,7 +25,7 @@ class RssFeedsController < ApplicationController
 
   def show
     @feed_events = FeedEvent.where(subscription_target_user_id: @user.id).
-      order('feed_events.created_at DESC').limit(70).to_a
+                     order('feed_events.created_at DESC').limit(70).to_a
 
     respond_to do |format|
       format.atom { render layout: false }

@@ -14,6 +14,6 @@ class Api::AudiosController < Api::UploadsController
   private
 
   def audios_data(audios)
-    { audios: api_response.audios_data(audios) }
+    {audios: api_response.audios_data(audios)}
   end
 end

@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.playbook = 'deploy/vagrant.yml'
     ansible.inventory_path = 'deploy/inventory_vagrant'
     ansible.sudo = true
-    ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
+    ansible.extra_vars = {ansible_ssh_user: 'vagrant'}
     ansible.verbose = 'vvvv'
   end
 

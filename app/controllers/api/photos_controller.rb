@@ -7,7 +7,7 @@ class Api::PhotosController < Api::UploadsController
   private
 
   def photos_data(photos)
-    { photos: photos.map { |photo| photo_data(photo) } }
+    {photos: photos.map { |photo| photo_data(photo) }}
   end
 
   def photo_data(photo)

@@ -55,8 +55,8 @@ class Contribution < ApplicationRecord
   def recurring_performable?
     active? &&
       (next_billing_date <= Time.zone.now.to_date) &&
-        user && target_user &&
-          (!user.locked?) &&
-            target_user.contributions_allowed?
+      user && target_user &&
+      (!user.locked?) &&
+      target_user.contributions_allowed?
   end
 end

@@ -8,12 +8,12 @@ class LikesController < ApplicationController
   protect { can? :like, @likable }
 
   def index
-    json_render html: @likable.likes.order('likes.created_at DESC').
-                                     select('likes.user_id').
-                                     includes(:user).
-                                     map(&:user).map(&:name).
-                                     join(', ').
-                                     html_safe
+    content = @likable.likes.order('likes.created_at DESC').
+                select('likes.user_id').
+                includes(:user).
+                map(&:user).map(&:name).
+                join(', ')
+    json_render html: content.html_safe
   end
 
   def create

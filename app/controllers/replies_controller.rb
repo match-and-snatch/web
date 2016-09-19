@@ -9,12 +9,12 @@ class RepliesController < ApplicationController
   protect(:edit, :update, :confirm_make_visible, :make_visible, :confirm_hide, :hide) { can? :manage, @reply }
 
   def show
-    json_replace partial: 'reply', locals: { reply: @reply }
+    json_replace partial: 'reply', locals: {reply: @reply}
   end
 
   def create
     @reply = CommentManager.new(user: current_user.object, post: @comment.post, parent: @comment).
-        create(params.slice(:message, :mentions))
+               create(params.slice(:message, :mentions))
     json_render notice: :new_comment
   end
 

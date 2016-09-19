@@ -4,8 +4,7 @@ module Queries
       type 'profiles'
 
       scope do
-        User.profile_owners
-            .with_complete_profile
+        User.profile_owners.with_complete_profile
       end
 
       body do |fulltext_query, include_hidden: false|

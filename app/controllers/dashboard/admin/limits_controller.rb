@@ -8,8 +8,8 @@ class Dashboard::Admin::LimitsController < Dashboard::Admin::BaseController
 
   def index
     @users = User.where.not(adult_subscriptions_limit: 6)
-                 .order(adult_subscriptions_limit_changed_at: :desc)
-                 .page(params[:page]).per(100)
+               .order(adult_subscriptions_limit_changed_at: :desc)
+               .page(params[:page]).per(100)
     json_render
   end
 

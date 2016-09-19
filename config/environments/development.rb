@@ -18,7 +18,7 @@ BuddyPlatform::Application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
+  config.action_mailer.smtp_settings = {address: 'localhost', port: 1025}
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -33,7 +33,7 @@ BuddyPlatform::Application.configure do
 
   config.assets.digest = false
   config.assets.use_cdn = false
-  config.assets.precompile += %w(ie.css underscore-min.js jquery.js dashboard.js)
+  config.assets.precompile += %w[ie.css underscore-min.js jquery.js dashboard.js]
   config.assets.paths << Rails.root.join('app', 'assets', 'images')
   config.stripe.secret_key = 'sk_test_onN61JMWKmncifVcCx8tsmGA'
 end

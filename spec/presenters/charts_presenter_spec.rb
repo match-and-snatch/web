@@ -8,7 +8,7 @@ describe ChartsPresenter do
     let!(:event_date) { EventsManager.user_registered(user: profile_owner).created_at.utc.beginning_of_day.to_i }
 
     specify do
-      expect(described_class.new(graph_type: 'registered').chart_data).to eq([{ x: event_date, y: 1 }])
+      expect(described_class.new(graph_type: 'registered').chart_data).to eq([{x: event_date, y: 1}])
     end
 
     context 'no action specified' do
@@ -32,7 +32,7 @@ describe ChartsPresenter do
           PaymentManager.new(user: subscriber).pay_for(subscription)
         end
 
-        specify { expect(described_class.new(graph_type: 'gross_sales').chart_data).to eq([{ x: payment_date, y: 6.99 }]) }
+        specify { expect(described_class.new(graph_type: 'gross_sales').chart_data).to eq([{x: payment_date, y: 6.99}]) }
       end
 
       context 'next year payments' do
@@ -43,7 +43,7 @@ describe ChartsPresenter do
         end
 
         specify do
-          expect(described_class.new(graph_type: 'gross_sales').chart_data).to eq([{ x: payment_date, y: 6.99 }])
+          expect(described_class.new(graph_type: 'gross_sales').chart_data).to eq([{x: payment_date, y: 6.99}])
         end
       end
     end

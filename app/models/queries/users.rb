@@ -1,7 +1,7 @@
 module Queries
   class Users < BaseQuery
     EMAIL_REGEX = /\A[^@\s]+@([^@\s\.]+\.)+[^@\s\.]+\z/i
-    INTEGER_RANGE_LIMIT = 2147483647
+    INTEGER_RANGE_LIMIT = 2_147_483_647
 
     # @param query [String]
     # @param user [User] current user performing the query
@@ -104,8 +104,8 @@ module Queries
       case @query
       when 'by_admin'
         User.joins(tos_acceptances: :tos_version)
-            .where(tos_acceptances: {performed_by_admin: true}, tos_versions: {active: true})
-            .select('DISTINCT(users.id), users.*')
+          .where(tos_acceptances: {performed_by_admin: true}, tos_versions: {active: true})
+          .select('DISTINCT(users.id), users.*')
       when 'not_accepted'
         User.where(tos_accepted: false)
       when 'accepted', ''

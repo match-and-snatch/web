@@ -467,7 +467,7 @@ class ApiResponsePresenter
   private
 
   def contributions_data
-    { total_amount: 0, contributions: [] }.tap do |data|
+    {total_amount: 0, contributions: []}.tap do |data|
       contributions = Contribution.where(target_user_id: current_user.id)
       if contributions.any?
         data[:total_amount] = contributions.total_amount

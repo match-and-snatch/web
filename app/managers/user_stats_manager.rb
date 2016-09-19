@@ -13,8 +13,8 @@ class UserStatsManager < BaseManager
     subscriptions_count   = user.source_subscriptions.not_removed.not_rejected.count
     unsubscribers_count   = user.source_subscriptions.where(removed_at: current_month, removed: true).count
     failed_payments_count = user.source_subscriptions
-                                .joins(:user)
-                                .where(users: { billing_failed: true, billing_failed_at: current_month }).count
+                              .joins(:user)
+                              .where(users: {billing_failed: true, billing_failed_at: current_month}).count
 
     user.subscribers_count = subscriptions_count
     save_or_die! user

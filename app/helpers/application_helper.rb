@@ -124,12 +124,12 @@ module ApplicationHelper
     content_tag(:div, nil,
                 id: "Upload__#{video.id}",
                 class: 'VideoPlayer',
-                data: { file:     video.rtmp_path,
-                        hdfile:   video.hd_rtmp_path,
-                        playlist: playlist_url,
-                        original: video.original_url,
-                        image:    video.preview_url,
-                        primary: 'html5' }) if video
+                data: {file:     video.rtmp_path,
+                       hdfile:   video.hd_rtmp_path,
+                       playlist: playlist_url,
+                       original: video.original_url,
+                       image:    video.preview_url,
+                       primary: 'html5'}) if video
   end
 
   # @param audio [Audio]
@@ -138,9 +138,9 @@ module ApplicationHelper
     content_tag(:div, nil,
                 id: "Upload__#{audio.id}",
                 class: 'AudioPlayer',
-                data: { file:     audio.rtmp_path,
-                        original: audio.original_url,
-                        primary: 'html5' }) if audio
+                data: {file:     audio.rtmp_path,
+                       original: audio.original_url,
+                       primary: 'html5'}) if audio
   end
 
   # @param path [String, User]

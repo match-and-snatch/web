@@ -36,15 +36,15 @@ RSpec.describe SubscriptionManager do
       }
     end
     let(:cc_data) do
-      { number: '4242424242424242',
-        cvc: '000',
-        expiry_month: '05',
-        expiry_year: '18',
-        zip: '123456',
-        city: 'LA',
-        state: 'CA',
-        address_line_1: 'Test',
-        address_line_2: nil }
+      {number: '4242424242424242',
+       cvc: '000',
+       expiry_month: '05',
+       expiry_year: '18',
+       zip: '123456',
+       city: 'LA',
+       state: 'CA',
+       address_line_1: 'Test',
+       address_line_2: nil}
     end
 
     context 'full name contains numbers' do

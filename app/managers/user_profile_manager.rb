@@ -310,8 +310,7 @@ class UserProfileManager < BaseManager
 
     if APP_CONFIG['enable_cc_locks']
       card_already_used_by_another_account = User.where(stripe_card_fingerprint: cc_fingerprint).
-        where("users.id <> ?", user.id).
-        any?
+                                               where("users.id <> ?", user.id).any?
     end
 
     if card_already_used_by_another_account
@@ -419,8 +418,7 @@ class UserProfileManager < BaseManager
     EventsManager.credit_card_updated(user: user)
 
     card_already_used_by_another_account = User.where(stripe_card_fingerprint: cc_fingerprint).
-      where("(users.id <> ?) AND NOT (users.locked = 't' AND users.lock_type = 'billing')", user.id).
-      any?
+                                             where("(users.id <> ?) AND NOT (users.locked = 't' AND users.lock_type = 'billing')", user.id).any?
 
     if card_already_used_by_another_account
       UserManager.new(user).lock(type: :billing, reason: :cc_used_by_another_account)
@@ -518,7 +516,7 @@ class UserProfileManager < BaseManager
     end
 
     CreditCardDecline.create!(stripe_fingerprint: fingerprint, user_id: @user.id)
-    EventsManager.credit_card_declined(user: @user, data: { email: @user.email, stripe_fingerprint: fingerprint })
+    EventsManager.credit_card_declined(user: @user, data: {email: @user.email, stripe_fingerprint: fingerprint})
   end
 
   def restore_credit_card
@@ -526,7 +524,7 @@ class UserProfileManager < BaseManager
 
     @user.credit_card_declines.each do |decline|
       decline.destroy
-      EventsManager.credit_card_restored(user: @user, data: { email: @user.email, stripe_fingerprint: decline.stripe_fingerprint })
+      EventsManager.credit_card_restored(user: @user, data: {email: @user.email, stripe_fingerprint: decline.stripe_fingerprint})
     end
   end
 
@@ -557,10 +555,10 @@ class UserProfileManager < BaseManager
 
     save_or_die! user
     reindex_user
-    EventsManager.account_information_changed(user: user, data: { full_name: full_name,
-                                                                  company_name: company_name,
-                                                                  old_email: old_email,
-                                                                  email: email })
+    EventsManager.account_information_changed(user: user, data: {full_name: full_name,
+                                                                 company_name: company_name,
+                                                                 old_email: old_email,
+                                                                 email: email})
     user
   end
 
@@ -795,11 +793,11 @@ class UserProfileManager < BaseManager
     save_or_die!(user).tap do
       # Charge users who have been subscribed for more than 1 month
       affected_users_count = user.source_subscriptions
-                                 .not_removed
-                                 .where(rejected: false)
-                                 .been_charged
-                                 .where(["subscriptions.created_at <= ?", vacation_enabled_at - 1.month])
-                                 .update_all(["charged_at = charged_at + interval '? days'", (Time.zone.now.to_date - vacation_enabled_at.to_date).to_i])
+                               .not_removed
+                               .where(rejected: false)
+                               .been_charged
+                               .where(["subscriptions.created_at <= ?", vacation_enabled_at - 1.month])
+                               .update_all(["charged_at = charged_at + interval '? days'", (Time.zone.now.to_date - vacation_enabled_at.to_date).to_i])
 
       NotificationManager.delay.notify_vacation_disabled(user)
       EventsManager.vacation_mode_disabled(user: user, affected_users_count: affected_users_count)
@@ -878,7 +876,7 @@ class UserProfileManager < BaseManager
       fail_with cost: :not_a_whole_number
     elsif (cost.to_f * 100).to_i <= 0
       fail_with cost: :zero
-    elsif (cost.to_f * 100).to_i > 999999
+    elsif (cost.to_f * 100).to_i > 9_999_99
       fail_with cost: :reached_maximum
     end
   end
@@ -892,7 +890,7 @@ class UserProfileManager < BaseManager
       fail_with! field => :not_a_money
     elsif amount.to_f.zero?
       fail_with! field => :zero
-    elsif (amount.to_f * 100).to_i > 999999
+    elsif (amount.to_f * 100).to_i > 9_999_99
       fail_with! field => :reached_maximum
     elsif (amount.to_f * 100).to_i > @user.cost.to_i
       fail_with! field => :reached_maximum
@@ -900,9 +898,9 @@ class UserProfileManager < BaseManager
   end
 
   def update_subscriptions_cost
-    user.source_subscriptions.update_all({ cost: user.cost,
-                                           fees: user.subscription_fees,
-                                           total_cost: user.subscription_cost })
+    user.source_subscriptions.update_all({cost: user.cost,
+                                          fees: user.subscription_fees,
+                                          total_cost: user.subscription_cost})
   end
 
   def create_cost_change_request(cost: , update_existing_subscriptions: )
@@ -985,7 +983,7 @@ class UserProfileManager < BaseManager
     save_or_die! user
 
     reindex_user
-    EventsManager.profile_created(user: user, data: { cost: cost, profile_name: profile_name }) if never_passed_second_step
+    EventsManager.profile_created(user: user, data: {cost: cost, profile_name: profile_name}) if never_passed_second_step
 
     sync_stripe_recipient! if user.stripe_recipient_id
     user

@@ -33,7 +33,7 @@ class Layout < Hash
   end
 
   def js_data
-    self[:js_data] ||= { error_messages: I18n.t('errors').except(:messages), locked: self[:locked] }
+    self[:js_data] ||= {error_messages: I18n.t('errors').except(:messages), locked: self[:locked]}
   end
 
   def custom_css
