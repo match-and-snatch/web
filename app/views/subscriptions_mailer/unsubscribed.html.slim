@@ -1,7 +1,7 @@
 div style="color: #ea2e49; font-size: 24px; -webkit-text-size-adjust: none;" Bummer
 p style="color: #464646; font-size: 14px; -webkit-text-size-adjust: none;"
   ' You have unsubscribed from
-  a href=profile_url(@target_user) style="color: #ea2e49; -webkit-text-size-adjust: none;"= @target_user.name
+  = link_to_user(@target_user, style: 'color:#ea2e49;-webkit-text-size-adjust:none;')
   |&nbsp;on&nbsp;
   b= Time.zone.now.to_s(:long)
 

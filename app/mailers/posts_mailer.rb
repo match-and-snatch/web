@@ -17,7 +17,7 @@ class PostsMailer < ApplicationMailer
     if @mentioned_user == @post_user
       subject = 'You were mentioned on your profile page'
     else
-      subject = "You were mentioned on #{@post_user.name} profile page."
+      subject = "You were mentioned on #{@post_user.name.possessive} profile page."
     end
 
     mail to: @mentioned_user.email, subject: subject
