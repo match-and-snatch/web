@@ -43,8 +43,9 @@
             - else
               span.pending_approval Pending Approval
           .red-icon.fa.fa-usd
-          .fa.fa-gear.edit-gear.PopupTrigger data-target='cost-editor'
-            .edit-text Edit
+          - if @profile.subscribers_count.zero?
+            .fa.fa-gear.edit-gear.PopupTrigger data-target='cost-editor'
+              .edit-text Edit
           .clearfix
         = render partial: 'users/welcome_media_button', locals: {profile: @profile}
       .clearfix
@@ -137,8 +138,9 @@
           a href='javascript: void(0)' Profile Name
         li
           a.PopupTrigger data-target='type-editor' href='#' Profile Type
-        li
-          a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+        - if @profile.subscribers_count.zero?
+          li
+            a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
         li
           a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
       .modal-header
@@ -165,8 +167,9 @@
           a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li.active
         a href='javascript: void(0)' Profile Type
-      li
-        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      - if @profile.subscribers_count.zero?
+        li
+          a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
       li
         a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
     .modal-header
@@ -236,8 +239,9 @@
           a.PopupTrigger data-target='name-editor' href='#' Profile Name
       li
         a.PopupTrigger data-target='type-editor' href='#' Profile Type
-      li
-        a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+      - if @profile.subscribers_count.zero?
+        li
+          a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
       li.active
         a href='javascript: void(0)' Subscriber Benefits
     .modal-header

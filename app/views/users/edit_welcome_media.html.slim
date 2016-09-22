@@ -6,8 +6,9 @@ ul.nav.nav-tabs
       a.PopupTrigger data-target='name-editor' href='#' Profile Name
   li
     a.PopupTrigger data-target='type-editor' href='#' Profile Type
-  li
-    a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
+  - if current_user.subscribers_count.zero?
+    li
+      a.PopupTrigger data-target='cost-editor' href='#' Subscription Cost
   li
     a.PopupTrigger data-target='benefits-editor' href='#' Subscriber Benefits
 

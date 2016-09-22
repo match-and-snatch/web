@@ -26,6 +26,7 @@ class ApiResponsePresenter
       tos_accepted: user.tos_accepted?,
       show_tos_popup: !(user.tos_accepted? || !TosVersion.active.try(:requires_acceptance?)),
       total_subscriptions_count: user.subscriptions_count,
+      subscribers_count: user.subscribers_count,
       billing_failed: user.billing_failed?
     }
   end
@@ -77,7 +78,6 @@ class ApiResponsePresenter
       downloads_enabled: user.downloads_enabled,
       itunes_enabled: user.itunes_enabled,
       profile_types_text: user.profile_types_text,
-      subscribers_count: user.subscribers_count,
       subscriptions_count: user.subscriptions.accessible.count,
       only_subscription_path: user.subscriptions.accessible.count == 1 ? user.subscriptions.accessible.first.target_user.slug : nil,
       recurring_contributions_count: user.contributions.active.count,
