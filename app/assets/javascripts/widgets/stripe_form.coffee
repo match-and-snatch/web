@@ -9,6 +9,7 @@ class bud.widgets.StripeForm extends bud.widgets.Form
     @$stripe_token_field = $('<input type="hidden" name="stripe_token" />')
     @$stripe_token_field.appendTo(@$container)
     @$stripe_error_container = @$container.find('[data-field=stripe_token]')
+    @error_messages = window.bud.layout.error_messages or {}
 
   request_token: =>
     @enable_pending_state()
@@ -29,7 +30,7 @@ class bud.widgets.StripeForm extends bud.widgets.Form
       @error_param = @stripe_error_param.replace('address_', '').replace(/exp_month|exp_year/, 'expiry_date').replace('line1', 'address_line_1').replace('line2', 'address_line_2')
 
       @$container.find("[data-stripe=#{@stripe_error_param}]").removeClass('has-valid').addClass('has-error')
-      @$container.find("[data-field=#{@error_param}]").show().html(response.error.message)
+      @$container.find("[data-field=#{@error_param}]").show().html(@error_message(response.error.message))
       @disable_pending_state()
     else
       @$stripe_token_field.val(response.id)
@@ -41,3 +42,6 @@ class bud.widgets.StripeForm extends bud.widgets.Form
     @$stripe_token_field.val('')
     super
 
+  error_message: (message) ->
+    return @error_messages['not_an_integer'] if message.match(/should\ be\ an\ integer/)
+    message

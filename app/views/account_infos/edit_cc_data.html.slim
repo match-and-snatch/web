@@ -2,32 +2,37 @@
   .well style='text-align: center; background-color: #FFFA4F'
     = t('messages.cc_declined')
 - else
-  form.StripeForm action=update_cc_data_account_info_path method='post'
+  form.update_billing_info.StripeForm action=update_cc_data_account_info_path method='post'
     input type='hidden' name='_method' value='put'
     input type='hidden' data-stripe='name' value='#{current_user.full_name}'
     .form-group
       label.pull-left Street Address
-      input.pull-right.form-control type='text' data-stripe='address_line1' name='address_line_1' validate='nothing' value=@user.billing_address_line_1
+      input.pull-right.form-control type='text' data-stripe='address_line1' name='address_line_1' validate='require' value=@user.billing_address_line_1
+      .clearfix
       .error data-field='address_line_1'
     .clearfix
-    .form-group style='margin-top: 15px'
+    .form-group
       label.pull-left Address 2
       input.pull-right.form-control type='text' data-stripe='address_line2' name='address_line_2' value=@user.billing_address_line_2
+      .clearfix
       .error data-field='address_line_2'
     .clearfix
-    .form-group style='margin-top: 15px'
+    .form-group
       label.pull-left City
-      input.pull-right.form-control type='text' data-stripe='address_city' name='city' validate='nothing' value=@user.billing_address_city
+      input.pull-right.form-control type='text' data-stripe='address_city' name='city' validate='require' value=@user.billing_address_city
+      .clearfix
       .error data-field='city'
     .clearfix
-    .form-group style='margin-top: 15px'
+    .form-group
       label.pull-left State
-      input.pull-right.form-control type='text' data-stripe='address_state' name='state' validate='nothing' value=@user.billing_address_state
+      input.pull-right.form-control type='text' data-stripe='address_state' name='state' validate='require' value=@user.billing_address_state
+      .clearfix
       .error data-field='state'
     .clearfix
-    .form-group style='margin-top: 15px'
+    .form-group
       label.pull-left Postal Code
       input.pull-right.form-control type='text' data-stripe='address_zip' name='zip' validate='require' value=@user.billing_address_zip
+      .clearfix
       .error data-field='zip'
     .clearfix
     hr

@@ -352,22 +352,30 @@
             background-position-x: 145px
         .exp_date_cvc
           position: relative
+          padding-top: 0
+          font-size: 0
           .expiry_error
-            position: absolute
-            top: 38px
-            left: 70px
+            display: inline-block
             width: 140px
+            margin-left: 70px
+            padding-top: 8px
+            font-size: 12px
+            line-height: 12px
           .cvc_error
-            width: 85px
-            position: absolute
-            right: 15px
-            top: 41px
+            display: inline-block
+            width: 75px
+            float: right
+            padding-top: 8px
+            font-size: 12px
             text-align: right
             line-height: 12px
+            overflow: visible
+            margin-right: 12px
           .cvc
             margin-left: 15px
             width: 62px
           .cvc_question
+            font-size: 16px
             cursor: pointer
             padding-top: 8px
             position: relative
