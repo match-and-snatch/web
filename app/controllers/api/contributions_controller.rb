@@ -19,7 +19,7 @@ class Api::ContributionsController < Api::BaseController
   end
 
   def destroy
-    manager.delete
+    manager.cancel
     json_success
   end
 
@@ -37,5 +37,3 @@ class Api::ContributionsController < Api::BaseController
     ContributionManager.new(user: current_user.object, contribution: @contribution)
   end
 end
-
-
