@@ -1,0 +1,33 @@
+h2 Static Pages
+
+ul.cat_links
+  li
+    .btn.pink.AjaxLink href=new_admin_static_page_path Add new page
+.clearfix
+
+hr
+
+- if @static_pages.any?
+  table.table.table-striped style='margin-top: 15px;'
+    tr
+      th
+        strong URL-name
+      th
+        strong Created
+      th
+        strong Updated
+      th
+      th
+
+    - @static_pages.each do |page|
+      tr
+        td= page.slug
+        td= page.created_at.to_s(:short)
+        td= page.updated_at.to_s(:short)
+        td
+          a.AjaxLink href=edit_admin_static_page_path(page.id) Edit
+        td
+          a.btn.pink.pull-left.AjaxFormLink href=admin_static_page_path(page.id) data-_method='delete' data-confirmation='true' Remove
+- else
+  h3.pending No pages at the moment
+

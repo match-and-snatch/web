@@ -1,4 +1,4 @@
-describe Dashboard::Admin::RefundsController, type: :controller do
+RSpec.describe Dashboard::Admin::RefundsController, type: :controller do
   describe 'GET #index' do
     subject { get 'index' }
 

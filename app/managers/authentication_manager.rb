@@ -42,8 +42,8 @@ class AuthenticationManager < BaseManager
 
   # @return [User]
   def authenticate(generate_api_token: false)
-    user = user_by_email or raise AuthenticationError.new(errors: {email: t(:user_does_not_exist)})
-    BCrypt::Password.new(user.password_hash) == password or raise AuthenticationError.new(errors: {password: t(:invalid_password)})
+    user = user_by_email or raise AuthenticationError.new(errors: {email: t_error(:user_does_not_exist)})
+    BCrypt::Password.new(user.password_hash) == password or raise AuthenticationError.new(errors: {password: t_error(:invalid_password)})
 
     user.generate_api_token! if generate_api_token
     EventsManager.user_logged_in(user: user)

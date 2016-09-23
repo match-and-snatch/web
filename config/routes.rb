@@ -403,6 +403,8 @@ BuddyPlatform::Application.routes.draw do
       concerns :profile_owners_dashboard
       concerns :profile_deserters_dashboard
 
+      resources :static_pages
+
       resources :payment_sources, only: [:index, :show]
 
       resources :email_bounces, only: [:index]
