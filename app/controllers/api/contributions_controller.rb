@@ -15,12 +15,12 @@ class Api::ContributionsController < Api::BaseController
     end
 
     manager.create({target_user: @target_user, amount: amount, recurring: params.bool(:recurring), message: params[:message]})
-    json_success
+    json_success recurring_contributions_count: current_user.contributions.active.count
   end
 
   def destroy
     manager.cancel
-    json_success
+    json_success recurring_contributions_count: current_user.contributions.active.count
   end
 
   private
