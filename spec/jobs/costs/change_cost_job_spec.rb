@@ -17,7 +17,7 @@ describe Costs::ChangeCostJob do
 
       it { expect { perform }.not_to change { subscription.reload.cost }.from(500) }
 
-      context 'approved request is presdent' do
+      context 'approved request is present' do
         before { CostChangeRequest.last.approve! }
 
         it { expect { perform }.to change { profile_owner.reload.cost }.from(500).to(1400)  }

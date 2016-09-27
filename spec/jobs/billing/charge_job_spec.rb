@@ -113,6 +113,63 @@ describe Billing::ChargeJob do
           expect { perform }.not_to raise_error
         end
       end
+
+      context 'firs day of month', freeze: Time.zone.now.beginning_of_month do
+        context 'pending cost change request is present' do
+          let!(:request) { create(:cost_change_request, :pending, user: target_user, new_cost: 35_00) }
+
+          it 'does not change subscription cost' do
+            expect { perform }.not_to change { unpaid_subscription.reload.cost }.from(4_00)
+          end
+
+          it 'does not create payment with new cost' do
+            expect { perform }.not_to create_record(Payment)
+              .matching(target_id: unpaid_subscription.id, target_type: 'Subscription', amount: 40_25)
+          end
+        end
+
+        context 'approved cost change request is present' do
+          let!(:request) { create(:cost_change_request, :approved, user: target_user, new_cost: 35_00, update_existing_subscriptions: update) }
+          let(:update) { false }
+
+          it 'does not change subscription cost' do
+            expect { perform }.not_to change { unpaid_subscription.reload.cost }.from(4_00)
+          end
+
+          it 'does not create payment with new cost' do
+            expect { perform }.not_to create_record(Payment)
+              .matching(target_id: unpaid_subscription.id, target_type: 'Subscription', amount: 40_25)
+          end
+
+          context 'updates existing subscriptions' do
+            let(:update) { true }
+
+            it 'changes subscription cost' do
+              expect { perform }.to change { unpaid_subscription.reload.cost }.from(4_00).to(35_00)
+            end
+
+            it 'creates payment with new cost' do
+              expect { perform }.to create_record(Payment)
+                .matching(target_id: unpaid_subscription.id, target_type: 'Subscription', amount: 40_25)
+            end
+          end
+        end
+      end
+
+      context 'last day of month', freeze: Time.zone.now.end_of_month do
+        context 'approved cost change request is present' do
+          let!(:request) { create(:cost_change_request, :approved, user: target_user, new_cost: 35_00, update_existing_subscriptions: true) }
+
+          it 'does not change subscription cost' do
+            expect { perform }.not_to change { unpaid_subscription.reload.cost }.from(4_00)
+          end
+
+          it 'does not create payment with new cost' do
+            expect { perform }.not_to create_record(Payment)
+              .matching(target_id: unpaid_subscription.id, target_type: 'Subscription', amount: 40_25)
+          end
+        end
+      end
     end
 
     describe 'vacation flow' do
@@ -210,6 +267,14 @@ describe Billing::ChargeJob do
             end
           end
         end
+      end
+
+      it freeze: Time.zone.now.end_of_month do
+        expect { perform }.not_to deliver_email(to: APP_CONFIG['emails']['reports'], subject: /Change Cost Job/)
+      end
+
+      context 'first day of month', freeze: Time.zone.now.beginning_of_month do
+        it { expect { perform }.to deliver_email(to: APP_CONFIG['emails']['reports'], subject: /Change Cost Job/) }
       end
     end
   end

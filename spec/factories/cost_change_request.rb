@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :cost_change_request do
     old_cost nil
     new_cost 5_00
+    update_existing_subscriptions false
     user { FactoryGirl.create :user }
 
     trait :pending do
@@ -27,4 +28,3 @@ FactoryGirl.define do
     end
   end
 end
-

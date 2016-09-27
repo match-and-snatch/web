@@ -8,6 +8,8 @@ module Billing
                            successful_charges: 0,
                            failed_charges: 0
 
+      Costs::ChangeCostJob.new.perform if Time.zone.now.day == 1
+
       unless Rails.env.test?
         puts '============================'
         puts '       SUBSCRIPTIONS'
